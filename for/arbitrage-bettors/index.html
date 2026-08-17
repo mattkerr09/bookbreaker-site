@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bookbreaker for arbitrage bettors</title>
+<meta name="description" content="You already know how to find an arb. The problem is placing it and keeping the account. What Bookbreaker does for arbers, with the arithmetic shown.">
+<link rel="canonical" href="https://bookbreaker.bet/for/arbitrage-bettors/">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><nav><a href="/">Bookbreaker</a><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/calculators/">Calculators</a><a href="/vs/">Compared</a></nav></header>
+<main>
+<h1>Bookbreaker for arbitrage bettors</h1>
+<p class="lede">You already know how to find an arb. The problem is placing it and keeping the account.</p>
+
+<p>Finding the arb is the easy part. Two things decide whether arbitrage is
+actually profitable, and neither is the margin.</p>
+<h2>Whether the second leg lands</h2>
+<p>An arb is only an arb if both legs get on. On a feed running
+5.4 seconds behind, a quote showing as 10 seconds
+old is really 15.4, and its chance of still being there is
+84% rather than 89%. Miss the second leg and you hold a
+one-sided position on a game you had no opinion about.</p>
+<p>So every arb here is ranked by margin times the chance of getting on, not by
+margin. That reorders the screen, and the reorder is the point.</p>
+<h2>Whether the account survives</h2>
+<p>The exact stakes for a 3.73% arb are
+493.98 and 506.02. That precision is
+the clearest signal a risk desk reads. Rounding afterwards breaks the lock
+because the legs are not symmetric &mdash; solving over round stakes gives
+490 and 500, still guaranteed, for
+2.35 of the 37.35.</p>
+<p>Commission is netted before anything is called an arb, which matters more
+than it sounds. +101 on both sides looks like a
+0.50% arbitrage; against an exchange taking
+2% of winnings it is
+-0.01%. A screen that skips the netting surfaces that
+every time, and it costs money on every one.</p>
+<p><a href="/guides/what-is-arbitrage-betting/">The full explanation &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/account-longevity/">The limiting model &rarr;</a></p>
+
+</main>
+<footer>
+<p>Bookbreaker is an analysis tool. It tells you what the numbers say; you
+place your own bets. It does not link sportsbook accounts and never asks for
+sportsbook credentials.</p>
+<p>Every figure on this site is computed by running the engine at build time —
+none is typed in. Generated 2026-08-17.</p>
+<p>21+. Gambling involves risk. If it stops being fun, it is not fun —
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

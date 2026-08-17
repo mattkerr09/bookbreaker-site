@@ -270,6 +270,18 @@ def measure(engine) -> dict:
         ],
     }
 
+    # 8a. The commission example, computed rather than asserted. A pair that
+    # is an arbitrage on the face of it and is not one once the exchange takes
+    # its cut — the case a screen that skips netting will surface every time.
+    exch = Book("betfair", "an exchange", BookTier.EXCHANGE, commission=0.02)
+    raw = 2.01
+    out["commission"] = {
+        "price": f"{decimal_to_american(raw):+.0f}",
+        "commission": 2,
+        "gross": round(engine.arb_margin([raw, raw]) * 100, 2),
+        "net": round(engine.arb_margin([raw, exch.net_decimal(raw)]) * 100, 2),
+    }
+
     # 8b. The hero line: a real market run through the real pipeline.
     #
     # Typed from an old README example on first write, and the gate refused it
@@ -482,6 +494,7 @@ def page(title: str, description: str, body: str, path: str) -> str:
         '<nav><a href="/">Bookbreaker</a>'
         '<a href="/how-it-works/">How it works</a>'
         '<a href="/guides/">Guides</a>'
+        '<a href="/for/arbitrage-bettors/">For arbers</a>'
         '<a href="/calculators/">Calculators</a>'
         '<a href="/vs/">Compared</a></nav>'
     )
@@ -673,6 +686,205 @@ partly by how stale its own data is, because the biggest numbers cluster on the
 books that moved most recently &mdash; which are the books most likely to have
 moved again.</p>
 """
+
+
+def audience_bodies(m: dict) -> dict[str, str]:
+    """One body per audience. Each reads differently because the engine serves
+    each of them with different parts of itself."""
+    a, f, d, p = m["arb"], m["fill"], m["devig"], m["performance"]
+    conv, h, ev, hero = m["conversion"], m["heat"], m["evidence"], m["hero"]
+
+    return {
+"arbitrage-bettors": f"""
+<p>Finding the arb is the easy part. Two things decide whether arbitrage is
+actually profitable, and neither is the margin.</p>
+<h2>Whether the second leg lands</h2>
+<p>An arb is only an arb if both legs get on. On a feed running
+{f['latency']:.1f} seconds behind, a quote showing as {f['age']:.0f} seconds
+old is really {f['effective']:.1f}, and its chance of still being there is
+{f['honest']}% rather than {f['naive']}%. Miss the second leg and you hold a
+one-sided position on a game you had no opinion about.</p>
+<p>So every arb here is ranked by margin times the chance of getting on, not by
+margin. That reorders the screen, and the reorder is the point.</p>
+<h2>Whether the account survives</h2>
+<p>The exact stakes for a {a['margin']:.2f}% arb are
+{a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. That precision is
+the clearest signal a risk desk reads. Rounding afterwards breaks the lock
+because the legs are not symmetric &mdash; solving over round stakes gives
+{a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still guaranteed, for
+{a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}.</p>
+<p>Commission is netted before anything is called an arb, which matters more
+than it sounds. {e(m['commission']['price'])} on both sides looks like a
+{m['commission']['gross']:.2f}% arbitrage; against an exchange taking
+{m['commission']['commission']}% of winnings it is
+{m['commission']['net']:.2f}%. A screen that skips the netting surfaces that
+every time, and it costs money on every one.</p>
+<p><a href="/guides/what-is-arbitrage-betting/">The full explanation &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/account-longevity/">The limiting model &rarr;</a></p>
+""",
+
+"ev-bettors": f"""
+<p>A +EV number is a model output, and the model is a devig you did not choose.
+On a {e(d['market'])} moneyline the four standard methods give the favourite
+{min(d['methods'].values()):.2f}% to {max(d['methods'].values()):.2f}% &mdash;
+{d['spread']:.2f} points apart on a market where 2% is a good edge.</p>
+<h2>What the screen shows instead of one number</h2>
+<div class="screen">
+<span class="dim">{e(hero['book'])}</span>  {e(hero['outcome'])}
+<span class="num">{e(hero['price'])}</span>
+<br><span class="dim">  EV</span> <span class="pos">{hero['ev']:+.2f}%</span>
+&nbsp;<span class="dim">band</span> {hero['low']:+.2f}%..{hero['high']:+.2f}%
+&nbsp;<span class="dim">fill</span> {hero['fill']}%
+&nbsp;<span class="dim">&rarr; realised</span>
+<span class="pos">{hero['realised']:+.2f}%</span>
+</div>
+<p>The band is what the four methods allow. An edge that only survives the
+friendliest one is a modelling artefact, and the screen filters those out by
+default rather than showing them and hoping you notice.</p>
+<h2>Which devig is right for your markets</h2>
+<p>Nobody knows in advance, and the answer differs between an NBA total and a
+tennis outright. So it is measured: every graded bet feeds a comparison of
+which method predicted the closing line, and the weights update &mdash; but
+only if the new ones beat the old ones on a slice of your record they were not
+fitted on.</p>
+<p><a href="/guides/what-does-plus-ev-mean/">What +EV means &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/guides/how-to-devig-odds/">How devigging works &rarr;</a></p>
+""",
+
+"bonus-hunters": f"""
+<p>Every offer is worth less than its headline, and the gap is the whole game.
+A {conv['bonus']:,} bonus bet does not return its stake, so bet naively it is
+worth about half its face value.</p>
+<h2>What each shape is really worth</h2>
+<p>Converting a bonus bet means hedging it. Longer odds convert better, and the
+hedge column is what every guide omits:</p>
+<table>
+<tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Guaranteed</th><th>Rate</th></tr>
+{"".join(f"<tr><td>{e(r['free'])}</td><td>{e(r['hedge'])}</td><td>{r['hedge_stake']:,}</td><td>{r['guaranteed']:,}</td><td>{r['rate']:.1f}%</td></tr>" for r in conv['ladder'])}
+</table>
+<p>A deposit match is different arithmetic again. Rollover is a price, not a
+condition: a matched bonus at 10x is worth exactly zero at a 5% hold, which is
+barely above a standard market and below the hold of the restricted markets
+many books allow for playthrough.</p>
+<h2>The money most people actually lose</h2>
+<p>Bonus bets expire. An expired one is worth nothing, and no tool tells you
+before it happens &mdash; so this one tracks what you hold, what it converts
+to, what is expiring, and how much face value has already lapsed unused. That
+last figure is the only one that already happened rather than being a
+forecast.</p>
+<p><a href="/guides/how-to-convert-a-bonus-bet/">How conversion works &rarr;</a></p>
+""",
+
+"new-bettors": f"""
+<p>Three facts decide whether betting is profitable, and none of them is
+picking winners.</p>
+<h2>The price already includes a fee</h2>
+<p>At the standard -110 both ways you need to win 52.38% just to break even.
+That is why a 50% bettor loses steadily and why the sportsbook does not need
+you to be wrong.</p>
+<h2>Your results prove almost nothing for a long time</h2>
+<p>A real {p['n']}-bet record showing {p['roi']:.2f}% return reads as a
+success. Here is what it actually supports:</p>
+<p class="figure">{e(p['verdict'])}</p>
+<p>The interval spans zero. Below {ev['floor']} settled bets nothing is worth
+characterising at all &mdash; and slicing a record until something looks good
+makes it worse, not better.</p>
+<h2>The account is a resource</h2>
+<p>Books limit consistent winners, so an edge you cannot place is worth
+nothing. That makes stake shape, timing and market mix part of the arithmetic
+rather than a separate topic.</p>
+<p>None of this requires a subscription to learn.
+<a href="/guides/">Every guide is here &rarr;</a></p>
+""",
+    }
+
+
+def best_bodies(m: dict) -> dict[str, str]:
+    """One body per 'best X' query. These are the highest-competition searches
+    in the category and every existing result is an affiliate page, so the only
+    defensible version is one that says what to check rather than what to buy."""
+    d, f, p, ev = m["devig"], m["fill"], m["performance"], m["evidence"]
+    n = len(load_data("competitors"))
+    _ = m  # referenced inside the f-strings below
+
+    return {
+"best-arbitrage-betting-software": f"""
+<p>Every list answering this is an affiliate page, so here is what to check
+instead of who to buy.</p>
+<p><strong>Does it publish a fill rate?</strong> None of the {n} tools
+catalogued here does. An arb you cannot get both legs on is not an arb, and a
+screen ranked on raw margin is ranked partly by how stale its own data is
+&mdash; the biggest numbers cluster on the books that moved most recently,
+which are the books most likely to have moved again.</p>
+<p><strong>Does it net commission before calling something an arb?</strong>
+{e(m['commission']['price'])} both ways reads as a
+{m['commission']['gross']:.2f}% arb and is {m['commission']['net']:.2f}% once
+an exchange takes {m['commission']['commission']}% of winnings.</p>
+<p><strong>Does it stake in round numbers?</strong> A stake to the cent is the
+clearest fingerprint a risk desk reads, and rounding afterwards breaks the lock
+because the legs are not symmetric.</p>
+<p><strong>What does it cost against what you turn over?</strong> Prices in
+this category run from single figures to several hundred a month.
+<a href="/vs/">Every one dated and linked &rarr;</a></p>
+""",
+
+"best-odds-screen": f"""
+<p>Speed is the wrong question, and it is the only one anybody advertises.</p>
+<p><strong>How old is the quote, measured from the book?</strong> Not from when
+the feed reached the screen. On a feed running {f['latency']:.1f} seconds
+behind, a quote displayed as {f['age']:.0f} seconds old is really
+{f['effective']:.1f} &mdash; and measuring from receipt understates age by
+exactly the lag, which overstates the chance of getting on.</p>
+<p><strong>Does it say which devig produced the number?</strong> The same
+market reads {min(d['methods'].values()):.2f}% to
+{max(d['methods'].values()):.2f}% depending on method. A screen printing one
+figure to two decimals is showing you a modelling choice.</p>
+<p><strong>Does it hold books out of their own fair value?</strong> A soft book
+that contributes to the consensus pulls it toward its own price, shrinking
+exactly the edge being detected &mdash; hardest on the markets where that book
+is the lone outlier and the edge is largest.</p>
+<p><a href="/">What this one shows &rarr;</a></p>
+""",
+
+"best-bet-tracker": f"""
+<p>A tracker is only worth using if it can tell you when you have no edge.
+Most cannot, because they report a single number.</p>
+<p><strong>Does return come with an interval?</strong> A {p['n']}-bet record at
+{p['roi']:.2f}% sounds decisive; the interval runs {p['low']:.1f}% to
+{p['high']:.1f}% and spans zero.</p>
+<p><strong>Does it separate money return from flat-bet return?</strong> One is
+what happened, the other is what would have happened staking level. The gap is
+the only direct read on whether your sizing is earning anything.</p>
+<p><strong>Does it correct for slicing?</strong> Tag your bets and each tag is
+a hypothesis. At {ev['bars'][2]['tests']} tags there is a
+{ev['bars'][2]['luck']}% chance one clears the ordinary bar by luck.</p>
+<p><strong>Does it handle pushes and voids properly?</strong> Counting a push
+as a loss deflates win rate; leaving a voided stake in turnover deflates
+return. Both errors are silent.</p>
+<p><strong>Does it want your sportsbook password?</strong> Automatic syncing
+works by holding your credentials. CSV import reaches the same place.</p>
+<p><a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+""",
+
+"best-ev-betting-software": f"""
+<p>Positive-EV tools all show the same screen. Four things separate one that
+can be trusted from one that cannot.</p>
+<p><strong>An interval, not a number.</strong> Four defensible devig methods
+disagree by {d['spread']:.2f} points on a real market. A tool that picks one
+and prints the result to two decimals is presenting an opinion as a
+measurement.</p>
+<p><strong>A fill probability.</strong> Expected value you cannot place is
+worth zero, and it is the largest edges that reject most often.</p>
+<p><strong>Calibration against something.</strong> A devig method should be
+chosen by which one predicted closing lines in your markets, not by which one
+the author preferred &mdash; and the new weights should have to beat the old
+ones on a slice of the record they were not fitted on.</p>
+<p><strong>A refusal.</strong> Under {ev['floor']} graded bets, the honest
+answer is that nothing can be said. A tool that always has a verdict is not
+measuring anything.</p>
+<p><a href="/guides/what-does-plus-ev-mean/">What +EV means &rarr;</a></p>
+""",
+    }
 
 
 def guide_description(row: dict) -> str:
@@ -1522,6 +1734,33 @@ actually have placed the bet &mdash; are the parts these lead with.</p>
 """, "/guides/"))
     built.append(("/guides/", "guides/index.html"))
     print(f"  /guides/               {len(guides)} pages + hub")
+
+    for name, data, bodies_fn, prefix, title_key, desc in (
+        ("audiences", "audiences", audience_bodies, "for",
+         "title", lambda r: f"{r['question']} What Bookbreaker does for "
+         f"{r['who']}, with the arithmetic shown."),
+        ("best", "best", best_bodies, "best",
+         "title", lambda r: f"What to check rather than who to buy: "
+         f"{r['query']}, answered without an affiliate link."),
+    ):
+        bodies = bodies_fn(measured)
+        rows_ = load_data(data)
+        missing = [r["slug"] for r in rows_ if r["slug"] not in bodies]
+        if missing:
+            raise SystemExit(f"_data/{data}.csv lists {missing} with no body")
+        for row in rows_:
+            url = f"/{prefix}/{row['slug']}/"
+            rel = f"{prefix}/{row['slug']}/index.html"
+            out = SITE / rel
+            out.parent.mkdir(parents=True, exist_ok=True)
+            lead = row.get("question") or row.get("query")
+            out.write_text(page(
+                row[title_key], desc(row),
+                f"<h1>{e(row[title_key])}</h1>\n"
+                f"<p class=\"lede\">{e(lead)}</p>\n" + bodies[row["slug"]],
+                url))
+            built.append((url, rel))
+        print(f"  /{prefix}/{' ' * (21 - len(prefix))}{len(rows_)} pages")
 
     # Competitor cluster: one page per row of _data/competitors.csv.
     for row in load_data("competitors"):

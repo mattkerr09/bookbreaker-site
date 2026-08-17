@@ -56,6 +56,12 @@
     "states": 50,
     "venues": 25
   },
+  "commission": {
+    "commission": 2,
+    "gross": 0.5,
+    "net": -0.01,
+    "price": "+101"
+  },
   "conversion": {
     "bonus": 1000,
     "doubled": 2000,
