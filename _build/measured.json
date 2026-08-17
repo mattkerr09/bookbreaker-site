@@ -17,6 +17,35 @@
     ],
     "rounding_cost": 2.35
   },
+  "boost": {
+    "best": 250.0,
+    "multiple": 10.0,
+    "pct": 50,
+    "rows": [
+      {
+        "added": 25.0,
+        "american": "-200",
+        "ev": 16.67
+      },
+      {
+        "added": 45.45,
+        "american": "-110",
+        "ev": 18.18
+      },
+      {
+        "added": 100.0,
+        "american": "+200",
+        "ev": 33.33
+      },
+      {
+        "added": 250.0,
+        "american": "+500",
+        "ev": 41.67
+      }
+    ],
+    "stake": 100,
+    "worst": 25.0
+  },
   "calculators": {
     "arbitrage": {
       "body": "<p>+110 at one book and +105 at another is a 3.73% arbitrage on 1,000 staked:</p><table><tr><td>Exact stakes</td><td>493.98 / 506.02</td></tr><tr><td>Guaranteed</td><td>37.35</td></tr><tr><td>Round stakes</td><td>490 / 500</td></tr><tr><td>Guaranteed</td><td>35.00</td></tr><tr><td>Cost of looking human</td><td>2.35</td></tr></table><p>A stake to the cent is the loudest fingerprint a risk desk reads. This solves for round stakes directly, because rounding a lock afterwards breaks it.</p>"
@@ -208,6 +237,20 @@
     "price": "+110",
     "realised": 5.13
   },
+  "match": {
+    "bonus": 1000,
+    "breakeven": 5.0,
+    "deposit": 1000,
+    "open_hold": 4.55,
+    "open_margin": 0.45,
+    "open_net": 90.91,
+    "prior_parlay": 15.0,
+    "rollover": 10,
+    "shut_hold": 12.41,
+    "shut_margin": -7.41,
+    "shut_net": -1481.2,
+    "swing": 1572.11
+  },
   "middles": {
     "cases": [
       {
@@ -269,6 +312,35 @@
     "profit": 1300,
     "roi": 5.91,
     "verdict": "+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) \u2014 indistinguishable from break-even"
+  },
+  "safety_net": {
+    "conversion": 75,
+    "long_premium": 642.86,
+    "ratio": 1.71,
+    "rows": [
+      {
+        "american": "-110",
+        "ev": 329.55,
+        "premium": 375.0
+      },
+      {
+        "american": "+150",
+        "ev": 450.0,
+        "premium": 450.0
+      },
+      {
+        "american": "+300",
+        "ev": 562.5,
+        "premium": 562.5
+      },
+      {
+        "american": "+600",
+        "ev": 642.86,
+        "premium": 642.86
+      }
+    ],
+    "short_premium": 375.0,
+    "stake": 1000
   },
   "screen": [
     {

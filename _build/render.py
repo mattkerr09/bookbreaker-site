@@ -292,6 +292,102 @@ def measure(engine) -> dict:
         "sgp_note": correlation_note(same_game=True),
     }
 
+    # 7c. Promotions, priced. The welcome-offer surface is the biggest reason
+    # people open accounts and the least honestly documented part of the
+    # market: every figure below is the arithmetic, run, not a claim about any
+    # book's current terms.
+    from overlay_engine.models import Book, BookTier, Market, Outcome, Quote
+    from overlay_engine.offers import (
+        PRIOR_HOLDS, RolloverTerms, evaluate, measure_class_holds)
+    from overlay_engine.promo import (
+        profit_boost_value, safety_net_premium, safety_net_value)
+
+    # A deposit match, decided by which markets its rollover allows. Both
+    # churn holds are measured off real two-way prices rather than assumed.
+    churn_markets = [
+        Market(event_id="promo-h2h", sport="nfl", market_type="h2h", quotes=[
+            Quote(book=Book("dk", "DraftKings", BookTier.RETAIL),
+                  outcome=Outcome("home"), decimal=american_to_decimal(-110),
+                  seen_at=NOW),
+            Quote(book=Book("dk", "DraftKings", BookTier.RETAIL),
+                  outcome=Outcome("away"), decimal=american_to_decimal(-110),
+                  seen_at=NOW),
+        ]),
+        Market(event_id="promo-prop", sport="nfl", market_type="player_prop",
+               quotes=[
+            Quote(book=Book("dk", "DraftKings", BookTier.RETAIL),
+                  outcome=Outcome("over"), decimal=american_to_decimal(-133),
+                  seen_at=NOW),
+            Quote(book=Book("dk", "DraftKings", BookTier.RETAIL),
+                  outcome=Outcome("under"), decimal=american_to_decimal(-133),
+                  seen_at=NOW),
+        ]),
+    ]
+    churn = measure_class_holds(churn_markets, now=NOW)
+
+    def _verdict(eligible):
+        terms = RolloverTerms(
+            book="a book", state="NJ", rollover=10.0,
+            eligible=frozenset(eligible), fetched_at=NOW,
+            source="terms supplied to this calculation")
+        return evaluate(terms, 1000.0, 1000.0, churn, NOW)
+
+    open_v, shut_v = _verdict({"h2h"}), _verdict({"player_prop"})
+    out["match"] = {
+        "deposit": 1000, "bonus": 1000, "rollover": 10,
+        "breakeven": round(open_v.breakeven * 100, 2),
+        "open_hold": round(open_v.churn.hold * 100, 2),
+        "open_net": round(open_v.net, 2),
+        "open_margin": round(open_v.margin * 100, 2),
+        "shut_hold": round(shut_v.churn.hold * 100, 2),
+        "shut_net": round(shut_v.net, 2),
+        "shut_margin": round(shut_v.margin * 100, 2),
+        "swing": round(open_v.net - shut_v.net, 2),
+        "prior_parlay": round(PRIOR_HOLDS["parlay"] * 100, 1),
+    }
+
+    # A safety net. Its worth is the refund times how often you collect it,
+    # which is why the qualifying bet should be a longshot — the opposite of
+    # the instinct, and the opposite of the right play on a bet-and-get.
+    net_stake, conv_rate = 1000.0, 0.75
+    net_rows = []
+    for american, prob in ((-110, 0.5), (150, 0.4), (300, 0.25), (600, 1 / 7)):
+        d = american_to_decimal(american)
+        net_rows.append({
+            "american": f"{american:+d}",
+            "premium": round(safety_net_premium(net_stake, prob, conv_rate), 2),
+            "ev": round(safety_net_value(net_stake, d, prob, conv_rate).expected, 2),
+        })
+    out["safety_net"] = {
+        "stake": int(net_stake),
+        "conversion": round(conv_rate * 100),
+        "rows": net_rows,
+        "short_premium": net_rows[0]["premium"],
+        "long_premium": net_rows[-1]["premium"],
+        "ratio": round(net_rows[-1]["premium"] / net_rows[0]["premium"], 2),
+    }
+
+    # A profit boost. It multiplies profit, and profit grows with the price,
+    # so spending it on a favourite gives most of it away.
+    boost_stake, boost_pct = 100.0, 0.5
+    boost_rows = []
+    for american, prob in ((-200, 2 / 3), (-110, 0.5), (200, 1 / 3), (500, 1 / 6)):
+        d = american_to_decimal(american)
+        boost_rows.append({
+            "american": f"{american:+d}",
+            "added": round(boost_stake * (d - 1.0) * boost_pct, 2),
+            "ev": round(profit_boost_value(
+                boost_stake, d, prob, boost_pct).expected, 2),
+        })
+    out["boost"] = {
+        "stake": int(boost_stake),
+        "pct": round(boost_pct * 100),
+        "rows": boost_rows,
+        "worst": boost_rows[0]["added"],
+        "best": boost_rows[-1]["added"],
+        "multiple": round(boost_rows[-1]["added"] / boost_rows[0]["added"], 1),
+    }
+
     # 8a. The commission example, computed rather than asserted. A pair that
     # is an arbitrage on the face of it and is not one once the exchange takes
     # its cut — the case a screen that skips netting will surface every time.
@@ -1138,6 +1234,7 @@ def guide_bodies(m: dict) -> dict[str, str]:
     d, a, f, p = m["devig"], m["arb"], m["fill"], m["performance"]
     conv, mid, h, ev = m["conversion"], m["middles"], m["heat"], m["evidence"]
     par = m["parlay"]
+    mt, sn, bo = m["match"], m["safety_net"], m["boost"]
     lo, hi = min(d["methods"].values()), max(d["methods"].values())
 
     return {
@@ -1487,6 +1584,142 @@ and what would have happened staking level. The gap between them is the only
 direct read on whether your sizing earned anything, and almost no tracker
 separates them.</p>
 <p><a href="/calculators/kelly/">Size a bet &rarr;</a></p>
+""",
+
+"what-is-a-deposit-match-worth": f"""
+<p>A 100% match on {mt['deposit']:,} dollars looks like {mt['bonus']:,} dollars
+of free money. It is not free and it is not always money. The rollover is a
+price, and you pay it in hold.</p>
+<p>At {mt['rollover']}x on deposit plus bonus, the offer is worth exactly zero
+at a hold of <strong>{mt['breakeven']:.2f}%</strong>. That is the whole
+decision. Everything else is a question of what you are allowed to churn it
+in.</p>
+<table>
+<tr><th>Rollover allowed in</th><th>Hold</th><th>Verdict</th><th>Net</th></tr>
+<tr><td>Moneylines at -110</td><td>{mt['open_hold']:.2f}%</td>
+<td>clears by {mt['open_margin']:+.2f}%</td><td>{mt['open_net']:+,.2f}</td></tr>
+<tr><td>Player props only</td><td>{mt['shut_hold']:.2f}%</td>
+<td>fails by {mt['shut_margin']:+.2f}%</td><td>{mt['shut_net']:+,.2f}</td></tr>
+</table>
+<p>Same headline, same deposit, same rollover multiple: a
+<strong>{mt['swing']:,.2f}</strong> difference, decided entirely by which
+markets the terms let you use. Both holds above are measured off real two-way
+prices, not assumed.</p>
+<p>Books restrict the cheap markets, and they restrict them for exactly this
+reason. A playthrough confined to parlays is worse still &mdash; those run
+nearer {mt['prior_parlay']:.0f}% (a stated prior here, not a measurement), and
+nothing at that hold clears a {mt['rollover']}x rollover at any headline.</p>
+<p>So the question is never "how big is the bonus". It is "how cheap is the
+cheapest market they will let me clear it in", and the answer is in the terms,
+under a heading most people never open.</p>
+<p><a href="/calculators/breakeven/">Work out your own break-even &rarr;</a></p>
+""",
+
+"what-is-a-no-sweat-bet-worth": f"""
+<p>"Bet up to {sn['stake']:,} dollars, refunded in bonus bets if it loses."
+The offer's value is not in the bet. It is in the refund, and you only collect
+the refund when the bet <em>loses</em>.</p>
+<p>That inverts the usual instinct. The worth of the offer on its own is the
+refund, times how often you collect it, times what a bonus bet is really worth
+&mdash; here {sn['conversion']}% after hedging:</p>
+<table>
+<tr><th>Qualifying price</th><th>Offer premium</th><th>Total EV</th></tr>
+{"".join(f"<tr><td>{r['american']}</td><td>{r['premium']:,.2f}</td><td>{r['ev']:,.2f}</td></tr>" for r in sn['rows'])}
+</table>
+<p>The premium runs from {sn['short_premium']:,.2f} at a coin flip to
+{sn['long_premium']:,.2f} at a longshot &mdash; <strong>{sn['ratio']:.2f}x
+more</strong> for taking the longer price. Bet the favourite and you win the
+bet most of the time, which is precisely how you fail to collect the thing you
+signed up for.</p>
+<h2>Two things this does not mean</h2>
+<p><strong>It is not hedgeable.</strong> There is no second bet that locks a
+safety net, because the refund only exists in the branch where you lose. Any
+tool reporting this EV as guaranteed is reporting the wrong field.</p>
+<p><strong>Longer is not unboundedly better.</strong> Real longshots carry the
+heaviest margin, and past some point the extra vig costs more than the extra
+refund frequency earns. The right price is the longest one whose <em>fair</em>
+probability you actually trust.</p>
+<p><a href="/guides/how-to-convert-a-bonus-bet/">What a bonus bet converts at
+&rarr;</a></p>
+""",
+
+"what-is-a-profit-boost-worth": f"""
+<p>A boost multiplies profit. Profit grows with the price. So spending a
+{bo['pct']}% boost on a favourite gives almost all of it away.</p>
+<p>The same {bo['pct']}% boost on a {bo['stake']} dollar stake:</p>
+<table>
+<tr><th>Price</th><th>Profit the boost adds</th><th>EV of the boosted bet</th></tr>
+{"".join(f"<tr><td>{r['american']}</td><td>{r['added']:,.2f}</td><td>{r['ev']:,.2f}</td></tr>" for r in bo['rows'])}
+</table>
+<p>{bo['worst']:,.2f} at the short price against {bo['best']:,.2f} at the long
+one &mdash; <strong>{bo['multiple']:.0f}x</strong> the value from the identical
+token. "Use it on something safe" is the most expensive habit in promotional
+betting.</p>
+<h2>Why books hand them out anyway</h2>
+<p>A boost is cheap to give and it moves behaviour. It pulls people toward
+bigger stakes and longer prices than they would otherwise take, and the
+account that suddenly bets its boost at +500 is an account whose ordinary
+staking now has a very visible exception in it.</p>
+<p>Which is the part nobody costs in: a boost spent optimally is also a boost
+spent conspicuously.</p>
+<p><a href="/account-longevity/">What bet shape gives away &rarr;</a></p>
+""",
+
+"how-to-read-a-betslip-into-your-record": f"""
+<p>A tracker is only worth what its worst row is worth. One misread slip does
+not stay in its row &mdash; it moves your return, your win rate, and every
+model weight computed from your history afterwards.</p>
+<h2>The trap that catches everybody</h2>
+<p>An open betslip shows a payout. <code>To Win $45.45</code> sits on the slip
+from the moment you place the bet, long before it settles. Read that as a
+result and you have recorded a <em>winning bet that has not happened</em>,
+with a profit to match. It is invisible once it is a row, and it inflates
+everything downstream.</p>
+<p>The fix is a rule, not care: a payout label is never a result. Only settle a
+bet from a word that can only mean settlement.</p>
+<h2>The second trap</h2>
+<p>"Payout" and "profit" are different numbers &mdash; payout includes your
+stake back. Copy a payout column into a profit column and every winning bet is
+overstated by its own stake. On a {p['n']}-bet record that is not a rounding
+error; it is the difference between a real edge and an imagined one.</p>
+<h2>What good logging looks like</h2>
+<p>Record the price and stake as the slip states them. Derive profit from
+price, stake and result rather than reading it across. Leave unknown fields
+blank instead of defaulting them &mdash; an unknown book is not
+"DraftKings", and a bet with no event cannot ever be graded.</p>
+<p>And check the reading before it is written. A slip you half-understood is
+not a bet with some missing details; it is text that did not parse.</p>
+<p><a href="/guides/how-to-track-your-betting-results/">What a record can
+actually prove &rarr;</a></p>
+""",
+
+"which-welcome-offer-to-do-first": f"""
+<p>Order matters, for a reason that has nothing to do with which bonus is
+biggest.</p>
+<p>Converting a bonus bet means hedging it &mdash; betting the other side at a
+second book. So your <em>first</em> account is worth very little on its own:
+you can claim the offer and then have nowhere to lay it off. Open two
+bet-and-get books before touching anything else and every bonus after that has
+somewhere to go.</p>
+<h2>The order</h2>
+<p><strong>Bet-and-get first.</strong> Nearly free, and the bonus bets it
+produces are the cheapest possible practice at conversion before any real money
+is at risk.</p>
+<p><strong>Safety nets second.</strong> Real money is exposed here, and the
+qualifying price wants to be long &mdash; the opposite of the bet-and-get play,
+which is why doing them in the wrong order teaches the wrong habit.</p>
+<p><strong>Deposit matches last, and often not at all.</strong> They are the
+only shape that can be worth <em>less than nothing</em>: at
+{mt['rollover']}x the break-even hold is {mt['breakeven']:.2f}%, and a
+playthrough restricted to props at {mt['shut_hold']:.2f}% loses
+{abs(mt['shut_net']):,.2f} on a {mt['bonus']:,} dollar headline.</p>
+<h2>The constraint nobody sequences around</h2>
+<p>Every one of these is a new account making an unusual first bet, and they
+all land in the same few weeks. Offer-hunting has a shape, the shape is legible
+from the first deposit, and an account opened purely to clear a bonus tends to
+look like one.</p>
+<p><a href="/guides/how-to-avoid-getting-limited/">What that shape looks like
+&rarr;</a></p>
 """,
 
 "why-your-bets-get-rejected": f"""

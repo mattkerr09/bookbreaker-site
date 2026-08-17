@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to read a betslip into your record</title>
+<meta name="description" content="How do you log a bet without corrupting your own numbers? Worked through with the arithmetic done, not just the formula.">
+<link rel="canonical" href="https://bookbreaker.bet/guides/how-to-read-a-betslip-into-your-record/">
+<link rel="stylesheet" href="/style.css?v=f0db4a2e36">
+</head>
+<body class="">
+<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span></nav></header>
+<main>
+<h1>How to read a betslip into your record</h1>
+<p class="lede">How do you log a bet without corrupting your own numbers?</p>
+
+<p>A tracker is only worth what its worst row is worth. One misread slip does
+not stay in its row &mdash; it moves your return, your win rate, and every
+model weight computed from your history afterwards.</p>
+<h2>The trap that catches everybody</h2>
+<p>An open betslip shows a payout. <code>To Win $45.45</code> sits on the slip
+from the moment you place the bet, long before it settles. Read that as a
+result and you have recorded a <em>winning bet that has not happened</em>,
+with a profit to match. It is invisible once it is a row, and it inflates
+everything downstream.</p>
+<p>The fix is a rule, not care: a payout label is never a result. Only settle a
+bet from a word that can only mean settlement.</p>
+<h2>The second trap</h2>
+<p>"Payout" and "profit" are different numbers &mdash; payout includes your
+stake back. Copy a payout column into a profit column and every winning bet is
+overstated by its own stake. On a 220-bet record that is not a rounding
+error; it is the difference between a real edge and an imagined one.</p>
+<h2>What good logging looks like</h2>
+<p>Record the price and stake as the slip states them. Derive profit from
+price, stake and result rather than reading it across. Leave unknown fields
+blank instead of defaulting them &mdash; an unknown book is not
+"DraftKings", and a bet with no event cannot ever be graded.</p>
+<p>And check the reading before it is written. A slip you half-understood is
+not a bet with some missing details; it is text that did not parse.</p>
+<p><a href="/guides/how-to-track-your-betting-results/">What a record can
+actually prove &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>
