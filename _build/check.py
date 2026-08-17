@@ -305,7 +305,11 @@ def check_head(pages, fails):
 
 def check_internal_links(pages, fails):
     for path, markup in pages:
-        for href in re.findall(r'href="(/[^"#]*)"', markup):
+        for raw in re.findall(r'href="(/[^"#]*)"', markup):
+            # Strip the cache-busting query. A versioned asset URL is an
+            # ordinary thing and resolving it as a literal path reported every
+            # page on the site as linking to a file that does not exist.
+            href = raw.split("?", 1)[0]
             target = SITE / href.strip("/") if href != "/" else SITE
             if href.endswith((".css", ".xml", ".txt")):
                 target = SITE / href.lstrip("/")

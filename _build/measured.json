@@ -234,6 +234,41 @@
     "roi": 5.91,
     "verdict": "+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) \u2014 indistinguishable from break-even"
   },
+  "screen": [
+    {
+      "age": 4,
+      "book": "DraftKings",
+      "ev": 5.48,
+      "event": "BOS @ LAL",
+      "fill": 96,
+      "high": 5.96,
+      "low": 5.0,
+      "price": "+110",
+      "realised": 5.24
+    },
+    {
+      "age": 58,
+      "book": "DraftKings",
+      "ev": 7.49,
+      "event": "DEN @ PHX",
+      "fill": 52,
+      "high": 7.98,
+      "low": 7.0,
+      "price": "+114",
+      "realised": 3.93
+    },
+    {
+      "age": 22,
+      "book": "DraftKings",
+      "ev": 3.47,
+      "event": "MIA @ NYK",
+      "fill": 78,
+      "high": 3.94,
+      "low": 3.0,
+      "price": "+106",
+      "realised": 2.72
+    }
+  ],
   "states": {
     "AK": {
       "anchors": 1,

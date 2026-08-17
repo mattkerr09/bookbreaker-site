@@ -309,19 +309,54 @@ def measure(engine) -> dict:
         "circa": Book("circa", "Circa", BookTier.SHARP, limits_winners=False),
         "dk": Book("dk", "DraftKings", BookTier.RETAIL),
     }
-    edge = price_market(
-        hero_market, PricingContext.uncalibrated(hero_books), now=NOW
-    )[0]
+    ctx = PricingContext.uncalibrated(hero_books)
+    edges = price_market(hero_market, ctx, now=NOW)
     out["hero"] = {
-        "book": hero_books[edge.book].name,
+        "book": hero_books[edges[0].book].name,
         "outcome": "over 220.5",
-        "price": f"{decimal_to_american(edge.decimal):+.0f}",
-        "ev": round(edge.ev * 100, 2),
-        "low": round(edge.ev_low * 100, 2),
-        "high": round(edge.ev_high * 100, 2),
-        "fill": round(edge.p_fill * 100),
-        "realised": round(edge.realised_ev * 100, 2),
+        "price": f"{decimal_to_american(edges[0].decimal):+.0f}",
+        "ev": round(edges[0].ev * 100, 2),
+        "low": round(edges[0].ev_low * 100, 2),
+        "high": round(edges[0].ev_high * 100, 2),
+        "fill": round(edges[0].p_fill * 100),
+        "realised": round(edges[0].realised_ev * 100, 2),
     }
+
+    # A few rows at different ages, so the screen shows the thing that makes it
+    # different: the same edge ranked differently once staleness is priced in.
+    rows_out = []
+    for label, age_s, over in (("BOS @ LAL", 4, 2.100),
+                               ("MIA @ NYK", 22, 2.060),
+                               ("DEN @ PHX", 58, 2.140)):
+        market = Market(
+            event_id=label, sport="basketball_nba", market_type="totals",
+            quotes=[
+                Quote(book=b, outcome=Outcome(n, 220.5), decimal=v,
+                      seen_at=NOW - age_s, fetched_at=NOW - age_s + 2)
+                for b, n, v in (
+                    ("pinnacle", "over", 1.952), ("pinnacle", "under", 1.952),
+                    ("circa", "over", 1.935), ("circa", "under", 1.970),
+                    ("dk", "over", over), ("dk", "under", 1.740),
+                )
+            ],
+        )
+        found = price_market(market, ctx, now=NOW)
+        if not found:
+            continue
+        best = found[0]
+        rows_out.append({
+            "event": label,
+            "book": hero_books[best.book].name,
+            "price": f"{decimal_to_american(best.decimal):+.0f}",
+            "ev": round(best.ev * 100, 2),
+            "low": round(best.ev_low * 100, 2),
+            "high": round(best.ev_high * 100, 2),
+            "age": int(round(best.quote_age)),
+            "fill": round(best.p_fill * 100),
+            "realised": round(best.realised_ev * 100, 2),
+        })
+    rows_out.sort(key=lambda r: -r["realised"])
+    out["screen"] = rows_out
 
     # 9. A worked example per calculator, computed rather than written.
     from overlay_engine.arb import arb_margin, stake_arb
@@ -489,18 +524,31 @@ def measure(engine) -> dict:
     return out
 
 
+MARK = (
+    '<svg class="mark" viewBox="0 0 28 28" aria-hidden="true">'
+    '<rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" '
+    'stroke="currentColor" stroke-width="2" opacity=".38"/>'
+    '<circle cx="10" cy="14" r="3.4" fill="currentColor"/>'
+    '</svg>'
+)
+
+
 def e(text: str) -> str:
     return html.escape(str(text))
 
 
-def page(title: str, description: str, body: str, path: str) -> str:
+def page(title: str, description: str, body: str, path: str,
+         body_class: str = "") -> str:
     nav = (
-        '<nav><a href="/">Bookbreaker</a>'
+        '<nav>'
+        '<a class="brand" href="/">' + MARK + 'Bookbreaker</a>'
+        '<span class="links">'
         '<a href="/how-it-works/">How it works</a>'
         '<a href="/guides/">Guides</a>'
-        '<a href="/for/arbitrage-bettors/">For arbers</a>'
         '<a href="/calculators/">Calculators</a>'
-        '<a href="/vs/">Compared</a></nav>'
+        '<a href="/for/arbitrage-bettors/">For arbers</a>'
+        '<a href="/vs/">Compared</a>'
+        '</span></nav>'
     )
     return f"""<!doctype html>
 <html lang="en">
@@ -510,20 +558,38 @@ def page(title: str, description: str, body: str, path: str) -> str:
 <title>{e(title)}</title>
 <meta name="description" content="{e(description)}">
 <link rel="canonical" href="https://bookbreaker.bet{path}">
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css?v={STYLE_HASH}">
 </head>
-<body>
+<body class="{body_class}">
 <header>{nav}</header>
 <main>
 {body}
 </main>
 <footer>
-<p>Bookbreaker is an analysis tool. It tells you what the numbers say; you
-place your own bets. It does not link sportsbook accounts and never asks for
-sportsbook credentials.</p>
-<p>Every figure on this site is computed by running the engine at build time —
-none is typed in. Generated {e(TODAY)}.</p>
-<p>21+. Gambling involves risk. If it stops being fun, it is not fun —
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated {e(TODAY)}.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
 <a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
 </footer>
 </body>
@@ -535,6 +601,27 @@ def render_index(m: dict) -> str:
     d = m["devig"]
     f = m["fill"]
     hero = m["hero"]
+
+    screen = m["screen"]
+    rows = "".join(
+        f'<div class="app-row">'
+        f'<span class="ev-name">{e(r["event"])}</span>'
+        f'<span class="dim">{e(r["book"])}</span>'
+        f'<span class="price">{e(r["price"])}</span>'
+        f'<span class="pos">{r["ev"]:+.2f}%</span>'
+        f'<span class="band">{r["low"]:+.2f}..{r["high"]:+.2f}</span>'
+        f'<span class="dim">{r["age"]}s</span>'
+        f'<span class="fill"><i style="width:{r["fill"]}%"></i>'
+        f'<b>{r["fill"]}%</b></span>'
+        f'<span class="pos strong">{r["realised"]:+.2f}%</span>'
+        f'</div>'
+        for r in screen
+    )
+    top = screen[0]["event"]
+    worst = max(screen, key=lambda r: r["ev"])
+    second = worst["event"]
+    stale = worst["age"]
+    stale_fill = worst["fill"]
     method_rows = "".join(
         f"<tr><td>{e(name)}</td><td>{value:.2f}%</td></tr>"
         for name, value in sorted(d["methods"].items())
@@ -543,22 +630,36 @@ def render_index(m: dict) -> str:
     p = m["performance"]
 
     return f"""
-<h1>The edge is an interval, not a number</h1>
+<div class="hero">
+<p class="eyebrow">Positive EV &middot; Arbitrage &middot; Middles</p>
+<h1>The edge is an interval,<br>not a number</h1>
 <p class="lede">Every betting screen prints one figure to two decimal places.
 That figure is a modelling choice wearing a measurement's clothes. Bookbreaker
-reports the range, the chance you can actually get the bet down, and what your
-own record can and cannot support.</p>
-<div class="screen">
-<span class="dim">{e(hero['book'])}</span>  {e(hero['outcome'])}
-<span class="num">{e(hero['price'])}</span>
-<br><span class="dim">  EV</span> <span class="pos">{hero['ev']:+.2f}%</span>
-&nbsp;<span class="dim">band</span> {hero['low']:+.2f}%..{hero['high']:+.2f}%
-&nbsp;<span class="dim">fill</span> {hero['fill']}%
-&nbsp;<span class="dim">&rarr; realised</span>
-<span class="pos">{hero['realised']:+.2f}%</span>
+shows the range four defensible methods allow, the chance you can actually get
+the bet down, and when your own record proves nothing.</p>
+<div class="cta">
+<a class="btn" href="/how-it-works/">See how it prices a market</a>
+<a class="btn ghost" href="/calculators/">Try the calculators</a>
 </div>
-<p class="caveat">Two numbers no competing screen prints: the band the four
-devig methods allow, and the chance the price is still there when you tap it.</p>
+</div>
+
+<div class="app">
+  <div class="app-bar">
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <span class="app-title">+EV &middot; NBA totals &middot; live</span>
+    <span class="app-meta">sorted by realised EV</span>
+  </div>
+  <div class="app-head">
+    <span>Market</span><span>Book</span><span>Price</span>
+    <span>EV</span><span>Band</span><span>Age</span><span>Fill</span>
+    <span>Realised</span>
+  </div>
+  {rows}
+  <div class="app-foot">Ranked on <strong>realised</strong> EV &mdash; raw EV
+  times the chance the price is still there. {top} sits above {second} despite
+  a smaller edge, because {second} is {stale}s old and fills
+  {stale_fill}% of the time.</div>
+</div>
 
 <h2>Same market, four defensible methods</h2>
 <p>Removing a book's margin to recover what it really believes is a modelling
@@ -1515,95 +1616,191 @@ you.</p>
 """
 
 
-STYLE = """/* Built for people who read odds screens.
-   Dark by default, because that is what every tool this audience already has
-   open looks like at 1am. Tabular figures everywhere, because the numbers are
-   the content and a column that does not line up is a column nobody trusts.
-   Light mode is a full palette, not an afterthought. */
+STYLE = """/* The product is an odds screen that admits how uncertain it is.
+   The site should look like that product, so: dark by default, monospace for
+   every figure, and a real screen as the first thing on the page rather than a
+   paragraph describing one. Light mode is a full palette, not an inversion. */
 :root{
-  --bg:#0d0f14; --panel:#141821; --line:#232936; --ink:#e7eaf0;
-  --muted:#8d95a8; --accent:#5b8cff; --accent-ink:#0d0f14;
-  --pos:#3ddc97; --neg:#ff6b6b; --warn:#ffb454;
-  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  --bg:#0a0c11; --bg2:#0f131b; --panel:#141926; --panel2:#19202f;
+  --line:#222a3a; --line2:#2d374a;
+  --ink:#eef1f7; --ink2:#c3cad9; --muted:#7e8a a3; --muted:#7e8aa3;
+  --accent:#5d8dff; --accent2:#8ab4ff; --accent-ink:#07090d;
+  --pos:#35d99a; --neg:#ff6b6b; --warn:#ffb454;
+  --glow:radial-gradient(70rem 32rem at 50% -12rem,rgba(93,141,255,.20),transparent 62%);
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,sans-serif;
+  --r:12px; --shadow:0 1px 0 rgba(255,255,255,.04) inset,0 18px 40px -24px rgba(0,0,0,.9);
 }
 @media(prefers-color-scheme:light){:root{
-  --bg:#fbfbfd; --panel:#fff; --line:#e4e7ee; --ink:#12151c;
-  --muted:#5c6478; --accent:#1b4dd6; --accent-ink:#fff;
-  --pos:#0a7f57; --neg:#c02626; --warn:#9a5b00;
+  --bg:#fcfcfe; --bg2:#f4f6fa; --panel:#fff; --panel2:#f7f9fc;
+  --line:#e3e7f0; --line2:#d3d9e6;
+  --ink:#0e1119; --ink2:#333c50; --muted:#5f6a80;
+  --accent:#2455e0; --accent2:#1a45c4; --accent-ink:#fff;
+  --pos:#0a7f57; --neg:#c02626; --warn:#8a5200;
+  --glow:radial-gradient(70rem 32rem at 50% -14rem,rgba(36,85,224,.10),transparent 62%);
+  --shadow:0 1px 2px rgba(16,24,40,.06),0 12px 32px -20px rgba(16,24,40,.3);
 }}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);
-  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);background-image:var(--glow);
+  background-repeat:no-repeat;color:var(--ink);
+  font:16.5px/1.65 var(--sans);font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 
-/* ---- chrome ---- */
-header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);
-  backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line)}
-nav{max-width:66rem;margin:0 auto;padding:.85rem 1.25rem;display:flex;
-  flex-wrap:wrap;gap:.35rem 1.4rem;align-items:baseline}
-nav a{color:var(--muted);text-decoration:none;font-size:.93rem;font-weight:500}
-nav a:first-child{color:var(--ink);font-weight:700;font-size:1.05rem;
-  letter-spacing:-.02em;margin-right:.6rem}
-nav a:hover{color:var(--accent)}
-main{max-width:44rem;margin:0 auto;padding:0 1.25rem 4rem}
-footer{max-width:44rem;margin:0 auto;padding:2rem 1.25rem 3rem;
-  border-top:1px solid var(--line);color:var(--muted);font-size:.87rem}
-footer p{margin:.5rem 0}
+/* ---------- chrome ---------- */
+header{position:sticky;top:0;z-index:20;background:var(--bg);
+  border-bottom:1px solid var(--line)}
+@supports (backdrop-filter:blur(1px)){
+  header{background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:saturate(170%) blur(12px)}
+}
+nav{max-width:70rem;margin:0 auto;padding:.8rem 1.5rem;display:flex;
+  align-items:center;gap:1.6rem;flex-wrap:wrap}
+.brand{display:inline-flex;align-items:center;gap:.5rem;color:var(--ink);
+  font-weight:700;font-size:1.06rem;letter-spacing:-.025em;text-decoration:none}
+.brand:hover{color:var(--accent)}
+.mark{width:1.35rem;height:1.35rem;color:var(--accent);flex:none}
+.links{display:flex;gap:1.35rem;flex-wrap:wrap}
+nav .links a{color:var(--muted);text-decoration:none;font-size:.92rem;
+  font-weight:500;padding:.15rem 0;border-bottom:1.5px solid transparent}
+nav .links a:hover{color:var(--ink);border-bottom-color:var(--accent)}
+main{max-width:46rem;margin:0 auto;padding:0 1.5rem 5rem}
+body.home main{max-width:58rem}
+body.home main>h1,body.home main>h2,body.home main>p,
+body.home main>ul,body.home main>table,body.home main>.figure{
+  max-width:44rem;margin-inline:auto}
 
-/* ---- type ---- */
-h1{font-size:clamp(1.9rem,4.4vw,2.6rem);line-height:1.12;letter-spacing:-.025em;
-  margin:2.6rem 0 .9rem;text-wrap:balance}
-h2{font-size:1.22rem;letter-spacing:-.01em;margin:2.6rem 0 .7rem;
-  padding-top:1.4rem;border-top:1px solid var(--line)}
-p{margin:.85rem 0}
-.lede{font-size:1.1rem;line-height:1.55;color:var(--muted);max-width:38rem}
-strong{color:var(--ink);font-weight:650}
-a{color:var(--accent);text-underline-offset:2px}
-ul{padding-left:1.1rem}
-li{margin:.4rem 0}
-.caveat{color:var(--muted);font-size:.88rem;border-left:2px solid var(--line);
-  padding-left:.9rem}
+/* ---------- hero ---------- */
+.hero{padding:3.6rem 0 1.6rem;text-align:center}
+.eyebrow{margin:0 0 1rem;font-size:.74rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent2)}
+.hero h1{margin:0 0 1.1rem}
+.hero .lede{margin:0 auto;max-width:34rem;text-align:center}
+.cta{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;
+  margin:1.9rem 0 .5rem}
+.btn{display:inline-block;padding:.66rem 1.15rem;border-radius:9px;
+  background:var(--accent);color:var(--accent-ink);text-decoration:none;
+  font-weight:600;font-size:.94rem;border:1px solid transparent;
+  transition:transform .12s ease,filter .12s ease}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line2)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ---- the numbers ---- */
+/* ---------- the product screen ---------- */
+.app{margin-block:2.4rem 3.2rem;background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+  overflow:hidden;font-family:var(--mono);font-size:.82rem}
+.app-bar{display:flex;align-items:center;gap:.45rem;padding:.6rem .9rem;
+  background:var(--panel2);border-bottom:1px solid var(--line)}
+.dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--line2);flex:none}
+.app-title{margin-left:.6rem;color:var(--ink2);font-weight:600}
+.app-meta{margin-left:auto;color:var(--muted);font-size:.76rem}
+.app-head,.app-row{display:grid;
+  grid-template-columns:1.5fr 1.1fr .7fr .8fr 1.1fr .55fr 1.1fr .9fr;
+  gap:.5rem;padding:.55rem .9rem;align-items:center}
+.app-head{font-family:var(--sans);font-size:.68rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--line);
+  background:var(--panel2)}
+.app-row{border-bottom:1px solid var(--line)}
+.app-row:hover{background:var(--panel2)}
+.ev-name{color:var(--ink);font-weight:600}
+.dim{color:var(--muted)}
+.price{color:var(--accent2)}
+.band{color:var(--muted);font-size:.76rem}
+.pos{color:var(--pos)}
+.pos.strong{font-weight:700}
+.fill{position:relative;display:flex;align-items:center;gap:.4rem}
+.fill i{display:block;height:.42rem;border-radius:99px;background:var(--accent);
+  opacity:.75;min-width:.4rem}
+.fill b{font-weight:500;color:var(--muted);font-size:.75rem}
+.app-foot{padding:.7rem .9rem;background:var(--panel2);color:var(--muted);
+  font-family:var(--sans);font-size:.83rem;line-height:1.5}
+.app-foot strong{color:var(--ink)}
+
+/* ---------- type ---------- */
+h1{font-size:clamp(2.1rem,5.4vw,3.15rem);line-height:1.06;
+  letter-spacing:-.035em;font-weight:750;margin:2.6rem 0 .9rem;
+  text-wrap:balance}
+h2{font-size:1.3rem;letter-spacing:-.015em;font-weight:680;
+  margin:3rem 0 .8rem;padding-top:1.6rem;border-top:1px solid var(--line);
+  text-wrap:balance}
+p{margin:.9rem 0;color:var(--ink2)}
+.lede{font-size:1.14rem;line-height:1.55;color:var(--muted);max-width:38rem}
+strong{color:var(--ink);font-weight:640}
+a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--accent2)}
+ul{padding-left:1.15rem}
+li{margin:.45rem 0;color:var(--ink2)}
+.caveat{color:var(--muted);font-size:.9rem;border-left:2px solid var(--line2);
+  padding-left:1rem}
+
+/* ---------- figures ---------- */
 .figure{background:var(--panel);border:1px solid var(--line);
-  border-left:3px solid var(--accent);border-radius:.4rem;
-  padding:.9rem 1.05rem;margin:1.2rem 0;font-family:var(--mono);
-  font-size:.94rem;line-height:1.5;overflow-x:auto}
-table{border-collapse:collapse;width:100%;margin:1.2rem 0;font-size:.93rem;
-  font-family:var(--mono);display:block;overflow-x:auto;white-space:nowrap}
-th{text-align:left;padding:.45rem .75rem;font-family:var(--sans);
-  font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;
-  color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
-td{padding:.5rem .75rem;border-bottom:1px solid var(--line)}
+  border-left:3px solid var(--accent);border-radius:10px;
+  padding:1rem 1.15rem;margin:1.4rem 0;font-family:var(--mono);
+  font-size:.9rem;line-height:1.6;overflow-x:auto;box-shadow:var(--shadow)}
+.screen{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:1rem 1.15rem;margin:1.4rem 0;font-family:var(--mono);font-size:.87rem;
+  line-height:1.95;overflow-x:auto;white-space:nowrap;box-shadow:var(--shadow)}
+.screen .num{color:var(--accent2)}
+table{border-collapse:separate;border-spacing:0;width:100%;margin:1.4rem 0;
+  font-size:.9rem;font-family:var(--mono);display:block;overflow-x:auto;
+  white-space:nowrap;border:1px solid var(--line);border-radius:10px;
+  background:var(--panel)}
+th{text-align:left;padding:.6rem .85rem;font-family:var(--sans);font-size:.7rem;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+  font-weight:600;background:var(--panel2);border-bottom:1px solid var(--line)}
+td{padding:.55rem .85rem;border-bottom:1px solid var(--line);color:var(--ink2)}
 tr:last-child td{border-bottom:0}
 td:first-child{font-family:var(--sans);color:var(--muted)}
-tbody tr:hover td,table tr:hover td{background:var(--panel)}
+tr:hover td{background:var(--panel2)}
 
-/* ---- index cards ---- */
-main>ul:has(a){list-style:none;padding:0;display:grid;gap:.6rem;
-  grid-template-columns:repeat(auto-fill,minmax(15rem,1fr))}
+/* ---------- cards ---------- */
+main>ul:has(a){list-style:none;padding:0;margin:1.8rem 0;display:grid;
+  gap:.8rem;grid-template-columns:repeat(auto-fill,minmax(16.5rem,1fr))}
 main>ul:has(a) li{margin:0;background:var(--panel);border:1px solid var(--line);
-  border-radius:.5rem;padding:.85rem .95rem;font-size:.92rem;
-  color:var(--muted);transition:border-color .15s}
-main>ul:has(a) li:hover{border-color:var(--accent)}
-main>ul:has(a) a{display:block;font-weight:600;text-decoration:none;
-  margin-bottom:.2rem}
+  border-radius:11px;padding:1rem 1.1rem;font-size:.9rem;color:var(--muted);
+  display:flex;flex-direction:column;gap:.35rem;box-shadow:var(--shadow);
+  transition:border-color .15s ease,transform .15s ease}
+main>ul:has(a) li:hover{border-color:var(--accent);transform:translateY(-2px)}
+main>ul:has(a) a{font-weight:640;text-decoration:none;color:var(--ink);
+  letter-spacing:-.01em}
+main>ul:has(a) li:hover a{color:var(--accent)}
 
-.screen{background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
-  padding:1rem 1.1rem;margin:1.4rem 0;font-family:var(--mono);font-size:.9rem;
-  line-height:1.9;overflow-x:auto;white-space:nowrap}
-.screen .dim{color:var(--muted)}
-.screen .num{color:var(--accent)}
-.screen .pos{color:var(--pos);font-weight:600}
-main>ul:has(a) li{display:flex;flex-direction:column;gap:.3rem}
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);background:var(--bg2);margin-top:4rem}
+.foot-grid{max-width:46rem;margin:0 auto;padding:2.6rem 1.5rem 1rem;
+  display:grid;gap:1.6rem;grid-template-columns:1.6fr 1fr 1fr}
+.foot-grid p{margin:.3rem 0;font-size:.9rem;color:var(--muted)}
+.foot-brand{font-weight:700;color:var(--ink);font-size:1rem;
+  letter-spacing:-.02em}
+.foot-head{font-size:.72rem!important;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--ink2)!important;font-weight:600;
+  margin-bottom:.55rem!important}
+.foot-grid a{color:var(--muted);text-decoration:none}
+.foot-grid a:hover{color:var(--accent)}
+.foot-fine{max-width:46rem;margin:0 auto;padding:0 1.5rem;color:var(--muted);
+  font-size:.83rem;line-height:1.55}
+.foot-fine:last-child{padding-bottom:2.6rem}
 
-@media(max-width:34rem){
-  main{padding:0 1rem 3rem}
-  nav{padding:.7rem 1rem;gap:.3rem 1rem}
-  h2{margin-top:2rem}
+@media(max-width:52rem){
+  .app{font-size:.76rem}
+  .app-head,.app-row{grid-template-columns:1.3fr .8fr .6fr .75fr .5fr .9fr .85fr}
+  .app-head span:nth-child(5),.app-row span:nth-child(5){display:none}
+}
+@media(max-width:40rem){
+  main{padding:0 1.15rem 3.5rem}
+  nav{padding:.7rem 1.15rem;gap:.9rem}
+  .hero{padding:2.4rem 0 1rem}
+  h2{margin-top:2.3rem}
+  .foot-grid{grid-template-columns:1fr;padding:2rem 1.15rem .6rem}
+  .app-head,.app-row{grid-template-columns:1.4fr .7fr .8fr .9fr}
+  .app-head span:nth-child(n+5),.app-row span:nth-child(n+5){display:none}
+  .app-head span:nth-child(8),.app-row span:nth-child(8){display:block}
 }
 """
+
+STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
 
 # (was, is). Kept forever once a URL has been submitted: a search engine that
 # learned an address does not unlearn it because the file moved.
@@ -1653,7 +1850,8 @@ def main() -> int:
     for url, rel, title, description, renderer in PAGES:
         out = SITE / rel
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(page(title, description, renderer(measured), url))
+        out.write_text(page(title, description, renderer(measured), url,
+                            body_class="home" if url == "/" else ""))
         built.append((url, rel))
         print(f"  {url:<22} {rel}")
 
