@@ -1605,6 +1605,12 @@ main>ul:has(a) li{display:flex;flex-direction:column;gap:.3rem}
 }
 """
 
+# (was, is). Kept forever once a URL has been submitted: a search engine that
+# learned an address does not unlearn it because the file moved.
+REDIRECTS = [
+    ("/sportsbooks/not-covered/", "/sportsbooks/in-person-only/"),
+]
+
 PAGES = [
     ("/", "index.html", "Bookbreaker — the edge is an interval",
      "An arbitrage and +EV engine that reports how wrong it might be: the devig "
@@ -1884,11 +1890,33 @@ your own check, not advice.</p>
     print(f"  /sportsbooks/          {jurisdiction} jurisdiction pages "
           f"covering {len(measured['states'])} states")
 
+    # URLs that were live and submitted to search engines, and have since
+    # moved. GitHub Pages cannot issue a 301, so these are meta-refresh stubs
+    # with a canonical pointing at the new address. Without them a renamed page
+    # is simply a 404 that Bing already knows about — and the rename here was
+    # `/sportsbooks/not-covered/`, which had been submitted twice before it
+    # became `/sportsbooks/in-person-only/`.
+    redirects: list[tuple[str, str]] = []
+    for old_url, new_url in REDIRECTS:
+        rel = old_url.strip("/") + "/index.html"
+        out = SITE / rel
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(
+            "<!doctype html>\n<html lang=\"en\">\n<head>\n"
+            "<meta charset=\"utf-8\">\n"
+            f"<meta http-equiv=\"refresh\" content=\"0; url={new_url}\">\n"
+            f"<link rel=\"canonical\" href=\"https://bookbreaker.bet{new_url}\">\n"
+            "<title>Moved</title>\n</head>\n<body>\n"
+            f"<p>This page moved to <a href=\"{new_url}\">{new_url}</a>.</p>\n"
+            "</body>\n</html>\n"
+        )
+        redirects.append((old_url, rel))
+
     # Remove pages this render no longer produces. Without this a page you
     # deliberately stopped generating stays on disk and stays published —
     # eleven orphaned state pages survived the first run of exactly that
     # change, and only a similarity measurement noticed.
-    wanted = {SITE / rel for _, rel in built}
+    wanted = {SITE / rel for _, rel in built + redirects}
     for stale in sorted(SITE.rglob("*.html")):
         if "_build" in stale.parts or stale in wanted:
             continue

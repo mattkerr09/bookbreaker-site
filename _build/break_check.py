@@ -71,6 +71,12 @@ CASES = [
         '"engine_fingerprint_was"',
     ),
     (
+        "a redirect stub losing its canonical",
+        "sportsbooks/not-covered/index.html",
+        '<link rel="canonical" href="https://bookbreaker.bet/sportsbooks/in-person-only/">',
+        "<!-- canonical removed -->",
+    ),
+    (
         "a duplicated <h2> across two pages",
         "account-longevity/index.html",
         "<h2>What a stake gives away</h2>",

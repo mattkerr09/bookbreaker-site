@@ -260,6 +260,38 @@ def check_indexnow_key(fails):
         fails.append(f"{key}.txt does not contain the key it is named for")
 
 
+REDIRECT = re.compile(r'http-equiv="refresh"[^>]*url=([^"]+)"', re.I)
+
+
+def is_redirect(markup: str) -> bool:
+    return bool(REDIRECT.search(markup))
+
+
+def check_redirects(redirects, fails):
+    """A redirect stub needs a target and a canonical, and nothing else.
+
+    Checked rather than skipped. A stub with no canonical leaves the old URL
+    competing with the new one in the index, and a stub whose refresh target is
+    itself is a loop that only a reader discovers.
+    """
+    for path, markup in redirects:
+        target = REDIRECT.search(markup)
+        if not target:
+            fails.append(f"{path}: looks like a redirect but has no target")
+            continue
+        destination = target.group(1)
+        if not destination.startswith("/"):
+            fails.append(f"{path}: redirect target {destination!r} is not a "
+                         "site-relative path")
+        if f'rel="canonical" href="https://bookbreaker.bet{destination}"' not in markup:
+            fails.append(
+                f"{path}: redirect to {destination} without a canonical "
+                "pointing there — the old URL keeps competing with the new one"
+            )
+        if path.rsplit("/", 1)[0] == destination.strip("/"):
+            fails.append(f"{path}: redirects to itself")
+
+
 def check_head(pages, fails):
     for path, markup in pages:
         for tag, pattern in (
@@ -433,11 +465,13 @@ def main() -> int:
         return 1
     measured = json.loads(measured_path.read_text())
 
-    pages = [
+    everything = [
         (str(p.relative_to(SITE)), p.read_text())
         for p in sorted(SITE.rglob("*.html"))
         if "_build" not in p.parts
     ]
+    redirects = [(p, m) for p, m in everything if is_redirect(m)]
+    pages = [(p, m) for p, m in everything if not is_redirect(m)]
     if not pages:
         print("no pages — run render.py first", file=sys.stderr)
         return 1
@@ -445,6 +479,7 @@ def main() -> int:
     fails: list[str] = []
     check_render_is_fresh(measured, fails,
                           Path(args.app_repo).expanduser().resolve())
+    check_redirects(redirects, fails)
     check_indexnow_key(fails)
     check_numbers_are_measured(pages, measured, fails)
     check_competitor_claims(pages, fails)
@@ -456,7 +491,8 @@ def main() -> int:
     check_responsible_gambling(pages, fails)
 
     print(f"checked {len(pages)} pages against "
-          f"{len(measured_numbers(measured))} measured figures")
+          f"{len(measured_numbers(measured))} measured figures"
+          + (f", plus {len(redirects)} redirect(s)" if redirects else ""))
     if fails:
         print(f"\n{len(fails)} problem(s):")
         for problem in fails:
