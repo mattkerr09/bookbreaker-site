@@ -271,6 +271,27 @@ def measure(engine) -> dict:
         ],
     }
 
+    # 7b. Parlays. The most popular bet in the market and the worst priced,
+    # and the arithmetic is the entire argument.
+    from overlay_engine.parlay import break_even_legs, correlation_note, value
+
+    par = value([american_to_decimal(-110)] * 4)
+    out["parlay"] = {
+        "legs": par.legs,
+        "pays": round(par.offered - 1, 2),
+        "fair": round(par.fair - 1, 2),
+        "hold": round(par.hold * 100, 1),
+        "leg_hold": round(par.leg_hold * 100, 2),
+        "multiple": round(par.multiple, 1),
+        "lottery_legs": break_even_legs(par.leg_hold, 0.25),
+        "ladder": [
+            {"legs": n, "hold": round(value(
+                [american_to_decimal(-110)] * n).hold * 100, 1)}
+            for n in (2, 3, 4, 5, 6, 8)
+        ],
+        "sgp_note": correlation_note(same_game=True),
+    }
+
     # 8a. The commission example, computed rather than asserted. A pair that
     # is an arbitrage on the face of it and is not one once the exchange takes
     # its cut — the case a screen that skips netting will surface every time.
@@ -1116,6 +1137,7 @@ def guide_bodies(m: dict) -> dict[str, str]:
     """
     d, a, f, p = m["devig"], m["arb"], m["fill"], m["performance"]
     conv, mid, h, ev = m["conversion"], m["middles"], m["heat"], m["evidence"]
+    par = m["parlay"]
     lo, hi = min(d["methods"].values()), max(d["methods"].values())
 
     return {
@@ -1352,6 +1374,119 @@ a hypothesis. With {ev['bars'][2]['tests']} tags there is a
 {ev['bars'][2]['luck']}% chance one clears the ordinary bar by luck, so the bar
 has to rise with the count. Slicing until something looks good is a search, not
 a test. <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+""",
+
+"what-is-a-parlay-really-worth": f"""
+<p>A parlay pays the product of its legs. Four legs at -110 pay
+{par['pays']:.2f} to 1. Four fair coin flips should pay {par['fair']:.2f} to 1.
+The gap is a {par['hold']:.1f}% hold &mdash; {par['multiple']:.1f} times the
+{par['leg_hold']:.2f}% you pay on a single.</p>
+<p>Nothing about a parlay creates value. It multiplies the margin, and the
+payout number grows while the value shrinks, which is exactly why it is the
+most heavily promoted bet in the market.</p>
+<table>
+<tr><th>Legs</th><th>Hold</th></tr>
+{"".join(f"<tr><td>{r['legs']}</td><td>{r['hold']:.1f}%</td></tr>" for r in par['ladder'])}
+</table>
+<p>By {par['lottery_legs']} legs the book is holding more than a quarter of
+every dollar staked. That is roughly where a parlay stops being a bet and
+becomes a lottery ticket &mdash; which is a fine thing to buy knowingly, and a
+poor thing to buy while believing you are betting.</p>
+<p>The honest exception: if every leg is genuinely +EV, the parlay of them can
+be too. That is rare and it is not what the promoted parlays are made of.</p>
+<p><a href="/calculators/hold/">How hold works &rarr;</a></p>
+""",
+
+"what-is-a-same-game-parlay-worth": f"""
+<p>Multiplying the legs is the right sum only when the legs are independent.
+Same-game legs are not.</p>
+<p>A team covering the spread makes the over more likely, not less. A quarterback
+having a big passing day makes his receiver's yardage prop more likely. Multiply those together as though they were coin flips and you get a
+probability that is too low, which makes the fair price look higher than it is
+&mdash; and makes the parlay look better than it is.</p>
+<p>{e(par['sgp_note'])}</p>
+<p>Books price same-game parlays with a correlation adjustment for exactly this
+reason. That adjustment is theirs and it is not published, which means the
+independent calculation you can do is a ceiling on the value, never an
+estimate of it. Any tool that quotes you a same-game parlay edge from
+multiplication alone is quoting a number it cannot support.</p>
+<p>What survives: correlation cuts both ways, and a <em>negatively</em>
+correlated pair is the one books misprice more often. That is a real edge and
+it needs the correlation measured, not assumed.</p>
+<p><a href="/guides/what-is-a-parlay-really-worth/">The ordinary parlay maths
+&rarr;</a></p>
+""",
+
+"what-is-a-sharp-sportsbook": f"""
+<p>A sharp book prices to be right. A soft book prices to be attractive. That
+difference decides whether a price is evidence about the world or a product
+being sold to you.</p>
+<p>Sharp books run thin margins, take large bets, and do not limit winners.
+They can afford to because they treat informed money as information: a bet
+against their line tells them something, and they move. Soft books make money
+assuming the average customer loses, so a consistent winner breaks the model
+and gets cut.</p>
+<h2>Why it changes the arithmetic</h2>
+<p>A fair value is only as good as what anchors it. On the {e(d['market'])}
+moneyline the four devig methods span {min(d['methods'].values()):.2f}% to
+{max(d['methods'].values()):.2f}% &mdash; and that is the spread on a
+<em>sharp</em> price. Anchor the same calculation on a soft book and you are
+polling the people you intend to beat.</p>
+<p>So a soft book contributes very little weight to a fair value here, and is
+never priced against a consensus it helped set: even a small contribution pulls
+the number toward that book's own price, shrinking exactly the edge being
+detected &mdash; hardest on the markets where it is the lone outlier and the
+edge is largest.</p>
+<p>Where they never limit winners, no anti-limiting effort is spent at all.
+Spending edge to hide from a risk desk that does not exist is the most common
+way that advice is misapplied.</p>
+<p><a href="/sportsbooks/nj/">Which books are which, by state &rarr;</a></p>
+""",
+
+"how-to-line-shop": f"""
+<p>Line shopping is taking the best available price on a bet you were going to
+make. It is the least glamorous edge in betting and close to the largest.</p>
+<p>The arithmetic: at -110 both ways a book holds {par['leg_hold']:.2f}%. Beat
+that price by half a point on every bet and you have handed back a meaningful
+share of the margin &mdash; without predicting anything, without a model, and
+without any risk you were not already taking.</p>
+<h2>What it is worth over a season</h2>
+<p>A {p['n']}-bet record at {p['roi']:.2f}% return has an interval running
+{p['low']:.1f}% to {p['high']:.1f}%. Against that noise, a systematic
+half-point improvement on every bet is one of the few things large enough to
+show through &mdash; and unlike a model edge, it does not need to be right
+about anything.</p>
+<h2>The catch nobody mentions</h2>
+<p>Consistently capturing the best number is itself a signal. Risk desks
+profile on it, because a customer who always beats the market is a customer
+whose bets carry information. That is why the price you take and the account
+you take it at are the same decision.</p>
+<p><a href="/account-longevity/">What bet shape gives away &rarr;</a></p>
+""",
+
+"what-is-bankroll-management": f"""
+<p>Sizing is not a smaller version of picking. It is the thing that decides
+whether a real edge survives a bad run.</p>
+<h2>Fractional, always</h2>
+<p>Kelly gives the growth-maximising stake given the true probability. You have
+an estimate with an error bar, and the penalty is asymmetric: betting twice the
+correct fraction has negative growth, betting half has about three-quarters of
+the growth at a quarter of the variance. Overestimating costs far more than
+underestimating, and devigged estimates are exactly the kind that get
+overestimated.</p>
+<h2>Cap every bet regardless</h2>
+<p>Kelly on a genuine 30% edge and on a stale line ask for the same stake. The
+cap is what makes the difference between them survivable.</p>
+<h2>Count correlated bets once</h2>
+<p>Kelly assumes bets resolve one at a time. Twelve overs riding one game
+script is one undiversified position wearing twelve hats, and sizing each at
+its individual optimum is a far larger bet than it looks.</p>
+<h2>Judge the sizing separately from the picking</h2>
+<p>Money return and flat-bet return answer different questions: what happened,
+and what would have happened staking level. The gap between them is the only
+direct read on whether your sizing earned anything, and almost no tracker
+separates them.</p>
+<p><a href="/calculators/kelly/">Size a bet &rarr;</a></p>
 """,
 
 "why-your-bets-get-rejected": f"""

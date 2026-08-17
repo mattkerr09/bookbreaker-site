@@ -111,7 +111,7 @@
     },
     "spread": 0.39
   },
-  "engine_fingerprint": "a63fc2937268a604",
+  "engine_fingerprint": "cbc4ee17f6b94a3d",
   "evidence": {
     "bars": [
       {
@@ -225,6 +225,42 @@
     ],
     "games": 285,
     "sample": "synthetic, shape stated"
+  },
+  "parlay": {
+    "fair": 15.0,
+    "hold": 17.0,
+    "ladder": [
+      {
+        "hold": 8.9,
+        "legs": 2
+      },
+      {
+        "hold": 13.0,
+        "legs": 3
+      },
+      {
+        "hold": 17.0,
+        "legs": 4
+      },
+      {
+        "hold": 20.8,
+        "legs": 5
+      },
+      {
+        "hold": 24.4,
+        "legs": 6
+      },
+      {
+        "hold": 31.1,
+        "legs": 8
+      }
+    ],
+    "leg_hold": 4.55,
+    "legs": 4,
+    "lottery_legs": 7,
+    "multiple": 3.7,
+    "pays": 12.28,
+    "sgp_note": "These legs are in one game and are not independent \u2014 a team covering the spread makes the over more likely, not less. Books price same-game parlays with a correlation adjustment for exactly that reason, so the independent figure above is an upper bound on what this is worth, not an estimate of it."
   },
   "performance": {
     "high": 18.9,
