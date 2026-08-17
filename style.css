@@ -1,26 +1,88 @@
-:root{--ink:#17181c;--bg:#fff;--accent:#1b4dd6;--muted:#5b6070;
---line:#e3e5ea;--fig:#f6f7f9}
+/* Built for people who read odds screens.
+   Dark by default, because that is what every tool this audience already has
+   open looks like at 1am. Tabular figures everywhere, because the numbers are
+   the content and a column that does not line up is a column nobody trusts.
+   Light mode is a full palette, not an afterthought. */
+:root{
+  --bg:#0d0f14; --panel:#141821; --line:#232936; --ink:#e7eaf0;
+  --muted:#8d95a8; --accent:#5b8cff; --accent-ink:#0d0f14;
+  --pos:#3ddc97; --neg:#ff6b6b; --warn:#ffb454;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+}
+@media(prefers-color-scheme:light){:root{
+  --bg:#fbfbfd; --panel:#fff; --line:#e4e7ee; --ink:#12151c;
+  --muted:#5c6478; --accent:#1b4dd6; --accent-ink:#fff;
+  --pos:#0a7f57; --neg:#c02626; --warn:#9a5b00;
+}}
 *{box-sizing:border-box}
-body{margin:0;font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",
-Roboto,sans-serif;color:var(--ink);background:var(--bg)}
-header,main,footer{max-width:46rem;margin:0 auto;padding:0 1.25rem}
-nav{display:flex;gap:1.5rem;padding:1.5rem 0;border-bottom:1px solid var(--line)}
-nav a{color:var(--muted);text-decoration:none;font-weight:500}
-nav a:first-child{color:var(--ink);font-weight:700}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+
+/* ---- chrome ---- */
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line)}
+nav{max-width:66rem;margin:0 auto;padding:.85rem 1.25rem;display:flex;
+  flex-wrap:wrap;gap:.35rem 1.4rem;align-items:baseline}
+nav a{color:var(--muted);text-decoration:none;font-size:.93rem;font-weight:500}
+nav a:first-child{color:var(--ink);font-weight:700;font-size:1.05rem;
+  letter-spacing:-.02em;margin-right:.6rem}
 nav a:hover{color:var(--accent)}
-h1{font-size:2.1rem;line-height:1.2;margin:2.5rem 0 1rem}
-h2{font-size:1.35rem;margin:2.5rem 0 .75rem}
-.lede{font-size:1.15rem;color:var(--muted)}
-.figure{background:var(--fig);border-left:3px solid var(--accent);
-padding:.85rem 1rem;font-variant-numeric:tabular-nums;margin:1rem 0}
-.caveat{color:var(--muted);font-size:.94rem}
-table{border-collapse:collapse;width:100%;margin:1rem 0;
-font-variant-numeric:tabular-nums}
-th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
-th{font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;
-color:var(--muted)}
-a{color:var(--accent)}
-footer{margin-top:4rem;padding-top:1.5rem;border-bottom:0;
-border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
-@media(prefers-color-scheme:dark){:root{--ink:#e8e9ed;--bg:#17181c;
---accent:#8aa9ff;--muted:#9aa0b0;--line:#2b2d35;--fig:#1f2128}}
+main{max-width:44rem;margin:0 auto;padding:0 1.25rem 4rem}
+footer{max-width:44rem;margin:0 auto;padding:2rem 1.25rem 3rem;
+  border-top:1px solid var(--line);color:var(--muted);font-size:.87rem}
+footer p{margin:.5rem 0}
+
+/* ---- type ---- */
+h1{font-size:clamp(1.9rem,4.4vw,2.6rem);line-height:1.12;letter-spacing:-.025em;
+  margin:2.6rem 0 .9rem;text-wrap:balance}
+h2{font-size:1.22rem;letter-spacing:-.01em;margin:2.6rem 0 .7rem;
+  padding-top:1.4rem;border-top:1px solid var(--line)}
+p{margin:.85rem 0}
+.lede{font-size:1.1rem;line-height:1.55;color:var(--muted);max-width:38rem}
+strong{color:var(--ink);font-weight:650}
+a{color:var(--accent);text-underline-offset:2px}
+ul{padding-left:1.1rem}
+li{margin:.4rem 0}
+.caveat{color:var(--muted);font-size:.88rem;border-left:2px solid var(--line);
+  padding-left:.9rem}
+
+/* ---- the numbers ---- */
+.figure{background:var(--panel);border:1px solid var(--line);
+  border-left:3px solid var(--accent);border-radius:.4rem;
+  padding:.9rem 1.05rem;margin:1.2rem 0;font-family:var(--mono);
+  font-size:.94rem;line-height:1.5;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:1.2rem 0;font-size:.93rem;
+  font-family:var(--mono);display:block;overflow-x:auto;white-space:nowrap}
+th{text-align:left;padding:.45rem .75rem;font-family:var(--sans);
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
+td{padding:.5rem .75rem;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-family:var(--sans);color:var(--muted)}
+tbody tr:hover td,table tr:hover td{background:var(--panel)}
+
+/* ---- index cards ---- */
+main>ul:has(a){list-style:none;padding:0;display:grid;gap:.6rem;
+  grid-template-columns:repeat(auto-fill,minmax(15rem,1fr))}
+main>ul:has(a) li{margin:0;background:var(--panel);border:1px solid var(--line);
+  border-radius:.5rem;padding:.85rem .95rem;font-size:.92rem;
+  color:var(--muted);transition:border-color .15s}
+main>ul:has(a) li:hover{border-color:var(--accent)}
+main>ul:has(a) a{display:block;font-weight:600;text-decoration:none;
+  margin-bottom:.2rem}
+
+.screen{background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+  padding:1rem 1.1rem;margin:1.4rem 0;font-family:var(--mono);font-size:.9rem;
+  line-height:1.9;overflow-x:auto;white-space:nowrap}
+.screen .dim{color:var(--muted)}
+.screen .num{color:var(--accent)}
+.screen .pos{color:var(--pos);font-weight:600}
+main>ul:has(a) li{display:flex;flex-direction:column;gap:.3rem}
+
+@media(max-width:34rem){
+  main{padding:0 1rem 3rem}
+  nav{padding:.7rem 1rem;gap:.3rem 1rem}
+  h2{margin-top:2rem}
+}

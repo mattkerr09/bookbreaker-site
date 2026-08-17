@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to devig odds</title>
+<meta name="description" content="How do you find the true probability behind a sportsbook&#x27;s price? Worked through with the arithmetic done, not just the formula.">
+<link rel="canonical" href="https://bookbreaker.bet/guides/how-to-devig-odds/">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><nav><a href="/">Bookbreaker</a><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/vs/">Compared</a></nav></header>
+<main>
+<h1>How to devig odds</h1>
+<p class="lede">How do you find the true probability behind a sportsbook&#x27;s price?</p>
+
+<p>A sportsbook's prices imply probabilities that add to more than 100%. The
+surplus is the margin. Devigging redistributes it to recover what the book
+actually believes &mdash; and <em>how</em> you redistribute it is a modelling
+choice, not arithmetic.</p>
+<p>On a -145 / +125 moneyline, the four standard methods give the
+favourite anywhere from 57.11% to 57.50%:</p>
+<p><strong>additive</strong> &mdash; 57.37%</p><p><strong>multiplicative</strong> &mdash; 57.11%</p><p><strong>power</strong> &mdash; 57.50%</p><p><strong>shin</strong> &mdash; 57.37%</p>
+<p>That spread is 0.39 points of probability on a market where a
+2% edge is a good day. Multiplicative is the usual default because it is one
+division, but it distributes the margin in proportion to implied probability
+&mdash; the opposite of the favourite-longshot bias real markets show, which
+makes it the method most likely to overstate a longshot.</p>
+<p>The practical answer: do not pick one. An edge that exists under one method
+and vanishes under another is a modelling artefact.
+<a href="/calculators/no-vig-odds/">Work it through &rarr;</a></p>
+
+</main>
+<footer>
+<p>Bookbreaker is an analysis tool. It tells you what the numbers say; you
+place your own bets. It does not link sportsbook accounts and never asks for
+sportsbook credentials.</p>
+<p>Every figure on this site is computed by running the engine at build time —
+none is typed in. Generated 2026-08-17.</p>
+<p>21+. Gambling involves risk. If it stops being fun, it is not fun —
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

@@ -58,6 +58,7 @@
   },
   "conversion": {
     "bonus": 1000,
+    "doubled": 2000,
     "ladder": [
       {
         "ceiling": 50.0,
@@ -132,6 +133,9 @@
   },
   "fill": {
     "age": 10.0,
+    "edge": 4.0,
+    "edge_honest": 3.37,
+    "edge_naive": 3.58,
     "effective": 15.4,
     "honest": 84,
     "latency": 5.4,
@@ -187,6 +191,16 @@
       }
     ],
     "untouched": 473.82
+  },
+  "hero": {
+    "book": "DraftKings",
+    "ev": 5.48,
+    "fill": 94,
+    "high": 5.96,
+    "low": 5.0,
+    "outcome": "over 220.5",
+    "price": "+110",
+    "realised": 5.13
   },
   "middles": {
     "cases": [

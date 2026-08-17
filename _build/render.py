@@ -142,7 +142,7 @@ def measure(engine) -> dict:
             "rate": round(plan.conversion * 100, 1),
             "ceiling": round(fair_conversion_ceiling(free_d) * 100, 1),
         })
-    out["conversion"] = {"bonus": 1000, "ladder": ladder}
+    out["conversion"] = {"bonus": 1000, "doubled": 2000, "ladder": ladder}
 
     # 4. Middles: the same prices one point apart. The margin sample is
     # synthetic and stated as such on the page — no verifiable published table
@@ -185,11 +185,19 @@ def measure(engine) -> dict:
         latency.observe("dk", 6.0)
     age = 10.0
     lag = latency.typical("dk")
+    honest = fills.p_fill("dk", "h2h", age + lag)
+    naive = fills.p_fill("dk", "h2h", age)
     out["fill"] = {
         "age": age, "latency": round(lag, 1),
         "effective": round(age + lag, 1),
-        "honest": round(fills.p_fill("dk", "h2h", age + lag) * 100),
-        "naive": round(fills.p_fill("dk", "h2h", age) * 100),
+        "honest": round(honest * 100),
+        "naive": round(naive * 100),
+        # What a 4% edge is actually worth either way. Computed here rather
+        # than in the template, because a figure worked out in a page is a
+        # figure nobody checked.
+        "edge": 4.0,
+        "edge_honest": round(4.0 * honest, 2),
+        "edge_naive": round(4.0 * naive, 2),
     }
 
     # 6. What a 220-bet record can and cannot support.
@@ -260,6 +268,47 @@ def measure(engine) -> dict:
              "luck": round(family_error_rate(k) * 100)}
             for k in (1, 5, 10, 20)
         ],
+    }
+
+    # 8b. The hero line: a real market run through the real pipeline.
+    #
+    # Typed from an old README example on first write, and the gate refused it
+    # — which is the whole point of the gate, and exactly the mistake this
+    # product's argument is about.
+    from overlay_engine.models import Market, Outcome, Quote
+    from overlay_engine.pricing import PricingContext, price_market
+
+    hero_market = Market(
+        event_id="hero", sport="basketball_nba", market_type="totals",
+        quotes=[
+            Quote(book=b, outcome=Outcome(n, 220.5), decimal=v,
+                  seen_at=NOW - 6, fetched_at=NOW - 4)
+            for b, n, v in (
+                ("pinnacle", "over", 1.952), ("pinnacle", "under", 1.952),
+                ("circa", "over", 1.935), ("circa", "under", 1.970),
+                ("dk", "over", 2.100), ("dk", "under", 1.740),
+            )
+        ],
+        starts_at=NOW + 5400,
+    )
+    hero_books = {
+        "pinnacle": Book("pinnacle", "Pinnacle", BookTier.SHARP,
+                         limits_winners=False),
+        "circa": Book("circa", "Circa", BookTier.SHARP, limits_winners=False),
+        "dk": Book("dk", "DraftKings", BookTier.RETAIL),
+    }
+    edge = price_market(
+        hero_market, PricingContext.uncalibrated(hero_books), now=NOW
+    )[0]
+    out["hero"] = {
+        "book": hero_books[edge.book].name,
+        "outcome": "over 220.5",
+        "price": f"{decimal_to_american(edge.decimal):+.0f}",
+        "ev": round(edge.ev * 100, 2),
+        "low": round(edge.ev_low * 100, 2),
+        "high": round(edge.ev_high * 100, 2),
+        "fill": round(edge.p_fill * 100),
+        "realised": round(edge.realised_ev * 100, 2),
     }
 
     # 9. A worked example per calculator, computed rather than written.
@@ -432,6 +481,7 @@ def page(title: str, description: str, body: str, path: str) -> str:
     nav = (
         '<nav><a href="/">Bookbreaker</a>'
         '<a href="/how-it-works/">How it works</a>'
+        '<a href="/guides/">Guides</a>'
         '<a href="/calculators/">Calculators</a>'
         '<a href="/vs/">Compared</a></nav>'
     )
@@ -466,12 +516,13 @@ none is typed in. Generated {e(TODAY)}.</p>
 
 def render_index(m: dict) -> str:
     d = m["devig"]
+    f = m["fill"]
+    hero = m["hero"]
     method_rows = "".join(
         f"<tr><td>{e(name)}</td><td>{value:.2f}%</td></tr>"
         for name, value in sorted(d["methods"].items())
     )
     a = m["arb"]
-    f = m["fill"]
     p = m["performance"]
 
     return f"""
@@ -480,6 +531,17 @@ def render_index(m: dict) -> str:
 That figure is a modelling choice wearing a measurement's clothes. Bookbreaker
 reports the range, the chance you can actually get the bet down, and what your
 own record can and cannot support.</p>
+<div class="screen">
+<span class="dim">{e(hero['book'])}</span>  {e(hero['outcome'])}
+<span class="num">{e(hero['price'])}</span>
+<br><span class="dim">  EV</span> <span class="pos">{hero['ev']:+.2f}%</span>
+&nbsp;<span class="dim">band</span> {hero['low']:+.2f}%..{hero['high']:+.2f}%
+&nbsp;<span class="dim">fill</span> {hero['fill']}%
+&nbsp;<span class="dim">&rarr; realised</span>
+<span class="pos">{hero['realised']:+.2f}%</span>
+</div>
+<p class="caveat">Two numbers no competing screen prints: the band the four
+devig methods allow, and the chance the price is still there when you tap it.</p>
 
 <h2>Same market, four defensible methods</h2>
 <p>Removing a book's margin to recover what it really believes is a modelling
@@ -611,6 +673,286 @@ partly by how stale its own data is, because the biggest numbers cluster on the
 books that moved most recently &mdash; which are the books most likely to have
 moved again.</p>
 """
+
+
+def guide_description(row: dict) -> str:
+    """A meta description that fits for any guide title."""
+    for candidate in (
+        f"{row['question']} Worked through with the arithmetic done, not just "
+        "the formula.",
+        f"{row['question']} Answered with the numbers worked.",
+        f"{row['title']}, worked through with real prices.",
+    ):
+        if 50 <= len(candidate) <= 160:
+            return candidate
+    return f"{row['title']} — worked through on real prices, with the range."
+
+
+def guide_bodies(m: dict) -> dict[str, str]:
+    """One body per guide, each pulling its numbers from the engine.
+
+    Written out rather than templated. A guide cluster generated from a shape
+    reads as generated, and the similarity gate would say so — these are the
+    queries people actually type, and each deserves a real answer.
+    """
+    d, a, f, p = m["devig"], m["arb"], m["fill"], m["performance"]
+    conv, mid, h, ev = m["conversion"], m["middles"], m["heat"], m["evidence"]
+    lo, hi = min(d["methods"].values()), max(d["methods"].values())
+
+    return {
+"how-to-devig-odds": f"""
+<p>A sportsbook's prices imply probabilities that add to more than 100%. The
+surplus is the margin. Devigging redistributes it to recover what the book
+actually believes &mdash; and <em>how</em> you redistribute it is a modelling
+choice, not arithmetic.</p>
+<p>On a {e(d['market'])} moneyline, the four standard methods give the
+favourite anywhere from {lo:.2f}% to {hi:.2f}%:</p>
+{"".join(f"<p><strong>{e(k)}</strong> &mdash; {v:.2f}%</p>" for k, v in sorted(d['methods'].items()))}
+<p>That spread is {d['spread']:.2f} points of probability on a market where a
+2% edge is a good day. Multiplicative is the usual default because it is one
+division, but it distributes the margin in proportion to implied probability
+&mdash; the opposite of the favourite-longshot bias real markets show, which
+makes it the method most likely to overstate a longshot.</p>
+<p>The practical answer: do not pick one. An edge that exists under one method
+and vanishes under another is a modelling artefact.
+<a href="/calculators/no-vig-odds/">Work it through &rarr;</a></p>
+""",
+
+"what-is-closing-line-value": f"""
+<p>Closing line value is the difference between the price you took and the
+price the market settled at. Beating the close consistently is the standard
+evidence that an edge is real.</p>
+<p>The reason it matters more than profit is sample size. A 2% edge over 500
+even-money bets has a standard deviation of about 4.5% of turnover, so losing
+months are routine and winning months prove nothing. Here is a real
+{p['n']}-bet record:</p>
+<p class="figure">{e(p['verdict'])}</p>
+<p>That is {p['profit']:+,} in profit and it still cannot be distinguished from
+break-even. Waiting for profit to confirm a model means waiting years; adjusting
+on early profit means fitting noise. CLV converges far faster, which is why it
+is what this engine calibrates on rather than merely displays.</p>
+<p>One catch: grade against the <em>devigged</em> closing price, not the raw
+one. Comparing two vigged prices understates your edge by the closing margin.
+<a href="/calculators/closing-line-value/">The arithmetic &rarr;</a></p>
+""",
+
+"how-to-convert-a-bonus-bet": f"""
+<p>A bonus bet does not return its stake. Win a {conv['bonus']:,} bonus at even
+money and you collect {conv['bonus']:,}, not {conv['doubled']:,} &mdash; so
+bet naively it is worth about half its face value.</p>
+<p>Converting means hedging: put the bonus on one side and cash on the other,
+so you keep a guaranteed amount whichever way it lands. Longer odds convert
+better, because you are not risking the stake:</p>
+<table>
+<tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Guaranteed</th><th>Rate</th></tr>
+{"".join(f"<tr><td>{e(r['free'])}</td><td>{e(r['hedge'])}</td><td>{r['hedge_stake']:,}</td><td>{r['guaranteed']:,}</td><td>{r['rate']:.1f}%</td></tr>" for r in conv['ladder'])}
+</table>
+<p>Every guide stops at &ldquo;convert on a longshot&rdquo;. Look at the hedge
+column: the {conv['ladder'][-1]['rate']:.0f}% plan needs
+{conv['ladder'][-1]['hedge_stake']:,} sitting at a second book. Most people do
+not have that, which makes the honest advice &ldquo;convert at the longest
+price you can actually hedge&rdquo;.
+<a href="/calculators/bonus-bet-conversion/">Run your own number &rarr;</a></p>
+""",
+
+"what-is-arbitrage-betting": f"""
+<p>When two books disagree enough, backing both sides returns more than it
+costs. At {e(a['legs'][0])} and {e(a['legs'][1])} the implied probabilities sum
+to less than one, which is a {a['margin']:.2f}% return on turnover whatever
+happens.</p>
+<p>The maths is one line. The hard parts are the two nobody writes about.</p>
+<p><strong>The price may already be gone.</strong> Between the screen showing a
+quote and your bet landing sit the poll interval, the network and you. A quote
+that looks {f['age']:.0f} seconds old on a feed running {f['latency']:.1f}
+seconds behind is really {f['effective']:.1f}, and its chance of still being
+there is {f['honest']}% rather than {f['naive']}%. Miss one leg and you are not
+arbing, you are betting.</p>
+<p><strong>The stake gives you away.</strong> The exact solution here is
+{a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. Nobody types that,
+and risk desks know it. Rounding afterwards breaks the lock because the legs
+are not symmetric &mdash; solving for round stakes directly gives
+{a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still guaranteed, for
+{a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}.
+<a href="/calculators/arbitrage/">Stake one &rarr;</a></p>
+""",
+
+"what-does-plus-ev-mean": f"""
+<p>A bet is +EV when the price pays more than the true probability warrants.
+Fair value {d['consensus']:.2f}% against a price implying less means the
+difference is yours, on average, over enough bets.</p>
+<p>&ldquo;On average, over enough bets&rdquo; is doing heavy lifting. Two
+things decide whether a printed +EV number is real:</p>
+<p><strong>Which devig produced it.</strong> The same market reads
+{lo:.2f}% to {hi:.2f}% depending on method. If the edge only survives the
+friendliest one, it is not an edge.</p>
+<p><strong>Whether you can get on.</strong> Expected value you cannot place is
+worth zero. A 6% edge at a book that pulls its price in four seconds is worth
+less than a 3% edge still there when you tap it &mdash; which is why a screen
+ranked on raw EV is ranked partly by how stale its own data is.</p>
+<p><a href="/calculators/expected-value/">Check a price &rarr;</a></p>
+""",
+
+"what-is-a-middle-bet": f"""
+<p>Bet over {mid['cases'][0]['window'].split(' / ')[0]} at one book and under
+{mid['cases'][0]['window'].split(' / ')[1]} at another. If the result lands
+between them, both bets win. Outside, one wins and one loses, so the position
+costs a little &mdash; and the middle is the payoff.</p>
+<p>Everything hinges on how often the result lands in the window, and this is
+where nearly every tool is casually wrong. Results are not smoothly
+distributed: football margins pile up on 3 and 7 because of how the sport
+scores. Same prices, one point apart:</p>
+<table>
+<tr><th>Window</th><th>Hits</th><th>Break-even</th><th>Expected value</th></tr>
+{"".join(f"<tr><td>{e(r['window'])}</td><td>{r['probability']:.2f}%</td><td>{r['breakeven']:.2f}%</td><td>{r['ev']:+.2f}%</td></tr>" for r in mid['cases'])}
+</table>
+<p>A normal curve prices those identically. The break-even column is the honest
+anchor &mdash; arithmetic on the two prices, depending on no distribution at
+all. The hit rate above comes from counting {mid['games']} games in a
+{e(mid['sample'])} sample, shown as an illustration of the mechanism rather
+than a claim about any league.
+<a href="/calculators/middle/">Price one &rarr;</a></p>
+""",
+
+"how-to-avoid-getting-limited": f"""
+<p>Soft books make money assuming the average customer loses. A consistent
+winner breaks that, so they profile you and cut your stakes. Edge you cannot
+place is worth nothing, which makes account lifetime the denominator of
+everything else.</p>
+<p>What actually gets read, in rough order of how loudly it signals:</p>
+<p><strong>Stake precision.</strong> {e(h['stakes'][0]['stake'])} reads
+{h['stakes'][0]['heat']}% mechanical; {e(h['stakes'][3]['stake'])} reads
+{h['stakes'][3]['heat']}%. Cents are the single clearest fingerprint.</p>
+<p><strong>Reaction time.</strong> A bet {e(h['reaction'][0]['after'])} after a
+sharp book moves scores {h['reaction'][0]['heat']}%; the same bet
+{e(h['reaction'][2]['after'])} later scores {h['reaction'][2]['heat']}%. Nobody
+refreshes and decides in half a second.</p>
+<p><strong>Market mix.</strong> Alternate lines read
+{h['markets'][2]['heat']}%, main markets {h['markets'][0]['heat']}%. Arbitrage
+concentrates where pricing gets less attention, which is exactly why a profile
+made of it reads as sharp.</p>
+<p>What none of this involves: multi-accounting, identity or KYC workarounds,
+device or location spoofing. Those are fraud, not staking discipline. And none
+of it applies at a book that never limits winners &mdash; spending edge to hide
+from a risk desk that does not exist is the most common way the advice is
+misapplied. <a href="/account-longevity/">The full model &rarr;</a></p>
+""",
+
+"what-is-vig-and-hold": f"""
+<p>The vig is the sportsbook's margin. On the standard -110 both ways, the two
+prices imply probabilities summing above 100%, and the surplus is what the book
+keeps.</p>
+<p>Hold is what that surplus is worth as a fraction of the money bet, and it is
+not the same number. A market whose implied probabilities sum to 1.0476 holds
+4.55%, not 4.76% &mdash; the book's take is measured against the pool, not
+against the excess. Plenty of calculators report the excess and overstate every
+book's margin.</p>
+<p>Why it matters: hold is the cost of doing business at that book, and it
+compounds. A market you can bet at 2% hold instead of 4.5% hands back more than
+most people's claimed edge.
+<a href="/calculators/hold/">Measure a book &rarr;</a></p>
+""",
+
+"how-to-use-the-kelly-criterion": f"""
+<p>Kelly gives the stake that maximises long-run growth <em>given the true
+probability</em>. You do not have the true probability &mdash; you have a
+devigged estimate with an error bar.</p>
+<p>That asymmetry decides everything. Betting twice the correct fraction has
+negative growth; betting half has about three-quarters of the growth at a
+quarter of the variance. Overestimating an edge costs far more than
+underestimating it, and devigged estimates are exactly the kind that get
+overestimated.</p>
+<p>So: fractional Kelly, and size on the <em>least</em> favourable devig rather
+than the friendliest. Cap any single bet regardless of what the formula says
+&mdash; Kelly on a genuine 30% edge and on a stale line ask for the same
+number, and the cap is what makes the difference survivable.</p>
+<p>One more trap: Kelly assumes bets resolve one at a time. Twelve overs on one
+game script is one undiversified position wearing twelve hats.
+<a href="/calculators/kelly/">Size a bet &rarr;</a></p>
+""",
+
+"how-to-read-american-odds": f"""
+<p>A positive number is what you win on 100 staked. A negative number is what
+you must stake to win 100. +150 returns 150 profit on 100; -200 needs 200 to
+win 100.</p>
+<p>Converting to decimal makes them comparable, and converting to implied
+probability makes them meaningful:</p>
+<p>+150 is decimal 2.500 and implies 40.00%. -200 is decimal 1.500 and implies
+66.67%. -110, the standard price, is decimal 1.909 and implies 52.38% &mdash;
+which is why a coin-flip bettor at -110 loses steadily.</p>
+<p>The trap is calling that implied number a probability. It is vig-inclusive:
+it is what the price asserts, and across a market those assertions add to more
+than 100%. Treating it as a fair probability without devigging first is the
+most common way to invent an edge that is not there.
+<a href="/calculators/odds-converter/">Convert &rarr;</a></p>
+""",
+
+"how-to-hedge-a-bet": f"""
+<p>Hedging means backing the other side of a position you already hold, so the
+result matters less. It is the same arithmetic as an arbitrage, applied after
+the fact rather than looked for.</p>
+<p>The question is always what each result pays. Stake the second leg so both
+outcomes return the same and you have converted an open position into a
+certain one; stake it lighter and you have reduced variance while keeping some
+upside.</p>
+<p>Two things people get wrong. A market's worst case is <em>not</em> the sum
+of its stakes &mdash; bet both sides and one leg always returns. And the
+outcome you did not bet is invisible in a list built from your own slips: a
+three-way market where you hold two sides looks fully covered until you count
+the third result.</p>
+<p><a href="/calculators/arbitrage/">Stake a hedge &rarr;</a></p>
+""",
+
+"what-is-a-low-hold-bet": f"""
+<p>A low hold bet is the same idea as an arbitrage, one step short of it. Two
+books disagree enough that backing both sides costs you far less than betting
+either alone &mdash; not free, but close.</p>
+<p>Why bother with a position that loses a little by design? Two reasons.
+Turnover at near-zero cost is how you clear a deposit-match rollover without
+handing back the bonus. And a profile made of two-sided bets at ordinary prices
+looks nothing like a profile made of longshot alternate lines.</p>
+<p>The arithmetic is the hold calculation applied across books instead of
+within one. Where a single book holds 4.55% on a standard market, the best
+prices across two might hold 0.5% &mdash; and occasionally cross into an
+arbitrage.
+<a href="/calculators/hold/">Measure a pair &rarr;</a></p>
+""",
+
+"how-to-track-your-betting-results": f"""
+<p>Most bettors track profit, which is the number that takes longest to say
+anything. Four things are worth measuring instead.</p>
+<p><strong>Closing line value.</strong> Converges far faster than profit and is
+what sportsbooks themselves use to identify sharp accounts.</p>
+<p><strong>Return with its interval.</strong> A {p['n']}-bet record showing
+{p['roi']:.2f}% sounds decisive and is not: the interval runs {p['low']:.1f}%
+to {p['high']:.1f}%, spanning zero.</p>
+<p><strong>Money return against flat-bet return.</strong> One is what happened,
+the other is what would have happened staking level. The gap is the only direct
+read on whether your sizing is earning its keep.</p>
+<p><strong>How many slices you checked.</strong> Tag your bets and each tag is
+a hypothesis. With {ev['bars'][2]['tests']} tags there is a
+{ev['bars'][2]['luck']}% chance one clears the ordinary bar by luck, so the bar
+has to rise with the count. Slicing until something looks good is a search, not
+a test. <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+""",
+
+"why-your-bets-get-rejected": f"""
+<p>You tap a price and the book says it has changed. Usually nothing is wrong
+with the book &mdash; the price you saw was already old.</p>
+<p>Every screen shows a quote captured at some past instant. Between then and
+your bet landing sit the feed's own delay, the poll interval, the render and
+you. On a feed running {f['latency']:.1f} seconds behind, a quote displayed as
+{f['age']:.0f} seconds old is really {f['effective']:.1f}.</p>
+<p>That changes the number that matters. Its real chance of still being
+available is {f['honest']}%, where a screen ignoring the feed's own lag would
+say {f['naive']}%. On a {f['edge']:.0f}% edge that is the difference between
+{f['edge_honest']:.2f}% and
+{f['edge_naive']:.2f}% actually realised.</p>
+<p>It also explains why the biggest numbers reject most often. A screen sorted
+by raw expected value is sorted partly by staleness: the largest edges cluster
+on books that moved most recently, which are the books most likely to have
+moved again.</p>
+""",
+    }
 
 
 def versus_description(row: dict) -> str:
@@ -955,32 +1297,94 @@ you.</p>
 """
 
 
-STYLE = """:root{--ink:#17181c;--bg:#fff;--accent:#1b4dd6;--muted:#5b6070;
---line:#e3e5ea;--fig:#f6f7f9}
+STYLE = """/* Built for people who read odds screens.
+   Dark by default, because that is what every tool this audience already has
+   open looks like at 1am. Tabular figures everywhere, because the numbers are
+   the content and a column that does not line up is a column nobody trusts.
+   Light mode is a full palette, not an afterthought. */
+:root{
+  --bg:#0d0f14; --panel:#141821; --line:#232936; --ink:#e7eaf0;
+  --muted:#8d95a8; --accent:#5b8cff; --accent-ink:#0d0f14;
+  --pos:#3ddc97; --neg:#ff6b6b; --warn:#ffb454;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+}
+@media(prefers-color-scheme:light){:root{
+  --bg:#fbfbfd; --panel:#fff; --line:#e4e7ee; --ink:#12151c;
+  --muted:#5c6478; --accent:#1b4dd6; --accent-ink:#fff;
+  --pos:#0a7f57; --neg:#c02626; --warn:#9a5b00;
+}}
 *{box-sizing:border-box}
-body{margin:0;font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",
-Roboto,sans-serif;color:var(--ink);background:var(--bg)}
-header,main,footer{max-width:46rem;margin:0 auto;padding:0 1.25rem}
-nav{display:flex;gap:1.5rem;padding:1.5rem 0;border-bottom:1px solid var(--line)}
-nav a{color:var(--muted);text-decoration:none;font-weight:500}
-nav a:first-child{color:var(--ink);font-weight:700}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+
+/* ---- chrome ---- */
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line)}
+nav{max-width:66rem;margin:0 auto;padding:.85rem 1.25rem;display:flex;
+  flex-wrap:wrap;gap:.35rem 1.4rem;align-items:baseline}
+nav a{color:var(--muted);text-decoration:none;font-size:.93rem;font-weight:500}
+nav a:first-child{color:var(--ink);font-weight:700;font-size:1.05rem;
+  letter-spacing:-.02em;margin-right:.6rem}
 nav a:hover{color:var(--accent)}
-h1{font-size:2.1rem;line-height:1.2;margin:2.5rem 0 1rem}
-h2{font-size:1.35rem;margin:2.5rem 0 .75rem}
-.lede{font-size:1.15rem;color:var(--muted)}
-.figure{background:var(--fig);border-left:3px solid var(--accent);
-padding:.85rem 1rem;font-variant-numeric:tabular-nums;margin:1rem 0}
-.caveat{color:var(--muted);font-size:.94rem}
-table{border-collapse:collapse;width:100%;margin:1rem 0;
-font-variant-numeric:tabular-nums}
-th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
-th{font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;
-color:var(--muted)}
-a{color:var(--accent)}
-footer{margin-top:4rem;padding-top:1.5rem;border-bottom:0;
-border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
-@media(prefers-color-scheme:dark){:root{--ink:#e8e9ed;--bg:#17181c;
---accent:#8aa9ff;--muted:#9aa0b0;--line:#2b2d35;--fig:#1f2128}}
+main{max-width:44rem;margin:0 auto;padding:0 1.25rem 4rem}
+footer{max-width:44rem;margin:0 auto;padding:2rem 1.25rem 3rem;
+  border-top:1px solid var(--line);color:var(--muted);font-size:.87rem}
+footer p{margin:.5rem 0}
+
+/* ---- type ---- */
+h1{font-size:clamp(1.9rem,4.4vw,2.6rem);line-height:1.12;letter-spacing:-.025em;
+  margin:2.6rem 0 .9rem;text-wrap:balance}
+h2{font-size:1.22rem;letter-spacing:-.01em;margin:2.6rem 0 .7rem;
+  padding-top:1.4rem;border-top:1px solid var(--line)}
+p{margin:.85rem 0}
+.lede{font-size:1.1rem;line-height:1.55;color:var(--muted);max-width:38rem}
+strong{color:var(--ink);font-weight:650}
+a{color:var(--accent);text-underline-offset:2px}
+ul{padding-left:1.1rem}
+li{margin:.4rem 0}
+.caveat{color:var(--muted);font-size:.88rem;border-left:2px solid var(--line);
+  padding-left:.9rem}
+
+/* ---- the numbers ---- */
+.figure{background:var(--panel);border:1px solid var(--line);
+  border-left:3px solid var(--accent);border-radius:.4rem;
+  padding:.9rem 1.05rem;margin:1.2rem 0;font-family:var(--mono);
+  font-size:.94rem;line-height:1.5;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:1.2rem 0;font-size:.93rem;
+  font-family:var(--mono);display:block;overflow-x:auto;white-space:nowrap}
+th{text-align:left;padding:.45rem .75rem;font-family:var(--sans);
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
+td{padding:.5rem .75rem;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-family:var(--sans);color:var(--muted)}
+tbody tr:hover td,table tr:hover td{background:var(--panel)}
+
+/* ---- index cards ---- */
+main>ul:has(a){list-style:none;padding:0;display:grid;gap:.6rem;
+  grid-template-columns:repeat(auto-fill,minmax(15rem,1fr))}
+main>ul:has(a) li{margin:0;background:var(--panel);border:1px solid var(--line);
+  border-radius:.5rem;padding:.85rem .95rem;font-size:.92rem;
+  color:var(--muted);transition:border-color .15s}
+main>ul:has(a) li:hover{border-color:var(--accent)}
+main>ul:has(a) a{display:block;font-weight:600;text-decoration:none;
+  margin-bottom:.2rem}
+
+.screen{background:var(--panel);border:1px solid var(--line);border-radius:.5rem;
+  padding:1rem 1.1rem;margin:1.4rem 0;font-family:var(--mono);font-size:.9rem;
+  line-height:1.9;overflow-x:auto;white-space:nowrap}
+.screen .dim{color:var(--muted)}
+.screen .num{color:var(--accent)}
+.screen .pos{color:var(--pos);font-weight:600}
+main>ul:has(a) li{display:flex;flex-direction:column;gap:.3rem}
+
+@media(max-width:34rem){
+  main{padding:0 1rem 3rem}
+  nav{padding:.7rem 1rem;gap:.3rem 1rem}
+  h2{margin-top:2rem}
+}
 """
 
 PAGES = [
@@ -1051,8 +1455,8 @@ def main() -> int:
     print(f"  /calculators/          {len(load_data('calculators'))} pages")
 
     rows = "".join(
-        f'<li><a href="/calculators/{e(r["slug"])}/">{e(r["name"])}</a> '
-        f'&mdash; {e(r["question"])}</li>'
+        f'<li><a href="/calculators/{e(r["slug"])}/">{e(r["name"])}</a>'
+        f'{e(r["question"])}</li>'
         for r in load_data("calculators")
     )
     hub = f"""
@@ -1075,6 +1479,49 @@ calculator.</p>
         "real prices.",
         hub, "/calculators/"))
     built.append(("/calculators/", "calculators/index.html"))
+
+    bodies = guide_bodies(measured)
+    guides = load_data("guides")
+    missing = [g["slug"] for g in guides if g["slug"] not in bodies]
+    if missing:
+        raise SystemExit(
+            f"_data/guides.csv lists {missing} with no body written. A guide "
+            "generated from a shape reads as generated; write it or drop the "
+            "row."
+        )
+    for row in guides:
+        url, rel = f"/guides/{row['slug']}/", f"guides/{row['slug']}/index.html"
+        out = SITE / rel
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(page(
+            row["title"],
+            guide_description(row),
+            f"<h1>{e(row['title'])}</h1>\n"
+            f"<p class=\"lede\">{e(row['question'])}</p>\n"
+            + bodies[row["slug"]],
+            url))
+        built.append((url, rel))
+
+    links = "".join(
+        f'<li><a href="/guides/{e(r["slug"])}/">{e(r["title"])}</a>'
+        f'{e(r["question"])}</li>' for r in guides
+    )
+    out = SITE / "guides/index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page(
+        "Betting guides — the parts other guides skip",
+        "Devigging, closing line value, bonus conversion, arbitrage, middles, "
+        "limits and bankroll — each answered with the arithmetic done.",
+        f"""
+<h1>Guides</h1>
+<p class="lede">Every one of these is answered somewhere else on the internet.
+The difference here is that the numbers are worked, and the parts that are
+usually left out &mdash; how uncertain the answer is, and whether you could
+actually have placed the bet &mdash; are the parts these lead with.</p>
+<ul>{links}</ul>
+""", "/guides/"))
+    built.append(("/guides/", "guides/index.html"))
+    print(f"  /guides/               {len(guides)} pages + hub")
 
     # Competitor cluster: one page per row of _data/competitors.csv.
     for row in load_data("competitors"):
