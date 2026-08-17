@@ -315,10 +315,16 @@ def check_not_machine_made(pages, fails):
         if h1:
             openings.append(visible(h1.group(1)))
         headings += [visible(h) for h in re.findall(r"<h2>(.*?)</h2>", markup, re.S)]
-    if len(set(openings)) != len(openings):
-        fails.append("two pages share an <h1>")
-    if len(set(headings)) != len(headings):
-        fails.append("a heading is repeated across the site")
+    for label, values in (("<h1>", openings), ("<h2>", headings)):
+        seen: dict[str, int] = {}
+        for value in values:
+            seen[value] = seen.get(value, 0) + 1
+        for value, count in seen.items():
+            if count > 1:
+                fails.append(
+                    f"the {label} {value!r} appears on {count} pages — name "
+                    "the offender, not just the fault"
+                )
 
     families: dict[str, list] = {}
     for path, markup in pages:

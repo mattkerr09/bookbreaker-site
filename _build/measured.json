@@ -72,7 +72,32 @@
     },
     "spread": 0.39
   },
-  "engine_fingerprint": "0c58adf331aa30b7",
+  "engine_fingerprint": "59912a8e92f61456",
+  "evidence": {
+    "bars": [
+      {
+        "luck": 5,
+        "tests": 1,
+        "z": 1.96
+      },
+      {
+        "luck": 23,
+        "tests": 5,
+        "z": 2.58
+      },
+      {
+        "luck": 40,
+        "tests": 10,
+        "z": 2.81
+      },
+      {
+        "luck": 64,
+        "tests": 20,
+        "z": 3.02
+      }
+    ],
+    "floor": 30
+  },
   "fill": {
     "age": 10.0,
     "effective": 15.4,
@@ -81,6 +106,56 @@
     "naive": 89
   },
   "generated": "2026-08-17",
+  "heat": {
+    "markets": [
+      {
+        "heat": 5,
+        "market": "h2h"
+      },
+      {
+        "heat": 60,
+        "market": "player_points"
+      },
+      {
+        "heat": 90,
+        "market": "alternate_spreads"
+      }
+    ],
+    "reaction": [
+      {
+        "after": "0.5s",
+        "heat": 99
+      },
+      {
+        "after": "30s",
+        "heat": 47
+      },
+      {
+        "after": "120s",
+        "heat": 5
+      }
+    ],
+    "shaped": 470,
+    "stakes": [
+      {
+        "heat": 100,
+        "stake": "473.82"
+      },
+      {
+        "heat": 75,
+        "stake": "473.00"
+      },
+      {
+        "heat": 12,
+        "stake": "475.00"
+      },
+      {
+        "heat": 0,
+        "stake": "500.00"
+      }
+    ],
+    "untouched": 473.82
+  },
   "middles": {
     "cases": [
       {

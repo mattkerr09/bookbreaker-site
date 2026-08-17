@@ -71,6 +71,12 @@ CASES = [
         '"engine_fingerprint_was"',
     ),
     (
+        "a duplicated <h2> across two pages",
+        "account-longevity/index.html",
+        "<h2>What a stake gives away</h2>",
+        "<h2>What stays out of the product</h2>",
+    ),
+    (
         "two pages sharing a heading",
         "vs/index.html",
         "<h1>Compared</h1>",

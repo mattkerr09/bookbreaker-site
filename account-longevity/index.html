@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account longevity — why limits matter more than edge</title>
+<meta name="description" content="An account that gets limited stops earning, so lifetime is what expected value gets divided by. What bet shape gives away, and what this tool refuses to do.">
+<link rel="canonical" href="https://bookbreaker.bet/account-longevity/">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><nav><a href="/">Bookbreaker</a><a href="/how-it-works/">How it works</a><a href="/vs/">Compared</a></nav></header>
+<main>
+
+<h1>An account that gets limited stops earning</h1>
+<p class="lede">Every tool in this category optimises expected value and leaves
+account lifetime to your judgement. That is why the usual experience is three
+excellent weeks followed by a five-dollar maximum stake. Edge you cannot place
+is worth nothing, so lifetime is not a footnote beside expected value &mdash;
+it is what expected value gets divided by.</p>
+
+<h2>What a stake gives away</h2>
+<p>A precise figure to the cent is the most-cited fingerprint risk desks use to
+identify arbitrage. Nobody types 473.82:</p>
+<table>
+<tr><th>Stake</th><th>How mechanical it reads</th></tr>
+<tr><td>473.82</td><td>100%</td></tr><tr><td>473.00</td><td>75%</td></tr><tr><td>475.00</td><td>12%</td></tr><tr><td>500.00</td><td>0%</td></tr>
+</table>
+<p>So the arbitrage solver optimises over <em>round</em> stakes directly rather
+than rounding afterwards, because rounding a lock naively breaks it &mdash; the
+legs are not symmetric. At +110 and +105 that means
+490 and 500 instead of
+493.98 and 506.02, giving up
+2.35 of the 37.35. The cost is named
+rather than hidden.</p>
+
+<h2>What a market gives away</h2>
+<p>Arbitrage concentrates in markets priced with less attention, which is
+exactly why a profile made of them reads as sharp:</p>
+<table>
+<tr><th>Market</th><th>How much it signals</th></tr>
+<tr><td>h2h</td><td>5%</td></tr><tr><td>player_points</td><td>60%</td></tr><tr><td>alternate_spreads</td><td>90%</td></tr>
+</table>
+<p>Reaction time works the same way: a bet placed
+0.5s after a sharp book moved scores
+99%, one placed 120s later
+scores 5%. No human refreshes and decides in half a
+second.</p>
+
+<h2>Where it does nothing at all</h2>
+<p>25 venues are catalogued, and the ones that never limit winners
+get no shaping whatsoever. A 473.82 stake is rounded to
+470 at a retail book and left at 473.82 at a sharp
+one. Spending edge to hide from a risk desk that does not exist is the most
+common way these tactics are applied wrongly, and there is a test for it.</p>
+
+<h2>What it will not do</h2>
+<p>No multi-accounting. No identity or KYC workarounds. No device or location
+spoofing. That line is drawn in the code rather than in a policy document: the
+model reads bet attributes only &mdash; stake sizes, timing, market mix,
+velocity &mdash; and has no access to identity or network state. Everything it
+adjusts is a choice you were already making about your own betting.</p>
+<p>It is also advisory. It tells you what to bet; you place it. Automated
+placement against a book's own interface is a different product with a
+different risk profile, and it is not this one.</p>
+
+</main>
+<footer>
+<p>Bookbreaker is an analysis tool. It tells you what the numbers say; you
+place your own bets. It does not link sportsbook accounts and never asks for
+sportsbook credentials.</p>
+<p>Every figure on this site is computed by running the engine at build time —
+none is typed in. Generated 2026-08-17.</p>
+<p>21+. Gambling involves risk. If it stops being fun, it is not fun —
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

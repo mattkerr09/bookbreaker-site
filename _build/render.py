@@ -33,6 +33,11 @@ from pathlib import Path
 SITE = Path(__file__).resolve().parents[1]
 TODAY = date.today().isoformat()
 
+# Fixed, not wall-clock: two renders of unchanged input must produce identical
+# pages, or the freshness gate cannot tell a real change from the passage of
+# time.
+NOW = 1_800_000_000.0
+
 # Competitor claims. Every one carries the date it was read and the source it
 # was read from, and `check.py` fails the build if either is missing. Docket's
 # README once asserted a competitor's price with no date and no source, and the
@@ -219,7 +224,55 @@ def measure(engine) -> dict:
         "verdict": rep.overall.verdict(),
     }
 
-    # 7. Jurisdiction coverage, and a page per state.
+    # 7. Account longevity: what bet shape gives away.
+    from overlay_engine.heat import (
+        AccountHeat, BetRecord, market_heat, reaction_heat,
+        stake_precision_heat, shape as shape_bet,
+    )
+    from overlay_engine.models import Book, BookTier
+
+    books = {
+        "dk": Book("dk", "DraftKings", BookTier.RETAIL),
+        "pinnacle": Book("pinnacle", "Pinnacle", BookTier.SHARP,
+                         limits_winners=False),
+    }
+    out["heat"] = {
+        "stakes": [
+            {"stake": f"{v:,.2f}", "heat": round(stake_precision_heat(v) * 100)}
+            for v in (473.82, 473.0, 475.0, 500.0)
+        ],
+        "reaction": [
+            {"after": f"{t:g}s", "heat": round(reaction_heat(t) * 100)}
+            for t in (0.5, 30.0, 120.0)
+        ],
+        "markets": [
+            {"market": m, "heat": round(market_heat(m) * 100)}
+            for m in ("h2h", "player_points", "alternate_spreads")
+        ],
+        "shaped": round(
+            shape_bet("dk", 473.82, 0.03, AccountHeat(), books, now=NOW).stake
+        ),
+        "untouched": round(
+            shape_bet("pinnacle", 473.82, 0.03, AccountHeat(), books,
+                      now=NOW).stake, 2
+        ),
+    }
+
+    # 8. What a record can and cannot prove.
+    from overlay_engine.performance import (
+        MIN_BETS, bonferroni_z, family_error_rate,
+    )
+
+    out["evidence"] = {
+        "floor": MIN_BETS,
+        "bars": [
+            {"tests": k, "z": round(bonferroni_z(k), 2),
+             "luck": round(family_error_rate(k) * 100)}
+            for k in (1, 5, 10, 20)
+        ],
+    }
+
+    # 9. Jurisdiction coverage, and a page per state.
     from overlay_engine.catalog import (
         AS_OF, COVERAGE_GAPS, NO_LEGAL_BETTING, VENUES, for_state, state_summary,
     )
@@ -397,14 +450,14 @@ without a date asserts &ldquo;true now&rdquo; forever.</p>
 <p class="caveat">A dated starting point for your own check, not advice. The
 book's own site decides whether it will accept you.</p>
 
-<h2>What it will not do</h2>
-<p>No multi-accounting, no identity or KYC workarounds, no device or location
-spoofing. That line is drawn in the code, not in a policy document: the
-account-longevity model reads bet attributes only &mdash; stake sizes, timing,
-market mix &mdash; and has no access to identity or network state.</p>
-<p>It also does not link sportsbook accounts. Trackers that sync automatically
-do it by holding your sportsbook credentials. Bookbreaker imports the CSV your
-book already exports.</p>
+<h2>What stays out of the product</h2>
+<p>It does not link sportsbook accounts. Trackers that sync automatically do it
+by holding your sportsbook credentials; Bookbreaker imports the CSV your book
+already exports and never asks for a login.</p>
+<p>Nor does it do multi-accounting, identity or KYC workarounds, or device and
+location spoofing &mdash; see
+<a href="/account-longevity/">account longevity</a> for where that line is
+drawn and why it is drawn in code rather than in a policy document.</p>
 """
 
 
@@ -432,6 +485,118 @@ Bookbreaker is built into: a screen sorted by raw expected value is sorted
 partly by how stale its own data is, because the biggest numbers cluster on the
 books that moved most recently &mdash; which are the books most likely to have
 moved again.</p>
+"""
+
+
+def render_longevity(m: dict) -> str:
+    h = m["heat"]
+    stake_rows = "".join(
+        f"<tr><td>{e(r['stake'])}</td><td>{r['heat']}%</td></tr>"
+        for r in h["stakes"]
+    )
+    market_rows = "".join(
+        f"<tr><td>{e(r['market'])}</td><td>{r['heat']}%</td></tr>"
+        for r in h["markets"]
+    )
+    a = m["arb"]
+    cat = m["catalog"]
+
+    return f"""
+<h1>An account that gets limited stops earning</h1>
+<p class="lede">Every tool in this category optimises expected value and leaves
+account lifetime to your judgement. That is why the usual experience is three
+excellent weeks followed by a five-dollar maximum stake. Edge you cannot place
+is worth nothing, so lifetime is not a footnote beside expected value &mdash;
+it is what expected value gets divided by.</p>
+
+<h2>What a stake gives away</h2>
+<p>A precise figure to the cent is the most-cited fingerprint risk desks use to
+identify arbitrage. Nobody types {e(h['stakes'][0]['stake'])}:</p>
+<table>
+<tr><th>Stake</th><th>How mechanical it reads</th></tr>
+{stake_rows}
+</table>
+<p>So the arbitrage solver optimises over <em>round</em> stakes directly rather
+than rounding afterwards, because rounding a lock naively breaks it &mdash; the
+legs are not symmetric. At {e(a['legs'][0])} and {e(a['legs'][1])} that means
+{a['round_stakes'][0]:,} and {a['round_stakes'][1]:,} instead of
+{a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}, giving up
+{a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}. The cost is named
+rather than hidden.</p>
+
+<h2>What a market gives away</h2>
+<p>Arbitrage concentrates in markets priced with less attention, which is
+exactly why a profile made of them reads as sharp:</p>
+<table>
+<tr><th>Market</th><th>How much it signals</th></tr>
+{market_rows}
+</table>
+<p>Reaction time works the same way: a bet placed
+{e(h['reaction'][0]['after'])} after a sharp book moved scores
+{h['reaction'][0]['heat']}%, one placed {e(h['reaction'][2]['after'])} later
+scores {h['reaction'][2]['heat']}%. No human refreshes and decides in half a
+second.</p>
+
+<h2>Where it does nothing at all</h2>
+<p>{cat['venues']} venues are catalogued, and the ones that never limit winners
+get no shaping whatsoever. A {e(h['stakes'][0]['stake'])} stake is rounded to
+{h['shaped']:,} at a retail book and left at {h['untouched']:,.2f} at a sharp
+one. Spending edge to hide from a risk desk that does not exist is the most
+common way these tactics are applied wrongly, and there is a test for it.</p>
+
+<h2>What it will not do</h2>
+<p>No multi-accounting. No identity or KYC workarounds. No device or location
+spoofing. That line is drawn in the code rather than in a policy document: the
+model reads bet attributes only &mdash; stake sizes, timing, market mix,
+velocity &mdash; and has no access to identity or network state. Everything it
+adjusts is a choice you were already making about your own betting.</p>
+<p>It is also advisory. It tells you what to bet; you place it. Automated
+placement against a book's own interface is a different product with a
+different risk profile, and it is not this one.</p>
+"""
+
+
+def render_evidence(m: dict) -> str:
+    ev = m["evidence"]
+    p = m["performance"]
+    bar_rows = "".join(
+        f"<tr><td>{r['tests']}</td><td>z {r['z']:.2f}</td><td>{r['luck']}%</td></tr>"
+        for r in ev["bars"]
+    )
+    return f"""
+<h1>Most betting records prove nothing, and say otherwise</h1>
+<p class="lede">A 2% edge over 500 even-money bets swings between roughly -7%
+and +11% across a season. So a bettor with a real edge routinely shows a losing
+year, and a bettor with none routinely shows a great one. Every tracker prints
+the number and stops.</p>
+
+<h2>A real record, read honestly</h2>
+<p>{p['n']} settled bets, {p['profit']:+,} profit, {p['roi']:.2f}% return:</p>
+<p class="figure">{e(p['verdict'])}</p>
+<p>The interval runs {p['low']:.1f}% to {p['high']:.1f}%. Nothing about that
+record distinguishes it from break-even, and no amount of presentation changes
+it. Below {ev['floor']} settled bets nothing is characterised at all.</p>
+
+<h2>Slice it enough and something always looks good</h2>
+<p>Tag your bets and each tag becomes a hypothesis. Test enough hypotheses and
+one clears the bar by luck:</p>
+<table>
+<tr><th>Tags tested</th><th>Bar required</th><th>Chance one is luck</th></tr>
+{bar_rows}
+</table>
+<p>At ten tags there is a {ev['bars'][2]['luck']}% chance that something looks
+significant when nothing is. So the bar rises with the number of slices
+checked, and the report says how many cleared the ordinary bar and how many
+survived the correction. A bettor who invents labels until one looks profitable
+is running a search, not a test.</p>
+
+<h2>Why closing line value instead</h2>
+<p>Profit takes years to say anything. The closing line is the market's best
+public estimate, and beating it consistently converges far faster &mdash; which
+is why it is the signal the engine calibrates on rather than merely displays.
+It also refuses to overclaim: under {ev['floor']} graded bets it declines to
+give a verdict at all.</p>
+<p><a href="/how-it-works/">How a price is formed &rarr;</a></p>
 """
 
 
@@ -622,6 +787,18 @@ PAGES = [
     ("/vs/", "vs/index.html", "Bookbreaker compared",
      "OddsJam, AVO, Betstamp and Pikkit — every claim dated and linked.",
      render_vs),
+    ("/account-longevity/", "account-longevity/index.html",
+     "Account longevity — why limits matter more than edge",
+     "An account that gets limited stops earning, so lifetime is what expected "
+     "value gets divided by. What bet shape gives away, and what this tool "
+     "refuses to do.",
+     render_longevity),
+    ("/what-your-record-proves/", "what-your-record-proves/index.html",
+     "What your betting record actually proves",
+     "A 2% edge swings between -7% and +11% over a season. Why most betting "
+     "records prove nothing, why slicing makes it worse, and what converges "
+     "faster than profit.",
+     render_evidence),
 ]
 
 
