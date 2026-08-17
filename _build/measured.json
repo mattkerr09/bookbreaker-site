@@ -356,6 +356,46 @@
     "roi": 5.91,
     "verdict": "+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) \u2014 indistinguishable from break-even"
   },
+  "portfolio": {
+    "bankroll": 20000,
+    "cap_alone": 1000.0,
+    "cap_loaded": 409.96,
+    "concentration_flag": 35,
+    "max_rho": 0.95,
+    "max_single": 5,
+    "min_bets": 30,
+    "min_groups": 20,
+    "prior_rho": 0.15,
+    "rho": 0.45,
+    "rows": [
+      {
+        "at_prior": 1.7,
+        "at_rho": 1.4,
+        "n": 2
+      },
+      {
+        "at_prior": 2.8,
+        "at_rho": 1.7,
+        "n": 4
+      },
+      {
+        "at_prior": 3.9,
+        "at_rho": 1.9,
+        "n": 8
+      },
+      {
+        "at_prior": 4.5,
+        "at_rho": 2.0,
+        "n": 12
+      },
+      {
+        "at_prior": 5.2,
+        "at_rho": 2.1,
+        "n": 20
+      }
+    ],
+    "utilisation_flag": 25
+  },
   "quote_age": {
     "example_age": 30,
     "example_edge": 3.0,
@@ -3024,6 +3064,17 @@
       "state": "WY",
       "venues": 6
     }
+  },
+  "totals_middle": {
+    "approx": 9.19,
+    "breakeven": 4.76,
+    "high": 47.5,
+    "low": 44.5,
+    "min_games": 200,
+    "min_per_cell": 8,
+    "min_total_games": 400,
+    "sigma": 13.0,
+    "window": 3
   },
   "version": "0.1.0"
 }

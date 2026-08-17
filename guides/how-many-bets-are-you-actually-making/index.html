@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How many bets are you actually making</title>
+<meta name="description" content="Are twelve simultaneous bets really twelve bets? Worked through with the arithmetic done, not just the formula.">
+<link rel="canonical" href="https://bookbreaker.bet/guides/how-many-bets-are-you-actually-making/">
+<link rel="stylesheet" href="/style.css?v=f0db4a2e36">
+</head>
+<body class="">
+<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span></nav></header>
+<main>
+<h1>How many bets are you actually making</h1>
+<p class="lede">Are twelve simultaneous bets really twelve bets?</p>
+
+<p>Twelve bets on one evening's slate are not twelve bets. They share weather,
+pace, injury news and a referee, and everything they share makes them a smaller
+number of larger positions than the count suggests.</p>
+<p>The arithmetic is exact once you have a correlation. For <em>n</em> bets with
+average pairwise correlation &rho;, the number of independent bets you are
+really holding is <code>n / (1 + (n-1)&rho;)</code>:</p>
+<div class="scroll"><table>
+<tr><th>Positions</th><th>At &rho; = 0.15</th>
+<th>At &rho; = 0.45</th></tr>
+<tr><td>2</td><td>1.7</td><td>1.4</td></tr><tr><td>4</td><td>2.8</td><td>1.7</td></tr><tr><td>8</td><td>3.9</td><td>1.9</td></tr><tr><td>12</td><td>4.5</td><td>2.0</td></tr><tr><td>20</td><td>5.2</td><td>2.1</td></tr>
+</table></div>
+<p>At 0.45, twelve positions are <strong>2.0
+independent bets</strong>. Doubling them to twenty gets you to
+2.1. That is the part worth sitting with: past a
+handful of correlated bets, adding more stops buying diversification almost
+entirely, and only adds stake.</p>
+<h2>What it does to sizing</h2>
+<p>A single-bet cap of 5% of bankroll is right for someone
+holding nothing. On a 20,000 bankroll that is
+1,000.00. Holding eleven correlated bets already, the same cap
+should be <strong>409.96</strong> &mdash; the difference is
+the shrink factor the correlation implies, and it is not a rounding
+adjustment.</p>
+<h2>Measure it, do not assume it</h2>
+<p>&rho; can be measured from your own settled record: group bets that resolved
+together, and read the correlation off how much their combined results swing
+against what independence predicts. It needs 30 settled bets and
+20 multi-bet groups before it is worth anything, and below that
+the honest answer is a labelled prior rather than a number.</p>
+<p><a href="/guides/what-is-bankroll-management/">Sizing from first principles
+&rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

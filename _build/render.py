@@ -469,6 +469,64 @@ def measure(engine) -> dict:
         "ratio": round((_p120 - _p110) / (2 * _p110 - 1), 2),
     }
 
+    # 7e. Portfolio arithmetic. The engine gained correlation measurement and a
+    # portfolio view this evening; these are the figures that come out of them.
+    from overlay_engine.correlation import MAX_RHO, MIN_GROUPS
+    from overlay_engine.correlation import MIN_BETS as CORR_MIN_BETS
+    from overlay_engine.exposure import CONCENTRATION_FLAG
+    from overlay_engine.kelly import DEFAULT_CORRELATION, MAX_SINGLE
+    from overlay_engine.middles import (
+        MIN_GAMES, MIN_PER_CELL, MIN_TOTAL_GAMES, PRIOR_SIGMA)
+    from overlay_engine.portfolio import UTILISATION_FLAG, effective_bets
+
+    # A correlation of 0.45 is what a synthetic ledger built at 0.45 measured
+    # back; it stands in here for "a book that shares game scripts", and the
+    # arithmetic below is exact whatever number goes in.
+    rho = 0.45
+    out["portfolio"] = {
+        "rho": rho,
+        "prior_rho": DEFAULT_CORRELATION,
+        "bankroll": 20_000,
+        "max_single": round(MAX_SINGLE * 100),
+        "cap_alone": round(20_000 * MAX_SINGLE, 2),
+        "cap_loaded": round(
+            20_000 * MAX_SINGLE * math.sqrt(1.0 / (1.0 + 11 * rho)), 2),
+        "utilisation_flag": round(UTILISATION_FLAG * 100),
+        "concentration_flag": round(CONCENTRATION_FLAG * 100),
+        "min_groups": MIN_GROUPS,
+        "min_bets": CORR_MIN_BETS,
+        "max_rho": MAX_RHO,
+        "rows": [
+            {"n": n,
+             "at_prior": round(effective_bets(n, DEFAULT_CORRELATION), 1),
+             "at_rho": round(effective_bets(n, rho), 1)}
+            for n in (2, 4, 8, 12, 20)
+        ],
+    }
+
+    # Totals middles. The counted-versus-approximated distinction, and the
+    # thresholds that decide which you get.
+    from overlay_engine.arb import middle_probability
+
+    lo_line, hi_line = 44.5, 47.5
+    approx = middle_probability(
+        lo_line - (lo_line + hi_line) / 2.0,
+        hi_line - (lo_line + hi_line) / 2.0,
+        PRIOR_SIGMA["totals"])
+    mid_lo, mid_hi = american_to_decimal(-110), american_to_decimal(-110)
+    out["totals_middle"] = {
+        "low": lo_line,
+        "high": hi_line,
+        "window": int(hi_line - lo_line),
+        "approx": round(approx * 100, 2),
+        "sigma": PRIOR_SIGMA["totals"],
+        "breakeven": round(
+            (1.0 / mid_lo + 1.0 / mid_hi - 1.0) * 100, 2),
+        "min_games": MIN_GAMES,
+        "min_total_games": MIN_TOTAL_GAMES,
+        "min_per_cell": round(MIN_PER_CELL),
+    }
+
     # 8a. The commission example, computed rather than asserted. A pair that
     # is an arbitrage on the face of it and is not one once the exchange takes
     # its cut — the case a screen that skips netting will surface every time.
@@ -1318,6 +1376,7 @@ def guide_bodies(m: dict) -> dict[str, str]:
     mt, sn, bo = m["match"], m["safety_net"], m["boost"]
     mu, rd, qa = m["multiplicity"], m["rounding"], m["quote_age"]
     ho, gr = m["holdout"], m["grading"]
+    pf, tm = m["portfolio"], m["totals_middle"]
     lo, hi = min(d["methods"].values()), max(d["methods"].values())
 
     return {
@@ -1955,6 +2014,163 @@ Both are common, and a tracker that does not say which it does is not
 reporting a number you can use.</p>
 <p><a href="/guides/how-to-track-your-betting-results/">Tracking results
 &rarr;</a></p>
+""",
+
+"how-many-bets-are-you-actually-making": f"""
+<p>Twelve bets on one evening's slate are not twelve bets. They share weather,
+pace, injury news and a referee, and everything they share makes them a smaller
+number of larger positions than the count suggests.</p>
+<p>The arithmetic is exact once you have a correlation. For <em>n</em> bets with
+average pairwise correlation &rho;, the number of independent bets you are
+really holding is <code>n / (1 + (n-1)&rho;)</code>:</p>
+<table>
+<tr><th>Positions</th><th>At &rho; = {pf['prior_rho']:.2f}</th>
+<th>At &rho; = {pf['rho']:.2f}</th></tr>
+{"".join(f"<tr><td>{r['n']}</td><td>{r['at_prior']:.1f}</td><td>{r['at_rho']:.1f}</td></tr>" for r in pf['rows'])}
+</table>
+<p>At {pf['rho']:.2f}, twelve positions are <strong>{pf['rows'][3]['at_rho']:.1f}
+independent bets</strong>. Doubling them to twenty gets you to
+{pf['rows'][4]['at_rho']:.1f}. That is the part worth sitting with: past a
+handful of correlated bets, adding more stops buying diversification almost
+entirely, and only adds stake.</p>
+<h2>What it does to sizing</h2>
+<p>A single-bet cap of {pf['max_single']}% of bankroll is right for someone
+holding nothing. On a {pf['bankroll']:,} bankroll that is
+{pf['cap_alone']:,.2f}. Holding eleven correlated bets already, the same cap
+should be <strong>{pf['cap_loaded']:,.2f}</strong> &mdash; the difference is
+the shrink factor the correlation implies, and it is not a rounding
+adjustment.</p>
+<h2>Measure it, do not assume it</h2>
+<p>&rho; can be measured from your own settled record: group bets that resolved
+together, and read the correlation off how much their combined results swing
+against what independence predicts. It needs {pf['min_bets']} settled bets and
+{pf['min_groups']} multi-bet groups before it is worth anything, and below that
+the honest answer is a labelled prior rather than a number.</p>
+<p><a href="/guides/what-is-bankroll-management/">Sizing from first principles
+&rarr;</a></p>
+""",
+
+"what-is-a-totals-middle-worth": f"""
+<p>A totals middle is over {tm['low']:g} at one book and under {tm['high']:g}
+at another. Both bets win if the combined score lands strictly inside &mdash;
+{tm['window']} numbers here. One always wins, so the position costs the hold on
+one leg and pays the window.</p>
+<h2>The two numbers</h2>
+<p><strong>Break-even is arithmetic.</strong> At -110 both ways the pair needs
+the window to hit {tm['breakeven']:.2f}% of the time to be worth taking. That
+figure comes from the two prices and nothing else &mdash; no distribution, no
+model, no assumption you can get wrong.</p>
+<p><strong>The window probability is not.</strong> A normal curve with a
+{tm['sigma']:.0f}-point spread puts this window at {tm['approx']:.2f}%, which
+clears the bar comfortably. That number is an <em>approximation</em>, and the
+spread behind it is a stated prior rather than a measurement of any sport.</p>
+<h2>Why the approximation is the weak part</h2>
+<p>Real scores are lumpy. They cluster on numbers the sport's scoring produces
+often, and no smooth curve reproduces a lump. A window sitting on a cluster is
+worth more than the curve says; one sitting in a gap is worth less. The curve
+cannot tell you which you have.</p>
+<p>Counting recorded finals can. It needs {tm['min_total_games']} games for
+totals against {tm['min_games']} for margins, and the reason is structural: a
+margin is folded &mdash; the absolute difference &mdash; so it piles onto a few
+small integers, while combined scores spread across a far wider range. The same
+game count buys much thinner evidence per number, so a second rule applies:
+at least {tm['min_per_cell']} games on each distinct total actually observed,
+measured rather than assumed.</p>
+<p>Below either bar the answer is the approximation, labelled as one. A counted
+probability backed by three games in the window is worse than an admitted
+estimate, because it does not announce itself.</p>
+<p><a href="/guides/what-is-a-middle-bet/">Middles in general &rarr;</a></p>
+""",
+
+"why-your-worst-case-is-worse-than-it-looks": f"""
+<p>Add up what every open market loses if it resolves the worst way it can.
+That total is your floor, and it is correct at any correlation.</p>
+<p>What correlation changes is how often you get near it. A book of independent
+bets almost never resolves all-worst at once. A book riding one game script
+does it routinely &mdash; and at &rho; = {pf['rho']:.2f}, twelve positions are
+{pf['rows'][3]['at_rho']:.1f} independent bets, which means "all of them going
+wrong together" is roughly as likely as two bets going wrong together.</p>
+<p>The bettor who sized for twelve independent positions and is holding
+{pf['rows'][3]['at_rho']:.1f} is not slightly over-exposed. They are holding
+several times the position they think they are.</p>
+<h2>Two ways the floor itself is understated</h2>
+<p><strong>Concentration.</strong> When more than
+{pf['concentration_flag']}% of open money sits on a single event, the book is
+that event wearing a portfolio's clothes. Worth a flag on its own, separately
+from the correlation.</p>
+<p><strong>Unknown outcome sets.</strong> This is the subtle one. If nothing
+recorded what results a market can produce, the only outcomes visible are the
+ones you bet on &mdash; so every result the model can see is one you backed,
+and the "worst case" comes out <em>positive</em>. A one-sided book looks
+risk-free to any tool that infers the outcome set from the bets in it. The
+honest response is to say the floor is optimistic and why, not to print it.</p>
+<p><a href="/guides/how-many-bets-are-you-actually-making/">What twelve
+positions really are &rarr;</a></p>
+""",
+
+"how-much-of-your-bankroll-should-be-live": f"""
+<p>Two different questions get confused here. How much should <em>one</em> bet
+be, and how much should be on the table <em>at once</em>. The second has almost
+no coverage anywhere, and it is the one that ends bankrolls.</p>
+<h2>One bet</h2>
+<p>Cap it at {pf['max_single']}% of bankroll regardless of what Kelly says.
+Kelly on a genuine 30% edge and on a stale line ask for the same stake, and the
+cap is what makes the difference between them survivable.</p>
+<h2>Everything at once</h2>
+<p>Above {pf['utilisation_flag']}% of bankroll live simultaneously, the
+question stops being about any single bet. On a {pf['bankroll']:,} bankroll
+that is money you cannot re-deploy, cannot re-price, and cannot hedge if the
+correlation you did not measure turns out to be higher than you assumed.</p>
+<p>And the single-bet cap has to shrink as the book fills. Holding eleven
+correlated bets, the {pf['cap_alone']:,.2f} that was right on an empty book
+becomes <strong>{pf['cap_loaded']:,.2f}</strong>.</p>
+<h2>Why this is not conservatism</h2>
+<p>For genuinely independent simultaneous bets, the individual optima are still
+right and shrinking them would be superstition &mdash; the easy way to look
+prudent while being wrong. The shrink is a response to measured correlation and
+nothing else. At &rho; = 0 the factor is exactly 1.0 and every bet stays full
+size.</p>
+<p><a href="/calculators/kelly/">Size a bet &rarr;</a></p>
+""",
+
+"what-does-it-mean-that-a-number-is-measured": f"""
+<p>Every betting tool shows you numbers. Almost none of them tell you which
+ones came from data and which came from somebody's assumption typed into a
+constant. The difference decides what a number is worth, and it is invisible
+unless the tool says so on purpose.</p>
+<h2>Three kinds of number</h2>
+<p><strong>Arithmetic.</strong> Break-even on a pair of prices. A parlay's
+payout. These cannot be wrong, only misread &mdash; the totals middle above
+breaks even at {tm['breakeven']:.2f}% and no data would change it.</p>
+<p><strong>Measured.</strong> Counted from a record: how often a window hits,
+what a book's margin actually is, how much your simultaneous bets co-move.
+Worth what the sample behind it is worth, which is why the sample size belongs
+on screen next to it.</p>
+<p><strong>Prior.</strong> A stated constant standing in until there is
+something to measure. Legitimate, necessary, and dangerous the moment it stops
+announcing itself.</p>
+<h2>The bars, and why they exist</h2>
+<table>
+<tr><th>Claim</th><th>Needs</th></tr>
+<tr><td>Counted margin window</td><td>{tm['min_games']} recorded games</td></tr>
+<tr><td>Counted totals window</td><td>{tm['min_total_games']} games, and
+{tm['min_per_cell']} per distinct total</td></tr>
+<tr><td>Measured correlation</td><td>{pf['min_bets']} settled bets,
+{pf['min_groups']} multi-bet groups</td></tr>
+<tr><td>Fitted model weights</td><td>{ho['min_graded']} graded bets,
+{ho['holdout_pct']}% held back in time order</td></tr>
+<tr><td>Per-book weights</td><td>{ho['min_coverage']} graded bets at that
+book</td></tr>
+</table>
+<p>Under any of these, the number does not become uncertain &mdash; it becomes
+a prior, and it says so. An unmeasured cell is not a zero, and a stale quote is
+not a fresh one.</p>
+<h2>The test</h2>
+<p>Ask any tool where a number came from. If it cannot answer, it is not that
+the number is wrong; it is that nobody can tell you whether it is. Every figure
+on this site is computed by running the engine at build time, and the build
+refuses to publish a figure that is not.</p>
+<p><a href="/how-it-works/">How the engine prices things &rarr;</a></p>
 """,
 
 "why-your-bets-get-rejected": f"""
