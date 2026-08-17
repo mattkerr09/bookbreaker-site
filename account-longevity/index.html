@@ -6,7 +6,7 @@
 <title>Account longevity — why limits matter more than edge</title>
 <meta name="description" content="An account that gets limited stops earning, so lifetime is what expected value gets divided by. What bet shape gives away, and what this tool refuses to do.">
 <link rel="canonical" href="https://bookbreaker.bet/account-longevity/">
-<link rel="stylesheet" href="/style.css?v=a78a9cf11e">
+<link rel="stylesheet" href="/style.css?v=c0b143da52">
 </head>
 <body class="">
 <header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span></nav></header>
@@ -22,10 +22,10 @@ it is what expected value gets divided by.</p>
 <h2>What a stake gives away</h2>
 <p>A precise figure to the cent is the most-cited fingerprint risk desks use to
 identify arbitrage. Nobody types 473.82:</p>
-<table>
+<div class="scroll"><table>
 <tr><th>Stake</th><th>How mechanical it reads</th></tr>
 <tr><td>473.82</td><td>100%</td></tr><tr><td>473.00</td><td>75%</td></tr><tr><td>475.00</td><td>12%</td></tr><tr><td>500.00</td><td>0%</td></tr>
-</table>
+</table></div>
 <p>So the arbitrage solver optimises over <em>round</em> stakes directly rather
 than rounding afterwards, because rounding a lock naively breaks it &mdash; the
 legs are not symmetric. At +110 and +105 that means
@@ -37,10 +37,10 @@ rather than hidden.</p>
 <h2>What a market gives away</h2>
 <p>Arbitrage concentrates in markets priced with less attention, which is
 exactly why a profile made of them reads as sharp:</p>
-<table>
+<div class="scroll"><table>
 <tr><th>Market</th><th>How much it signals</th></tr>
 <tr><td>h2h</td><td>5%</td></tr><tr><td>player_points</td><td>60%</td></tr><tr><td>alternate_spreads</td><td>90%</td></tr>
-</table>
+</table></div>
 <p>Reaction time works the same way: a bet placed
 0.5s after a sharp book moved scores
 99%, one placed 120s later

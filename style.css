@@ -125,10 +125,11 @@ li{margin:.45rem 0;color:var(--ink2)}
   padding:1rem 1.15rem;margin:1.4rem 0;font-family:var(--mono);font-size:.87rem;
   line-height:1.95;overflow-x:auto;white-space:nowrap;box-shadow:var(--shadow)}
 .screen .num{color:var(--accent2)}
-table{border-collapse:separate;border-spacing:0;width:100%;margin:1.4rem 0;
-  font-size:.9rem;font-family:var(--mono);display:block;overflow-x:auto;
-  white-space:nowrap;border:1px solid var(--line);border-radius:10px;
-  background:var(--panel)}
+.scroll{margin:1.4rem 0;overflow-x:auto;border:1px solid var(--line);
+  border-radius:10px;background:var(--panel);box-shadow:var(--shadow)}
+table{border-collapse:separate;border-spacing:0;width:100%;
+  min-width:max-content;font-size:.9rem;font-family:var(--mono);
+  white-space:nowrap}
 th{text-align:left;padding:.6rem .85rem;font-family:var(--sans);font-size:.7rem;
   text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
   font-weight:600;background:var(--panel2);border-bottom:1px solid var(--line)}
@@ -172,11 +173,25 @@ footer{border-top:1px solid var(--line);background:var(--bg2);margin-top:4rem}
 }
 @media(max-width:40rem){
   main{padding:0 1.15rem 3.5rem}
-  nav{padding:.7rem 1.15rem;gap:.9rem}
-  .hero{padding:2.4rem 0 1rem}
+  .hero{padding:2rem 0 .5rem}
+  .hero .lede{font-size:1.02rem}
   h2{margin-top:2.3rem}
   .foot-grid{grid-template-columns:1fr;padding:2rem 1.15rem .6rem}
-  .app-head,.app-row{grid-template-columns:1.4fr .7fr .8fr .9fr}
-  .app-head span:nth-child(n+5),.app-row span:nth-child(n+5){display:none}
-  .app-head span:nth-child(8),.app-row span:nth-child(8){display:block}
+  .app-meta{display:none}
+  .app-head,.app-row{grid-template-columns:1.35fr .62fr .8fr .95fr}
+  .app-head span:nth-child(2),.app-row span:nth-child(2),
+  .app-head span:nth-child(5),.app-row span:nth-child(5),
+  .app-head span:nth-child(6),.app-row span:nth-child(6),
+  .app-head span:nth-child(7),.app-row span:nth-child(7){display:none}
+
+  /* The nav wrapped onto three lines and ate half a phone screen of sticky
+     header. One row that scrolls sideways instead — the brand stays put and
+     the links slide. */
+  nav{padding:.6rem 0 .6rem 1.15rem;gap:.85rem;flex-wrap:nowrap;
+    align-items:center}
+  .brand{flex:none;font-size:1rem}
+  .links{flex:1 1 auto;flex-wrap:nowrap;gap:1.05rem;overflow-x:auto;
+    padding-right:1.15rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .links::-webkit-scrollbar{display:none}
+  nav .links a{white-space:nowrap;font-size:.88rem}
 }
