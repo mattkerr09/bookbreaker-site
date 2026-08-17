@@ -6,24 +6,92 @@
 <title>Bookbreaker — the edge is an interval</title>
 <meta name="description" content="An arbitrage and +EV engine that reports how wrong it might be: the devig spread, the chance of getting on, and what your record can support.">
 <link rel="canonical" href="https://bookbreaker.bet/">
-<link rel="stylesheet" href="/style.css?v=f0db4a2e36">
+<link rel="stylesheet" href="/style.css?v=b728110d51">
 </head>
 <body class="home">
-<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span></nav></header>
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
-<div class="hero">
-<p class="eyebrow">Positive EV &middot; Arbitrage &middot; Middles</p>
-<h1>The edge is an interval,<br>not a number</h1>
-<p class="lede">Every betting screen prints one figure to two decimal places.
-That figure is a modelling choice wearing a measurement's clothes. Bookbreaker
-shows the range four defensible methods allow, the chance you can actually get
-the bet down, and when your own record proves nothing.</p>
+<div class="hero hero-glow">
+<p class="eyebrow accent">Free &middot; Runs on your machine</p>
+<h1>Find your edge,<br>with the error bar.</h1>
+<p class="lede">Real prices from 27 sportsbooks, devigged
+four ways, and every number carrying what it might be wrong by. Built to find
+bets and keep the account that places them.</p>
 <div class="cta">
-<a class="btn" href="/how-it-works/">See how it prices a market</a>
-<a class="btn ghost" href="/calculators/">Try the calculators</a>
+<a class="btn primary" href="/download/">Download free<span class="sub">v0.1.0 &middot; 147 KB</span></a>
+<a class="btn ghost" href="/how-it-works/">See how it prices a market</a>
+</div>
+<ul class="quals">
+  <li>No account, ever</li>
+  <li>50 states covered</li>
+  <li>27&plus; sportsbooks</li>
+  <li>Open checksums</li>
+</ul>
+<div class="trust">
+  <div><b>4</b><span>Devig methods, side by side</span></div>
+  <div><b>0.39%</b><span>Spread they disagree by</span></div>
+  <div><b>84%</b><span>Fill on a 10s quote</span></div>
+  <div><b>0</b><span>Bytes sent anywhere</span></div>
 </div>
 </div>
+
+<section class="wall" aria-label="Sportsbooks priced">
+  <p class="wall-cap">Prices 27 sportsbooks across
+  50 states</p>
+  <ul class="wall-list">
+    <li>Bally Bet</li><li>BetFred</li><li>BetMGM</li><li>BetRivers</li><li>Betfair Exchange</li><li>Betly</li><li>Betr</li><li>Caesars</li><li>Circa Sports</li><li>DraftKings</li><li>FanDuel</li><li>Fanatics</li><li>Hard Rock Bet</li><li>Kalshi</li><li>Pinnacle</li><li>Polymarket</li><li>Prime Sportsbook</li><li>ProphetX</li><li>Sports Bet Montana</li><li>Sportsbook Rhode Island</li><li>Sporttrade</li><li>SuperBook</li><li>Underdog Sports</li><li>WynnBET</li><li>bet365</li><li>betPARX</li><li>theScore Bet</li>
+  </ul>
+</section>
+
+<section class="demo" aria-labelledby="demo-h">
+  <p class="eyebrow">Try it &mdash; nothing to install, nothing to sign up for</p>
+  <h2 id="demo-h">Drag the price older. Watch the edge go.</h2>
+  <p>A 4.0% edge on the screen is not a 4.0% edge in
+  your account. It is that number multiplied by the chance the price is still
+  there when your bet lands &mdash; and no competitor's marketing mentions the
+  second half.</p>
+
+  <div class="demo-box">
+    <label class="demo-label" for="age">
+      Quote age when the bet lands
+      <output id="age-out">0s</output>
+    </label>
+    <input type="range" id="age" min="0" max="9"
+           value="0" step="1" list="ages"
+           aria-describedby="demo-read">
+
+    <div class="demo-read" id="demo-read">
+      <div>
+        <b id="d-realised">3.87%</b>
+        <span>Edge you actually collect</span>
+      </div>
+      <div>
+        <b id="d-fill">96.7%</b>
+        <span>Chance it is still there</span>
+      </div>
+      <div>
+        <b id="d-stake">88</b>
+        <span>Stake on a 10,000 bankroll</span>
+      </div>
+    </div>
+
+    <div class="demo-bar" role="img"
+         aria-label="How much of the screen edge survives">
+      <div class="demo-bar-fill" id="d-bar"></div>
+      <span class="demo-bar-cap">screen says 4.0%</span>
+    </div>
+
+    <p class="caveat">Survival is modelled as exponential with a
+    60-second mean lifetime and a 2-second floor
+    under the age &mdash; both stated priors until your own accept-and-reject
+    record replaces them. Every figure above is computed by the engine when
+    this page is built; the slider looks them up rather than recomputing
+    them.</p>
+  </div>
+</section>
+
+<div class="hero-after">
 
 <figure class="plate plate--split">
   <div>
@@ -40,6 +108,8 @@ the bet down, and when your own record proves nothing.</p>
     <span style="--at:90.596%">+18.9%</span></p>
   </div>
 </figure>
+
+</div>
 
 <div class="app">
   <div class="app-bar">
@@ -95,6 +165,46 @@ latency would say 89%</p>
 5.91% return, Bookbreaker's verdict is:</p>
 <p class="figure">+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) — indistinguishable from break-even</p>
 <p>Every other tracker prints 5.91% and stops.</p>
+
+<script type="application/json" id="demo-data">{"edge":4.0,"low":3.52,"high":4.48,"bankroll":10000,"tau":60.0,"floor":2.0,"ladder":[{"age":0,"fill":96.7,"realised":3.87,"stake":87.93,"stake_shown":88},{"age":2,"fill":96.7,"realised":3.87,"stake":87.93,"stake_shown":88},{"age":5,"fill":92.0,"realised":3.68,"stake":83.64,"stake_shown":84},{"age":10,"fill":84.6,"realised":3.39,"stake":76.95,"stake_shown":77},{"age":20,"fill":71.7,"realised":2.87,"stake":65.14,"stake_shown":65},{"age":30,"fill":60.7,"realised":2.43,"stake":55.14,"stake_shown":55},{"age":45,"fill":47.2,"realised":1.89,"stake":42.94,"stake_shown":43},{"age":60,"fill":36.8,"realised":1.47,"stake":33.44,"stake_shown":33},{"age":90,"fill":22.3,"realised":0.89,"stake":20.28,"stake_shown":20},{"age":120,"fill":13.5,"realised":0.54,"stake":12.3,"stake_shown":12}],"best":{"age":0,"fill":96.7,"realised":3.87,"stake":87.93,"stake_shown":88},"worst":{"age":120,"fill":13.5,"realised":0.54,"stake":12.3,"stake_shown":12}}</script>
+<script>
+/* The slider is a lookup, not a model.
+
+   Every value it displays was computed by the engine when this page was built
+   and serialised into #demo-data above. Reimplementing the fill curve here
+   would put a second, ungated copy of the engine in the browser, free to drift
+   from the one the product ships — and the first number on this site that
+   nothing measured. */
+(function () {
+  var el = document.getElementById('demo-data');
+  var slider = document.getElementById('age');
+  if (!el || !slider) return;
+
+  var d = JSON.parse(el.textContent);
+  var rows = d.ladder;
+  var out = {
+    age: document.getElementById('age-out'),
+    realised: document.getElementById('d-realised'),
+    fill: document.getElementById('d-fill'),
+    stake: document.getElementById('d-stake'),
+    bar: document.getElementById('d-bar')
+  };
+
+  function draw() {
+    var r = rows[Number(slider.value)] || rows[0];
+    out.age.textContent = r.age + 's';
+    out.realised.textContent = r.realised.toFixed(2) + '%';
+    out.fill.textContent = r.fill.toFixed(1) + '%';
+    out.stake.textContent = r.stake_shown.toLocaleString();
+    /* Width is the share of the screen edge that survives, which is the whole
+       argument drawn rather than asserted. */
+    out.bar.style.width = (100 * r.realised / d.edge) + '%';
+  }
+
+  slider.addEventListener('input', draw);
+  draw();
+})();
+</script>
 
 </main>
 <footer>

@@ -527,6 +527,98 @@ def measure(engine) -> dict:
         "min_per_cell": round(MIN_PER_CELL),
     }
 
+    # 7f. The release. Read off the actual built artifacts, never written down.
+    #
+    # A download button is the one element on a marketing site that can be
+    # straightforwardly false: it either hands over a working build or it does
+    # not, and no amount of surrounding prose repairs the difference. So the
+    # figures come from `dist/`, and a build with nothing in `dist/` raises
+    # here rather than rendering a button that points at a file nobody made.
+    import hashlib
+
+    # Read the files this site SERVES, not the ones in the product repo's
+    # build directory. They are usually copies of each other, and when they are
+    # not, the served file is the one a visitor gets — so it is the one whose
+    # checksum belongs on the page. It also means a rebuild happening in the
+    # product repo cannot race this render into publishing a digest for a file
+    # nobody can download.
+    dist = SITE / "releases"
+    wheels = sorted(dist.glob("*.whl")) if dist.exists() else []
+    sdists = sorted(dist.glob("*.tar.gz")) if dist.exists() else []
+    if not wheels or not sdists:
+        raise SystemExit(
+            "no release artifacts in " + str(dist) + " — build them with "
+            "scripts/release.sh in the product repo and copy them here. The "
+            "download page is generated from the files themselves, so a "
+            "missing build is a failed render rather than a button pointing "
+            "at nothing."
+        )
+
+    def _art(path):
+        raw = path.read_bytes()
+        return {
+            "name": path.name,
+            "sha256": hashlib.sha256(raw).hexdigest(),
+            "kb": round(len(raw) / 1024),
+        }
+
+    wheel, sdist = _art(wheels[-1]), _art(sdists[-1])
+    out["release"] = {
+        "version": engine.__version__,
+        "wheel": wheel,
+        "sdist": sdist,
+        "python": "3.9",
+        "hash_bits": len(wheel["sha256"]) * 4,
+    }
+
+    # 7g. The interactive demo's ladder.
+    #
+    # Every competitor's marketing sells a point estimate with total
+    # confidence: "profit regardless of who wins", "make $1,000+ weekly". None
+    # of them mention that the second leg may not fill. That is the argument
+    # this widget makes, and it makes it by letting the reader move the quote
+    # age and watch the edge collapse.
+    #
+    # The browser does NO arithmetic. It indexes this table. A demo that
+    # reimplemented the fill model in JavaScript would be a second engine
+    # nothing gates, free to drift from the one the product ships — and the
+    # first number on the site that nothing measured.
+    from overlay_engine.kelly import DEFAULT_FRACTION, MAX_SINGLE, kelly_fraction
+
+    demo_edge = 4.0          # per cent, held fixed so only age moves
+    demo_bank = 10_000.0
+    demo_decimal = american_to_decimal(110)
+    demo_tau = PRIOR_TAU.get("h2h", PRIOR_TAU["default"])
+
+    ladder = []
+    for age in (0, 2, 5, 10, 20, 30, 45, 60, 90, 120):
+        effective = max(age, PRIOR_LATENCY)
+        p_fill = math.exp(-effective / demo_tau)
+        realised = demo_edge * p_fill
+        # Kelly on the edge you can actually collect, not the one on screen.
+        prob = (1.0 + realised / 100.0) / demo_decimal
+        frac = min(kelly_fraction(demo_decimal, prob) * DEFAULT_FRACTION,
+                   MAX_SINGLE)
+        ladder.append({
+            "age": age,
+            "fill": round(p_fill * 100, 1),
+            "realised": round(realised, 2),
+            "stake": round(demo_bank * frac, 2),
+            "stake_shown": int(round(demo_bank * frac)),
+        })
+
+    out["demo"] = {
+        "edge": demo_edge,
+        "low": round(demo_edge - 0.48, 2),
+        "high": round(demo_edge + 0.48, 2),
+        "bankroll": int(demo_bank),
+        "tau": round(demo_tau, 1),
+        "floor": PRIOR_LATENCY,
+        "ladder": ladder,
+        "best": ladder[0],
+        "worst": ladder[-1],
+    }
+
     # 8a. The commission example, computed rather than asserted. A pair that
     # is an arbitrage on the face of it and is not one once the exchange takes
     # its cut — the case a screen that skips netting will surface every time.
@@ -762,6 +854,7 @@ def measure(engine) -> dict:
         {s for v in VENUES.values() for s in v.states}
         | set(NO_LEGAL_BETTING) | set(COVERAGE_GAPS) | set(RETAIL_ONLY)
     )
+    out["books"] = sorted(v.name for v in VENUES.values())
     out["catalog"] = {
         "venues": len(VENUES), "as_of": AS_OF, "states": len(states),
         "nj": len(for_state("NJ")), "fl": len(for_state("FL")),
@@ -854,6 +947,12 @@ def page(title: str, description: str, body: str, path: str,
          body_class: str = "") -> str:
     body = TABLE.sub(lambda m: f'<div class="scroll">{m.group(0)}</div>', body)
     nav = (
+        '<div class="banner"><div class="banner-in">'
+        '<span class="tag">New</span>'
+        '<span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, '
+        'nothing leaves it.</span>'
+        '<a href="/download/">Download it &rarr;</a>'
+        '</div></div>'
         '<nav>'
         '<a class="brand" href="/">' + MARK + 'Bookbreaker</a>'
         '<span class="links">'
@@ -862,6 +961,9 @@ def page(title: str, description: str, body: str, path: str,
         '<a href="/calculators/">Calculators</a>'
         '<a href="/for/arbitrage-bettors/">For arbers</a>'
         '<a href="/vs/">Compared</a>'
+        '</span>'
+        '<span class="cta-nav">'
+        '<a class="btn primary" href="/download/">Download</a>'
         '</span></nav>'
     )
     return f"""<!doctype html>
@@ -911,8 +1013,134 @@ not fun &mdash;
 """
 
 
+DEMO_SCRIPT = """
+<script type="application/json" id="demo-data">__DEMO_DATA__</script>
+<script>
+/* The slider is a lookup, not a model.
+
+   Every value it displays was computed by the engine when this page was built
+   and serialised into #demo-data above. Reimplementing the fill curve here
+   would put a second, ungated copy of the engine in the browser, free to drift
+   from the one the product ships — and the first number on this site that
+   nothing measured. */
+(function () {
+  var el = document.getElementById('demo-data');
+  var slider = document.getElementById('age');
+  if (!el || !slider) return;
+
+  var d = JSON.parse(el.textContent);
+  var rows = d.ladder;
+  var out = {
+    age: document.getElementById('age-out'),
+    realised: document.getElementById('d-realised'),
+    fill: document.getElementById('d-fill'),
+    stake: document.getElementById('d-stake'),
+    bar: document.getElementById('d-bar')
+  };
+
+  function draw() {
+    var r = rows[Number(slider.value)] || rows[0];
+    out.age.textContent = r.age + 's';
+    out.realised.textContent = r.realised.toFixed(2) + '%';
+    out.fill.textContent = r.fill.toFixed(1) + '%';
+    out.stake.textContent = r.stake_shown.toLocaleString();
+    /* Width is the share of the screen edge that survives, which is the whole
+       argument drawn rather than asserted. */
+    out.bar.style.width = (100 * r.realised / d.edge) + '%';
+  }
+
+  slider.addEventListener('input', draw);
+  draw();
+})();
+</script>
+"""
+
+
+def render_download(m: dict) -> str:
+    """The download page, generated entirely from the built artifacts.
+
+    Every filename, size and checksum on this page is read off the file it
+    describes at build time. There is no place to type one in, which is the
+    only arrangement under which a checksum is worth printing at all.
+    """
+    r = m["release"]
+    w, sd = r["wheel"], r["sdist"]
+    return f"""
+<h1>Download Bookbreaker</h1>
+<p class="lede">Version {r['version']}. Free, no account, and it never sends
+your record anywhere &mdash; the ledger is a SQLite file on your own disk.</p>
+
+<div class="cta">
+<a class="btn primary" href="/releases/{w['name']}">Download the wheel
+<span class="sub">{w['kb']} KB</span></a>
+<a class="btn ghost" href="/releases/{sd['name']}">Source tarball</a>
+</div>
+
+<h2>Install it</h2>
+<p>Bookbreaker is a command-line tool. It is pure Python with no third-party
+dependencies, so it runs the same on macOS, Linux and Windows and needs
+Python {r['python']} or newer:</p>
+<pre><code>pip install https://bookbreaker.bet/releases/{w['name']}
+overlay --help</code></pre>
+<p>That is the whole installation. There is no installer, no signing prompt and
+no launch agent, because there is no background process &mdash; nothing runs
+unless you type a command.</p>
+
+<h2>Check what you downloaded</h2>
+<p>The wheel's SHA-256 is worth checking against: the build pins its
+timestamps, and three separate builds of this version produced the same digest.
+Verify before installing:</p>
+<pre><code>shasum -a 256 {w['name']}</code></pre>
+<table>
+<tr><th>File</th><th>Size</th><th>SHA-256</th></tr>
+<tr><td>{w['name']}</td><td>{w['kb']} KB</td>
+<td class="hash">{w['sha256']}</td></tr>
+<tr><td>{sd['name']}</td><td>{sd['kb']} KB</td>
+<td class="hash">{sd['sha256']}</td></tr>
+</table>
+<p>These are read off the files themselves when this page is built. Nothing
+here was typed in, which is the only arrangement that makes publishing a
+checksum worth doing.</p>
+<p class="caveat">The tarball's digest identifies <em>this build</em> rather
+than the source: the packaging tool stamps real file timestamps into it, so
+rebuilding the same code gives a different hash. Only the wheel reproduces
+byte for byte, so it is the one to check.</p>
+
+<h2>What you get</h2>
+<p>Every command runs against your own ledger and your own snapshots. There is
+no server, so there is no account to make and nothing to cancel.</p>
+<table>
+<tr><th>Command</th><th>What it answers</th></tr>
+<tr><td><code>overlay devig</code></td><td>What four methods say a price is
+really worth, side by side</td></tr>
+<tr><td><code>overlay arb</code></td><td>Stakes in round numbers, scored by the
+worst outcome</td></tr>
+<tr><td><code>overlay middles</code></td><td>Margin and totals middles against
+counted finals</td></tr>
+<tr><td><code>overlay offers</code></td><td>Whether a deposit match clears,
+given what its rollover allows</td></tr>
+<tr><td><code>overlay paste</code></td><td>A betslip read into your record,
+shown before it is written</td></tr>
+<tr><td><code>overlay portfolio</code></td><td>Exposure, measured correlation,
+and the next stake it implies</td></tr>
+<tr><td><code>overlay performance</code></td><td>Your return with the interval
+around it, and whether it proves anything</td></tr>
+</table>
+
+<h2>What it refuses to do</h2>
+<p>It will not log into a sportsbook for you. Account linking means handing a
+third party your credentials, and no feature is worth that &mdash; CSV import
+and the betslip parser do the same job without asking. It also does nothing
+about identity, location or device: the anti-limiting work is entirely about
+the shape of the bet, because everything else is fraud rather than strategy.</p>
+
+<p><a href="/how-it-works/">How it prices a market &rarr;</a></p>
+"""
+
+
 def render_index(m: dict) -> str:
     d = m["devig"]
+    dm = m["demo"]
     f = m["fill"]
     hero = m["hero"]
 
@@ -972,18 +1200,86 @@ def render_index(m: dict) -> str:
                         f"{p['low']:.1f}% to {p['high']:+.1f}%, spanning zero.")
 
     return f"""
-<div class="hero">
-<p class="eyebrow">Positive EV &middot; Arbitrage &middot; Middles</p>
-<h1>The edge is an interval,<br>not a number</h1>
-<p class="lede">Every betting screen prints one figure to two decimal places.
-That figure is a modelling choice wearing a measurement's clothes. Bookbreaker
-shows the range four defensible methods allow, the chance you can actually get
-the bet down, and when your own record proves nothing.</p>
+<div class="hero hero-glow">
+<p class="eyebrow accent">Free &middot; Runs on your machine</p>
+<h1>Find your edge,<br>with the error bar.</h1>
+<p class="lede">Real prices from {m['catalog']['venues']} sportsbooks, devigged
+four ways, and every number carrying what it might be wrong by. Built to find
+bets and keep the account that places them.</p>
 <div class="cta">
-<a class="btn" href="/how-it-works/">See how it prices a market</a>
-<a class="btn ghost" href="/calculators/">Try the calculators</a>
+<a class="btn primary" href="/download/">Download free<span class="sub">v{m['release']['version']} &middot; {m['release']['wheel']['kb']} KB</span></a>
+<a class="btn ghost" href="/how-it-works/">See how it prices a market</a>
+</div>
+<ul class="quals">
+  <li>No account, ever</li>
+  <li>{m['catalog']['states']} states covered</li>
+  <li>{m['catalog']['venues']}&plus; sportsbooks</li>
+  <li>Open checksums</li>
+</ul>
+<div class="trust">
+  <div><b>{len(m['devig']['methods'])}</b><span>Devig methods, side by side</span></div>
+  <div><b>{m['devig']['spread']:.2f}%</b><span>Spread they disagree by</span></div>
+  <div><b>{m['fill']['honest']}%</b><span>Fill on a {m['fill']['age']:.0f}s quote</span></div>
+  <div><b>0</b><span>Bytes sent anywhere</span></div>
 </div>
 </div>
+
+<section class="wall" aria-label="Sportsbooks priced">
+  <p class="wall-cap">Prices {m['catalog']['venues']} sportsbooks across
+  {m['catalog']['states']} states</p>
+  <ul class="wall-list">
+    {"".join(f"<li>{e(b)}</li>" for b in m['books'])}
+  </ul>
+</section>
+
+<section class="demo" aria-labelledby="demo-h">
+  <p class="eyebrow">Try it &mdash; nothing to install, nothing to sign up for</p>
+  <h2 id="demo-h">Drag the price older. Watch the edge go.</h2>
+  <p>A {dm['edge']:.1f}% edge on the screen is not a {dm['edge']:.1f}% edge in
+  your account. It is that number multiplied by the chance the price is still
+  there when your bet lands &mdash; and no competitor's marketing mentions the
+  second half.</p>
+
+  <div class="demo-box">
+    <label class="demo-label" for="age">
+      Quote age when the bet lands
+      <output id="age-out">{dm['ladder'][0]['age']}s</output>
+    </label>
+    <input type="range" id="age" min="0" max="{len(dm['ladder']) - 1}"
+           value="0" step="1" list="ages"
+           aria-describedby="demo-read">
+
+    <div class="demo-read" id="demo-read">
+      <div>
+        <b id="d-realised">{dm['best']['realised']:.2f}%</b>
+        <span>Edge you actually collect</span>
+      </div>
+      <div>
+        <b id="d-fill">{dm['best']['fill']:.1f}%</b>
+        <span>Chance it is still there</span>
+      </div>
+      <div>
+        <b id="d-stake">{dm['best']['stake_shown']:,}</b>
+        <span>Stake on a {dm['bankroll']:,} bankroll</span>
+      </div>
+    </div>
+
+    <div class="demo-bar" role="img"
+         aria-label="How much of the screen edge survives">
+      <div class="demo-bar-fill" id="d-bar"></div>
+      <span class="demo-bar-cap">screen says {dm['edge']:.1f}%</span>
+    </div>
+
+    <p class="caveat">Survival is modelled as exponential with a
+    {dm['tau']:.0f}-second mean lifetime and a {dm['floor']:.0f}-second floor
+    under the age &mdash; both stated priors until your own accept-and-reject
+    record replaces them. Every figure above is computed by the engine when
+    this page is built; the slider looks them up rather than recomputing
+    them.</p>
+  </div>
+</section>
+
+<div class="hero-after">
 
 <figure class="plate plate--split">
   <div>
@@ -1000,6 +1296,8 @@ the bet down, and when your own record proves nothing.</p>
     <span style="--at:{kp(p['high'])}">{p['high']:+.1f}%</span></p>
   </div>
 </figure>
+
+</div>
 
 <div class="app">
   <div class="app-bar">
@@ -1055,7 +1353,8 @@ latency would say {f['naive']}%</p>
 {p['roi']:.2f}% return, Bookbreaker's verdict is:</p>
 <p class="figure">{e(p['verdict'])}</p>
 <p>Every other tracker prints {p['roi']:.2f}% and stops.</p>
-"""
+""" + DEMO_SCRIPT.replace("__DEMO_DATA__",
+                          json.dumps(m["demo"], separators=(",", ":")))
 
 
 def render_how(m: dict) -> str:
@@ -2542,9 +2841,17 @@ you.</p>
 STYLE = """/* The page is a printed statistical plate; the product is a dark terminal block
    set into it. Two rules hold the whole system together:
 
-   1. Chroma appears only where a MEASUREMENT appears. Never a button fill,
-      never a nav hover, never a gradient. If it is not a number or the bound
-      of one, it is ink, rule or ground.
+   1. Chroma appears where a MEASUREMENT appears, and in exactly one other
+      place: the primary action. Never a nav hover, never a gradient, never a
+      second button on the same screen.
+
+      The original rule admitted no exception, and it was wrong in a way worth
+      recording. A site with no coloured action has no action: the page read
+      as an essay because nothing on it looked clickable, and a reader who
+      agrees with every word and cannot find the product has not been
+      persuaded of anything. One accent, used once per screen, is the smallest
+      exception that fixes it — and it stays scarce enough that a measurement
+      in chroma still reads as a measurement.
    2. An interval is drawn as an object, never printed as a string. The site's
       thesis is that the edge is a range; a page that only says so in words is
       not making the argument it claims to make.
@@ -2572,6 +2879,11 @@ STYLE = """/* The page is a printed statistical plate; the product is a dark ter
   --band-neg:rgba(158,47,39,.15); /* interval fill left of zero */
   --hatch:rgba(158,47,39,.32);    /* 45 degree hatch = "not claimable" */
 
+  /* --- the one action colour --- */
+  --accent:#0369a1;       /* primary action fill        6.42:1 against white */
+  --accent-hi:#075985;
+  --accent-ink:#ffffff;
+
   /* --- the terminal block --- */
   --term:#16161a;
   --term-line:#2c2c33;
@@ -2580,10 +2892,12 @@ STYLE = """/* The page is a printed statistical plate; the product is a dark ter
   --serif:ui-serif,"Iowan Old Style",Charter,"Bitstream Charter",Georgia,Cambria,serif;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --display:-apple-system,BlinkMacSystemFont,"Segoe UI Variable Display",
+    "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 
   --t-1:.72rem;   --t-2:.82rem;   --t-3:.9rem;    --t-4:1rem;
   --t-5:1.0625rem;--t-6:1.25rem;  --t-7:1.75rem;
-  --t-8:clamp(2.25rem,5.2vw,3.4rem);
+  --t-8:clamp(2.6rem,6.4vw,4.5rem);
 
   --s-1:.25rem; --s-2:.5rem;  --s-3:.75rem; --s-4:1rem;
   --s-5:1.5rem; --s-6:2.25rem;--s-7:3.5rem; --s-8:5.5rem;
@@ -2598,29 +2912,33 @@ STYLE = """/* The page is a printed statistical plate; the product is a dark ter
 
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --plate:#15161a;
-    --card:#1c1e24;
-    --sink:#111216;
-    --ink:#e8e6e0;
-    --ink-2:#9a968b;
-    --ink-3:#75716a;
-    --rule:#3a3d46;
+    --plate:#000000;
+    --card:#0b0d10;
+    --sink:#08090c;
+    --ink:#ffffff;
+    --ink-2:#9aa4b2;
+    --ink-3:#6b7280;
+    --rule:#1e2229;
     --indigo:#8f9bd8;
     --oxblood:#e0685c;
     --band:rgba(143,155,216,.22);
     --band-neg:rgba(224,104,92,.20);
     --hatch:rgba(224,104,92,.34);
-    --term:#0f1014;       /* a step BELOW --plate, so the block stays an object */
-    --term-line:#3a3d46;
+    --accent:#38bdf8;
+    --accent-hi:#7dd3fc;
+    --accent-ink:#07131a;
+    --term:#0b0d10;
+    --term-line:#1e2229;
   }
 }
 :root[data-theme="dark"]{
-  --plate:#15161a; --card:#1c1e24; --sink:#111216;
-  --ink:#e8e6e0;   --ink-2:#9a968b; --ink-3:#75716a; --rule:#3a3d46;
+  --plate:#000000; --card:#0b0d10; --sink:#08090c;
+  --ink:#ffffff;   --ink-2:#9aa4b2; --ink-3:#6b7280; --rule:#1e2229;
   --indigo:#8f9bd8;--oxblood:#e0685c;
   --band:rgba(143,155,216,.22); --band-neg:rgba(224,104,92,.20);
   --hatch:rgba(224,104,92,.34);
-  --term:#0f1014; --term-line:#3a3d46;
+  --accent:#38bdf8; --accent-hi:#7dd3fc; --accent-ink:#07131a;
+  --term:#0b0d10; --term-line:#1e2229;
 }
 
 *{box-sizing:border-box}
@@ -2659,7 +2977,7 @@ body.home main>.plate,body.home main>.app,body.home main>.scroll,
 body.home main>.figure,body.home main>.screen{max-width:var(--measure-plate)}
 
 /* ---------- type ---------- */
-h1{font-family:var(--serif);font-size:var(--t-8);line-height:1.04;
+h1{font-family:var(--display);font-weight:600;letter-spacing:-.025em;font-size:var(--t-8);line-height:1.08;
   letter-spacing:-.018em;font-weight:600;margin:var(--s-7) 0 var(--s-4);
   text-wrap:balance}
 h2{font-family:var(--serif);font-size:var(--t-7);font-weight:600;
@@ -2696,6 +3014,153 @@ li{margin:var(--s-1) 0;color:var(--ink-2)}
    --ink-2 is 6.23:1 and still reads a clear step below the primary. */
 .btn.ghost{border-color:var(--ink-2);color:var(--ink-2)}
 .btn.ghost:hover{border-color:var(--ink);background:transparent;color:var(--ink)}
+
+/* The one filled control on a screen. Sized to be hit on a phone without
+   aiming: 44px is the smallest target a thumb finds reliably. */
+.btn.primary{background:var(--accent);border-color:var(--accent);
+  color:var(--accent-ink);font-weight:650;min-height:44px;
+  padding:.7rem 1.35rem;font-size:var(--t-4);letter-spacing:.005em}
+.btn.primary:hover{background:var(--accent-hi);border-color:var(--accent-hi);
+  color:var(--accent-ink)}
+.btn.primary .sub{opacity:.72;font-weight:500;margin-left:.5rem;
+  font-size:var(--t-2)}
+
+nav .cta-nav{margin-left:auto}
+
+
+nav .btn.primary{padding:.45rem 1rem;min-height:0;font-size:var(--t-3)}
+
+/* The reference layout: a dismissible announcement strip, a left-aligned hero
+   over a single soft accent glow, and a row of qualifier bullets under the
+   buttons. Every one of those bullets is a fact the engine can produce — the
+   reference site's equivalent row says "Trusted by 5,000+ bettors", which is
+   the one thing here that cannot be built without customers. */
+.banner{background:linear-gradient(90deg,
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    color-mix(in srgb, var(--accent) 8%, transparent));
+  border-bottom:1px solid var(--rule)}
+.banner-in{max-width:70rem;margin:0 auto;padding:.55rem 1.5rem;
+  display:flex;align-items:center;gap:var(--s-3);flex-wrap:wrap;
+  font-size:var(--t-2);color:var(--ink)}
+.banner .tag{background:var(--accent);color:var(--accent-ink);
+  font-size:var(--t-1);font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;padding:.15rem .45rem;border-radius:var(--r)}
+.banner a{color:var(--accent);text-decoration-color:var(--accent)}
+
+/* One glow, behind the hero only. */
+.hero-glow{position:relative}
+.hero-glow::before{content:"";position:absolute;inset:-18rem -10rem auto -20rem;
+  height:44rem;pointer-events:none;z-index:-1;
+  background:radial-gradient(50% 50% at 30% 45%,
+    color-mix(in srgb, var(--accent) 16%, transparent) 0%,
+    transparent 70%)}
+
+.eyebrow.accent{color:var(--accent);font-weight:600;letter-spacing:.28em}
+
+.quals{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-5);
+  margin-top:var(--s-4);font-size:var(--t-2);color:var(--ink-2);
+  list-style:none;padding:0}
+.quals li{display:flex;align-items:center;gap:.45rem}
+.quals li::before{content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--accent);flex:none}
+
+/* The book wall. Text, not a logo strip: the competitors' equivalents are
+   images, so the names are invisible to a crawler and to a screen reader. */
+.wall{max-width:var(--measure-plate);margin:var(--s-7) 0;
+  border-top:1px solid var(--rule);padding-top:var(--s-5)}
+.wall-cap{font-size:var(--t-1);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);margin:0 0 var(--s-3)}
+.wall-list{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-4);
+  list-style:none;padding:0;margin:0}
+.wall-list li{font-size:var(--t-3);color:var(--ink-2);white-space:nowrap}
+
+/* The demo. Second thing on the page, playable with no signup, because the
+   claim it makes is one a static screenshot cannot carry: the edge on the
+   screen is not the edge in the account. */
+.demo{max-width:var(--measure-plate);margin:var(--s-8) 0}
+.demo h2{margin:var(--s-2) 0 var(--s-3)}
+.demo > p{max-width:var(--measure-prose)}
+.demo-box{background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r);padding:var(--s-5);margin-top:var(--s-5)}
+.demo-label{display:flex;justify-content:space-between;align-items:baseline;
+  gap:var(--s-4);font-size:var(--t-2);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-2)}
+.demo-label output{font-family:var(--mono);font-size:var(--t-6);
+  letter-spacing:0;text-transform:none;color:var(--ink);font-weight:600}
+
+/* 44px of vertical room for the thumb so it is draggable with a thumb. */
+.demo-box input[type=range]{-webkit-appearance:none;appearance:none;
+  width:100%;height:44px;background:transparent;margin:var(--s-2) 0 0;
+  display:block}
+.demo-box input[type=range]:focus-visible{outline:2px solid var(--accent);
+  outline-offset:4px}
+.demo-box input[type=range]::-webkit-slider-runnable-track{height:4px;
+  background:var(--rule);border-radius:2px}
+.demo-box input[type=range]::-moz-range-track{height:4px;
+  background:var(--rule);border-radius:2px}
+.demo-box input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;
+  appearance:none;width:26px;height:26px;margin-top:-11px;border-radius:50%;
+  background:var(--accent);border:3px solid var(--card);cursor:grab}
+.demo-box input[type=range]::-moz-range-thumb{width:26px;height:26px;
+  border-radius:50%;background:var(--accent);border:3px solid var(--card);
+  cursor:grab}
+
+.demo-read{display:grid;grid-template-columns:repeat(3,1fr);
+  gap:var(--s-4);margin:var(--s-4) 0 var(--s-5);
+  padding-top:var(--s-4);border-top:1px solid var(--rule)}
+.demo-read div{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.demo-read b{font-family:var(--display);font-size:var(--t-7);font-weight:750;
+  line-height:1;letter-spacing:-.02em;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.demo-read #d-realised{color:var(--accent)}
+.demo-read span{font-size:var(--t-1);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-2)}
+
+/* The bar is the argument: the filled part is what survives, the empty part
+   is what the competition prints as though it were yours. */
+.demo-bar{position:relative;height:12px;background:var(--band-neg);
+  border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.demo-bar-fill{height:100%;width:100%;background:var(--accent);
+  transition:width .18s ease-out}
+.demo-bar-cap{display:block;margin-top:var(--s-2);font-size:var(--t-1);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+
+@media (prefers-reduced-motion:reduce){.demo-bar-fill{transition:none}}
+@media (max-width:640px){
+  .demo-read{grid-template-columns:1fr 1fr}
+  .demo-read div:last-child{grid-column:1 / -1}
+}
+
+/* Code blocks. The download page is the first page to use one, and an
+   unstyled <pre> does not wrap: a single long install URL widened the whole
+   document and put the body into horizontal scroll on a phone. The block
+   scrolls inside itself instead, which is the same rule the tables follow.
+   `min-width:0` is the part that is easy to miss — without it a flex or grid
+   child refuses to shrink below its content and the overflow escapes anyway. */
+pre{background:var(--sink);border:1px solid var(--rule);border-radius:var(--r);
+  padding:var(--s-4);margin:var(--s-4) 0;overflow-x:auto;min-width:0;
+  max-width:100%;font-size:var(--t-3);line-height:1.6}
+pre code{font-family:var(--mono);color:var(--ink);white-space:pre;
+  background:none;padding:0;border:0}
+code{font-family:var(--mono);font-size:.94em;background:var(--sink);
+  padding:.1em .35em;border-radius:var(--r);
+  overflow-wrap:anywhere}
+
+/* A digest is 64 characters of nothing. It may break anywhere. */
+.hash{font-family:var(--mono);font-size:var(--t-1);color:var(--ink-2);
+  overflow-wrap:anywhere;word-break:break-all}
+
+/* Measured facts, not testimonials. Everything in this strip is computed by
+   the engine at build time; nothing here is a claim about a customer. */
+.trust{display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-6);
+  margin:var(--s-6) 0 0;padding:var(--s-4) 0;
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  max-width:var(--measure-plate)}
+.trust div{display:flex;flex-direction:column;gap:.15rem}
+.trust b{font-family:var(--display);font-size:var(--t-6);font-weight:700;
+  color:var(--ink);line-height:1;letter-spacing:-.01em}
+.trust span{font-family:var(--sans);font-size:var(--t-1);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-2)}
 
 /* ---------- the range-frame: one primitive, four scales ----------
    anatomy, fixed and never varied:
@@ -2930,6 +3395,26 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
   .links::-webkit-scrollbar{display:none}
   nav .links a{white-space:nowrap;font-size:.88rem}
 }
+
+/* Narrow screens. Last in the sheet on purpose: these rules restate
+   properties the base rules also set, and an equal-specificity rule
+   only wins if it comes after. Placed beside the components they
+   modify, `nav{flex-wrap:wrap}` lost to the `nav{}` block below it
+   and the links stacked into a column on a phone. */
+@media (max-width:640px){
+  nav{flex-wrap:wrap;row-gap:var(--s-2)}
+  /* The action stays on the first row beside the wordmark; the section links
+     drop to a second. A CTA that wraps below the fold on the narrowest screen
+     is a CTA that is not there. */
+  nav .cta-nav{order:2}
+  nav .links{order:3;flex-basis:100%;display:flex;flex-wrap:wrap;
+    gap:var(--s-2) var(--s-4)}
+  .trust{gap:var(--s-4) var(--s-5)}
+  .trust b{font-size:var(--t-5)}
+  .cta{display:flex;flex-wrap:wrap;gap:var(--s-3)}
+  .cta .btn{flex:1 1 auto;justify-content:center;text-align:center}
+}
+
 """
 
 STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
@@ -2945,6 +3430,10 @@ PAGES = [
      "An arbitrage and +EV engine that reports how wrong it might be: the devig "
      "spread, the chance of getting on, and what your record can support.",
      render_index),
+    ("/download/", "download/index.html", "Download Bookbreaker",
+     "A free command-line arbitrage and +EV engine that runs on your own "
+     "machine. No account, no upload, checksums published for every build.",
+     render_download),
     ("/how-it-works/", "how-it-works/index.html", "How Bookbreaker works",
      "Welcome offers after every cost, middles counted rather than assumed, "
      "which books you can legally use, and what the tool will not do.",

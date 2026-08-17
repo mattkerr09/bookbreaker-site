@@ -1,9 +1,17 @@
 /* The page is a printed statistical plate; the product is a dark terminal block
    set into it. Two rules hold the whole system together:
 
-   1. Chroma appears only where a MEASUREMENT appears. Never a button fill,
-      never a nav hover, never a gradient. If it is not a number or the bound
-      of one, it is ink, rule or ground.
+   1. Chroma appears where a MEASUREMENT appears, and in exactly one other
+      place: the primary action. Never a nav hover, never a gradient, never a
+      second button on the same screen.
+
+      The original rule admitted no exception, and it was wrong in a way worth
+      recording. A site with no coloured action has no action: the page read
+      as an essay because nothing on it looked clickable, and a reader who
+      agrees with every word and cannot find the product has not been
+      persuaded of anything. One accent, used once per screen, is the smallest
+      exception that fixes it — and it stays scarce enough that a measurement
+      in chroma still reads as a measurement.
    2. An interval is drawn as an object, never printed as a string. The site's
       thesis is that the edge is a range; a page that only says so in words is
       not making the argument it claims to make.
@@ -31,6 +39,11 @@
   --band-neg:rgba(158,47,39,.15); /* interval fill left of zero */
   --hatch:rgba(158,47,39,.32);    /* 45 degree hatch = "not claimable" */
 
+  /* --- the one action colour --- */
+  --accent:#0369a1;       /* primary action fill        6.42:1 against white */
+  --accent-hi:#075985;
+  --accent-ink:#ffffff;
+
   /* --- the terminal block --- */
   --term:#16161a;
   --term-line:#2c2c33;
@@ -39,10 +52,12 @@
   --serif:ui-serif,"Iowan Old Style",Charter,"Bitstream Charter",Georgia,Cambria,serif;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --display:-apple-system,BlinkMacSystemFont,"Segoe UI Variable Display",
+    "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 
   --t-1:.72rem;   --t-2:.82rem;   --t-3:.9rem;    --t-4:1rem;
   --t-5:1.0625rem;--t-6:1.25rem;  --t-7:1.75rem;
-  --t-8:clamp(2.25rem,5.2vw,3.4rem);
+  --t-8:clamp(2.6rem,6.4vw,4.5rem);
 
   --s-1:.25rem; --s-2:.5rem;  --s-3:.75rem; --s-4:1rem;
   --s-5:1.5rem; --s-6:2.25rem;--s-7:3.5rem; --s-8:5.5rem;
@@ -57,29 +72,33 @@
 
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --plate:#15161a;
-    --card:#1c1e24;
-    --sink:#111216;
-    --ink:#e8e6e0;
-    --ink-2:#9a968b;
-    --ink-3:#75716a;
-    --rule:#3a3d46;
+    --plate:#000000;
+    --card:#0b0d10;
+    --sink:#08090c;
+    --ink:#ffffff;
+    --ink-2:#9aa4b2;
+    --ink-3:#6b7280;
+    --rule:#1e2229;
     --indigo:#8f9bd8;
     --oxblood:#e0685c;
     --band:rgba(143,155,216,.22);
     --band-neg:rgba(224,104,92,.20);
     --hatch:rgba(224,104,92,.34);
-    --term:#0f1014;       /* a step BELOW --plate, so the block stays an object */
-    --term-line:#3a3d46;
+    --accent:#38bdf8;
+    --accent-hi:#7dd3fc;
+    --accent-ink:#07131a;
+    --term:#0b0d10;
+    --term-line:#1e2229;
   }
 }
 :root[data-theme="dark"]{
-  --plate:#15161a; --card:#1c1e24; --sink:#111216;
-  --ink:#e8e6e0;   --ink-2:#9a968b; --ink-3:#75716a; --rule:#3a3d46;
+  --plate:#000000; --card:#0b0d10; --sink:#08090c;
+  --ink:#ffffff;   --ink-2:#9aa4b2; --ink-3:#6b7280; --rule:#1e2229;
   --indigo:#8f9bd8;--oxblood:#e0685c;
   --band:rgba(143,155,216,.22); --band-neg:rgba(224,104,92,.20);
   --hatch:rgba(224,104,92,.34);
-  --term:#0f1014; --term-line:#3a3d46;
+  --accent:#38bdf8; --accent-hi:#7dd3fc; --accent-ink:#07131a;
+  --term:#0b0d10; --term-line:#1e2229;
 }
 
 *{box-sizing:border-box}
@@ -118,7 +137,7 @@ body.home main>.plate,body.home main>.app,body.home main>.scroll,
 body.home main>.figure,body.home main>.screen{max-width:var(--measure-plate)}
 
 /* ---------- type ---------- */
-h1{font-family:var(--serif);font-size:var(--t-8);line-height:1.04;
+h1{font-family:var(--display);font-weight:600;letter-spacing:-.025em;font-size:var(--t-8);line-height:1.08;
   letter-spacing:-.018em;font-weight:600;margin:var(--s-7) 0 var(--s-4);
   text-wrap:balance}
 h2{font-family:var(--serif);font-size:var(--t-7);font-weight:600;
@@ -155,6 +174,153 @@ li{margin:var(--s-1) 0;color:var(--ink-2)}
    --ink-2 is 6.23:1 and still reads a clear step below the primary. */
 .btn.ghost{border-color:var(--ink-2);color:var(--ink-2)}
 .btn.ghost:hover{border-color:var(--ink);background:transparent;color:var(--ink)}
+
+/* The one filled control on a screen. Sized to be hit on a phone without
+   aiming: 44px is the smallest target a thumb finds reliably. */
+.btn.primary{background:var(--accent);border-color:var(--accent);
+  color:var(--accent-ink);font-weight:650;min-height:44px;
+  padding:.7rem 1.35rem;font-size:var(--t-4);letter-spacing:.005em}
+.btn.primary:hover{background:var(--accent-hi);border-color:var(--accent-hi);
+  color:var(--accent-ink)}
+.btn.primary .sub{opacity:.72;font-weight:500;margin-left:.5rem;
+  font-size:var(--t-2)}
+
+nav .cta-nav{margin-left:auto}
+
+
+nav .btn.primary{padding:.45rem 1rem;min-height:0;font-size:var(--t-3)}
+
+/* The reference layout: a dismissible announcement strip, a left-aligned hero
+   over a single soft accent glow, and a row of qualifier bullets under the
+   buttons. Every one of those bullets is a fact the engine can produce — the
+   reference site's equivalent row says "Trusted by 5,000+ bettors", which is
+   the one thing here that cannot be built without customers. */
+.banner{background:linear-gradient(90deg,
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    color-mix(in srgb, var(--accent) 8%, transparent));
+  border-bottom:1px solid var(--rule)}
+.banner-in{max-width:70rem;margin:0 auto;padding:.55rem 1.5rem;
+  display:flex;align-items:center;gap:var(--s-3);flex-wrap:wrap;
+  font-size:var(--t-2);color:var(--ink)}
+.banner .tag{background:var(--accent);color:var(--accent-ink);
+  font-size:var(--t-1);font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;padding:.15rem .45rem;border-radius:var(--r)}
+.banner a{color:var(--accent);text-decoration-color:var(--accent)}
+
+/* One glow, behind the hero only. */
+.hero-glow{position:relative}
+.hero-glow::before{content:"";position:absolute;inset:-18rem -10rem auto -20rem;
+  height:44rem;pointer-events:none;z-index:-1;
+  background:radial-gradient(50% 50% at 30% 45%,
+    color-mix(in srgb, var(--accent) 16%, transparent) 0%,
+    transparent 70%)}
+
+.eyebrow.accent{color:var(--accent);font-weight:600;letter-spacing:.28em}
+
+.quals{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-5);
+  margin-top:var(--s-4);font-size:var(--t-2);color:var(--ink-2);
+  list-style:none;padding:0}
+.quals li{display:flex;align-items:center;gap:.45rem}
+.quals li::before{content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--accent);flex:none}
+
+/* The book wall. Text, not a logo strip: the competitors' equivalents are
+   images, so the names are invisible to a crawler and to a screen reader. */
+.wall{max-width:var(--measure-plate);margin:var(--s-7) 0;
+  border-top:1px solid var(--rule);padding-top:var(--s-5)}
+.wall-cap{font-size:var(--t-1);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);margin:0 0 var(--s-3)}
+.wall-list{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-4);
+  list-style:none;padding:0;margin:0}
+.wall-list li{font-size:var(--t-3);color:var(--ink-2);white-space:nowrap}
+
+/* The demo. Second thing on the page, playable with no signup, because the
+   claim it makes is one a static screenshot cannot carry: the edge on the
+   screen is not the edge in the account. */
+.demo{max-width:var(--measure-plate);margin:var(--s-8) 0}
+.demo h2{margin:var(--s-2) 0 var(--s-3)}
+.demo > p{max-width:var(--measure-prose)}
+.demo-box{background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r);padding:var(--s-5);margin-top:var(--s-5)}
+.demo-label{display:flex;justify-content:space-between;align-items:baseline;
+  gap:var(--s-4);font-size:var(--t-2);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-2)}
+.demo-label output{font-family:var(--mono);font-size:var(--t-6);
+  letter-spacing:0;text-transform:none;color:var(--ink);font-weight:600}
+
+/* 44px of vertical room for the thumb so it is draggable with a thumb. */
+.demo-box input[type=range]{-webkit-appearance:none;appearance:none;
+  width:100%;height:44px;background:transparent;margin:var(--s-2) 0 0;
+  display:block}
+.demo-box input[type=range]:focus-visible{outline:2px solid var(--accent);
+  outline-offset:4px}
+.demo-box input[type=range]::-webkit-slider-runnable-track{height:4px;
+  background:var(--rule);border-radius:2px}
+.demo-box input[type=range]::-moz-range-track{height:4px;
+  background:var(--rule);border-radius:2px}
+.demo-box input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;
+  appearance:none;width:26px;height:26px;margin-top:-11px;border-radius:50%;
+  background:var(--accent);border:3px solid var(--card);cursor:grab}
+.demo-box input[type=range]::-moz-range-thumb{width:26px;height:26px;
+  border-radius:50%;background:var(--accent);border:3px solid var(--card);
+  cursor:grab}
+
+.demo-read{display:grid;grid-template-columns:repeat(3,1fr);
+  gap:var(--s-4);margin:var(--s-4) 0 var(--s-5);
+  padding-top:var(--s-4);border-top:1px solid var(--rule)}
+.demo-read div{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.demo-read b{font-family:var(--display);font-size:var(--t-7);font-weight:750;
+  line-height:1;letter-spacing:-.02em;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.demo-read #d-realised{color:var(--accent)}
+.demo-read span{font-size:var(--t-1);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-2)}
+
+/* The bar is the argument: the filled part is what survives, the empty part
+   is what the competition prints as though it were yours. */
+.demo-bar{position:relative;height:12px;background:var(--band-neg);
+  border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.demo-bar-fill{height:100%;width:100%;background:var(--accent);
+  transition:width .18s ease-out}
+.demo-bar-cap{display:block;margin-top:var(--s-2);font-size:var(--t-1);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+
+@media (prefers-reduced-motion:reduce){.demo-bar-fill{transition:none}}
+@media (max-width:640px){
+  .demo-read{grid-template-columns:1fr 1fr}
+  .demo-read div:last-child{grid-column:1 / -1}
+}
+
+/* Code blocks. The download page is the first page to use one, and an
+   unstyled <pre> does not wrap: a single long install URL widened the whole
+   document and put the body into horizontal scroll on a phone. The block
+   scrolls inside itself instead, which is the same rule the tables follow.
+   `min-width:0` is the part that is easy to miss — without it a flex or grid
+   child refuses to shrink below its content and the overflow escapes anyway. */
+pre{background:var(--sink);border:1px solid var(--rule);border-radius:var(--r);
+  padding:var(--s-4);margin:var(--s-4) 0;overflow-x:auto;min-width:0;
+  max-width:100%;font-size:var(--t-3);line-height:1.6}
+pre code{font-family:var(--mono);color:var(--ink);white-space:pre;
+  background:none;padding:0;border:0}
+code{font-family:var(--mono);font-size:.94em;background:var(--sink);
+  padding:.1em .35em;border-radius:var(--r);
+  overflow-wrap:anywhere}
+
+/* A digest is 64 characters of nothing. It may break anywhere. */
+.hash{font-family:var(--mono);font-size:var(--t-1);color:var(--ink-2);
+  overflow-wrap:anywhere;word-break:break-all}
+
+/* Measured facts, not testimonials. Everything in this strip is computed by
+   the engine at build time; nothing here is a claim about a customer. */
+.trust{display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-6);
+  margin:var(--s-6) 0 0;padding:var(--s-4) 0;
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  max-width:var(--measure-plate)}
+.trust div{display:flex;flex-direction:column;gap:.15rem}
+.trust b{font-family:var(--display);font-size:var(--t-6);font-weight:700;
+  color:var(--ink);line-height:1;letter-spacing:-.01em}
+.trust span{font-family:var(--sans);font-size:var(--t-1);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-2)}
 
 /* ---------- the range-frame: one primitive, four scales ----------
    anatomy, fixed and never varied:
@@ -389,3 +555,23 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
   .links::-webkit-scrollbar{display:none}
   nav .links a{white-space:nowrap;font-size:.88rem}
 }
+
+/* Narrow screens. Last in the sheet on purpose: these rules restate
+   properties the base rules also set, and an equal-specificity rule
+   only wins if it comes after. Placed beside the components they
+   modify, `nav{flex-wrap:wrap}` lost to the `nav{}` block below it
+   and the links stacked into a column on a phone. */
+@media (max-width:640px){
+  nav{flex-wrap:wrap;row-gap:var(--s-2)}
+  /* The action stays on the first row beside the wordmark; the section links
+     drop to a second. A CTA that wraps below the fold on the narrowest screen
+     is a CTA that is not there. */
+  nav .cta-nav{order:2}
+  nav .links{order:3;flex-basis:100%;display:flex;flex-wrap:wrap;
+    gap:var(--s-2) var(--s-4)}
+  .trust{gap:var(--s-4) var(--s-5)}
+  .trust b{font-size:var(--t-5)}
+  .cta{display:flex;flex-wrap:wrap;gap:var(--s-3)}
+  .cta .btn{flex:1 1 auto;justify-content:center;text-align:center}
+}
+

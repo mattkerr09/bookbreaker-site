@@ -86,7 +86,7 @@ CASES = [
         "two pages sharing a heading",
         "vs/index.html",
         "<h1>Compared</h1>",
-        "<h1>The edge is an interval, not a number</h1>",
+        "<h1>Find your edge,<br>with the error bar.</h1>",
     ),
 ]
 

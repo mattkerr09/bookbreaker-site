@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download Bookbreaker</title>
+<meta name="description" content="A free command-line arbitrage and +EV engine that runs on your own machine. No account, no upload, checksums published for every build.">
+<link rel="canonical" href="https://bookbreaker.bet/download/">
+<link rel="stylesheet" href="/style.css?v=b728110d51">
+</head>
+<body class="">
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<main>
+
+<h1>Download Bookbreaker</h1>
+<p class="lede">Version 0.1.0. Free, no account, and it never sends
+your record anywhere &mdash; the ledger is a SQLite file on your own disk.</p>
+
+<div class="cta">
+<a class="btn primary" href="/releases/overlay-0.1.0-py3-none-any.whl">Download the wheel
+<span class="sub">147 KB</span></a>
+<a class="btn ghost" href="/releases/overlay-0.1.0.tar.gz">Source tarball</a>
+</div>
+
+<h2>Install it</h2>
+<p>Bookbreaker is a command-line tool. It is pure Python with no third-party
+dependencies, so it runs the same on macOS, Linux and Windows and needs
+Python 3.9 or newer:</p>
+<pre><code>pip install https://bookbreaker.bet/releases/overlay-0.1.0-py3-none-any.whl
+overlay --help</code></pre>
+<p>That is the whole installation. There is no installer, no signing prompt and
+no launch agent, because there is no background process &mdash; nothing runs
+unless you type a command.</p>
+
+<h2>Check what you downloaded</h2>
+<p>The wheel's SHA-256 is worth checking against: the build pins its
+timestamps, and three separate builds of this version produced the same digest.
+Verify before installing:</p>
+<pre><code>shasum -a 256 overlay-0.1.0-py3-none-any.whl</code></pre>
+<div class="scroll"><table>
+<tr><th>File</th><th>Size</th><th>SHA-256</th></tr>
+<tr><td>overlay-0.1.0-py3-none-any.whl</td><td>147 KB</td>
+<td class="hash">4dd554cefc520c048650268c5be3916fa8a29ebf731da52f11fd8a1243665044</td></tr>
+<tr><td>overlay-0.1.0.tar.gz</td><td>230 KB</td>
+<td class="hash">3118cdc8072aaee2df57ead12551c9ae35ecadb0c7d5dbb4c4c1f3dad31e52be</td></tr>
+</table></div>
+<p>These are read off the files themselves when this page is built. Nothing
+here was typed in, which is the only arrangement that makes publishing a
+checksum worth doing.</p>
+<p class="caveat">The tarball's digest identifies <em>this build</em> rather
+than the source: the packaging tool stamps real file timestamps into it, so
+rebuilding the same code gives a different hash. Only the wheel reproduces
+byte for byte, so it is the one to check.</p>
+
+<h2>What you get</h2>
+<p>Every command runs against your own ledger and your own snapshots. There is
+no server, so there is no account to make and nothing to cancel.</p>
+<div class="scroll"><table>
+<tr><th>Command</th><th>What it answers</th></tr>
+<tr><td><code>overlay devig</code></td><td>What four methods say a price is
+really worth, side by side</td></tr>
+<tr><td><code>overlay arb</code></td><td>Stakes in round numbers, scored by the
+worst outcome</td></tr>
+<tr><td><code>overlay middles</code></td><td>Margin and totals middles against
+counted finals</td></tr>
+<tr><td><code>overlay offers</code></td><td>Whether a deposit match clears,
+given what its rollover allows</td></tr>
+<tr><td><code>overlay paste</code></td><td>A betslip read into your record,
+shown before it is written</td></tr>
+<tr><td><code>overlay portfolio</code></td><td>Exposure, measured correlation,
+and the next stake it implies</td></tr>
+<tr><td><code>overlay performance</code></td><td>Your return with the interval
+around it, and whether it proves anything</td></tr>
+</table></div>
+
+<h2>What it refuses to do</h2>
+<p>It will not log into a sportsbook for you. Account linking means handing a
+third party your credentials, and no feature is worth that &mdash; CSV import
+and the betslip parser do the same job without asking. It also does nothing
+about identity, location or device: the anti-limiting work is entirely about
+the shape of the bet, because everything else is fraud rather than strategy.</p>
+
+<p><a href="/how-it-works/">How it prices a market &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

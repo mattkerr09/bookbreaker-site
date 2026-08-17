@@ -17,6 +17,35 @@
     ],
     "rounding_cost": 2.35
   },
+  "books": [
+    "Bally Bet",
+    "BetFred",
+    "BetMGM",
+    "BetRivers",
+    "Betfair Exchange",
+    "Betly",
+    "Betr",
+    "Caesars",
+    "Circa Sports",
+    "DraftKings",
+    "FanDuel",
+    "Fanatics",
+    "Hard Rock Bet",
+    "Kalshi",
+    "Pinnacle",
+    "Polymarket",
+    "Prime Sportsbook",
+    "ProphetX",
+    "Sports Bet Montana",
+    "Sportsbook Rhode Island",
+    "Sporttrade",
+    "SuperBook",
+    "Underdog Sports",
+    "WynnBET",
+    "bet365",
+    "betPARX",
+    "theScore Bet"
+  ],
   "boost": {
     "best": 250.0,
     "multiple": 10.0,
@@ -129,6 +158,100 @@
       }
     ]
   },
+  "demo": {
+    "bankroll": 10000,
+    "best": {
+      "age": 0,
+      "fill": 96.7,
+      "realised": 3.87,
+      "stake": 87.93,
+      "stake_shown": 88
+    },
+    "edge": 4.0,
+    "floor": 2.0,
+    "high": 4.48,
+    "ladder": [
+      {
+        "age": 0,
+        "fill": 96.7,
+        "realised": 3.87,
+        "stake": 87.93,
+        "stake_shown": 88
+      },
+      {
+        "age": 2,
+        "fill": 96.7,
+        "realised": 3.87,
+        "stake": 87.93,
+        "stake_shown": 88
+      },
+      {
+        "age": 5,
+        "fill": 92.0,
+        "realised": 3.68,
+        "stake": 83.64,
+        "stake_shown": 84
+      },
+      {
+        "age": 10,
+        "fill": 84.6,
+        "realised": 3.39,
+        "stake": 76.95,
+        "stake_shown": 77
+      },
+      {
+        "age": 20,
+        "fill": 71.7,
+        "realised": 2.87,
+        "stake": 65.14,
+        "stake_shown": 65
+      },
+      {
+        "age": 30,
+        "fill": 60.7,
+        "realised": 2.43,
+        "stake": 55.14,
+        "stake_shown": 55
+      },
+      {
+        "age": 45,
+        "fill": 47.2,
+        "realised": 1.89,
+        "stake": 42.94,
+        "stake_shown": 43
+      },
+      {
+        "age": 60,
+        "fill": 36.8,
+        "realised": 1.47,
+        "stake": 33.44,
+        "stake_shown": 33
+      },
+      {
+        "age": 90,
+        "fill": 22.3,
+        "realised": 0.89,
+        "stake": 20.28,
+        "stake_shown": 20
+      },
+      {
+        "age": 120,
+        "fill": 13.5,
+        "realised": 0.54,
+        "stake": 12.3,
+        "stake_shown": 12
+      }
+    ],
+    "low": 3.52,
+    "tau": 60.0,
+    "worst": {
+      "age": 120,
+      "fill": 13.5,
+      "realised": 0.54,
+      "stake": 12.3,
+      "stake_shown": 12
+    }
+  },
   "devig": {
     "consensus": 57.34,
     "market": "-145 / +125",
@@ -140,7 +263,7 @@
     },
     "spread": 0.39
   },
-  "engine_fingerprint": "89701b3d614812fa",
+  "engine_fingerprint": "c1710c50a96a3e4b",
   "evidence": {
     "bars": [
       {
@@ -425,6 +548,21 @@
       }
     ],
     "tau": 60.0
+  },
+  "release": {
+    "hash_bits": 256,
+    "python": "3.9",
+    "sdist": {
+      "kb": 230,
+      "name": "overlay-0.1.0.tar.gz",
+      "sha256": "3118cdc8072aaee2df57ead12551c9ae35ecadb0c7d5dbb4c4c1f3dad31e52be"
+    },
+    "version": "0.1.0",
+    "wheel": {
+      "kb": 147,
+      "name": "overlay-0.1.0-py3-none-any.whl",
+      "sha256": "4dd554cefc520c048650268c5be3916fa8a29ebf731da52f11fd8a1243665044"
+    }
   },
   "rounding": {
     "cost": 2.35,
