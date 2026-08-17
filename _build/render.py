@@ -459,12 +459,16 @@ def measure(engine) -> dict:
 
     # 10. Jurisdiction coverage, and a page per state.
     from overlay_engine.catalog import (
-        AS_OF, COVERAGE_GAPS, NO_LEGAL_BETTING, VENUES, for_state, state_summary,
+        AS_OF, COVERAGE_GAPS, NO_LEGAL_BETTING, RETAIL_ONLY, VENUES,
+        for_state, state_summary,
     )
 
+    # RETAIL_ONLY has to be in here explicitly. It used to arrive via
+    # COVERAGE_GAPS, and when that emptied, five states silently vanished from
+    # the site — no page, no mention, indistinguishable from never existing.
     states = sorted(
         {s for v in VENUES.values() for s in v.states}
-        | set(NO_LEGAL_BETTING) | set(COVERAGE_GAPS)
+        | set(NO_LEGAL_BETTING) | set(COVERAGE_GAPS) | set(RETAIL_ONLY)
     )
     out["catalog"] = {
         "venues": len(VENUES), "as_of": AS_OF, "states": len(states),
@@ -1461,12 +1465,14 @@ def render_market(m: dict, codes: list[str]) -> str:
 
     retail_names = [b["name"] for b in st["books"] if b["tier"] == "retail"]
     if st["retail"] == 1:
+        why = (f" &mdash; {e(st['single_operator'])}"
+               if st.get("single_operator") else "")
         distinctive = (
-            f"<p>{e(name)} is a single-operator market: {e(retail_names[0])} is "
-            "the only retail sportsbook here. That is the hardest kind of "
-            "market to arb, because an arbitrage needs two books and there is "
-            "only one &mdash; what remains is the exchange, and pricing "
-            f"{e(retail_names[0])} against it.</p>"
+            f"<p>{e(name)} is a single-operator market{why}. "
+            f"{e(retail_names[0])} is the only retail sportsbook here, which "
+            "makes it the hardest kind of market to arb: an arbitrage needs "
+            "two books and there is one. What remains is the exchange, and "
+            f"pricing {e(retail_names[0])} against it.</p>"
         )
     elif st["retail"] >= 10:
         distinctive = (
@@ -1817,34 +1823,36 @@ your own check, not advice.</p>
 
     gaps = sorted(c for c in measured["states"]
                   if measured["states"][c]["legal"]
-                  and not measured["states"][c]["covered"])
+                  and not measured["states"][c]["online"])
     if gaps:
         rows = "".join(
             f"<li><strong>{e(STATE_NAMES.get(c, c))}</strong> &mdash; "
-            f"{e(measured['states'][c]['gap_reason'])}</li>" for c in gaps)
+            f"{e(measured['states'][c]['retail_only'])}</li>" for c in gaps)
         body = f"""
-<h1>States this table does not cover</h1>
-<p class="lede">{len(gaps)} states have legal betting that the operator table
-behind this site does not describe. They share a page because the honest answer
-is the same in each: the market exists and we have not catalogued it.</p>
+<h1>States where betting is legal but not online</h1>
+<p class="lede">{len(gaps)} states allow sports betting in person and have no
+state-regulated online market. They share a page because the answer is the same
+in each, and it is not the answer a missing table would give.</p>
 <ul>{rows}</ul>
-<p>Most run a lottery-operated book, which is a different shape from the
-multi-operator markets elsewhere &mdash; often one app, sometimes kiosk-only.
-Naming the gap matters more than it might seem: an empty list and an
-uncatalogued market look identical to a reader, and only one of them is a bug.</p>
+<p>That distinction matters more than it looks. &ldquo;We have not catalogued
+this state&rdquo; and &ldquo;this state has no online sportsbook&rdquo; produce
+the same empty list, and only one of them means you should go looking. Nothing
+here is uncatalogued: as of {e(measured['catalog']['as_of'])} every state with
+a legal online market is described, including the five single-operator lottery
+markets.</p>
 <p class="caveat">Read {e(measured['catalog']['as_of'])}. A starting point for
 your own check, not advice.</p>
 """
-        out = SITE / "sportsbooks/not-covered/index.html"
+        out = SITE / "sportsbooks/in-person-only/index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(
-            "States this table does not cover",
-            "States with legal betting that this operator table does not "
-            "describe, and why naming the gap matters more than leaving it "
-            "blank. Dated.",
-            body, "/sportsbooks/not-covered/"))
-        built.append(("/sportsbooks/not-covered/",
-                      "sportsbooks/not-covered/index.html"))
+            "States where betting is legal but not online",
+            "The states that allow sports betting in person with no online "
+            "market, and why that is a different answer from a table with a "
+            "hole in it. Dated.",
+            body, "/sportsbooks/in-person-only/"))
+        built.append(("/sportsbooks/in-person-only/",
+                      "sportsbooks/in-person-only/index.html"))
 
     # One page per distinct market, not per state. Missouri and Kentucky have
     # identical venue lists, so separate pages measured 97.3% alike — they were
@@ -1853,7 +1861,7 @@ your own check, not advice.</p>
     markets: dict[tuple, list[str]] = {}
     for code in sorted(c for c in measured["states"]
                        if measured["states"][c]["legal"]
-                       and measured["states"][c]["covered"]):
+                       and measured["states"][c]["online"]):
         key = tuple(b["name"] for b in measured["states"][code]["books"])
         markets.setdefault(key, []).append(code)
 

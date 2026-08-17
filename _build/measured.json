@@ -54,7 +54,7 @@
     "fl": 2,
     "nj": 12,
     "states": 50,
-    "venues": 25
+    "venues": 27
   },
   "commission": {
     "commission": 2,
@@ -111,7 +111,7 @@
     },
     "spread": 0.39
   },
-  "engine_fingerprint": "59912a8e92f61456",
+  "engine_fingerprint": "a63fc2937268a604",
   "evidence": {
     "bars": [
       {
@@ -253,7 +253,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "AK",
       "venues": 1
@@ -276,7 +279,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "AL",
       "venues": 1
@@ -311,7 +317,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 2,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "AR",
       "venues": 3
@@ -401,7 +410,10 @@
         "kalshi",
         "sporttrade"
       ],
+      "online": true,
       "retail": 10,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "AZ",
       "venues": 12
@@ -424,7 +436,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "CA",
       "venues": 1
@@ -521,7 +536,10 @@
         "kalshi",
         "sporttrade"
       ],
+      "online": true,
       "retail": 10,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "CO",
       "venues": 13
@@ -556,7 +574,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 2,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "CT",
       "venues": 3
@@ -603,7 +624,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 4,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "DC",
       "venues": 5
@@ -617,19 +641,28 @@
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetRivers",
+          "tier": "retail"
         }
       ],
-      "covered": false,
-      "gap_reason": "lottery-run \u2014 not in the AS_OF source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
-      "retail": 0,
+      "online": true,
+      "retail": 1,
+      "retail_only": "",
+      "single_operator": "a lottery market run by BetRivers",
       "stale_days": 0,
       "state": "DE",
-      "venues": 1
+      "venues": 2
     },
     "FL": {
       "anchors": 1,
@@ -655,7 +688,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 1,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "FL",
       "venues": 2
@@ -678,7 +714,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "GA",
       "venues": 1
@@ -701,7 +740,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "HI",
       "venues": 1
@@ -785,7 +827,10 @@
         "circa",
         "kalshi"
       ],
+      "online": true,
       "retail": 9,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "IA",
       "venues": 11
@@ -808,7 +853,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "ID",
       "venues": 1
@@ -886,7 +934,10 @@
         "circa",
         "kalshi"
       ],
+      "online": true,
       "retail": 8,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "IL",
       "venues": 10
@@ -963,7 +1014,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 9,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "IN",
       "venues": 10
@@ -1028,7 +1082,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 7,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "KS",
       "venues": 8
@@ -1100,7 +1157,10 @@
         "circa",
         "kalshi"
       ],
+      "online": true,
       "retail": 7,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "KY",
       "venues": 9
@@ -1171,7 +1231,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 8,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "LA",
       "venues": 9
@@ -1236,7 +1299,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 7,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "MA",
       "venues": 8
@@ -1307,7 +1373,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 8,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "MD",
       "venues": 9
@@ -1336,7 +1405,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 1,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "ME",
       "venues": 2
@@ -1419,7 +1491,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 10,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "MI",
       "venues": 11
@@ -1442,7 +1517,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "MN",
       "venues": 1
@@ -1514,7 +1592,10 @@
         "circa",
         "kalshi"
       ],
+      "online": true,
       "retail": 7,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "MO",
       "venues": 9
@@ -1530,14 +1611,17 @@
           "tier": "exchange"
         }
       ],
-      "covered": false,
-      "gap_reason": "retail only at time of source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "retail sportsbooks only, no online betting",
+      "single_operator": "",
       "stale_days": 0,
       "state": "MS",
       "venues": 1
@@ -1551,19 +1635,28 @@
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Sports Bet Montana",
+          "tier": "retail"
         }
       ],
-      "covered": false,
-      "gap_reason": "lottery-run kiosk/app \u2014 not in the AS_OF source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
-      "retail": 0,
+      "online": true,
+      "retail": 1,
+      "retail_only": "",
+      "single_operator": "a lottery market run by Intralot, where the app only works inside authorised Sports Bet Montana locations",
       "stale_days": 0,
       "state": "MT",
-      "venues": 1
+      "venues": 2
     },
     "NC": {
       "anchors": 1,
@@ -1631,7 +1724,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 8,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "NC",
       "venues": 9
@@ -1647,14 +1743,17 @@
           "tier": "exchange"
         }
       ],
-      "covered": false,
-      "gap_reason": "tribal retail only at time of source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "tribal casinos only, no state-regulated online betting",
+      "single_operator": "",
       "stale_days": 0,
       "state": "ND",
       "venues": 1
@@ -1668,19 +1767,28 @@
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
         }
       ],
-      "covered": false,
-      "gap_reason": "lottery-run, single operator \u2014 not in the AS_OF source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
-      "retail": 0,
+      "online": true,
+      "retail": 1,
+      "retail_only": "",
+      "single_operator": "an exclusive lottery contract with DraftKings",
       "stale_days": 0,
       "state": "NH",
-      "venues": 1
+      "venues": 2
     },
     "NJ": {
       "anchors": 2,
@@ -1767,7 +1875,10 @@
         "kalshi",
         "sporttrade"
       ],
+      "online": true,
       "retail": 10,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "NJ",
       "venues": 12
@@ -1783,14 +1894,17 @@
           "tier": "exchange"
         }
       ],
-      "covered": false,
-      "gap_reason": "tribal retail only at time of source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "tribal casinos only, no state-regulated online betting",
+      "single_operator": "",
       "stale_days": 0,
       "state": "NM",
       "venues": 1
@@ -1832,7 +1946,10 @@
         "circa",
         "kalshi"
       ],
+      "online": true,
       "retail": 2,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "NV",
       "venues": 4
@@ -1891,7 +2008,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 6,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "NY",
       "venues": 7
@@ -1980,7 +2100,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 11,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "OH",
       "venues": 12
@@ -2003,7 +2126,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "OK",
       "venues": 1
@@ -2017,19 +2143,28 @@
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
         }
       ],
-      "covered": false,
-      "gap_reason": "lottery-run, single operator \u2014 not in the AS_OF source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
-      "retail": 0,
+      "online": true,
+      "retail": 1,
+      "retail_only": "",
+      "single_operator": "an exclusive lottery partnership with DraftKings",
       "stale_days": 0,
       "state": "OR",
-      "venues": 1
+      "venues": 2
     },
     "PA": {
       "anchors": 1,
@@ -2115,7 +2250,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 11,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "PA",
       "venues": 12
@@ -2129,19 +2267,28 @@
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Sportsbook Rhode Island",
+          "tier": "retail"
         }
       ],
-      "covered": false,
-      "gap_reason": "lottery-run \u2014 not in the AS_OF source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
-      "retail": 0,
+      "online": true,
+      "retail": 1,
+      "retail_only": "",
+      "single_operator": "a lottery market run on the IGT platform",
       "stale_days": 0,
       "state": "RI",
-      "venues": 1
+      "venues": 2
     },
     "SC": {
       "anchors": 1,
@@ -2161,7 +2308,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "SC",
       "venues": 1
@@ -2177,14 +2327,17 @@
           "tier": "exchange"
         }
       ],
-      "covered": false,
-      "gap_reason": "retail only at time of source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "Deadwood and tribal casinos only, no online betting",
+      "single_operator": "",
       "stale_days": 0,
       "state": "SD",
       "venues": 1
@@ -2255,7 +2408,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 8,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "TN",
       "venues": 9
@@ -2278,7 +2434,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "TX",
       "venues": 1
@@ -2301,7 +2460,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "UT",
       "venues": 1
@@ -2391,7 +2553,10 @@
         "kalshi",
         "sporttrade"
       ],
+      "online": true,
       "retail": 10,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "VA",
       "venues": 12
@@ -2432,7 +2597,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 3,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "VT",
       "venues": 4
@@ -2461,7 +2629,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 1,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "WA",
       "venues": 2
@@ -2477,14 +2648,17 @@
           "tier": "exchange"
         }
       ],
-      "covered": false,
-      "gap_reason": "tribal retail only at time of source",
+      "covered": true,
+      "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
         "kalshi"
       ],
+      "online": false,
       "retail": 0,
+      "retail_only": "tribal casinos only, no state-regulated online betting",
+      "single_operator": "",
       "stale_days": 0,
       "state": "WI",
       "venues": 1
@@ -2555,7 +2729,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 8,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "WV",
       "venues": 9
@@ -2608,7 +2785,10 @@
       "never_limit": [
         "kalshi"
       ],
+      "online": true,
       "retail": 5,
+      "retail_only": "",
+      "single_operator": "",
       "stale_days": 0,
       "state": "WY",
       "venues": 6
