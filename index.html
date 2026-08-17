@@ -6,7 +6,7 @@
 <title>Bookbreaker — the edge is an interval</title>
 <meta name="description" content="An arbitrage and +EV engine that reports how wrong it might be: the devig spread, the chance of getting on, and what your record can support.">
 <link rel="canonical" href="https://bookbreaker.bet/">
-<link rel="stylesheet" href="/style.css?v=c0b143da52">
+<link rel="stylesheet" href="/style.css?v=f0db4a2e36">
 </head>
 <body class="home">
 <header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span></nav></header>
@@ -25,6 +25,22 @@ the bet down, and when your own record proves nothing.</p>
 </div>
 </div>
 
+<figure class="plate plate--split">
+  <div>
+    <p class="plate-cap">What every other tracker prints</p>
+    <span class="rf rf--hero rf--bare" style="--lo:49.875%;--hi:49.875%;--pt:49.875%;--z:31.348%" role="img" aria-label="A single figure, +5.91%, drawn with no interval."><i class="rf-band"></i><i class="rf-pt"></i><i class="rf-zero"></i></span>
+    <p class="plate-key"><span style="--at:31.348%">0</span>
+    <span class="over" style="--at:49.875%">5.91%</span></p>
+  </div>
+  <div>
+    <p class="plate-cap">What Bookbreaker prints</p>
+    <span class="rf rf--hero" style="--lo:9.404%;--hi:90.596%;--pt:49.875%;--z:31.348%" role="img" aria-label="Flat-bet ROI +5.91%, interval -7.0% to +18.9%, spanning zero."><i class="rf-neg"></i><i class="rf-band is-zero"></i><i class="rf-pt"></i><i class="rf-zero"></i></span>
+    <p class="plate-key"><span class="neg" style="--at:9.404%">-7.0%</span>
+    <span style="--at:31.348%">0</span>
+    <span style="--at:90.596%">+18.9%</span></p>
+  </div>
+</figure>
+
 <div class="app">
   <div class="app-bar">
     <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -36,7 +52,7 @@ the bet down, and when your own record proves nothing.</p>
     <span>EV</span><span>Band</span><span>Age</span><span>Fill</span>
     <span>Realised</span>
   </div>
-  <div class="app-row"><span class="ev-name">BOS @ LAL</span><span class="dim">DraftKings</span><span class="price">+110</span><span class="pos">+5.48%</span><span class="band">+5.00..+5.96</span><span class="dim">4s</span><span class="fill"><i style="width:96%"></i><b>96%</b></span><span class="pos strong">+5.24%</span></div><div class="app-row"><span class="ev-name">DEN @ PHX</span><span class="dim">DraftKings</span><span class="price">+114</span><span class="pos">+7.49%</span><span class="band">+7.00..+7.98</span><span class="dim">58s</span><span class="fill"><i style="width:52%"></i><b>52%</b></span><span class="pos strong">+3.93%</span></div><div class="app-row"><span class="ev-name">MIA @ NYK</span><span class="dim">DraftKings</span><span class="price">+106</span><span class="pos">+3.47%</span><span class="band">+3.00..+3.94</span><span class="dim">22s</span><span class="fill"><i style="width:78%"></i><b>78%</b></span><span class="pos strong">+2.72%</span></div>
+  <div class="app-row"><span class="ev-name">BOS @ LAL</span><span class="dim">DraftKings</span><span class="price">+110</span><span class="pos">+5.48%</span><span class="band"><span class="rf rf--row" style="--lo:41.806%;--hi:57.860%;--pt:49.833%;--rl:45.819%" role="img" aria-label="+5.00% to +5.96%, point estimate +5.48%, realised +5.24%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">4s</span><span class="fill"><i style="width:96%"></i><b>96%</b></span><span class="pos strong">+5.24%</span></div><div class="app-row"><span class="ev-name">DEN @ PHX</span><span class="dim">DraftKings</span><span class="price">+114</span><span class="pos">+7.49%</span><span class="band"><span class="rf rf--row" style="--lo:75.251%;--hi:91.639%;--pt:83.445%;--rl:23.913%" role="img" aria-label="+7.00% to +7.98%, point estimate +7.49%, realised +3.93%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">58s</span><span class="fill"><i style="width:52%"></i><b>52%</b></span><span class="pos strong">+3.93%</span></div><div class="app-row"><span class="ev-name">MIA @ NYK</span><span class="dim">DraftKings</span><span class="price">+106</span><span class="pos">+3.47%</span><span class="band"><span class="rf rf--row" style="--lo:8.361%;--hi:24.080%;--pt:16.221%;--rl:3.679%" role="img" aria-label="+3.00% to +3.94%, point estimate +3.47%, realised +2.72%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">22s</span><span class="fill"><i style="width:78%"></i><b>78%</b></span><span class="pos strong">+2.72%</span></div>
   <div class="app-foot">Ranked on <strong>realised</strong> EV &mdash; raw EV
   times the chance the price is still there. BOS @ LAL sits above DEN @ PHX despite
   a smaller edge, because DEN @ PHX is 58s old and fills
