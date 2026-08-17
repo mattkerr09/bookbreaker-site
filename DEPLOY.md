@@ -30,13 +30,25 @@ the pushed content, because a rejected batch that looks like a success is worse
 than not running — and it cannot tell "not deployed yet" from "broken", so give
 the deploy time to finish.
 
+## Search engines
+
+**Done automatically.** IndexNow reaches Bing, Yandex, Seznam and Naver in one
+POST. Both endpoints accepted all 33 URLs on 2026-08-17 — `api.indexnow.org`
+returned 202, `bing.com/indexnow` returned 200. Re-run `_build/submit.py` after
+every content change.
+
+`submit.py` refuses to run unless the live site already serves the key file
+IndexNow verifies ownership with. That refusal is the point: a submission fired
+before the Pages build finishes is rejected for a reason nobody sees, and at the
+shell it looks exactly like a successful run. Proven before the first push — a
+dry run against the not-yet-deployed key returned 404 and the script declined.
+
 ## Still to do
 
-1. **`_build/submit.py`** — IndexNow covers Bing, Yandex, Seznam and Naver in
-   one POST. It needs a key file served from the site root, so it is a content
-   change as well as a script.
-2. **Google Search Console.** Google dropped its sitemap ping in 2023, so the
-   sitemap has to be submitted through the account, which is yours.
+1. **Google Search Console.** Google dropped its sitemap ping in 2023, so the
+   sitemap has to be submitted through the account, which is yours. IndexNow
+   does not cover it and the script says so rather than implying four engines
+   are five.
 
 Note that `mattkerr09.github.io/bookbreaker-site/` will now 404 or redirect.
 Once `CNAME` exists Pages serves the custom domain only. That is expected.
