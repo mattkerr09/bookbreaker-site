@@ -59,6 +59,12 @@ CASES = [
         "Have fun out there.",
     ),
     (
+        "the IndexNow key rotated without re-rendering",
+        "_build/indexnow.key",
+        "1d72346274f3ba1a3957eb72beea0f75",
+        "0" * 32,
+    ),
+    (
         "a stale render published against a changed engine",
         "_build/measured.json",
         '"engine_fingerprint"',

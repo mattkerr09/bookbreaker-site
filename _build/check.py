@@ -235,6 +235,28 @@ def check_render_is_fresh(measured, fails, app_repo: Path):
         )
 
 
+def check_indexnow_key(fails):
+    """The key file must exist at the site root and contain the key.
+
+    `submit.py` refuses to post without it, so a missing key file turns every
+    future submission into a no-op that reports success at the shell. Catching
+    it here means the failure lands at build time instead.
+    """
+    key_path = SITE / "_build" / "indexnow.key"
+    if not key_path.exists():
+        return  # no key configured; submission is simply not set up
+
+    key = key_path.read_text().strip()
+    served = SITE / f"{key}.txt"
+    if not served.exists():
+        fails.append(
+            f"the IndexNow key file {key}.txt is not in the site root — "
+            "re-run render.py, which writes it"
+        )
+    elif served.read_text().strip() != key:
+        fails.append(f"{key}.txt does not contain the key it is named for")
+
+
 def check_head(pages, fails):
     for path, markup in pages:
         for tag, pattern in (
@@ -414,6 +436,7 @@ def main() -> int:
     fails: list[str] = []
     check_render_is_fresh(measured, fails,
                           Path(args.app_repo).expanduser().resolve())
+    check_indexnow_key(fails)
     check_numbers_are_measured(pages, measured, fails)
     check_competitor_claims(pages, fails)
     check_every_competitor_row_is_sourced(pages, fails)

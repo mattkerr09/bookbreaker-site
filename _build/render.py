@@ -755,6 +755,14 @@ your own check, not advice.</p>
             stale.parent.rmdir()
         print(f"  removed stale {stale.relative_to(SITE)}")
 
+    # IndexNow verifies ownership by fetching this from the site root, so it
+    # is content that must ship with the pages — not a build artefact. Written
+    # here so a render can never produce a site the submitter cannot verify.
+    key_path = SITE / "_build" / "indexnow.key"
+    if key_path.exists():
+        key = key_path.read_text().strip()
+        (SITE / f"{key}.txt").write_text(key + "\n")
+
     (SITE / "style.css").write_text(STYLE)
     (SITE / "robots.txt").write_text(
         "User-agent: *\nAllow: /\n\nSitemap: https://bookbreaker.bet/sitemap.xml\n"
