@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bookbreaker — the edge is an interval</title>
+<meta name="description" content="An arbitrage and +EV engine that reports how wrong it might be: the devig spread, the chance of getting on, and what your record can support.">
+<link rel="canonical" href="https://bookbreaker.bet/">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><nav><a href="/">Bookbreaker</a><a href="/how-it-works/">How it works</a><a href="/vs/">Compared</a></nav></header>
+<main>
+
+<h1>The edge is an interval, not a number</h1>
+<p class="lede">Every betting screen prints one figure to two decimal places.
+That figure is a modelling choice wearing a measurement's clothes. Bookbreaker
+reports the range, the chance you can actually get the bet down, and what your
+own record can and cannot support.</p>
+
+<h2>Same market, four defensible methods</h2>
+<p>Removing a book's margin to recover what it really believes is a modelling
+choice, not arithmetic. On a -145 / +125 moneyline the four standard
+methods disagree by 0.39 points of probability:</p>
+<table>
+<tr><th>Method</th><th>Fair probability</th></tr>
+<tr><td>additive</td><td>57.37%</td></tr><tr><td>multiplicative</td><td>57.11%</td></tr><tr><td>power</td><td>57.50%</td></tr><tr><td>shin</td><td>57.37%</td></tr>
+</table>
+<p>Consensus 57.34%. On a market where a 2% edge is a good day,
+that spread is a quarter of the edge. Every competing tool picks one of those
+rows, hard-codes it, and prints the result as fact.</p>
+
+<h2>A stake a person would actually place</h2>
+<p>At +110 and +105 there is a
+3.73% arbitrage. Every calculator hands you this:</p>
+<p class="figure">493.98 and 506.02
+&rarr; 37.35 guaranteed</p>
+<p>A precise stake to the cent is the most-cited fingerprint risk desks use to
+identify arbitrage. Bookbreaker solves for round stakes directly:</p>
+<p class="figure">490 and 500
+&rarr; 35.00 guaranteed</p>
+<p>The 2.35 difference is named and reported, not hidden.
+A tool that conceals its own trade-offs is not one you can check.</p>
+
+<h2>An edge you cannot take is worth nothing</h2>
+<p>Quote age is measured from the book's own timestamp, not from when the feed
+reached us. On a feed running 5.4 seconds behind, a quote that
+looks 10 seconds old is really 15.4:</p>
+<p class="figure">still available: 84% &mdash; a screen ignoring
+latency would say 89%</p>
+
+<h2>What your record actually says</h2>
+<p>On a 220-bet history showing +1,300 profit and
+5.91% return, Bookbreaker's verdict is:</p>
+<p class="figure">+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) — indistinguishable from break-even</p>
+<p>Every other tracker prints 5.91% and stops.</p>
+
+</main>
+<footer>
+<p>Bookbreaker is an analysis tool. It tells you what the numbers say; you
+place your own bets. It does not link sportsbook accounts and never asks for
+sportsbook credentials.</p>
+<p>Every figure on this site is computed by running the engine at build time —
+none is typed in. Generated 2026-08-17.</p>
+<p>21+. Gambling involves risk. If it stops being fun, it is not fun —
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

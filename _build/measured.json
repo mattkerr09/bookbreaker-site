@@ -1,0 +1,2491 @@
+{
+  "arb": {
+    "exact_profit": 37.35,
+    "exact_stakes": [
+      493.98,
+      506.02
+    ],
+    "legs": [
+      "+110",
+      "+105"
+    ],
+    "margin": 3.73,
+    "round_profit": 35.0,
+    "round_stakes": [
+      490,
+      500
+    ],
+    "rounding_cost": 2.35
+  },
+  "catalog": {
+    "as_of": "2026-08-17",
+    "fl": 2,
+    "nj": 12,
+    "states": 50,
+    "venues": 25
+  },
+  "conversion": {
+    "bonus": 1000,
+    "ladder": [
+      {
+        "ceiling": 50.0,
+        "free": "+100",
+        "guaranteed": 476,
+        "hedge": "-110",
+        "hedge_stake": 524,
+        "rate": 47.6
+      },
+      {
+        "ceiling": 66.7,
+        "free": "+200",
+        "guaranteed": 606,
+        "hedge": "-230",
+        "hedge_stake": 1394,
+        "rate": 60.6
+      },
+      {
+        "ceiling": 80.0,
+        "free": "+400",
+        "guaranteed": 727,
+        "hedge": "-450",
+        "hedge_stake": 3273,
+        "rate": 72.7
+      },
+      {
+        "ceiling": 92.3,
+        "free": "+1200",
+        "guaranteed": 800,
+        "hedge": "-1400",
+        "hedge_stake": 11200,
+        "rate": 80.0
+      }
+    ]
+  },
+  "devig": {
+    "consensus": 57.34,
+    "market": "-145 / +125",
+    "methods": {
+      "additive": 57.37,
+      "multiplicative": 57.11,
+      "power": 57.5,
+      "shin": 57.37
+    },
+    "spread": 0.39
+  },
+  "engine_fingerprint": "148f941a048c64c2",
+  "fill": {
+    "age": 10.0,
+    "effective": 15.4,
+    "honest": 84,
+    "latency": 5.4,
+    "naive": 89
+  },
+  "generated": "2026-08-17",
+  "middles": {
+    "cases": [
+      {
+        "breakeven": 4.76,
+        "ev": 10.53,
+        "probability": 15.79,
+        "window": "2.5 / 3.5"
+      },
+      {
+        "breakeven": 4.76,
+        "ev": -0.53,
+        "probability": 4.21,
+        "window": "4.5 / 5.5"
+      }
+    ],
+    "games": 285,
+    "sample": "synthetic, shape stated"
+  },
+  "performance": {
+    "high": 18.9,
+    "low": -7.0,
+    "n": 220,
+    "profit": 1300,
+    "roi": 5.91,
+    "verdict": "+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) \u2014 indistinguishable from break-even"
+  },
+  "states": {
+    "AK": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "AK",
+      "venues": 1
+    },
+    "AL": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "AL",
+      "venues": 1
+    },
+    "AR": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 2,
+      "stale_days": 0,
+      "state": "AR",
+      "venues": 3
+    },
+    "AZ": {
+      "anchors": 2,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 2.0,
+          "limits": false,
+          "name": "Sporttrade",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Bally Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetFred",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Hard Rock Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi",
+        "sporttrade"
+      ],
+      "retail": 10,
+      "stale_days": 0,
+      "state": "AZ",
+      "venues": 12
+    },
+    "CA": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "CA",
+      "venues": 1
+    },
+    "CO": {
+      "anchors": 3,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Circa Sports",
+          "tier": "sharp"
+        },
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 2.0,
+          "limits": false,
+          "name": "Sporttrade",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Bally Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetFred",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Hard Rock Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "circa",
+        "kalshi",
+        "sporttrade"
+      ],
+      "retail": 10,
+      "stale_days": 0,
+      "state": "CO",
+      "venues": 13
+    },
+    "CT": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 2,
+      "stale_days": 0,
+      "state": "CT",
+      "venues": 3
+    },
+    "DC": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 4,
+      "stale_days": 0,
+      "state": "DC",
+      "venues": 5
+    },
+    "DE": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "lottery-run \u2014 not in the AS_OF source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "DE",
+      "venues": 1
+    },
+    "FL": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Hard Rock Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 1,
+      "stale_days": 0,
+      "state": "FL",
+      "venues": 2
+    },
+    "GA": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "GA",
+      "venues": 1
+    },
+    "HI": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "HI",
+      "venues": 1
+    },
+    "IA": {
+      "anchors": 2,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Circa Sports",
+          "tier": "sharp"
+        },
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Bally Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetFred",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "circa",
+        "kalshi"
+      ],
+      "retail": 9,
+      "stale_days": 0,
+      "state": "IA",
+      "venues": 11
+    },
+    "ID": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "ID",
+      "venues": 1
+    },
+    "IL": {
+      "anchors": 2,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Circa Sports",
+          "tier": "sharp"
+        },
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Hard Rock Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "circa",
+        "kalshi"
+      ],
+      "retail": 8,
+      "stale_days": 0,
+      "state": "IL",
+      "venues": 10
+    },
+    "IN": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Bally Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Hard Rock Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 9,
+      "stale_days": 0,
+      "state": "IN",
+      "venues": 10
+    },
+    "KS": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 7,
+      "stale_days": 0,
+      "state": "KS",
+      "venues": 8
+    },
+    "KY": {
+      "anchors": 2,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Circa Sports",
+          "tier": "sharp"
+        },
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "circa",
+        "kalshi"
+      ],
+      "retail": 7,
+      "stale_days": 0,
+      "state": "KY",
+      "venues": 9
+    },
+    "LA": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetFred",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 8,
+      "stale_days": 0,
+      "state": "LA",
+      "venues": 9
+    },
+    "MA": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Bally Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 7,
+      "stale_days": 0,
+      "state": "MA",
+      "venues": 8
+    },
+    "MD": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "betPARX",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 8,
+      "stale_days": 0,
+      "state": "MD",
+      "venues": 9
+    },
+    "ME": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 1,
+      "stale_days": 0,
+      "state": "ME",
+      "venues": 2
+    },
+    "MI": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetRivers",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Hard Rock Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "WynnBET",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 10,
+      "stale_days": 0,
+      "state": "MI",
+      "venues": 11
+    },
+    "MN": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "MN",
+      "venues": 1
+    },
+    "MO": {
+      "anchors": 2,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Circa Sports",
+          "tier": "sharp"
+        },
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "circa",
+        "kalshi"
+      ],
+      "retail": 7,
+      "stale_days": 0,
+      "state": "MO",
+      "venues": 9
+    },
+    "MS": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "retail only at time of source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "MS",
+      "venues": 1
+    },
+    "MT": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "lottery-run kiosk/app \u2014 not in the AS_OF source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "MT",
+      "venues": 1
+    },
+    "NC": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Underdog Sports",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 8,
+      "stale_days": 0,
+      "state": "NC",
+      "venues": 9
+    },
+    "ND": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "tribal retail only at time of source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "ND",
+      "venues": 1
+    },
+    "NH": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "lottery-run, single operator \u2014 not in the AS_OF source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "NH",
+      "venues": 1
+    },
+    "NJ": {
+      "anchors": 2,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 2.0,
+          "limits": false,
+          "name": "Sporttrade",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "betPARX",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetRivers",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Prime Sportsbook",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi",
+        "sporttrade"
+      ],
+      "retail": 10,
+      "stale_days": 0,
+      "state": "NJ",
+      "venues": 12
+    },
+    "NM": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "tribal retail only at time of source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "NM",
+      "venues": 1
+    },
+    "NV": {
+      "anchors": 2,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Circa Sports",
+          "tier": "sharp"
+        },
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetFred",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "SuperBook",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "circa",
+        "kalshi"
+      ],
+      "retail": 2,
+      "stale_days": 0,
+      "state": "NV",
+      "venues": 4
+    },
+    "NY": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Bally Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "WynnBET",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 6,
+      "stale_days": 0,
+      "state": "NY",
+      "venues": 7
+    },
+    "OH": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Bally Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetFred",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Betly",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Betr",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 11,
+      "stale_days": 0,
+      "state": "OH",
+      "venues": 12
+    },
+    "OK": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "OK",
+      "venues": 1
+    },
+    "OR": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "lottery-run, single operator \u2014 not in the AS_OF source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "OR",
+      "venues": 1
+    },
+    "PA": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetFred",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "betPARX",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetRivers",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Prime Sportsbook",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 11,
+      "stale_days": 0,
+      "state": "PA",
+      "venues": 12
+    },
+    "RI": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "lottery-run \u2014 not in the AS_OF source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "RI",
+      "venues": 1
+    },
+    "SC": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "SC",
+      "venues": 1
+    },
+    "SD": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "retail only at time of source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "SD",
+      "venues": 1
+    },
+    "TN": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Betly",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Hard Rock Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 8,
+      "stale_days": 0,
+      "state": "TN",
+      "venues": 9
+    },
+    "TX": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "TX",
+      "venues": 1
+    },
+    "UT": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": false,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "UT",
+      "venues": 1
+    },
+    "VA": {
+      "anchors": 2,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 2.0,
+          "limits": false,
+          "name": "Sporttrade",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Bally Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Betr",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Hard Rock Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi",
+        "sporttrade"
+      ],
+      "retail": 10,
+      "stale_days": 0,
+      "state": "VA",
+      "venues": 12
+    },
+    "VT": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 3,
+      "stale_days": 0,
+      "state": "VT",
+      "venues": 4
+    },
+    "WA": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetFred",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 1,
+      "stale_days": 0,
+      "state": "WA",
+      "venues": 2
+    },
+    "WI": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        }
+      ],
+      "covered": false,
+      "gap_reason": "tribal retail only at time of source",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 0,
+      "stale_days": 0,
+      "state": "WI",
+      "venues": 1
+    },
+    "WV": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Betly",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetRivers",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 8,
+      "stale_days": 0,
+      "state": "WV",
+      "venues": 9
+    },
+    "WY": {
+      "anchors": 1,
+      "as_of": "2026-08-17",
+      "books": [
+        {
+          "commission": 0,
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        }
+      ],
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi"
+      ],
+      "retail": 5,
+      "stale_days": 0,
+      "state": "WY",
+      "venues": 6
+    }
+  },
+  "version": "0.1.0"
+}

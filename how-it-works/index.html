@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Bookbreaker works</title>
+<meta name="description" content="Welcome offers after every cost, middles counted rather than assumed, which books you can legally use, and what the tool will not do.">
+<link rel="canonical" href="https://bookbreaker.bet/how-it-works/">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><nav><a href="/">Bookbreaker</a><a href="/how-it-works/">How it works</a><a href="/vs/">Compared</a></nav></header>
+<main>
+
+<h1>How it works</h1>
+
+<h2>Welcome offers, after every cost</h2>
+<p>A bonus bet does not return its stake, so it is worth about half its face
+value if bet naively. Converting means hedging &mdash; and every guide says
+&ldquo;convert on a longshot&rdquo; without mentioning what that costs at the
+second book. On a 1,000 bonus:</p>
+<table>
+<tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th>
+<th>Guaranteed</th><th>Rate</th></tr>
+<tr><td>+100</td><td>-110</td><td>524</td><td>476</td><td>47.6%</td></tr><tr><td>+200</td><td>-230</td><td>1,394</td><td>606</td><td>60.6%</td></tr><tr><td>+400</td><td>-450</td><td>3,273</td><td>727</td><td>72.7%</td></tr><tr><td>+1200</td><td>-1400</td><td>11,200</td><td>800</td><td>80.0%</td></tr>
+</table>
+<p>The hedge column is the constraint the advice always omits.</p>
+
+<h2>Middles, counted rather than assumed</h2>
+<p>Results are not smoothly distributed. Football margins pile up on 3 and 7
+because of how the sport scores, so a normal curve gets the shape wrong in
+exactly the place the whole bet lives. Same prices, one point apart:</p>
+<table>
+<tr><th>Window</th><th>Hits</th><th>Break-even</th><th>Expected value</th></tr>
+<tr><td>2.5 / 3.5</td><td>15.79%</td><td>4.76%</td><td>+10.53%</td></tr><tr><td>4.5 / 5.5</td><td>4.21%</td><td>4.76%</td><td>-0.53%</td></tr>
+</table>
+<p class="caveat">Computed from a 285-game sample whose shape is
+synthetic, shape stated &mdash; an illustration of the mechanism, not a claim about
+any league. No published margin table we could verify covers every margin with
+its sample size, so Bookbreaker counts the games you record rather than
+shipping a distribution, and refuses to give a counted answer below 200
+games.</p>
+
+<h2>Which books you can use</h2>
+<p>25 venues, filtered to the ones you can actually hold: an
+arbitrage between two books you cannot both open is noise with a number
+attached. 12 in New Jersey, 2 in Florida. Table read
+2026-08-17, and the site shows its own age because a jurisdiction table
+without a date asserts &ldquo;true now&rdquo; forever.</p>
+<p class="caveat">A dated starting point for your own check, not advice. The
+book's own site decides whether it will accept you.</p>
+
+<h2>What it will not do</h2>
+<p>No multi-accounting, no identity or KYC workarounds, no device or location
+spoofing. That line is drawn in the code, not in a policy document: the
+account-longevity model reads bet attributes only &mdash; stake sizes, timing,
+market mix &mdash; and has no access to identity or network state.</p>
+<p>It also does not link sportsbook accounts. Trackers that sync automatically
+do it by holding your sportsbook credentials. Bookbreaker imports the CSV your
+book already exports.</p>
+
+</main>
+<footer>
+<p>Bookbreaker is an analysis tool. It tells you what the numbers say; you
+place your own bets. It does not link sportsbook accounts and never asks for
+sportsbook credentials.</p>
+<p>Every figure on this site is computed by running the engine at build time —
+none is typed in. Generated 2026-08-17.</p>
+<p>21+. Gambling involves risk. If it stops being fun, it is not fun —
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>
