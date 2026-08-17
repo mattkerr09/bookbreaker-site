@@ -6,7 +6,7 @@
 
 - Pages build reported `built` 135 seconds after the push.
 - DNS resolves to all four GitHub Pages addresses.
-- **All 33 pages return 200 over https**, checked against the sitemap.
+- **All 35 pages return 200 over https**, checked against the sitemap.
 - Certificate issued and **HTTPS is enforced**.
 - The homepage serves the engine's own devig figure (57.34%), so what is live
   is a real render and not a cached placeholder.
@@ -33,9 +33,10 @@ the deploy time to finish.
 ## Search engines
 
 **Done automatically.** IndexNow reaches Bing, Yandex, Seznam and Naver in one
-POST. Both endpoints accepted all 33 URLs on 2026-08-17 — `api.indexnow.org`
-returned 202, `bing.com/indexnow` returned 200. Re-run `_build/submit.py` after
-every content change.
+POST. Both endpoints accepted all 33 URLs on the first submission
+(`api.indexnow.org` 202, `bing.com/indexnow` 200) and all 35 on the second
+after two pages were added — both 200. Re-run `_build/submit.py` after every
+content change.
 
 `submit.py` refuses to run unless the live site already serves the key file
 IndexNow verifies ownership with. That refusal is the point: a submission fired
