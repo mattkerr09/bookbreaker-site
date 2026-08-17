@@ -114,7 +114,7 @@ def has_source(block: str) -> bool:
 
 
 def sourced_rows(markup: str) -> list[str]:
-    """Table rows carrying both a date and a link — the only place a number
+    """Blocks carrying both a date and a source link — the only place a number
     this engine cannot compute is allowed to appear.
 
     A competitor's price is a fact about someone else's product. It cannot come
@@ -123,9 +123,12 @@ def sourced_rows(markup: str) -> list[str]:
     where it is dated and linked, and nowhere else. The carve-out is scoped to
     the row, not the page, so an unsourced claim two rows down is still caught.
     """
+    blocks = (re.findall(r"(?s)<tr>.*?</tr>", markup)
+              + re.findall(r"(?s)<p[^>]*>.*?</p>", markup)
+              + re.findall(r"(?s)<li>.*?</li>", markup))
     return [
-        row for row in re.findall(r"(?s)<tr>.*?</tr>", markup)
-        if re.search(r"\b20\d\d-\d\d-\d\d\b", row) and has_source(row)
+        block for block in blocks
+        if re.search(r"\b20\d\d-\d\d-\d\d\b", block) and has_source(block)
     ]
 
 

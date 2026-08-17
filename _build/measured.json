@@ -17,6 +17,38 @@
     ],
     "rounding_cost": 2.35
   },
+  "calculators": {
+    "arbitrage": {
+      "body": "<p>+110 at one book and +105 at another is a 3.73% arbitrage on 1,000 staked:</p><table><tr><td>Exact stakes</td><td>493.98 / 506.02</td></tr><tr><td>Guaranteed</td><td>37.35</td></tr><tr><td>Round stakes</td><td>490 / 500</td></tr><tr><td>Guaranteed</td><td>35.00</td></tr><tr><td>Cost of looking human</td><td>2.35</td></tr></table><p>A stake to the cent is the loudest fingerprint a risk desk reads. This solves for round stakes directly, because rounding a lock afterwards breaks it.</p>"
+    },
+    "bonus-bet-conversion": {
+      "body": "<p>A 1,000 bonus bet does not return its stake, so it is worth about half its face value bet naively. Hedged:</p><table><tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Guaranteed</th><th>Rate</th></tr><tr><td>+100</td><td>-110</td><td>524</td><td>476</td><td>47.6%</td></tr><tr><td>+200</td><td>-230</td><td>1,394</td><td>606</td><td>60.6%</td></tr><tr><td>+400</td><td>-450</td><td>3,273</td><td>727</td><td>72.7%</td></tr><tr><td>+1200</td><td>-1400</td><td>11,200</td><td>800</td><td>80.0%</td></tr></table><p>The hedge column is the constraint every guide omits.</p>"
+    },
+    "breakeven": {
+      "body": "<p>What each price needs you to hit:</p><table><tr><th>Price</th><th>Break-even win rate</th></tr><tr><td>-200</td><td>66.67%</td></tr><tr><td>-110</td><td>52.38%</td></tr><tr><td>+100</td><td>50.00%</td></tr><tr><td>+150</td><td>40.00%</td></tr><tr><td>+400</td><td>20.00%</td></tr></table><p>-110 both ways needs 52.38%, which is why a 50% bettor loses steadily and a 53% one does not.</p>"
+    },
+    "closing-line-value": {
+      "body": "<p>A bet taken at +110 against a market that closed at -105:</p><table><tr><td>Your price</td><td>+110</td></tr><tr><td>Closing price</td><td>-105</td></tr><tr><td>CLV against the raw close</td><td>+7.56%</td></tr></table><p>That figure compares two vigged prices and so understates the real edge by the closing margin &mdash; usable for ranking bets against each other, not for claiming an edge size. Devigging the closing market first is what the engine does, and it is why closing line value converges far faster than profit.</p>"
+    },
+    "expected-value": {
+      "body": "<p>Offered +120 on a side whose fair probability is 57.34%:</p><table><tr><td>Expected value per unit</td><td>+26.15%</td></tr><tr><td>Break-even win rate</td><td>45.45%</td></tr><tr><td>Worst method's answer</td><td>+25.64%</td></tr></table><p>The last row is the one that decides. An edge that exists under one devig method and vanishes under another is a modelling artefact, not an opportunity.</p>"
+    },
+    "hold": {
+      "body": "<p>The standard -110 / -110 market:</p><table><tr><td>Implied total</td><td>1.0476</td></tr><tr><td>Hold</td><td>4.55%</td></tr></table><p>Hold is 4.55%, not 4.76%. The book's take is measured against the money bet, and reporting the overround excess overstates every book's margin.</p>"
+    },
+    "kelly": {
+      "body": "<p>A 57.34% shot offered at +120, on a 10,000 bankroll:</p><table><tr><td>Full Kelly</td><td>21.79% of bankroll</td></tr><tr><td>At quarter Kelly</td><td>500.00</td></tr><tr><td>Share of bankroll</td><td>5.00%</td></tr><tr><td>Binding constraint</td><td>max_single</td></tr></table><p>Quarter Kelly, and sized on the least favourable devig rather than the friendliest. Overestimating an edge costs far more than underestimating it.</p>"
+    },
+    "middle": {
+      "body": "<p>Identical prices, one point apart:</p><table><tr><th>Window</th><th>Hits</th><th>Break-even</th><th>Expected value</th></tr><tr><td>2.5 / 3.5</td><td>15.79%</td><td>4.76%</td><td>+10.53%</td></tr><tr><td>4.5 / 5.5</td><td>4.21%</td><td>4.76%</td><td>-0.53%</td></tr></table><p>Break-even is arithmetic on the two prices and depends on no distribution at all, which makes it the honest anchor. The hit rate comes from counting 285 recorded games &mdash; a synthetic, shape stated sample shown as an illustration of the mechanism, not a claim about any league.</p>"
+    },
+    "no-vig-odds": {
+      "body": "<p>A book offering -145 / +125 is asserting probabilities that sum to more than one. Removing that margin gives the favourite:</p><table><tr><td>additive</td><td>57.37%</td></tr><tr><td>multiplicative</td><td>57.11%</td></tr><tr><td>power</td><td>57.50%</td></tr><tr><td>shin</td><td>57.37%</td></tr></table><p>Consensus 57.34%, and the four methods disagree by 0.39 points. Every other no-vig calculator returns one number.</p>"
+    },
+    "odds-converter": {
+      "body": "<p>The same price in every form:</p><table><tr><th>American</th><th>Decimal</th><th>Implied</th></tr><tr><td>-200</td><td>1.500</td><td>66.67%</td></tr><tr><td>-110</td><td>1.909</td><td>52.38%</td></tr><tr><td>+100</td><td>2.000</td><td>50.00%</td></tr><tr><td>+150</td><td>2.500</td><td>40.00%</td></tr><tr><td>+400</td><td>5.000</td><td>20.00%</td></tr></table><p>The implied column is vig-inclusive: it is what the price asserts, not a fair probability. Calling it one without devigging first is the most common way to invent an edge that is not there.</p>"
+    }
+  },
   "catalog": {
     "as_of": "2026-08-17",
     "fl": 2,

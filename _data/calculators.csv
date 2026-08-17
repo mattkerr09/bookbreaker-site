@@ -1,0 +1,11 @@
+slug,name,question,intent
+no-vig-odds,No-vig odds calculator,What are the true odds behind a sportsbook's price?,strip the margin
+expected-value,Expected value calculator,Is this bet +EV?,decide
+arbitrage,Arbitrage calculator,How much do I stake on each side?,stake
+kelly,Kelly criterion calculator,How much should I bet?,size
+hold,Hold and vig calculator,How much is this book charging me?,compare books
+bonus-bet-conversion,Bonus bet conversion calculator,What is my free bet actually worth?,convert
+middle,Middle calculator,What does this middle need to hit to be worth it?,price a middle
+odds-converter,Odds converter,American to decimal to implied probability,convert
+breakeven,Break-even calculator,What win rate does this price need?,decide
+closing-line-value,CLV calculator,Did I beat the closing line?,grade

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No-vig odds calculator — worked, not just a form</title>
+<meta name="description" content="What are the true odds behind a sportsbook&#x27;s price? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<link rel="canonical" href="https://bookbreaker.bet/calculators/no-vig-odds/">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><nav><a href="/">Bookbreaker</a><a href="/how-it-works/">How it works</a><a href="/calculators/">Calculators</a><a href="/vs/">Compared</a></nav></header>
+<main>
+
+<h1>No-vig odds calculator</h1>
+<p class="lede">What are the true odds behind a sportsbook&#x27;s price?</p>
+<p>A book offering -145 / +125 is asserting probabilities that sum to more than one. Removing that margin gives the favourite:</p><table><tr><td>additive</td><td>57.37%</td></tr><tr><td>multiplicative</td><td>57.11%</td></tr><tr><td>power</td><td>57.50%</td></tr><tr><td>shin</td><td>57.37%</td></tr></table><p>Consensus 57.34%, and the four methods disagree by 0.39 points. Every other no-vig calculator returns one number.</p>
+<h2>Where the number comes from</h2>
+<p>Everything above was computed by the same engine that prices bets, at the
+moment this page was built &mdash; not typed into a template. The build fails
+if a figure appears here and not in the engine's own output.</p>
+<p><a href="/how-it-works/">How a price is formed &rarr;</a>
+&nbsp;&middot;&nbsp;
+<a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+
+</main>
+<footer>
+<p>Bookbreaker is an analysis tool. It tells you what the numbers say; you
+place your own bets. It does not link sportsbook accounts and never asks for
+sportsbook credentials.</p>
+<p>Every figure on this site is computed by running the engine at build time —
+none is typed in. Generated 2026-08-17.</p>
+<p>21+. Gambling involves risk. If it stops being fun, it is not fun —
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

@@ -23,6 +23,7 @@ to publish if a figure appears on a page and not in that file.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import html
 import json
@@ -43,33 +44,22 @@ NOW = 1_800_000_000.0
 # README once asserted a competitor's price with no date and no source, and the
 # price was already wrong — an undated claim about someone else's product does
 # not stay neutral, it claims "true now" forever.
-COMPETITORS = [
-    {
-        "name": "OddsJam", "url": "https://oddsjam.com/",
-        "price": "Gold $199.99/mo; Global $399.99/mo",
-        "read": "2026-08-17",
-        "source": "https://xclsvmedia.com/oddsjam-review-2026-is-this-199-month-betting-tool-worth-it/",
-        "note": "150+ books. Publishes no latency figure.",
-    },
-    {
-        "name": "AVO", "url": "https://www.avo.bet/",
-        "price": "Free (3% cap); Pro $88/mo; day pass $22",
-        "read": "2026-08-17", "source": "https://www.avo.bet/",
-        "note": "89+ books. Free tier's odds screen runs on a stated 10-second delay.",
-    },
-    {
-        "name": "Betstamp PRO", "url": "https://www.betstamp.com/",
-        "price": "~$347/mo, demo-gated",
-        "read": "2026-08-17", "source": "https://oddsplays.com/reviews/betstamp-pro/",
-        "note": "Pro-grade odds screen.",
-    },
-    {
-        "name": "Pikkit", "url": "https://pikkit.com/",
-        "price": "Free; Pro tier",
-        "read": "2026-08-17", "source": "https://pikkit.com/pro",
-        "note": "Bet tracker. Syncs from 30+ books by linking sportsbook accounts.",
-    },
-]
+def load_data(name: str) -> list[dict]:
+    """Read an entity list from `_data/`.
+
+    Entities live in CSV and generators live here, the same split the sibling
+    sites use. It keeps the thing that changes weekly — which competitors
+    exist, which calculators the engine offers — out of the code that renders
+    it, so adding a page is a row rather than a patch.
+    """
+    path = SITE / "_data" / f"{name}.csv"
+    if not path.exists():
+        raise SystemExit(f"no data at {path}")
+    with path.open() as handle:
+        return list(csv.DictReader(handle))
+
+
+COMPETITORS = load_data("competitors")
 
 
 def engine_fingerprint(app_repo: Path) -> str:
@@ -272,7 +262,141 @@ def measure(engine) -> dict:
         ],
     }
 
-    # 9. Jurisdiction coverage, and a page per state.
+    # 9. A worked example per calculator, computed rather than written.
+    from overlay_engine.arb import arb_margin, stake_arb
+    from overlay_engine.clv import implied_clv
+    from overlay_engine.ev import breakeven_prob, ev_per_unit
+    from overlay_engine.kelly import size_bet
+    from overlay_engine.middles import MiddlePlan, stake_middle
+    from overlay_engine.odds import decimal_to_prob, hold, overround
+    from overlay_engine.promo import bonus_bet_conversion
+
+    def table(rows):
+        return ("<table>"
+                + "".join(f"<tr><td>{a}</td><td>{b}</td></tr>" for a, b in rows)
+                + "</table>")
+
+    calc: dict[str, dict] = {}
+    d = out["devig"]
+    calc["no-vig-odds"] = {"body": (
+        f"<p>A book offering {e(d['market'])} is asserting probabilities that "
+        f"sum to more than one. Removing that margin gives the favourite:</p>"
+        + table([(m_, f"{v:.2f}%") for m_, v in sorted(d["methods"].items())])
+        + f"<p>Consensus {d['consensus']:.2f}%, and the four methods disagree "
+        f"by {d['spread']:.2f} points. Every other no-vig calculator returns "
+        "one number.</p>")}
+
+    fair = d["consensus"] / 100.0
+    price = american_to_decimal(120)
+    calc["expected-value"] = {"body": (
+        f"<p>Offered +120 on a side whose fair probability is "
+        f"{fair * 100:.2f}%:</p>"
+        + table([("Expected value per unit", f"{ev_per_unit(price, fair):+.2%}"),
+                 ("Break-even win rate", f"{breakeven_prob(price):.2%}"),
+                 ("Worst method's answer",
+                  f"{ev_per_unit(price, min(d['methods'].values()) / 100):+.2%}")])
+        + "<p>The last row is the one that decides. An edge that exists under "
+        "one devig method and vanishes under another is a modelling artefact, "
+        "not an opportunity.</p>")}
+
+    a = out["arb"]
+    calc["arbitrage"] = {"body": (
+        f"<p>{e(a['legs'][0])} at one book and {e(a['legs'][1])} at another is "
+        f"a {a['margin']:.2f}% arbitrage on {1000:,} staked:</p>"
+        + table([("Exact stakes",
+                  f"{a['exact_stakes'][0]:,.2f} / {a['exact_stakes'][1]:,.2f}"),
+                 ("Guaranteed", f"{a['exact_profit']:,.2f}"),
+                 ("Round stakes",
+                  f"{a['round_stakes'][0]:,} / {a['round_stakes'][1]:,}"),
+                 ("Guaranteed", f"{a['round_profit']:,.2f}"),
+                 ("Cost of looking human", f"{a['rounding_cost']:,.2f}")])
+        + "<p>A stake to the cent is the loudest fingerprint a risk desk "
+        "reads. This solves for round stakes directly, because rounding a "
+        "lock afterwards breaks it.</p>")}
+
+    sizing = size_bet(price, fair, bankroll=10_000.0)
+    calc["kelly"] = {"body": (
+        f"<p>A {fair * 100:.2f}% shot offered at +120, on a 10,000 bankroll:</p>"
+        + table([("Full Kelly", f"{sizing.full_kelly:.2%} of bankroll"),
+                 ("At quarter Kelly", f"{sizing.stake:,.2f}"),
+                 ("Share of bankroll", f"{sizing.bankroll_share:.2%}"),
+                 ("Binding constraint", sizing.binding)])
+        + "<p>Quarter Kelly, and sized on the least favourable devig rather "
+        "than the friendliest. Overestimating an edge costs far more than "
+        "underestimating it.</p>")}
+
+    juiced = [american_to_decimal(-110), american_to_decimal(-110)]
+    calc["hold"] = {"body": (
+        "<p>The standard -110 / -110 market:</p>"
+        + table([("Implied total", f"{overround(juiced):.4f}"),
+                 ("Hold", f"{hold(juiced):.2%}")])
+        + f"<p>Hold is {hold(juiced):.2%}, not {overround(juiced) - 1:.2%}. "
+        "The book's take is measured against the money bet, and reporting the "
+        "overround excess overstates every book's margin.</p>")}
+
+    ladder = out["conversion"]["ladder"]
+    calc["bonus-bet-conversion"] = {"body": (
+        f"<p>A {out['conversion']['bonus']:,} bonus bet does not return its "
+        "stake, so it is worth about half its face value bet naively. Hedged:"
+        "</p>"
+        + "<table><tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th>"
+        "<th>Guaranteed</th><th>Rate</th></tr>"
+        + "".join(f"<tr><td>{e(r['free'])}</td><td>{e(r['hedge'])}</td>"
+                  f"<td>{r['hedge_stake']:,}</td><td>{r['guaranteed']:,}</td>"
+                  f"<td>{r['rate']:.1f}%</td></tr>" for r in ladder)
+        + "</table><p>The hedge column is the constraint every guide omits.</p>")}
+
+    mid = out["middles"]
+    calc["middle"] = {"body": (
+        "<p>Identical prices, one point apart:</p>"
+        + "<table><tr><th>Window</th><th>Hits</th><th>Break-even</th>"
+        "<th>Expected value</th></tr>"
+        + "".join(f"<tr><td>{e(r['window'])}</td><td>{r['probability']:.2f}%</td>"
+                  f"<td>{r['breakeven']:.2f}%</td><td>{r['ev']:+.2f}%</td></tr>"
+                  for r in mid["cases"])
+        + f"</table><p>Break-even is arithmetic on the two prices and depends "
+        "on no distribution at all, which makes it the honest anchor. The hit "
+        f"rate comes from counting {mid['games']} recorded games &mdash; a "
+        f"{e(mid['sample'])} sample shown as an illustration of the mechanism, "
+        "not a claim about any league.</p>")}
+
+    calc["odds-converter"] = {"body": (
+        "<p>The same price in every form:</p>"
+        + "<table><tr><th>American</th><th>Decimal</th><th>Implied</th></tr>"
+        + "".join(
+            f"<tr><td>{v:+d}</td>"
+            f"<td>{american_to_decimal(v):.3f}</td>"
+            f"<td>{decimal_to_prob(american_to_decimal(v)):.2%}</td></tr>"
+            for v in (-200, -110, 100, 150, 400))
+        + "</table><p>The implied column is vig-inclusive: it is what the "
+        "price asserts, not a fair probability. Calling it one without "
+        "devigging first is the most common way to invent an edge that is not "
+        "there.</p>")}
+
+    calc["breakeven"] = {"body": (
+        "<p>What each price needs you to hit:</p>"
+        + "<table><tr><th>Price</th><th>Break-even win rate</th></tr>"
+        + "".join(f"<tr><td>{v:+d}</td>"
+                  f"<td>{breakeven_prob(american_to_decimal(v)):.2%}</td></tr>"
+                  for v in (-200, -110, 100, 150, 400))
+        + "</table><p>-110 both ways needs 52.38%, which is why a 50% bettor "
+        "loses steadily and a 53% one does not.</p>")}
+
+    calc["closing-line-value"] = {"body": (
+        "<p>A bet taken at +110 against a market that closed at -105:</p>"
+        + table([("Your price", "+110"),
+                 ("Closing price", "-105"),
+                 ("CLV against the raw close",
+                  f"{implied_clv(american_to_decimal(110), american_to_decimal(-105)):+.2%}")])
+        + "<p>That figure compares two vigged prices and so understates the "
+        "real edge by the closing margin &mdash; usable for ranking bets "
+        "against each other, not for claiming an edge size. Devigging the "
+        "closing market first is what the engine does, and it is why closing "
+        "line value converges far faster than profit.</p>")}
+
+    out["calculators"] = calc
+
+    # 10. Jurisdiction coverage, and a page per state.
     from overlay_engine.catalog import (
         AS_OF, COVERAGE_GAPS, NO_LEGAL_BETTING, VENUES, for_state, state_summary,
     )
@@ -308,6 +432,7 @@ def page(title: str, description: str, body: str, path: str) -> str:
     nav = (
         '<nav><a href="/">Bookbreaker</a>'
         '<a href="/how-it-works/">How it works</a>'
+        '<a href="/calculators/">Calculators</a>'
         '<a href="/vs/">Compared</a></nav>'
     )
     return f"""<!doctype html>
@@ -485,6 +610,89 @@ Bookbreaker is built into: a screen sorted by raw expected value is sorted
 partly by how stale its own data is, because the biggest numbers cluster on the
 books that moved most recently &mdash; which are the books most likely to have
 moved again.</p>
+"""
+
+
+def versus_description(row: dict) -> str:
+    """A meta description that fits, whatever the competitor's gap text says.
+
+    Composed and length-checked rather than interpolated and hoped for. Three
+    of five competitor pages failed the 50-160 character rule on the first
+    render, for no reason except that the source text varies in length.
+    """
+    for candidate in (
+        f"{row['gap']}. Bookbreaker reports the devig spread, the chance of "
+        f"getting the bet down, and when a record proves nothing.",
+        f"A {row['name']} alternative that reports the devig spread, the "
+        f"chance of getting the bet down, and when a record proves nothing.",
+        f"A {row['name']} alternative that shows how uncertain its own numbers "
+        "are.",
+    ):
+        if 50 <= len(candidate) <= 160:
+            return candidate
+    return ("An alternative that reports the devig spread, the chance of "
+            "getting the bet down, and when a record proves nothing.")
+
+
+def render_calculator(m: dict, row: dict) -> str:
+    """One calculator page, with a worked example the engine produced.
+
+    Every competing calculator page shows a form and a formula. These show the
+    arithmetic already done on real prices, and — the part none of them do —
+    the range the answer actually sits in.
+    """
+    slug = row["slug"]
+    c = m["calculators"][slug]
+    body = c["body"]
+    return f"""
+<h1>{e(row['name'])}</h1>
+<p class="lede">{e(row['question'])}</p>
+{body}
+<h2>Where the number comes from</h2>
+<p>Everything above was computed by the same engine that prices bets, at the
+moment this page was built &mdash; not typed into a template. The build fails
+if a figure appears here and not in the engine's own output.</p>
+<p><a href="/how-it-works/">How a price is formed &rarr;</a>
+&nbsp;&middot;&nbsp;
+<a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+"""
+
+
+def render_versus(m: dict, row: dict) -> str:
+    """One competitor page. Every claim dated and linked, or the build fails."""
+    d = m["devig"]
+    f = m["fill"]
+    return f"""
+<h1>A {e(row['name'])} alternative that shows its uncertainty</h1>
+<p class="lede">{e(row['note'])}, at {e(row['price'])} &mdash; read
+{e(row['read'])}, <a href="{e(row['source'])}">source</a>.</p>
+
+<h2>The gap</h2>
+<p>{e(row['gap'])}.</p>
+<p>That absence is not incidental. A screen sorted by raw expected value is
+sorted partly by how stale its own data is, because the biggest numbers cluster
+on the books that moved most recently &mdash; which are the books most likely
+to have moved again. On a feed running {f['latency']:.1f} seconds behind, a
+quote that looks {f['age']:.0f} seconds old is really {f['effective']:.1f}, and
+its real chance of still being there is {f['honest']}% rather than
+{f['naive']}%.</p>
+
+<h2>And the edge itself is a range</h2>
+<p>Stripping a book's margin is a modelling choice, not arithmetic. On a
+{e(d['market'])} moneyline the four standard methods land between
+{min(d['methods'].values()):.2f}% and {max(d['methods'].values()):.2f}% &mdash;
+a spread of {d['spread']:.2f} points on a market where a 2% edge is a good day.
+Every tool in this category picks one method and prints the result to two
+decimals as though it were measured.</p>
+<p>Bookbreaker reports the spread, discounts by the chance of getting on, and
+tells you when your own record cannot distinguish you from break-even.</p>
+
+<p><a href="/vs/">Every tool compared &rarr;</a>
+&nbsp;&middot;&nbsp;
+<a href="/">What Bookbreaker does &rarr;</a></p>
+<p class="caveat">Prices and capabilities change. The claim above carries the
+date it was read and a link to where it was read; the build fails if either is
+missing.</p>
 """
 
 
@@ -821,6 +1029,68 @@ def main() -> int:
         built.append((url, rel))
         print(f"  {url:<22} {rel}")
 
+    # Calculator cluster: one page per row of _data/calculators.csv.
+    for row in load_data("calculators"):
+        slug = row["slug"]
+        if slug not in measured["calculators"]:
+            raise SystemExit(
+                f"_data/calculators.csv lists {slug!r} but the engine computes "
+                "no worked example for it — add one in measure() or remove the "
+                "row, because a calculator page with nothing computed is the "
+                "form-and-formula page this site exists to be better than"
+            )
+        url, rel = f"/calculators/{slug}/", f"calculators/{slug}/index.html"
+        out = SITE / rel
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(page(
+            f"{row['name']} — worked, not just a form",
+            f"{row['question']} Worked through on real prices by the engine "
+            f"that prices bets, with the range the answer sits in.",
+            render_calculator(measured, row), url))
+        built.append((url, rel))
+    print(f"  /calculators/          {len(load_data('calculators'))} pages")
+
+    rows = "".join(
+        f'<li><a href="/calculators/{e(r["slug"])}/">{e(r["name"])}</a> '
+        f'&mdash; {e(r["question"])}</li>'
+        for r in load_data("calculators")
+    )
+    hub = f"""
+<h1>Betting calculators, worked rather than blank</h1>
+<p class="lede">Every calculator page on the internet shows you a form and a
+formula. These show the arithmetic already done on real prices, and the range
+the answer sits in &mdash; because the range is the part that decides whether a
+bet is worth taking.</p>
+<ul>{rows}</ul>
+<p>All of them are the engine that prices bets, not a separate implementation.
+A calculator that disagrees with the product it advertises is worse than no
+calculator.</p>
+"""
+    out = SITE / "calculators/index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page(
+        "Betting calculators — worked, not blank",
+        "No-vig odds, expected value, arbitrage staking, Kelly, hold, bonus "
+        "conversion, middles and closing line value — each worked through on "
+        "real prices.",
+        hub, "/calculators/"))
+    built.append(("/calculators/", "calculators/index.html"))
+
+    # Competitor cluster: one page per row of _data/competitors.csv.
+    for row in load_data("competitors"):
+        url = f"/vs/{row['slug']}-alternative/"
+        rel = f"vs/{row['slug']}-alternative/index.html"
+        out = SITE / rel
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(page(
+            f"{row['name']} alternative — the edge as a range",
+            versus_description(row),
+            render_versus(measured, row), url))
+        built.append((url, rel))
+    print(f"  /vs/<tool>-alternative/ {len(load_data('competitors'))} pages")
+
+    jurisdiction_start = len(built)
+
     # One page for every state with no legal betting, rather than one page
     # each. Measured at 98.4% mutual similarity when generated separately —
     # eleven pages that differ only in a name are eleven pages nobody should
@@ -916,8 +1186,9 @@ your own check, not advice.</p>
             state_description(name),
             render_market(measured, codes), url))
         built.append((url, rel))
-    print(f"  /sportsbooks/          {len(built) - len(PAGES)} jurisdiction "
-          f"pages covering {len(measured['states'])} states")
+    jurisdiction = len(built) - jurisdiction_start
+    print(f"  /sportsbooks/          {jurisdiction} jurisdiction pages "
+          f"covering {len(measured['states'])} states")
 
     # Remove pages this render no longer produces. Without this a page you
     # deliberately stopped generating stays on disk and stays published —
