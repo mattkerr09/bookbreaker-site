@@ -177,6 +177,13 @@
     "naive": 89
   },
   "generated": "2026-08-17",
+  "grading": {
+    "gap": 2.16,
+    "p110": 52.38,
+    "p120": 54.55,
+    "ratio": 0.45,
+    "vig_at_110": 4.76
+  },
   "heat": {
     "markets": [
       {
@@ -237,6 +244,13 @@
     "price": "+110",
     "realised": 5.13
   },
+  "holdout": {
+    "holdout_pct": 30,
+    "min_coverage": 20,
+    "min_graded": 30,
+    "test": 9,
+    "train": 21
+  },
   "match": {
     "bonus": 1000,
     "breakeven": 5.0,
@@ -268,6 +282,35 @@
     ],
     "games": 285,
     "sample": "synthetic, shape stated"
+  },
+  "multiplicity": {
+    "alpha": 5,
+    "coinflip_at": 14,
+    "confidence": 95,
+    "min_bets": 30,
+    "plain_z": 1.96,
+    "rows": [
+      {
+        "error": 5.0,
+        "tests": 1,
+        "z": 1.96
+      },
+      {
+        "error": 22.6,
+        "tests": 5,
+        "z": 2.58
+      },
+      {
+        "error": 40.1,
+        "tests": 10,
+        "z": 2.81
+      },
+      {
+        "error": 64.2,
+        "tests": 20,
+        "z": 3.02
+      }
+    ]
   },
   "parlay": {
     "fair": 15.0,
@@ -312,6 +355,51 @@
     "profit": 1300,
     "roi": 5.91,
     "verdict": "+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) \u2014 indistinguishable from break-even"
+  },
+  "quote_age": {
+    "example_age": 30,
+    "example_edge": 3.0,
+    "example_realised": 1.82,
+    "half_life": 41.6,
+    "latency_floor": 2.0,
+    "rows": [
+      {
+        "age": 2,
+        "survives": 96.7
+      },
+      {
+        "age": 5,
+        "survives": 92.0
+      },
+      {
+        "age": 10,
+        "survives": 84.6
+      },
+      {
+        "age": 30,
+        "survives": 60.7
+      },
+      {
+        "age": 60,
+        "survives": 36.8
+      }
+    ],
+    "tau": 60.0
+  },
+  "rounding": {
+    "cost": 2.35,
+    "cost_bps": 23.5,
+    "exact_legs": [
+      493.98,
+      506.02
+    ],
+    "exact_profit": 37.35,
+    "round_legs": [
+      490.0,
+      500.0
+    ],
+    "round_profit": 35.0,
+    "total": 1000
   },
   "safety_net": {
     "conversion": 75,

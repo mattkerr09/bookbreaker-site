@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to tell if your model actually works</title>
+<meta name="description" content="How do you know a betting model is not just fitted to the past? Worked through with the arithmetic done, not just the formula.">
+<link rel="canonical" href="https://bookbreaker.bet/guides/how-to-tell-if-your-model-actually-works/">
+<link rel="stylesheet" href="/style.css?v=f0db4a2e36">
+</head>
+<body class="">
+<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span></nav></header>
+<main>
+<h1>How to tell if your model actually works</h1>
+<p class="lede">How do you know a betting model is not just fitted to the past?</p>
+
+<p>Any model can be made to fit the past. The only question worth asking is
+whether it beats the thing it is replacing on data it has never seen.</p>
+<h2>Hold out, in time order</h2>
+<p>Split your graded bets chronologically and keep the last
+30% back. Fit on the earlier part, judge on the later part.
+Random splits leak: markets move together within a day, so a random holdout
+shares information with its training set and flatters everything.</p>
+<p>At the 30-bet minimum this engine will fit on, that is
+21 bets to fit and 9 to judge &mdash; thin, which is the
+point of the minimum. Below it, nothing is fitted at all.</p>
+<h2>Beat the incumbent, not zero</h2>
+<p>A candidate that scores well out of sample but no better than the weights
+already in use is not an improvement, and adopting it is churn dressed as
+progress. The bar is the incumbent's out-of-sample score, and a candidate that
+fails it is refused rather than blended in at a small weight.</p>
+<h2>Per-book, or not at all</h2>
+<p>Books are not interchangeable. A weight fitted across all of them describes
+none of them. Below 20 graded bets at a book, this engine
+declines to fit that book's weight rather than fitting a bad one &mdash;
+because a weight with no evidence behind it and a weight with evidence behind
+it look identical downstream.</p>
+<h2>The signal to fit against</h2>
+<p>Closing line value, not profit. Profit over a few hundred bets is mostly
+variance; CLV resolves on every bet and correlates with the thing you are
+trying to have. It is a supervision signal, not a scoreboard.</p>
+<p><a href="/guides/what-is-closing-line-value/">What CLV is &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

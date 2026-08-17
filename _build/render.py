@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import math
 import re
 import html
 import json
@@ -386,6 +387,86 @@ def measure(engine) -> dict:
         "worst": boost_rows[0]["added"],
         "best": boost_rows[-1]["added"],
         "multiple": round(boost_rows[-1]["added"] / boost_rows[0]["added"], 1),
+    }
+
+    # 7d. The rigour surface: the four places a betting tool quietly lies to
+    # you about how much it knows. Every figure run, not asserted.
+    from overlay_engine.arb import stake_arb
+    from overlay_engine.calibrate import HOLDOUT, MIN_BOOK_COVERAGE, MIN_GRADED
+    from overlay_engine.performance import MIN_BETS, Z, bonferroni_z, family_error_rate
+    from overlay_engine.staleness import PRIOR_LATENCY, PRIOR_TAU
+
+    # Multiple comparisons. Slice a record enough ways and something clears an
+    # ordinary bar by luck; this is how fast that happens.
+    out["multiplicity"] = {
+        "alpha": 5,
+        "confidence": 95,
+        "plain_z": round(Z, 2),
+        "min_bets": MIN_BETS,
+        "rows": [
+            {"tests": k,
+             "error": round(family_error_rate(k) * 100, 1),
+             "z": round(bonferroni_z(k), 2)}
+            for k in (1, 5, 10, 20)
+        ],
+        "coinflip_at": next(k for k in range(1, 200)
+                            if family_error_rate(k) >= 0.5),
+    }
+
+    # Round stakes. The anti-limiting choice has a price, and it is named.
+    arb_prices = [2.10, 2.05]
+    exact = stake_arb(arb_prices, 1000.0, round_stakes=False)
+    rnd = stake_arb(arb_prices, 1000.0, round_stakes=True)
+    out["rounding"] = {
+        "total": 1000,
+        "exact_legs": [round(leg.stake, 2) for leg in exact.legs],
+        "round_legs": [round(leg.stake, 2) for leg in rnd.legs],
+        "exact_profit": round(exact.profit, 2),
+        "round_profit": round(rnd.profit, 2),
+        "cost": round(rnd.rounding_cost, 2),
+        "cost_bps": round(rnd.rounding_cost / 1000.0 * 10_000, 1),
+    }
+
+    # Quote age. A screen showing a price is showing a claim about the past,
+    # and the floor under that claim is the feed's own latency.
+    tau = PRIOR_TAU.get("h2h", PRIOR_TAU["default"])
+    out["quote_age"] = {
+        "latency_floor": PRIOR_LATENCY,
+        "tau": round(tau, 1),
+        "rows": [
+            {"age": age, "survives": round(math.exp(-age / tau) * 100, 1)}
+            for age in (2, 5, 10, 30, 60)
+        ],
+        "half_life": round(tau * math.log(2), 1),
+        "example_edge": 3.0,
+        "example_age": 30,
+        "example_realised": round(3.0 * math.exp(-30.0 / tau), 2),
+    }
+
+    # Out-of-sample thresholds. The bar a model has to clear before its own
+    # weights are allowed to change.
+    out["holdout"] = {
+        "min_graded": MIN_GRADED,
+        "holdout_pct": round(HOLDOUT * 100),
+        "train": MIN_GRADED - round(MIN_GRADED * HOLDOUT),
+        "test": round(MIN_GRADED * HOLDOUT),
+        "min_coverage": MIN_BOOK_COVERAGE,
+    }
+
+    # Grading. A half point is not a rounding error: two adjacent lines are
+    # different bets, and settling one against the other is how a losing bet
+    # becomes a winning row.
+    from overlay_engine.devig import devig_all
+    from overlay_engine.odds import decimal_to_prob
+
+    _p110 = decimal_to_prob(american_to_decimal(-110))
+    _p120 = decimal_to_prob(american_to_decimal(-120))
+    out["grading"] = {
+        "p110": round(_p110 * 100, 2),
+        "p120": round(_p120 * 100, 2),
+        "gap": round((_p120 - _p110) * 100, 2),
+        "vig_at_110": round((2 * _p110 - 1) * 100, 2),
+        "ratio": round((_p120 - _p110) / (2 * _p110 - 1), 2),
     }
 
     # 8a. The commission example, computed rather than asserted. A pair that
@@ -1235,6 +1316,8 @@ def guide_bodies(m: dict) -> dict[str, str]:
     conv, mid, h, ev = m["conversion"], m["middles"], m["heat"], m["evidence"]
     par = m["parlay"]
     mt, sn, bo = m["match"], m["safety_net"], m["boost"]
+    mu, rd, qa = m["multiplicity"], m["rounding"], m["quote_age"]
+    ho, gr = m["holdout"], m["grading"]
     lo, hi = min(d["methods"].values()), max(d["methods"].values())
 
     return {
@@ -1719,6 +1802,158 @@ all land in the same few weeks. Offer-hunting has a shape, the shape is legible
 from the first deposit, and an account opened purely to clear a bonus tends to
 look like one.</p>
 <p><a href="/guides/how-to-avoid-getting-limited/">What that shape looks like
+&rarr;</a></p>
+""",
+
+"why-your-best-sport-is-probably-noise": f"""
+<p>You slice your record by sport, by book, by market, by day of week. One
+slice is clearly your best. It is probably nothing.</p>
+<p>A 95% bar means a coin-flip record clears it one time in twenty <em>per
+test</em>. Run the test on several slices and the chance that at least one
+looks good by luck stops being small:</p>
+<table>
+<tr><th>Slices tested</th><th>Chance one looks real by luck</th>
+<th>Bar it should clear</th></tr>
+{"".join(f"<tr><td>{r['tests']}</td><td>{r['error']:.1f}%</td><td>z = {r['z']:.2f}</td></tr>" for r in mu['rows'])}
+</table>
+<p>By <strong>{mu['coinflip_at']} slices</strong> it is a coin flip that
+something in your record looks significant when nothing is. A bettor who
+invents tags until one of them looks profitable is not running a test. They are
+running a search, and a search needs a higher bar than z = {mu['plain_z']:.2f}
+&mdash; up to z = {mu['rows'][-1]['z']:.2f} at {mu['rows'][-1]['tests']}
+slices.</p>
+<h2>What to do instead</h2>
+<p>Decide which slices matter <em>before</em> looking, and count every slice you
+tested, including the ones you abandoned. A slice under {mu['min_bets']} settled
+bets should not be characterised at all &mdash; not "slightly negative", not
+"promising", nothing.</p>
+<p>This is the correction essentially nobody in this category applies, and tag
+breakdowns are exactly where it is needed. A tool that shows you twenty
+segments and highlights the green ones is selling you the search results and
+calling them a finding.</p>
+<p><a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+""",
+
+"how-to-stake-an-arbitrage-in-round-numbers": f"""
+<p>The exact stakes on an arbitrage come out ugly. Splitting
+{rd['total']:,} dollars across a two-way at these prices wants
+{rd['exact_legs'][0]:,.2f} and {rd['exact_legs'][1]:,.2f}, locking
+{rd['exact_profit']:,.2f}.</p>
+<p>Nobody bets {rd['exact_legs'][0]:,.2f}. More precisely: nobody who is not
+running a tool bets {rd['exact_legs'][0]:,.2f}, which is the problem. Stake
+precision is one of the cheapest signals a risk desk has, and it costs nothing
+to read.</p>
+<h2>What rounding costs</h2>
+<p>Round to {rd['round_legs'][0]:,.0f} and {rd['round_legs'][1]:,.0f} and the
+guaranteed profit becomes {rd['round_profit']:,.2f} &mdash; a cost of
+<strong>{rd['cost']:,.2f}</strong>, or {rd['cost_bps']:.1f} basis points of
+turnover.</p>
+<p>That is the whole trade, stated. It is a real cost and it is named rather
+than hidden, because a tool that will not show you the price of its own
+advice is not one you can check.</p>
+<h2>Search, don't round</h2>
+<p>Straight rounding is one point in a small neighbourhood of round-stake
+combinations, and often not the best one. Pin the leg at the softest book to a
+clean number &mdash; that is the account whose survival the shape protects
+&mdash; then walk the other leg a few steps either way and score each
+combination by its <em>worst</em> outcome.</p>
+<p>Worst outcome, not average. Once stakes are rounded the legs pay
+differently, and quoting the average would describe a position you do not
+hold. The guaranteed number is the small one.</p>
+<p><a href="/calculators/arbitrage/">Stake one &rarr;</a></p>
+""",
+
+"how-old-is-the-price-on-your-screen": f"""
+<p>Every price you are looking at is a claim about the past. The question is
+how far past, and no screen tells you.</p>
+<p>There is a floor under the answer that has nothing to do with your
+connection: the feed itself takes time to see a change and hand it on. This
+engine will not price a quote as fresher than
+<strong>{qa['latency_floor']:.0f} seconds</strong> when the provider did not
+stamp it &mdash; a stated prior, not a measurement of any feed, and it is never
+zero, because zero is the one value that is certainly wrong.</p>
+<h2>How fast a quote dies</h2>
+<p>Modelling survival as exponential with a mean lifetime of
+{qa['tau']:.0f} seconds on a main moneyline &mdash; again a stated prior until
+your own accept and reject record replaces it &mdash; the chance a quote is
+still there when your bet lands:</p>
+<table>
+<tr><th>Quote age</th><th>Still there</th></tr>
+{"".join(f"<tr><td>{r['age']}s</td><td>{r['survives']:.1f}%</td></tr>" for r in qa['rows'])}
+</table>
+<p>Half of them are gone by <strong>{qa['half_life']:.1f} seconds</strong>.</p>
+<h2>Why this changes the number, not just the mood</h2>
+<p>An edge you cannot take is not an edge. A
+{qa['example_edge']:.0f}% overlay on a quote already {qa['example_age']}
+seconds old is worth {qa['example_realised']:.2f}% once it is multiplied by the
+chance the price survives to your bet. Those two numbers should never be shown
+without each other. Most screens show the first and let you discover the second
+by losing to it.</p>
+<p>It also explains the rejections. A bet declined at the moment of placement
+is usually not a limit &mdash; it is a price that had already moved before you
+clicked, on a market where the survival curve is steep.</p>
+<p><a href="/guides/why-your-bets-get-rejected/">Why bets get rejected
+&rarr;</a></p>
+""",
+
+"how-to-tell-if-your-model-actually-works": f"""
+<p>Any model can be made to fit the past. The only question worth asking is
+whether it beats the thing it is replacing on data it has never seen.</p>
+<h2>Hold out, in time order</h2>
+<p>Split your graded bets chronologically and keep the last
+{ho['holdout_pct']}% back. Fit on the earlier part, judge on the later part.
+Random splits leak: markets move together within a day, so a random holdout
+shares information with its training set and flatters everything.</p>
+<p>At the {ho['min_graded']}-bet minimum this engine will fit on, that is
+{ho['train']} bets to fit and {ho['test']} to judge &mdash; thin, which is the
+point of the minimum. Below it, nothing is fitted at all.</p>
+<h2>Beat the incumbent, not zero</h2>
+<p>A candidate that scores well out of sample but no better than the weights
+already in use is not an improvement, and adopting it is churn dressed as
+progress. The bar is the incumbent's out-of-sample score, and a candidate that
+fails it is refused rather than blended in at a small weight.</p>
+<h2>Per-book, or not at all</h2>
+<p>Books are not interchangeable. A weight fitted across all of them describes
+none of them. Below {ho['min_coverage']} graded bets at a book, this engine
+declines to fit that book's weight rather than fitting a bad one &mdash;
+because a weight with no evidence behind it and a weight with evidence behind
+it look identical downstream.</p>
+<h2>The signal to fit against</h2>
+<p>Closing line value, not profit. Profit over a few hundred bets is mostly
+variance; CLV resolves on every bet and correlates with the thing you are
+trying to have. It is a supervision signal, not a scoreboard.</p>
+<p><a href="/guides/what-is-closing-line-value/">What CLV is &rarr;</a></p>
+""",
+
+"how-to-grade-your-own-bets": f"""
+<p>Settling your own record sounds clerical. It is where most self-reported
+edges are actually manufactured, and always by accident.</p>
+<h2>Never cross a line</h2>
+<p>A half point is not a rounding error. At -110 the price implies
+{gr['p110']:.2f}%; at -120 it implies {gr['p120']:.2f}%. That
+{gr['gap']:.2f}-point step is <strong>{gr['ratio']:.2f}x</strong> the entire
+{gr['vig_at_110']:.2f}-point two-way margin you are trying to beat.</p>
+<p>So a total and the same total a half point higher are different bets, and
+settling one against the other's result is not an approximation. It is the
+single most reliable way to turn a losing bet into a winning row.</p>
+<h2>Never mix books</h2>
+<p>Grade a bet against the book it was placed at. Two books can disagree about
+whether a market even resolved, and a record assembled from whichever source
+happened to be handy is a record of nothing in particular.</p>
+<h2>Never settle from a soft book alone</h2>
+<p>A soft book's number is a product being sold to you, not evidence about the
+world. It is a poor anchor for a fair value and a poor authority on a
+result.</p>
+<h2>Grade idempotently</h2>
+<p>Running the grader twice must not change a single number. If it does, the
+grader is writing rather than reading, and every figure downstream depends on
+how many times you happened to run it.</p>
+<h2>Pushes and voids are not wins and not losses</h2>
+<p>A push returns stake and belongs in neither column. Counting pushes as wins
+inflates a win rate; dropping them from the denominator inflates a return.
+Both are common, and a tracker that does not say which it does is not
+reporting a number you can use.</p>
+<p><a href="/guides/how-to-track-your-betting-results/">Tracking results
 &rarr;</a></p>
 """,
 
