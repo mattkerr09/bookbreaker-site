@@ -1,14 +1,19 @@
 # Deploying bookbreaker.bet
 
-## State as of 2026-08-17
+## LIVE as of 2026-08-17
 
-Local scaffold only. **Nothing has been pushed and no DNS has been touched** —
-creating the repo, publishing and pointing the domain are outward-facing and
-irreversible, so they wait for a decision rather than a build loop.
+`https://bookbreaker.bet` is serving. Measured, not assumed:
 
-- 3 pages render from the engine at `../arb betting aqpp`.
-- `CNAME` set to `bookbreaker.bet`.
-- `_build/gates.sh` passes: site check clean, 7/7 deliberate breaks caught.
+- Pages build reported `built` 135 seconds after the push.
+- DNS resolves to all four GitHub Pages addresses.
+- **All 33 pages return 200 over https**, checked against the sitemap.
+- Certificate issued and **HTTPS is enforced**.
+- The homepage serves the engine's own devig figure (57.34%), so what is live
+  is a real render and not a cached placeholder.
+- `_build/gates.sh` passes: self-test clean, site check clean, 8/8 deliberate
+  breaks caught.
+
+Repo: `mattkerr09/bookbreaker-site`, branch `main`, Pages from `/`.
 
 ## Publishing a change
 
@@ -25,17 +30,16 @@ the pushed content, because a rejected batch that looks like a success is worse
 than not running — and it cannot tell "not deployed yet" from "broken", so give
 the deploy time to finish.
 
-## Still to do, and each needs a decision rather than a commit
+## Still to do
 
-1. **Create `mattkerr09/bookbreaker-site`** and push `main`.
-2. **Enable GitHub Pages** from `main` at `/`. Once `CNAME` exists Pages serves
-   *only* the custom domain — `mattkerr09.github.io/bookbreaker-site/` will 404
-   or redirect. That is expected, not a broken build.
-3. **Point DNS.** Four A records to GitHub Pages, then wait for the certificate
-   and enforce HTTPS.
-4. **Write `_build/submit.py`** — IndexNow covers Bing, Yandex, Seznam and
-   Naver in one POST. Google dropped its sitemap ping in 2023 and needs the
-   Search Console account, which is yours.
+1. **`_build/submit.py`** — IndexNow covers Bing, Yandex, Seznam and Naver in
+   one POST. It needs a key file served from the site root, so it is a content
+   change as well as a script.
+2. **Google Search Console.** Google dropped its sitemap ping in 2023, so the
+   sitemap has to be submitted through the account, which is yours.
+
+Note that `mattkerr09.github.io/bookbreaker-site/` will now 404 or redirect.
+Once `CNAME` exists Pages serves the custom domain only. That is expected.
 
 ## Why the pages have no hand-written numbers
 
