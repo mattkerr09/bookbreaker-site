@@ -758,6 +758,43 @@ def measure(engine) -> dict:
         "latency_floor": PRIOR_LATENCY,
     }
 
+    # 7j. What a subscription costs in edge terms. Every competitor page
+    # said the same thing about uncertainty and differed only in a name and a
+    # price, which is why the portfolio similarity gate scored them 0.84
+    # against each other. A monthly fee is a hurdle before the first dollar of
+    # profit, the hurdle is arithmetic, and it differs by a factor of four
+    # across this list — so it is both real and genuinely per-competitor.
+    import re as _re
+
+    out["subs"] = {}
+    for _row in COMPETITORS:
+        _text = (_row.get("price") or "").replace(",", "")
+        # Only prices actually marked per month. AVO's cheapest figure is a $22
+        # day pass, and reading that as a subscription understates the hurdle
+        # by a factor of four.
+        # Match the currency too, and never convert it. An exchange rate is a
+        # figure this build cannot measure and would go stale silently, so a
+        # euro price is reported in euros against a 100-euro stake.
+        _hits = _re.findall(r"([$£€])\s?([\d]+(?:\.\d\d)?)(?:\s*-\s*[\d.]+)?\s*/\s*mo",
+                            _text)
+        _paid = [(sym, float(val)) for sym, val in _hits if float(val) > 0]
+        if not _paid:
+            continue
+        _sym, _fee = min(_paid, key=lambda x: x[1])
+        _stake = 100.0
+        out["subs"][_row["slug"]] = {
+            "sym": _sym,
+            "fee": round(_fee, 2),
+            "stake": int(_stake),
+            "yearly": round(_fee * 12, 2),
+            "rows": [
+                {"edge": edge,
+                 "bets": int(-(-_fee // (_stake * edge / 100.0))),
+                 "turnover": int(-(-_fee // (edge / 100.0)))}
+                for edge in (1, 2, 3)
+            ],
+        }
+
     # 8a. The commission example, computed rather than asserted. A pair that
     # is an arbitrage on the face of it and is not one once the exchange takes
     # its cut — the case a screen that skips netting will surface every time.
@@ -1126,9 +1163,11 @@ def measure(engine) -> dict:
     # checks what is on the page rather than what could be derived from it.
     out["markets"]["online"] = (out["markets"]["live"]
                                 + out["markets"]["single"])
+    _all_books = {v.name for code in states for v in for_state(code)}
     out["states"] = {
         code: {
             **state_summary(code),
+            "absent": len(_all_books - {v.name for v in for_state(code)}),
             "books": [
                 {"key": v.key, "name": v.name, "tier": v.tier.value,
                  "limits": v.limits_winners,
@@ -3001,9 +3040,52 @@ if a figure appears here and not in the engine's own output.</p>
 
 
 def render_versus(m: dict, row: dict) -> str:
-    """One competitor page. Every claim dated and linked, or the build fails."""
+    """One competitor page.
+
+    These scored 0.84 against each other on the portfolio similarity gate,
+    and the reason was structural rather than stylistic: the page was about
+    two hundred words of shared argument with a name and a price dropped into
+    it. Every competitor page made the same case, so Google had no reason to
+    keep more than one.
+
+    The differentiator now is arithmetic that actually differs. A monthly fee
+    is a hurdle to clear before the first dollar of profit, and across this
+    list it ranges from five dollars a month to three hundred and forty-seven
+    — which is the difference between three bets a month and a hundred and
+    seventy-four. That is a real fact about each product, and it is different
+    for each one.
+    """
     d = m["devig"]
-    f = m["fill"]
+    sub = m.get("subs", {}).get(row["slug"])
+
+    hurdle = ""
+    if sub:
+        rows = "".join(
+            f"<tr><td class=\"prose\">{r['edge']}%</td><td>{r['bets']}</td>"
+            f"<td>{sub['sym']}{r['turnover']:,}</td>"
+            f"<td class=\"prose\">from the price read {e(row['read'])}, "
+            f"<a href=\"{e(row['source'])}\">source</a></td></tr>"
+            for r in sub["rows"])
+        hurdle = f"""
+<h2>What {e(row['name'])} costs you before you win anything</h2>
+<p>At {e(row['price'])}, the cheapest monthly plan is
+<strong>{sub['sym']}{sub['fee']:,.2f}</strong> &mdash; <strong>{sub['sym']}{sub['yearly']:,.2f}</strong>
+a year. That is not a price you pay out of profit. It is a hurdle you clear
+before there is any profit, and it is worth seeing as the number of winning
+bets it takes to reach zero.</p>
+<p>At a {sub['sym']}{sub['stake']} average stake:</p>
+<div class="scroll"><table>
+<tr><th class="prose">Your edge</th><th>Bets a month to break even</th>
+<th>Turnover a month</th><th class="prose">Basis</th></tr>
+{rows}
+</table></div>
+<p>A {sub['rows'][1]['edge']}% edge is a good one, and it still takes
+<strong>{sub['rows'][1]['bets']} bets a month</strong> at that stake purely to
+cover the subscription. Below that you are paying to lose more slowly. The
+figures are arithmetic on the published price and a stated {sub['sym']}{sub['stake']}
+stake, not a claim about anybody's results.</p>
+"""
+
     return f"""
 <h1>A {e(row['name'])} alternative that shows its uncertainty</h1>
 <p class="lede">{e(row['note'])}, at {e(row['price'])} &mdash; read
@@ -3014,24 +3096,22 @@ def render_versus(m: dict, row: dict) -> str:
 <p>That absence is not incidental. A screen sorted by raw expected value is
 sorted partly by how stale its own data is, because the biggest numbers cluster
 on the books that moved most recently &mdash; which are the books most likely
-to have moved again. On a feed running {f['latency']:.1f} seconds behind, a
-quote that looks {f['age']:.0f} seconds old is really {f['effective']:.1f}, and
-its real chance of still being there is {f['honest']}% rather than
-{f['naive']}%.</p>
+to have moved again.</p>
 
-<h2>And the edge itself is a range</h2>
-<p>Stripping a book's margin is a modelling choice, not arithmetic. On a
-{e(d['market'])} moneyline the four standard methods land between
-{min(d['methods'].values()):.2f}% and {max(d['methods'].values()):.2f}% &mdash;
-a spread of {d['spread']:.2f} points on a market where a 2% edge is a good day.
-Every tool in this category picks one method and prints the result to two
-decimals as though it were measured.</p>
+{hurdle}
+
+<h2>What Bookbreaker does instead</h2>
+<p>It is free, so there is no hurdle to clear before the first winning bet, and
+it reports what it does not know. On a {e(d['market'])} moneyline the four
+standard devig methods land between {min(d['methods'].values()):.2f}% and
+{max(d['methods'].values()):.2f}% &mdash; a spread of {d['spread']:.2f} points
+on a market where a 2% edge is a good day. Every tool in this category picks
+one method and prints the result to two decimals as though it were measured.</p>
 <p>Bookbreaker reports the spread, discounts by the chance of getting on, and
 tells you when your own record cannot distinguish you from break-even.</p>
 
-<p><a href="/vs/">Every tool compared &rarr;</a>
-&nbsp;&middot;&nbsp;
-<a href="/">What Bookbreaker does &rarr;</a></p>
+<p><a href="/download/">Download it free &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/vs/">Every tool compared &rarr;</a></p>
 <p class="caveat">Prices and capabilities change. The claim above carries the
 date it was read and a link to where it was read; the build fails if either is
 missing.</p>
@@ -3378,14 +3458,21 @@ regulator before relying on any of it.</p>
 
 
 def render_state_page(m: dict, code: str) -> str:
-    """One state, in the shape the search term wants.
+    """One state.
 
-    The competing pages in this niche are eight to ten thousand words and rank
-    on being the most complete answer to "online sports betting in <state>".
-    They also share one omission, and it is not an accident: none of them tells
-    you which of the books they are paid to recommend will limit you for
-    winning. That is the fact this page leads with, because it is the fact the
-    catalogue already carries and the one a winning bettor most needs.
+    The first version of this page scored 96% identical against another state
+    on a word-level diff, and the portfolio similarity gate counted 406
+    near-duplicate pairs across 33 of them. The cause was not the state data,
+    which genuinely differs — it was that four fixed sections of general
+    argument outweighed it. Programmatic pages that do not differ are the
+    textbook case Google collapses: it keeps one and the other 32 earn nothing.
+
+    So the general argument now lives once, on the pages built for it, and
+    what stays here is what is true of this state and nowhere else: which
+    books operate, which of those limit winners, **which do not operate at
+    all**, and whatever the regulator publishes. The absent list matters as
+    much as the present one — it is different for every state, and it is the
+    reason a bettor in one state cannot follow advice written for another.
     """
     st = m["states"][code]
     name = STATE_NAMES.get(code, code)
@@ -3395,69 +3482,74 @@ def render_state_page(m: dict, code: str) -> str:
     never = [b for b in books if not b["limits"]]
     limiting = [b for b in books if b["limits"]]
 
+    here = {b["name"] for b in books}
+    absent = sorted({b["name"] for c in m["states"]
+                     for b in m["states"][c]["books"]} - here)
+    assert len(absent) == st["absent"], (code, len(absent), st["absent"])
+
     rows = "".join(
         f"<tr><td>{partner_link(b['key'], b['name'], code)}</td>"
         f"<td class=\"prose\">{'Exchange' if b['tier'] == 'exchange' else b['tier'].title()}</td>"
         f"<td class=\"{'good' if not b['limits'] else 'warn'}\">"
-        f"{'Never limits winners' if not b['limits'] else 'Limits winning accounts'}</td>"
-        f"<td>{(str(b['commission']) + '%') if b['commission'] else '&mdash;'}</td></tr>"
+        f"{'Never limits winners' if not b['limits'] else 'Limits winning accounts'}</td></tr>"
         for b in sorted(books, key=lambda x: (x["limits"], x["name"])))
 
-    if not st["legal"]:
-        lead = (f"{name} had no legal online sportsbook as of "
-                f"{st['as_of']}. What is still reachable is federally "
-                f"regulated prediction markets.")
-    elif st["retail_only"]:
-        lead = (f"{name} allowed betting in person only as of {st['as_of']}. "
-                f"No licensed online sportsbook took bets in the state.")
-    elif st["single_operator"]:
-        lead = (f"{name} ran a single-operator market as of {st['as_of']} "
-                f"&mdash; one book, so there is no line to shop.")
-    else:
-        lead = (f"{len(online)} licensed online sportsbooks took bets in "
-                f"{name} as of {st['as_of']}, and "
-                f"{len(limiting)} of them limit accounts that win.")
+    lead = (f"{len(online)} licensed online sportsbooks took bets in "
+            f"{name} as of {st['as_of']}, and {len(limiting)} of them limit "
+            f"accounts that win.")
+
+    never_line = ""
+    if never:
+        never_line = (
+            f"<p>The {len(never)} venue{'s' if len(never) > 1 else ''} in "
+            f"{e(name)} that never limit a winning account: "
+            + ", ".join(f"<strong>{e(b['name'])}</strong>" for b in never)
+            + ". On a list of " + str(len(books)) + ", that is where a record "
+            "worth having gets built.</p>")
+
+    absent_block = ""
+    if absent:
+        absent_block = f"""
+<h2>What you cannot get in {e(name)}</h2>
+<p>{len(absent)} book{'s' if len(absent) > 1 else ''} covered elsewhere in the
+United States {'do' if len(absent) > 1 else 'does'} not take bets in
+{e(name)}: {", ".join(e(a) for a in absent)}.</p>
+<p>That list is why advice written for another state does not transfer. Line
+shopping is the largest edge available to an ordinary bettor, and it is bounded
+by the {len(books)} venues that will actually take your money here.</p>
+"""
 
     faqs = [
         (f"Is online sports betting legal in {name}?",
-         (f"{name} had {len(online)} licensed online sportsbooks operating as "
-          f"of {st['as_of']}." if st["legal"] and st["online"] else
-          f"{name} had no legal online sportsbook as of {st['as_of']}.")),
+         f"{name} had {len(online)} licensed online sportsbooks operating as "
+         f"of {st['as_of']}, alongside {len(exchanges)} federally regulated "
+         f"prediction market{'s' if len(exchanges) != 1 else ''}."),
         (f"Which sportsbooks in {name} limit winning accounts?",
-         (f"{len(limiting)} of the {len(books)} venues covering {name} limit "
-          f"accounts that win consistently. "
-          + (f"{len(never)} never do: "
-             + ", ".join(b["name"] for b in never) + "." if never else
-             "None of them are exempt.")) if books else
-         f"No licensed venue covered {name} as of {st['as_of']}."),
-        ("How old do I have to be to bet?",
-         "21 or older in every state with legal sports betting, and you must "
-         "be physically present in that state when the bet is placed."),
-        (f"How many sportsbooks do I need in {name}?",
-         "At least two. A single account cannot be line shopped, and the "
-         "whole arbitrage and +EV case rests on holding the best of several "
-         "prices rather than whatever one book offers."),
+         f"{len(limiting)} of the {len(books)} venues covering {name} limit "
+         f"accounts that win consistently. "
+         + (", ".join(b["name"] for b in never) + " never do."
+            if never else "None of them are exempt.")),
+        (f"How many sportsbooks should I open in {name}?",
+         f"At least two of the {len(online)} available. One account cannot be "
+         f"line shopped, and the gap between the best and second-best price is "
+         f"the entire edge in arbitrage."),
+        (f"What is not available in {name}?",
+         (f"{len(absent)} books that operate elsewhere in the US do not take "
+          f"bets here: {', '.join(absent)}." if absent else
+          f"Every book this site tracks operates in {name}.")),
     ]
-    faq_html = "".join(
-        f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
+    faq_html = "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
 
     exch = ""
     if exchanges:
-        exch = (
-            "<h2>The venues that cannot ban you</h2>"
-            "<p>Prediction markets are regulated federally rather than by "
-            + e(name) + ", which is why they appear in every state. They also "
-            "have no bookmaker deciding who is allowed to keep betting, so "
-            "they are structurally the best home for a consistent winner "
-            "&mdash; and they can anchor a fair price where no sharp "
-            "sportsbook operates.</p><ul>"
-            + "".join(f"<li>{partner_link(b['key'], b['name'], code)}"
-                      f" &mdash; {b['commission']}% commission, never limits "
-                      f"winners</li>" if b["commission"] else
-                      f"<li>{partner_link(b['key'], b['name'], code)}"
-                      f" &mdash; never limits winners</li>"
-                      for b in exchanges)
-            + "</ul>")
+        exch = ("<h2>The venues in " + e(name) + " that cannot ban you</h2>"
+                "<p>Regulated federally rather than by " + e(name) + ", which "
+                "is why they reach every state, and with no bookmaker deciding "
+                "who may keep betting.</p><ul>"
+                + "".join(f"<li>{partner_link(b['key'], b['name'], code)}"
+                          + (f" &mdash; {b['commission']}% commission" if b["commission"] else "")
+                          + "</li>" for b in exchanges)
+                + "</ul>")
 
     return f"""
 {breadcrumb_schema([("Sportsbooks by state", "/sportsbooks/"),
@@ -3466,55 +3558,39 @@ def render_state_page(m: dict, code: str) -> str:
 <h1>Online sports betting in {e(name)}</h1>
 <p class="lede">{e(lead)}</p>
 {disclosure()}
-
 {jurisdiction_facts(code, name)}
+
 <h2>Every sportsbook covering {e(name)}</h2>
 <p>Read {e(st['as_of'])} from each operator's own state disclosures. The
-limiting column is the one no affiliate page publishes, because it is the
-column that costs them a signup.</p>
+limiting column is the one no affiliate page publishes.</p>
 <div class="scroll"><table>
-<tr><th>Sportsbook</th><th class="prose">Type</th><th class="prose">Winning accounts</th>
-<th>Commission</th></tr>
+<tr><th>Sportsbook</th><th class="prose">Type</th>
+<th class="prose">Winning accounts</th></tr>
 {rows}
 </table></div>
+{never_line}
 
+{absent_block}
 {exch}
-
-<h2>Which to open first in {e(name)}</h2>
-<p>Open at least two. One account cannot be line shopped, and the gap between
-the best and second-best price on the same market is the entire edge in
-arbitrage and most of it in +EV betting.</p>
-<p>If a book on that list never limits winners, it is the one to build a real
-record at. The rest are worth opening for their prices and their welcome
-offers, and worth treating as accounts with a lifespan.</p>
-<p><a href="/account-longevity/">What bet shape gives away &rarr;</a></p>
-
-<h2>What this site does that a promo page does not</h2>
-<p>Every figure here is computed by an engine you can download and run
-yourself, and the build refuses to publish a number the engine did not
-produce. That includes the uncomfortable ones: the spread between devig
-methods, the chance a price is already gone, and whether your own record is
-long enough to prove anything at all.</p>
-<p><a href="/download/">Download it free &rarr;</a>
-&nbsp;&middot;&nbsp;<a href="/how-it-works/">How it prices a market &rarr;</a></p>
 
 <h2>{e(name)} sports betting FAQ</h2>
 {faq_html}
 
+<p><a href="/how-it-works/">How a price is formed &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/account-longevity/">What bet shape gives away
+&rarr;</a>&nbsp;&middot;&nbsp;<a href="/download/">Download it free
+&rarr;</a></p>
 {responsible()}
-<p class="caveat">Venue coverage read {e(st['as_of'])} from operator state
-disclosures. Sportsbook availability changes; this is a starting point for your
-own check, not legal advice.</p>
+<p class="caveat">Coverage read {e(st['as_of'])} from operator state
+disclosures. A starting point for your own check, not legal advice.</p>
 """
-
 
 
 def state_url(m: dict, code: str) -> str:
     """Where this state's answer actually lives.
 
     Merged states have no page of their own, and a link to the URL one would
-    have had is a 404 the link checker catches — which is exactly how these
-    were found.
+    have had is a 404 the link checker catches.
     """
     st = m["states"][code]
     if not st["legal"]:
@@ -3527,12 +3603,8 @@ def state_url(m: dict, code: str) -> str:
 
 
 def render_state_hub(m: dict) -> str:
-    """The parent of 51 state pages.
-
-    It exists because the breadcrumb on every one of them points here, and a
-    breadcrumb pointing at a 404 is worse than no breadcrumb: it is structured
-    data telling a crawler the site has a shape it does not have.
-    """
+    """The parent of the state pages, and the place the general argument for
+    holding several accounts lives once instead of thirty-three times."""
     states = m["states"]
     live = sorted(c for c in states if states[c]["legal"] and states[c]["online"])
     retail = sorted(c for c in states if states[c].get("retail_only"))
@@ -3554,6 +3626,15 @@ def render_state_hub(m: dict) -> str:
 column no other guide prints: which of them limit accounts that win. Read
 {e(as_of)}.</p>
 {disclosure()}
+
+<h2>Why the state you are in decides your edge</h2>
+<p>Line shopping is the largest edge available to an ordinary bettor, and it is
+bounded entirely by how many venues will take your money where you stand. A
+bettor with nine books and a bettor with two are not running the same strategy
+with different intensity; they are running different strategies, and most
+betting advice is written without saying which one it assumes.</p>
+<p>So each page below leads with the count, with which of those books limit
+accounts that win, and with which books operate elsewhere but not there.</p>
 
 <h2>Online betting is live &mdash; {m["markets"]["online"]} states</h2>
 <ul class="states">{cells(live)}</ul>

@@ -808,6 +808,7 @@
   ],
   "states": {
     "AK": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -835,6 +836,7 @@
       "venues": 1
     },
     "AL": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -862,6 +864,7 @@
       "venues": 1
     },
     "AR": {
+      "absent": 20,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -903,6 +906,7 @@
       "venues": 3
     },
     "AZ": {
+      "absent": 11,
       "anchors": 2,
       "as_of": "2026-08-17",
       "books": [
@@ -1008,6 +1012,7 @@
       "venues": 12
     },
     "CA": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1035,6 +1040,7 @@
       "venues": 1
     },
     "CO": {
+      "absent": 10,
       "anchors": 3,
       "as_of": "2026-08-17",
       "books": [
@@ -1148,6 +1154,7 @@
       "venues": 13
     },
     "CT": {
+      "absent": 20,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1189,6 +1196,7 @@
       "venues": 3
     },
     "DC": {
+      "absent": 18,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1244,6 +1252,7 @@
       "venues": 5
     },
     "DE": {
+      "absent": 21,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1278,6 +1287,7 @@
       "venues": 2
     },
     "FL": {
+      "absent": 21,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1312,6 +1322,7 @@
       "venues": 2
     },
     "GA": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1339,6 +1350,7 @@
       "venues": 1
     },
     "HI": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1366,6 +1378,7 @@
       "venues": 1
     },
     "IA": {
+      "absent": 12,
       "anchors": 2,
       "as_of": "2026-08-17",
       "books": [
@@ -1464,6 +1477,7 @@
       "venues": 11
     },
     "ID": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1491,6 +1505,7 @@
       "venues": 1
     },
     "IL": {
+      "absent": 13,
       "anchors": 2,
       "as_of": "2026-08-17",
       "books": [
@@ -1582,6 +1597,7 @@
       "venues": 10
     },
     "IN": {
+      "absent": 13,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1672,6 +1688,7 @@
       "venues": 10
     },
     "KS": {
+      "absent": 15,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1748,6 +1765,7 @@
       "venues": 8
     },
     "KY": {
+      "absent": 14,
       "anchors": 2,
       "as_of": "2026-08-17",
       "books": [
@@ -1832,6 +1850,7 @@
       "venues": 9
     },
     "LA": {
+      "absent": 14,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1915,6 +1934,7 @@
       "venues": 9
     },
     "MA": {
+      "absent": 15,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -1991,6 +2011,7 @@
       "venues": 8
     },
     "MD": {
+      "absent": 14,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2074,6 +2095,7 @@
       "venues": 9
     },
     "ME": {
+      "absent": 21,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2108,6 +2130,7 @@
       "venues": 2
     },
     "MI": {
+      "absent": 12,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2205,6 +2228,7 @@
       "venues": 11
     },
     "MN": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2232,6 +2256,7 @@
       "venues": 1
     },
     "MO": {
+      "absent": 14,
       "anchors": 2,
       "as_of": "2026-08-17",
       "books": [
@@ -2316,6 +2341,7 @@
       "venues": 9
     },
     "MS": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2343,6 +2369,7 @@
       "venues": 1
     },
     "MT": {
+      "absent": 21,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2377,6 +2404,7 @@
       "venues": 2
     },
     "NC": {
+      "absent": 14,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2460,6 +2488,7 @@
       "venues": 9
     },
     "ND": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2487,6 +2516,7 @@
       "venues": 1
     },
     "NH": {
+      "absent": 21,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2521,6 +2551,7 @@
       "venues": 2
     },
     "NJ": {
+      "absent": 11,
       "anchors": 2,
       "as_of": "2026-08-17",
       "books": [
@@ -2626,6 +2657,7 @@
       "venues": 12
     },
     "NM": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2653,6 +2685,7 @@
       "venues": 1
     },
     "NV": {
+      "absent": 19,
       "anchors": 2,
       "as_of": "2026-08-17",
       "books": [
@@ -2702,6 +2735,7 @@
       "venues": 4
     },
     "NY": {
+      "absent": 16,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2771,6 +2805,7 @@
       "venues": 7
     },
     "OH": {
+      "absent": 11,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2875,6 +2910,7 @@
       "venues": 12
     },
     "OK": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2902,6 +2938,7 @@
       "venues": 1
     },
     "OR": {
+      "absent": 21,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -2936,6 +2973,7 @@
       "venues": 2
     },
     "PA": {
+      "absent": 11,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3040,6 +3078,7 @@
       "venues": 12
     },
     "RI": {
+      "absent": 21,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3074,6 +3113,7 @@
       "venues": 2
     },
     "SC": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3101,6 +3141,7 @@
       "venues": 1
     },
     "SD": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3128,6 +3169,7 @@
       "venues": 1
     },
     "TN": {
+      "absent": 14,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3211,6 +3253,7 @@
       "venues": 9
     },
     "TX": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3238,6 +3281,7 @@
       "venues": 1
     },
     "UT": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3265,6 +3309,7 @@
       "venues": 1
     },
     "VA": {
+      "absent": 11,
       "anchors": 2,
       "as_of": "2026-08-17",
       "books": [
@@ -3370,6 +3415,7 @@
       "venues": 12
     },
     "VT": {
+      "absent": 19,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3418,6 +3464,7 @@
       "venues": 4
     },
     "WA": {
+      "absent": 21,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3452,6 +3499,7 @@
       "venues": 2
     },
     "WI": {
+      "absent": 22,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3479,6 +3527,7 @@
       "venues": 1
     },
     "WV": {
+      "absent": 14,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3562,6 +3611,7 @@
       "venues": 9
     },
     "WY": {
+      "absent": 17,
       "anchors": 1,
       "as_of": "2026-08-17",
       "books": [
@@ -3622,6 +3672,192 @@
       "stale_days": 1,
       "state": "WY",
       "venues": 6
+    }
+  },
+  "subs": {
+    "avo": {
+      "fee": 88.0,
+      "rows": [
+        {
+          "bets": 88,
+          "edge": 1,
+          "turnover": 8800
+        },
+        {
+          "bets": 44,
+          "edge": 2,
+          "turnover": 4400
+        },
+        {
+          "bets": 30,
+          "edge": 3,
+          "turnover": 2934
+        }
+      ],
+      "stake": 100,
+      "sym": "$",
+      "yearly": 1056.0
+    },
+    "betburger": {
+      "fee": 79.99,
+      "rows": [
+        {
+          "bets": 80,
+          "edge": 1,
+          "turnover": 7999
+        },
+        {
+          "bets": 40,
+          "edge": 2,
+          "turnover": 4000
+        },
+        {
+          "bets": 27,
+          "edge": 3,
+          "turnover": 2667
+        }
+      ],
+      "stake": 100,
+      "sym": "\u20ac",
+      "yearly": 959.88
+    },
+    "betstamp-pro": {
+      "fee": 347.0,
+      "rows": [
+        {
+          "bets": 347,
+          "edge": 1,
+          "turnover": 34700
+        },
+        {
+          "bets": 174,
+          "edge": 2,
+          "turnover": 17350
+        },
+        {
+          "bets": 116,
+          "edge": 3,
+          "turnover": 11567
+        }
+      ],
+      "stake": 100,
+      "sym": "$",
+      "yearly": 4164.0
+    },
+    "crazy-ninja-odds": {
+      "fee": 5.0,
+      "rows": [
+        {
+          "bets": 5,
+          "edge": 1,
+          "turnover": 500
+        },
+        {
+          "bets": 3,
+          "edge": 2,
+          "turnover": 250
+        },
+        {
+          "bets": 2,
+          "edge": 3,
+          "turnover": 167
+        }
+      ],
+      "stake": 100,
+      "sym": "$",
+      "yearly": 60.0
+    },
+    "oddsjam": {
+      "fee": 199.99,
+      "rows": [
+        {
+          "bets": 200,
+          "edge": 1,
+          "turnover": 20000
+        },
+        {
+          "bets": 100,
+          "edge": 2,
+          "turnover": 10000
+        },
+        {
+          "bets": 67,
+          "edge": 3,
+          "turnover": 6667
+        }
+      ],
+      "stake": 100,
+      "sym": "$",
+      "yearly": 2399.88
+    },
+    "rebelbetting": {
+      "fee": 89.0,
+      "rows": [
+        {
+          "bets": 89,
+          "edge": 1,
+          "turnover": 8900
+        },
+        {
+          "bets": 45,
+          "edge": 2,
+          "turnover": 4450
+        },
+        {
+          "bets": 30,
+          "edge": 3,
+          "turnover": 2967
+        }
+      ],
+      "stake": 100,
+      "sym": "\u00a3",
+      "yearly": 1068.0
+    },
+    "smartstake": {
+      "fee": 99.0,
+      "rows": [
+        {
+          "bets": 99,
+          "edge": 1,
+          "turnover": 9900
+        },
+        {
+          "bets": 50,
+          "edge": 2,
+          "turnover": 4950
+        },
+        {
+          "bets": 33,
+          "edge": 3,
+          "turnover": 3301
+        }
+      ],
+      "stake": 100,
+      "sym": "$",
+      "yearly": 1188.0
+    },
+    "unabated": {
+      "fee": 99.0,
+      "rows": [
+        {
+          "bets": 99,
+          "edge": 1,
+          "turnover": 9900
+        },
+        {
+          "bets": 50,
+          "edge": 2,
+          "turnover": 4950
+        },
+        {
+          "bets": 33,
+          "edge": 3,
+          "turnover": 3301
+        }
+      ],
+      "stake": 100,
+      "sym": "$",
+      "yearly": 1188.0
     }
   },
   "totals_middle": {
