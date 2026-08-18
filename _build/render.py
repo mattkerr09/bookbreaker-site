@@ -1198,6 +1198,14 @@ TABLE = re.compile(r"(?s)<table>.*?</table>")
 def page(title: str, description: str, body: str, path: str,
          body_class: str = "") -> str:
     body = TABLE.sub(lambda m: f'<div class="scroll">{m.group(0)}</div>', body)
+    # A card grid needs more width than a reading measure. Marked on the grid
+    # itself rather than passed in at each hub, because a body class that has
+    # to be remembered at six call sites is one that will be missed at the
+    # seventh. An explicit token, not a substring match on `class`: a grid
+    # written `class="cards cards--onward"` does not contain `class="cards"`,
+    # so sniffing the attribute is right only by accident.
+    if "data-hub" in body:
+        body_class = (body_class + " hub").strip()
     nav = (
         '<div class="banner"><div class="banner-in">'
         '<span class="tag">New</span>'
@@ -1467,8 +1475,10 @@ def render_index(m: dict) -> str:
 
     return f"""
 <div class="hero hero-glow">
+<div class="hero-copy">
 <p class="eyebrow accent">Free &middot; Runs on your machine</p>
-<h1>Find your edge,<br>with the error bar.</h1>
+<h1>Find your edge,
+with the error bar.</h1>
 <p class="lede">Real prices from {m['catalog']['venues']} sportsbooks, devigged
 four ways, and every number carrying what it might be wrong by. Built to find
 bets and keep the account that places them.</p>
@@ -1482,12 +1492,32 @@ bets and keep the account that places them.</p>
   <li>{m['catalog']['venues']}&plus; sportsbooks</li>
   <li>Open checksums</li>
 </ul>
+</div>
+
+<div class="hero-app">
+  <div class="app app--hero">
+    <div class="app-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="app-title">+EV &middot; NBA totals &middot; live</span>
+      <span class="app-meta">sorted by realised EV</span>
+    </div>
+    <div class="app-head">
+      <span>Market</span><span>Book</span><span>Price</span>
+      <span>EV</span><span>Band</span><span>Age</span><span>Fill</span>
+      <span>Realised</span>
+    </div>
+    {rows}
+  </div>
+  <p class="hero-app-cap">Ranked on <strong>realised</strong> EV &mdash; raw
+  edge times the chance the price is still there.</p>
+</div>
+</div>
+
 <div class="trust">
   <div><b>{len(m['devig']['methods'])}</b><span>Devig methods, side by side</span></div>
   <div><b>{m['devig']['spread']:.2f}%</b><span>Spread they disagree by</span></div>
   <div><b>{m['fill']['honest']}%</b><span>Fill on a {m['fill']['age']:.0f}s quote</span></div>
   <div><b>0</b><span>Bytes sent anywhere</span></div>
-</div>
 </div>
 
 <section class="wall" aria-label="Sportsbooks priced">
@@ -1565,59 +1595,94 @@ bets and keep the account that places them.</p>
 
 </div>
 
-<div class="app">
-  <div class="app-bar">
-    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-    <span class="app-title">+EV &middot; NBA totals &middot; live</span>
-    <span class="app-meta">sorted by realised EV</span>
+
+<section class="pitch" id="pitch">
+<p class="eyebrow">The four things it does that nothing else does</p>
+
+<article class="pitch-row">
+  <div class="pitch-copy">
+    <h2>Same market, four defensible methods</h2>
+    <p>Removing a book's margin to recover what it really believes is a
+    modelling choice, not arithmetic. On a {e(d['market'])} moneyline the four
+    standard methods disagree by {d['spread']:.2f} points of probability.</p>
+    <p class="pitch-kicker">Every competing tool picks one of these rows,
+    hard-codes it, and prints the result as fact.</p>
   </div>
-  <div class="app-head">
-    <span>Market</span><span>Book</span><span>Price</span>
-    <span>EV</span><span>Band</span><span>Age</span><span>Fill</span>
-    <span>Realised</span>
+  <div class="pitch-fig">
+    <table class="bare">
+    <tr><th>Method</th><th>Fair probability</th></tr>
+    {method_rows}
+    </table>
+    <p class="pitch-note">Consensus {d['consensus']:.2f}%. On a market where a
+    2% edge is a good day, that spread is a quarter of the edge.</p>
   </div>
-  {rows}
-  <div class="app-foot">Ranked on <strong>realised</strong> EV &mdash; raw EV
-  times the chance the price is still there. {top} sits above {second} despite
-  a smaller edge, because {second} is {stale}s old and fills
-  {stale_fill}% of the time.</div>
-</div>
+</article>
 
-<h2>Same market, four defensible methods</h2>
-<p>Removing a book's margin to recover what it really believes is a modelling
-choice, not arithmetic. On a {e(d['market'])} moneyline the four standard
-methods disagree by {d['spread']:.2f} points of probability:</p>
-<table>
-<tr><th>Method</th><th>Fair probability</th></tr>
-{method_rows}
-</table>
-<p>Consensus {d['consensus']:.2f}%. On a market where a 2% edge is a good day,
-that spread is a quarter of the edge. Every competing tool picks one of those
-rows, hard-codes it, and prints the result as fact.</p>
+<article class="pitch-row">
+  <div class="pitch-copy">
+    <h2>A stake a person would actually place</h2>
+    <p>At {e(a['legs'][0])} and {e(a['legs'][1])} there is a
+    {a['margin']:.2f}% arbitrage. A precise stake to the cent is the
+    most-cited fingerprint risk desks use to identify arbitrage.</p>
+    <p class="pitch-kicker">The {a['rounding_cost']:,.2f} difference is named
+    and reported, not hidden. A tool that conceals its own trade-offs is not
+    one you can check.</p>
+  </div>
+  <div class="pitch-fig">
+    <div class="vs">
+      <div class="vs-side">
+        <p class="vs-cap">Every calculator</p>
+        <p class="vs-val">{a['exact_stakes'][0]:,.2f} <i>/</i> {a['exact_stakes'][1]:,.2f}</p>
+        <p class="vs-sub">{a['exact_profit']:,.2f} guaranteed</p>
+      </div>
+      <div class="vs-side vs-side--ours">
+        <p class="vs-cap">Bookbreaker</p>
+        <p class="vs-val">{a['round_stakes'][0]:,} <i>/</i> {a['round_stakes'][1]:,}</p>
+        <p class="vs-sub">{a['round_profit']:,.2f} guaranteed</p>
+      </div>
+    </div>
+  </div>
+</article>
 
-<h2>A stake a person would actually place</h2>
-<p>At {e(a['legs'][0])} and {e(a['legs'][1])} there is a
-{a['margin']:.2f}% arbitrage. Every calculator hands you this:</p>
-<p class="figure">{a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}
-&rarr; {a['exact_profit']:,.2f} guaranteed</p>
-<p>A precise stake to the cent is the most-cited fingerprint risk desks use to
-identify arbitrage. Bookbreaker solves for round stakes directly:</p>
-<p class="figure">{a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}
-&rarr; {a['round_profit']:,.2f} guaranteed</p>
-<p>The {a['rounding_cost']:,.2f} difference is named and reported, not hidden.
-A tool that conceals its own trade-offs is not one you can check.</p>
+<article class="pitch-row">
+  <div class="pitch-copy">
+    <h2>An edge you cannot take is worth nothing</h2>
+    <p>Quote age is measured from the book's own timestamp, not from when the
+    feed reached us. On a feed running {f['latency']:.1f} seconds behind, a
+    quote that looks {f['age']:.0f} seconds old is really
+    {f['effective']:.1f}.</p>
+    <p class="pitch-kicker">A screen that ignores its own latency reports a
+    fill it cannot deliver.</p>
+  </div>
+  <div class="pitch-fig">
+    <div class="vs">
+      <div class="vs-side">
+        <p class="vs-cap">Screen ignoring latency</p>
+        <p class="vs-val">{f['naive']}%</p>
+        <p class="vs-sub">claimed still available</p>
+      </div>
+      <div class="vs-side vs-side--ours">
+        <p class="vs-cap">Measured</p>
+        <p class="vs-val">{f['honest']}%</p>
+        <p class="vs-sub">actually still available</p>
+      </div>
+    </div>
+  </div>
+</article>
 
-<h2>An edge you cannot take is worth nothing</h2>
-<p>Quote age is measured from the book's own timestamp, not from when the feed
-reached us. On a feed running {f['latency']:.1f} seconds behind, a quote that
-looks {f['age']:.0f} seconds old is really {f['effective']:.1f}:</p>
-<p class="figure">still available: {f['honest']}% &mdash; a screen ignoring
-latency would say {f['naive']}%</p>
-
-<h2>What your record actually says</h2>
-<p>On a {p['n']}-bet history showing {p['profit']:+,} profit and
-{p['roi']:.2f}% return, Bookbreaker's verdict is:</p>
-<p class="figure">{e(p['verdict'])}</p>
+<article class="pitch-row">
+  <div class="pitch-copy">
+    <h2>What your record actually says</h2>
+    <p>On a {p['n']}-bet history showing {p['profit']:+,} profit and
+    {p['roi']:.2f}% return, most trackers print the return and stop.</p>
+    <p class="pitch-kicker">The interval is the answer. A number without one is
+    a claim about a sample, dressed as a claim about you.</p>
+  </div>
+  <div class="pitch-fig">
+    <blockquote class="verdict">{e(p['verdict'])}</blockquote>
+  </div>
+</article>
+</section>
 <p>Every other tracker prints {p['roi']:.2f}% and stops.</p>
 """ + DEMO_SCRIPT.replace("__DEMO_DATA__",
                           json.dumps(m["demo"], separators=(",", ":")))
@@ -2898,8 +2963,12 @@ def render_calculator(m: dict, row: dict) -> str:
     c = m["calculators"][slug]
     body = c["body"]
     return f"""
+<div class="phead">
+<p class="crumb"><a href="/">Home</a><span>/</span>
+<a href="/calculators/">Calculators</a></p>
 <h1>{e(row['name'])}</h1>
 <p class="lede">{e(row['question'])}</p>
+</div>
 {body}
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the
@@ -3343,7 +3412,7 @@ nav .links a{color:var(--ink-2);text-decoration:none;font-size:.92rem;
 nav .links a:hover{color:var(--ink);border-bottom-color:var(--ink)}
 
 main{max-width:var(--measure-page);margin:0 auto;padding:0 var(--s-5) var(--s-8)}
-body.home main{max-width:var(--measure-plate)}
+body.home main,body.hub main{max-width:76rem}
 body.home main>h1,body.home main>h2,body.home main>p,
 body.home main>ul,body.home main>table{
   max-width:var(--measure-prose);margin-inline:0}
@@ -3789,6 +3858,275 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
   .cta .btn{flex:1 1 auto;justify-content:center;text-align:center}
 }
 
+
+/* ================================================================= PASS 1
+   The page had a composed hero and then became a term paper: four
+   h2/p/p.figure sequences carrying the entire product argument with no
+   structure at all. And the product itself sat two screens below a hero whose
+   right half was empty. Both are fixed here.
+   --------------------------------------------------------------------- */
+
+/* --- hero: the claim on the left, the thing working on the right ------ */
+.hero{display:grid;gap:var(--s-7);align-items:start}
+.hero-copy{min-width:0}
+.hero-app{min-width:0}
+@media (min-width:64rem){
+  .hero{grid-template-columns:minmax(0,31rem) minmax(0,1fr);
+    gap:var(--s-7);align-items:center}
+  /* Type set for a full-width hero is too large for a column: 72px broke the
+     headline into four pieces. Sized to land in two. */
+  .hero-copy h1{font-size:clamp(2.5rem,3.6vw,3.35rem);line-height:1.06}
+}
+/* Two buttons that stack are two decisions; side by side they are one. */
+.hero .cta{flex-wrap:nowrap}
+@media (max-width:30rem){.hero .cta{flex-wrap:wrap}}
+.hero .btn{white-space:nowrap}
+body.home main>.hero{max-width:none}
+.hero-copy>h1{max-width:none}
+.hero-copy>.lede{max-width:32rem}
+
+/* Lifted and turned a degree off true, so it reads as an object sitting on
+   the page rather than a table that failed to inherit its borders. */
+.app--hero{margin:0;box-shadow:
+    0 1px 0 color-mix(in srgb, var(--ink) 6%, transparent),
+    0 24px 60px -20px rgba(0,0,0,.55);
+  transform:perspective(1600px) rotateY(-1.2deg);
+  transform-origin:left center}
+.app--hero .app-row:last-of-type{border-bottom:0}
+.hero-app-cap{font-size:var(--t-2);color:var(--ink-2);
+  margin:var(--s-3) 0 0;max-width:34rem}
+.hero-app-cap strong{color:var(--ink);font-weight:600}
+@media (prefers-reduced-motion:reduce){.app--hero{transform:none}}
+@media (max-width:64rem){.app--hero{transform:none}}
+
+/* The trust row was four small numbers adrift under the fold. Ruled top and
+   bottom, it becomes the spine between the hero and the body. */
+.trust{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  padding:var(--s-5) 0;margin:var(--s-7) 0 0;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s-5)}
+@media (min-width:48rem){.trust{grid-template-columns:repeat(4,1fr)}}
+.trust>div{display:flex;flex-direction:column;gap:.35rem}
+.trust b{font-family:var(--display);font-size:var(--t-7);font-weight:600;
+  letter-spacing:-.02em;line-height:1;color:var(--ink)}
+.trust span{font-size:var(--t-1);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2)}
+
+/* --- the four blocks, composed --------------------------------------- */
+.pitch{margin:var(--s-8) 0 0;max-width:none}
+.pitch>.eyebrow{margin-bottom:var(--s-6)}
+.pitch-row{display:grid;gap:var(--s-5);padding:var(--s-7) 0;
+  border-top:1px solid var(--rule);align-items:start}
+.pitch-row:first-of-type{border-top:0;padding-top:0}
+@media (min-width:60rem){
+  /* Centred, not top-aligned: the copy is always taller than the figure, and
+     start-alignment left each figure pinned to the top of a column of empty
+     space. */
+  .pitch-row{grid-template-columns:minmax(0,30rem) minmax(0,1fr);
+    gap:var(--s-8);align-items:center}
+}
+.pitch-copy{min-width:0}
+/* The base h2 carries a top rule, which inside a numbered block draws a line
+   between the number and its own heading and reads as a mistake. The row
+   already supplies the only rule this section needs. */
+.pitch-copy h2{margin:var(--s-2) 0 var(--s-3);max-width:none;
+  border-top:0;padding-top:0;font-size:var(--t-7);line-height:1.15}
+.pitch-copy p{max-width:34rem}
+/* Counted in CSS, not written into the markup: an ordinal is presentation,
+   it is not a figure the engine measured, and a screen reader should not
+   announce "zero one" before every heading. */
+.pitch{counter-reset:pitch}
+.pitch-row{counter-increment:pitch}
+.pitch-copy::before{content:counter(pitch,decimal-leading-zero);
+  display:block;font-family:var(--mono);font-size:var(--t-1);
+  letter-spacing:.18em;color:var(--accent);font-weight:600}
+.pitch-kicker{color:var(--ink-2);font-size:var(--t-3)}
+.pitch-fig{min-width:0}
+.pitch-note{font-size:var(--t-2);color:var(--ink-2);margin:var(--s-3) 0 0}
+
+/* A figure is an object with a surface, not a stray paragraph set in a
+   different font. */
+.pitch-fig>table.bare,.pitch-fig>.vs,.pitch-fig>.verdict{
+  background:var(--card);border:1px solid var(--rule);border-radius:var(--r)}
+.pitch-fig table.bare{width:100%;border-collapse:collapse;margin:0}
+.pitch-fig table.bare th,.pitch-fig table.bare td{
+  padding:var(--s-3) var(--s-4);border-bottom:1px solid var(--rule);
+  text-align:left}
+.pitch-fig table.bare tr:last-child th,
+.pitch-fig table.bare tr:last-child td{border-bottom:0}
+.pitch-fig table.bare th{font-size:var(--t-1);letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-2);font-weight:600;
+  background:var(--sink)}
+.pitch-fig table.bare td:last-child{font-family:var(--mono);text-align:right;
+  color:var(--indigo);font-weight:600}
+
+/* Two figures side by side, because every claim here is a comparison: what
+   everyone else prints, against what this prints. */
+.vs{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.vs-side{padding:var(--s-6) var(--s-5)}
+.vs-side+.vs-side{border-left:1px solid var(--rule)}
+.vs-side--ours{background:color-mix(in srgb, var(--accent) 7%, transparent)}
+.vs-cap{font-size:var(--t-1);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2);margin:0 0 var(--s-3)}
+.vs-val{font-family:var(--mono);font-size:var(--t-7);font-weight:600;
+  color:var(--ink);margin:0;line-height:1.15;word-break:break-word}
+.vs-val i{color:var(--ink-3);font-style:normal;padding:0 .15em}
+.vs-side--ours .vs-val{color:var(--accent)}
+.vs-sub{font-size:var(--t-2);color:var(--ink-2);margin:var(--s-2) 0 0}
+
+.verdict{margin:0;padding:var(--s-6);font-family:var(--serif);
+  font-size:var(--t-7);line-height:1.35;color:var(--ink);
+  border-left:3px solid var(--accent)}
+
+/* ================================================================= PASS 2
+   116 of the 117 pages were the term paper the homepage used to be. The hubs
+   listed forty links as a bare <ul>, and every leaf page opened with an h1 and
+   a paragraph on an empty ground. Two templates, so one fix reaches the whole
+   site.
+   --------------------------------------------------------------------- */
+
+/* --- hub card grids --------------------------------------------------- */
+.cards{list-style:none;padding:0;margin:var(--s-6) 0 0;display:grid;
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:var(--r);overflow:hidden}
+@media (min-width:34rem){.cards{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:60rem){.cards{grid-template-columns:repeat(3,1fr)}}
+body.home main>.cards,main>.cards{max-width:none}
+
+/* One hairline between cells rather than a border on each: the grid gap IS
+   the rule, so nothing doubles up at the seams. */
+.cards .card{background:var(--plate);margin:0}
+.cards .card a{display:flex;flex-direction:column;gap:var(--s-2);height:100%;
+  padding:var(--s-5);text-decoration:none;color:inherit;
+  background:var(--plate);
+  transition:background .12s ease-out,color .12s ease-out}
+.cards .card a:hover,.cards .card a:focus-visible{background:var(--card)}
+.cards .card a:focus-visible{outline:2px solid var(--accent);
+  outline-offset:-2px}
+.card-t{font-family:var(--display);font-size:var(--t-5);font-weight:600;
+  letter-spacing:-.01em;line-height:1.25;color:var(--ink);text-wrap:balance}
+.card-q{font-size:var(--t-2);line-height:1.5;color:var(--ink-2);
+  flex:1 1 auto}
+.card-go{font-size:var(--t-1);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);transition:color .12s ease-out}
+.cards .card a:hover .card-go,
+.cards .card a:focus-visible .card-go{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){
+  .cards .card a,.card-go{transition:none}
+}
+
+/* --- every leaf page gets a header, not a bare h1 --------------------- */
+.phead{border-bottom:1px solid var(--rule);padding-bottom:var(--s-5);
+  margin-bottom:var(--s-6)}
+.phead h1{margin:0 0 var(--s-3);font-size:clamp(2rem,4.2vw,2.9rem);
+  line-height:1.1}
+.phead .lede{margin:0}
+.crumb{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;
+  font-size:var(--t-1);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 var(--s-4)}
+.crumb a{color:var(--ink-2);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
+.crumb span{color:var(--rule)}
+
+/* The hub h1 and lede stay at reading measure while the grid uses the room. */
+body.hub main>h1,body.hub main>p{max-width:var(--measure-prose)}
+body.hub main>h1{font-size:clamp(2.1rem,4vw,3rem);line-height:1.08}
+
+/* ================================================================= PASS 3
+   The leaf pages are where most of the site lives and where the reading
+   actually happens. They were set at a size and rhythm nobody would choose
+   for prose, and a short page left the footer floating in a void.
+   --------------------------------------------------------------------- */
+
+/* A page shorter than the viewport pushed the footer up and left a band of
+   empty ground under it. */
+body{min-height:100vh;display:flex;flex-direction:column}
+body>footer{margin-top:auto}
+main{flex:1 0 auto}
+
+/* Prose sized to be read rather than to fit. 17px at a 46rem measure is a
+   documentation default; guides are the product's argument and are read
+   end to end. */
+main p{font-size:var(--t-5);line-height:1.65;margin:var(--s-4) 0}
+main li{line-height:1.6}
+.phead .lede{font-size:var(--t-6);line-height:1.5}
+
+/* Run-in heads. Ten guides open paragraphs with a bold sentence that acts as
+   a heading and was set at body weight in body colour, so it read as an
+   accident of emphasis rather than structure. */
+main p>strong:first-child{color:var(--ink);font-weight:650;
+  letter-spacing:-.005em}
+
+/* A figure inside prose is the number the paragraph exists to deliver. It was
+   a paragraph in a different font. */
+main .figure{font-family:var(--mono);font-size:var(--t-5);color:var(--ink);
+  background:var(--card);border:1px solid var(--rule);
+  border-left:3px solid var(--accent);border-radius:var(--r);
+  padding:var(--s-4) var(--s-5);margin:var(--s-5) 0;line-height:1.5}
+
+/* Numbers inside running prose. The site's whole claim is about figures, and
+   they were set in the same face and colour as the words around them. */
+main p code,main p .num{font-family:var(--mono);font-size:.94em;
+  color:var(--ink);background:color-mix(in srgb,var(--ink) 7%,transparent);
+  padding:.08em .3em;border-radius:var(--r)}
+
+/* Tables on leaf pages matched the plate figures on the homepage but not the
+   card surfaces around them. */
+main table{width:100%;border-collapse:collapse;margin:var(--s-5) 0;
+  font-size:var(--t-3)}
+main table th,main table td{padding:var(--s-3) var(--s-4);
+  border-bottom:1px solid var(--rule);text-align:left}
+main table th{font-size:var(--t-1);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2);font-weight:600;background:var(--sink)}
+main table tr:last-child td{border-bottom:0}
+main table td:not(:first-child){font-family:var(--mono);text-align:right;
+  color:var(--indigo);font-weight:600}
+
+/* The closing link on every guide was an ordinary sentence link doing the job
+   of a next step. */
+main p>a[href^="/"]:only-child{display:inline-flex;align-items:center;
+  gap:.4rem;font-weight:600;text-decoration:none;color:var(--accent);
+  border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+  padding-bottom:.1rem}
+main p>a[href^="/"]:only-child:hover{border-bottom-color:var(--accent)}
+
+/* The hub cards' affordance was set in the decorative ink, which is the one
+   colour the stylesheet reserves for things that carry no meaning. */
+.card-go{color:var(--ink-2)}
+
+/* Every guide ends somewhere. Ending on a dead stop above a pinned footer
+   left a band of empty ground; ending on the next three guides fills it with
+   the one thing a reader here actually wants. */
+.onward{margin:var(--s-8) 0 0;border-top:1px solid var(--rule);
+  padding-top:var(--s-5)}
+.onward-cap{font-size:var(--t-1);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-2);margin:0}
+.cards--onward{margin-top:var(--s-4)}
+@media (min-width:34rem){.cards--onward{grid-template-columns:repeat(3,1fr)}}
+.cards--onward .card-t{font-size:var(--t-4)}
+.cards--onward .card a{padding:var(--s-4)}
+
+/* The onward strip is wider than the reading measure it follows: three cards
+   at a prose width are three cards nobody can read the titles of. */
+.onward{margin-inline:auto;max-width:var(--measure-plate)}
+@media (min-width:60rem){
+  .onward{width:min(var(--measure-plate),calc(100vw - 3rem))}
+}
+
+/* The nav is a flex row that wraps: on a phone the brand and the button share
+   line one, `margin-left:auto` pushes the button past the padding, and it is
+   clipped by the viewport edge. Below the wrap point the row becomes an
+   explicit two-line layout instead of an accidental one. */
+@media (max-width:46rem){
+  nav{gap:.6rem 1rem;padding:.7rem 1rem;
+    display:grid;grid-template-columns:1fr auto;align-items:center}
+  nav .brand{grid-column:1}
+  nav .cta-nav{grid-column:2;margin-left:0;justify-self:end}
+  nav .links{grid-column:1 / -1;gap:.5rem 1.1rem;
+    font-size:var(--t-2);row-gap:.35rem}
+  nav .links a{font-size:var(--t-2)}
+}
+/* Nothing on the page may push the document wider than the phone holding it. */
+html,body{max-width:100%;overflow-x:clip}
 """
 
 STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
@@ -3872,8 +4210,11 @@ def main() -> int:
     print(f"  /calculators/          {len(load_data('calculators'))} pages")
 
     rows = "".join(
-        f'<li><a href="/calculators/{e(r["slug"])}/">{e(r["name"])}</a>'
-        f'{e(r["question"])}</li>'
+        f'<li class="card"><a href="/calculators/{e(r["slug"])}/">'
+        f'<span class="card-t">{e(r["name"])}</span>'
+        f'<span class="card-q">{e(r["question"])}</span>'
+        f'<span class="card-go" aria-hidden="true">Open &rarr;</span>'
+        f'</a></li>'
         for r in load_data("calculators")
     )
     hub = f"""
@@ -3882,7 +4223,7 @@ def main() -> int:
 formula. These show the arithmetic already done on real prices, and the range
 the answer sits in &mdash; because the range is the part that decides whether a
 bet is worth taking.</p>
-<ul>{rows}</ul>
+<ul class="cards" data-hub>{rows}</ul>
 <p>All of them are the engine that prices bets, not a separate implementation.
 A calculator that disagrees with the product it advertises is worse than no
 calculator.</p>
@@ -3906,22 +4247,48 @@ calculator.</p>
             "generated from a shape reads as generated; write it or drop the "
             "row."
         )
-    for row in guides:
+    def related(index: int, n: int = 3) -> str:
+        """The next few guides, wrapping round.
+
+        Deterministic rather than chosen: forty hand-picked related-lists is
+        forty things to keep true when a row is added, and a rotation touches
+        every guide equally instead of orphaning the ones nobody linked.
+        """
+        picks = [guides[(index + k + 1) % len(guides)] for k in range(n)]
+        cards = "".join(
+            f'<li class="card"><a href="/guides/{e(r["slug"])}/">'
+            f'<span class="card-t">{e(r["title"])}</span>'
+            f'<span class="card-q">{e(r["question"])}</span>'
+            f'<span class="card-go" aria-hidden="true">Read &rarr;</span>'
+            f'</a></li>' for r in picks)
+        return (f'<nav class="onward" aria-label="More guides">'
+                f'<p class="onward-cap">Keep reading</p>'
+                f'<ul class="cards cards--onward">{cards}</ul></nav>')
+
+    for i, row in enumerate(guides):
         url, rel = f"/guides/{row['slug']}/", f"guides/{row['slug']}/index.html"
         out = SITE / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(
             row["title"],
             guide_description(row),
-            f"<h1>{e(row['title'])}</h1>\n"
-            f"<p class=\"lede\">{e(row['question'])}</p>\n"
-            + bodies[row["slug"]],
+            '<div class="phead">'
+            '<p class="crumb"><a href="/">Home</a><span>/</span>'
+            '<a href="/guides/">Guides</a></p>'
+            f"<h1>{e(row['title'])}</h1>"
+            f'<p class="lede">{e(row["question"])}</p>'
+            '</div>\n'
+            + bodies[row["slug"]]
+            + related(i),
             url))
         built.append((url, rel))
 
     links = "".join(
-        f'<li><a href="/guides/{e(r["slug"])}/">{e(r["title"])}</a>'
-        f'{e(r["question"])}</li>' for r in guides
+        f'<li class="card"><a href="/guides/{e(r["slug"])}/">'
+        f'<span class="card-t">{e(r["title"])}</span>'
+        f'<span class="card-q">{e(r["question"])}</span>'
+        f'<span class="card-go" aria-hidden="true">Read &rarr;</span>'
+        f'</a></li>' for r in guides
     )
     out = SITE / "guides/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -3935,7 +4302,7 @@ calculator.</p>
 The difference here is that the numbers are worked, and the parts that are
 usually left out &mdash; how uncertain the answer is, and whether you could
 actually have placed the bet &mdash; are the parts these lead with.</p>
-<ul>{links}</ul>
+<ul class="cards" data-hub>{links}</ul>
 """, "/guides/"))
     built.append(("/guides/", "guides/index.html"))
     print(f"  /guides/               {len(guides)} pages + hub")

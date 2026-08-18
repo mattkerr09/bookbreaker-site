@@ -6,14 +6,18 @@
 <title>Totals middle calculator — worked, not just a form</title>
 <meta name="description" content="How do you price a totals middle bet? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/totals-middle/">
-<link rel="stylesheet" href="/style.css?v=b728110d51">
+<link rel="stylesheet" href="/style.css?v=b206bfbf31">
 </head>
 <body class="">
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
+<div class="phead">
+<p class="crumb"><a href="/">Home</a><span>/</span>
+<a href="/calculators/">Calculators</a></p>
 <h1>Totals middle calculator</h1>
 <p class="lede">How do you price a totals middle bet?</p>
+</div>
 <p>A middle is a pair of bets on one game: the over at the lower line, the under at the higher one. Both win when the final total lands inside the window between them. Outside it, one side pays, the other loses, and the miss costs the vig.</p><p>The lines priced here are 44.5 and 47.5, a window 3 points wide. Break-even is 4.76% &mdash; the rate the window must hit for the pair to be worth holding. That is arithmetic on both prices and nothing else: no distribution, no sample, no view on the sport. It is the honest anchor.</p><p>The window probability is 9.19%. That one is a normal approximation, and its spread of 13.0 points is a stated prior, not a measurement. Competitors print a figure like it out to the decimal as though it had been observed.</p><p>Counting beats a smooth curve. Real scores cluster on the totals a sport actually produces. A curve cannot reproduce a lump, so it moves mass into gaps where finals never land. Count finals, and hold the sample to a threshold first.</p><div class="scroll"><table><tr><th>Threshold</th><th>Minimum</th></tr><tr><td>Games in a totals sample</td><td>400</td></tr><tr><td>Games in a margin sample</td><td>200</td></tr><tr><td>Observations on each distinct total</td><td>8</td></tr></table></div><p>Totals carry the higher bar: wider support, more distinct finals, each seen less often. Below any of these minimums the counted estimate is noise wearing a decimal point.</p>
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the

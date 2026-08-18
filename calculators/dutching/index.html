@@ -6,14 +6,18 @@
 <title>Dutching calculator — worked, not just a form</title>
 <meta name="description" content="How do I split a stake across several outcomes? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/dutching/">
-<link rel="stylesheet" href="/style.css?v=b728110d51">
+<link rel="stylesheet" href="/style.css?v=b206bfbf31">
 </head>
 <body class="">
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
+<div class="phead">
+<p class="crumb"><a href="/">Home</a><span>/</span>
+<a href="/calculators/">Calculators</a></p>
 <h1>Dutching calculator</h1>
 <p class="lede">How do I split a stake across several outcomes?</p>
+</div>
 <p>300 spread across 3 outcomes so that every result pays the same:</p><div class="scroll"><table><tr><th>Price</th><th>Stake</th><th>Returns</th></tr><tr><td>+120</td><td>131.83</td><td>290.03</td></tr><tr><td>+240</td><td>85.30</td><td>290.03</td></tr><tr><td>+250</td><td>82.87</td><td>290.03</td></tr></table></div><p>Every branch returns 290.03 on 300 staked &mdash; -9.97, or -3.32%. That is negative here, and it is supposed to be: the prices imply 103.44% of probability between them, and everything above a hundred is the book's margin. Dutching is the same solver as an arbitrage with the guarantee removed.</p><p>So it earns nothing on its own. It is a way of expressing a view you already hold &mdash; that the winner is somewhere inside this set &mdash; at a known cost, rather than a way of manufacturing an edge. A dutch across outcomes you have no opinion about is a slow donation at a rate you can compute in advance.</p>
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the

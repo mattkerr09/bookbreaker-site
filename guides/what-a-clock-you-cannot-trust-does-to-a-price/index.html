@@ -6,13 +6,12 @@
 <title>What a clock you cannot trust does to a price</title>
 <meta name="description" content="Why does my odds feed timestamp disagree with my own clock? Worked through with the arithmetic done, not just the formula.">
 <link rel="canonical" href="https://bookbreaker.bet/guides/what-a-clock-you-cannot-trust-does-to-a-price/">
-<link rel="stylesheet" href="/style.css?v=b728110d51">
+<link rel="stylesheet" href="/style.css?v=b206bfbf31">
 </head>
 <body class="">
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
-<h1>What a clock you cannot trust does to a price</h1>
-<p class="lede">Why does my odds feed timestamp disagree with my own clock?</p>
+<div class="phead"><p class="crumb"><a href="/">Home</a><span>/</span><a href="/guides/">Guides</a></p><h1>What a clock you cannot trust does to a price</h1><p class="lede">Why does my odds feed timestamp disagree with my own clock?</p></div>
 
 <p>Every freshness claim rests on two clocks agreeing. The feed stamps a quote with its clock. You judge that quote against yours. When the clocks disagree, a stale price reads as fresh and a fresh one reads as stale, and nothing about the number on screen reveals which case you are in.</p>
 <p>The usual arithmetic hides this. Subtract the vendor timestamp from local time, print the difference as age, and the answer inherits the error of whichever clock is worse &mdash; with nothing in the output to say which one supplied it. The error does not surface as noise. It surfaces as confidence.</p>
@@ -28,7 +27,7 @@
 </table></div>
 <p>Read the cost off the rows. Take a quote for 5 seconds old when it is really 30, and you priced 92.0% of your edge as surviving when the curve gives 60.7%. A stated edge of 3.0% at 30 seconds is worth 1.82% once survival is applied. The clock error never appears in the price. It appears in the fill.</p>
 <p><a href="/guides/how-old-is-the-price-on-your-screen/">How old is the price on your screen &rarr;</a></p>
-
+<nav class="onward" aria-label="More guides"><p class="onward-cap">Keep reading</p><ul class="cards cards--onward"><li class="card"><a href="/guides/how-to-devig-odds/"><span class="card-t">How to devig odds</span><span class="card-q">How do you find the true probability behind a sportsbook&#x27;s price?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li><li class="card"><a href="/guides/what-is-closing-line-value/"><span class="card-t">What is closing line value</span><span class="card-q">Why do sharp bettors care more about CLV than profit?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li><li class="card"><a href="/guides/how-to-convert-a-bonus-bet/"><span class="card-t">How to convert a bonus bet to cash</span><span class="card-q">What is a free bet actually worth and how do you cash it?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li></ul></nav>
 </main>
 <footer>
 <div class="foot-grid">

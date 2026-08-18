@@ -6,14 +6,18 @@
 <title>Kelly criterion calculator — worked, not just a form</title>
 <meta name="description" content="How much should I bet? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/kelly/">
-<link rel="stylesheet" href="/style.css?v=b728110d51">
+<link rel="stylesheet" href="/style.css?v=b206bfbf31">
 </head>
 <body class="">
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
+<div class="phead">
+<p class="crumb"><a href="/">Home</a><span>/</span>
+<a href="/calculators/">Calculators</a></p>
 <h1>Kelly criterion calculator</h1>
 <p class="lede">How much should I bet?</p>
+</div>
 <p>A 57.34% shot offered at +120, on a 10,000 bankroll:</p><div class="scroll"><table><tr><td>Full Kelly</td><td>21.79% of bankroll</td></tr><tr><td>At quarter Kelly</td><td>500.00</td></tr><tr><td>Share of bankroll</td><td>5.00%</td></tr><tr><td>Binding constraint</td><td>max_single</td></tr></table></div><p>Quarter Kelly, and sized on the least favourable devig rather than the friendliest. Overestimating an edge costs far more than underestimating it.</p>
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the

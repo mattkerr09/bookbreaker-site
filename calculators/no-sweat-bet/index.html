@@ -6,14 +6,18 @@
 <title>No-sweat bet calculator — worked, not just a form</title>
 <meta name="description" content="What odds should I use for a no-sweat first bet? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/no-sweat-bet/">
-<link rel="stylesheet" href="/style.css?v=b728110d51">
+<link rel="stylesheet" href="/style.css?v=b206bfbf31">
 </head>
 <body class="">
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
+<div class="phead">
+<p class="crumb"><a href="/">Home</a><span>/</span>
+<a href="/calculators/">Calculators</a></p>
 <h1>No-sweat bet calculator</h1>
 <p class="lede">What odds should I use for a no-sweat first bet?</p>
+</div>
 <p>A no-sweat bet refunds the first bet if it loses. Its value is the refund multiplied by how often the refund actually arrives &mdash; and it arrives only in the branch where the qualifying bet loses. So the qualifying bet should be a longshot. That is the opposite of most instincts, and the opposite of the right play on a bet-and-get, where the bonus lands whatever happens.</p><p>Figures below assume a qualifying stake of 1000 and a bonus-bet conversion rate of 75%. The conversion rate is a prior, not a measurement.</p><div class="scroll"><table><tr><th>Qualifying price</th><th>Refund value</th><th>EV</th></tr><tr><td>-110</td><td>375.00</td><td>329.55</td></tr><tr><td>+150</td><td>450.00</td><td>450.00</td></tr><tr><td>+300</td><td>562.50</td><td>562.50</td></tr><tr><td>+600</td><td>642.86</td><td>642.86</td></tr></table></div><p>Short price to long price: 375.00 &rarr; 642.86, a ratio of 1.71&times;. The gap between refund value and EV at the short price is the margin paid to place the qualifying bet at all. Longer is not unboundedly better: the long rows here are priced fair, which is a prior. Real longshot markets carry the heaviest margin, so read the long end as a ceiling.</p><p>It is not hedgeable. The refund exists only in the branch where the bet loses, and a hedge pays only in the branch where it wins. Hedging buys away the outcome that produces the bonus, and pays a second margin to do it. Competitors print a single bonus value with the qualifying price held fixed. The price is the entire decision.</p>
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the

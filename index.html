@@ -6,15 +6,17 @@
 <title>Bookbreaker — the edge is an interval</title>
 <meta name="description" content="An arbitrage and +EV engine that reports how wrong it might be: the devig spread, the chance of getting on, and what your record can support.">
 <link rel="canonical" href="https://bookbreaker.bet/">
-<link rel="stylesheet" href="/style.css?v=b728110d51">
+<link rel="stylesheet" href="/style.css?v=b206bfbf31">
 </head>
 <body class="home">
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
 <div class="hero hero-glow">
+<div class="hero-copy">
 <p class="eyebrow accent">Free &middot; Runs on your machine</p>
-<h1>Find your edge,<br>with the error bar.</h1>
+<h1>Find your edge,
+with the error bar.</h1>
 <p class="lede">Real prices from 27 sportsbooks, devigged
 four ways, and every number carrying what it might be wrong by. Built to find
 bets and keep the account that places them.</p>
@@ -28,12 +30,32 @@ bets and keep the account that places them.</p>
   <li>27&plus; sportsbooks</li>
   <li>Open checksums</li>
 </ul>
+</div>
+
+<div class="hero-app">
+  <div class="app app--hero">
+    <div class="app-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="app-title">+EV &middot; NBA totals &middot; live</span>
+      <span class="app-meta">sorted by realised EV</span>
+    </div>
+    <div class="app-head">
+      <span>Market</span><span>Book</span><span>Price</span>
+      <span>EV</span><span>Band</span><span>Age</span><span>Fill</span>
+      <span>Realised</span>
+    </div>
+    <div class="app-row"><span class="ev-name">BOS @ LAL</span><span class="dim">DraftKings</span><span class="price">+110</span><span class="pos">+5.48%</span><span class="band"><span class="rf rf--row" style="--lo:41.806%;--hi:57.860%;--pt:49.833%;--rl:45.819%" role="img" aria-label="+5.00% to +5.96%, point estimate +5.48%, realised +5.24%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">4s</span><span class="fill"><i style="width:96%"></i><b>96%</b></span><span class="pos strong">+5.24%</span></div><div class="app-row"><span class="ev-name">DEN @ PHX</span><span class="dim">DraftKings</span><span class="price">+114</span><span class="pos">+7.49%</span><span class="band"><span class="rf rf--row" style="--lo:75.251%;--hi:91.639%;--pt:83.445%;--rl:23.913%" role="img" aria-label="+7.00% to +7.98%, point estimate +7.49%, realised +3.93%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">58s</span><span class="fill"><i style="width:52%"></i><b>52%</b></span><span class="pos strong">+3.93%</span></div><div class="app-row"><span class="ev-name">MIA @ NYK</span><span class="dim">DraftKings</span><span class="price">+106</span><span class="pos">+3.47%</span><span class="band"><span class="rf rf--row" style="--lo:8.361%;--hi:24.080%;--pt:16.221%;--rl:3.679%" role="img" aria-label="+3.00% to +3.94%, point estimate +3.47%, realised +2.72%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">22s</span><span class="fill"><i style="width:78%"></i><b>78%</b></span><span class="pos strong">+2.72%</span></div>
+  </div>
+  <p class="hero-app-cap">Ranked on <strong>realised</strong> EV &mdash; raw
+  edge times the chance the price is still there.</p>
+</div>
+</div>
+
 <div class="trust">
   <div><b>4</b><span>Devig methods, side by side</span></div>
   <div><b>0.39%</b><span>Spread they disagree by</span></div>
   <div><b>84%</b><span>Fill on a 10s quote</span></div>
   <div><b>0</b><span>Bytes sent anywhere</span></div>
-</div>
 </div>
 
 <section class="wall" aria-label="Sportsbooks priced">
@@ -111,59 +133,94 @@ bets and keep the account that places them.</p>
 
 </div>
 
-<div class="app">
-  <div class="app-bar">
-    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-    <span class="app-title">+EV &middot; NBA totals &middot; live</span>
-    <span class="app-meta">sorted by realised EV</span>
+
+<section class="pitch" id="pitch">
+<p class="eyebrow">The four things it does that nothing else does</p>
+
+<article class="pitch-row">
+  <div class="pitch-copy">
+    <h2>Same market, four defensible methods</h2>
+    <p>Removing a book's margin to recover what it really believes is a
+    modelling choice, not arithmetic. On a -145 / +125 moneyline the four
+    standard methods disagree by 0.39 points of probability.</p>
+    <p class="pitch-kicker">Every competing tool picks one of these rows,
+    hard-codes it, and prints the result as fact.</p>
   </div>
-  <div class="app-head">
-    <span>Market</span><span>Book</span><span>Price</span>
-    <span>EV</span><span>Band</span><span>Age</span><span>Fill</span>
-    <span>Realised</span>
+  <div class="pitch-fig">
+    <table class="bare">
+    <tr><th>Method</th><th>Fair probability</th></tr>
+    <tr><td>additive</td><td>57.37%</td></tr><tr><td>multiplicative</td><td>57.11%</td></tr><tr><td>power</td><td>57.50%</td></tr><tr><td>shin</td><td>57.37%</td></tr>
+    </table>
+    <p class="pitch-note">Consensus 57.34%. On a market where a
+    2% edge is a good day, that spread is a quarter of the edge.</p>
   </div>
-  <div class="app-row"><span class="ev-name">BOS @ LAL</span><span class="dim">DraftKings</span><span class="price">+110</span><span class="pos">+5.48%</span><span class="band"><span class="rf rf--row" style="--lo:41.806%;--hi:57.860%;--pt:49.833%;--rl:45.819%" role="img" aria-label="+5.00% to +5.96%, point estimate +5.48%, realised +5.24%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">4s</span><span class="fill"><i style="width:96%"></i><b>96%</b></span><span class="pos strong">+5.24%</span></div><div class="app-row"><span class="ev-name">DEN @ PHX</span><span class="dim">DraftKings</span><span class="price">+114</span><span class="pos">+7.49%</span><span class="band"><span class="rf rf--row" style="--lo:75.251%;--hi:91.639%;--pt:83.445%;--rl:23.913%" role="img" aria-label="+7.00% to +7.98%, point estimate +7.49%, realised +3.93%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">58s</span><span class="fill"><i style="width:52%"></i><b>52%</b></span><span class="pos strong">+3.93%</span></div><div class="app-row"><span class="ev-name">MIA @ NYK</span><span class="dim">DraftKings</span><span class="price">+106</span><span class="pos">+3.47%</span><span class="band"><span class="rf rf--row" style="--lo:8.361%;--hi:24.080%;--pt:16.221%;--rl:3.679%" role="img" aria-label="+3.00% to +3.94%, point estimate +3.47%, realised +2.72%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">22s</span><span class="fill"><i style="width:78%"></i><b>78%</b></span><span class="pos strong">+2.72%</span></div>
-  <div class="app-foot">Ranked on <strong>realised</strong> EV &mdash; raw EV
-  times the chance the price is still there. BOS @ LAL sits above DEN @ PHX despite
-  a smaller edge, because DEN @ PHX is 58s old and fills
-  52% of the time.</div>
-</div>
+</article>
 
-<h2>Same market, four defensible methods</h2>
-<p>Removing a book's margin to recover what it really believes is a modelling
-choice, not arithmetic. On a -145 / +125 moneyline the four standard
-methods disagree by 0.39 points of probability:</p>
-<div class="scroll"><table>
-<tr><th>Method</th><th>Fair probability</th></tr>
-<tr><td>additive</td><td>57.37%</td></tr><tr><td>multiplicative</td><td>57.11%</td></tr><tr><td>power</td><td>57.50%</td></tr><tr><td>shin</td><td>57.37%</td></tr>
-</table></div>
-<p>Consensus 57.34%. On a market where a 2% edge is a good day,
-that spread is a quarter of the edge. Every competing tool picks one of those
-rows, hard-codes it, and prints the result as fact.</p>
+<article class="pitch-row">
+  <div class="pitch-copy">
+    <h2>A stake a person would actually place</h2>
+    <p>At +110 and +105 there is a
+    3.73% arbitrage. A precise stake to the cent is the
+    most-cited fingerprint risk desks use to identify arbitrage.</p>
+    <p class="pitch-kicker">The 2.35 difference is named
+    and reported, not hidden. A tool that conceals its own trade-offs is not
+    one you can check.</p>
+  </div>
+  <div class="pitch-fig">
+    <div class="vs">
+      <div class="vs-side">
+        <p class="vs-cap">Every calculator</p>
+        <p class="vs-val">493.98 <i>/</i> 506.02</p>
+        <p class="vs-sub">37.35 guaranteed</p>
+      </div>
+      <div class="vs-side vs-side--ours">
+        <p class="vs-cap">Bookbreaker</p>
+        <p class="vs-val">490 <i>/</i> 500</p>
+        <p class="vs-sub">35.00 guaranteed</p>
+      </div>
+    </div>
+  </div>
+</article>
 
-<h2>A stake a person would actually place</h2>
-<p>At +110 and +105 there is a
-3.73% arbitrage. Every calculator hands you this:</p>
-<p class="figure">493.98 and 506.02
-&rarr; 37.35 guaranteed</p>
-<p>A precise stake to the cent is the most-cited fingerprint risk desks use to
-identify arbitrage. Bookbreaker solves for round stakes directly:</p>
-<p class="figure">490 and 500
-&rarr; 35.00 guaranteed</p>
-<p>The 2.35 difference is named and reported, not hidden.
-A tool that conceals its own trade-offs is not one you can check.</p>
+<article class="pitch-row">
+  <div class="pitch-copy">
+    <h2>An edge you cannot take is worth nothing</h2>
+    <p>Quote age is measured from the book's own timestamp, not from when the
+    feed reached us. On a feed running 5.4 seconds behind, a
+    quote that looks 10 seconds old is really
+    15.4.</p>
+    <p class="pitch-kicker">A screen that ignores its own latency reports a
+    fill it cannot deliver.</p>
+  </div>
+  <div class="pitch-fig">
+    <div class="vs">
+      <div class="vs-side">
+        <p class="vs-cap">Screen ignoring latency</p>
+        <p class="vs-val">89%</p>
+        <p class="vs-sub">claimed still available</p>
+      </div>
+      <div class="vs-side vs-side--ours">
+        <p class="vs-cap">Measured</p>
+        <p class="vs-val">84%</p>
+        <p class="vs-sub">actually still available</p>
+      </div>
+    </div>
+  </div>
+</article>
 
-<h2>An edge you cannot take is worth nothing</h2>
-<p>Quote age is measured from the book's own timestamp, not from when the feed
-reached us. On a feed running 5.4 seconds behind, a quote that
-looks 10 seconds old is really 15.4:</p>
-<p class="figure">still available: 84% &mdash; a screen ignoring
-latency would say 89%</p>
-
-<h2>What your record actually says</h2>
-<p>On a 220-bet history showing +1,300 profit and
-5.91% return, Bookbreaker's verdict is:</p>
-<p class="figure">+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) — indistinguishable from break-even</p>
+<article class="pitch-row">
+  <div class="pitch-copy">
+    <h2>What your record actually says</h2>
+    <p>On a 220-bet history showing +1,300 profit and
+    5.91% return, most trackers print the return and stop.</p>
+    <p class="pitch-kicker">The interval is the answer. A number without one is
+    a claim about a sample, dressed as a claim about you.</p>
+  </div>
+  <div class="pitch-fig">
+    <blockquote class="verdict">+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) — indistinguishable from break-even</blockquote>
+  </div>
+</article>
+</section>
 <p>Every other tracker prints 5.91% and stops.</p>
 
 <script type="application/json" id="demo-data">{"edge":4.0,"low":3.52,"high":4.48,"bankroll":10000,"tau":60.0,"floor":2.0,"ladder":[{"age":0,"fill":96.7,"realised":3.87,"stake":87.93,"stake_shown":88},{"age":2,"fill":96.7,"realised":3.87,"stake":87.93,"stake_shown":88},{"age":5,"fill":92.0,"realised":3.68,"stake":83.64,"stake_shown":84},{"age":10,"fill":84.6,"realised":3.39,"stake":76.95,"stake_shown":77},{"age":20,"fill":71.7,"realised":2.87,"stake":65.14,"stake_shown":65},{"age":30,"fill":60.7,"realised":2.43,"stake":55.14,"stake_shown":55},{"age":45,"fill":47.2,"realised":1.89,"stake":42.94,"stake_shown":43},{"age":60,"fill":36.8,"realised":1.47,"stake":33.44,"stake_shown":33},{"age":90,"fill":22.3,"realised":0.89,"stake":20.28,"stake_shown":20},{"age":120,"fill":13.5,"realised":0.54,"stake":12.3,"stake_shown":12}],"best":{"age":0,"fill":96.7,"realised":3.87,"stake":87.93,"stake_shown":88},"worst":{"age":120,"fill":13.5,"realised":0.54,"stake":12.3,"stake_shown":12}}</script>

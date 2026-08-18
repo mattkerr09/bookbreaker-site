@@ -6,14 +6,18 @@
 <title>CLV calculator — worked, not just a form</title>
 <meta name="description" content="Did I beat the closing line? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/closing-line-value/">
-<link rel="stylesheet" href="/style.css?v=b728110d51">
+<link rel="stylesheet" href="/style.css?v=b206bfbf31">
 </head>
 <body class="">
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
+<div class="phead">
+<p class="crumb"><a href="/">Home</a><span>/</span>
+<a href="/calculators/">Calculators</a></p>
 <h1>CLV calculator</h1>
 <p class="lede">Did I beat the closing line?</p>
+</div>
 <p>A bet taken at +110 against a market that closed at -105:</p><div class="scroll"><table><tr><td>Your price</td><td>+110</td></tr><tr><td>Closing price</td><td>-105</td></tr><tr><td>CLV against the raw close</td><td>+7.56%</td></tr></table></div><p>That figure compares two vigged prices and so understates the real edge by the closing margin &mdash; usable for ranking bets against each other, not for claiming an edge size. Devigging the closing market first is what the engine does, and it is why closing line value converges far faster than profit.</p>
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the
