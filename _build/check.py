@@ -60,7 +60,18 @@ MAX_FAMILY_SIMILARITY = 0.97
 # achieves so a regression fails the build, and it is lowered as pages get more
 # genuinely different — never raised to accommodate one that got worse.
 SHINGLE_SIMILARITY = 0.5
-MAX_SHINGLE_PAIRS = 176
+WATCH_SIMILARITY = 0.35
+MAX_SHINGLE_PAIRS = 34
+
+# The whole similarity zone, not just the headline above it.
+#
+# Counting only pairs over 0.5 made a 60% "improvement" that moved almost
+# nothing: 442 near-duplicates became 176, and 255 pairs appeared in a
+# 0.35-0.5 band that had been EMPTY. Eleven pairs actually left the zone.
+# Google has no 0.5 cliff — a pair at 0.47 is not meaningfully less
+# collapsible than the same pair at 0.52 — so a gate that watches one side of
+# an arbitrary line rewards pushing pairs across it.
+MAX_ZONE_PAIRS = 365
 
 # Words that turn naming a competitor into asserting something about them.
 ASSERTIVE = re.compile(
@@ -380,16 +391,26 @@ def check_shingle_duplication(pages, fails, limit=None):
     body = {path: shingles(markup) for path, markup in pages}
     body = {k: v for k, v in body.items() if len(v) >= 40}
     paths = sorted(body)
-    pairs = []
+    pairs, all_pairs = [], []
     for i, a in enumerate(paths):
         for b in paths[i + 1:]:
             union = body[a] | body[b]
             if not union:
                 continue
             overlap = len(body[a] & body[b]) / len(union)
+            all_pairs.append((overlap, a, b))
             if overlap >= SHINGLE_SIMILARITY:
                 pairs.append((overlap, a, b))
     cap = MAX_SHINGLE_PAIRS if limit is None else limit
+    zone = [p for p in all_pairs if p[0] >= WATCH_SIMILARITY]
+    zone_cap = MAX_ZONE_PAIRS if limit is None else max(limit, 0)
+    if len(zone) > zone_cap:
+        fails.append(
+            f"{len(zone)} page pairs in the similarity zone (>= "
+            f"{WATCH_SIMILARITY:.0%}), above the {zone_cap} this site is held "
+            "to. Pushing pairs from above 0.5 to just below it is not an "
+            "improvement; this is the count that says whether they moved or "
+            "changed.")
     if len(pairs) > cap:
         pairs.sort(reverse=True)
         worst = "; ".join(f"{s:.2f} {a} x {b}" for s, a, b in pairs[:3])

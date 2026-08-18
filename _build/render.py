@@ -3388,14 +3388,10 @@ def disclosure() -> str:
     """Shown above the first commercial link, never only in the footer."""
     if any_paid_links():
         return ('<p class="disclose"><strong>Advertising disclosure.</strong> '
-                'Some links on this page are paid partnerships, and we may be '
-                'compensated if you open an account through them. It costs you '
-                'nothing, it never changes which book we say limits winners, '
-                'and every figure on this page is still computed by the engine '
-                'rather than supplied by a sportsbook.</p>')
+                'Some links below are paid partnerships. '
+                '<a href="/download/">How this is funded</a>.</p>')
     return ('<p class="disclose"><strong>No paid links on this page.</strong> '
-            'The sportsbook links below are ordinary links and earn us '
-            'nothing. If that changes, this notice changes with it.</p>')
+            'The sportsbook links below earn us nothing.</p>')
 
 
 def responsible() -> str:
@@ -3533,21 +3529,27 @@ regulator before relying on any of it.</p>
 
 
 def render_state_page(m: dict, code: str) -> str:
-    """One state.
+    """One state, carrying almost nothing that another state also carries.
 
-    The first version of this page scored 96% identical against another state
-    on a word-level diff, and the portfolio similarity gate counted 406
-    near-duplicate pairs across 33 of them. The cause was not the state data,
-    which genuinely differs — it was that four fixed sections of general
-    argument outweighed it. Programmatic pages that do not differ are the
-    textbook case Google collapses: it keeps one and the other 32 earn nothing.
+    The first version of this page was 96% identical to another state. The
+    second, after adding branching prose that varied with each state's figures,
+    was measured at **14.7% unique** across the cluster — WA at 6.4%, 28
+    distinctive trigrams in 435. The headline similarity had fallen from 442
+    near-duplicate pairs to 176, but only ELEVEN pairs had left the 0.35-0.5
+    similarity zone. 255 had moved from just above the line to just below it,
+    and Google has no 0.5 cliff.
 
-    So the general argument now lives once, on the pages built for it, and
-    what stays here is what is true of this state and nowhere else: which
-    books operate, which of those limit winners, **which do not operate at
-    all**, and whatever the regulator publishes. The absent list matters as
-    much as the present one — it is different for every state, and it is the
-    reason a bettor in one state cannot follow advice written for another.
+    The branching prose caused that. Writing eight paragraph variants and
+    letting 33 states pick from them is spinning variations of the same
+    sentences, which is the thing that does not work, and I did it anyway.
+
+    What the page keeps is what only this state can say: which books operate
+    here, which of those limit winners, which operate elsewhere and not here,
+    and whatever its regulator publishes. The general argument for holding
+    several accounts is made once, on the hub. A short page that is mostly
+    distinctive beats a long one that is mostly shared — the merged pages in
+    this same directory score 75-84% unique precisely because they say
+    something structurally different rather than something reworded.
     """
     st = m["states"][code]
     name = STATE_NAMES.get(code, code)
@@ -3569,187 +3571,49 @@ def render_state_page(m: dict, code: str) -> str:
         f"{'Never limits winners' if not b['limits'] else 'Limits winning accounts'}</td></tr>"
         for b in sorted(books, key=lambda x: (x["limits"], x["name"])))
 
-    lead = (f"{len(online)} licensed online sportsbooks took bets in "
-            f"{name} as of {st['as_of']}, and {len(limiting)} of them limit "
-            f"accounts that win.")
-
-    # Prose built from this state's own figures, branching on what they are.
-    # A template with a number substituted into it is not differentiation —
-    # that lesson came from the competitor pages an hour ago, where two tools
-    # priced identically produced identical tables. These sentences differ
-    # because the situations differ.
-    shop = []
-    if len(online) >= 8:
-        shop.append(
-            f"<p>With {len(online)} online books taking bets, {e(name)} is one "
-            f"of the deeper markets in the country. That depth is the edge: "
-            f"the gap between the best and second-best price on the same "
-            f"market is what arbitrage lives on, and it widens with every "
-            f"additional book willing to quote.</p>")
-    elif len(online) >= 4:
-        shop.append(
-            f"<p>{len(online)} online books is enough to line shop but not "
-            f"enough to be careless about it. Every market you bet should be "
-            f"checked at all {len(online)}, because with this few quotes a "
-            f"single book being slow to move is most of the edge available "
-            f"on a given day.</p>")
-    else:
-        shop.append(
-            f"<p>{len(online)} online book{'s' if len(online) != 1 else ''} is "
-            f"a thin market. There is little to shop between, so most of what "
-            f"is available in {e(name)} comes from promotional offers and from "
-            f"the venues that cannot ban you rather than from price "
-            f"differences.</p>")
-    if never and limiting:
-        shop.append(
-            f"<p>Of those, {len(limiting)} will restrict an account that wins "
-            f"consistently and {len(never)} will not. That is not a detail to "
-            f"discover later: it decides which account is worth building a "
-            f"real record at, and which are worth using for their prices "
-            f"while they last.</p>")
-    elif not never:
-        shop.append(
-            f"<p>Every venue on that list limits winning accounts. In "
-            f"{e(name)} there is no exception to plan around, so account "
-            f"lifespan is a cost of doing business rather than something one "
-            f"book lets you avoid.</p>")
-    # The regulator's own figures, used in sentences rather than only tabled.
-    # A tax rate sitting in a table is a fact; the same rate explaining why a
-    # market prices the way it does is a paragraph only this state can have.
-    j = JURISDICTIONS.get(code, {})
-    if j.get("tax_rate"):
-        rate = float(j["tax_rate"])
-        if rate >= 30:
-            shop.append(
-                f"<p>{e(name)} taxes sportsbook revenue at {j['tax_rate']}%, "
-                f"among the highest in the country. That cost does not fall on "
-                f"the operator alone &mdash; it shows up as worse prices than "
-                f"the same book offers in a cheaper state, which is why a line "
-                f"quoted here is not the line quoted elsewhere.</p>")
-        elif rate <= 12:
-            shop.append(
-                f"<p>At {j['tax_rate']}% on sportsbook revenue, {e(name)} is "
-                f"one of the lighter tax regimes. Operators have more room to "
-                f"price competitively here than in states taking three or four "
-                f"times as much, and that room is where a shopper's edge "
-                f"comes from.</p>")
-    if j.get("launch_date", "")[:4].isdigit():
-        year = int(j["launch_date"][:4])
-        if year >= 2024:
-            shop.append(
-                f"<p>Online betting only went live here on "
-                f"{j['launch_date']}, which makes {e(name)} a young market. "
-                f"Operators buying share in a new state price more "
-                f"aggressively and hand out more promotional value than they "
-                f"do once a market settles.</p>")
-        elif year <= 2020:
-            shop.append(
-                f"<p>{e(name)} has had online betting since "
-                f"{j['launch_date']}, long enough for the promotional phase to "
-                f"be over and for risk desks to have a settled view of who "
-                f"they want as a customer. Accounts here get profiled by "
-                f"operators with years of data behind them.</p>")
-    if j.get("college_props") == "banned":
-        shop.append(
-            f"<p>College player props are barred outright in {e(name)}, which "
-            f"removes the softest market on most boards. Props are where "
-            f"pricing is thinnest and where a careful bettor finds the most "
-            f"mistakes, so their absence pushes the available edge back into "
-            f"main markets where the books are sharpest.</p>")
-    elif j.get("college_props") == "restricted":
-        shop.append(
-            f"<p>{e(name)} restricts college wagering rather than banning it, "
-            f"so part of the board that exists in other states is missing "
-            f"here. Check the catalogue before planning around a market: the "
-            f"restriction is usually on in-state teams or on player props "
-            f"specifically.</p>")
-    shop_html = "".join(shop)
-
-    never_line = ""
-    if never:
-        never_line = (
-            f"<p>The {len(never)} venue{'s' if len(never) > 1 else ''} in "
-            f"{e(name)} that never limit a winning account: "
-            + ", ".join(f"<strong>{e(b['name'])}</strong>" for b in never)
-            + ". On a list of " + str(len(books)) + ", that is where a record "
-            "worth having gets built.</p>")
-
-    absent_block = ""
-    if absent:
-        absent_block = f"""
-<h2>What you cannot get in {e(name)}</h2>
-<p>{len(absent)} book{'s' if len(absent) > 1 else ''} covered elsewhere in the
-United States {'do' if len(absent) > 1 else 'does'} not take bets in
-{e(name)}: {", ".join(e(a) for a in absent)}.</p>
-<p>That list is why advice written for another state does not transfer. Line
-shopping is the largest edge available to an ordinary bettor, and it is bounded
-by the {len(books)} venues that will actually take your money here.</p>
-"""
-
+    never_names = ", ".join(b["name"] for b in never)
     faqs = [
-        (f"Is online sports betting legal in {name}?",
-         f"{name} had {len(online)} licensed online sportsbooks operating as "
-         f"of {st['as_of']}, alongside {len(exchanges)} federally regulated "
-         f"prediction market{'s' if len(exchanges) != 1 else ''}."),
-        (f"Which sportsbooks in {name} limit winning accounts?",
-         f"{len(limiting)} of the {len(books)} venues covering {name} limit "
-         f"accounts that win consistently. "
-         + (", ".join(b["name"] for b in never) + " never do."
-            if never else "None of them are exempt.")),
-        (f"How many sportsbooks should I open in {name}?",
-         f"At least two of the {len(online)} available. One account cannot be "
-         f"line shopped, and the gap between the best and second-best price is "
-         f"the entire edge in arbitrage."),
+        (f"Which sportsbooks operate in {name}?",
+         ", ".join(b["name"] for b in sorted(books, key=lambda x: x["name"]))
+         + f" — {len(books)} in total, of which {len(online)} are sportsbooks "
+           f"and {len(exchanges)} are prediction markets."),
+        (f"Which {name} sportsbooks limit winning accounts?",
+         (f"{len(limiting)} of {len(books)}. "
+          + (f"{never_names} do not." if never else "There is no exception."))),
         (f"What is not available in {name}?",
-         (f"{len(absent)} books that operate elsewhere in the US do not take "
-          f"bets here: {', '.join(absent)}." if absent else
+         (f"{', '.join(absent)} — {len(absent)} books that operate elsewhere "
+          f"in the US take no bets here." if absent else
           f"Every book this site tracks operates in {name}.")),
     ]
     faq_html = "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
-
-    exch = ""
-    if exchanges:
-        exch = ("<h2>The venues in " + e(name) + " that cannot ban you</h2>"
-                "<p>Regulated federally rather than by " + e(name) + ", which "
-                "is why they reach every state, and with no bookmaker deciding "
-                "who may keep betting.</p><ul>"
-                + "".join(f"<li>{partner_link(b['key'], b['name'], code)}"
-                          + (f" &mdash; {b['commission']}% commission" if b["commission"] else "")
-                          + "</li>" for b in exchanges)
-                + "</ul>")
 
     return f"""
 {breadcrumb_schema([("Sportsbooks by state", "/sportsbooks/"),
                     (name, f"/sportsbooks/{code.lower()}/")])}
 {faq_schema(faqs)}
 <h1>Online sports betting in {e(name)}</h1>
-<p class="lede">{e(lead)}</p>
+<p class="lede">{len(online)} licensed online sportsbooks took bets in
+{e(name)} as of {e(st['as_of'])}. {len(limiting)} of the {len(books)} venues
+covering the state limit accounts that win{'; ' + e(never_names) + ' do not' if never else ''}.</p>
 {disclosure()}
+{f'<p>{e(JURISDICTIONS[code]["note"])}</p>' if JURISDICTIONS.get(code, {}).get("note") else ''}
 {jurisdiction_facts(code, name)}
 
 <h2>Every sportsbook covering {e(name)}</h2>
-<p>Read {e(st['as_of'])} from each operator's own state disclosures. The
-limiting column is the one no affiliate page publishes.</p>
 <div class="scroll"><table>
 <tr><th>Sportsbook</th><th class="prose">Type</th>
 <th class="prose">Winning accounts</th></tr>
 {rows}
 </table></div>
-{never_line}
-{shop_html}
 
-{absent_block}
-{exch}
+{f'<h2>What you cannot get in {e(name)}</h2><p>{", ".join(e(a) for a in absent)} &mdash; {len(absent)} books that operate elsewhere in the United States take no bets here.</p>' if absent else ''}
 
 <h2>{e(name)} sports betting FAQ</h2>
 {faq_html}
 
-<p><a href="/how-it-works/">How a price is formed &rarr;</a>
-&nbsp;&middot;&nbsp;<a href="/account-longevity/">What bet shape gives away
-&rarr;</a>&nbsp;&middot;&nbsp;<a href="/download/">Download it free
+<p><a href="/sportsbooks/">Why the state you are in decides your edge
 &rarr;</a></p>
-<p class="caveat">Coverage read {e(st['as_of'])} from operator state
-disclosures. A starting point for your own check, not legal advice.</p>
+<p class="caveat">Read {e(st['as_of'])}. Not legal advice.</p>
 """
 
 
