@@ -803,6 +803,28 @@
       "realised": 5.24
     },
     {
+      "age": 9,
+      "book": "DraftKings",
+      "ev": 4.73,
+      "event": "GSW @ SAC",
+      "fill": 90,
+      "high": 5.2,
+      "low": 4.25,
+      "price": "+108",
+      "realised": 4.28
+    },
+    {
+      "age": 41,
+      "book": "DraftKings",
+      "ev": 6.23,
+      "event": "PHI @ CLE",
+      "fill": 63,
+      "high": 6.72,
+      "low": 5.75,
+      "price": "+112",
+      "realised": 3.95
+    },
+    {
       "age": 58,
       "book": "DraftKings",
       "ev": 7.49,
@@ -812,6 +834,28 @@
       "low": 7.0,
       "price": "+114",
       "realised": 3.93
+    },
+    {
+      "age": 73,
+      "book": "DraftKings",
+      "ev": 8.49,
+      "event": "DAL @ HOU",
+      "fill": 44,
+      "high": 8.99,
+      "low": 8.0,
+      "price": "+116",
+      "realised": 3.77
+    },
+    {
+      "age": 15,
+      "book": "DraftKings",
+      "ev": 3.22,
+      "event": "MIL @ IND",
+      "fill": 85,
+      "high": 3.69,
+      "low": 2.75,
+      "price": "+106",
+      "realised": 2.73
     },
     {
       "age": 22,

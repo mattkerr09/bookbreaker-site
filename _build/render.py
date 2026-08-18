@@ -910,9 +910,17 @@ def measure(engine) -> dict:
     # A few rows at different ages, so the screen shows the thing that makes it
     # different: the same edge ranked differently once staleness is priced in.
     rows_out = []
+    # Seven rows rather than three. Three reads as a mock-up; a working screen
+    # is dense, and the ranking collapse this figure exists to show only looks
+    # like a finding when there is enough of it to see a pattern rather than a
+    # coincidence. Every row is still priced by the engine at build time.
     for label, age_s, over in (("BOS @ LAL", 4, 2.100),
                                ("MIA @ NYK", 22, 2.060),
-                               ("DEN @ PHX", 58, 2.140)):
+                               ("DEN @ PHX", 58, 2.140),
+                               ("GSW @ SAC", 9, 2.085),
+                               ("PHI @ CLE", 41, 2.115),
+                               ("MIL @ IND", 15, 2.055),
+                               ("DAL @ HOU", 73, 2.160)):
         market = Market(
             event_id=label, sport="basketball_nba", market_type="totals",
             quotes=[
@@ -1648,7 +1656,7 @@ def render_index(m: dict) -> str:
 <div class="hero-copy">
 <p class="eyebrow accent">Free &middot; Runs on your machine</p>
 <h1>Find your edge,
-with the error bar.</h1>
+<em>with the error bar.</em></h1>
 <p class="lede">Real prices from {m['catalog']['venues']} sportsbooks, devigged
 four ways, and every number carrying what it might be wrong by. Built to find
 bets and keep the account that places them.</p>
@@ -5322,6 +5330,203 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
    anything else. The hero gets room; the proof points sit tight under it. */
 .hero{padding-block:clamp(3rem,7vw,6.5rem) clamp(2rem,4vw,3.5rem)}
 .trust{margin-top:0}
+
+/* ================================================================= PASS 7
+   The page used half its width. Measured at 1440: the hero spans 1168px and
+   every section below it stops at 928px, leaving 264px of dead space running
+   the entire length of the page. That is what reads as sparse — not the
+   colours and not the copy. A layout that starts wide and then narrows for no
+   stated reason looks like a page that ran out of things to say.
+
+   --measure-plate exists so a FIGURE has a sane maximum. It was doing double
+   duty as the width of whole sections, which is a different job. On the home
+   page the sections now match the hero; the reading measure still governs
+   prose, because a 1168px line of body copy is unreadable. */
+@media (min-width:64rem){
+  body.home .trust,
+  body.home .wall,
+  body.home .demo,
+  body.home .demo-box,
+  body.home main>.plate,
+  body.home main>.figure,
+  body.home main>.screen{max-width:none}
+  /* Prose keeps its measure even when its container does not. */
+  body.home .demo>p,body.home .wall>p{max-width:52ch}
+}
+
+/* --- the proof points, at the weight the hero set -------------------- */
+@media (min-width:64rem){
+  .trust{grid-template-columns:repeat(4,1fr);gap:1.25rem}
+  .trust>div{padding:1.6rem 1.5rem}
+}
+
+/* --- the sportsbook wall was a paragraph of names --------------------
+   27 books set as running text reads as filler. As a grid of chips it reads
+   as coverage, which is what it is evidence of. */
+.wall-list{display:flex;flex-wrap:wrap;gap:.45rem;margin:1rem 0 0;padding:0;
+  list-style:none}
+.wall-list li{white-space:nowrap;font-size:.82rem;color:var(--ink-2);
+  background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r-pill);padding:.38rem .8rem;
+  transition:border-color .15s ease,color .15s ease,transform .15s ease}
+.wall-list li:hover{color:var(--ink);transform:translateY(-1px);
+  border-color:color-mix(in srgb,var(--accent) 45%,var(--rule))}
+
+/* --- section rhythm ---------------------------------------------------
+   Every section had the same margin, so nothing read as a new thought. A
+   hairline and more air above a section head is the cheapest way to say
+   "this is a different point". */
+@media (min-width:64rem){
+  body.home .demo,body.home .wall{margin-block:clamp(3.5rem,6vw,6rem)}
+  body.home .demo>h2,body.home .pitch-copy h2{
+    font-size:clamp(1.9rem,2.6vw,2.6rem);letter-spacing:-.03em;line-height:1.1}
+}
+
+/* --- the demo is the interactive proof, so it gets presence ----------- */
+.demo-box{padding:clamp(1.25rem,2vw,2rem)}
+.demo-read b{font-size:clamp(1.9rem,2.8vw,2.6rem);letter-spacing:-.03em}
+.demo-box input[type=range]{height:1.6rem}
+
+/* --- range frames on the home page were 8px tall and washed out ------- */
+body.home .plate .rf{--rf-h:1.15rem}
+
+/* ================================================================= PASS 8
+   The leaf pages. A 736px reading column pinned hard left in a 1440px window,
+   with 700px of nothing beside it, and no figure anywhere in a page whose
+   whole subject is numbers. The column width is right — 736px is a good
+   measure and widening it would hurt reading. What was wrong is that it sat
+   at the edge of the window with the rest of the page empty, which reads as
+   a page that was cut off rather than composed. */
+@media (min-width:64rem){
+  body:not(.home):not(.hub) main{
+    grid-template-columns:minmax(0,var(--measure-page));
+    justify-content:center}
+}
+
+/* --- the page head carries the page ---------------------------------- */
+.phead h1{font-size:clamp(2.2rem,3.4vw,3.1rem);line-height:1.05;
+  letter-spacing:-.035em;margin-bottom:.5rem}
+.phead .lede{font-size:1.2rem;color:var(--ink-2);max-width:44ch}
+.crumb{font-size:.72rem;letter-spacing:.1em;margin-bottom:1.1rem}
+
+/* --- reading rhythm ---------------------------------------------------
+   17px at 1.65 in a 736px column is a comfortable measure; the paragraphs
+   just had nothing to break them up. A lead-in sentence set in the ink
+   colour gives the eye a place to land every few paragraphs. */
+main>p{font-size:1.0625rem;line-height:1.7}
+main>p>strong:first-child{color:var(--ink);font-weight:650}
+main>h2{margin-top:2.6rem;font-size:clamp(1.45rem,2vw,1.85rem);
+  letter-spacing:-.02em}
+main>h3{margin-top:1.8rem;font-size:1.1rem}
+
+/* First paragraph of a leaf reads as a standfirst. */
+body:not(.home):not(.hub) .phead + p{font-size:1.15rem;line-height:1.6;
+  color:var(--ink)}
+
+/* --- keep reading, as cards worth clicking --------------------------- */
+.onward{margin-top:clamp(3rem,5vw,4.5rem)}
+.onward-cap{font-size:.72rem;letter-spacing:.12em;color:var(--ink-3)}
+.cards--onward{gap:.9rem}
+.cards--onward .card{border-radius:var(--r)}
+.cards--onward .card a{padding:1.15rem 1.25rem}
+.card-t{font-size:1.02rem;letter-spacing:-.015em;line-height:1.3}
+.card-q{font-size:.9rem;line-height:1.45;color:var(--ink-2)}
+.card-go{font-size:.68rem;letter-spacing:.12em}
+
+/* --- tables on leaf pages had no presence ---------------------------- */
+main .scroll{box-shadow:var(--shadow-1)}
+main table th{background:var(--sink)}
+main table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+
+/* ================================================================= PASS 9
+   Matthew put avo.bet up as the bar and said we are nowhere near. Looking at
+   them side by side, the gap is not layout — it is COLOUR and DENSITY.
+
+   AVO runs a violet aurora over true black, a saturated accent that carries
+   the brand, a product shot dense enough to look like software someone uses,
+   and values coloured by what they mean. Ours was a flat navy with a 13%
+   blue wash, three table rows, and every number the same grey.
+
+   Colour is not decoration on this page. A number that is good, a number
+   that is bad, and a number that is stale are three different facts, and
+   printing them all in one ink throws that away. */
+
+:root{
+  --accent:#4f46e5;
+  --accent-hi:#4338ca;
+  --violet:#7c5cff;
+  --good:#0a8f4d;
+  --warn:#b45309;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --plate:#07070c;
+    --card:#111119;
+    --sink:#0c0c13;
+    --rule:#242433;
+    --accent:#8b7cff;
+    --accent-hi:#a897ff;
+    --accent-ink:#0a0a12;
+    --accent-soft:#191533;
+    --violet:#a78bfa;
+    --good:#34d399;
+    --warn:#fbbf24;
+    --oxblood:#fb7185;
+  }
+}
+:root[data-theme="dark"]{
+  --plate:#07070c; --card:#111119; --sink:#0c0c13; --rule:#242433;
+  --accent:#8b7cff; --accent-hi:#a897ff; --accent-ink:#0a0a12;
+  --accent-soft:#191533; --violet:#a78bfa;
+  --good:#34d399; --warn:#fbbf24; --oxblood:#fb7185;
+}
+
+/* --- the aurora ------------------------------------------------------- */
+body::before{
+  background:
+    radial-gradient(70rem 34rem at 18% -6%,
+      color-mix(in srgb, var(--violet) 38%, transparent) 0%, transparent 58%),
+    radial-gradient(52rem 30rem at 62% -12%,
+      color-mix(in srgb, var(--accent) 30%, transparent) 0%, transparent 55%),
+    radial-gradient(46rem 26rem at 96% 2%,
+      color-mix(in srgb, var(--good) 12%, transparent) 0%, transparent 60%)}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) body::before{opacity:.42}}
+
+/* --- the headline carries two weights, like theirs -------------------- */
+.hero h1{font-weight:750}
+.hero h1 em{font-style:normal;
+  background:linear-gradient(96deg, var(--violet), var(--accent) 62%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* --- the product shot reads as software, not a table ------------------ */
+.app{font-size:.82rem}
+.app-row{min-height:2.55rem}
+.app .pos{color:var(--good);font-weight:650}
+.app .realised{color:var(--good);font-weight:750;font-size:.9rem}
+.app .price{color:var(--ink-2)}
+/* A fill under half is the row the whole screen exists to demote. */
+.app .fill b{color:var(--ink-2);font-weight:650}
+.app-row:has(.fill b:not(:empty)) .dim{color:var(--ink-3)}
+.app .fill i{background:linear-gradient(90deg,var(--accent),var(--violet))}
+.app-bar{background:linear-gradient(180deg,
+  color-mix(in srgb,var(--violet) 9%,var(--sink)), var(--sink))}
+
+/* --- qualifiers get the tick AVO uses, in our own colour -------------- */
+.quals li::before,.hero .quals li::before{color:var(--good)}
+
+/* --- the primary action is the brand ---------------------------------- */
+.btn.primary,.cta a:first-child{
+  background:linear-gradient(135deg,var(--violet),var(--accent));
+  border:0;color:#fff}
+.cta a:first-child:hover{filter:brightness(1.08)}
+.banner{background:linear-gradient(90deg,
+  color-mix(in srgb,var(--violet) 14%,transparent),
+  color-mix(in srgb,var(--accent) 8%,transparent))}
+
+/* --- stats stop being grey -------------------------------------------- */
+.trust b{background:linear-gradient(140deg,var(--ink) 30%,var(--violet));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
 """
 
 STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
