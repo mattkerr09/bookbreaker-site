@@ -3461,6 +3461,28 @@ regulator before relying on any of it.</p>
 """
 
 
+def _n(n: int, singular: str, plural: str | None = None) -> str:
+    """Agree a noun with its count.
+
+    Every state page is generated from the same f-strings, so a plural baked
+    into the template is asserted for all 29 of them. Three states have exactly
+    one online sportsbook — Florida (Hard Rock, under the Seminole compact),
+    Maine and Washington — and all three shipped reading "1 licensed online
+    sportsbooks took bets". The same template also wrote "Kalshi do not" on
+    roughly 25 pages, because the one book that never limits winners is usually
+    a single name.
+
+    Nobody reports this, they just read it as sloppy, on a page whose whole
+    argument is that we counted more carefully than the affiliate sites did.
+    """
+    return singular if n == 1 else (plural if plural is not None else singular + "s")
+
+
+def _does(n: int) -> str:
+    """"does not" for one subject, "do not" for several."""
+    return "does not" if n == 1 else "do not"
+
+
 def render_state_page(m: dict, code: str) -> str:
     """One state, carrying almost nothing that another state also carries.
 
@@ -3508,11 +3530,14 @@ def render_state_page(m: dict, code: str) -> str:
     faqs = [
         (f"Which sportsbooks operate in {name}?",
          ", ".join(b["name"] for b in sorted(books, key=lambda x: x["name"]))
-         + f" — {len(books)} in total, of which {len(online)} are sportsbooks "
-           f"and {len(exchanges)} are prediction markets."),
+         + f" — {len(books)} in total, of which {len(online)} "
+           f"{'is a sportsbook' if len(online) == 1 else 'are sportsbooks'} "
+           f"and {len(exchanges)} "
+           f"{'is a prediction market' if len(exchanges) == 1 else 'are prediction markets'}."),
         (f"Which {name} sportsbooks limit winning accounts?",
          (f"{len(limiting)} of {len(books)}. "
-          + (f"{never_names} do not." if never else "There is no exception."))),
+          + (f"{never_names} {_does(len(never))}." if never
+             else "There is no exception."))),
         (f"What is not available in {name}?",
          (f"{', '.join(absent)} — {len(absent)} books that operate elsewhere "
           f"in the US take no bets here." if absent else
@@ -3525,9 +3550,9 @@ def render_state_page(m: dict, code: str) -> str:
                     (name, f"/sportsbooks/{code.lower()}/")])}
 {faq_schema(faqs)}
 <h1>Online sports betting in {e(name)}</h1>
-<p class="lede">{len(online)} licensed online sportsbooks took bets in
-{e(name)} as of {e(st['as_of'])}. {len(limiting)} of the {len(books)} venues
-covering the state limit accounts that win{'; ' + e(never_names) + ' do not' if never else ''}.</p>
+<p class="lede">{len(online)} licensed online {_n(len(online), 'sportsbook')} took bets in
+{e(name)} as of {e(st['as_of'])}. {len(limiting)} of the {len(books)} {_n(len(books), 'venue')}
+covering the state limit accounts that win{'; ' + e(never_names) + ' ' + _does(len(never)) if never else ''}.</p>
 {disclosure()}
 {f'<p>{e(JURISDICTIONS[code]["note"])}</p>' if JURISDICTIONS.get(code, {}).get("note") else ''}
 {jurisdiction_facts(code, name)}
