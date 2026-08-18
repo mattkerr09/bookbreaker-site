@@ -132,6 +132,9 @@
     "kelly": {
       "body": "<p>A 57.34% shot offered at +120, on a 10,000 bankroll:</p><table><tr><td>Full Kelly</td><td>21.79% of bankroll</td></tr><tr><td>At quarter Kelly</td><td>500.00</td></tr><tr><td>Share of bankroll</td><td>5.00%</td></tr><tr><td>Binding constraint</td><td>max_single</td></tr></table><p>Quarter Kelly, and sized on the least favourable devig rather than the friendliest. Overestimating an edge costs far more than underestimating it.</p>"
     },
+    "low-hold": {
+      "body": "<p>The same market priced at three books. Covering both sides across 2 of them against covering them at the cheapest single book, on 10,000 of turnover:</p><table><tr><td>Split across books</td><td>+0.010% &mdash; costs 1.00</td></tr><tr><td>Cheapest single book</td><td>+3.981% &mdash; costs 398.10</td></tr><tr><td>Difference</td><td>397.10</td></tr></table><p>This is a cost calculator, not an opportunity finder. A positive hold is money gone; low hold is cheaper than the obvious way and it is not free. Whether the turnover buys enough rollover progress or account longevity to be worth the cost is your judgement, and a tool that answers that for you is selling something.</p>"
+    },
     "middle": {
       "body": "<p>Identical prices, one point apart:</p><table><tr><th>Window</th><th>Hits</th><th>Break-even</th><th>Expected value</th></tr><tr><td>2.5 / 3.5</td><td>15.79%</td><td>4.76%</td><td>+10.53%</td></tr><tr><td>4.5 / 5.5</td><td>4.21%</td><td>4.76%</td><td>-0.53%</td></tr></table><p>Break-even is arithmetic on the two prices and depends on no distribution at all, which makes it the honest anchor. The hit rate comes from counting 285 recorded games &mdash; a synthetic, shape stated sample shown as an illustration of the mechanism, not a claim about any league.</p>"
     },
@@ -147,8 +150,14 @@
     "parlay": {
       "body": "<p>A parlay pays the product of its legs. It compounds the margin on each of them too.</p><p>A 4-leg ticket, every leg held at 4.55%, pays 12.28 in profit per unit staked. Strip the margin out of each leg and the fair price pays 15.00. Add the stake back to each and the gap between them is a hold of 17.0% on the ticket &mdash; 3.7 times the hold on a single leg.</p><p>Holding the per-leg figure of 4.55% fixed as a prior, the hold climbs with the leg count:</p><table><tr><th>Legs</th><th>Hold on the ticket</th></tr><tr><td>2</td><td>8.9%</td></tr><tr><td>3</td><td>13.0%</td></tr><tr><td>4</td><td>17.0%</td></tr><tr><td>5</td><td>20.8%</td></tr><tr><td>6</td><td>24.4%</td></tr><tr><td>8</td><td>31.1%</td></tr></table><p>From 8.9% up to 31.1%. Every added leg is sold as upside. It is also margin, charged before the ticket is graded. Past 7 legs the payout is a lottery price and the hold, still climbing, stops being the number that decides anything.</p><p>Same-game legs break the arithmetic above. These legs are in one game and are not independent \u2014 a team covering the spread makes the over more likely, not less. Books price same-game parlays with a correlation adjustment for exactly that reason, so the independent figure above is an upper bound on what this is worth, not an estimate of it.</p><p>Every other parlay calculator prints the payout to the cent and stops there. The payout is the book's number. The fair price is the number that says what the ticket costs.</p>"
     },
+    "poisson": {
+      "body": "<p>A match modelled at 1.6 and 1.2 expected goals:</p><table><tr><td>Home</td><td>46.66%</td></tr><tr><td>Draw</td><td>24.71%</td></tr><tr><td>Away</td><td>28.63%</td></tr><tr><td>Over 2.5</td><td>53.05%</td></tr><tr><td>Push on a 3.0 line</td><td>22.25%</td></tr><tr><td>Most likely score</td><td>1-1 at 11.68%</td></tr></table><p>The 22.25% push is why books quote halves, and it is the row most totals calculators leave out entirely.</p><p>Poisson assumes the two sides score independently. They do not: a team two goals down attacks, a team ahead defends, and real scorelines carry more draws and more blowouts than this model predicts. Treat it as one model's opinion, not a fair price.</p>"
+    },
     "profit-boost": {
       "body": "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p><p>Below, the boost and the stake are fixed &mdash; 50% on a stake of $100 &mdash; and only the price moves.</p><table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr><tr><td>-200</td><td>$25.00</td><td>$16.67</td></tr><tr><td>-110</td><td>$45.45</td><td>$18.18</td></tr><tr><td>+200</td><td>$100.00</td><td>$33.33</td></tr><tr><td>+500</td><td>$250.00</td><td>$41.67</td></tr></table><p>The shortest price, -200, adds $25. The longest, +500, adds $250 &mdash; a multiple of 10 on the same token. Spend a boost on a favourite and most of it is given away.</p><p>Competitors print the headline rate and stop, as though 50% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior &mdash; that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p><p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>"
+    },
+    "round-robin": {
+      "body": "<p>Three legs at &minus;110, taken two at a time, is 3 tickets at 25 each &mdash; 75 at risk, not 25. That is the first thing the format hides.</p><table><tr><td>Two legs land</td><td>91.20 back, +16.20</td></tr><tr><td>All three land</td><td>273.61 back</td></tr><tr><td>Legs needed to break even</td><td>2 of 3</td></tr><tr><td>Expected profit at fair 50% legs</td><td>-6.60</td></tr><tr><td>Same money on singles</td><td>-3.38</td></tr></table><p>Both those last two are computed with every leg at a true 50%, so the difference is not luck &mdash; it is the margin, charged once per ticket instead of once per bet. A round robin buys a different shape of outcome, not a better expectation.</p>"
     },
     "totals-middle": {
       "body": "<p>A middle is a pair of bets on one game: the over at the lower line, the under at the higher one. Both win when the final total lands inside the window between them. Outside it, one side pays, the other loses, and the miss costs the vig.</p><p>The lines priced here are 44.5 and 47.5, a window 3 points wide. Break-even is 4.76% &mdash; the rate the window must hit for the pair to be worth holding. That is arithmetic on both prices and nothing else: no distribution, no sample, no view on the sport. It is the honest anchor.</p><p>The window probability is 9.19%. That one is a normal approximation, and its spread of 13.0 points is a stated prior, not a measurement. Competitors print a figure like it out to the decimal as though it had been observed.</p><p>Counting beats a smooth curve. Real scores cluster on the totals a sport actually produces. A curve cannot reproduce a lump, so it moves mass into gaps where finals never land. Count finals, and hold the sample to a threshold first.</p><table><tr><th>Threshold</th><th>Minimum</th></tr><tr><td>Games in a totals sample</td><td>400</td></tr><tr><td>Games in a margin sample</td><td>200</td></tr><tr><td>Observations on each distinct total</td><td>8</td></tr></table><p>Totals carry the higher bar: wider support, more distinct finals, each seen less often. Below any of these minimums the counted estimate is noise wearing a decimal point.</p>"
@@ -335,7 +344,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "e9ae3e432a4d5330",
+  "engine_fingerprint": "51ef3d03eeddca99",
   "evidence": {
     "bars": [
       {
@@ -518,6 +527,15 @@
     "test": 9,
     "train": 21
   },
+  "lowhold": {
+    "baseline_cost": 398.1,
+    "baseline_hold": 3.981,
+    "best_cost": 1.0,
+    "best_hold": 0.01,
+    "books": 2,
+    "saved": 397.1,
+    "turnover": 10000
+  },
   "markets": {
     "live": 29,
     "none": 11,
@@ -641,6 +659,17 @@
     "stake_hi": 515,
     "stake_lo": 485
   },
+  "poisson": {
+    "away": 28.63,
+    "away_lambda": 1.2,
+    "draw": 24.71,
+    "home": 46.66,
+    "home_lambda": 1.6,
+    "over_half": 53.05,
+    "push_whole": 22.25,
+    "top_prob": 11.68,
+    "top_score": "1-1"
+  },
   "portfolio": {
     "bankroll": 20000,
     "cap_alone": 1000.0,
@@ -752,6 +781,19 @@
     ],
     "round_profit": 35.0,
     "total": 1000
+  },
+  "roundrobin": {
+    "breakeven_legs": 2,
+    "expected_profit": -6.6,
+    "legs": 3,
+    "singles_instead": -3.38,
+    "size": 2,
+    "stake_each": 25.0,
+    "sweep": 273.61,
+    "tickets": 3,
+    "total_stake": 75.0,
+    "two_low": 91.2,
+    "two_profit": 16.2
   },
   "safety_net": {
     "conversion": 75,

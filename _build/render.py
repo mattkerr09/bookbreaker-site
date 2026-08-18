@@ -195,6 +195,54 @@ def measure(engine) -> dict:
         "rounding_cost": round(rounded.rounding_cost, 2),
     }
 
+    # 2b. Round robin, Poisson and low hold — the three OddsJam and avo
+    # surfaces the engine gained after a feature-by-feature comparison.
+    from overlay_engine import lowhold as _lh, poisson as _po, roundrobin as _rr
+
+    rr = _rr.build([1.91, 1.91, 1.91], [2], 25.0, probs=[0.5, 0.5, 0.5])
+    rr_rows = rr.by_leg_count()
+    rr_ev = rr.expected_value()
+    out["roundrobin"] = {
+        "legs": 3, "size": 2, "tickets": rr.tickets,
+        "stake_each": rr.stake_each, "total_stake": rr.total_stake,
+        "breakeven_legs": rr.breakeven_legs(),
+        "two_low": rr_rows[2]["returned_low"],
+        "two_profit": rr_rows[2]["profit_low"],
+        "sweep": rr_rows[3]["returned_low"],
+        "expected_profit": rr_ev["expected_profit"],
+        "singles_instead": rr_ev["same_money_on_singles"],
+    }
+
+    po = _po.build(1.6, 1.2)
+    po_out = po.outcomes()
+    po_half = po.total_over(2.5)
+    po_whole = po.total_over(3.0)
+    out["poisson"] = {
+        "home_lambda": 1.6, "away_lambda": 1.2,
+        "home": round(po_out["home"] * 100, 2),
+        "draw": round(po_out["draw"] * 100, 2),
+        "away": round(po_out["away"] * 100, 2),
+        "over_half": round(po_half["over"] * 100, 2),
+        "push_whole": round(po_whole["push"] * 100, 2),
+        "top_score": po.top_scorelines(1)[0]["score"],
+        "top_prob": round(po.top_scorelines(1)[0]["prob"] * 100, 2),
+    }
+
+    market = [_lh.Quote("dk", "home", 1.91), _lh.Quote("dk", "away", 1.91),
+              _lh.Quote("fd", "home", 2.02), _lh.Quote("fd", "away", 1.83),
+              _lh.Quote("mgm", "home", 1.87), _lh.Quote("mgm", "away", 1.98)]
+    lh_best = _lh.best(market)[0]
+    lh_base = _lh.single_book_baseline(market)
+    out["lowhold"] = {
+        "turnover": 10000,
+        "best_hold": round(lh_best.hold * 100, 3),
+        "best_cost": lh_best.cost_of(10000),
+        "baseline_hold": round(lh_base.hold * 100, 3),
+        "baseline_cost": lh_base.cost_of(10000),
+        "saved": round(lh_base.cost_of(10000) - lh_best.cost_of(10000), 2),
+        "books": len({q.book for q in lh_best.picks}),
+    }
+
     # 3. Bonus bet conversion, and the hedge each plan actually needs.
     ladder = []
     for free_a, hedge_a in ((100, -110), (200, -230), (400, -450), (1200, -1400)):
@@ -1050,6 +1098,62 @@ def measure(engine) -> dict:
         + f"<p>Consensus {d['consensus']:.2f}%, and the four methods disagree "
         f"by {d['spread']:.2f} points. Every other no-vig calculator returns "
         "one number.</p>")}
+
+
+    rr_ = out["roundrobin"]
+    calc["round-robin"] = {"body": (
+        f"<p>Three legs at &minus;110, taken two at a time, is "
+        f"{rr_['tickets']} tickets at {rr_['stake_each']:,.0f} each &mdash; "
+        f"{rr_['total_stake']:,.0f} at risk, not {rr_['stake_each']:,.0f}. "
+        f"That is the first thing the format hides.</p>"
+        + table([("Two legs land",
+                  f"{rr_['two_low']:,.2f} back, {rr_['two_profit']:+,.2f}"),
+                 ("All three land", f"{rr_['sweep']:,.2f} back"),
+                 ("Legs needed to break even", f"{rr_['breakeven_legs']} of 3"),
+                 ("Expected profit at fair 50% legs",
+                  f"{rr_['expected_profit']:+,.2f}"),
+                 ("Same money on singles",
+                  f"{rr_['singles_instead']:+,.2f}")])
+        + "<p>Both those last two are computed with every leg at a true 50%, "
+        "so the difference is not luck &mdash; it is the margin, charged once "
+        "per ticket instead of once per bet. A round robin buys a different "
+        "shape of outcome, not a better expectation.</p>")}
+
+    po_ = out["poisson"]
+    calc["poisson"] = {"body": (
+        f"<p>A match modelled at {po_['home_lambda']} and "
+        f"{po_['away_lambda']} expected goals:</p>"
+        + table([("Home", f"{po_['home']:.2f}%"),
+                 ("Draw", f"{po_['draw']:.2f}%"),
+                 ("Away", f"{po_['away']:.2f}%"),
+                 ("Over 2.5", f"{po_['over_half']:.2f}%"),
+                 ("Push on a 3.0 line", f"{po_['push_whole']:.2f}%"),
+                 ("Most likely score",
+                  f"{po_['top_score']} at {po_['top_prob']:.2f}%")])
+        + f"<p>The {po_['push_whole']:.2f}% push is why books quote halves, "
+        "and it is the row most totals calculators leave out entirely.</p>"
+        "<p>Poisson assumes the two sides score independently. They do not: a "
+        "team two goals down attacks, a team ahead defends, and real "
+        "scorelines carry more draws and more blowouts than this model "
+        "predicts. Treat it as one model's opinion, not a fair price.</p>")}
+
+    lh_ = out["lowhold"]
+    calc["low-hold"] = {"body": (
+        f"<p>The same market priced at three books. Covering both sides "
+        f"across {lh_['books']} of them against covering them at the cheapest "
+        f"single book, on {lh_['turnover']:,} of turnover:</p>"
+        + table([("Split across books",
+                  f"{lh_['best_hold']:+.3f}% &mdash; costs "
+                  f"{lh_['best_cost']:,.2f}"),
+                 ("Cheapest single book",
+                  f"{lh_['baseline_hold']:+.3f}% &mdash; costs "
+                  f"{lh_['baseline_cost']:,.2f}"),
+                 ("Difference", f"{lh_['saved']:,.2f}")])
+        + "<p>This is a cost calculator, not an opportunity finder. A positive "
+        "hold is money gone; low hold is cheaper than the obvious way and it "
+        "is not free. Whether the turnover buys enough rollover progress or "
+        "account longevity to be worth the cost is your judgement, and a tool "
+        "that answers that for you is selling something.</p>")}
 
     fair = d["consensus"] / 100.0
     price = american_to_decimal(120)

@@ -17,3 +17,6 @@ effective-bets,Effective bets calculator,how many bets am i really making if the
 totals-middle,Totals middle calculator,How do you price a totals middle bet?,price the window
 no-sweat-bet,No-sweat bet calculator,What odds should I use for a no-sweat first bet?,pick the qualifying price
 profit-boost,Profit boost calculator,What is a profit boost actually worth?,spend the boost well
+round-robin,Round robin calculator,What does a round robin actually have to do to pay?,size the ticket
+poisson,Poisson calculator,What are the scoreline and totals probabilities?,model a low-scoring game
+low-hold,Low hold calculator,What does turning money over actually cost?,cost the turnover
