@@ -892,6 +892,209 @@
       "realised": 2.72
     }
   ],
+  "state_standings": {
+    "AR": {
+      "tax_of": 23,
+      "tax_rank": 13,
+      "tax_rate": 13.0
+    },
+    "AZ": {
+      "age_days": 1804,
+      "age_months": 59,
+      "age_of": 16,
+      "age_rank": 8,
+      "age_years": 4.9,
+      "tax_of": 23,
+      "tax_rank": 14,
+      "tax_rate": 10.0
+    },
+    "CO": {
+      "age_days": 2300,
+      "age_months": 76,
+      "age_of": 16,
+      "age_rank": 1,
+      "age_years": 6.3,
+      "tax_of": 23,
+      "tax_rank": 14,
+      "tax_rate": 10.0
+    },
+    "CT": {
+      "age_days": 1764,
+      "age_months": 58,
+      "age_of": 16,
+      "age_rank": 9,
+      "age_years": 4.8,
+      "tax_of": 23,
+      "tax_rank": 12,
+      "tax_rate": 13.75
+    },
+    "DC": {
+      "age_days": 2273,
+      "age_months": 75,
+      "age_of": 16,
+      "age_rank": 2,
+      "age_years": 6.2,
+      "tax_of": 23,
+      "tax_rank": 4,
+      "tax_rate": 20.0
+    },
+    "DE": {
+      "age_days": 958,
+      "age_months": 31,
+      "age_of": 16,
+      "age_rank": 14,
+      "age_years": 2.6,
+      "tax_of": 23,
+      "tax_rank": 2,
+      "tax_rate": 50.0
+    },
+    "IA": {
+      "tax_of": 23,
+      "tax_rank": 22,
+      "tax_rate": 6.75
+    },
+    "IL": {
+      "age_days": 2252,
+      "age_months": 74,
+      "age_of": 16,
+      "age_rank": 3,
+      "age_years": 6.2
+    },
+    "IN": {
+      "tax_of": 23,
+      "tax_rank": 20,
+      "tax_rate": 9.5
+    },
+    "KS": {
+      "tax_of": 23,
+      "tax_rank": 14,
+      "tax_rate": 10.0
+    },
+    "KY": {
+      "age_days": 1055,
+      "age_months": 35,
+      "age_of": 16,
+      "age_rank": 13,
+      "age_years": 2.9,
+      "tax_of": 23,
+      "tax_rank": 11,
+      "tax_rate": 14.25
+    },
+    "LA": {
+      "tax_of": 23,
+      "tax_rank": 3,
+      "tax_rate": 21.5
+    },
+    "MA": {
+      "tax_of": 23,
+      "tax_rank": 4,
+      "tax_rate": 20.0
+    },
+    "MD": {
+      "age_days": 1364,
+      "age_months": 45,
+      "age_of": 16,
+      "age_rank": 11,
+      "age_years": 3.7,
+      "tax_of": 23,
+      "tax_rank": 4,
+      "tax_rate": 20.0
+    },
+    "ME": {
+      "tax_of": 23,
+      "tax_rank": 14,
+      "tax_rate": 10.0
+    },
+    "MI": {
+      "age_days": 2034,
+      "age_months": 67,
+      "age_of": 16,
+      "age_rank": 6,
+      "age_years": 5.6,
+      "tax_of": 23,
+      "tax_rank": 21,
+      "tax_rate": 8.4
+    },
+    "MO": {
+      "age_days": 260,
+      "age_months": 9,
+      "age_of": 16,
+      "age_rank": 16,
+      "age_years": 0.7,
+      "tax_of": 23,
+      "tax_rank": 14,
+      "tax_rate": 10.0
+    },
+    "NC": {
+      "age_days": 890,
+      "age_months": 29,
+      "age_of": 16,
+      "age_rank": 15,
+      "age_years": 2.4,
+      "tax_of": 23,
+      "tax_rank": 9,
+      "tax_rate": 18.0
+    },
+    "NJ": {
+      "tax_of": 23,
+      "tax_rank": 8,
+      "tax_rate": 19.75
+    },
+    "NV": {
+      "tax_of": 23,
+      "tax_rank": 22,
+      "tax_rate": 6.75
+    },
+    "NY": {
+      "age_days": 1683,
+      "age_months": 55,
+      "age_of": 16,
+      "age_rank": 10,
+      "age_years": 4.6,
+      "tax_of": 23,
+      "tax_rank": 1,
+      "tax_rate": 51.0
+    },
+    "OH": {
+      "age_days": 1325,
+      "age_months": 44,
+      "age_of": 16,
+      "age_rank": 12,
+      "age_years": 3.6,
+      "tax_of": 23,
+      "tax_rank": 4,
+      "tax_rate": 20.0
+    },
+    "TN": {
+      "age_days": 2116,
+      "age_months": 70,
+      "age_of": 16,
+      "age_rank": 4,
+      "age_years": 5.8
+    },
+    "VA": {
+      "age_days": 2035,
+      "age_months": 67,
+      "age_of": 16,
+      "age_rank": 5,
+      "age_years": 5.6,
+      "tax_of": 23,
+      "tax_rank": 10,
+      "tax_rate": 15.0
+    },
+    "WV": {
+      "tax_of": 23,
+      "tax_rank": 14,
+      "tax_rate": 10.0
+    },
+    "WY": {
+      "age_days": 1812,
+      "age_months": 60,
+      "age_of": 16,
+      "age_rank": 7,
+      "age_years": 5.0
+    }
+  },
   "states": {
     "AK": {
       "absent": 22,

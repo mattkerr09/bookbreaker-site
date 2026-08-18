@@ -1759,3 +1759,21 @@ main table td:last-child{white-space:nowrap;font-size:.78rem;
 .close-note{font-size:var(--t-1);color:var(--ink-3);max-width:52ch;
   margin:var(--s-5) auto 0}
 body{counter-reset:step}
+
+/* The per-state standings row. Terse on purpose: these pages share their
+   chrome, their catalogue sentence and their caveats, so every word of shared
+   sentence frame around a per-state number pushes two state pages closer
+   together. Numbers and short labels carry the difference; the prose that
+   would explain them is made once, on the hub. */
+.sf-grid{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:var(--r);overflow:hidden;margin:var(--s-4) 0;
+  grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr))}
+.sf{background:var(--card);padding:var(--s-4) var(--s-4) var(--s-3)}
+.sf-lab{display:block;font:600 var(--t-1)/1.25 var(--mono);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-2);margin-bottom:var(--s-3)}
+.sf p{margin:0}
+.sf b{display:block;font-size:var(--t-7);font-weight:700;letter-spacing:-.03em;
+  color:var(--accent);line-height:1.05}
+.sf i{display:block;margin-top:.35rem;font-style:normal;font-size:var(--t-1);
+  color:var(--ink-3);line-height:1.4}
+.sf-note{font-size:var(--t-2);color:var(--ink-2);max-width:70ch}

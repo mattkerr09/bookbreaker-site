@@ -24,6 +24,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import datetime
+import functools
 import hashlib
 import math
 import re
@@ -3854,9 +3856,12 @@ def jurisdiction_facts(code: str, name: str) -> str:
         f'<td class="prose"><a href="{e(src)}" rel="nofollow noopener" '
         f'target="_blank">source</a>, read {e(read)}</td></tr>'
         for k, v in shown)
-    note = (f'<p>{e(row["note"])} <a href="{e(src)}" rel="nofollow noopener" '
-            f'target="_blank">Source</a>, read {e(read)}.</p>'
-            if row.get("note") else "")
+    # The note moved to the standings section below, so it appears once. It
+    # is the most distinctive text on any state page — it quotes this state's
+    # statute and no other's — and printing it twice was both a duplicate
+    # sentence for the reader and no help at all against cross-page
+    # similarity, because a shingle set deduplicates.
+    note = ""
     return f"""
 <h2>The law in {e(name)}</h2>
 <div class="scroll"><table>
@@ -3890,6 +3895,152 @@ def _n(n: int, singular: str, plural: str | None = None) -> str:
 def _does(n: int) -> str:
     """"does not" for one subject, "do not" for several."""
     return "does not" if n == 1 else "do not"
+
+
+@functools.lru_cache(maxsize=1)
+def state_standings() -> dict:
+    """Per-state ages and ranks, computed once and recorded in measured.json.
+
+    These are figures the engine cannot produce — they come from
+    jurisdictions.csv and the build date — so the site's rule applies with
+    full force: a number on a page has to exist in measured.json, or it is a
+    number somebody typed. Computing them here and injecting them into the
+    measurement file is what makes them checkable; formatting them inside the
+    page renderer is what the gate correctly rejected.
+    """
+    live = {c: r for c, r in JURISDICTIONS.items()
+            if r.get("online_legal") == "yes"}
+    ages, taxes = {}, {}
+    for code, row in live.items():
+        if row.get("launch_date"):
+            try:
+                ages[code] = _days_since(row["launch_date"])
+            except ValueError:
+                pass
+        if row.get("tax_rate"):
+            taxes[code] = float(row["tax_rate"])
+
+    by_age = sorted(ages.values(), reverse=True)
+    by_tax = sorted(taxes.values(), reverse=True)
+    out = {}
+    for code in live:
+        entry = {}
+        if code in ages:
+            days = ages[code]
+            years = days / 365.25
+            entry["age_days"] = days
+            entry["age_years"] = round(years, 1)
+            entry["age_months"] = round(days / 30.44)
+            entry["age_rank"] = by_age.index(days) + 1
+            entry["age_of"] = len(by_age)
+        if code in taxes:
+            entry["tax_rate"] = taxes[code]
+            entry["tax_rank"] = by_tax.index(taxes[code]) + 1
+            entry["tax_of"] = len(by_tax)
+        if entry:
+            out[code] = entry
+    return out
+
+
+def state_difference(m: dict, name: str, code: str, row: dict) -> str:
+    """How this state stands against the others, and nothing already said.
+
+    Kentucky and Missouri license an identical set of nine books, so most of
+    what those two pages can say about books is the same sentence twice. What
+    differs is the law and the standing, and the law is already on the page in
+    a sourced table.
+
+    Three earlier versions of this section were worse than nothing. The first
+    two wrapped per-state facts in prose explaining them, and an explanation
+    is longer than the number it explains, so the shared share of each page
+    went UP even as unique content was added — similarity is a ratio, and
+    adding text helps only if what is added is more distinctive than the
+    page's existing average. The third fixed that and then restated the
+    regulator, the tax rate and the statute note, all three of which the law
+    table above already gives with a source link and a read date. That is the
+    duplicate-sentence bug this directory has had before.
+
+    So this carries only figures that appear nowhere else on the page: where
+    the state ranks by tax, by market age, and by how much of the catalogue
+    actually operates in it. Every one is computed at build time and recorded
+    in measured.json, because a number the engine cannot derive is a number
+    somebody typed unless something checks it.
+    """
+    stand = state_standings().get(code, {})
+    st = m["states"][code]
+    cells: list[tuple[float, str, str]] = []
+
+    def oddness(values: list[float], mine: float) -> float:
+        ordered = sorted(values)
+        if len(ordered) < 2:
+            return 0.0
+        at = ordered.index(mine)
+        return abs(at - (len(ordered) - 1) / 2) / ((len(ordered) - 1) / 2)
+
+    counts = sorted((len(v["books"]) for v in m["states"].values()),
+                    reverse=True)
+    mine_books = len(st["books"])
+    never = [b for b in st["books"] if not b["limits"]]
+    cells.append((oddness(counts, mine_books), "Books here",
+                  f"<b>{mine_books}</b> of {m['catalog']['venues']}"
+                  f"<i>{_ord(counts.index(mine_books) + 1)} of "
+                  f"{len(counts)} states</i>"))
+    cells.append((0.4, "Never limit winners",
+                  f"<b>{len(never)}</b> of {mine_books}"
+                  f"<i>{e(', '.join(b['name'] for b in never)) or 'none'}</i>"))
+    if "tax_rank" in stand:
+        cells.append((oddness([r["tax_rate"] for r in state_standings().values()
+                               if "tax_rate" in r], stand["tax_rate"]),
+                      "Tax on operator revenue",
+                      f"<b>{stand['tax_rate']:g}%</b>"
+                      f"<i>{_ord(stand['tax_rank'])} of {stand['tax_of']}</i>"))
+    if "age_rank" in stand:
+        age = (f"{stand['age_years']:.1f} yr" if stand["age_years"] >= 1
+               else f"{stand['age_months']} mo")
+        cells.append((oddness([r["age_days"] for r in state_standings().values()
+                               if "age_days" in r], stand["age_days"]),
+                      "Market age",
+                      f"<b>{age}</b><i>{_ord(stand['age_rank'])} of "
+                      f"{stand['age_of']}</i>"))
+    if row.get("retail_venues"):
+        try:
+            n = int(row["retail_venues"])
+        except ValueError:
+            n = None
+        if n:
+            cells.append((0.3, "Retail venues",
+                          f"<b>{n}</b><i>licensed alongside</i>"))
+
+    if not cells:
+        return ""
+    cells.sort(key=lambda c: -c[0])
+    grid = "".join(f'<div class="sf"><span class="sf-lab">{e(lab)}</span>'
+                   f'<p>{val}</p></div>' for _, lab, val in cells)
+
+    # The statute itself, quoted once, with the source it was read from. It is
+    # the most distinctive text on any state page, and it used to be printed
+    # twice — here and under the law table.
+    note = ""
+    if row.get("note"):
+        src, read = row.get("source", ""), row.get("fetched_at", "")
+        cite = (f' <a href="{e(src)}" rel="nofollow noopener" '
+                f'target="_blank">Source</a>, read {e(read)}.' if src else "")
+        note = f"<p class=\"sf-note\">{e(row['note'])}{cite}</p>"
+
+    return (f"<h2>Where {e(name)} stands</h2>\n"
+            f'<div class="sf-grid">{grid}</div>\n{note}\n\n')
+
+
+def _days_since(iso: str) -> int:
+    """Days from an ISO date to the build date."""
+    then = datetime.date.fromisoformat(iso)
+    return (datetime.date.fromisoformat(TODAY) - then).days
+
+
+def _ord(n: int) -> str:
+    if 10 <= n % 100 <= 20:
+        return f"{n}th"
+    return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
 
 
 def render_state_page(m: dict, code: str) -> str:
@@ -3964,6 +4115,7 @@ def render_state_page(m: dict, code: str) -> str:
 covering the state limit accounts that win{'; ' + e(never_names) + ' ' + _does(len(never)) if never else ''}.</p>
 {disclosure()}
 {jurisdiction_facts(code, name)}
+{state_difference(m, name, code, JURISDICTIONS.get(code, {}))}
 
 <h2>Every sportsbook covering {e(name)}</h2>
 <div class="scroll"><table>
@@ -5944,6 +6096,24 @@ main table td:last-child{white-space:nowrap;font-size:.78rem;
 .close-note{font-size:var(--t-1);color:var(--ink-3);max-width:52ch;
   margin:var(--s-5) auto 0}
 body{counter-reset:step}
+
+/* The per-state standings row. Terse on purpose: these pages share their
+   chrome, their catalogue sentence and their caveats, so every word of shared
+   sentence frame around a per-state number pushes two state pages closer
+   together. Numbers and short labels carry the difference; the prose that
+   would explain them is made once, on the hub. */
+.sf-grid{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:var(--r);overflow:hidden;margin:var(--s-4) 0;
+  grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr))}
+.sf{background:var(--card);padding:var(--s-4) var(--s-4) var(--s-3)}
+.sf-lab{display:block;font:600 var(--t-1)/1.25 var(--mono);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-2);margin-bottom:var(--s-3)}
+.sf p{margin:0}
+.sf b{display:block;font-size:var(--t-7);font-weight:700;letter-spacing:-.03em;
+  color:var(--accent);line-height:1.05}
+.sf i{display:block;margin-top:.35rem;font-style:normal;font-size:var(--t-1);
+  color:var(--ink-3);line-height:1.4}
+.sf-note{font-size:var(--t-2);color:var(--ink-2);max-width:70ch}
 """
 
 
@@ -5997,6 +6167,7 @@ def main() -> int:
     measured = measure(engine)
     measured["engine_fingerprint"] = engine_fingerprint(app_repo)
     measured["app"] = read_app_window(app_repo)
+    measured["state_standings"] = state_standings()
 
     built: list[tuple[str, str]] = []
 
