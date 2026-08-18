@@ -1450,6 +1450,7 @@ Verify before installing:</p>
 <pre><code>shasum -a 256 {w['name']}</code></pre>
 <table>
 <tr><th>File</th><th>Size</th><th>SHA-256</th></tr>
+{f'<tr><td>{app["name"]}</td><td>{app["mb"]} MB</td><td class="hash">{app["sha256"]}</td></tr>' if app else ''}
 <tr><td>{w['name']}</td><td>{w['kb']} KB</td>
 <td class="hash">{w['sha256']}</td></tr>
 <tr><td>{sd['name']}</td><td>{sd['kb']} KB</td>
