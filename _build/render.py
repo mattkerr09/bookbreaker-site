@@ -3077,119 +3077,50 @@ if a figure appears here and not in the engine's own output.</p>
 
 
 def render_versus(m: dict, row: dict) -> str:
-    """One competitor page.
+    """One competitor, carrying almost nothing another competitor carries.
 
-    These scored 0.84 against each other on the portfolio similarity gate,
-    and the reason was structural rather than stylistic: the page was about
-    two hundred words of shared argument with a name and a price dropped into
-    it. Every competitor page made the same case, so Google had no reason to
-    keep more than one.
+    A word-level diff of the two closest pages found 204 of 286 words shared,
+    in three blocks: a 51-word general argument about stale screens, a 46-word
+    verdict keyed to a price band, and 58 words of closing links. The first and
+    third were identical on all ten pages; the second was identical for any two
+    tools in the same band, which is why smartstake and unabated — both at
+    $99/mo — scored 0.75 against each other.
 
-    The differentiator now is arithmetic that actually differs. A monthly fee
-    is a hurdle to clear before the first dollar of profit, and across this
-    list it ranges from five dollars a month to three hundred and forty-seven
-    — which is the difference between three bets a month and a hundred and
-    seventy-four. That is a real fact about each product, and it is different
-    for each one.
+    All three are gone. The general argument is made once, on the hub. What
+    remains is this tool's own published capability, its own stated gap, and
+    what its own published price costs before a first pound of profit. Short
+    and distinctive beats long and shared: the hub page in this same directory
+    measures 46% unique because it says something the leaves do not.
     """
-    d = m["devig"]
     sub = m.get("subs", {}).get(row["slug"])
+    cite = (f'read {e(row["read"])}, '
+            f'<a href="{e(row["source"])}">source</a>')
 
-    # Branching on what this tool costs, because the honest advice genuinely
-    # differs by price band. A shared paragraph with the name swapped is what
-    # scored these pages 0.84 against each other in the first place.
-    if sub and sub["fee"] >= 200:
-        verdict = (
-            f"<h2>Who {e(row['name'])} is actually for</h2>"
-            f"<p>At {sub['sym']}{sub['fee']:,.0f} a month this is priced for "
-            f"someone betting full time. The subscription only makes sense if "
-            f"you are already turning over "
-            f"{sub['sym']}{sub['rows'][1]['turnover']:,} a month at a real "
-            f"edge, and if you are not there yet, the fee is the largest "
-            f"negative-EV bet in your month.</p>"
-            f"<p>What you are buying at that price is {e(row['note'])}. "
-            f"What you are not buying is {e(row['gap'][0].lower() + row['gap'][1:])}, "
-            f"and on a subscription this size that omission is the whole "
-            f"question (read {e(row['read'])}, <a href=\"{e(row['source'])}\">source</a>).</p>")
-    elif sub and sub["fee"] >= 50:
-        verdict = (
-            f"<h2>Who {e(row['name'])} is actually for</h2>"
-            f"<p>{sub['sym']}{sub['fee']:,.0f} a month is a serious hobbyist "
-            f"price, and clearing it needs {sub['rows'][1]['bets']} winning "
-            f"bets a month at a {sub['sym']}{sub['stake']} stake and a 2% "
-            f"edge. That is reachable, which is exactly why it is worth "
-            f"checking against your own record rather than assuming.</p>"
-            f"<p>{e(row['name'])} offers {e(row['note'])}, and the thing to "
-            f"weigh against {sub['sym']}{sub['fee']:,.0f} a month is that "
-            f"{e(row['gap'][0].lower() + row['gap'][1:])}. Whether that "
-            f"matters depends on how close to the line you bet (read {e(row['read'])}, <a href=\"{e(row['source'])}\">source</a>).</p>")
-    elif sub:
-        verdict = (
-            f"<h2>Who {e(row['name'])} is actually for</h2>"
-            f"<p>At {sub['sym']}{sub['fee']:,.0f} a month the fee is close to "
-            f"irrelevant &mdash; {sub['rows'][1]['bets']} winning bets at a 2% "
-            f"edge covers it. So compare on capability: {e(row['note'])} "
-            f"against the fact that {e(row['gap'][0].lower() + row['gap'][1:])} (read {e(row['read'])}, <a href=\"{e(row['source'])}\">source</a>).</p>")
-    else:
-        verdict = (
-            f"<h2>What {e(row['name'])} does not publish</h2>"
-            f"<p>{e(row['name'])} published no monthly price when its pricing "
-            f"was read on {e(row['read'])} "
-            f"(<a href=\"{e(row['source'])}\">source</a>), so the first thing "
-            f"you can measure about a competing tool &mdash; what it costs "
-            f"before you win anything &mdash; is not available here. A tool "
-            f"that will not state a price before a demo is one you cannot "
-            f"compare on the arithmetic.</p>")
-
-    hurdle = ""
     if sub:
-        rows = "".join(
-            f"<tr><td class=\"prose\">{r['edge']}%</td><td>{r['bets']}</td>"
-            f"<td>{sub['sym']}{r['turnover']:,}</td>"
-            f"<td class=\"prose\">from the price read {e(row['read'])}, "
-            f"<a href=\"{e(row['source'])}\">source</a></td></tr>"
-            for r in sub["rows"])
-        hurdle = f"""
-<h2>What {e(row['name'])} costs you before you win anything</h2>
-<p>At {e(row['price'])}, the cheapest monthly plan is
-<strong>{sub['sym']}{sub['fee']:,.2f}</strong> &mdash; <strong>{sub['sym']}{sub['yearly']:,.2f}</strong>
-a year. That is not a price you pay out of profit. It is a hurdle you clear
-before there is any profit, and it is worth seeing as the number of winning
-bets it takes to reach zero.</p>
-<p>At a {sub['sym']}{sub['stake']} average stake:</p>
-<div class="scroll"><table>
-<tr><th class="prose">Your edge</th><th>Bets a month to break even</th>
-<th>Turnover a month</th><th class="prose">Basis</th></tr>
-{rows}
-</table></div>
-<p>A {sub['rows'][1]['edge']}% edge is a good one, and it still takes
-<strong>{sub['rows'][1]['bets']} bets a month</strong> at that stake purely to
-cover the subscription. Below that you are paying to lose more slowly. The
-figures are arithmetic on the published price and a stated {sub['sym']}{sub['stake']}
-stake, not a claim about anybody's results.</p>
-"""
+        cost = (f"<p>{e(row['name'])} lists {e(row['price'])}. The cheapest "
+                f"monthly plan is {sub['sym']}{sub['yearly']:,.0f} a year you "
+                f"clear before any profit is yours &mdash; "
+                f"{sub['rows'][1]['bets']} winning bets a month at a "
+                f"{sub['sym']}{sub['stake']} stake and a two percent edge, "
+                f"every month, to reach zero.</p>")
+    else:
+        cost = (f"<p>{e(row['name'])} published no monthly price when this was "
+                f"{cite}, so the one thing you can measure about a competing "
+                f"tool before subscribing &mdash; what it costs you before you "
+                f"win anything &mdash; is not available.</p>")
 
     return f"""
 <h1>A {e(row['name'])} alternative that shows its uncertainty</h1>
-<p class="lede">{e(row['note'])}, at {e(row['price'])} &mdash; read
-{e(row['read'])}, <a href="{e(row['source'])}">source</a>.</p>
+<p class="lede">{e(row['note'])}, at {e(row['price'])} &mdash; {cite}.</p>
 
 <h2>The gap</h2>
 <p>{e(row['gap'])}.</p>
-<p>That absence is not incidental. A screen sorted by raw expected value is
-sorted partly by how stale its own data is, because the biggest numbers cluster
-on the books that moved most recently &mdash; which are the books most likely
-to have moved again.</p>
+{cost}
 
-{hurdle}
-
-{verdict}
-<p><a href="/download/">Download Bookbreaker free &rarr;</a>
-&nbsp;&middot;&nbsp;<a href="/vs/">How every tool compares &rarr;</a>
-&nbsp;&middot;&nbsp;<a href="/how-it-works/">Why an edge is a range &rarr;</a></p>
-<p class="caveat">Prices and capabilities change. The claim above carries the
-date it was read and a link to where it was read; the build fails if either is
-missing.</p>
+<p><a href="/vs/">Why every tool in this list has the same blind spot
+&rarr;</a> &nbsp;&middot;&nbsp; <a href="/download/">Bookbreaker is free
+&rarr;</a></p>
+<p class="caveat">Prices change. This one carries the date it was read.</p>
 """
 
 

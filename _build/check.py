@@ -61,7 +61,7 @@ MAX_FAMILY_SIMILARITY = 0.97
 # genuinely different — never raised to accommodate one that got worse.
 SHINGLE_SIMILARITY = 0.5
 WATCH_SIMILARITY = 0.35
-MAX_SHINGLE_PAIRS = 34
+MAX_SHINGLE_PAIRS = 19
 
 # The whole similarity zone, not just the headline above it.
 #
