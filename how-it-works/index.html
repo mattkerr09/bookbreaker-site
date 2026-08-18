@@ -10,13 +10,74 @@
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0B6CFF">
-<link rel="stylesheet" href="/style.css?v=bb6da2f055">
+<link rel="stylesheet" href="/style.css?v=4eaadc3d21">
 </head>
 <body class="">
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
 <h1>How it works</h1>
+
+<h2>What the four methods actually say</h2>
+<p>Stripping a book's margin is a modelling choice, not arithmetic. On the
+-145 / +125 market the four standard methods land here &mdash; and two of
+them, additive and shin, land on the same number, which is the sort of thing a
+table of four decimals hides.</p>
+<figure class="plate">
+  <div class="rf-frame rf-frame--stack"><span class="rf rf--tick" style="--lo:18.333%;--hi:18.333%;--pt:18.333%" role="img" aria-label="multiplicative says 57.11%"><i class="rf-band"></i><i class="rf-pt"></i></span><span class="rf rf--tick" style="--lo:61.667%;--hi:61.667%;--pt:61.667%" role="img" aria-label="additive says 57.37%"><i class="rf-band"></i><i class="rf-pt"></i></span><span class="rf rf--tick" style="--lo:61.667%;--hi:61.667%;--pt:61.667%" role="img" aria-label="shin says 57.37%"><i class="rf-band"></i><i class="rf-pt"></i></span><span class="rf rf--tick" style="--lo:83.333%;--hi:83.333%;--pt:83.333%" role="img" aria-label="power says 57.50%"><i class="rf-band"></i><i class="rf-pt"></i></span></div>
+  <figcaption><span>57.00%</span>
+    <span>four devig methods on one axis</span>
+    <span>57.60%</span></figcaption>
+</figure>
+<p>The consensus is 57.34% and the spread is
+0.39 points. That sounds small until you put it against the width
+of an edge worth having:</p>
+<figure class="plate">
+  <div class="rf-frame"><span class="rf rf--band" style="--lo:0.000%;--hi:19.500%;--pt:19.500%" role="img" aria-label="a 0.39 point spread against a 2.00 point scale"><i class="rf-band"></i><i class="rf-pt"></i></span></div>
+  <figcaption><span>0.00%</span>
+    <span>the spread fills 19.5% of a good day&rsquo;s edge</span>
+    <span>2.00%</span></figcaption>
+</figure>
+
+<h2>What rounding a stake costs</h2>
+<p>The exact arbitrage stakes are 493.98 and 506.02. Nobody
+who is not running a tool bets 493.98, and stake precision is one of
+the cheapest signals a risk desk has. The round pair sits underneath:</p>
+<figure class="plate">
+  <div class="rf-frame rf-frame--stack">
+    <span class="rf rf--tick" style="--lo:29.933%;--hi:29.933%;--pt:29.933%" role="img" aria-label="exact leg 493.98"><i class="rf-band"></i><i class="rf-pt"></i></span>
+    <span class="rf rf--tick" style="--lo:70.067%;--hi:70.067%;--pt:70.067%" role="img" aria-label="exact leg 506.02"><i class="rf-band"></i><i class="rf-pt"></i></span>
+    <span class="rf rf--block" style="--lo:16.667%;--hi:16.667%;--pt:16.667%" role="img" aria-label="round leg 490"><i class="rf-band"></i><i class="rf-pt"></i></span>
+    <span class="rf rf--block" style="--lo:50.000%;--hi:50.000%;--pt:50.000%" role="img" aria-label="round leg 500"><i class="rf-band"></i><i class="rf-pt"></i></span>
+  </div>
+  <figcaption><span>485</span>
+    <span>hairlines to the cent, blocks to the note</span>
+    <span>515</span></figcaption>
+</figure>
+<p>The whole cost of looking human is 2.35 of the
+37.35 guaranteed &mdash; the notch below:</p>
+<figure class="plate">
+  <div class="rf-frame"><span class="rf rf--notch" style="--lo:0.000%;--hi:6.292%;--pt:6.292%" role="img" aria-label="2.35 given up of 37.35"><i class="rf-band"></i><i class="rf-pt"></i></span></div>
+  <figcaption><span>0.00</span>
+    <span>rounding costs 6.3% of the profit</span>
+    <span>37.35</span></figcaption>
+</figure>
+
+<h2>How old the price already is</h2>
+<p>A quote that looks 10 seconds old is really
+15.4, because the feed took 5.4 seconds to
+reach you and those seconds were invisible. The hatched region is the part
+nobody showed you:</p>
+<figure class="plate">
+  <div class="rf-frame"><span class="rf rf--hatched" style="--lo:50.000%;--hi:77.000%;--pt:77.000%" role="img" aria-label="10s shown, 15.4s actual, 5.4s hidden"><i class="rf-band"></i><i class="rf-pt"></i></span></div>
+  <figcaption><span>0s</span>
+    <span>shown age, then the 5.4s the feed did not mention</span>
+    <span>20s</span></figcaption>
+</figure>
+<p>Fill probability follows the real age, not the shown one:
+89% becomes 84%, and a 4.0% screen edge is
+worth 3.37% rather than 3.58%.</p>
+
 
 <h2>Welcome offers, after every cost</h2>
 <p>A bonus bet does not return its stake, so it is worth about half its face

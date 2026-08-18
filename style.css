@@ -1201,3 +1201,67 @@ ul.states a{font-weight:650;text-decoration:none;color:var(--ink)}
 ul.states li:hover a{color:var(--accent)}
 ul.states .n{font-size:.76rem;color:var(--ink-3);white-space:nowrap;
   font-variant-numeric:tabular-nums}
+
+
+/* ------------------------------------------------------------ data plates
+   Five of these classes did not exist when the plates were first drawn, and
+   the build went GREEN anyway: rf() puts geometry in a style="" attribute,
+   which check.py strips before looking for unmeasured numbers, so an
+   invisible plate and a correct one are identical to the figure gate. The
+   plate is verified by looking at it. */
+figure.plate{margin:var(--s-5) 0;padding:0;border:1px solid var(--rule);
+  border-radius:var(--r);background:var(--card);overflow:hidden}
+figure.plate .rf-frame{position:relative;height:4.5rem;padding:0 1.25rem;
+  display:flex;flex-direction:column;justify-content:center;gap:.3rem}
+/* One shared axis: every child draws over the same line rather than beneath
+   the last one. */
+figure.plate .rf-frame--stack{display:block}
+figure.plate .rf-frame--stack .rf{position:absolute;left:1.25rem;
+  right:1.25rem;top:50%;transform:translateY(-50%);width:auto}
+figure.plate .rf-frame--stack::after{content:"";position:absolute;
+  left:1.25rem;right:1.25rem;top:50%;height:1px;background:var(--rule)}
+/* Inside a plate a range-frame spans the frame rather than sitting inline. */
+figure.plate .rf{width:100%;display:block;--rf-h:.9rem}
+figure.plate figcaption{display:flex;justify-content:space-between;
+  align-items:baseline;gap:1rem;padding:.5rem 1.25rem .7rem;
+  border-top:1px solid var(--rule);background:var(--sink);
+  font-size:var(--t-1);color:var(--ink-3);text-transform:uppercase;
+  letter-spacing:var(--label)}
+figure.plate figcaption span:nth-child(2){text-transform:none;letter-spacing:0;
+  color:var(--ink-2);font-size:var(--t-2);text-align:center;flex:1}
+
+/* A tick is one estimate: a hairline, deliberately fussy. Two methods landing
+   on the same number draw one line, and that collision IS the finding. */
+.rf--tick{--rf-h:1.4rem}
+.rf--tick .rf-pt{width:1px;margin-left:-.5px;top:0;height:100%;
+  background:var(--indigo)}
+
+/* A block is a round number: blunt, the width of a human decision. */
+.rf--block{--rf-h:1.4rem}
+.rf--block .rf-pt{width:5px;margin-left:-2.5px;top:0;height:100%;
+  background:var(--ink);border-radius:1px}
+
+/* A band fills what it covers, against the scale it is being judged on. */
+.rf--band{--rf-h:1.6rem}
+.rf--band .rf-band{background:var(--band);border-radius:2px}
+.rf--band .rf-pt{display:none}
+
+/* A notch is a cost: the same shape as a band, in the colour of a loss. */
+.rf--notch{--rf-h:1.6rem}
+.rf--notch .rf-band{background:var(--band-neg);border-radius:2px}
+.rf--notch .rf-band::before,.rf--notch .rf-band::after{background:var(--oxblood)}
+.rf--notch .rf-pt{display:none}
+
+/* Hatched is the part nobody showed you — texture, not hue, so it survives
+   greyscale and every colour deficiency. */
+.rf--hatched{--rf-h:1.6rem}
+.rf--hatched .rf-band{border-radius:2px;
+  background-image:repeating-linear-gradient(45deg,
+    var(--hatch) 0 2px, transparent 2px 5px);
+  background-color:transparent}
+.rf--hatched .rf-pt{background:var(--oxblood);width:2px;margin-left:-1px}
+
+@media (max-width:40rem){
+  figure.plate figcaption{flex-wrap:wrap;justify-content:center}
+  figure.plate figcaption span:nth-child(2){order:-1;flex:1 0 100%}
+}

@@ -606,6 +606,17 @@
     "roi": 5.91,
     "verdict": "+5.91% flat-bet ROI, but the interval spans zero (-7.0% to +18.9%) \u2014 indistinguishable from break-even"
   },
+  "plates": {
+    "cost_share": 6.3,
+    "decay_hi": 20,
+    "fan_hi": 57.6,
+    "fan_lo": 57.0,
+    "profit_hi": 37.35,
+    "spread_hi": 2.0,
+    "spread_share": 19.5,
+    "stake_hi": 515,
+    "stake_lo": 485
+  },
   "portfolio": {
     "bankroll": 20000,
     "cap_alone": 1000.0,

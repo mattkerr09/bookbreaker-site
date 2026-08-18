@@ -810,6 +810,42 @@ def measure(engine) -> dict:
             ],
         }
 
+    # 8z. Axis domains for the three data plates.
+    #
+    # An axis LABEL is a visible number, so it must be measured like any other.
+    # The temptation is to pick round bounds by eye — 57.00 to 57.60 looks
+    # tidy — but a hand-chosen bound is exactly the hand-authored geometry
+    # rf()'s docstring refuses. These are derived from the values they have to
+    # contain, rounded outward to the precision the data is quoted at, so the
+    # frame is a consequence of the data rather than a decision about it.
+    _meth = list(out["devig"]["methods"].values())
+    _stakes = out["rounding"]["exact_legs"] + out["rounding"]["round_legs"]
+    out["plates"] = {
+        # Frame A holds the four method estimates. Rounded out to the nearest
+        # 0.1pp so the fan sits inside its frame rather than touching the edge.
+        # One step of padding beyond the rounded bound. Without it the
+        # extreme methods land exactly ON the frame edge — multiplicative at
+        # 57.1, power at 57.5 — where a tick is indistinguishable from the
+        # axis. The padding is a step of the data's own precision, not a
+        # number chosen to look right.
+        "fan_lo": round(math.floor(min(_meth) * 10) / 10 - 0.1, 1),
+        "fan_hi": round(math.ceil(max(_meth) * 10) / 10 + 0.1, 1),
+        # Frame B is the spread against a scale a reader can judge it on. Two
+        # points is the width of a good day's edge, so 0.39 filling a fifth of
+        # it is the comparison. A 2-point reference bar inside frame A would be
+        # 333% of that axis, which is why these are two frames and not one.
+        "spread_hi": 2.0,
+        "spread_share": round(out["devig"]["spread"] / 2.0 * 100, 1),
+        # Stakes, rounded out to the nearest 5 either side.
+        "stake_lo": math.floor(min(_stakes) / 5) * 5 - 5,
+        "stake_hi": math.ceil(max(_stakes) / 5) * 5 + 5,
+        "profit_hi": out["rounding"]["exact_profit"],
+        "cost_share": round(out["rounding"]["cost"]
+                            / out["rounding"]["exact_profit"] * 100, 1),
+        # Time, out to the next 5s past the effective age.
+        "decay_hi": math.ceil(out["fill"]["effective"] / 5) * 5,
+    }
+
     # 8a. The commission example, computed rather than asserted. A pair that
     # is an arbitrage on the face of it and is not one once the exchange takes
     # its cut — the case a screen that skips netting will surface every time.
@@ -1804,6 +1840,7 @@ def render_how(m: dict) -> str:
 
     return f"""
 <h1>How it works</h1>
+{render_plates(m)}
 
 <h2>Welcome offers, after every cost</h2>
 <p>A bonus bet does not return its stake, so it is worth about half its face
@@ -3075,6 +3112,103 @@ if a figure appears here and not in the engine's own output.</p>
 <p><a href="/how-it-works/">How a price is formed &rarr;</a>
 &nbsp;&middot;&nbsp;
 <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+"""
+
+
+
+def render_plates(m: dict) -> str:
+    """The three data plates, drawn from figures already in measured.json.
+
+    Nothing here is a new measurement. The devig fan, the stake ladder and the
+    decay all use numbers the engine has been producing since those sections
+    were written — they were being printed as strings in prose, which is
+    precisely what the site's thesis says not to do with an interval.
+
+    Every axis bound comes from `plates`, derived from the values the frame has
+    to contain rather than picked to look tidy.
+    """
+    d, r, f = m["devig"], m["rounding"], m["fill"]
+    pl = m["plates"]
+    meth = d["methods"]
+    fan = (pl["fan_lo"], pl["fan_hi"])
+    ticks = "".join(
+        rf(v, v, v, fan, cls="rf--tick",
+           label=f"{name} says {v:.2f}%")
+        for name, v in sorted(meth.items(), key=lambda kv: kv[1]))
+
+    stakes = (pl["stake_lo"], pl["stake_hi"])
+    exact_a, exact_b = r["exact_legs"]
+    round_a, round_b = r["round_legs"]
+
+    return f"""
+<h2>What the four methods actually say</h2>
+<p>Stripping a book's margin is a modelling choice, not arithmetic. On the
+{e(d['market'])} market the four standard methods land here &mdash; and two of
+them, additive and shin, land on the same number, which is the sort of thing a
+table of four decimals hides.</p>
+<figure class="plate">
+  <div class="rf-frame rf-frame--stack">{ticks}</div>
+  <figcaption><span>{pl['fan_lo']:.2f}%</span>
+    <span>four devig methods on one axis</span>
+    <span>{pl['fan_hi']:.2f}%</span></figcaption>
+</figure>
+<p>The consensus is {d['consensus']:.2f}% and the spread is
+{d['spread']:.2f} points. That sounds small until you put it against the width
+of an edge worth having:</p>
+<figure class="plate">
+  <div class="rf-frame">{rf(0, d['spread'], d['spread'], (0, pl['spread_hi']),
+                            cls="rf--band",
+                            label=f"a {d['spread']:.2f} point spread against a "
+                                  f"{pl['spread_hi']:.2f} point scale")}</div>
+  <figcaption><span>0.00%</span>
+    <span>the spread fills {pl['spread_share']:.1f}% of a good day&rsquo;s edge</span>
+    <span>{pl['spread_hi']:.2f}%</span></figcaption>
+</figure>
+
+<h2>What rounding a stake costs</h2>
+<p>The exact arbitrage stakes are {exact_a:,.2f} and {exact_b:,.2f}. Nobody
+who is not running a tool bets {exact_a:,.2f}, and stake precision is one of
+the cheapest signals a risk desk has. The round pair sits underneath:</p>
+<figure class="plate">
+  <div class="rf-frame rf-frame--stack">
+    {rf(exact_a, exact_a, exact_a, stakes, cls="rf--tick", label=f"exact leg {exact_a:,.2f}")}
+    {rf(exact_b, exact_b, exact_b, stakes, cls="rf--tick", label=f"exact leg {exact_b:,.2f}")}
+    {rf(round_a, round_a, round_a, stakes, cls="rf--block", label=f"round leg {round_a:,.0f}")}
+    {rf(round_b, round_b, round_b, stakes, cls="rf--block", label=f"round leg {round_b:,.0f}")}
+  </div>
+  <figcaption><span>{pl['stake_lo']:,}</span>
+    <span>hairlines to the cent, blocks to the note</span>
+    <span>{pl['stake_hi']:,}</span></figcaption>
+</figure>
+<p>The whole cost of looking human is {r['cost']:,.2f} of the
+{r['exact_profit']:,.2f} guaranteed &mdash; the notch below:</p>
+<figure class="plate">
+  <div class="rf-frame">{rf(0, r['cost'], r['cost'], (0, pl['profit_hi']),
+                            cls="rf--notch",
+                            label=f"{r['cost']:,.2f} given up of "
+                                  f"{r['exact_profit']:,.2f}")}</div>
+  <figcaption><span>0.00</span>
+    <span>rounding costs {pl['cost_share']:.1f}% of the profit</span>
+    <span>{pl['profit_hi']:,.2f}</span></figcaption>
+</figure>
+
+<h2>How old the price already is</h2>
+<p>A quote that looks {f['age']:.0f} seconds old is really
+{f['effective']:.1f}, because the feed took {f['latency']:.1f} seconds to
+reach you and those seconds were invisible. The hatched region is the part
+nobody showed you:</p>
+<figure class="plate">
+  <div class="rf-frame">{rf(f['age'], f['effective'], f['effective'],
+                            (0, pl['decay_hi']), cls="rf--hatched",
+                            label=f"{f['age']:.0f}s shown, {f['effective']:.1f}s "
+                                  f"actual, {f['latency']:.1f}s hidden")}</div>
+  <figcaption><span>0s</span>
+    <span>shown age, then the {f['latency']:.1f}s the feed did not mention</span>
+    <span>{pl['decay_hi']}s</span></figcaption>
+</figure>
+<p>Fill probability follows the real age, not the shown one:
+{f['naive']}% becomes {f['honest']}%, and a {f['edge']:.1f}% screen edge is
+worth {f['edge_honest']:.2f}% rather than {f['edge_naive']:.2f}%.</p>
 """
 
 
@@ -4978,6 +5112,70 @@ ul.states a{font-weight:650;text-decoration:none;color:var(--ink)}
 ul.states li:hover a{color:var(--accent)}
 ul.states .n{font-size:.76rem;color:var(--ink-3);white-space:nowrap;
   font-variant-numeric:tabular-nums}
+
+
+/* ------------------------------------------------------------ data plates
+   Five of these classes did not exist when the plates were first drawn, and
+   the build went GREEN anyway: rf() puts geometry in a style="" attribute,
+   which check.py strips before looking for unmeasured numbers, so an
+   invisible plate and a correct one are identical to the figure gate. The
+   plate is verified by looking at it. */
+figure.plate{margin:var(--s-5) 0;padding:0;border:1px solid var(--rule);
+  border-radius:var(--r);background:var(--card);overflow:hidden}
+figure.plate .rf-frame{position:relative;height:4.5rem;padding:0 1.25rem;
+  display:flex;flex-direction:column;justify-content:center;gap:.3rem}
+/* One shared axis: every child draws over the same line rather than beneath
+   the last one. */
+figure.plate .rf-frame--stack{display:block}
+figure.plate .rf-frame--stack .rf{position:absolute;left:1.25rem;
+  right:1.25rem;top:50%;transform:translateY(-50%);width:auto}
+figure.plate .rf-frame--stack::after{content:"";position:absolute;
+  left:1.25rem;right:1.25rem;top:50%;height:1px;background:var(--rule)}
+/* Inside a plate a range-frame spans the frame rather than sitting inline. */
+figure.plate .rf{width:100%;display:block;--rf-h:.9rem}
+figure.plate figcaption{display:flex;justify-content:space-between;
+  align-items:baseline;gap:1rem;padding:.5rem 1.25rem .7rem;
+  border-top:1px solid var(--rule);background:var(--sink);
+  font-size:var(--t-1);color:var(--ink-3);text-transform:uppercase;
+  letter-spacing:var(--label)}
+figure.plate figcaption span:nth-child(2){text-transform:none;letter-spacing:0;
+  color:var(--ink-2);font-size:var(--t-2);text-align:center;flex:1}
+
+/* A tick is one estimate: a hairline, deliberately fussy. Two methods landing
+   on the same number draw one line, and that collision IS the finding. */
+.rf--tick{--rf-h:1.4rem}
+.rf--tick .rf-pt{width:1px;margin-left:-.5px;top:0;height:100%;
+  background:var(--indigo)}
+
+/* A block is a round number: blunt, the width of a human decision. */
+.rf--block{--rf-h:1.4rem}
+.rf--block .rf-pt{width:5px;margin-left:-2.5px;top:0;height:100%;
+  background:var(--ink);border-radius:1px}
+
+/* A band fills what it covers, against the scale it is being judged on. */
+.rf--band{--rf-h:1.6rem}
+.rf--band .rf-band{background:var(--band);border-radius:2px}
+.rf--band .rf-pt{display:none}
+
+/* A notch is a cost: the same shape as a band, in the colour of a loss. */
+.rf--notch{--rf-h:1.6rem}
+.rf--notch .rf-band{background:var(--band-neg);border-radius:2px}
+.rf--notch .rf-band::before,.rf--notch .rf-band::after{background:var(--oxblood)}
+.rf--notch .rf-pt{display:none}
+
+/* Hatched is the part nobody showed you — texture, not hue, so it survives
+   greyscale and every colour deficiency. */
+.rf--hatched{--rf-h:1.6rem}
+.rf--hatched .rf-band{border-radius:2px;
+  background-image:repeating-linear-gradient(45deg,
+    var(--hatch) 0 2px, transparent 2px 5px);
+  background-color:transparent}
+.rf--hatched .rf-pt{background:var(--oxblood);width:2px;margin-left:-1px}
+
+@media (max-width:40rem){
+  figure.plate figcaption{flex-wrap:wrap;justify-content:center}
+  figure.plate figcaption span:nth-child(2){order:-1;flex:1 0 100%}
+}
 """
 
 STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
