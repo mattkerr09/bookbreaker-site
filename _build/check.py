@@ -401,10 +401,19 @@ def check_not_machine_made(pages, fails):
 
 
 def check_responsible_gambling(pages, fails):
+    """The age notice, the help link, and the number.
+
+    The helpline was added to the footer and nothing checked it, so a break
+    case that deleted it passed — the notice could keep its wording and lose
+    the one line a reader in trouble actually needs. On a site that sends
+    people to sportsbooks, that is the check least worth being lax about.
+    """
     for path, markup in pages:
         text = visible(markup)
         if "21+" not in text or "ncpgambling.org" not in markup:
             fails.append(f"{path}: missing the 21+ notice or the help link")
+        if "1-800-GAMBLER" not in markup:
+            fails.append(f"{path}: missing the problem-gambling helpline")
 
 
 def self_test() -> int:

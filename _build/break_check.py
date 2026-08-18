@@ -53,9 +53,15 @@ CASES = [
         '<meta name="ignored"',
     ),
     (
+        "the problem-gambling helpline removed",
+        "index.html",
+        "call 1-800-GAMBLER",
+        "see the FAQ",
+    ),
+    (
         "the responsible-gambling notice removed",
         "index.html",
-        "21+. Gambling involves risk.",
+        "21+ and present in a state where betting is legal.",
         "Have fun out there.",
     ),
     (

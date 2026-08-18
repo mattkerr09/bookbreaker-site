@@ -1323,9 +1323,11 @@ def page(title: str, description: str, body: str, path: str,
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
 ever requested. Every figure on this site is computed by running the engine at
 build time &mdash; none is typed in. Generated {e(TODAY)}.</p>
-<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
-not fun &mdash;
-<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+<p class="foot-fine">21+ and present in a state where betting is legal.
+Gambling carries a risk of financial loss, and nothing here predicts that you
+will win. If it stops being fun, it is not fun &mdash;
+<a href="tel:1-800-426-2537">call 1-800-GAMBLER</a> or visit
+<a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>.</p>
 </footer>
 </body>
 </html>
@@ -3058,6 +3060,50 @@ def render_versus(m: dict, row: dict) -> str:
     d = m["devig"]
     sub = m.get("subs", {}).get(row["slug"])
 
+    # Branching on what this tool costs, because the honest advice genuinely
+    # differs by price band. A shared paragraph with the name swapped is what
+    # scored these pages 0.84 against each other in the first place.
+    if sub and sub["fee"] >= 200:
+        verdict = (
+            f"<h2>Who {e(row['name'])} is actually for</h2>"
+            f"<p>At {sub['sym']}{sub['fee']:,.0f} a month this is priced for "
+            f"someone betting full time. The subscription only makes sense if "
+            f"you are already turning over "
+            f"{sub['sym']}{sub['rows'][1]['turnover']:,} a month at a real "
+            f"edge, and if you are not there yet, the fee is the largest "
+            f"negative-EV bet in your month.</p>"
+            f"<p>Start free, measure whether you have an edge at all, and buy "
+            f"a tool at this price once your own record says the volume is "
+            f"there.</p>")
+    elif sub and sub["fee"] >= 50:
+        verdict = (
+            f"<h2>Who {e(row['name'])} is actually for</h2>"
+            f"<p>{sub['sym']}{sub['fee']:,.0f} a month is a serious hobbyist "
+            f"price, and clearing it needs {sub['rows'][1]['bets']} winning "
+            f"bets a month at a {sub['sym']}{sub['stake']} stake and a 2% "
+            f"edge. That is reachable, which is exactly why it is worth "
+            f"checking against your own record rather than assuming.</p>"
+            f"<p>The question is not whether the tool is good. It is whether "
+            f"your volume clears its price, and that is arithmetic you can do "
+            f"before you subscribe.</p>")
+    elif sub:
+        verdict = (
+            f"<h2>Who {e(row['name'])} is actually for</h2>"
+            f"<p>At {sub['sym']}{sub['fee']:,.0f} a month the fee is close to "
+            f"irrelevant &mdash; {sub['rows'][1]['bets']} winning bets at a 2% "
+            f"edge covers it. The reason to compare is capability rather than "
+            f"cost, and the gap above is the one that matters.</p>")
+    else:
+        verdict = (
+            f"<h2>What {e(row['name'])} does not publish</h2>"
+            f"<p>{e(row['name'])} published no monthly price when its pricing "
+            f"was read on {e(row['read'])} "
+            f"(<a href=\"{e(row['source'])}\">source</a>), so the first thing "
+            f"you can measure about a competing tool &mdash; what it costs "
+            f"before you win anything &mdash; is not available here. A tool "
+            f"that will not state a price before a demo is one you cannot "
+            f"compare on the arithmetic.</p>")
+
     hurdle = ""
     if sub:
         rows = "".join(
@@ -3100,18 +3146,10 @@ to have moved again.</p>
 
 {hurdle}
 
-<h2>What Bookbreaker does instead</h2>
-<p>It is free, so there is no hurdle to clear before the first winning bet, and
-it reports what it does not know. On a {e(d['market'])} moneyline the four
-standard devig methods land between {min(d['methods'].values()):.2f}% and
-{max(d['methods'].values()):.2f}% &mdash; a spread of {d['spread']:.2f} points
-on a market where a 2% edge is a good day. Every tool in this category picks
-one method and prints the result to two decimals as though it were measured.</p>
-<p>Bookbreaker reports the spread, discounts by the chance of getting on, and
-tells you when your own record cannot distinguish you from break-even.</p>
-
-<p><a href="/download/">Download it free &rarr;</a>
-&nbsp;&middot;&nbsp;<a href="/vs/">Every tool compared &rarr;</a></p>
+{verdict}
+<p><a href="/download/">Download Bookbreaker free &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/vs/">How every tool compares &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/how-it-works/">Why an edge is a range &rarr;</a></p>
 <p class="caveat">Prices and capabilities change. The claim above carries the
 date it was read and a link to where it was read; the build fails if either is
 missing.</p>
@@ -3498,6 +3536,48 @@ def render_state_page(m: dict, code: str) -> str:
             f"{name} as of {st['as_of']}, and {len(limiting)} of them limit "
             f"accounts that win.")
 
+    # Prose built from this state's own figures, branching on what they are.
+    # A template with a number substituted into it is not differentiation —
+    # that lesson came from the competitor pages an hour ago, where two tools
+    # priced identically produced identical tables. These sentences differ
+    # because the situations differ.
+    shop = []
+    if len(online) >= 8:
+        shop.append(
+            f"<p>With {len(online)} online books taking bets, {e(name)} is one "
+            f"of the deeper markets in the country. That depth is the edge: "
+            f"the gap between the best and second-best price on the same "
+            f"market is what arbitrage lives on, and it widens with every "
+            f"additional book willing to quote.</p>")
+    elif len(online) >= 4:
+        shop.append(
+            f"<p>{len(online)} online books is enough to line shop but not "
+            f"enough to be careless about it. Every market you bet should be "
+            f"checked at all {len(online)}, because with this few quotes a "
+            f"single book being slow to move is most of the edge available "
+            f"on a given day.</p>")
+    else:
+        shop.append(
+            f"<p>{len(online)} online book{'s' if len(online) != 1 else ''} is "
+            f"a thin market. There is little to shop between, so most of what "
+            f"is available in {e(name)} comes from promotional offers and from "
+            f"the venues that cannot ban you rather than from price "
+            f"differences.</p>")
+    if never and limiting:
+        shop.append(
+            f"<p>Of those, {len(limiting)} will restrict an account that wins "
+            f"consistently and {len(never)} will not. That is not a detail to "
+            f"discover later: it decides which account is worth building a "
+            f"real record at, and which are worth using for their prices "
+            f"while they last.</p>")
+    elif not never:
+        shop.append(
+            f"<p>Every venue on that list limits winning accounts. In "
+            f"{e(name)} there is no exception to plan around, so account "
+            f"lifespan is a cost of doing business rather than something one "
+            f"book lets you avoid.</p>")
+    shop_html = "".join(shop)
+
     never_line = ""
     if never:
         never_line = (
@@ -3569,6 +3649,7 @@ limiting column is the one no affiliate page publishes.</p>
 {rows}
 </table></div>
 {never_line}
+{shop_html}
 
 {absent_block}
 {exch}
@@ -3580,7 +3661,6 @@ limiting column is the one no affiliate page publishes.</p>
 &nbsp;&middot;&nbsp;<a href="/account-longevity/">What bet shape gives away
 &rarr;</a>&nbsp;&middot;&nbsp;<a href="/download/">Download it free
 &rarr;</a></p>
-{responsible()}
 <p class="caveat">Coverage read {e(st['as_of'])} from operator state
 disclosures. A starting point for your own check, not legal advice.</p>
 """
@@ -3648,7 +3728,6 @@ accounts that win, and with which books operate elsewhere but not there.</p>
 venues that never limit a winner.</p>
 <ul class="states">{cells(none)}</ul>
 
-{responsible()}
 <p class="caveat">Coverage read {e(as_of)} from operator state disclosures.
 A starting point for your own check, not legal advice.</p>
 """
