@@ -1290,12 +1290,12 @@ def measure(engine) -> dict:
 MARK = (
     '<svg class="mark" viewBox="0 0 64 64" aria-hidden="true">'
     '<defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1">'
-    '<stop offset="0" stop-color="#7c6cff"/>'
-    '<stop offset="1" stop-color="#4a3fd6"/>'
+    '<stop offset="0" stop-color="#ffc75a"/>'
+    '<stop offset="1" stop-color="#e08700"/>'
     '</linearGradient></defs>'
     '<rect width="64" height="64" rx="14" fill="url(#bbTile)"/>'
-    '<path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/>'
-    '<path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/>'
+    '<path d="M22 9h14a11 11 0 010 22H22z" fill="#1a1206"/>'
+    '<path d="M17 34h17a11 11 0 010 22H17z" fill="#1a1206"/>'
     '</svg>'
 )
 
@@ -5636,33 +5636,51 @@ main table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent
    that is bad, and a number that is stale are three different facts, and
    printing them all in one ink throws that away. */
 
+/* Amber, replacing the purple this shipped with.
+
+   Two reasons, and only one of them is taste. A purple gradient on near-black
+   is the single most recognisable signature of a page a language model
+   designed; everyone arriving at it by the same route arrives at the same
+   place, so it is simultaneously the least distinctive option available and
+   the one that most advertises how the page was made.
+
+   Amber is what a market-data terminal has looked like since terminals had
+   one colour, which is the right heritage for an instrument that prices
+   quotes and ages them. It is also nothing like OddsJam's green.
+
+   Measured, not chosen by eye: 4.51:1 for the light fill on the warm plate,
+   5.47:1 for white ink on that fill, 9.81:1 and 9.08:1 for the dark pair.
+
+   The gradient partner token used to carry a colour in its name, which meant
+   every attempt to repalette the site left the headline and the primary
+   button half-purple. It now describes its job instead. */
 :root{
-  --accent:#4f46e5;
-  --accent-hi:#4338ca;
-  --violet:#7c5cff;
+  --accent:#9a5a00;
+  --accent-hi:#7a4700;
+  --accent-lo:#c07a12;
   --good:#0a8f4d;
   --warn:#b45309;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --plate:#07070c;
-    --card:#111119;
-    --sink:#0c0c13;
-    --rule:#242433;
-    --accent:#8b7cff;
-    --accent-hi:#a897ff;
-    --accent-ink:#0a0a12;
-    --accent-soft:#191533;
-    --violet:#a78bfa;
+    --plate:#08080a;
+    --card:#131316;
+    --sink:#0d0d10;
+    --rule:#26262c;
+    --accent:#f5a524;
+    --accent-hi:#ffc75a;
+    --accent-ink:#1a1206;
+    --accent-soft:#241a08;
+    --accent-lo:#ffd27a;
     --good:#34d399;
     --warn:#fbbf24;
     --oxblood:#fb7185;
   }
 }
 :root[data-theme="dark"]{
-  --plate:#07070c; --card:#111119; --sink:#0c0c13; --rule:#242433;
-  --accent:#8b7cff; --accent-hi:#a897ff; --accent-ink:#0a0a12;
-  --accent-soft:#191533; --violet:#a78bfa;
+  --plate:#08080a; --card:#131316; --sink:#0d0d10; --rule:#26262c;
+  --accent:#f5a524; --accent-hi:#ffc75a; --accent-ink:#1a1206;
+  --accent-soft:#241a08; --accent-lo:#ffd27a;
   --good:#34d399; --warn:#fbbf24; --oxblood:#fb7185;
 }
 
@@ -5670,7 +5688,7 @@ main table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent
 body::before{
   background:
     radial-gradient(70rem 34rem at 18% -6%,
-      color-mix(in srgb, var(--violet) 38%, transparent) 0%, transparent 58%),
+      color-mix(in srgb, var(--accent-lo) 38%, transparent) 0%, transparent 58%),
     radial-gradient(52rem 30rem at 62% -12%,
       color-mix(in srgb, var(--accent) 30%, transparent) 0%, transparent 55%),
     radial-gradient(46rem 26rem at 96% 2%,
@@ -5681,7 +5699,7 @@ body::before{
 /* --- the headline carries two weights, like theirs -------------------- */
 .hero h1{font-weight:750}
 .hero h1 em{font-style:normal;
-  background:linear-gradient(96deg, var(--violet), var(--accent) 62%);
+  background:linear-gradient(96deg, var(--accent-lo), var(--accent) 62%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* --- the product shot reads as software, not a table ------------------ */
@@ -5693,24 +5711,24 @@ body::before{
 /* A fill under half is the row the whole screen exists to demote. */
 .app .fill b{color:var(--ink-2);font-weight:650}
 .app-row:has(.fill b:not(:empty)) .dim{color:var(--ink-3)}
-.app .fill i{background:linear-gradient(90deg,var(--accent),var(--violet))}
+.app .fill i{background:linear-gradient(90deg,var(--accent),var(--accent-lo))}
 .app-bar{background:linear-gradient(180deg,
-  color-mix(in srgb,var(--violet) 9%,var(--sink)), var(--sink))}
+  color-mix(in srgb,var(--accent-lo) 9%,var(--sink)), var(--sink))}
 
 /* --- qualifiers get the tick AVO uses, in our own colour -------------- */
 .quals li::before,.hero .quals li::before{color:var(--good)}
 
 /* --- the primary action is the brand ---------------------------------- */
 .btn.primary,.cta a:first-child{
-  background:linear-gradient(135deg,var(--violet),var(--accent));
+  background:linear-gradient(135deg,var(--accent-lo),var(--accent));
   border:0;color:#fff}
 .cta a:first-child:hover{filter:brightness(1.08)}
 .banner{background:linear-gradient(90deg,
-  color-mix(in srgb,var(--violet) 14%,transparent),
+  color-mix(in srgb,var(--accent-lo) 14%,transparent),
   color-mix(in srgb,var(--accent) 8%,transparent))}
 
 /* --- stats stop being grey -------------------------------------------- */
-.trust b{background:linear-gradient(140deg,var(--ink) 30%,var(--violet));
+.trust b{background:linear-gradient(140deg,var(--ink) 30%,var(--accent-lo));
   -webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* --- the guides hub, grouped ------------------------------------------
