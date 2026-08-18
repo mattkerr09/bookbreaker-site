@@ -50,6 +50,18 @@ STRUCTURAL = {
 # were merged. 0.97 sits in the gap between the two populations.
 MAX_FAMILY_SIMILARITY = 0.97
 
+# The portfolio's own gate measures 5-word shingles, not word sets, and holds
+# every other site to zero pairs at 0.5. This site scored 442 while passing its
+# own check, because a word-set comparison is far too forgiving: two pages can
+# share a vocabulary and score low while sharing whole paragraphs. Shingles
+# catch reused phrasing, which is what a search engine collapses.
+#
+# The bar is a ratchet, not an aspiration. It is set to what the site currently
+# achieves so a regression fails the build, and it is lowered as pages get more
+# genuinely different — never raised to accommodate one that got worse.
+SHINGLE_SIMILARITY = 0.5
+MAX_SHINGLE_PAIRS = 28
+
 # Words that turn naming a competitor into asserting something about them.
 ASSERTIVE = re.compile(
     r"\b(costs?|charges?|prices?|priced|per month|/mo|does not|cannot|"
@@ -337,6 +349,47 @@ def body_words(markup: str) -> set[str]:
     return set(visible(main.group(1) if main else markup).lower().split())
 
 
+def shingles(markup: str, n: int = 5) -> set:
+    """Body text only.
+
+    Measuring the whole document counts the nav, header and footer as shared
+    content, which they are — every page has them — and it inflated the count
+    from 28 to 187. The portfolio gate strips chrome for the same reason: what
+    matters is whether the part of the page written for this URL is the same
+    as the part written for another.
+    """
+    main = re.search(r"(?s)<main.*?</main>", markup)
+    words = visible(main.group(0) if main else markup).lower().split()
+    return {" ".join(words[i:i + n]) for i in range(max(0, len(words) - n + 1))}
+
+
+def check_shingle_duplication(pages, fails):
+    """Count near-duplicate pairs the way the portfolio gate does.
+
+    Reported as a total rather than per page: the failure is a cluster that
+    duplicates itself, and naming 442 individual pairs buries that.
+    """
+    body = {path: shingles(markup) for path, markup in pages
+            if len(path.split("/")) > 2}
+    paths = sorted(body)
+    pairs = []
+    for i, a in enumerate(paths):
+        for b in paths[i + 1:]:
+            union = body[a] | body[b]
+            if not union:
+                continue
+            overlap = len(body[a] & body[b]) / len(union)
+            if overlap >= SHINGLE_SIMILARITY:
+                pairs.append((overlap, a, b))
+    if len(pairs) > MAX_SHINGLE_PAIRS:
+        pairs.sort(reverse=True)
+        worst = "; ".join(f"{s:.2f} {a} x {b}" for s, a, b in pairs[:3])
+        fails.append(
+            f"{len(pairs)} near-duplicate page pairs at "
+            f"{SHINGLE_SIMILARITY:.0%} similarity, above the "
+            f"{MAX_SHINGLE_PAIRS} this site is held to. Worst: {worst}")
+
+
 def check_not_machine_made(pages, fails):
     """Distinct openings, and no two pages in a generated family that say the
     same thing.
@@ -458,8 +511,33 @@ def self_test() -> int:
               file=sys.stderr)
         return 1
 
+    # The shingle counter, proved the same way. A find-and-replace break case
+    # cannot express "make these two pages alike", so the check is exercised
+    # directly on synthetic pages instead — the same reason the word-set check
+    # above is tested here rather than in break_check.py.
+    many_twins = [(f"family/{i}/index.html", body.format(f"Name{i}"))
+                  for i in range(12)]
+    shingle_fails: list[str] = []
+    check_shingle_duplication(many_twins, shingle_fails)
+    if not shingle_fails:
+        print("SELF-TEST FAILED: 66 identical pairs did not trip the "
+              "shingle counter", file=sys.stderr)
+        return 1
+
+    varied = [(f"family/{i}/index.html",
+               "<main><h1>Name%d</h1><p>" % i
+               + " ".join(f"w{i}x{k}" for k in range(400)) + "</p></main>")
+              for i in range(12)]
+    shingle_clean: list[str] = []
+    check_shingle_duplication(varied, shingle_clean)
+    if shingle_clean:
+        print(f"SELF-TEST FAILED: distinct pages tripped the shingle "
+              f"counter: {shingle_clean}", file=sys.stderr)
+        return 1
+
     print(f"self-test passed: duplicates flagged, distinct pages not "
-          f"(threshold {MAX_FAMILY_SIMILARITY})")
+          f"(word-set {MAX_FAMILY_SIMILARITY}, shingles "
+          f"{SHINGLE_SIMILARITY} over {MAX_SHINGLE_PAIRS} pairs)")
     return 0
 
 
@@ -501,6 +579,7 @@ def main() -> int:
     check_internal_links(pages, fails)
     check_sitemap(pages, fails)
     check_not_machine_made(pages, fails)
+    check_shingle_duplication(pages, fails)
     check_responsible_gambling(pages, fails)
 
     print(f"checked {len(pages)} pages against "

@@ -3072,9 +3072,10 @@ def render_versus(m: dict, row: dict) -> str:
             f"{sub['sym']}{sub['rows'][1]['turnover']:,} a month at a real "
             f"edge, and if you are not there yet, the fee is the largest "
             f"negative-EV bet in your month.</p>"
-            f"<p>Start free, measure whether you have an edge at all, and buy "
-            f"a tool at this price once your own record says the volume is "
-            f"there.</p>")
+            f"<p>What you are buying at that price is {e(row['note'])}. "
+            f"What you are not buying is {e(row['gap'][0].lower() + row['gap'][1:])}, "
+            f"and on a subscription this size that omission is the whole "
+            f"question (read {e(row['read'])}, <a href=\"{e(row['source'])}\">source</a>).</p>")
     elif sub and sub["fee"] >= 50:
         verdict = (
             f"<h2>Who {e(row['name'])} is actually for</h2>"
@@ -3083,16 +3084,17 @@ def render_versus(m: dict, row: dict) -> str:
             f"bets a month at a {sub['sym']}{sub['stake']} stake and a 2% "
             f"edge. That is reachable, which is exactly why it is worth "
             f"checking against your own record rather than assuming.</p>"
-            f"<p>The question is not whether the tool is good. It is whether "
-            f"your volume clears its price, and that is arithmetic you can do "
-            f"before you subscribe.</p>")
+            f"<p>{e(row['name'])} offers {e(row['note'])}, and the thing to "
+            f"weigh against {sub['sym']}{sub['fee']:,.0f} a month is that "
+            f"{e(row['gap'][0].lower() + row['gap'][1:])}. Whether that "
+            f"matters depends on how close to the line you bet (read {e(row['read'])}, <a href=\"{e(row['source'])}\">source</a>).</p>")
     elif sub:
         verdict = (
             f"<h2>Who {e(row['name'])} is actually for</h2>"
             f"<p>At {sub['sym']}{sub['fee']:,.0f} a month the fee is close to "
             f"irrelevant &mdash; {sub['rows'][1]['bets']} winning bets at a 2% "
-            f"edge covers it. The reason to compare is capability rather than "
-            f"cost, and the gap above is the one that matters.</p>")
+            f"edge covers it. So compare on capability: {e(row['note'])} "
+            f"against the fact that {e(row['gap'][0].lower() + row['gap'][1:])} (read {e(row['read'])}, <a href=\"{e(row['source'])}\">source</a>).</p>")
     else:
         verdict = (
             f"<h2>What {e(row['name'])} does not publish</h2>"
@@ -3576,6 +3578,56 @@ def render_state_page(m: dict, code: str) -> str:
             f"{e(name)} there is no exception to plan around, so account "
             f"lifespan is a cost of doing business rather than something one "
             f"book lets you avoid.</p>")
+    # The regulator's own figures, used in sentences rather than only tabled.
+    # A tax rate sitting in a table is a fact; the same rate explaining why a
+    # market prices the way it does is a paragraph only this state can have.
+    j = JURISDICTIONS.get(code, {})
+    if j.get("tax_rate"):
+        rate = float(j["tax_rate"])
+        if rate >= 30:
+            shop.append(
+                f"<p>{e(name)} taxes sportsbook revenue at {j['tax_rate']}%, "
+                f"among the highest in the country. That cost does not fall on "
+                f"the operator alone &mdash; it shows up as worse prices than "
+                f"the same book offers in a cheaper state, which is why a line "
+                f"quoted here is not the line quoted elsewhere.</p>")
+        elif rate <= 12:
+            shop.append(
+                f"<p>At {j['tax_rate']}% on sportsbook revenue, {e(name)} is "
+                f"one of the lighter tax regimes. Operators have more room to "
+                f"price competitively here than in states taking three or four "
+                f"times as much, and that room is where a shopper's edge "
+                f"comes from.</p>")
+    if j.get("launch_date", "")[:4].isdigit():
+        year = int(j["launch_date"][:4])
+        if year >= 2024:
+            shop.append(
+                f"<p>Online betting only went live here on "
+                f"{j['launch_date']}, which makes {e(name)} a young market. "
+                f"Operators buying share in a new state price more "
+                f"aggressively and hand out more promotional value than they "
+                f"do once a market settles.</p>")
+        elif year <= 2020:
+            shop.append(
+                f"<p>{e(name)} has had online betting since "
+                f"{j['launch_date']}, long enough for the promotional phase to "
+                f"be over and for risk desks to have a settled view of who "
+                f"they want as a customer. Accounts here get profiled by "
+                f"operators with years of data behind them.</p>")
+    if j.get("college_props") == "banned":
+        shop.append(
+            f"<p>College player props are barred outright in {e(name)}, which "
+            f"removes the softest market on most boards. Props are where "
+            f"pricing is thinnest and where a careful bettor finds the most "
+            f"mistakes, so their absence pushes the available edge back into "
+            f"main markets where the books are sharpest.</p>")
+    elif j.get("college_props") == "restricted":
+        shop.append(
+            f"<p>{e(name)} restricts college wagering rather than banning it, "
+            f"so part of the board that exists in other states is missing "
+            f"here. Check the catalogue before planning around a market: the "
+            f"restriction is usually on in-state teams or on player props "
+            f"specifically.</p>")
     shop_html = "".join(shop)
 
     never_line = ""
