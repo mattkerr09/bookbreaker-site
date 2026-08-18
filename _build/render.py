@@ -4735,12 +4735,12 @@ header{position:sticky;top:0;z-index:20;background:var(--plate);
 nav{max-width:70rem;margin:0 auto;padding:.8rem 1.5rem;display:flex;
   align-items:center;gap:1.6rem;flex-wrap:wrap}
 .brand{display:inline-flex;align-items:center;gap:.5rem;color:var(--ink);
-  font-family:var(--serif);font-weight:600;font-size:1.12rem;
+  font-family:var(--serif);font-weight:600;font-size:1.0625rem;
   letter-spacing:-.015em;text-decoration:none}
 .brand:hover{color:var(--ink)}
 .mark{width:1.35rem;height:1.35rem;color:var(--ink);flex:none}
 .links{display:flex;gap:1.35rem;flex-wrap:wrap}
-nav .links a{color:var(--ink-2);text-decoration:none;font-size:.92rem;
+nav .links a{color:var(--ink-2);text-decoration:none;font-size:0.9rem;
   font-weight:500;padding:.15rem 0;border-bottom:1px solid transparent}
 nav .links a:hover{color:var(--ink);border-bottom-color:var(--ink)}
 
@@ -5133,7 +5133,7 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
 :focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
 
 @media(max-width:52rem){
-  .app{font-size:.76rem}
+  .app{font-size:0.72rem}
   /* the band is now the most valuable column on the strip, so it survives to
      the smallest breakpoint. Book and Age go first. */
   .app-head,.app-row{grid-template-columns:1.4fr .62fr .78fr 1.6fr .9fr .85fr}
@@ -5159,11 +5159,11 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
      the links slide. */
   nav{padding:.6rem 0 .6rem 1.15rem;gap:.85rem;flex-wrap:nowrap;
     align-items:center}
-  .brand{flex:none;font-size:1.05rem}
+  .brand{flex:none;font-size:1.0625rem}
   .links{flex:1 1 auto;flex-wrap:nowrap;gap:1.05rem;overflow-x:auto;
     padding-right:1.15rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .links::-webkit-scrollbar{display:none}
-  nav .links a{white-space:nowrap;font-size:.88rem}
+  nav .links a{white-space:nowrap;font-size:0.9rem}
 }
 
 /* Narrow screens. Last in the sheet on purpose: these rules restate
@@ -5775,7 +5775,7 @@ input[type=range]{accent-color:var(--accent)}
 /* Four proof points that each broke onto two lines read as four problems.
    Wider cells, and a label size that fits one. */
 .trust{grid-template-columns:repeat(auto-fit,minmax(13.5rem,1fr))}
-.trust span{font-size:.68rem;line-height:1.35;letter-spacing:.07em}
+.trust span{font-size:0.72rem;line-height:1.35;letter-spacing:.07em}
 @media (max-width:52rem){.trust{grid-template-columns:repeat(2,1fr)}}
 
 /* --- mobile header ---------------------------------------------------
@@ -5805,13 +5805,13 @@ input[type=range]{accent-color:var(--accent)}
    are styled to be read, not to be technically present. */
 .disclose{background:var(--accent-soft);border:1px solid
   color-mix(in srgb,var(--accent) 22%,transparent);
-  border-radius:var(--r);padding:.85rem 1.1rem;font-size:.92rem;
+  border-radius:var(--r);padding:.85rem 1.1rem;font-size:0.9rem;
   color:var(--ink-2);margin:1.25rem 0}
 .disclose strong{color:var(--ink)}
 
 .rg{border:1px solid var(--rule);border-left:4px solid var(--accent);
   border-radius:var(--r);background:var(--card);padding:1.1rem 1.35rem;
-  margin:2rem 0 1rem;font-size:.94rem;color:var(--ink-2)}
+  margin:2rem 0 1rem;font-size:0.9rem;color:var(--ink-2)}
 .rg p{margin:.4rem 0}
 .rg strong{color:var(--ink)}
 .rg a{color:var(--accent);font-weight:600}
@@ -5819,7 +5819,7 @@ input[type=range]{accent-color:var(--accent)}
 /* A paid link and an unpaid one do not look the same. */
 a.book-cta{display:inline-block;background:var(--accent);color:var(--accent-ink);
   border-radius:var(--r-pill);padding:.4rem .95rem;font-weight:650;
-  text-decoration:none;font-size:.92rem;white-space:nowrap;
+  text-decoration:none;font-size:0.9rem;white-space:nowrap;
   box-shadow:var(--shadow-1);transition:transform .14s ease,box-shadow .14s ease}
 a.book-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-2)}
 a.book-link{color:var(--ink);font-weight:600;text-decoration:none;
@@ -5841,7 +5841,7 @@ ul.states li:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--rule))
   transform:translateY(-1px)}
 ul.states a{font-weight:650;text-decoration:none;color:var(--ink)}
 ul.states li:hover a{color:var(--accent)}
-ul.states .n{font-size:.76rem;color:var(--ink-3);white-space:nowrap;
+ul.states .n{font-size:0.72rem;color:var(--ink-3);white-space:nowrap;
   font-variant-numeric:tabular-nums}
 
 
@@ -5944,7 +5944,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .hero h1{letter-spacing:-.04em;font-weight:700}
 .hero .lede{font-size:clamp(1.1rem,1.5vw,1.3rem);max-width:34rem;
   color:var(--ink-2)}
-.eyebrow{font-size:.7rem}
+.eyebrow{font-size:0.72rem}
 
 /* Numbers should be the loudest thing on a page about numbers. */
 .trust b{font-size:clamp(2.4rem,4vw,3.4rem);line-height:1;
@@ -6085,7 +6085,7 @@ body.home .plate .rf{--rf-h:1.15rem}
 /* --- the page head carries the page ---------------------------------- */
 .phead h1{font-size:clamp(2.2rem,3.4vw,3.1rem);line-height:1.05;
   letter-spacing:-.035em;margin-bottom:.5rem}
-.phead .lede{font-size:1.2rem;color:var(--ink-2);max-width:44ch}
+.phead .lede{font-size:1.25rem;color:var(--ink-2);max-width:44ch}
 .crumb{font-size:.72rem;letter-spacing:.1em;margin-bottom:1.1rem}
 
 /* --- reading rhythm ---------------------------------------------------
@@ -6096,7 +6096,7 @@ main>p{font-size:1.0625rem;line-height:1.7}
 main>p>strong:first-child{color:var(--ink);font-weight:650}
 main>h2{margin-top:2.6rem;font-size:clamp(1.45rem,2vw,1.85rem);
   letter-spacing:-.02em}
-main>h3{margin-top:1.8rem;font-size:1.1rem}
+main>h3{margin-top:1.8rem;font-size:1.0625rem}
 
 /* First paragraph of a leaf reads as a standfirst. */
 body:not(.home):not(.hub) .phead + p{font-size:1.15rem;line-height:1.6;
@@ -6108,9 +6108,9 @@ body:not(.home):not(.hub) .phead + p{font-size:1.15rem;line-height:1.6;
 .cards--onward{gap:.9rem}
 .cards--onward .card{border-radius:var(--r)}
 .cards--onward .card a{padding:1.15rem 1.25rem}
-.card-t{font-size:1.02rem;letter-spacing:-.015em;line-height:1.3}
+.card-t{font-size:1rem;letter-spacing:-.015em;line-height:1.3}
 .card-q{font-size:.9rem;line-height:1.45;color:var(--ink-2)}
-.card-go{font-size:.68rem;letter-spacing:.12em}
+.card-go{font-size:0.72rem;letter-spacing:.12em}
 
 /* --- tables on leaf pages had no presence ---------------------------- */
 main .scroll{box-shadow:var(--shadow-1)}
@@ -6239,7 +6239,7 @@ body::before{
   letter-spacing:.08em;font-variant-numeric:tabular-nums;
   border:1px solid var(--rule);border-radius:var(--r-pill);
   padding:.1rem .5rem}
-.group-note{margin:0 0 1.1rem;color:var(--ink-2);font-size:.95rem;
+.group-note{margin:0 0 1.1rem;color:var(--ink-2);font-size:0.9rem;
   max-width:56ch}
 .cards .card:hover .card-go{color:var(--accent)}
 
@@ -6247,7 +6247,7 @@ body::before{
    citation read "read 2026-08-" and the reader had to drag to see a date that
    is the whole point of the citation. */
 main table td.prose{white-space:normal}
-main table td:last-child{white-space:nowrap;font-size:.78rem;
+main table td:last-child{white-space:nowrap;font-size:0.82rem;
   color:var(--ink-3)}
 @media (min-width:64rem){
   main table{min-width:0;width:100%}
@@ -6270,11 +6270,11 @@ main table td:last-child{white-space:nowrap;font-size:.78rem;
   background:var(--sink);
 }
 .win-name{margin-left:9px;font-weight:650;font-size:.82rem;letter-spacing:-.01em}
-.win-ver{margin-left:auto;font:500 .68rem/1 var(--mono);color:var(--ink-2);
+.win-ver{margin-left:auto;font:500 0.72rem/1 var(--mono);color:var(--ink-2);
   letter-spacing:.06em}
 .win-tabs{display:flex;gap:5px;padding:12px 14px 0;flex-wrap:wrap}
 .win-tab{
-  font:600 .74rem/1 var(--sans);
+  font:600 0.72rem/1 var(--sans);
   padding:8px 13px;border-radius:8px 8px 0 0;
   color:var(--ink-2);white-space:nowrap;
 }
@@ -6283,7 +6283,7 @@ main table td:last-child{white-space:nowrap;font-size:.78rem;
   background:linear-gradient(180deg,var(--accent),var(--accent-hi));
 }
 .win-body{padding:26px 26px 28px;border-top:1px solid var(--rule);margin-top:-1px}
-.win-q{margin:0 0 20px;font-size:1.32rem;letter-spacing:-.022em;line-height:1.2}
+.win-q{margin:0 0 20px;font-size:1.25rem;letter-spacing:-.022em;line-height:1.2}
 .win-in{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
 .win-in span{
   flex:1 1 130px;min-width:0;
@@ -6291,26 +6291,26 @@ main table td:last-child{white-space:nowrap;font-size:.78rem;
   padding:9px 12px;background:rgba(255,255,255,.02);
 }
 .win-in i{
-  display:block;font:600 .6rem/1 var(--mono);letter-spacing:.13em;
+  display:block;font:600 0.62rem/1 var(--mono);letter-spacing:.13em;
   text-transform:uppercase;color:var(--ink-2);margin-bottom:5px;font-style:normal;
 }
 .win-in b{font-weight:600;font-size:.9rem}
 .win-out{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
 .win-big{flex:0 0 auto}
 .win-big b{
-  display:block;font-size:4.1rem;line-height:.92;letter-spacing:-.045em;
+  display:block;font-size:3.5rem;line-height:.92;letter-spacing:-.045em;
   font-weight:700;
   background:linear-gradient(135deg,var(--accent),var(--accent-hi));
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .win-big span{
   display:block;margin-top:7px;
-  font:600 .63rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  font:600 0.62rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;
   color:var(--ink-2);max-width:15ch;
 }
 .win-side{flex:1 1 220px;min-width:0;border-left:1px solid var(--rule);
   padding-left:22px}
-.win-side p{margin:0 0 10px;font-size:.83rem;line-height:1.55;color:var(--ink-2)}
+.win-side p{margin:0 0 10px;font-size:0.82rem;line-height:1.55;color:var(--ink-2)}
 .win-side p:last-child{margin-bottom:0}
 .win-side b{color:var(--ink);font-weight:650}
 @media (max-width:44rem){
