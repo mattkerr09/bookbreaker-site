@@ -92,6 +92,15 @@ def load_engine(app_repo: Path):
     sys.path.insert(0, str(backend))
     import overlay_engine  # noqa: E402
 
+    # The banner in page() announces the release on EVERY page and cannot reach
+    # the model dict, so it read a hardcoded "0.1.0". That string went stale the
+    # moment 0.1.1 shipped and stayed stale through 0.1.2, announcing a version
+    # two releases old on all 116 pages while /download/ served the current dmg.
+    # One typed number, one place to forget. It now comes from the same
+    # engine.__version__ that m["release"]["version"] does.
+    global RELEASE_VERSION
+    RELEASE_VERSION = overlay_engine.__version__
+
     return overlay_engine
 
 
@@ -1297,6 +1306,12 @@ def shared_domain(rows, pad=0.5):
             max(r["high"] for r in rows) + pad)
 
 
+#: Set by load_engine() from overlay_engine.__version__. Never typed.
+#: If a render ever emits "None" here, the engine was not loaded and the
+#: page should not have been built — that is louder than a stale number,
+#: which is the point.
+RELEASE_VERSION = None
+
 TABLE = re.compile(r"(?s)<table>.*?</table>")
 
 
@@ -1314,7 +1329,7 @@ def page(title: str, description: str, body: str, path: str,
     nav = (
         '<div class="banner"><div class="banner-in">'
         '<span class="tag">New</span>'
-        '<span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, '
+        f'<span>Bookbreaker {RELEASE_VERSION} is out &mdash; free, runs on your machine, '
         'nothing leaves it.</span>'
         '<a href="/download/">Download it &rarr;</a>'
         '</div></div>'
