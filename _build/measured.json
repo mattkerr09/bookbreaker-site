@@ -88,8 +88,20 @@
     "closing-line-value": {
       "body": "<p>A bet taken at +110 against a market that closed at -105:</p><table><tr><td>Your price</td><td>+110</td></tr><tr><td>Closing price</td><td>-105</td></tr><tr><td>CLV against the raw close</td><td>+7.56%</td></tr></table><p>That figure compares two vigged prices and so understates the real edge by the closing margin &mdash; usable for ranking bets against each other, not for claiming an edge size. Devigging the closing market first is what the engine does, and it is why closing line value converges far faster than profit.</p>"
     },
+    "deposit-match": {
+      "body": "<p>A deposit match is not free money. It is a loan of turnover, and the interest is the hold on whatever markets the terms let you churn through.</p><p>The offer: deposit $1000, receive $1000 in bonus funds, clear 10x rollover before anything can be withdrawn.</p><p>Break-even hold is the number that decides it. It sits at 5.0%. Churn below that and the bonus survives to the cashier. Churn above it and the bonus was spent before the terms released it.</p><p>So the clause that matters is the one listing eligible markets. Both holds below are measured off real two-way prices, not assumed.</p><table><tr><th>What the rollover allows</th><th>Churn hold</th><th>Net</th><th>Margin</th></tr><tr><td>Moneylines</td><td>4.55%</td><td>$90.91</td><td>0.45%</td></tr><tr><td>Props only</td><td>12.41%</td><td>$-1481.20</td><td>-7.41%</td></tr></table><p>Same headline, same deposit, same rollover &mdash; and a swing of $1572.11 between them. The market restriction is the offer. The bonus figure is packaging.</p><p>Competitors print one number to two decimals as though it were measured, then bury the eligible-markets line. Where terms push churn into parlays the cost climbs again; our parlay hold prior of 15.0% is a prior, not a measurement, and it is deliberately excluded from the table above.</p>"
+    },
+    "dutching": {
+      "body": "<p>300 spread across 3 outcomes so that every result pays the same:</p><table><tr><th>Price</th><th>Stake</th><th>Returns</th></tr><tr><td>+120</td><td>131.83</td><td>290.03</td></tr><tr><td>+240</td><td>85.30</td><td>290.03</td></tr><tr><td>+250</td><td>82.87</td><td>290.03</td></tr></table><p>Every branch returns 290.03 on 300 staked &mdash; -9.97, or -3.32%. That is negative here, and it is supposed to be: the prices imply 103.44% of probability between them, and everything above a hundred is the book's margin. Dutching is the same solver as an arbitrage with the guarantee removed.</p><p>So it earns nothing on its own. It is a way of expressing a view you already hold &mdash; that the winner is somewhere inside this set &mdash; at a known cost, rather than a way of manufacturing an edge. A dutch across outcomes you have no opinion about is a slow donation at a rate you can compute in advance.</p>"
+    },
+    "effective-bets": {
+      "body": "<p>Stake spread across correlated bets is not spread. Effective bets is the count a book is really holding: n divided by one plus n minus one times rho, where rho is the average pairwise correlation between positions. Independent bets give n_eff equal to n. Everything else gives less.</p><p>The correlation used as a starting point here is a prior, not a measurement: rho of 0.15. The measured figure on this book is 0.45. Same bet counts, two columns.</p><table><tr><th>Bets</th><th>Effective at prior rho 0.15</th><th>Effective at measured rho 0.45</th></tr><tr><td>2</td><td>1.7</td><td>1.4</td></tr><tr><td>4</td><td>2.8</td><td>1.7</td></tr><tr><td>8</td><td>3.9</td><td>1.9</td></tr><tr><td>12</td><td>4.5</td><td>2.0</td></tr><tr><td>20</td><td>5.2</td><td>2.1</td></tr></table><p>Read the measured column down. From 2 bets to 20 bets, the effective count crawls from 1.4 to 2.1. Past a handful of correlated positions, adding another buys no diversification. It only adds stake.</p><p>That is what a staking rule has to see. A max single of 5% on a bankroll of 20000 caps a lone bet at 1000. The same rule, applied to a book already loaded with correlated exposure, caps it at 409.96. Competitors print the first figure and call the portfolio diversified. They are counting tickets &mdash; and tickets are not independent.</p>"
+    },
     "expected-value": {
       "body": "<p>Offered +120 on a side whose fair probability is 57.34%:</p><table><tr><td>Expected value per unit</td><td>+26.15%</td></tr><tr><td>Break-even win rate</td><td>45.45%</td></tr><tr><td>Worst method's answer</td><td>+25.64%</td></tr></table><p>The last row is the one that decides. An edge that exists under one devig method and vanishes under another is a modelling artefact, not an opportunity.</p>"
+    },
+    "hedge": {
+      "body": "<p>A 100 stake at +250 that has since moved. Laying the other side locks a result now, and what it locks depends entirely on the price you can lay at:</p><table><tr><th>Lay at</th><th>Lay stake</th><th>Locked</th><th>Return on total staked</th></tr><tr><td>-400</td><td>280.00</td><td>-30.00</td><td>-7.89%</td></tr><tr><td>-250</td><td>250.00</td><td>-0.00</td><td>-0.00%</td></tr><tr><td>-140</td><td>204.17</td><td>+45.83</td><td>+15.07%</td></tr><tr><td>+180</td><td>125.00</td><td>+125.00</td><td>+55.56%</td></tr></table><p>The direction surprises people: a <em>longer</em> lay price needs a smaller lay stake, so it keeps more. Laying at +180 locks +125.00, while laying at -400 locks -30.00 &mdash; a loss taken deliberately rather than a profit secured, because covering the position costs more than the open bet stands to make. Hedging does not create value. It converts a variable outcome into a fixed one, and the price of that conversion is whatever the market charges at the moment you ask.</p><p>The reason to do it anyway is rarely the money. A position that is too large for the bankroll behind it is worth closing at a cost, and so is one whose remaining upside no longer justifies the account attention it is drawing.</p>"
     },
     "hold": {
       "body": "<p>The standard -110 / -110 market:</p><table><tr><td>Implied total</td><td>1.0476</td></tr><tr><td>Hold</td><td>4.55%</td></tr></table><p>Hold is 4.55%, not 4.76%. The book's take is measured against the money bet, and reporting the overround excess overstates every book's margin.</p>"
@@ -100,11 +112,23 @@
     "middle": {
       "body": "<p>Identical prices, one point apart:</p><table><tr><th>Window</th><th>Hits</th><th>Break-even</th><th>Expected value</th></tr><tr><td>2.5 / 3.5</td><td>15.79%</td><td>4.76%</td><td>+10.53%</td></tr><tr><td>4.5 / 5.5</td><td>4.21%</td><td>4.76%</td><td>-0.53%</td></tr></table><p>Break-even is arithmetic on the two prices and depends on no distribution at all, which makes it the honest anchor. The hit rate comes from counting 285 recorded games &mdash; a synthetic, shape stated sample shown as an illustration of the mechanism, not a claim about any league.</p>"
     },
+    "no-sweat-bet": {
+      "body": "<p>A no-sweat bet refunds the first bet if it loses. Its value is the refund multiplied by how often the refund actually arrives &mdash; and it arrives only in the branch where the qualifying bet loses. So the qualifying bet should be a longshot. That is the opposite of most instincts, and the opposite of the right play on a bet-and-get, where the bonus lands whatever happens.</p><p>Figures below assume a qualifying stake of 1000 and a bonus-bet conversion rate of 75%. The conversion rate is a prior, not a measurement.</p><table><tr><th>Qualifying price</th><th>Refund value</th><th>EV</th></tr><tr><td>-110</td><td>375.00</td><td>329.55</td></tr><tr><td>+150</td><td>450.00</td><td>450.00</td></tr><tr><td>+300</td><td>562.50</td><td>562.50</td></tr><tr><td>+600</td><td>642.86</td><td>642.86</td></tr></table><p>Short price to long price: 375.00 &rarr; 642.86, a ratio of 1.71&times;. The gap between refund value and EV at the short price is the margin paid to place the qualifying bet at all. Longer is not unboundedly better: the long rows here are priced fair, which is a prior. Real longshot markets carry the heaviest margin, so read the long end as a ceiling.</p><p>It is not hedgeable. The refund exists only in the branch where the bet loses, and a hedge pays only in the branch where it wins. Hedging buys away the outcome that produces the bonus, and pays a second margin to do it. Competitors print a single bonus value with the qualifying price held fixed. The price is the entire decision.</p>"
+    },
     "no-vig-odds": {
       "body": "<p>A book offering -145 / +125 is asserting probabilities that sum to more than one. Removing that margin gives the favourite:</p><table><tr><td>additive</td><td>57.37%</td></tr><tr><td>multiplicative</td><td>57.11%</td></tr><tr><td>power</td><td>57.50%</td></tr><tr><td>shin</td><td>57.37%</td></tr></table><p>Consensus 57.34%, and the four methods disagree by 0.39 points. Every other no-vig calculator returns one number.</p>"
     },
     "odds-converter": {
       "body": "<p>The same price in every form:</p><table><tr><th>American</th><th>Decimal</th><th>Implied</th></tr><tr><td>-200</td><td>1.500</td><td>66.67%</td></tr><tr><td>-110</td><td>1.909</td><td>52.38%</td></tr><tr><td>+100</td><td>2.000</td><td>50.00%</td></tr><tr><td>+150</td><td>2.500</td><td>40.00%</td></tr><tr><td>+400</td><td>5.000</td><td>20.00%</td></tr></table><p>The implied column is vig-inclusive: it is what the price asserts, not a fair probability. Calling it one without devigging first is the most common way to invent an edge that is not there.</p>"
+    },
+    "parlay": {
+      "body": "<p>A parlay pays the product of its legs. It compounds the margin on each of them too.</p><p>A 4-leg ticket, every leg held at 4.55%, pays 12.28 in profit per unit staked. Strip the margin out of each leg and the fair price pays 15.00. Add the stake back to each and the gap between them is a hold of 17.0% on the ticket &mdash; 3.7 times the hold on a single leg.</p><p>Holding the per-leg figure of 4.55% fixed as a prior, the hold climbs with the leg count:</p><table><tr><th>Legs</th><th>Hold on the ticket</th></tr><tr><td>2</td><td>8.9%</td></tr><tr><td>3</td><td>13.0%</td></tr><tr><td>4</td><td>17.0%</td></tr><tr><td>5</td><td>20.8%</td></tr><tr><td>6</td><td>24.4%</td></tr><tr><td>8</td><td>31.1%</td></tr></table><p>From 8.9% up to 31.1%. Every added leg is sold as upside. It is also margin, charged before the ticket is graded. Past 7 legs the payout is a lottery price and the hold, still climbing, stops being the number that decides anything.</p><p>Same-game legs break the arithmetic above. These legs are in one game and are not independent \u2014 a team covering the spread makes the over more likely, not less. Books price same-game parlays with a correlation adjustment for exactly that reason, so the independent figure above is an upper bound on what this is worth, not an estimate of it.</p><p>Every other parlay calculator prints the payout to the cent and stops there. The payout is the book's number. The fair price is the number that says what the ticket costs.</p>"
+    },
+    "profit-boost": {
+      "body": "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p><p>Below, the boost and the stake are fixed &mdash; 50% on a stake of $100 &mdash; and only the price moves.</p><table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr><tr><td>-200</td><td>$25.00</td><td>$16.67</td></tr><tr><td>-110</td><td>$45.45</td><td>$18.18</td></tr><tr><td>+200</td><td>$100.00</td><td>$33.33</td></tr><tr><td>+500</td><td>$250.00</td><td>$41.67</td></tr></table><p>The shortest price, -200, adds $25. The longest, +500, adds $250 &mdash; a multiple of 10 on the same token. Spend a boost on a favourite and most of it is given away.</p><p>Competitors print the headline rate and stop, as though 50% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior &mdash; that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p><p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>"
+    },
+    "totals-middle": {
+      "body": "<p>A middle is a pair of bets on one game: the over at the lower line, the under at the higher one. Both win when the final total lands inside the window between them. Outside it, one side pays, the other loses, and the miss costs the vig.</p><p>The lines priced here are 44.5 and 47.5, a window 3 points wide. Break-even is 4.76% &mdash; the rate the window must hit for the pair to be worth holding. That is arithmetic on both prices and nothing else: no distribution, no sample, no view on the sport. It is the honest anchor.</p><p>The window probability is 9.19%. That one is a normal approximation, and its spread of 13.0 points is a stated prior, not a measurement. Competitors print a figure like it out to the decimal as though it had been observed.</p><p>Counting beats a smooth curve. Real scores cluster on the totals a sport actually produces. A curve cannot reproduce a lump, so it moves mass into gaps where finals never land. Count finals, and hold the sample to a threshold first.</p><table><tr><th>Threshold</th><th>Minimum</th></tr><tr><td>Games in a totals sample</td><td>400</td></tr><tr><td>Games in a margin sample</td><td>200</td></tr><tr><td>Observations on each distinct total</td><td>8</td></tr></table><p>Totals carry the higher bar: wider support, more distinct finals, each seen less often. Below any of these minimums the counted estimate is noise wearing a decimal point.</p>"
     }
   },
   "catalog": {
@@ -263,6 +287,31 @@
     },
     "spread": 0.39
   },
+  "dutch": {
+    "implied": 103.44,
+    "legs": 3,
+    "pct": -3.32,
+    "profit": -9.97,
+    "returns": 290.03,
+    "rows": [
+      {
+        "american": "+120",
+        "returns": 290.03,
+        "stake": 131.83
+      },
+      {
+        "american": "+240",
+        "returns": 290.03,
+        "stake": 85.3
+      },
+      {
+        "american": "+250",
+        "returns": 290.03,
+        "stake": 82.87
+      }
+    ],
+    "total": 300
+  },
   "engine_fingerprint": "c1710c50a96a3e4b",
   "evidence": {
     "bars": [
@@ -356,6 +405,48 @@
       }
     ],
     "untouched": 473.82
+  },
+  "hedge": {
+    "best": {
+      "american": "+180",
+      "lay": 125.0,
+      "locked": 125.0,
+      "pct": 55.56
+    },
+    "open": "+250",
+    "rows": [
+      {
+        "american": "-400",
+        "lay": 280.0,
+        "locked": -30.0,
+        "pct": -7.89
+      },
+      {
+        "american": "-250",
+        "lay": 250.0,
+        "locked": -0.0,
+        "pct": -0.0
+      },
+      {
+        "american": "-140",
+        "lay": 204.17,
+        "locked": 45.83,
+        "pct": 15.07
+      },
+      {
+        "american": "+180",
+        "lay": 125.0,
+        "locked": 125.0,
+        "pct": 55.56
+      }
+    ],
+    "stake": 100,
+    "worst": {
+      "american": "-400",
+      "lay": 280.0,
+      "locked": -30.0,
+      "pct": -7.89
+    }
   },
   "hero": {
     "book": "DraftKings",

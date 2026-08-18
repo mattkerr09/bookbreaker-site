@@ -619,6 +619,56 @@ def measure(engine) -> dict:
         "worst": ladder[-1],
     }
 
+    # 7h. Hedging and dutching. Two calculators OddsJam does not have at all,
+    # and both are the same solver pointed at different questions: equalise the
+    # return across the outcomes you hold.
+    from overlay_engine.arb import ideal_stakes
+
+    # A bet already placed, and what it costs to lock it in at a range of
+    # prices on the other side. The row where the guarantee turns negative is
+    # the one every hedging guide leaves out.
+    hedge_stake, hedge_open = 100.0, american_to_decimal(250)
+    hedge_rows = []
+    for american in (-400, -250, -140, 180):
+        close = american_to_decimal(american)
+        lay = hedge_stake * hedge_open / close
+        locked = hedge_stake * hedge_open - hedge_stake - lay
+        hedge_rows.append({
+            "american": f"{american:+d}",
+            "lay": round(lay, 2),
+            "locked": round(locked, 2),
+            "pct": round(locked / (hedge_stake + lay) * 100, 2),
+        })
+    out["hedge"] = {
+        "stake": int(hedge_stake),
+        "open": "+250",
+        "rows": hedge_rows,
+        # Sorted by what is actually locked rather than by position, so the
+        # labels cannot drift from the ladder again.
+        "worst": min(hedge_rows, key=lambda r: r["locked"]),
+        "best": max(hedge_rows, key=lambda r: r["locked"]),
+    }
+
+    # Dutching: one total spread across several outcomes so every result pays
+    # the same. Identical arithmetic to an arbitrage, minus the guarantee.
+    dutch_total = 300.0
+    dutch_prices = [american_to_decimal(a) for a in (120, 240, 250)]
+    dutch_stakes = ideal_stakes(dutch_prices, dutch_total)
+    dutch_return = dutch_stakes[0] * dutch_prices[0]
+    out["dutch"] = {
+        "total": int(dutch_total),
+        "legs": len(dutch_prices),
+        "rows": [
+            {"american": f"{a:+d}", "stake": round(st, 2),
+             "returns": round(st * d, 2)}
+            for a, st, d in zip((120, 240, 250), dutch_stakes, dutch_prices)
+        ],
+        "returns": round(dutch_return, 2),
+        "profit": round(dutch_return - dutch_total, 2),
+        "pct": round((dutch_return - dutch_total) / dutch_total * 100, 2),
+        "implied": round(sum(1.0 / d for d in dutch_prices) * 100, 2),
+    }
+
     # 8a. The commission example, computed rather than asserted. A pair that
     # is an arbitrage on the face of it and is not one once the exchange takes
     # its cut — the case a screen that skips netting will surface every time.
@@ -708,6 +758,11 @@ def measure(engine) -> dict:
     out["screen"] = rows_out
 
     # 9. A worked example per calculator, computed rather than written.
+    #
+    # `m` is the same dict as `out`, aliased because every page renderer
+    # downstream receives it under that name and the bodies below are
+    # written against the shape a renderer sees.
+    m = out
     from overlay_engine.arb import arb_margin, stake_arb
     from overlay_engine.clv import implied_clv
     from overlay_engine.ev import breakeven_prob, ev_per_unit
@@ -838,6 +893,114 @@ def measure(engine) -> dict:
         "against each other, not for claiming an edge size. Devigging the "
         "closing market first is what the engine does, and it is why closing "
         "line value converges far faster than profit.</p>")}
+
+    hg, du = out["hedge"], out["dutch"]
+    calc["hedge"] = {"body": (
+        f"<p>A {hg['stake']:,} stake at {e(hg['open'])} that has since moved. "
+        "Laying the other side locks a result now, and what it locks depends "
+        "entirely on the price you can lay at:</p>"
+        + "<table><tr><th>Lay at</th><th>Lay stake</th><th>Locked</th>"
+        "<th>Return on total staked</th></tr>"
+        + "".join(f"<tr><td>{e(r['american'])}</td><td>{r['lay']:,.2f}</td>"
+                  f"<td>{r['locked']:+,.2f}</td><td>{r['pct']:+.2f}%</td></tr>"
+                  for r in hg["rows"])
+        + "</table>"
+        + f"<p>The direction surprises people: a <em>longer</em> lay price "
+        "needs a smaller lay stake, so it keeps more. Laying at "
+        f"{e(hg['best']['american'])} locks {hg['best']['locked']:+,.2f}, while "
+        f"laying at {e(hg['worst']['american'])} locks "
+        f"{hg['worst']['locked']:+,.2f} &mdash; a loss taken deliberately "
+        "rather than a profit secured, because covering the position costs "
+        "more than the open bet stands to make. "
+        "Hedging does not create value. It converts a variable outcome into a "
+        "fixed one, and the price of that conversion is whatever the market "
+        "charges at the moment you ask.</p>"
+        + "<p>The reason to do it anyway is rarely the money. A position that "
+        "is too large for the bankroll behind it is worth closing at a cost, "
+        "and so is one whose remaining upside no longer justifies the account "
+        "attention it is drawing.</p>")}
+
+    calc["dutching"] = {"body": (
+        f"<p>{du['total']:,} spread across {du['legs']} outcomes so that every "
+        "result pays the same:</p>"
+        + "<table><tr><th>Price</th><th>Stake</th><th>Returns</th></tr>"
+        + "".join(f"<tr><td>{e(r['american'])}</td><td>{r['stake']:,.2f}</td>"
+                  f"<td>{r['returns']:,.2f}</td></tr>" for r in du["rows"])
+        + "</table>"
+        + f"<p>Every branch returns {du['returns']:,.2f} on {du['total']:,} "
+        f"staked &mdash; {du['profit']:+,.2f}, or {du['pct']:+.2f}%. That is "
+        "negative here, and it is supposed to be: the prices imply "
+        f"{du['implied']:.2f}% of probability between them, and everything "
+        "above a hundred is the book's margin. Dutching is the same solver as "
+        "an arbitrage with the guarantee removed.</p>"
+        + "<p>So it earns nothing on its own. It is a way of expressing a view "
+        "you already hold &mdash; that the winner is somewhere inside this set "
+        "&mdash; at a known cost, rather than a way of manufacturing an edge. "
+        "A dutch across outcomes you have no opinion about is a slow donation "
+        "at a rate you can compute in advance.</p>")}
+
+    calc["parlay"] = {"body": (
+    "<p>A parlay pays the product of its legs. It compounds the margin on each of them too.</p>"
+    + f"<p>A {m['parlay']['legs']}-leg ticket, every leg held at {m['parlay']['leg_hold']:.2f}%, pays {m['parlay']['pays']:.2f} in profit per unit staked. Strip the margin out of each leg and the fair price pays {m['parlay']['fair']:.2f}. Add the stake back to each and the gap between them is a hold of {m['parlay']['hold']:.1f}% on the ticket &mdash; {m['parlay']['multiple']:.1f} times the hold on a single leg.</p>"
+    + f"<p>Holding the per-leg figure of {m['parlay']['leg_hold']:.2f}% fixed as a prior, the hold climbs with the leg count:</p>"
+    + "<table><tr><th>Legs</th><th>Hold on the ticket</th></tr>"
+    + "".join(f"<tr><td>{r['legs']}</td><td>{r['hold']:.1f}%</td></tr>" for r in m['parlay']['ladder'])
+    + "</table>"
+    + f"<p>From {m['parlay']['ladder'][0]['hold']:.1f}% up to {m['parlay']['ladder'][-1]['hold']:.1f}%. Every added leg is sold as upside. It is also margin, charged before the ticket is graded. Past {m['parlay']['lottery_legs']} legs the payout is a lottery price and the hold, still climbing, stops being the number that decides anything.</p>"
+    + "<p>Same-game legs break the arithmetic above. " + m['parlay']['sgp_note'] + "</p>"
+    + "<p>Every other parlay calculator prints the payout to the cent and stops there. The payout is the book's number. The fair price is the number that says what the ticket costs.</p>")}
+
+    calc["deposit-match"] = {"body": (
+    "<p>A deposit match is not free money. It is a loan of turnover, and the interest is the hold on whatever markets the terms let you churn through.</p>"
+    + f"<p>The offer: deposit ${m['match']['deposit']}, receive ${m['match']['bonus']} in bonus funds, clear {m['match']['rollover']}x rollover before anything can be withdrawn.</p>"
+    + f"<p>Break-even hold is the number that decides it. It sits at {m['match']['breakeven']:.1f}%. Churn below that and the bonus survives to the cashier. Churn above it and the bonus was spent before the terms released it.</p>"
+    + "<p>So the clause that matters is the one listing eligible markets. Both holds below are measured off real two-way prices, not assumed.</p>"
+    + "<table><tr><th>What the rollover allows</th><th>Churn hold</th><th>Net</th><th>Margin</th></tr>"
+    + f"<tr><td>Moneylines</td><td>{m['match']['open_hold']:.2f}%</td><td>${m['match']['open_net']:.2f}</td><td>{m['match']['open_margin']:.2f}%</td></tr>"
+    + f"<tr><td>Props only</td><td>{m['match']['shut_hold']:.2f}%</td><td>${m['match']['shut_net']:.2f}</td><td>{m['match']['shut_margin']:.2f}%</td></tr>"
+    + "</table>"
+    + f"<p>Same headline, same deposit, same rollover &mdash; and a swing of ${m['match']['swing']:.2f} between them. The market restriction is the offer. The bonus figure is packaging.</p>"
+    + f"<p>Competitors print one number to two decimals as though it were measured, then bury the eligible-markets line. Where terms push churn into parlays the cost climbs again; our parlay hold prior of {m['match']['prior_parlay']:.1f}% is a prior, not a measurement, and it is deliberately excluded from the table above.</p>")}
+
+    calc["effective-bets"] = {"body": (
+    "<p>Stake spread across correlated bets is not spread. Effective bets is the count a book is really holding: n divided by one plus n minus one times rho, where rho is the average pairwise correlation between positions. Independent bets give n_eff equal to n. Everything else gives less.</p>"
+    + f"<p>The correlation used as a starting point here is a prior, not a measurement: rho of {m['portfolio']['prior_rho']:.2f}. The measured figure on this book is {m['portfolio']['rho']:.2f}. Same bet counts, two columns.</p>"
+    + f"<table><tr><th>Bets</th><th>Effective at prior rho {m['portfolio']['prior_rho']:.2f}</th><th>Effective at measured rho {m['portfolio']['rho']:.2f}</th></tr>"
+    + "".join(f"<tr><td>{r['n']}</td><td>{r['at_prior']:.1f}</td><td>{r['at_rho']:.1f}</td></tr>" for r in m['portfolio']['rows'])
+    + "</table>"
+    + f"<p>Read the measured column down. From {m['portfolio']['rows'][0]['n']} bets to {m['portfolio']['rows'][-1]['n']} bets, the effective count crawls from {m['portfolio']['rows'][0]['at_rho']:.1f} to {m['portfolio']['rows'][-1]['at_rho']:.1f}. Past a handful of correlated positions, adding another buys no diversification. It only adds stake.</p>"
+    + f"<p>That is what a staking rule has to see. A max single of {m['portfolio']['max_single']}% on a bankroll of {m['portfolio']['bankroll']:.0f} caps a lone bet at {m['portfolio']['cap_alone']:.0f}. The same rule, applied to a book already loaded with correlated exposure, caps it at {m['portfolio']['cap_loaded']:.2f}. Competitors print the first figure and call the portfolio diversified. They are counting tickets &mdash; and tickets are not independent.</p>")}
+
+    calc["totals-middle"] = {"body": (
+    "<p>A middle is a pair of bets on one game: the over at the lower line, the under at the higher one. Both win when the final total lands inside the window between them. Outside it, one side pays, the other loses, and the miss costs the vig.</p>"
+    + f"<p>The lines priced here are {m['totals_middle']['low']} and {m['totals_middle']['high']}, a window {m['totals_middle']['window']} points wide. Break-even is {m['totals_middle']['breakeven']:.2f}% &mdash; the rate the window must hit for the pair to be worth holding. That is arithmetic on both prices and nothing else: no distribution, no sample, no view on the sport. It is the honest anchor.</p>"
+    + f"<p>The window probability is {m['totals_middle']['approx']:.2f}%. That one is a normal approximation, and its spread of {m['totals_middle']['sigma']:.1f} points is a stated prior, not a measurement. Competitors print a figure like it out to the decimal as though it had been observed.</p>"
+    + "<p>Counting beats a smooth curve. Real scores cluster on the totals a sport actually produces. A curve cannot reproduce a lump, so it moves mass into gaps where finals never land. Count finals, and hold the sample to a threshold first.</p>"
+    + "<table><tr><th>Threshold</th><th>Minimum</th></tr>"
+    + f"<tr><td>Games in a totals sample</td><td>{m['totals_middle']['min_total_games']}</td></tr>"
+    + f"<tr><td>Games in a margin sample</td><td>{m['totals_middle']['min_games']}</td></tr>"
+    + f"<tr><td>Observations on each distinct total</td><td>{m['totals_middle']['min_per_cell']}</td></tr>"
+    + "</table>"
+    + "<p>Totals carry the higher bar: wider support, more distinct finals, each seen less often. Below any of these minimums the counted estimate is noise wearing a decimal point.</p>")}
+
+    calc["no-sweat-bet"] = {"body": (
+    "<p>A no-sweat bet refunds the first bet if it loses. Its value is the refund multiplied by how often the refund actually arrives &mdash; and it arrives only in the branch where the qualifying bet loses. So the qualifying bet should be a longshot. That is the opposite of most instincts, and the opposite of the right play on a bet-and-get, where the bonus lands whatever happens.</p>"
+    + f"<p>Figures below assume a qualifying stake of {m['safety_net']['stake']} and a bonus-bet conversion rate of {m['safety_net']['conversion']}%. The conversion rate is a prior, not a measurement.</p>"
+    + "<table><tr><th>Qualifying price</th><th>Refund value</th><th>EV</th></tr>"
+    + "".join(f"<tr><td>{r['american']}</td><td>{r['premium']:.2f}</td><td>{r['ev']:.2f}</td></tr>" for r in m['safety_net']['rows'])
+    + "</table>"
+    + f"<p>Short price to long price: {m['safety_net']['short_premium']:.2f} &rarr; {m['safety_net']['long_premium']:.2f}, a ratio of {m['safety_net']['ratio']:.2f}&times;. The gap between refund value and EV at the short price is the margin paid to place the qualifying bet at all. Longer is not unboundedly better: the long rows here are priced fair, which is a prior. Real longshot markets carry the heaviest margin, so read the long end as a ceiling.</p>"
+    + "<p>It is not hedgeable. The refund exists only in the branch where the bet loses, and a hedge pays only in the branch where it wins. Hedging buys away the outcome that produces the bonus, and pays a second margin to do it. Competitors print a single bonus value with the qualifying price held fixed. The price is the entire decision.</p>")}
+
+    calc["profit-boost"] = {"body": (
+    "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p>"
+    + f"<p>Below, the boost and the stake are fixed &mdash; {m['boost']['pct']}% on a stake of ${m['boost']['stake']:.0f} &mdash; and only the price moves.</p>"
+    + "<table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr>"
+    + "".join(f"<tr><td>{r['american']}</td><td>${r['added']:.2f}</td><td>${r['ev']:.2f}</td></tr>" for r in m['boost']['rows'])
+    + "</table>"
+    + f"<p>The shortest price, {m['boost']['rows'][0]['american']}, adds ${m['boost']['worst']:.0f}. The longest, {m['boost']['rows'][-1]['american']}, adds ${m['boost']['best']:.0f} &mdash; a multiple of {m['boost']['multiple']:.0f} on the same token. Spend a boost on a favourite and most of it is given away.</p>"
+    + f"<p>Competitors print the headline rate and stop, as though {m['boost']['pct']}% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior &mdash; that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p>"
+    + "<p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>")}
 
     out["calculators"] = calc
 

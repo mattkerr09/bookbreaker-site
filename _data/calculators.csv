@@ -9,3 +9,11 @@ middle,Middle calculator,What does this middle need to hit to be worth it?,price
 odds-converter,Odds converter,American to decimal to implied probability,convert
 breakeven,Break-even calculator,What win rate does this price need?,decide
 closing-line-value,CLV calculator,Did I beat the closing line?,grade
+hedge,Hedge calculator,How much do I bet to lock in a profit?,lock a result
+dutching,Dutching calculator,How do I split a stake across several outcomes?,spread a view
+parlay,Parlay calculator,How much does a parlay really pay?,strip the margin
+deposit-match,Deposit match calculator,is a deposit match bonus worth it after rollover?,decide before depositing
+effective-bets,Effective bets calculator,how many bets am i really making if they are correlated?,size correlated exposure
+totals-middle,Totals middle calculator,How do you price a totals middle bet?,price the window
+no-sweat-bet,No-sweat bet calculator,What odds should I use for a no-sweat first bet?,pick the qualifying price
+profit-boost,Profit boost calculator,What is a profit boost actually worth?,spend the boost well

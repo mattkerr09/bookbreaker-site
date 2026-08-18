@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parlay calculator — worked, not just a form</title>
+<meta name="description" content="How much does a parlay really pay? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<link rel="canonical" href="https://bookbreaker.bet/calculators/parlay/">
+<link rel="stylesheet" href="/style.css?v=b728110d51">
+</head>
+<body class="">
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<main>
+
+<h1>Parlay calculator</h1>
+<p class="lede">How much does a parlay really pay?</p>
+<p>A parlay pays the product of its legs. It compounds the margin on each of them too.</p><p>A 4-leg ticket, every leg held at 4.55%, pays 12.28 in profit per unit staked. Strip the margin out of each leg and the fair price pays 15.00. Add the stake back to each and the gap between them is a hold of 17.0% on the ticket &mdash; 3.7 times the hold on a single leg.</p><p>Holding the per-leg figure of 4.55% fixed as a prior, the hold climbs with the leg count:</p><div class="scroll"><table><tr><th>Legs</th><th>Hold on the ticket</th></tr><tr><td>2</td><td>8.9%</td></tr><tr><td>3</td><td>13.0%</td></tr><tr><td>4</td><td>17.0%</td></tr><tr><td>5</td><td>20.8%</td></tr><tr><td>6</td><td>24.4%</td></tr><tr><td>8</td><td>31.1%</td></tr></table></div><p>From 8.9% up to 31.1%. Every added leg is sold as upside. It is also margin, charged before the ticket is graded. Past 7 legs the payout is a lottery price and the hold, still climbing, stops being the number that decides anything.</p><p>Same-game legs break the arithmetic above. These legs are in one game and are not independent — a team covering the spread makes the over more likely, not less. Books price same-game parlays with a correlation adjustment for exactly that reason, so the independent figure above is an upper bound on what this is worth, not an estimate of it.</p><p>Every other parlay calculator prints the payout to the cent and stops there. The payout is the book's number. The fair price is the number that says what the ticket costs.</p>
+<h2>Where the number comes from</h2>
+<p>Everything above was computed by the same engine that prices bets, at the
+moment this page was built &mdash; not typed into a template. The build fails
+if a figure appears here and not in the engine's own output.</p>
+<p><a href="/how-it-works/">How a price is formed &rarr;</a>
+&nbsp;&middot;&nbsp;
+<a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

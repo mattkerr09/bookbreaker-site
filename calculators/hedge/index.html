@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hedge calculator — worked, not just a form</title>
+<meta name="description" content="How much do I bet to lock in a profit? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<link rel="canonical" href="https://bookbreaker.bet/calculators/hedge/">
+<link rel="stylesheet" href="/style.css?v=b728110d51">
+</head>
+<body class="">
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<main>
+
+<h1>Hedge calculator</h1>
+<p class="lede">How much do I bet to lock in a profit?</p>
+<p>A 100 stake at +250 that has since moved. Laying the other side locks a result now, and what it locks depends entirely on the price you can lay at:</p><div class="scroll"><table><tr><th>Lay at</th><th>Lay stake</th><th>Locked</th><th>Return on total staked</th></tr><tr><td>-400</td><td>280.00</td><td>-30.00</td><td>-7.89%</td></tr><tr><td>-250</td><td>250.00</td><td>-0.00</td><td>-0.00%</td></tr><tr><td>-140</td><td>204.17</td><td>+45.83</td><td>+15.07%</td></tr><tr><td>+180</td><td>125.00</td><td>+125.00</td><td>+55.56%</td></tr></table></div><p>The direction surprises people: a <em>longer</em> lay price needs a smaller lay stake, so it keeps more. Laying at +180 locks +125.00, while laying at -400 locks -30.00 &mdash; a loss taken deliberately rather than a profit secured, because covering the position costs more than the open bet stands to make. Hedging does not create value. It converts a variable outcome into a fixed one, and the price of that conversion is whatever the market charges at the moment you ask.</p><p>The reason to do it anyway is rarely the money. A position that is too large for the bankroll behind it is worth closing at a cost, and so is one whose remaining upside no longer justifies the account attention it is drawing.</p>
+<h2>Where the number comes from</h2>
+<p>Everything above was computed by the same engine that prices bets, at the
+moment this page was built &mdash; not typed into a template. The build fails
+if a figure appears here and not in the engine's own output.</p>
+<p><a href="/how-it-works/">How a price is formed &rarr;</a>
+&nbsp;&middot;&nbsp;
+<a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>
