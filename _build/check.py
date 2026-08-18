@@ -797,6 +797,32 @@ def check_one_palette(fails: list[str]) -> None:
                 f"{sorted(repeated)[:5]}")
 
 
+def check_every_pass_reaches_the_stylesheet(fails: list[str]) -> None:
+    """Every `/* PASS n */` written in render.py must appear in style.css.
+
+    Twice now a block of CSS has been spliced into render.py somewhere that
+    is not the stylesheet literal. The first time it landed at module level
+    and Python refused to import it, which is the good failure. The second
+    time it landed inside a function's **docstring**: the module imported,
+    the build succeeded, every gate stayed green, and the CSS did nothing at
+    all. The comment in that very patch said not to do it — the anchor was
+    computed by scanning backwards for a triple-quote, and new docstrings had
+    since been added between the stylesheet and the anchor.
+
+    A comment cannot prevent that. This can: if a pass is not in the rendered
+    output, it was not in the stylesheet.
+    """
+    render = (SITE / "_build" / "render.py").read_text()
+    css = (SITE / "style.css").read_text()
+    passes = re.findall(r"/\* (PASS [0-9]+)", render)
+    missing = [name for name in dict.fromkeys(passes) if name not in css]
+    if missing:
+        fails.append(
+            f"{len(missing)} CSS pass(es) written in render.py never reached "
+            f"style.css — spliced outside the stylesheet literal, most likely "
+            f"into a docstring, where it parses and does nothing: {missing}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
@@ -856,6 +882,8 @@ def main() -> int:
         "check_responsible_gambling":
             lambda: check_responsible_gambling(pages, fails),
         "check_one_palette": lambda: check_one_palette(fails),
+        "check_every_pass_reaches_the_stylesheet":
+            lambda: check_every_pass_reaches_the_stylesheet(fails),
     }
 
     # Every check defined in this file must be wired into the registry, or

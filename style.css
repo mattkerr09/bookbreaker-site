@@ -13,6 +13,8 @@
   --band-neg:rgba(209,41,61,.13);
   --card:#f5f5f7;
   --display:var(--sans);
+  --float-gap:clamp(2.25rem,4vw,3.5rem);
+  --float-pad:clamp(1.5rem,3vw,2.5rem);
   --good:#0a8f4d;
   --hatch:rgba(209,41,61,.26);
   --indigo:#0b6cff;
@@ -282,7 +284,7 @@ nav .btn.primary{padding:.45rem 1rem;min-height:0;font-size:var(--t-3)}
 
 /* The book wall. Text, not a logo strip: the competitors' equivalents are
    images, so the names are invisible to a crawler and to a screen reader. */
-.wall{max-width:var(--measure-plate);margin:var(--s-7) 0;
+.wall{max-width:var(--measure-plate);
   border-top:1px solid var(--rule);padding-top:var(--s-5)}
 .wall-cap{font-size:var(--t-1);letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-2);margin:0 0 var(--s-3)}
@@ -1447,7 +1449,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
    hairline and more air above a section head is the cheapest way to say
    "this is a different point". */
 @media (min-width:64rem){
-  body.home .demo,body.home .wall{margin-block:clamp(3.5rem,6vw,6rem)}
+  
   body.home .demo>h2,body.home .pitch-copy h2,
   body.home .speed h2,body.home .heat-say h2,body.home .close h2{
     font-size:clamp(1.75rem,2.2vw,2rem);letter-spacing:-.028em;line-height:1.14}
@@ -1767,3 +1769,66 @@ body{counter-reset:step}
 .sf i{display:block;margin-top:.35rem;font-style:normal;font-size:var(--t-1);
   color:var(--ink-3);line-height:1.4}
 .sf-note{font-size:var(--t-2);color:var(--ink-2);max-width:70ch}
+
+/* PASS 14 — the page had one plane, and Outlier has three.
+
+   Measured before writing this: every top-level section on the homepage
+   computed to background rgba(0,0,0,0). Content sat directly on the plate
+   from the nav to the footer, and the only surface on the entire page was
+   the closing card. That is the whole reason it read flat next to Outlier,
+   whose trick is not shadow — there is exactly one box-shadow in its
+   stylesheet — but tonal layering: ground #0a0a0b, surface #111114, a
+   #1f1f26 hairline, small radius, generous padding.
+
+   We already had the tokens for it (--plate under --card under --rule) and
+   were using them on one element out of nine.
+
+   It also fixes the spacing, which is why it is one pass and not two. There
+   were three rhythms competing: .wall and .demo pushed 86.4px margins,
+   .pitch used an 88px grid gap, and .speed and .heat-home used 86.4px
+   padding with no margin at all — so the gap between two sections was 86px
+   or 0px depending on which pair you looked at, and the content blocks
+   inside them ran from 67px to 161px apart. A surface with its own padding
+   makes the outer gap one number, because the breathing room moved inside
+   the box where it belongs. */
+.wall,.demo,.speed,.heat-home,.hp,.vs-side,.pitch>article{
+  background:var(--card);
+  border:1px solid var(--rule);
+  border-radius:14px;
+  padding:var(--float-pad);
+}
+:root{
+}
+/* One rhythm. Margin on one side only, so two adjacent floats cannot
+   collapse to a different gap than a float beside a plain block. */
+.wall,.demo,.speed,.heat-home,.close,.pitch{
+  margin:0 0 var(--float-gap);
+  padding-block:var(--float-pad);
+}
+.pitch{background:none;border:0;padding-inline:0;box-shadow:none}
+/* .pitch is display:block, not a grid — zeroing the article margin stacked
+   the cards edge to edge. They carry the rhythm themselves. */
+.pitch>article{margin:0 0 var(--float-gap)}
+.pitch>article:last-child{margin-bottom:0}
+main>.trust{margin-bottom:var(--float-gap)}
+
+/* The lift. Outlier gets it almost entirely from tone, so this is
+   deliberately small — enough that the edge reads as an edge, not enough to
+   look like a 2013 card. On light it is a soft grey; on dark, shadow is
+   nearly invisible against a near-black ground, so the top hairline does the
+   work instead. */
+.wall,.demo,.speed,.heat-home,.hp,.vs-side,.pitch>article,.close{
+  box-shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px -12px rgba(16,24,40,.10);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .wall,
+  :root:not([data-theme="light"]) .demo,
+  :root:not([data-theme="light"]) .speed,
+  :root:not([data-theme="light"]) .heat-home,
+  :root:not([data-theme="light"]) .hp,
+  :root:not([data-theme="light"]) .vs-side,
+  :root:not([data-theme="light"]) .pitch>article,
+  :root:not([data-theme="light"]) .close{
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 12px 32px -16px rgba(0,0,0,.6);
+  }
+}

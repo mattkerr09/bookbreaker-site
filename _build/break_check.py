@@ -152,6 +152,13 @@ CASES = [
         "",
     ),
     (
+        "a CSS pass that never reached the stylesheet",
+        "check_every_pass_reaches_the_stylesheet",
+        "style.css",
+        "PASS 14",
+        "PASS-FOURTEEN-NEVER-RENDERED",
+    ),
+    (
         "a superseded palette left in the stylesheet",
         "check_one_palette",
         "style.css",
