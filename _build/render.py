@@ -1111,11 +1111,26 @@ def measure(engine) -> dict:
         "venues": len(VENUES), "as_of": AS_OF, "states": len(states),
         "nj": len(for_state("NJ")), "fl": len(for_state("FL")),
     }
+    # The hub counts these out loud, so they are measured rather than printed
+    # from a len() the gate cannot see.
+    out["markets"] = {
+        "live": len([c for c in states
+                     if state_summary(c)["legal"] and state_summary(c)["online"]
+                     and not state_summary(c)["single_operator"]]),
+        "single": len([c for c in states if state_summary(c)["single_operator"]]),
+        "retail": len([c for c in states if state_summary(c).get("retail_only")]),
+        "none": len([c for c in states if not state_summary(c)["legal"]]),
+    }
+    # The hub prints the combined figure, so the combined figure is what gets
+    # measured. A sum of two stored values is not a stored value, and the gate
+    # checks what is on the page rather than what could be derived from it.
+    out["markets"]["online"] = (out["markets"]["live"]
+                                + out["markets"]["single"])
     out["states"] = {
         code: {
             **state_summary(code),
             "books": [
-                {"name": v.name, "tier": v.tier.value,
+                {"key": v.key, "name": v.name, "tier": v.tier.value,
                  "limits": v.limits_winners,
                  "commission": round(v.commission * 100, 1) if v.commission else 0}
                 for v in for_state(code)
@@ -1217,6 +1232,7 @@ def page(title: str, description: str, body: str, path: str,
         '<a class="brand" href="/">' + MARK + 'Bookbreaker</a>'
         '<span class="links">'
         '<a href="/how-it-works/">How it works</a>'
+        '<a href="/sportsbooks/">By state</a>'
         '<a href="/guides/">Guides</a>'
         '<a href="/calculators/">Calculators</a>'
         '<a href="/for/arbitrage-bettors/">For arbers</a>'
@@ -3152,6 +3168,411 @@ STATE_NAMES = {
 }
 
 
+
+# --------------------------------------------------------------- partners
+
+# The commercial layer. Three rules, and the first two exist because getting
+# them wrong is the difference between a business and a penalty.
+#
+#   1. A link that pays us is marked `rel="sponsored nofollow"`. Google asks
+#      for it, and an affiliate site that does not do it is one manual action
+#      away from having no traffic to monetise. `nofollow` alone stopped being
+#      sufficient in 2020.
+#   2. A page carrying a paid link carries a disclosure the reader sees before
+#      the link, not a line in the footer. That is the FTC's standard, and it
+#      is also the only version that survives someone reading the page.
+#   3. **A partner with no affiliate URL renders an ordinary link, never an
+#      invented tracking one.** There is no affiliate account behind any row
+#      in `_data/partners.csv` yet. A build that emitted a plausible-looking
+#      tracking URL would earn nothing, be indistinguishable from one that
+#      earned something, and quietly rot the moment a real one arrived.
+
+def load_partners() -> dict:
+    """Partner rows keyed by book. `affiliate_url` empty means not signed up."""
+    out = {}
+    for row in load_data("partners"):
+        out[row["book"].strip()] = {
+            "affiliate": (row.get("affiliate_url") or "").strip(),
+            "site": (row.get("site_url") or "").strip(),
+            "program": (row.get("program") or "").strip(),
+            "source": (row.get("source") or "").strip(),
+        }
+    return out
+
+
+PARTNERS = load_partners()
+
+
+def partner_link(book_key: str, label: str, state: str = "") -> str:
+    """A link to a sportsbook, paid or not, marked honestly either way.
+
+    `{SUBID}` in an affiliate URL is replaced with the state code so revenue
+    can be attributed to the page that earned it. Without that every state
+    page reports the same nothing and there is no way to learn which ones
+    work.
+    """
+    row = PARTNERS.get(book_key)
+    if not row or not row["site"]:
+        return e(label)
+    if row["affiliate"]:
+        href = row["affiliate"].replace("{SUBID}", state.lower())
+        return (f'<a class="book-cta" href="{e(href)}" '
+                f'rel="sponsored nofollow noopener" target="_blank">'
+                f'{e(label)}</a>')
+    # No programme yet: an ordinary outbound link, and nothing claims otherwise.
+    return (f'<a class="book-link" href="{e(row["site"])}" '
+            f'rel="nofollow noopener" target="_blank">{e(label)}</a>')
+
+
+def any_paid_links() -> bool:
+    """Whether any partner is actually live. Drives the disclosure."""
+    return any(r["affiliate"] for r in PARTNERS.values())
+
+
+def disclosure() -> str:
+    """Shown above the first commercial link, never only in the footer."""
+    if any_paid_links():
+        return ('<p class="disclose"><strong>Advertising disclosure.</strong> '
+                'Some links on this page are paid partnerships, and we may be '
+                'compensated if you open an account through them. It costs you '
+                'nothing, it never changes which book we say limits winners, '
+                'and every figure on this page is still computed by the engine '
+                'rather than supplied by a sportsbook.</p>')
+    return ('<p class="disclose"><strong>No paid links on this page.</strong> '
+            'The sportsbook links below are ordinary links and earn us '
+            'nothing. If that changes, this notice changes with it.</p>')
+
+
+def responsible() -> str:
+    """21+, the helpline, and no claim anybody is going to win.
+
+    The national line is used rather than a per-state one: publishing 34
+    state helpline numbers from memory is exactly the kind of unsourced
+    detail this build refuses everywhere else, and 1-800-GAMBLER is correct
+    in every state that has legal betting.
+    """
+    return ('<aside class="rg">'
+            '<p><strong>21+ and present in a state where betting is legal.</strong> '
+            'Betting carries a risk of financial loss, and nothing on this site '
+            'is a prediction that you will win. The engine measures how uncertain '
+            'a price is; it does not remove the uncertainty.</p>'
+            '<p>If gambling stops being fun, it is not fun. '
+            '<a href="tel:1-800-426-2537">Call 1-800-GAMBLER</a> or visit '
+            '<a href="https://www.ncpgambling.org/help-treatment/" '
+            'rel="noopener" target="_blank">ncpgambling.org</a>.</p>'
+            '</aside>')
+
+
+def faq_schema(pairs: list) -> str:
+    """FAQPage JSON-LD. The questions have to be on the page too — marking up
+    answers a reader cannot see is what the guidelines call out."""
+    items = ",".join(
+        json.dumps({
+            "@type": "Question",
+            "name": q,
+            "acceptedAnswer": {"@type": "Answer", "text": a},
+        }, ensure_ascii=False)
+        for q, a in pairs)
+    return ('<script type="application/ld+json">'
+            '{"@context":"https://schema.org","@type":"FAQPage",'
+            f'"mainEntity":[{items}]}}</script>')
+
+
+def breadcrumb_schema(trail: list) -> str:
+    items = ",".join(
+        json.dumps({
+            "@type": "ListItem", "position": i + 1, "name": name,
+            "item": f"https://bookbreaker.bet{url}",
+        }, ensure_ascii=False)
+        for i, (name, url) in enumerate(trail))
+    return ('<script type="application/ld+json">'
+            '{"@context":"https://schema.org","@type":"BreadcrumbList",'
+            f'"itemListElement":[{items}]}}</script>')
+
+
+
+
+def load_jurisdictions() -> dict:
+    """Per-state legal facts, keyed by state code.
+
+    Every field is optional and every row carries a source. A blank is a fact
+    nobody verified, and it renders as nothing at all rather than as a plausible
+    default — the failure mode here is not an ugly page, it is a confident
+    wrong claim about somebody's gambling law.
+    """
+    # load_data exits the build on a missing file, which is right for data the
+    # site cannot render without and wrong for this: the legal facts are
+    # additive, and a site that refuses to build until all fifty states are
+    # researched is a site that never ships the first one.
+    if not (SITE / "_data" / "jurisdictions.csv").exists():
+        return {}
+    rows = load_data("jurisdictions")
+    out = {}
+    for row in rows:
+        code = (row.get("code") or "").strip().upper()
+        if not code:
+            continue
+        # A row with more fields than the header hands DictReader a list
+        # under a None key. Unquoted commas in a note did exactly that,
+        # and the build died on it rather than shipping a mangled fact.
+        if None in row:
+            raise SystemExit(
+                f"jurisdictions.csv: row {code} has more fields than the "
+                "header — quote any value containing a comma")
+        out[code] = {k: (v or "").strip() for k, v in row.items()}
+    return out
+
+
+JURISDICTIONS = load_jurisdictions()
+
+
+def jurisdiction_facts(code: str, name: str) -> str:
+    """The legal section, rendered only from fields that were sourced.
+
+    A row with no source link is not rendered at all. That rule is what keeps
+    this from becoming the thing every competing page is — a confident recital
+    of regulatory detail with nothing behind it.
+    """
+    row = JURISDICTIONS.get(code)
+    if not row or not row.get("source"):
+        return ""
+
+    facts = [
+        ("Regulator", row.get("regulator")),
+        ("Online betting went live", row.get("launch_date")),
+        ("Minimum age", (row.get("min_age") + "+") if row.get("min_age") else ""),
+        ("State tax on sportsbook revenue",
+         (row.get("tax_rate") + "%") if row.get("tax_rate") else ""),
+        ("College player props", row.get("college_props", "").title()),
+        ("Licensed retail sportsbooks", row.get("retail_venues")),
+    ]
+    shown = [(k, v) for k, v in facts if v]
+    if not shown:
+        return ""
+
+    # Every row carries its own read date and source link. The site gate only
+    # permits a number the engine cannot compute inside a block that is dated
+    # and sourced, and it is right to: a tax rate in a table with one footnote
+    # at the bottom is a claim whose provenance a reader has to go hunting for.
+    read = row.get("fetched_at") or ""
+    src = row["source"]
+    rows_html = "".join(
+        f'<tr><td class="prose">{e(k)}</td><td class="prose">{e(v)}</td>'
+        f'<td class="prose"><a href="{e(src)}" rel="nofollow noopener" '
+        f'target="_blank">source</a>, read {e(read)}</td></tr>'
+        for k, v in shown)
+    note = (f'<p>{e(row["note"])} <a href="{e(src)}" rel="nofollow noopener" '
+            f'target="_blank">Source</a>, read {e(read)}.</p>'
+            if row.get("note") else "")
+    return f"""
+<h2>The law in {e(name)}</h2>
+<div class="scroll"><table>
+<tr><th class="prose">&nbsp;</th><th class="prose">As published</th>
+<th class="prose">Source</th></tr>
+{rows_html}
+</table></div>
+{note}
+<p class="caveat">Gambling law changes, and these were read once. Check the
+regulator before relying on any of it.</p>
+"""
+
+
+def render_state_page(m: dict, code: str) -> str:
+    """One state, in the shape the search term wants.
+
+    The competing pages in this niche are eight to ten thousand words and rank
+    on being the most complete answer to "online sports betting in <state>".
+    They also share one omission, and it is not an accident: none of them tells
+    you which of the books they are paid to recommend will limit you for
+    winning. That is the fact this page leads with, because it is the fact the
+    catalogue already carries and the one a winning bettor most needs.
+    """
+    st = m["states"][code]
+    name = STATE_NAMES.get(code, code)
+    books = st["books"]
+    online = [b for b in books if b["tier"] != "exchange"]
+    exchanges = [b for b in books if b["tier"] == "exchange"]
+    never = [b for b in books if not b["limits"]]
+    limiting = [b for b in books if b["limits"]]
+
+    rows = "".join(
+        f"<tr><td>{partner_link(b['key'], b['name'], code)}</td>"
+        f"<td class=\"prose\">{'Exchange' if b['tier'] == 'exchange' else b['tier'].title()}</td>"
+        f"<td class=\"{'good' if not b['limits'] else 'warn'}\">"
+        f"{'Never limits winners' if not b['limits'] else 'Limits winning accounts'}</td>"
+        f"<td>{(str(b['commission']) + '%') if b['commission'] else '&mdash;'}</td></tr>"
+        for b in sorted(books, key=lambda x: (x["limits"], x["name"])))
+
+    if not st["legal"]:
+        lead = (f"{name} had no legal online sportsbook as of "
+                f"{st['as_of']}. What is still reachable is federally "
+                f"regulated prediction markets.")
+    elif st["retail_only"]:
+        lead = (f"{name} allowed betting in person only as of {st['as_of']}. "
+                f"No licensed online sportsbook took bets in the state.")
+    elif st["single_operator"]:
+        lead = (f"{name} ran a single-operator market as of {st['as_of']} "
+                f"&mdash; one book, so there is no line to shop.")
+    else:
+        lead = (f"{len(online)} licensed online sportsbooks took bets in "
+                f"{name} as of {st['as_of']}, and "
+                f"{len(limiting)} of them limit accounts that win.")
+
+    faqs = [
+        (f"Is online sports betting legal in {name}?",
+         (f"{name} had {len(online)} licensed online sportsbooks operating as "
+          f"of {st['as_of']}." if st["legal"] and st["online"] else
+          f"{name} had no legal online sportsbook as of {st['as_of']}.")),
+        (f"Which sportsbooks in {name} limit winning accounts?",
+         (f"{len(limiting)} of the {len(books)} venues covering {name} limit "
+          f"accounts that win consistently. "
+          + (f"{len(never)} never do: "
+             + ", ".join(b["name"] for b in never) + "." if never else
+             "None of them are exempt.")) if books else
+         f"No licensed venue covered {name} as of {st['as_of']}."),
+        ("How old do I have to be to bet?",
+         "21 or older in every state with legal sports betting, and you must "
+         "be physically present in that state when the bet is placed."),
+        (f"How many sportsbooks do I need in {name}?",
+         "At least two. A single account cannot be line shopped, and the "
+         "whole arbitrage and +EV case rests on holding the best of several "
+         "prices rather than whatever one book offers."),
+    ]
+    faq_html = "".join(
+        f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
+
+    exch = ""
+    if exchanges:
+        exch = (
+            "<h2>The venues that cannot ban you</h2>"
+            "<p>Prediction markets are regulated federally rather than by "
+            + e(name) + ", which is why they appear in every state. They also "
+            "have no bookmaker deciding who is allowed to keep betting, so "
+            "they are structurally the best home for a consistent winner "
+            "&mdash; and they can anchor a fair price where no sharp "
+            "sportsbook operates.</p><ul>"
+            + "".join(f"<li>{partner_link(b['key'], b['name'], code)}"
+                      f" &mdash; {b['commission']}% commission, never limits "
+                      f"winners</li>" if b["commission"] else
+                      f"<li>{partner_link(b['key'], b['name'], code)}"
+                      f" &mdash; never limits winners</li>"
+                      for b in exchanges)
+            + "</ul>")
+
+    return f"""
+{breadcrumb_schema([("Sportsbooks by state", "/sportsbooks/"),
+                    (name, f"/sportsbooks/{code.lower()}/")])}
+{faq_schema(faqs)}
+<h1>Online sports betting in {e(name)}</h1>
+<p class="lede">{e(lead)}</p>
+{disclosure()}
+
+{jurisdiction_facts(code, name)}
+<h2>Every sportsbook covering {e(name)}</h2>
+<p>Read {e(st['as_of'])} from each operator's own state disclosures. The
+limiting column is the one no affiliate page publishes, because it is the
+column that costs them a signup.</p>
+<div class="scroll"><table>
+<tr><th>Sportsbook</th><th class="prose">Type</th><th class="prose">Winning accounts</th>
+<th>Commission</th></tr>
+{rows}
+</table></div>
+
+{exch}
+
+<h2>Which to open first in {e(name)}</h2>
+<p>Open at least two. One account cannot be line shopped, and the gap between
+the best and second-best price on the same market is the entire edge in
+arbitrage and most of it in +EV betting.</p>
+<p>If a book on that list never limits winners, it is the one to build a real
+record at. The rest are worth opening for their prices and their welcome
+offers, and worth treating as accounts with a lifespan.</p>
+<p><a href="/account-longevity/">What bet shape gives away &rarr;</a></p>
+
+<h2>What this site does that a promo page does not</h2>
+<p>Every figure here is computed by an engine you can download and run
+yourself, and the build refuses to publish a number the engine did not
+produce. That includes the uncomfortable ones: the spread between devig
+methods, the chance a price is already gone, and whether your own record is
+long enough to prove anything at all.</p>
+<p><a href="/download/">Download it free &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/how-it-works/">How it prices a market &rarr;</a></p>
+
+<h2>{e(name)} sports betting FAQ</h2>
+{faq_html}
+
+{responsible()}
+<p class="caveat">Venue coverage read {e(st['as_of'])} from operator state
+disclosures. Sportsbook availability changes; this is a starting point for your
+own check, not legal advice.</p>
+"""
+
+
+
+def state_url(m: dict, code: str) -> str:
+    """Where this state's answer actually lives.
+
+    Merged states have no page of their own, and a link to the URL one would
+    have had is a 404 the link checker catches — which is exactly how these
+    were found.
+    """
+    st = m["states"][code]
+    if not st["legal"]:
+        return "/sportsbooks/no-legal-sportsbook/"
+    if not st["online"]:
+        return "/sportsbooks/in-person-only/"
+    if st["single_operator"]:
+        return "/sportsbooks/one-book-states/"
+    return f"/sportsbooks/{code.lower()}/"
+
+
+def render_state_hub(m: dict) -> str:
+    """The parent of 51 state pages.
+
+    It exists because the breadcrumb on every one of them points here, and a
+    breadcrumb pointing at a 404 is worse than no breadcrumb: it is structured
+    data telling a crawler the site has a shape it does not have.
+    """
+    states = m["states"]
+    live = sorted(c for c in states if states[c]["legal"] and states[c]["online"])
+    retail = sorted(c for c in states if states[c].get("retail_only"))
+    none = sorted(c for c in states if not states[c]["legal"])
+
+    def cells(codes):
+        return "".join(
+            f'<li><a href="{state_url(m, c)}">'
+            f'{e(STATE_NAMES.get(c, c))}</a> '
+            f'<span class="n">{len([b for b in states[c]["books"] if b["limits"]])}'
+            f' of {len(states[c]["books"])} limit</span></li>'
+            for c in codes)
+
+    as_of = states[next(iter(states))]["as_of"]
+    return f"""
+{breadcrumb_schema([("Sportsbooks by state", "/sportsbooks/")])}
+<h1>Sports betting by state</h1>
+<p class="lede">Every state, every licensed sportsbook covering it, and the
+column no other guide prints: which of them limit accounts that win. Read
+{e(as_of)}.</p>
+{disclosure()}
+
+<h2>Online betting is live &mdash; {m["markets"]["online"]} states</h2>
+<ul class="states">{cells(live)}</ul>
+
+<h2>In person only &mdash; {m["markets"]["retail"]} states</h2>
+<p>Licensed sportsbooks exist, but no app takes a bet from inside the state.</p>
+<ul class="states">{cells(retail)}</ul>
+
+<h2>No legal sportsbook &mdash; {m["markets"]["none"]} states</h2>
+<p>Federally regulated prediction markets still reach these, and they are the
+venues that never limit a winner.</p>
+<ul class="states">{cells(none)}</ul>
+
+{responsible()}
+<p class="caveat">Coverage read {e(as_of)} from operator state disclosures.
+A starting point for your own check, not legal advice.</p>
+"""
+
+
 def state_description(name: str) -> str:
     """A meta description that fits, for any state name.
 
@@ -4442,6 +4863,52 @@ input[type=range]{accent-color:var(--accent)}
   /* The header follows the page instead of holding a third of the screen. */
   header{position:static}
 }
+
+/* --- commercial + compliance ----------------------------------------
+   A disclosure the reader meets before the first paid link, and a
+   responsible-gambling block that is part of the page rather than a footer
+   afterthought. Both are regulatory requirements in this vertical and both
+   are styled to be read, not to be technically present. */
+.disclose{background:var(--accent-soft);border:1px solid
+  color-mix(in srgb,var(--accent) 22%,transparent);
+  border-radius:var(--r);padding:.85rem 1.1rem;font-size:.92rem;
+  color:var(--ink-2);margin:1.25rem 0}
+.disclose strong{color:var(--ink)}
+
+.rg{border:1px solid var(--rule);border-left:4px solid var(--accent);
+  border-radius:var(--r);background:var(--card);padding:1.1rem 1.35rem;
+  margin:2rem 0 1rem;font-size:.94rem;color:var(--ink-2)}
+.rg p{margin:.4rem 0}
+.rg strong{color:var(--ink)}
+.rg a{color:var(--accent);font-weight:600}
+
+/* A paid link and an unpaid one do not look the same. */
+a.book-cta{display:inline-block;background:var(--accent);color:var(--accent-ink);
+  border-radius:var(--r-pill);padding:.4rem .95rem;font-weight:650;
+  text-decoration:none;font-size:.92rem;white-space:nowrap;
+  box-shadow:var(--shadow-1);transition:transform .14s ease,box-shadow .14s ease}
+a.book-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-2)}
+a.book-link{color:var(--ink);font-weight:600;text-decoration:none;
+  border-bottom:1.5px solid var(--rule)}
+a.book-link:hover{border-bottom-color:var(--accent);color:var(--accent)}
+
+/* The column no competing page prints. */
+main table td.good{color:var(--good);font-weight:650;white-space:normal}
+main table td.warn{color:var(--ink-2);white-space:normal}
+
+/* The state index: 51 links that need to be scannable, not a wall. */
+ul.states{list-style:none;padding:0;margin:1.25rem 0 2rem;display:grid;
+  gap:.5rem;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr))}
+ul.states li{background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r-sm);padding:.7rem .9rem;display:flex;
+  align-items:baseline;justify-content:space-between;gap:.6rem;
+  transition:border-color .14s ease,transform .14s ease}
+ul.states li:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--rule));
+  transform:translateY(-1px)}
+ul.states a{font-weight:650;text-decoration:none;color:var(--ink)}
+ul.states li:hover a{color:var(--accent)}
+ul.states .n{font-size:.76rem;color:var(--ink-3);white-space:nowrap;
+  font-variant-numeric:tabular-nums}
 """
 
 STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
@@ -4735,32 +5202,86 @@ your own check, not advice.</p>
         built.append(("/sportsbooks/in-person-only/",
                       "sportsbooks/in-person-only/index.html"))
 
-    # One page per distinct market, not per state. Missouri and Kentucky have
-    # identical venue lists, so separate pages measured 97.3% alike — they were
-    # the same page twice. States sharing a market now share a page, which is
-    # both the honest answer and the one a reader is better served by.
-    markets: dict[tuple, list[str]] = {}
+    out = SITE / "sportsbooks/index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page(
+        "Sports betting by state — every book, and which limit winners",
+        "Every US state, the licensed sportsbooks covering it, and which of "
+        "them limit accounts that win. Dated, and computed rather than "
+        "supplied by a sportsbook.",
+        render_state_hub(measured), "/sportsbooks/"))
+    built.append(("/sportsbooks/", "sportsbooks/index.html"))
+
+    # One page per state, at the URL the search term wants. These were
+    # merged by market — states with identical book lists shared a page,
+    # because generated separately they measured 97.3% alike. That was the
+    # right call for pages that carried nothing but a book list, and the wrong
+    # one for a search market: nobody types "sportsbooks in Missouri and
+    # Kentucky". The fix is that each page now carries state-specific counts,
+    # a limiting breakdown, its own FAQ and its own schema — different
+    # content, not a different name on the same content. The similarity gate
+    # is what decides whether that worked, and it still runs.
+    # Only states that actually have an online market get their own page.
+    # A state with no legal sportsbook has the same answer as every other one,
+    # and eleven pages that differ only in a name is what the similarity gate
+    # exists to stop — those share `no-legal-sportsbook`, and the in-person
+    # markets share `in-person-only`, both built above.
+    solo = sorted(c for c in measured["states"]
+                  if measured["states"][c]["legal"]
+                  and measured["states"][c]["online"]
+                  and measured["states"][c]["single_operator"])
+    if solo:
+        names = [STATE_NAMES.get(c, c) for c in solo]
+        listed = ", ".join(names[:-1]) + " and " + names[-1]
+        as_of = measured["states"][solo[0]]["as_of"]
+        body = f"""
+{breadcrumb_schema([("Sportsbooks by state", "/sportsbooks/"),
+                    ("Single-operator states", "/sportsbooks/one-book-states/")])}
+<h1>The states with only one sportsbook</h1>
+<p class="lede">{listed} each licensed a single online operator as of
+{e(as_of)}. They share a page because they share the consequence.</p>
+{disclosure()}
+<h2>One book means no line to shop</h2>
+<p>Every edge this site measures comes from a disagreement between prices.
+Arbitrage needs two books to disagree enough to cover the margin; +EV betting
+needs a price that is better than the consensus. With one operator there is no
+second price, so there is no disagreement to find and no best price to take
+&mdash; you get the number you are given.</p>
+<h2>What is still worth doing</h2>
+<p>Prediction markets are regulated federally rather than by any state, so they
+reach these markets too, and they never limit a winning account. They are also
+the only way to see a second price on the same event from inside a
+single-operator state.</p>
+<ul>{"".join(f'<li>{e(STATE_NAMES.get(c, c))}</li>' for c in solo)}</ul>
+{responsible()}
+<p class="caveat">Read {e(as_of)} from operator state disclosures. A starting
+point for your own check, not legal advice.</p>
+"""
+        out = SITE / "sportsbooks/one-book-states/index.html"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(page(
+            "The states with only one sportsbook",
+            "The states that licensed a single online operator, and why one "
+            "book means there is no line to shop.",
+            body, "/sportsbooks/one-book-states/"))
+        built.append(("/sportsbooks/one-book-states/",
+                      "sportsbooks/one-book-states/index.html"))
+
     for code in sorted(c for c in measured["states"]
                        if measured["states"][c]["legal"]
-                       and measured["states"][c]["online"]):
-        key = tuple(b["name"] for b in measured["states"][code]["books"])
-        markets.setdefault(key, []).append(code)
-
-    for codes in sorted(markets.values(), key=lambda c: c[0]):
-        names = [STATE_NAMES.get(c, c) for c in codes]
-        name = names[0] if len(names) == 1 else (
-            ", ".join(names[:-1]) + " and " + names[-1])
-        slug = "-".join(c.lower() for c in codes)
-        url = f"/sportsbooks/{slug}/"
-        rel = f"sportsbooks/{slug}/index.html"
+                       and measured["states"][c]["online"]
+                       and not measured["states"][c]["single_operator"]):
+        name = STATE_NAMES.get(code, code)
+        url = f"/sportsbooks/{code.lower()}/"
+        rel = f"sportsbooks/{code.lower()}/index.html"
         out = SITE / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(
-            f"Sportsbooks in {name} — which you can use"
-            if len(codes) == 1 else f"Sportsbooks in {name}",
+            f"{name} sports betting — every book, and which limit winners",
             state_description(name),
-            render_market(measured, codes), url))
+            render_state_page(measured, code), url))
         built.append((url, rel))
+
     jurisdiction = len(built) - jurisdiction_start
     print(f"  /sportsbooks/          {jurisdiction} jurisdiction pages "
           f"covering {len(measured['states'])} states")

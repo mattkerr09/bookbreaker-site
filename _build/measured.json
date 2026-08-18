@@ -494,6 +494,13 @@
     "test": 9,
     "train": 21
   },
+  "markets": {
+    "live": 29,
+    "none": 11,
+    "online": 34,
+    "retail": 5,
+    "single": 5
+  },
   "match": {
     "bonus": 1000,
     "breakeven": 5.0,
@@ -806,6 +813,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -832,6 +840,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -858,18 +867,21 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
@@ -896,72 +908,84 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 2.0,
+          "key": "sporttrade",
           "limits": false,
           "name": "Sporttrade",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bally",
           "limits": true,
           "name": "Bally Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betfred",
           "limits": true,
           "name": "BetFred",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "hardrock",
           "limits": true,
           "name": "Hard Rock Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -989,6 +1013,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -1015,78 +1040,91 @@
       "books": [
         {
           "commission": 0,
+          "key": "circa",
           "limits": false,
           "name": "Circa Sports",
           "tier": "sharp"
         },
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 2.0,
+          "key": "sporttrade",
           "limits": false,
           "name": "Sporttrade",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bally",
           "limits": true,
           "name": "Bally Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betfred",
           "limits": true,
           "name": "BetFred",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "hardrock",
           "limits": true,
           "name": "Hard Rock Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -1115,18 +1153,21 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
@@ -1153,30 +1194,35 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
@@ -1203,12 +1249,14 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "betrivers",
           "limits": true,
           "name": "BetRivers",
           "tier": "retail"
@@ -1235,12 +1283,14 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "hardrock",
           "limits": true,
           "name": "Hard Rock Bet",
           "tier": "retail"
@@ -1267,6 +1317,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -1293,6 +1344,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -1319,66 +1371,77 @@
       "books": [
         {
           "commission": 0,
+          "key": "circa",
           "limits": false,
           "name": "Circa Sports",
           "tier": "sharp"
         },
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bally",
           "limits": true,
           "name": "Bally Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betfred",
           "limits": true,
           "name": "BetFred",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -1406,6 +1469,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -1432,60 +1496,70 @@
       "books": [
         {
           "commission": 0,
+          "key": "circa",
           "limits": false,
           "name": "Circa Sports",
           "tier": "sharp"
         },
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "hardrock",
           "limits": true,
           "name": "Hard Rock Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -1513,60 +1587,70 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bally",
           "limits": true,
           "name": "Bally Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "hardrock",
           "limits": true,
           "name": "Hard Rock Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -1593,48 +1677,56 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -1661,54 +1753,63 @@
       "books": [
         {
           "commission": 0,
+          "key": "circa",
           "limits": false,
           "name": "Circa Sports",
           "tier": "sharp"
         },
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -1736,54 +1837,63 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betfred",
           "limits": true,
           "name": "BetFred",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -1810,48 +1920,56 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bally",
           "limits": true,
           "name": "Bally Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -1878,54 +1996,63 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betparx",
           "limits": true,
           "name": "betPARX",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -1952,12 +2079,14 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
@@ -1984,66 +2113,77 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betrivers",
           "limits": true,
           "name": "BetRivers",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "hardrock",
           "limits": true,
           "name": "Hard Rock Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "wynn",
           "limits": true,
           "name": "WynnBET",
           "tier": "retail"
@@ -2070,6 +2210,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -2096,54 +2237,63 @@
       "books": [
         {
           "commission": 0,
+          "key": "circa",
           "limits": false,
           "name": "Circa Sports",
           "tier": "sharp"
         },
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -2171,6 +2321,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -2197,12 +2348,14 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "sports-bet-mt",
           "limits": true,
           "name": "Sports Bet Montana",
           "tier": "retail"
@@ -2229,54 +2382,63 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "underdog",
           "limits": true,
           "name": "Underdog Sports",
           "tier": "retail"
@@ -2303,6 +2465,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -2329,12 +2492,14 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
@@ -2361,72 +2526,84 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 2.0,
+          "key": "sporttrade",
           "limits": false,
           "name": "Sporttrade",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betparx",
           "limits": true,
           "name": "betPARX",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betrivers",
           "limits": true,
           "name": "BetRivers",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "prime",
           "limits": true,
           "name": "Prime Sportsbook",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -2454,6 +2631,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -2480,24 +2658,28 @@
       "books": [
         {
           "commission": 0,
+          "key": "circa",
           "limits": false,
           "name": "Circa Sports",
           "tier": "sharp"
         },
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "betfred",
           "limits": true,
           "name": "BetFred",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "superbook",
           "limits": true,
           "name": "SuperBook",
           "tier": "retail"
@@ -2525,42 +2707,49 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bally",
           "limits": true,
           "name": "Bally Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "wynn",
           "limits": true,
           "name": "WynnBET",
           "tier": "retail"
@@ -2587,72 +2776,84 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bally",
           "limits": true,
           "name": "Bally Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betfred",
           "limits": true,
           "name": "BetFred",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betly",
           "limits": true,
           "name": "Betly",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betr",
           "limits": true,
           "name": "Betr",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -2679,6 +2880,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -2705,12 +2907,14 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
@@ -2737,72 +2941,84 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betfred",
           "limits": true,
           "name": "BetFred",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betparx",
           "limits": true,
           "name": "betPARX",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betrivers",
           "limits": true,
           "name": "BetRivers",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "prime",
           "limits": true,
           "name": "Prime Sportsbook",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -2829,12 +3045,14 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "sportsbook-ri",
           "limits": true,
           "name": "Sportsbook Rhode Island",
           "tier": "retail"
@@ -2861,6 +3079,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -2887,6 +3106,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -2913,54 +3133,63 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "betly",
           "limits": true,
           "name": "Betly",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "hardrock",
           "limits": true,
           "name": "Hard Rock Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -2987,6 +3216,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -3013,6 +3243,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -3039,72 +3270,84 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 2.0,
+          "key": "sporttrade",
           "limits": false,
           "name": "Sporttrade",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "bally",
           "limits": true,
           "name": "Bally Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "bet365",
           "limits": true,
           "name": "bet365",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betr",
           "limits": true,
           "name": "Betr",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "hardrock",
           "limits": true,
           "name": "Hard Rock Bet",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -3132,24 +3375,28 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
@@ -3176,12 +3423,14 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "betfred",
           "limits": true,
           "name": "BetFred",
           "tier": "retail"
@@ -3208,6 +3457,7 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
@@ -3234,54 +3484,63 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "betly",
           "limits": true,
           "name": "Betly",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "betrivers",
           "limits": true,
           "name": "BetRivers",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "thescore",
           "limits": true,
           "name": "theScore Bet",
           "tier": "retail"
@@ -3308,36 +3567,42 @@
       "books": [
         {
           "commission": 0,
+          "key": "kalshi",
           "limits": false,
           "name": "Kalshi",
           "tier": "exchange"
         },
         {
           "commission": 0,
+          "key": "mgm",
           "limits": true,
           "name": "BetMGM",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "caesars",
           "limits": true,
           "name": "Caesars",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "dk",
           "limits": true,
           "name": "DraftKings",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
           "tier": "retail"
         },
         {
           "commission": 0,
+          "key": "fd",
           "limits": true,
           "name": "FanDuel",
           "tier": "retail"
