@@ -61,7 +61,7 @@ MAX_FAMILY_SIMILARITY = 0.97
 # genuinely different — never raised to accommodate one that got worse.
 SHINGLE_SIMILARITY = 0.5
 WATCH_SIMILARITY = 0.35
-MAX_SHINGLE_PAIRS = 13
+MAX_SHINGLE_PAIRS = 11
 
 # The whole similarity zone, not just the headline above it.
 #
@@ -71,7 +71,7 @@ MAX_SHINGLE_PAIRS = 13
 # Google has no 0.5 cliff — a pair at 0.47 is not meaningfully less
 # collapsible than the same pair at 0.52 — so a gate that watches one side of
 # an arbitrary line rewards pushing pairs across it.
-MAX_ZONE_PAIRS = 272
+MAX_ZONE_PAIRS = 259
 
 # Words that turn naming a competitor into asserting something about them.
 ASSERTIVE = re.compile(

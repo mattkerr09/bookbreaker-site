@@ -57,7 +57,13 @@
 
   --t-1:.72rem;   --t-2:.82rem;   --t-3:.9rem;    --t-4:1rem;
   --t-5:1.0625rem;--t-6:1.25rem;  --t-7:1.75rem;
-  --t-8:clamp(2.6rem,6.4vw,4.5rem);
+  /* 4.5rem resolved to 72px at 1440 on every page but the home page, which
+     is the largest headline in the portfolio and above the 38-64px band the
+     reference sites sit in — Quartr, the site this one is modelled on, runs
+     68px on a much shorter headline. 72px is also one of the three things
+     that together read as machine-made: oversized, centred, over a gradient
+     blob. Ours is none of the other two, and is now none of the three. */
+  --t-8:clamp(2.4rem,5vw,3.5rem);
 
   --s-1:.25rem; --s-2:.5rem;  --s-3:.75rem; --s-4:1rem;
   --s-5:1.5rem; --s-6:2.25rem;--s-7:3.5rem; --s-8:5.5rem;

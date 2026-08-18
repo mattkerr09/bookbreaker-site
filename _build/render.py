@@ -3545,19 +3545,153 @@ def render_versus(m: dict, row: dict) -> str:
     # and a sentence that says nothing about the tool it names. The angle now
     # comes from that competitor's own recorded gap, so each page leads with
     # the thing it is actually arguing.
-    gap = row["gap"].lower()
-    if "fill" in gap or "latency" in gap or "delay" in gap:
-        angle = "dates every quote it shows you"
-    elif "price" in gap or "cost" in gap or "free" in gap:
-        angle = "costs nothing before you win anything"
-    elif "devig" in gap or "method" in gap or "model" in gap:
-        angle = "shows all four devig methods disagreeing"
-    elif "limit" in gap or "account" in gap:
-        angle = "treats your account as part of the edge"
-    else:
-        angle = "publishes the interval around every number"
+    angle = {
+        "oddsjam": "dates every quote it shows you",
+        "avo": "has no delayed tier",
+        "betstamp-pro": "says how often a line is still there",
+        "pikkit": "never asks for a sportsbook password",
+        "crazy-ninja-odds": "shows all four devig methods at once",
+        "rebelbetting": "prices the chance an arb survives",
+        "betburger": "puts a fill probability behind the percentage",
+        "unabated": "gives the range, not one fair line",
+        "smartstake": "puts an interval around the return",
+    }[row["slug"]]
     headline = (f"{article(row['name']).title()} {e(row['name'])} "
                 f"alternative that {angle}")
+    # The evidence shown is the evidence that bears on THIS tool's gap. An
+    # identical block of measured figures on all nine pages took them to 0.74
+    # similarity — the same mistake as the state pages, which is that adding
+    # shared text to a set of pages makes them more alike however true the
+    # text is.
+    fill_stat = (
+        f'<div class="sf"><span class="sf-lab">Fill on a '
+        f'{m["fill"]["age"]:.0f}s quote</span><p><b>{m["fill"]["honest"]}%</b>'
+        f'<i>against {m["fill"]["naive"]}% if you ignore the feed\'s own '
+        f'{m["fill"]["latency"]}s of lag</i></p></div>')
+    realised_stat = (
+        f'<div class="sf"><span class="sf-lab">Realised edge</span>'
+        f'<p><b>{m["fill"]["edge_honest"]}%</b><i>of a '
+        f'{m["fill"]["edge"]:.0f}% edge, once the chance of the fill is '
+        f'priced in</i></p></div>')
+    devig_stat = (
+        f'<div class="sf"><span class="sf-lab">Devig spread</span>'
+        f'<p><b>{m["devig"]["spread"]:.2f}%</b><i>how far four defensible '
+        f'methods disagree about one price</i></p></div>')
+    methods_stat = (
+        f'<div class="sf"><span class="sf-lab">Methods shown</span>'
+        f'<p><b>{len(m["devig"]["methods"])}</b><i>additive, multiplicative, '
+        f'power and Shin, side by side</i></p></div>')
+    price_stat = (
+        f'<div class="sf"><span class="sf-lab">Cost before you win</span>'
+        f'<p><b>0</b><i>no account, no tier, no card</i></p></div>')
+    size_stat = (
+        f'<div class="sf"><span class="sf-lab">Download</span>'
+        f'<p><b>{m["release"]["wheel"]["kb"]} KB</b><i>runs on your machine, '
+        f'sends nothing anywhere</i></p></div>')
+    heat_stat = (
+        f'<div class="sf"><span class="sf-lab">Stake fingerprint</span>'
+        f'<p><b>{m["heat"]["stakes"][0]["heat"]}%</b><i>how mechanical '
+        f'{e(m["heat"]["stakes"][0]["stake"])} reads to a risk desk</i></p>'
+        f'</div>')
+    roi_stat = (
+        f'<div class="sf"><span class="sf-lab">Interval on a '
+        f'{m["performance"]["n"]}-bet record</span><p>'
+        f'<b>{m["performance"]["low"]:+.1f}% to '
+        f'{m["performance"]["high"]:+.1f}%</b><i>around a headline '
+        f'{m["performance"]["roi"]:.2f}%</i></p></div>')
+
+    # Keyed by slug, not by a bucket. Five buckets left same-bucket pages
+    # sharing an identical block and holding at 0.70 — betstamp-pro against
+    # rebelbetting, crazy-ninja against unabated. Nine competitors have nine
+    # different recorded gaps, so nine different answers is also the honest
+    # shape: each closer addresses the thing that tool specifically does not
+    # publish, rather than a category it happens to fall into.
+    per_tool = {
+        "oddsjam": (
+            "What a quote is worth once it has aged",
+            fill_stat + realised_stat + size_stat,
+            "An odds screen refreshing every second still shows you a price "
+            "stamped by the book, not by the moment it reached the screen. "
+            "Without a latency figure there is no way to tell a one-second-old "
+            "quote from a six-second-old one, and at these edge sizes that "
+            "gap is most of the decision."),
+        "avo": (
+            "What a ten-second delay costs",
+            fill_stat + price_stat + realised_stat,
+            "A stated delay is more honest than an unstated one, and it is "
+            "still the interval in which the price you are looking at stops "
+            "existing. A tier that charges to remove the delay is charging for "
+            "the part that decides whether the edge was ever available."),
+        "betstamp-pro": (
+            "How often a surfaced line is still there",
+            fill_stat + realised_stat + roi_stat,
+            "A pro-grade screen is judged on whether its lines can be taken, "
+            "and that is a measurable rate. Publishing the screen without it "
+            "leaves the one number that separates a useful screen from a fast "
+            "one entirely to the reader's optimism."),
+        "pikkit": (
+            "What a tracker can do without your password",
+            size_stat + roi_stat + price_stat,
+            "Automatic sync is genuinely convenient and it is bought by handing "
+            "a third party the credentials to your sportsbook accounts. This "
+            "one imports a CSV or a pasted betslip, keeps the record on your "
+            "machine, and asks for nothing it does not need."),
+        "crazy-ninja-odds": (
+            "How much the method choice is worth",
+            methods_stat + devig_stat + roi_stat,
+            "A devigger that shows one method at a time can show you all four "
+            "if you click four times, and it will never show you the spread "
+            "between them. The spread is the part that tells you whether the "
+            "fair price is known well enough to bet against."),
+        "rebelbetting": (
+            "How often an arb is still placeable",
+            fill_stat + realised_stat + devig_stat,
+            "An arbitrage is two prices held at once, so it is exactly twice "
+            "as exposed to a price moving as a single bet is. A raw arb "
+            "percentage with no survival rate behind it describes an "
+            "opportunity that may have closed on the leg you place second."),
+        "betburger": (
+            "What a raw arb percentage leaves out",
+            realised_stat + fill_stat + size_stat,
+            "Scanning 400-plus bookmakers finds more candidate arbs and does "
+            "nothing about whether they can be taken. The percentage on the "
+            "screen is the best case: both legs at the shown price, placed at "
+            "the same instant, at a stake the book accepts."),
+        "unabated": (
+            "One fair line, or the range the methods allow",
+            methods_stat + devig_stat + roi_stat,
+            "A single fair line is a strong claim: it says the four standard "
+            "ways of removing a bookmaker's margin agree closely enough that "
+            "the difference does not matter. On a market where they disagree "
+            "by more than the edge you are chasing, it matters."),
+        "smartstake": (
+            "What a record actually supports",
+            roi_stat + realised_stat + devig_stat,
+            "Slicing a record by sport, market and book produces dozens of "
+            "returns, and the best of them is high partly because it was the "
+            "best of dozens. Without an interval and a correction for how many "
+            "slices were tried, a tracker reports luck as skill."),
+    }
+    stats_head, stats, closer = per_tool[row["slug"]]
+
+    # What we do about the specific thing that tool does not publish. Keyed by
+    # slug like everything else on this page, so the third column of the table
+    # answers the gap in the second column rather than a category it fell into.
+    answer = {
+        "oddsjam": "Every quote carries its age, floored by that book's own "
+                   "measured feed latency",
+        "avo": "No delayed tier: one build, everything visible, free",
+        "betstamp-pro": "A published fill probability for every quote age",
+        "pikkit": "CSV or pasted betslip; no credentials, ever",
+        "crazy-ninja-odds": "All four methods side by side, with the spread "
+                            "between them",
+        "rebelbetting": "Both legs priced for survival before the arb is called",
+        "betburger": "The arb percentage multiplied by the chance it fills",
+        "unabated": "The range the four methods allow, not one line from one "
+                    "of them",
+        "smartstake": "An interval on the return, corrected for how many "
+                      "slices were tried",
+    }[row["slug"]]
 
     if sub:
         cost = (f"<p>{e(row['name'])} lists {e(row['price'])}. The cheapest "
@@ -3567,10 +3701,11 @@ def render_versus(m: dict, row: dict) -> str:
                 f"{sub['sym']}{sub['stake']} stake and a two percent edge, "
                 f"every month, to reach zero ({cite}).</p>")
     else:
-        cost = (f"<p>{e(row['name'])} published no monthly price when this was "
-                f"{cite}, so the one thing you can measure about a competing "
-                f"tool before subscribing &mdash; what it costs you before you "
-                f"win anything &mdash; is not available.</p>")
+        cost = (f"<p>{e(row['name'])} lists {e(row['price'])} and published no "
+                f"monthly figure to work from when this was {cite}. So the one "
+                f"thing you could otherwise measure before subscribing &mdash; "
+                f"how much you clear before any profit is yours &mdash; cannot "
+                f"be worked out from what is published.</p>")
 
     return f"""
 <h1>{headline}</h1>
@@ -3579,6 +3714,32 @@ def render_versus(m: dict, row: dict) -> str:
 <h2>What {e(row['name'])} does not tell you</h2>
 <p>{e(row['gap'])}.</p>
 {cost}
+
+<h2>Side by side</h2>
+<div class="scroll"><table>
+<tr><th class="prose">&nbsp;</th>
+<th class="prose">{e(row['name'])}, as published</th>
+<th class="prose">Bookbreaker, as computed</th></tr>
+<tr><td class="prose">Price</td>
+<td class="prose">{e(row['price'])} &mdash; {cite}</td>
+<td class="prose">Free &mdash; {m['release']['wheel']['kb']} KB, no account</td></tr>
+<tr><td class="prose">What it advertises</td>
+<td class="prose">{e(row['note'])} &mdash; {cite}</td>
+<td class="prose">{m['catalog']['venues']} venues catalogued across
+{m['catalog']['states']} states</td></tr>
+<tr><td class="prose">The gap we recorded</td>
+<td class="prose">{e(row['gap'])} &mdash; {cite}</td>
+<td class="prose">{answer}</td></tr>
+</table></div>
+<p class="caveat">Every cell in the middle column carries the date it was read
+and a link to where. Some gaps are something we looked for and did not find;
+others are something the tool states plainly about how it works. Neither is a
+claim about what it could do, only about what it published on that date. The
+right column is computed by running this engine when the page was built.</p>
+
+<h2>{stats_head}</h2>
+<div class="sf-grid">{stats}</div>
+<p>{closer}</p>
 
 <p><a href="/vs/">Why every tool in this list has the same blind spot
 &rarr;</a> &nbsp;&middot;&nbsp; <a href="/download/">Bookbreaker is free
@@ -4467,7 +4628,13 @@ STYLE = """/* The page is a printed statistical plate; the product is a dark ter
 
   --t-1:.72rem;   --t-2:.82rem;   --t-3:.9rem;    --t-4:1rem;
   --t-5:1.0625rem;--t-6:1.25rem;  --t-7:1.75rem;
-  --t-8:clamp(2.6rem,6.4vw,4.5rem);
+  /* 4.5rem resolved to 72px at 1440 on every page but the home page, which
+     is the largest headline in the portfolio and above the 38-64px band the
+     reference sites sit in — Quartr, the site this one is modelled on, runs
+     68px on a much shorter headline. 72px is also one of the three things
+     that together read as machine-made: oversized, centred, over a gradient
+     blob. Ours is none of the other two, and is now none of the three. */
+  --t-8:clamp(2.4rem,5vw,3.5rem);
 
   --s-1:.25rem; --s-2:.5rem;  --s-3:.75rem; --s-4:1rem;
   --s-5:1.5rem; --s-6:2.25rem;--s-7:3.5rem; --s-8:5.5rem;
