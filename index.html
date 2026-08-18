@@ -31,10 +31,10 @@
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0B6CFF">
-<link rel="stylesheet" href="/style.css?v=44353d50aa">
+<link rel="stylesheet" href="/style.css?v=5f4d2f6010">
 </head>
 <body class="home">
-<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.3 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.3 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c6cff"/><stop offset="1" stop-color="#4a3fd6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
 <div class="hero hero-glow">
@@ -42,12 +42,14 @@
 <p class="eyebrow accent">Free &middot; Runs on your machine</p>
 <h1>Find your edge,
 <em>with the error bar.</em></h1>
+<div class="hero-aside">
 <p class="lede">Real prices from 27 sportsbooks, devigged
 four ways, and every number carrying what it might be wrong by. Built to find
 bets and keep the account that places them.</p>
 <div class="cta">
 <a class="btn primary" href="/download/">Download free<span class="sub">v0.1.3 &middot; 167 KB</span></a>
 <a class="btn ghost" href="/how-it-works/">See how it prices a market</a>
+</div>
 </div>
 <ul class="quals">
   <li>No account, ever</li>
@@ -58,21 +60,38 @@ bets and keep the account that places them.</p>
 </div>
 
 <div class="hero-app">
-  <div class="app app--hero">
-    <div class="app-bar">
+  <div class="win">
+    <div class="win-bar">
       <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      <span class="app-title">+EV &middot; NBA totals &middot; live</span>
-      <span class="app-meta">sorted by realised EV</span>
+      <span class="win-name">Bookbreaker</span>
+      <span class="win-ver">0.1.3</span>
     </div>
-    <div class="app-head">
-      <span>Market</span><span>Book</span><span>Price</span>
-      <span>EV</span><span>Band</span><span>Age</span><span>Fill</span>
-      <span>Realised</span>
+    <nav class="win-tabs"><span class="win-tab">De-vig</span><span class="win-tab">Arbitrage</span><span class="win-tab">Stake</span><span class="win-tab">Parlay</span><span class="win-tab is-on">Will it fill?</span></nav>
+    <div class="win-body">
+      <h3 class="win-q">Is that price still there?</h3>
+      <div class="win-in">
+        <span><i>Book</i><b>DraftKings</b></span>
+        <span><i>Market</i><b>Moneyline</b></span>
+        <span><i>Quote age</i><b>10s</b></span>
+      </div>
+      <div class="win-out">
+        <div class="win-big">
+          <b>84%</b>
+          <span>chance the price is still there</span>
+        </div>
+        <div class="win-side">
+          <p><b>15.4s</b> effective age &mdash; your
+          10s plus 5.4s of feed lag</p>
+          <p><b>3.37%</b> of a 4%
+          edge survives it. Ignoring the lag would have said
+          3.58%.</p>
+        </div>
+      </div>
     </div>
-    <div class="app-row"><span class="ev-name">BOS @ LAL</span><span class="dim">DraftKings</span><span class="price">+110</span><span class="pos">+5.48%</span><span class="band"><span class="rf rf--row" style="--lo:37.983%;--hi:51.243%;--pt:44.613%;--rl:41.298%" role="img" aria-label="+5.00% to +5.96%, point estimate +5.48%, realised +5.24%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">4s</span><span class="fill"><i style="width:96%"></i><b>96%</b></span><span class="pos strong">+5.24%</span></div><div class="app-row"><span class="ev-name">GSW @ SAC</span><span class="dim">DraftKings</span><span class="price">+108</span><span class="pos">+4.73%</span><span class="band"><span class="rf rf--row" style="--lo:27.624%;--hi:40.746%;--pt:34.254%;--rl:28.039%" role="img" aria-label="+4.25% to +5.20%, point estimate +4.73%, realised +4.28%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">9s</span><span class="fill"><i style="width:90%"></i><b>90%</b></span><span class="pos strong">+4.28%</span></div><div class="app-row"><span class="ev-name">PHI @ CLE</span><span class="dim">DraftKings</span><span class="price">+112</span><span class="pos">+6.23%</span><span class="band"><span class="rf rf--row" style="--lo:48.343%;--hi:61.740%;--pt:54.972%;--rl:23.481%" role="img" aria-label="+5.75% to +6.72%, point estimate +6.23%, realised +3.95%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">41s</span><span class="fill"><i style="width:63%"></i><b>63%</b></span><span class="pos strong">+3.95%</span></div><div class="app-row"><span class="ev-name">DEN @ PHX</span><span class="dim">DraftKings</span><span class="price">+114</span><span class="pos">+7.49%</span><span class="band"><span class="rf rf--row" style="--lo:65.608%;--hi:79.144%;--pt:72.376%;--rl:23.204%" role="img" aria-label="+7.00% to +7.98%, point estimate +7.49%, realised +3.93%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">58s</span><span class="fill"><i style="width:52%"></i><b>52%</b></span><span class="pos strong">+3.93%</span></div><div class="app-row"><span class="ev-name">DAL @ HOU</span><span class="dim">DraftKings</span><span class="price">+116</span><span class="pos">+8.49%</span><span class="band"><span class="rf rf--row" style="--lo:79.420%;--hi:93.094%;--pt:86.188%;--rl:20.994%" role="img" aria-label="+8.00% to +8.99%, point estimate +8.49%, realised +3.77%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">73s</span><span class="fill"><i style="width:44%"></i><b>44%</b></span><span class="pos strong">+3.77%</span></div><div class="app-row"><span class="ev-name">MIL @ IND</span><span class="dim">DraftKings</span><span class="price">+106</span><span class="pos">+3.22%</span><span class="band"><span class="rf rf--row" style="--lo:6.906%;--hi:19.890%;--pt:13.398%;--rl:6.630%" role="img" aria-label="+2.75% to +3.69%, point estimate +3.22%, realised +2.73%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">15s</span><span class="fill"><i style="width:85%"></i><b>85%</b></span><span class="pos strong">+2.73%</span></div><div class="app-row"><span class="ev-name">MIA @ NYK</span><span class="dim">DraftKings</span><span class="price">+106</span><span class="pos">+3.47%</span><span class="band"><span class="rf rf--row" style="--lo:10.359%;--hi:23.343%;--pt:16.851%;--rl:6.492%" role="img" aria-label="+3.00% to +3.94%, point estimate +3.47%, realised +2.72%"><i class="rf-band"></i><i class="rf-real"></i><i class="rf-pt"></i></span></span><span class="dim">22s</span><span class="fill"><i style="width:78%"></i><b>78%</b></span><span class="pos strong">+2.72%</span></div>
   </div>
-  <p class="hero-app-cap">Ranked on <strong>realised</strong> EV &mdash; raw
-  edge times the chance the price is still there.</p>
+  <p class="hero-app-cap">The window as it ships &mdash; five tabs, no feed, no
+  account. Every figure here is the engine's own answer, computed when this
+  page was built.</p>
 </div>
 </div>
 
@@ -138,7 +157,7 @@ bets and keep the account that places them.</p>
   </div>
 </section>
 
-<div class="hero-after">
+<div>
 
 <figure class="plate plate--split">
   <div>
@@ -246,7 +265,105 @@ bets and keep the account that places them.</p>
   </div>
 </article>
 </section>
-<p>Every other tracker prints 5.91% and stops.</p>
+
+<section class="speed">
+  <p class="eyebrow accent">From a price on screen to a decision</p>
+  <h2>The bet you place late is a different bet</h2>
+  <p class="speed-lede">A quote you take 15.4s after it was
+  posted is worth 3.37% of a 4%
+  edge, not 4%. Everything in the window is built around
+  getting you to an answer before that decay eats it.</p>
+  <ol class="steps">
+    <li>
+      <b>Open it</b>
+      <p>No account, no login, no sync. It runs offline, so there is no
+      round trip between you and an answer.</p>
+    </li>
+    <li>
+      <b>Type the price</b>
+      <p>Every field is already filled with a worked example, so you can see
+      the shape of the answer before you have typed anything. Replace the
+      numbers that differ.</p>
+    </li>
+    <li>
+      <b>Press Enter</b>
+      <p>Enter runs the tab you are in. Reaching for the mouse to submit a
+      four-character form is the slowest part of a fast decision.</p>
+    </li>
+    <li>
+      <b>Check it is still there</b>
+      <p>The fifth tab prices the quote's age against the book's own latency
+      and tells you the chance it fills &mdash; 84% on a
+      10s quote, against the 89% a
+      screen that ignores its own lag would show you.</p>
+    </li>
+  </ol>
+</section>
+
+<section class="heat-home">
+  <div class="heat-say">
+    <p class="eyebrow accent">And the account still has to be there tomorrow</p>
+    <h2>An edge you get limited out of is a hobby</h2>
+    <p>Risk desks do not read your intentions. They read the shape of your
+    betting: how precise the stakes are, which markets you pick, how fast you
+    react. Bookbreaker scores that shape and spends a named amount of edge to
+    soften it.</p>
+    <p class="heat-line"><strong>What it will never do:</strong> no
+    multi-accounting, no identity or KYC workarounds, no device or location
+    spoofing. The model reads bet attributes only &mdash; stake, timing,
+    market, velocity &mdash; and has no access to identity or network state.
+    That line is drawn in the code, not in a policy page.</p>
+    <p><a class="more" href="/account-longevity/">The whole model, with its
+    numbers &rarr;</a></p>
+  </div>
+  <div class="heat-plates">
+    <div class="hp">
+      <span class="hp-lab">Stake precision</span>
+      <p><b>100%</b> mechanical at
+      473.82</p>
+      <p><b>0%</b> at 500.00</p>
+      <span class="hp-note">Nobody types 473.82.</span>
+    </div>
+    <div class="hp">
+      <span class="hp-lab">Market mix</span>
+      <p><b>5%</b> h2h</p>
+      <p><b>90%</b>
+      alternate_spreads</p>
+      <span class="hp-note">Edge hides where attention does not go, which
+      is exactly what makes it visible.</span>
+    </div>
+    <div class="hp">
+      <span class="hp-lab">Reaction time</span>
+      <p><b>99%</b> at
+      0.5s</p>
+      <p><b>5%</b> at
+      120s</p>
+      <span class="hp-note">No human refreshes and decides in half a
+      second.</span>
+    </div>
+    <div class="hp hp--wide">
+      <span class="hp-lab">Where it does nothing at all</span>
+      <p>At a book that does not limit winners, the stake is left alone:
+      <b>473.82</b> stands, where a retail book would see
+      <b>470</b>. Spending edge to hide from a risk desk that does
+      not exist is the most common way these tactics are applied wrongly.</p>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <h2>Download it and price one market</h2>
+  <p>Free, 167 KB, no account, and it never talks to
+  us. If the first market you run through it does not tell you something your
+  current tool did not, you have lost ninety seconds.</p>
+  <div class="cta">
+    <a class="btn primary" href="/download/">Download free<span class="sub">v0.1.3 &middot; macOS</span></a>
+    <a class="btn ghost" href="/how-it-works/">Read how it prices first</a>
+  </div>
+  <p class="close-note">Checksums are published for every release, and the
+  window makes no network calls of any kind &mdash; that is enforced by a test,
+  not a promise.</p>
+</section>
 
 <script type="application/json" id="demo-data">{"edge":4.0,"low":3.52,"high":4.48,"bankroll":10000,"tau":60.0,"floor":2.0,"ladder":[{"age":0,"fill":96.7,"realised":3.87,"stake":87.93,"stake_shown":88},{"age":2,"fill":96.7,"realised":3.87,"stake":87.93,"stake_shown":88},{"age":5,"fill":92.0,"realised":3.68,"stake":83.64,"stake_shown":84},{"age":10,"fill":84.6,"realised":3.39,"stake":76.95,"stake_shown":77},{"age":20,"fill":71.7,"realised":2.87,"stake":65.14,"stake_shown":65},{"age":30,"fill":60.7,"realised":2.43,"stake":55.14,"stake_shown":55},{"age":45,"fill":47.2,"realised":1.89,"stake":42.94,"stake_shown":43},{"age":60,"fill":36.8,"realised":1.47,"stake":33.44,"stake_shown":33},{"age":90,"fill":22.3,"realised":0.89,"stake":20.28,"stake_shown":20},{"age":120,"fill":13.5,"realised":0.54,"stake":12.3,"stake_shown":12}],"best":{"age":0,"fill":96.7,"realised":3.87,"stake":87.93,"stake_shown":88},"worst":{"age":120,"fill":13.5,"realised":0.54,"stake":12.3,"stake_shown":12}}</script>
 <script>

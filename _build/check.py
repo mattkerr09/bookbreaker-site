@@ -315,6 +315,34 @@ def check_redirects(redirects, fails):
             fails.append(f"{path}: redirects to itself")
 
 
+def check_every_class_is_styled(pages, fails):
+    """Markup whose class the stylesheet never mentions draws nothing.
+
+    This has now shipped three times: a data plate whose six classes did not
+    exist, and two whole homepage sections that rendered as unstyled text.
+    Every time the gate stayed green, because the gate reads what a page says
+    and never asks whether anything makes it look like anything.
+
+    Geometry lives in `style=""` attributes in places, which this cannot see,
+    so the rule is narrow on purpose: a class used in the markup must appear
+    somewhere in the stylesheet. That catches the typo and the forgotten
+    block without pretending to audit the cascade.
+    """
+    css = (SITE / "style.css").read_text()
+    styled = set(re.findall(r"\.(-?[_a-zA-Z][\w-]*)", css))
+    seen: dict[str, str] = {}
+    for path, markup in pages:
+        for attr in re.findall(r'class="([^"]+)"', markup):
+            for name in attr.split():
+                if name not in styled:
+                    seen.setdefault(name, path)
+    for name, where in sorted(seen.items()):
+        fails.append(
+            f"class .{name} is used in {where} but appears nowhere in "
+            f"style.css — that markup renders unstyled"
+        )
+
+
 def check_head(pages, fails):
     for path, markup in pages:
         for tag, pattern in (
@@ -568,6 +596,31 @@ def self_test() -> int:
     print(f"self-test passed: duplicates flagged, distinct pages not "
           f"(word-set {MAX_FAMILY_SIMILARITY}, shingles "
           f"{SHINGLE_SIMILARITY} over {MAX_SHINGLE_PAIRS} pairs)")
+    # The unstyled-class gate, proved both ways. This one has to be exercised
+    # here rather than by a find-and-replace break, because breaking it means
+    # removing a rule from a stylesheet the checker reads off disk.
+    styled_page = [("x/index.html", '<main class="speed"><p class="hp">y</p></main>')]
+    unstyled: list[str] = []
+    _real_css = (SITE / "style.css")
+    seen_css = _real_css.read_text()
+    if ".speed" not in seen_css or ".hp" not in seen_css:
+        print("SELF-TEST FAILED: fixture classes are not in the real "
+              "stylesheet, so this case proves nothing", file=sys.stderr)
+        return 1
+    check_every_class_is_styled(styled_page, unstyled)
+    if unstyled:
+        print(f"SELF-TEST FAILED: styled classes were flagged: {unstyled}",
+              file=sys.stderr)
+        return 1
+
+    ghost = [("x/index.html", '<main class="no-such-class-anywhere">y</main>')]
+    ghost_fails: list[str] = []
+    check_every_class_is_styled(ghost, ghost_fails)
+    if not ghost_fails:
+        print("SELF-TEST FAILED: a class with no rule behind it was not "
+              "flagged", file=sys.stderr)
+        return 1
+
     return 0
 
 
@@ -606,6 +659,7 @@ def main() -> int:
     check_competitor_claims(pages, fails)
     check_every_competitor_row_is_sourced(pages, fails)
     check_head(pages, fails)
+    check_every_class_is_styled(pages, fails)
     check_internal_links(pages, fails)
     check_sitemap(pages, fails)
     check_not_machine_made(pages, fails)

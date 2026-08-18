@@ -104,6 +104,39 @@ def load_engine(app_repo: Path):
     return overlay_engine
 
 
+def read_app_window(app_repo: Path) -> dict:
+    """What the shipped window actually contains, read from its own source.
+
+    The hero used to depict a live +EV screen with a LIVE badge. The app has
+    no such screen and cannot have one: it makes no network calls at all, by
+    design and under test. The largest element on the site advertised a
+    product surface that does not exist.
+
+    So the hero is now built from `ui/src/index.html` rather than from
+    imagination. If a tab is renamed or removed, this page changes with it,
+    and if the file cannot be read the build fails rather than falling back
+    to a plausible picture.
+    """
+    src = app_repo / "ui" / "src" / "index.html"
+    if not src.exists():
+        raise SystemExit(f"cannot depict the app: no window source at {src}")
+    text = src.read_text()
+
+    tabs = re.findall(r'<button class="tab[^"]*"[^>]*>([^<]+)</button>', text)
+    panels = re.findall(r'data-panel="([a-z]+)"', text)
+    heads = re.findall(r"<h1>([^<]+)", text)
+    if not tabs or len(tabs) != len(heads):
+        raise SystemExit(
+            f"window source parsed to {len(tabs)} tabs and {len(heads)} "
+            f"headlines; the hero would depict something that is not the app"
+        )
+    return {
+        "tabs": [t.strip() for t in tabs],
+        "panels": sorted(set(panels)),
+        "heads": [h.strip() for h in heads],
+    }
+
+
 def measure(engine) -> dict:
     """Run the engine and collect every number the site will show.
 
@@ -1251,11 +1284,18 @@ def measure(engine) -> dict:
     return out
 
 
+# The mark: a B whose top bowl is pushed out of line. Two books quoting the
+# same market at different prices, and the gap between them is the product.
+# The gradient id is namespaced because this ships inline on every page.
 MARK = (
-    '<svg class="mark" viewBox="0 0 28 28" aria-hidden="true">'
-    '<rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" '
-    'stroke="currentColor" stroke-width="2" opacity=".38"/>'
-    '<circle cx="10" cy="14" r="3.4" fill="currentColor"/>'
+    '<svg class="mark" viewBox="0 0 64 64" aria-hidden="true">'
+    '<defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1">'
+    '<stop offset="0" stop-color="#7c6cff"/>'
+    '<stop offset="1" stop-color="#4a3fd6"/>'
+    '</linearGradient></defs>'
+    '<rect width="64" height="64" rx="14" fill="url(#bbTile)"/>'
+    '<path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/>'
+    '<path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/>'
     '</svg>'
 )
 
@@ -1595,6 +1635,7 @@ the shape of the bet, because everything else is fraud rather than strategy.</p>
 
 def render_index(m: dict) -> str:
     d = m["devig"]
+    h = m["heat"]
     dm = m["demo"]
     f = m["fill"]
     hero = m["hero"]
@@ -1604,6 +1645,13 @@ def render_index(m: dict) -> str:
     # realised caret land underneath MIA @ NYK's band while its raw band sits
     # furthest right — the collapse the footer sentence describes, drawn.
     screen_domain = shared_domain(screen)
+
+    # The hero's tab strip, from the window's own source. "Will it fill?" is
+    # shown active because it is the tab no competitor has.
+    app_tabs = "".join(
+        f'<span class="win-tab{" is-on" if i == 4 else ""}">{e(t)}</span>'
+        for i, t in enumerate(m["app"]["tabs"])
+    )
     rows = "".join(
         f'<div class="app-row">'
         f'<span class="ev-name">{e(r["event"])}</span>'
@@ -1660,12 +1708,14 @@ def render_index(m: dict) -> str:
 <p class="eyebrow accent">Free &middot; Runs on your machine</p>
 <h1>Find your edge,
 <em>with the error bar.</em></h1>
+<div class="hero-aside">
 <p class="lede">Real prices from {m['catalog']['venues']} sportsbooks, devigged
 four ways, and every number carrying what it might be wrong by. Built to find
 bets and keep the account that places them.</p>
 <div class="cta">
 <a class="btn primary" href="/download/">Download free<span class="sub">v{m['release']['version']} &middot; {m['release']['wheel']['kb']} KB</span></a>
 <a class="btn ghost" href="/how-it-works/">See how it prices a market</a>
+</div>
 </div>
 <ul class="quals">
   <li>No account, ever</li>
@@ -1676,21 +1726,38 @@ bets and keep the account that places them.</p>
 </div>
 
 <div class="hero-app">
-  <div class="app app--hero">
-    <div class="app-bar">
+  <div class="win">
+    <div class="win-bar">
       <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      <span class="app-title">+EV &middot; NBA totals &middot; live</span>
-      <span class="app-meta">sorted by realised EV</span>
+      <span class="win-name">Bookbreaker</span>
+      <span class="win-ver">{m['version']}</span>
     </div>
-    <div class="app-head">
-      <span>Market</span><span>Book</span><span>Price</span>
-      <span>EV</span><span>Band</span><span>Age</span><span>Fill</span>
-      <span>Realised</span>
+    <nav class="win-tabs">{app_tabs}</nav>
+    <div class="win-body">
+      <h3 class="win-q">{e(m['app']['heads'][4])}</h3>
+      <div class="win-in">
+        <span><i>Book</i><b>DraftKings</b></span>
+        <span><i>Market</i><b>Moneyline</b></span>
+        <span><i>Quote age</i><b>{m['fill']['age']:.0f}s</b></span>
+      </div>
+      <div class="win-out">
+        <div class="win-big">
+          <b>{m['fill']['honest']}%</b>
+          <span>chance the price is still there</span>
+        </div>
+        <div class="win-side">
+          <p><b>{m['fill']['effective']}s</b> effective age &mdash; your
+          {m['fill']['age']:.0f}s plus {m['fill']['latency']}s of feed lag</p>
+          <p><b>{m['fill']['edge_honest']}%</b> of a {m['fill']['edge']:.0f}%
+          edge survives it. Ignoring the lag would have said
+          {m['fill']['edge_naive']}%.</p>
+        </div>
+      </div>
     </div>
-    {rows}
   </div>
-  <p class="hero-app-cap">Ranked on <strong>realised</strong> EV &mdash; raw
-  edge times the chance the price is still there.</p>
+  <p class="hero-app-cap">The window as it ships &mdash; five tabs, no feed, no
+  account. Every figure here is the engine's own answer, computed when this
+  page was built.</p>
 </div>
 </div>
 
@@ -1756,7 +1823,7 @@ bets and keep the account that places them.</p>
   </div>
 </section>
 
-<div class="hero-after">
+<div>
 
 <figure class="plate plate--split">
   <div>
@@ -1864,7 +1931,105 @@ bets and keep the account that places them.</p>
   </div>
 </article>
 </section>
-<p>Every other tracker prints {p['roi']:.2f}% and stops.</p>
+
+<section class="speed">
+  <p class="eyebrow accent">From a price on screen to a decision</p>
+  <h2>The bet you place late is a different bet</h2>
+  <p class="speed-lede">A quote you take {m['fill']['effective']}s after it was
+  posted is worth {m['fill']['edge_honest']}% of a {m['fill']['edge']:.0f}%
+  edge, not {m['fill']['edge']:.0f}%. Everything in the window is built around
+  getting you to an answer before that decay eats it.</p>
+  <ol class="steps">
+    <li>
+      <b>Open it</b>
+      <p>No account, no login, no sync. It runs offline, so there is no
+      round trip between you and an answer.</p>
+    </li>
+    <li>
+      <b>Type the price</b>
+      <p>Every field is already filled with a worked example, so you can see
+      the shape of the answer before you have typed anything. Replace the
+      numbers that differ.</p>
+    </li>
+    <li>
+      <b>Press Enter</b>
+      <p>Enter runs the tab you are in. Reaching for the mouse to submit a
+      four-character form is the slowest part of a fast decision.</p>
+    </li>
+    <li>
+      <b>Check it is still there</b>
+      <p>The fifth tab prices the quote's age against the book's own latency
+      and tells you the chance it fills &mdash; {m['fill']['honest']}% on a
+      {m['fill']['age']:.0f}s quote, against the {m['fill']['naive']}% a
+      screen that ignores its own lag would show you.</p>
+    </li>
+  </ol>
+</section>
+
+<section class="heat-home">
+  <div class="heat-say">
+    <p class="eyebrow accent">And the account still has to be there tomorrow</p>
+    <h2>An edge you get limited out of is a hobby</h2>
+    <p>Risk desks do not read your intentions. They read the shape of your
+    betting: how precise the stakes are, which markets you pick, how fast you
+    react. Bookbreaker scores that shape and spends a named amount of edge to
+    soften it.</p>
+    <p class="heat-line"><strong>What it will never do:</strong> no
+    multi-accounting, no identity or KYC workarounds, no device or location
+    spoofing. The model reads bet attributes only &mdash; stake, timing,
+    market, velocity &mdash; and has no access to identity or network state.
+    That line is drawn in the code, not in a policy page.</p>
+    <p><a class="more" href="/account-longevity/">The whole model, with its
+    numbers &rarr;</a></p>
+  </div>
+  <div class="heat-plates">
+    <div class="hp">
+      <span class="hp-lab">Stake precision</span>
+      <p><b>{h['stakes'][0]['heat']}%</b> mechanical at
+      {e(h['stakes'][0]['stake'])}</p>
+      <p><b>{h['stakes'][3]['heat']}%</b> at {e(h['stakes'][3]['stake'])}</p>
+      <span class="hp-note">Nobody types {e(h['stakes'][0]['stake'])}.</span>
+    </div>
+    <div class="hp">
+      <span class="hp-lab">Market mix</span>
+      <p><b>{h['markets'][0]['heat']}%</b> {e(h['markets'][0]['market'])}</p>
+      <p><b>{h['markets'][2]['heat']}%</b>
+      {e(h['markets'][2]['market'])}</p>
+      <span class="hp-note">Edge hides where attention does not go, which
+      is exactly what makes it visible.</span>
+    </div>
+    <div class="hp">
+      <span class="hp-lab">Reaction time</span>
+      <p><b>{h['reaction'][0]['heat']}%</b> at
+      {e(h['reaction'][0]['after'])}</p>
+      <p><b>{h['reaction'][2]['heat']}%</b> at
+      {e(h['reaction'][2]['after'])}</p>
+      <span class="hp-note">No human refreshes and decides in half a
+      second.</span>
+    </div>
+    <div class="hp hp--wide">
+      <span class="hp-lab">Where it does nothing at all</span>
+      <p>At a book that does not limit winners, the stake is left alone:
+      <b>{e(h['untouched'])}</b> stands, where a retail book would see
+      <b>{h['shaped']}</b>. Spending edge to hide from a risk desk that does
+      not exist is the most common way these tactics are applied wrongly.</p>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <h2>Download it and price one market</h2>
+  <p>Free, {m['release']['wheel']['kb']} KB, no account, and it never talks to
+  us. If the first market you run through it does not tell you something your
+  current tool did not, you have lost ninety seconds.</p>
+  <div class="cta">
+    <a class="btn primary" href="/download/">Download free<span class="sub">v{m['release']['version']} &middot; macOS</span></a>
+    <a class="btn ghost" href="/how-it-works/">Read how it prices first</a>
+  </div>
+  <p class="close-note">Checksums are published for every release, and the
+  window makes no network calls of any kind &mdash; that is enforced by a test,
+  not a promise.</p>
+</section>
 """ + DEMO_SCRIPT.replace("__DEMO_DATA__",
                           json.dumps(m["demo"], separators=(",", ":")))
 
@@ -4546,8 +4711,25 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
      underneath it be large enough to read. */
   .hero{grid-template-columns:1fr;gap:clamp(2rem,3.5vw,3.25rem);
     align-items:start}
-  .hero-copy h1{font-size:clamp(3.2rem,5.6vw,4.75rem);line-height:1;
-    max-width:16ch}
+  /* Amended after measuring Quartr, the chosen reference: its headline is
+     68px over a 632px column at 1440 — 44% of the viewport — with the
+     supporting line and the call to action beside it, not beneath it. The
+     original note here is still right that 31rem is too narrow to break a
+     display headline; the fix is a wider column, not a stacked one. Ours was
+     76px running the full 1168px, which left the right half of the hero
+     empty for the whole height of the headline. */
+  .hero-copy{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
+    column-gap:clamp(2.5rem,4.5vw,4.5rem);align-items:end}
+  /* The eyebrow stays in column one. Spanning it made row one full-width and
+     row two 235px tall, so the headline sat bottom-aligned inside its own
+     cell with 120px of nothing above it — the headline read as sunk rather
+     than as the first thing on the page. */
+  .hero-copy .eyebrow{grid-column:1;grid-row:1;margin-bottom:0}
+  .hero-copy h1{grid-column:1;grid-row:2;
+    font-size:clamp(3.2rem,4.2vw,3.5rem);line-height:1.02;
+    max-width:13ch;margin:.75rem 0 0}
+  .hero-aside{grid-column:2;grid-row:1/3;align-self:end}
+  .hero-aside .lede{max-width:34ch}
   .hero-copy .lede{font-size:clamp(1.15rem,1.35vw,1.35rem);max-width:44ch}
   .hero-app{width:100%}
   .app--hero{max-width:none;transform:perspective(2000px) rotateX(2deg);
@@ -5380,8 +5562,9 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
    "this is a different point". */
 @media (min-width:64rem){
   body.home .demo,body.home .wall{margin-block:clamp(3.5rem,6vw,6rem)}
-  body.home .demo>h2,body.home .pitch-copy h2{
-    font-size:clamp(1.9rem,2.6vw,2.6rem);letter-spacing:-.03em;line-height:1.1}
+  body.home .demo>h2,body.home .pitch-copy h2,
+  body.home .speed h2,body.home .heat-say h2,body.home .close h2{
+    font-size:clamp(1.75rem,2.2vw,2rem);letter-spacing:-.028em;line-height:1.14}
 }
 
 /* --- the demo is the interactive proof, so it gets presence ----------- */
@@ -5554,7 +5737,135 @@ main table td:last-child{white-space:nowrap;font-size:.78rem;
 @media (min-width:64rem){
   main table{min-width:0;width:100%}
 }
+
+/* PASS 12 — the hero depicts the window that ships.
+   New class names throughout (.win*), so nothing above is overridden. The old
+   .app--hero rules are left in place: other pages still use .app. */
+.win{
+  border:1px solid var(--rule);
+  border-radius:16px;
+  background:var(--card);
+  box-shadow:0 34px 90px -30px rgba(0,0,0,.75), 0 2px 0 rgba(255,255,255,.03) inset;
+  overflow:hidden;
+}
+.win-bar{
+  display:flex;align-items:center;gap:8px;
+  padding:11px 15px;
+  border-bottom:1px solid var(--rule);
+  background:var(--sink);
+}
+.win-name{margin-left:9px;font-weight:650;font-size:.82rem;letter-spacing:-.01em}
+.win-ver{margin-left:auto;font:500 .68rem/1 var(--mono);color:var(--ink-2);
+  letter-spacing:.06em}
+.win-tabs{display:flex;gap:5px;padding:12px 14px 0;flex-wrap:wrap}
+.win-tab{
+  font:600 .74rem/1 var(--sans);
+  padding:8px 13px;border-radius:8px 8px 0 0;
+  color:var(--ink-2);white-space:nowrap;
+}
+.win-tab.is-on{
+  color:#fff;
+  background:linear-gradient(180deg,var(--accent),var(--accent-hi));
+}
+.win-body{padding:26px 26px 28px;border-top:1px solid var(--rule);margin-top:-1px}
+.win-q{margin:0 0 20px;font-size:1.32rem;letter-spacing:-.022em;line-height:1.2}
+.win-in{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.win-in span{
+  flex:1 1 130px;min-width:0;
+  border:1px solid var(--rule);border-radius:10px;
+  padding:9px 12px;background:rgba(255,255,255,.02);
+}
+.win-in i{
+  display:block;font:600 .6rem/1 var(--mono);letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-2);margin-bottom:5px;font-style:normal;
+}
+.win-in b{font-weight:600;font-size:.9rem}
+.win-out{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+.win-big{flex:0 0 auto}
+.win-big b{
+  display:block;font-size:4.1rem;line-height:.92;letter-spacing:-.045em;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--accent),var(--accent-hi));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.win-big span{
+  display:block;margin-top:7px;
+  font:600 .63rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2);max-width:15ch;
+}
+.win-side{flex:1 1 220px;min-width:0;border-left:1px solid var(--rule);
+  padding-left:22px}
+.win-side p{margin:0 0 10px;font-size:.83rem;line-height:1.55;color:var(--ink-2)}
+.win-side p:last-child{margin-bottom:0}
+.win-side b{color:var(--ink);font-weight:650}
+@media (max-width:44rem){
+  .win-out{gap:18px}
+  .win-side{border-left:0;border-top:1px solid var(--rule);
+    padding-left:0;padding-top:16px;flex-basis:100%}
+  .win-big b{font-size:3.2rem}
+  .win-body{padding:20px 18px 22px}
+}
+
+/* PASS 13 — the three sections the homepage was missing: how fast you get to
+   an answer, why the account survives, and an actual way to leave. Written
+   after the first draft shipped with no rules at all for .speed, .steps or
+   .heat-home — the markup rendered and the gate stayed green, because the
+   gate reads content and not whether anything styles it. */
+.speed{padding-block:clamp(3rem,6vw,5.5rem) 0}
+.speed h2{max-width:18ch}
+.speed-lede{max-width:56ch;font-size:var(--t-5);color:var(--ink-2);
+  margin:var(--s-3) 0 var(--s-6)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:var(--r);
+  overflow:hidden}
+.steps li{background:var(--card);padding:var(--s-5) var(--s-5) var(--s-4);
+  counter-increment:step;position:relative}
+.steps li::before{content:"0" counter(step);
+  font:600 var(--t-1)/1 var(--mono);letter-spacing:.14em;color:var(--accent);
+  display:block;margin-bottom:var(--s-3)}
+.steps b{display:block;font-size:var(--t-6);letter-spacing:-.02em;
+  margin-bottom:.45rem;font-weight:650}
+.steps p{margin:0;color:var(--ink-2);font-size:var(--t-3);line-height:1.6}
+@media(min-width:52rem){.steps{grid-template-columns:repeat(4,1fr)}}
+
+.heat-home{padding-block:clamp(3rem,6vw,5.5rem) 0;display:grid;
+  gap:clamp(2rem,3.5vw,3.25rem)}
+@media(min-width:64rem){
+  .heat-home{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+    align-items:start}
+}
+.heat-say h2{max-width:15ch}
+.heat-say p{color:var(--ink-2);line-height:1.62;margin:var(--s-3) 0 0}
+.heat-line{border-left:2px solid var(--accent);padding-left:var(--s-4)}
+.heat-say strong{color:var(--ink)}
+.more{font-weight:600;text-decoration:none;color:var(--accent)}
+.more:hover{text-decoration:underline}
+.heat-plates{display:grid;gap:var(--s-3);grid-template-columns:1fr}
+@media(min-width:38rem){.heat-plates{grid-template-columns:repeat(3,1fr)}}
+.hp{border:1px solid var(--rule);border-radius:var(--r);
+  background:var(--card);padding:var(--s-4)}
+.hp--wide{grid-column:1/-1}
+.hp-lab{display:block;font:600 var(--t-1)/1 var(--mono);letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-2);margin-bottom:var(--s-3)}
+.hp p{margin:0 0 .3rem;font-size:var(--t-3);color:var(--ink-2)}
+.hp b{color:var(--accent);font-weight:700;font-size:var(--t-6);
+  letter-spacing:-.02em}
+.hp--wide b{font-size:var(--t-4)}
+.hp-note{display:block;margin-top:var(--s-3);font-size:var(--t-1);
+  line-height:1.5;color:var(--ink-3)}
+
+.close{margin-top:clamp(3.5rem,7vw,6rem);padding:clamp(2.5rem,5vw,4rem);
+  border:1px solid var(--rule);border-radius:var(--r);background:var(--card);
+  text-align:center}
+.close h2{margin:0 auto;max-width:20ch}
+.close>p{max-width:58ch;margin:var(--s-3) auto var(--s-5);color:var(--ink-2)}
+.close .cta{justify-content:center}
+.close-note{font-size:var(--t-1);color:var(--ink-3);max-width:52ch;
+  margin:var(--s-5) auto 0}
+body{counter-reset:step}
 """
+
+
 
 STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
 
@@ -5604,6 +5915,7 @@ def main() -> int:
     engine = load_engine(app_repo)
     measured = measure(engine)
     measured["engine_fingerprint"] = engine_fingerprint(app_repo)
+    measured["app"] = read_app_window(app_repo)
 
     built: list[tuple[str, str]] = []
 

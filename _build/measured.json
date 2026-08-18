@@ -1,4 +1,27 @@
 {
+  "app": {
+    "heads": [
+      "What is this price really worth?",
+      "Does this pair cross?",
+      "How much should this be?",
+      "What is this parlay really worth?",
+      "Is that price still there?"
+    ],
+    "panels": [
+      "arb",
+      "devig",
+      "fill",
+      "kelly",
+      "parlay"
+    ],
+    "tabs": [
+      "De-vig",
+      "Arbitrage",
+      "Stake",
+      "Parlay",
+      "Will it fill?"
+    ]
+  },
   "arb": {
     "exact_profit": 37.35,
     "exact_stakes": [
@@ -312,7 +335,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "e644ff352848d767",
+  "engine_fingerprint": "bf1fc707b3f3d87c",
   "evidence": {
     "bars": [
       {
