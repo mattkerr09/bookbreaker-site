@@ -343,6 +343,71 @@ def check_every_class_is_styled(pages, fails):
         )
 
 
+def check_announced_version_is_downloadable(pages, fails):
+    """The version the site names must be the version it can hand over.
+
+    Bumping the engine to 0.1.4 made every page read "Bookbreaker 0.1.4 is
+    out" while the download button still served Bookbreaker-0.1.3.dmg, because
+    0.1.4 had been built and not yet notarised. Every existing gate passed:
+    the links resolved, the files were there, the checksums matched. The only
+    false thing was the sentence beside them.
+    """
+    published = set()
+    for path in (SITE / "releases").glob("*"):
+        got = re.search(r"(\d+\.\d+\.\d+)", path.name)
+        if got:
+            published.add(got.group(1))
+    if not published:
+        return
+    for path, markup in pages:
+        for named in set(re.findall(r"Bookbreaker (\d+\.\d+\.\d+)",
+                                    visible(markup))):
+            if named not in published:
+                fails.append(
+                    f"{path}: announces Bookbreaker {named}, but releases/ "
+                    f"holds only {', '.join(sorted(published))} — the page "
+                    f"names a version it cannot give anyone"
+                )
+
+
+def check_the_tab_and_the_page_agree(pages, fails):
+    """theme-color has to be a colour the stylesheet actually uses.
+
+    It shipped as #0B6CFF through two complete repalettes — blue, then purple,
+    then amber — because it is a hex in a meta tag rather than a token, so
+    nothing that repointed the palette could reach it. The browser tab
+    advertised one brand while the page rendered another.
+    """
+    css = (SITE / "style.css").read_text().lower()
+    # Not "appears anywhere": #0b6cff is STILL in the stylesheet as a dead
+    # --accent override from the blue era, three passes back, so a substring
+    # test passes on exactly the bug this exists to catch. The self-test
+    # caught that, which is the whole reason for writing one.
+    #
+    # What matters is the value that wins the cascade, so take the last
+    # declaration of each accent token — later rules override earlier ones —
+    # and require the tab to be one of them.
+    live = set()
+    for token in ("--accent", "--accent-hi", "--accent-lo"):
+        found = re.findall(rf"{token}\s*:\s*(#[0-9a-f]{{3,8}})", css)
+        if found:
+            live.add(found[-1])
+    if not live:
+        fails.append("style.css declares no accent token, so nothing can be "
+                     "checked against the browser tab")
+        return
+    for path, markup in pages:
+        for hexcode in re.findall(
+                r'<meta name="theme-color" content="(#[0-9a-fA-F]{3,8})"',
+                markup):
+            if hexcode.lower() not in live:
+                fails.append(
+                    f"{path}: theme-color {hexcode} is not the accent the "
+                    f"page ends up using ({', '.join(sorted(live))}) — the "
+                    f"browser tab advertises a different brand from the page"
+                )
+
+
 def check_head(pages, fails):
     for path, markup in pages:
         for tag, pattern in (
@@ -596,6 +661,49 @@ def self_test() -> int:
     print(f"self-test passed: duplicates flagged, distinct pages not "
           f"(word-set {MAX_FAMILY_SIMILARITY}, shingles "
           f"{SHINGLE_SIMILARITY} over {MAX_SHINGLE_PAIRS} pairs)")
+    # The two gates added after a version bump advertised a file that did not
+    # exist and a repalette left the browser tab on the old brand. Both are
+    # exercised here because both read files off disk.
+    real = sorted(
+        m.group(1)
+        for m in (re.search(r"(\d+\.\d+\.\d+)", f.name)
+                  for f in (SITE / "releases").glob("*"))
+        if m
+    )
+    if real:
+        ahead = "9.9.9"
+        bad_ver = [("x/index.html", f"<main>Bookbreaker {ahead} is out</main>")]
+        ver_fails: list[str] = []
+        check_announced_version_is_downloadable(bad_ver, ver_fails)
+        if not ver_fails:
+            print("SELF-TEST FAILED: a page announcing an unpublished version "
+                  "was not flagged", file=sys.stderr)
+            return 1
+        ok_ver = [("x/index.html", f"<main>Bookbreaker {real[0]} is out</main>")]
+        ver_clean: list[str] = []
+        check_announced_version_is_downloadable(ok_ver, ver_clean)
+        if ver_clean:
+            print(f"SELF-TEST FAILED: a published version was flagged: "
+                  f"{ver_clean}", file=sys.stderr)
+            return 1
+
+    stale = [("x/index.html",
+              '<meta name="theme-color" content="#0B6CFF">')]
+    tab_fails: list[str] = []
+    check_the_tab_and_the_page_agree(stale, tab_fails)
+    if not tab_fails:
+        print("SELF-TEST FAILED: a theme-color absent from the stylesheet was "
+              "not flagged", file=sys.stderr)
+        return 1
+    live = [("x/index.html",
+             '<meta name="theme-color" content="#f5a524">')]
+    tab_clean: list[str] = []
+    check_the_tab_and_the_page_agree(live, tab_clean)
+    if tab_clean:
+        print(f"SELF-TEST FAILED: the real brand colour was flagged: "
+              f"{tab_clean}", file=sys.stderr)
+        return 1
+
     # The unstyled-class gate, proved both ways. This one has to be exercised
     # here rather than by a find-and-replace break, because breaking it means
     # removing a rule from a stylesheet the checker reads off disk.
@@ -660,6 +768,8 @@ def main() -> int:
     check_every_competitor_row_is_sourced(pages, fails)
     check_head(pages, fails)
     check_every_class_is_styled(pages, fails)
+    check_announced_version_is_downloadable(pages, fails)
+    check_the_tab_and_the_page_agree(pages, fails)
     check_internal_links(pages, fails)
     check_sitemap(pages, fails)
     check_not_machine_made(pages, fails)

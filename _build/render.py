@@ -101,7 +101,10 @@ def load_engine(app_repo: Path):
     # One typed number, one place to forget. It now comes from the same
     # engine.__version__ that m["release"]["version"] does.
     global RELEASE_VERSION
-    RELEASE_VERSION = overlay_engine.__version__
+    # The version announced anywhere on the site is the version of the file
+    # the site can actually hand over — see released_version(). The engine may
+    # legitimately be ahead of what has been notarised and published.
+    RELEASE_VERSION = released_version(overlay_engine.__version__)
 
     return overlay_engine
 
@@ -137,6 +140,23 @@ def read_app_window(app_repo: Path) -> dict:
         "panels": sorted(set(panels)),
         "heads": [h.strip() for h in heads],
     }
+
+
+def released_version(engine_version: str) -> str:
+    """The version of the newest artefact actually published in releases/.
+
+    Falls back to the engine's version only when there is nothing to serve at
+    all, which is the first-build case. Anything else would mean announcing a
+    release that does not exist.
+    """
+    found = set()
+    for path in (SITE / "releases").glob("*"):
+        got = re.search(r"(\d+\.\d+\.\d+)", path.name)
+        if got:
+            found.add(got.group(1))
+    if not found:
+        return engine_version
+    return max(found, key=lambda v: tuple(int(n) for n in v.split(".")))
 
 
 def measure(engine) -> dict:
@@ -620,8 +640,18 @@ def measure(engine) -> dict:
     app = _art(dmgs[-1]) if dmgs else None
 
     wheel, sdist = _art(wheels[-1]), _art(sdists[-1])
+    # The version the site ANNOUNCES is the version of the file it can actually
+    # hand over, which is not always the engine's version. Bumping the engine
+    # to 0.1.4 made every page read "Bookbreaker 0.1.4 is out" while the
+    # download button still served Bookbreaker-0.1.3.dmg, because 0.1.4 had
+    # been built but not yet notarised. Nothing caught it: the links were
+    # right, the files existed, and the claim beside them was false.
+    #
+    # So it is read off the artefact. A version still being built cannot
+    # announce itself, and the engine can move ahead of what has shipped
+    # without the site lying about it.
     out["release"] = {
-        "version": engine.__version__,
+        "version": released_version(engine.__version__),
         "wheel": wheel,
         "sdist": sdist,
         "app": app,
@@ -1525,7 +1555,7 @@ def page(title: str, description: str, body: str, path: str,
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#0B6CFF">
+<meta name="theme-color" content="#F5A524">
 <link rel="stylesheet" href="/style.css?v={STYLE_HASH}">
 {site_schema(path, body)}
 </head>
@@ -1826,7 +1856,7 @@ bets and keep the account that places them.</p>
     <div class="win-bar">
       <span class="dot"></span><span class="dot"></span><span class="dot"></span>
       <span class="win-name">Bookbreaker</span>
-      <span class="win-ver">{m['version']}</span>
+      <span class="win-ver">{m['release']['version']}</span>
     </div>
     <nav class="win-tabs">{app_tabs}</nav>
     <div class="win-body">
