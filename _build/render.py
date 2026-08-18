@@ -1562,6 +1562,7 @@ def page(title: str, description: str, body: str, path: str,
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#1493FF">
+<link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css?v={STYLE_HASH}">
 {site_schema(path, body)}
 </head>
@@ -4595,7 +4596,35 @@ you.</p>
 """
 
 
-STYLE = """/* The page is a printed statistical plate; the product is a dark terminal block
+STYLE = """/* PASS 16 — a typeface, because we were the only one of the six without one.
+
+   Measured: langchain sets its headline in Twklausanne, cofounder in neoris,
+   framer in GT Walsheim, avo in Inter. Ours resolved to -apple-system, which
+   is not a choice, it is the absence of one — and it is why the page read as
+   a template no matter what else moved.
+
+   Geist, self-hosted, latin subset only, variable so both weights are one
+   29KB file. SIL OFL 1.1; the licence ships beside it in /fonts/OFL.txt as
+   that licence requires. Nothing is fetched from a font CDN at runtime: the
+   site makes no third-party requests and adding one for a typeface would be
+   a real cost to a page whose whole argument is that it does not phone home.
+
+   font-display:swap, so the text is readable while 29KB arrives. */
+@font-face{
+  font-family:"Geist";
+  src:url("/fonts/geist.woff2") format("woff2");
+  font-weight:300 700;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Geist Mono";
+  src:url("/fonts/geist-mono.woff2") format("woff2");
+  font-weight:400 600;
+  font-style:normal;
+  font-display:swap;
+}
+/* The page is a printed statistical plate; the product is a dark terminal block
    set into it. Two rules hold the whole system together:
 
    1. Chroma appears where a MEASUREMENT appears, and in exactly one other
@@ -4647,8 +4676,8 @@ STYLE = """/* The page is a printed statistical plate; the product is a dark ter
 
   /* --- type --- */
   --serif:ui-serif,"Iowan Old Style",Charter,"Bitstream Charter",Georgia,Cambria,serif;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
   --display:-apple-system,BlinkMacSystemFont,"Segoe UI Variable Display",
     "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 
@@ -5928,7 +5957,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 /* --- 2. Scale contrast -------------------------------------------------
    The hero was 52px against 20px body — a 2.6x ratio that reads as "slightly
    bigger". Real hierarchy needs the headline to dominate. */
-.hero h1{letter-spacing:-.04em;font-weight:700}
+.hero h1{letter-spacing:-.035em;font-weight:560}
 .hero .lede{font-size:clamp(1.1rem,1.5vw,1.3rem);max-width:34rem;
   color:var(--ink-2)}
 .eyebrow{font-size:0.72rem}
@@ -6181,7 +6210,7 @@ body::before{
   :root:not([data-theme="dark"]) body::before{opacity:.42}}
 
 /* --- the headline carries two weights, like theirs -------------------- */
-.hero h1{font-weight:750}
+.hero h1{font-weight:560}
 .hero h1 em{font-style:normal;
   background:linear-gradient(96deg, var(--accent-lo), var(--accent) 62%);
   -webkit-background-clip:text;background-clip:text;color:transparent}

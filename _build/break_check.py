@@ -159,6 +159,13 @@ CASES = [
         "PASS-FOURTEEN-NEVER-RENDERED",
     ),
     (
+        "a typeface referenced but not shipped",
+        "check_media_exists",
+        "style.css",
+        "/fonts/geist.woff2",
+        "/fonts/geist-not-shipped.woff2",
+    ),
+    (
         "a hero video whose file is not there",
         "check_media_exists",
         "index.html",

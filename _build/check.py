@@ -839,6 +839,20 @@ def check_media_exists(pages, fails: list[str]) -> None:
             if not (SITE / src.lstrip("/")).exists():
                 fails.append(f"{page} references {src}, which is not on disk")
 
+    # And everything the stylesheet reaches for. A missing woff2 is invisible
+    # — the text simply renders in the fallback, which is exactly the state
+    # this site was in before it had a typeface at all.
+    css = (SITE / "style.css").read_text()
+    for url in set(re.findall(r'url\(["\']?(/[^)"\']+)["\']?\)', css)):
+        if not (SITE / url.lstrip("/")).exists():
+            fails.append(f"style.css references {url}, which is not on disk")
+
+    # A font shipped without its licence is a licensing problem, not a
+    # rendering one, and nothing else here would ever catch it.
+    if list((SITE / "fonts").glob("*.woff2")) if (SITE / "fonts").exists() else []:
+        if not any((SITE / "fonts").glob("*OFL*")) and not any((SITE / "fonts").glob("*LICEN*")):
+            fails.append("fonts/ ships a woff2 with no licence file beside it")
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
