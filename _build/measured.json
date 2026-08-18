@@ -312,7 +312,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "1f5dbc17581c339e",
+  "engine_fingerprint": "7065cb4f5970adb3",
   "evidence": {
     "bars": [
       {
@@ -678,10 +678,10 @@
   },
   "release": {
     "app": {
-      "kb": 6319,
+      "kb": 6321,
       "mb": 6.2,
-      "name": "Bookbreaker-0.1.0.dmg",
-      "sha256": "6352457d3748bc8070e8a16c15340703eb81255ea05c6e73c7f3277c131940aa"
+      "name": "Bookbreaker-0.1.1.dmg",
+      "sha256": "bc0e81c9efc2e09edd1f53213f782b5f7f59815527e632ff9e6a7a86bb7a5ce7"
     },
     "hash_bits": 256,
     "python": "3.9",
@@ -691,7 +691,7 @@
       "name": "overlay-0.1.0.tar.gz",
       "sha256": "f7db5d2c6d4cee4bb9b00801fa4441be055e7911c2fd0199c38596839eac19cf"
     },
-    "version": "0.1.0",
+    "version": "0.1.1",
     "wheel": {
       "kb": 150,
       "mb": 0.1,
@@ -3887,7 +3887,7 @@
     "sigma": 13.0,
     "window": 3
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "weights": {
     "max_age_days": 90
   }
