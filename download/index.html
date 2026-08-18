@@ -17,17 +17,17 @@
 <main>
 
 <h1>Download Bookbreaker</h1>
-<p class="lede">Version 0.1.1. Free, no account, and it never sends
+<p class="lede">Version 0.1.2. Free, no account, and it never sends
 your record anywhere &mdash; the ledger is a SQLite file on your own disk.</p>
 
-<div class="cta"><a class="btn primary" href="/releases/Bookbreaker-0.1.1.dmg">Download for macOS<span class="sub">6.2 MB &middot; signed</span></a><a class="btn ghost" href="/releases/overlay-0.1.0-py3-none-any.whl">Command-line wheel</a></div>
+<div class="cta"><a class="btn primary" href="/releases/Bookbreaker-0.1.2.dmg">Download for macOS<span class="sub">6.2 MB &middot; signed</span></a><a class="btn ghost" href="/releases/overlay-0.1.2-py3-none-any.whl">Command-line wheel</a></div>
 <p>The macOS app is signed with a Developer ID and notarised by Apple, so it opens without a warning and without you having to right-click your way past Gatekeeper. It carries the same engine the command line runs &mdash; the window does no arithmetic of its own, it asks the engine and shows the answer.</p>
 
 <h2>Install it</h2>
 <p>Bookbreaker is a command-line tool. It is pure Python with no third-party
 dependencies, so it runs the same on macOS, Linux and Windows and needs
 Python 3.9 or newer:</p>
-<pre><code>pip install https://bookbreaker.bet/releases/overlay-0.1.0-py3-none-any.whl
+<pre><code>pip install https://bookbreaker.bet/releases/overlay-0.1.2-py3-none-any.whl
 overlay --help</code></pre>
 <p>That is the whole installation. There is no installer, no signing prompt and
 no launch agent, because there is no background process &mdash; nothing runs
@@ -37,14 +37,14 @@ unless you type a command.</p>
 <p>The wheel's SHA-256 is worth checking against: the build pins its
 timestamps, and three separate builds of this version produced the same digest.
 Verify before installing:</p>
-<pre><code>shasum -a 256 overlay-0.1.0-py3-none-any.whl</code></pre>
+<pre><code>shasum -a 256 overlay-0.1.2-py3-none-any.whl</code></pre>
 <div class="scroll"><table>
 <tr><th>File</th><th>Size</th><th>SHA-256</th></tr>
-<tr><td>Bookbreaker-0.1.1.dmg</td><td>6.2 MB</td><td class="hash">bc0e81c9efc2e09edd1f53213f782b5f7f59815527e632ff9e6a7a86bb7a5ce7</td></tr>
-<tr><td>overlay-0.1.0-py3-none-any.whl</td><td>150 KB</td>
-<td class="hash">e2ac62d954008b973eb90e5beb6d52027dca5c4841491382d76dd928a713c094</td></tr>
-<tr><td>overlay-0.1.0.tar.gz</td><td>233 KB</td>
-<td class="hash">f7db5d2c6d4cee4bb9b00801fa4441be055e7911c2fd0199c38596839eac19cf</td></tr>
+<tr><td>Bookbreaker-0.1.2.dmg</td><td>6.2 MB</td><td class="hash">dbade8c5676570c22fc0177d047aeb8dd79d7a1af27930763768088ed849eb7b</td></tr>
+<tr><td>overlay-0.1.2-py3-none-any.whl</td><td>167 KB</td>
+<td class="hash">d1b23ed7e39e7a2a96d4aaa05ff25409bbfb98e4a41568650a63b78ce04456ce</td></tr>
+<tr><td>overlay-0.1.2.tar.gz</td><td>270 KB</td>
+<td class="hash">40e0cf92fc6b75e25ae3d3e766a7193c5e8002a44449d0bea723299c0cfb2c00</td></tr>
 </table></div>
 <p>These are read off the files themselves when this page is built. Nothing
 here was typed in, which is the only arrangement that makes publishing a
