@@ -1832,3 +1832,22 @@ main>.trust{margin-bottom:var(--float-gap)}
     box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 12px 32px -16px rgba(0,0,0,.6);
   }
 }
+
+/* PASS 15 — the hero is a recording now, not a drawing of one.
+
+   Every reference site Matthew put up carries motion in the first screen:
+   cofounder a 1539x900 autoplaying webm, framer five looping mp4s, langchain
+   a layered 1440x747 illustration, avo a tilted product shot over a glow.
+   Ours had zero images, zero video and zero CSS animations — measured, not
+   guessed — which is most of why it read as a template beside them. */
+.win--film{padding:0;overflow:hidden}
+.win--film .win-bar{border-radius:14px 14px 0 0;margin:0}
+.win-film{display:block;width:100%;height:auto;border:0;
+  border-radius:0 0 14px 14px;background:var(--sink)}
+@media (prefers-reduced-motion:reduce){
+  /* A looping video is decoration to some people and a problem to others.
+     The poster is the same first frame, so nothing is lost but the motion. */
+  .win-film{display:none}
+  .win--film{background:var(--sink) center/cover url(/media/app-poster.jpg);
+    min-height:min(46vw,520px)}
+}

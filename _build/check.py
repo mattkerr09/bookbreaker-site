@@ -823,6 +823,23 @@ def check_every_pass_reaches_the_stylesheet(fails: list[str]) -> None:
             f"into a docstring, where it parses and does nothing: {missing}")
 
 
+def check_media_exists(pages, fails: list[str]) -> None:
+    """Every <video>, <source> and <img> the pages reference is on disk.
+
+    A broken <img> is a small embarrassment. A <video> whose source 404s is a
+    hero that renders as a black rectangle, and no other check here looks at
+    binary files at all — check_internal_links follows anchors, not media.
+    """
+    seen: set[str] = set()
+    for page, markup in pages:
+        for src in re.findall(r'(?:src|poster)="(/[^"]+\.(?:mp4|webm|jpg|jpeg|png|svg|avif|gif))"', markup):
+            if src in seen:
+                continue
+            seen.add(src)
+            if not (SITE / src.lstrip("/")).exists():
+                fails.append(f"{page} references {src}, which is not on disk")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
@@ -881,6 +898,7 @@ def main() -> int:
             lambda: check_shingle_duplication(pages, fails),
         "check_responsible_gambling":
             lambda: check_responsible_gambling(pages, fails),
+        "check_media_exists": lambda: check_media_exists(pages, fails),
         "check_one_palette": lambda: check_one_palette(fails),
         "check_every_pass_reaches_the_stylesheet":
             lambda: check_every_pass_reaches_the_stylesheet(fails),

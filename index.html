@@ -31,7 +31,7 @@
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#1493FF">
-<link rel="stylesheet" href="/style.css?v=d0d5191ee5">
+<link rel="stylesheet" href="/style.css?v=6c9dff516b">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://bookbreaker.bet/#org", "name": "Bookbreaker", "url": "https://bookbreaker.bet/"}, {"@type": "WebSite", "@id": "https://bookbreaker.bet/#site", "name": "Bookbreaker", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}, {"@type": "SoftwareApplication", "name": "Bookbreaker", "applicationCategory": "FinanceApplication", "operatingSystem": "macOS", "softwareVersion": "0.1.4", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}]}</script>
 </head>
 <body class="home">
@@ -61,38 +61,25 @@ bets and keep the account that places them.</p>
 </div>
 
 <div class="hero-app">
-  <div class="win">
+  <div class="win win--film">
     <div class="win-bar">
       <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      <span class="win-name">Bookbreaker</span>
+      <span class="win-name">Recorded on this machine</span>
       <span class="win-ver">0.1.4</span>
     </div>
-    <nav class="win-tabs"><span class="win-tab">De-vig</span><span class="win-tab">Arbitrage</span><span class="win-tab">Stake</span><span class="win-tab">Parlay</span><span class="win-tab is-on">Will it fill?</span></nav>
-    <div class="win-body">
-      <h3 class="win-q">Is that price still there?</h3>
-      <div class="win-in">
-        <span><i>Book</i><b>DraftKings</b></span>
-        <span><i>Market</i><b>Moneyline</b></span>
-        <span><i>Quote age</i><b>10s</b></span>
-      </div>
-      <div class="win-out">
-        <div class="win-big">
-          <b>84%</b>
-          <span>chance the price is still there</span>
-        </div>
-        <div class="win-side">
-          <p><b>15.4s</b> effective age &mdash; your
-          10s plus 5.4s of feed lag</p>
-          <p><b>3.37%</b> of a 4%
-          edge survives it. Ignoring the lag would have said
-          3.58%.</p>
-        </div>
-      </div>
-    </div>
+    <video class="win-film" autoplay loop muted playsinline
+           poster="/media/app-poster.jpg" width="1280" height="800"
+           aria-label="A recording of the app de-vigging a price and then
+                       ageing a quote until the edge decays">
+      <source src="/media/app.mp4" type="video/mp4">
+      <source src="/media/app.webm" type="video/webm">
+    </video>
   </div>
-  <p class="hero-app-cap">The window as it ships &mdash; five tabs, no feed, no
-  account. Every figure here is the engine's own answer, computed when this
-  page was built. The 5.4s of lag is fitted to
+  <p class="hero-app-cap">The window as it ships, recorded &mdash; not a
+  mockup. Every number on screen is the engine's own answer to what is being
+  typed: the de-vig is a real 0.39% disagreement between
+  four methods, and the quote is aged from 4s to 100s so the fill falls with
+  it. The 5.4s of lag is fitted to
   30 recorded observations; a fresh install
   has none of your own yet and says so, starting from a stated prior and a
   slightly kinder number until it does.</p>

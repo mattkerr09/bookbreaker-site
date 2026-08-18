@@ -1858,38 +1858,25 @@ bets and keep the account that places them.</p>
 </div>
 
 <div class="hero-app">
-  <div class="win">
+  <div class="win win--film">
     <div class="win-bar">
       <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      <span class="win-name">Bookbreaker</span>
+      <span class="win-name">Recorded on this machine</span>
       <span class="win-ver">{m['release']['version']}</span>
     </div>
-    <nav class="win-tabs">{app_tabs}</nav>
-    <div class="win-body">
-      <h3 class="win-q">{e(m['app']['heads'][4])}</h3>
-      <div class="win-in">
-        <span><i>Book</i><b>DraftKings</b></span>
-        <span><i>Market</i><b>Moneyline</b></span>
-        <span><i>Quote age</i><b>{m['fill']['age']:.0f}s</b></span>
-      </div>
-      <div class="win-out">
-        <div class="win-big">
-          <b>{m['fill']['honest']}%</b>
-          <span>chance the price is still there</span>
-        </div>
-        <div class="win-side">
-          <p><b>{m['fill']['effective']}s</b> effective age &mdash; your
-          {m['fill']['age']:.0f}s plus {m['fill']['latency']}s of feed lag</p>
-          <p><b>{m['fill']['edge_honest']}%</b> of a {m['fill']['edge']:.0f}%
-          edge survives it. Ignoring the lag would have said
-          {m['fill']['edge_naive']}%.</p>
-        </div>
-      </div>
-    </div>
+    <video class="win-film" autoplay loop muted playsinline
+           poster="/media/app-poster.jpg" width="1280" height="800"
+           aria-label="A recording of the app de-vigging a price and then
+                       ageing a quote until the edge decays">
+      <source src="/media/app.mp4" type="video/mp4">
+      <source src="/media/app.webm" type="video/webm">
+    </video>
   </div>
-  <p class="hero-app-cap">The window as it ships &mdash; five tabs, no feed, no
-  account. Every figure here is the engine's own answer, computed when this
-  page was built. The {m['fill']['latency']}s of lag is fitted to
+  <p class="hero-app-cap">The window as it ships, recorded &mdash; not a
+  mockup. Every number on screen is the engine's own answer to what is being
+  typed: the de-vig is a real {m['devig']['spread']:.2f}% disagreement between
+  four methods, and the quote is aged from 4s to 100s so the fill falls with
+  it. The {m['fill']['latency']}s of lag is fitted to
   {m['fill']['latency_observations']} recorded observations; a fresh install
   has none of your own yet and says so, starting from a stated prior and a
   slightly kinder number until it does.</p>
@@ -6460,6 +6447,25 @@ main>.trust{margin-bottom:var(--float-gap)}
   :root:not([data-theme="light"]) .close{
     box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 12px 32px -16px rgba(0,0,0,.6);
   }
+}
+
+/* PASS 15 — the hero is a recording now, not a drawing of one.
+
+   Every reference site Matthew put up carries motion in the first screen:
+   cofounder a 1539x900 autoplaying webm, framer five looping mp4s, langchain
+   a layered 1440x747 illustration, avo a tilted product shot over a glow.
+   Ours had zero images, zero video and zero CSS animations — measured, not
+   guessed — which is most of why it read as a template beside them. */
+.win--film{padding:0;overflow:hidden}
+.win--film .win-bar{border-radius:14px 14px 0 0;margin:0}
+.win-film{display:block;width:100%;height:auto;border:0;
+  border-radius:0 0 14px 14px;background:var(--sink)}
+@media (prefers-reduced-motion:reduce){
+  /* A looping video is decoration to some people and a problem to others.
+     The poster is the same first frame, so nothing is lost but the motion. */
+  .win-film{display:none}
+  .win--film{background:var(--sink) center/cover url(/media/app-poster.jpg);
+    min-height:min(46vw,520px)}
 }
 """
 

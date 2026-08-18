@@ -159,6 +159,13 @@ CASES = [
         "PASS-FOURTEEN-NEVER-RENDERED",
     ),
     (
+        "a hero video whose file is not there",
+        "check_media_exists",
+        "index.html",
+        '/media/app.mp4',
+        '/media/app-that-does-not-exist.mp4',
+    ),
+    (
         "a superseded palette left in the stylesheet",
         "check_one_palette",
         "style.css",
