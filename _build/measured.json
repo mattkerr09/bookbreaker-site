@@ -3704,7 +3704,8 @@
       ],
       "stake": 100,
       "sym": "$",
-      "yearly": 1056.0
+      "yearly": 1056.0,
+      "yearly_whole": 1056
     },
     "betburger": {
       "fee": 79.99,
@@ -3727,7 +3728,8 @@
       ],
       "stake": 100,
       "sym": "\u20ac",
-      "yearly": 959.88
+      "yearly": 959.88,
+      "yearly_whole": 960
     },
     "betstamp-pro": {
       "fee": 347.0,
@@ -3750,7 +3752,8 @@
       ],
       "stake": 100,
       "sym": "$",
-      "yearly": 4164.0
+      "yearly": 4164.0,
+      "yearly_whole": 4164
     },
     "crazy-ninja-odds": {
       "fee": 5.0,
@@ -3773,7 +3776,8 @@
       ],
       "stake": 100,
       "sym": "$",
-      "yearly": 60.0
+      "yearly": 60.0,
+      "yearly_whole": 60
     },
     "oddsjam": {
       "fee": 199.99,
@@ -3796,7 +3800,8 @@
       ],
       "stake": 100,
       "sym": "$",
-      "yearly": 2399.88
+      "yearly": 2399.88,
+      "yearly_whole": 2400
     },
     "rebelbetting": {
       "fee": 89.0,
@@ -3819,7 +3824,8 @@
       ],
       "stake": 100,
       "sym": "\u00a3",
-      "yearly": 1068.0
+      "yearly": 1068.0,
+      "yearly_whole": 1068
     },
     "smartstake": {
       "fee": 99.0,
@@ -3842,7 +3848,8 @@
       ],
       "stake": 100,
       "sym": "$",
-      "yearly": 1188.0
+      "yearly": 1188.0,
+      "yearly_whole": 1188
     },
     "unabated": {
       "fee": 99.0,
@@ -3865,7 +3872,8 @@
       ],
       "stake": 100,
       "sym": "$",
-      "yearly": 1188.0
+      "yearly": 1188.0,
+      "yearly_whole": 1188
     }
   },
   "totals_middle": {

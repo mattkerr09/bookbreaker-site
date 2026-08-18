@@ -801,6 +801,7 @@ def measure(engine) -> dict:
             "fee": round(_fee, 2),
             "stake": int(_stake),
             "yearly": round(_fee * 12, 2),
+            "yearly_whole": round(_fee * 12),
             "rows": [
                 {"edge": edge,
                  "bets": int(-(-_fee // (_stake * edge / 100.0))),
@@ -3098,11 +3099,11 @@ def render_versus(m: dict, row: dict) -> str:
 
     if sub:
         cost = (f"<p>{e(row['name'])} lists {e(row['price'])}. The cheapest "
-                f"monthly plan is {sub['sym']}{sub['yearly']:,.0f} a year you "
+                f"monthly plan is {sub['sym']}{sub['yearly_whole']:,} a year you "
                 f"clear before any profit is yours &mdash; "
                 f"{sub['rows'][1]['bets']} winning bets a month at a "
                 f"{sub['sym']}{sub['stake']} stake and a two percent edge, "
-                f"every month, to reach zero.</p>")
+                f"every month, to reach zero ({cite}).</p>")
     else:
         cost = (f"<p>{e(row['name'])} published no monthly price when this was "
                 f"{cite}, so the one thing you can measure about a competing "
