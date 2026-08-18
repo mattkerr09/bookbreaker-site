@@ -1879,3 +1879,31 @@ main>.trust{margin-bottom:var(--float-gap)}
   .win--film{background:var(--sink) center/cover url(/media/app-poster.jpg);
     min-height:min(46vw,520px)}
 }
+
+/* PASS 17 — the calculator avo has on its homepage and we did not.
+
+   Theirs is "Try arbitrage right now". Ours is the de-vig, because the
+   spread between four methods is the thing we argue about everywhere else
+   and the thing no competitor's calculator will show. */
+.own{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  padding:var(--float-pad);margin:0 0 var(--float-gap)}
+.own-lede{max-width:60ch;color:var(--dim-ink,var(--ink));opacity:.85}
+.own-in{display:flex;gap:14px;flex-wrap:wrap;margin:1.4rem 0 1rem}
+.own-in label{display:flex;flex-direction:column;gap:.35rem;
+  font:600 .72rem/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-ink,var(--ink));opacity:.7}
+.own-in input{font:600 1.35rem/1 var(--mono);color:var(--ink);
+  background:var(--sink);border:1px solid var(--rule);border-radius:10px;
+  padding:.7rem .9rem;width:9ch;letter-spacing:.02em}
+.own-in input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.own-out{min-height:7.5rem}
+.own-big{font:650 3.4rem/1 var(--display,var(--sans));letter-spacing:-.03em;
+  color:var(--accent);margin:.2rem 0 .35rem}
+.own-cap,.own-spread,.own-hint,.own-no{max-width:62ch;margin:.35rem 0}
+.own-no{color:var(--warn)}
+.own-note{max-width:66ch;font-size:.9rem;opacity:.72;margin-top:1.2rem}
+@media (max-width:44rem){
+  .own-in input{width:100%}
+  .own-in label{flex:1 1 100%}
+  .own-big{font-size:2.6rem}
+}

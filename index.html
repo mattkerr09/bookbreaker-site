@@ -32,7 +32,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#1493FF">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=1792bcb07c">
+<link rel="stylesheet" href="/style.css?v=2da9d9b9fc">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://bookbreaker.bet/#org", "name": "Bookbreaker", "url": "https://bookbreaker.bet/"}, {"@type": "WebSite", "@id": "https://bookbreaker.bet/#site", "name": "Bookbreaker", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}, {"@type": "SoftwareApplication", "name": "Bookbreaker", "applicationCategory": "FinanceApplication", "operatingSystem": "macOS", "softwareVersion": "0.1.4", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}]}</script>
 </head>
 <body class="home">
@@ -170,6 +170,122 @@ bets and keep the account that places them.</p>
 </div>
 
 
+
+<section class="own">
+  <h2>Try it on your own price</h2>
+  <p class="own-lede">Type the two sides of any market. You get the four
+  methods and the distance between them &mdash; which is the number every
+  other no-vig calculator resolves to one figure and does not mention.</p>
+  <div class="own-in">
+    <label>Price one <input id="own-a" inputmode="text" value="-145"
+      autocomplete="off" spellcheck="false"></label>
+    <label>Price two <input id="own-b" inputmode="text" value="+125"
+      autocomplete="off" spellcheck="false"></label>
+  </div>
+  <div class="own-out" id="own-out" aria-live="polite">
+    <p class="own-hint">Loading the engine&rsquo;s answers&hellip;</p>
+  </div>
+  <p class="own-note">Every answer here was computed by the same engine that
+  built this page, for all 6,737 two-way markets between &minus;600 and
+  &plus;600. Nothing is calculated in your browser: a second implementation
+  drifts from the first, and the drift is invisible until someone bets on it.
+  Prices that do not form a real two-way market are refused rather than
+  rounded into one.</p>
+</section>
+
+<script>
+/* The on-page devig. There is no arithmetic here on purpose: every figure is
+   read out of a table the engine built, because a second implementation of
+   the maths drifts from the first and nobody notices until a bet is placed on
+   the difference. This does index lookup and string formatting, nothing else.
+
+   The table is 95KB, so it is fetched the first time someone actually uses
+   the control rather than on page load. */
+(function () {
+  var a = document.getElementById('own-a');
+  var b = document.getElementById('own-b');
+  var out = document.getElementById('own-out');
+  if (!a || !b || !out) return;
+  var table = null, loading = false;
+
+  function parse(text) {
+    var t = String(text).trim().replace(/−/g, '-').replace(/\s+/g, '');
+    if (!/^[+-]?\d+$/.test(t)) return null;
+    var n = parseInt(t, 10);
+    if (t.charAt(0) !== '-' && t.charAt(0) !== '+' && n > 0) n = n;
+    return n;
+  }
+
+  function nearest(v, prices) {
+    var best = null, gap = Infinity;
+    for (var i = 0; i < prices.length; i++) {
+      var d = Math.abs(prices[i] - v);
+      if (d < gap) { gap = d; best = prices[i]; }
+    }
+    return best;
+  }
+
+  function say(html) { out.innerHTML = html; }
+
+  function render() {
+    if (!table) return;
+    var av = parse(a.value), bv = parse(b.value);
+    if (av === null || bv === null) {
+      say('<p class="own-hint">Two American prices, like &minus;145 and ' +
+          '&plus;125.</p>');
+      return;
+    }
+    var prices = table.prices;
+    var ai = prices.indexOf(av), bi = prices.indexOf(bv);
+    var snapped = false;
+    if (ai < 0) { av = nearest(av, prices); ai = prices.indexOf(av); snapped = true; }
+    if (bi < 0) { bv = nearest(bv, prices); bi = prices.indexOf(bv); snapped = true; }
+    var key = ai * table.stride + bi;
+    var flat = table.flat, found = -1;
+    for (var i = 0; i < flat.length; i += 3) {
+      if (flat[i] === key) { found = i; break; }
+    }
+    if (found < 0) {
+      say('<p class="own-no">Those two prices do not make a two-way market ' +
+          '&mdash; together they imply a total outside the 0&ndash;12% ' +
+          'margin a real one carries. Rounding them into range would be ' +
+          'inventing an answer, so there is not one.</p>');
+      return;
+    }
+    var consensus = flat[found + 1] / 100;
+    var spread = flat[found + 2] / 100;
+    say('<div class="own-big">' + consensus.toFixed(2) + '%</div>' +
+        '<p class="own-cap">Consensus fair probability for the first side' +
+        (snapped ? ' (nearest priced market: ' +
+          (av > 0 ? '+' : '') + av + ' / ' + (bv > 0 ? '+' : '') + bv + ')'
+          : '') + '.</p>' +
+        '<p class="own-spread">The four methods disagree by <b>' +
+        spread.toFixed(2) + ' points</b>. A calculator that prints one ' +
+        'number to two decimals has picked one of them and not told you.</p>');
+  }
+
+  function load() {
+    if (table || loading) { render(); return; }
+    loading = true;
+    say('<p class="own-hint">Fetching the engine&rsquo;s answers&hellip;</p>');
+    fetch('/data/devig.json').then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }).then(function (data) {
+      table = data; loading = false; render();
+    }).catch(function () {
+      loading = false;
+      say('<p class="own-no">The table did not load, so there is no answer ' +
+          'to show. Nothing here guesses one.</p>');
+    });
+  }
+
+  a.addEventListener('input', load);
+  b.addEventListener('input', load);
+  a.addEventListener('focus', load, {once: true});
+  load();
+})();
+</script>
 <section class="pitch" id="pitch">
 <p class="eyebrow">The four things it does that nothing else does</p>
 

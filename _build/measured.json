@@ -98,6 +98,12 @@
     "stake": 100,
     "worst": 25.0
   },
+  "calculator": {
+    "high": 600,
+    "low": -600,
+    "markets": 6737,
+    "step": 5
+  },
   "calculators": {
     "arbitrage": {
       "body": "<p>+110 at one book and +105 at another is a 3.73% arbitrage on 1,000 staked:</p><table><tr><td>Exact stakes</td><td>493.98 / 506.02</td></tr><tr><td>Guaranteed, exact</td><td>37.35</td></tr><tr><td>Round stakes</td><td>490 / 500</td></tr><tr><td>Guaranteed, rounded</td><td>35.00</td></tr><tr><td>Cost of looking human</td><td>2.35</td></tr></table><p>A stake to the cent is the loudest fingerprint a risk desk reads. This solves for round stakes directly, because rounding a lock afterwards breaks it.</p>"

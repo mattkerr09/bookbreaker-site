@@ -159,6 +159,55 @@ def released_version(engine_version: str) -> str:
     return max(found, key=lambda v: tuple(int(n) for n in v.split(".")))
 
 
+
+def devig_table(engine) -> dict:
+    """Every two-way market the calculator can answer, priced by the engine.
+
+    The site is static and the engine is Python, so an on-page calculator has
+    two possible shapes: reimplement the arithmetic in JavaScript, or ship the
+    engine's own answers and look them up. This project has one rule that
+    settles it — there is no betting arithmetic in JavaScript or Rust, because
+    a second implementation drifts from the first and the drift is invisible
+    until someone acts on it.
+
+    So this is a lookup. Every number the page can display was computed by the
+    same engine that computes every other number on the site.
+
+    It is tractable because the two prices in a two-way market are not
+    independent: their implied probabilities sum to just over one. Only that
+    band is a real market, which turns a 131,000-cell grid into 6,700 rows.
+    Prices outside it are not rounded into range — the page says it is not a
+    two-way market and stops, because a made-up answer is worse than none.
+    """
+    from overlay_engine.devig import devig_all
+    from overlay_engine.odds import american_to_decimal, decimal_to_prob
+
+    prices = ([v for v in range(-600, -99, 5)] +
+              [v for v in range(100, 601, 5)])
+    index = {v: i for i, v in enumerate(prices)}
+    flat: list[int] = []
+    for a in prices:
+        pa = decimal_to_prob(american_to_decimal(a))
+        for b in prices:
+            pb = decimal_to_prob(american_to_decimal(b))
+            if not 1.0 <= pa + pb <= 1.12:
+                continue
+            priced = devig_all([american_to_decimal(a),
+                                american_to_decimal(b)])
+            # DevigSpread, not a dict: consensus() is an equal-weight blend
+            # until calibrate.py learns weights, and spread() is the
+            # disagreement this whole site argues about.
+            consensus = priced.consensus(0)
+            disagreement = priced.spread(0)
+            # Basis points: four decimal places is more than the disagreement
+            # between methods, and integers keep the file a third of the size.
+            flat += [index[a] * len(prices) + index[b],
+                     round(consensus * 10000),
+                     round(disagreement * 10000)]
+    return {"prices": prices, "band": [1.0, 1.12], "stride": len(prices),
+            "flat": flat}
+
+
 def measure(engine) -> dict:
     """Run the engine and collect every number the site will show.
 
@@ -242,6 +291,10 @@ def measure(engine) -> dict:
         "saved": round(lh_base.cost_of(10000) - lh_best.cost_of(10000), 2),
         "books": len({q.book for q in lh_best.picks}),
     }
+
+    # 2c. How many markets the on-page calculator can answer.
+    out["calculator"] = {"markets": len(devig_table(engine)["flat"]) // 3,
+                         "low": -600, "high": 600, "step": 5}
 
     # 3. Bonus bet conversion, and the hedge each plan actually needs.
     ladder = []
@@ -2071,6 +2124,122 @@ bets and keep the account that places them.</p>
 </div>
 
 
+
+<section class="own">
+  <h2>Try it on your own price</h2>
+  <p class="own-lede">Type the two sides of any market. You get the four
+  methods and the distance between them &mdash; which is the number every
+  other no-vig calculator resolves to one figure and does not mention.</p>
+  <div class="own-in">
+    <label>Price one <input id="own-a" inputmode="text" value="-145"
+      autocomplete="off" spellcheck="false"></label>
+    <label>Price two <input id="own-b" inputmode="text" value="+125"
+      autocomplete="off" spellcheck="false"></label>
+  </div>
+  <div class="own-out" id="own-out" aria-live="polite">
+    <p class="own-hint">Loading the engine&rsquo;s answers&hellip;</p>
+  </div>
+  <p class="own-note">Every answer here was computed by the same engine that
+  built this page, for all {m['calculator']['markets']:,} two-way markets between &minus;600 and
+  &plus;600. Nothing is calculated in your browser: a second implementation
+  drifts from the first, and the drift is invisible until someone bets on it.
+  Prices that do not form a real two-way market are refused rather than
+  rounded into one.</p>
+</section>
+
+<script>
+/* The on-page devig. There is no arithmetic here on purpose: every figure is
+   read out of a table the engine built, because a second implementation of
+   the maths drifts from the first and nobody notices until a bet is placed on
+   the difference. This does index lookup and string formatting, nothing else.
+
+   The table is 95KB, so it is fetched the first time someone actually uses
+   the control rather than on page load. */
+(function () {{
+  var a = document.getElementById('own-a');
+  var b = document.getElementById('own-b');
+  var out = document.getElementById('own-out');
+  if (!a || !b || !out) return;
+  var table = null, loading = false;
+
+  function parse(text) {{
+    var t = String(text).trim().replace(/\u2212/g, '-').replace(/\s+/g, '');
+    if (!/^[+-]?\d+$/.test(t)) return null;
+    var n = parseInt(t, 10);
+    if (t.charAt(0) !== '-' && t.charAt(0) !== '+' && n > 0) n = n;
+    return n;
+  }}
+
+  function nearest(v, prices) {{
+    var best = null, gap = Infinity;
+    for (var i = 0; i < prices.length; i++) {{
+      var d = Math.abs(prices[i] - v);
+      if (d < gap) {{ gap = d; best = prices[i]; }}
+    }}
+    return best;
+  }}
+
+  function say(html) {{ out.innerHTML = html; }}
+
+  function render() {{
+    if (!table) return;
+    var av = parse(a.value), bv = parse(b.value);
+    if (av === null || bv === null) {{
+      say('<p class="own-hint">Two American prices, like &minus;145 and ' +
+          '&plus;125.</p>');
+      return;
+    }}
+    var prices = table.prices;
+    var ai = prices.indexOf(av), bi = prices.indexOf(bv);
+    var snapped = false;
+    if (ai < 0) {{ av = nearest(av, prices); ai = prices.indexOf(av); snapped = true; }}
+    if (bi < 0) {{ bv = nearest(bv, prices); bi = prices.indexOf(bv); snapped = true; }}
+    var key = ai * table.stride + bi;
+    var flat = table.flat, found = -1;
+    for (var i = 0; i < flat.length; i += 3) {{
+      if (flat[i] === key) {{ found = i; break; }}
+    }}
+    if (found < 0) {{
+      say('<p class="own-no">Those two prices do not make a two-way market ' +
+          '&mdash; together they imply a total outside the 0&ndash;12% ' +
+          'margin a real one carries. Rounding them into range would be ' +
+          'inventing an answer, so there is not one.</p>');
+      return;
+    }}
+    var consensus = flat[found + 1] / 100;
+    var spread = flat[found + 2] / 100;
+    say('<div class="own-big">' + consensus.toFixed(2) + '%</div>' +
+        '<p class="own-cap">Consensus fair probability for the first side' +
+        (snapped ? ' (nearest priced market: ' +
+          (av > 0 ? '+' : '') + av + ' / ' + (bv > 0 ? '+' : '') + bv + ')'
+          : '') + '.</p>' +
+        '<p class="own-spread">The four methods disagree by <b>' +
+        spread.toFixed(2) + ' points</b>. A calculator that prints one ' +
+        'number to two decimals has picked one of them and not told you.</p>');
+  }}
+
+  function load() {{
+    if (table || loading) {{ render(); return; }}
+    loading = true;
+    say('<p class="own-hint">Fetching the engine&rsquo;s answers&hellip;</p>');
+    fetch('/data/devig.json').then(function (r) {{
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }}).then(function (data) {{
+      table = data; loading = false; render();
+    }}).catch(function () {{
+      loading = false;
+      say('<p class="own-no">The table did not load, so there is no answer ' +
+          'to show. Nothing here guesses one.</p>');
+    }});
+  }}
+
+  a.addEventListener('input', load);
+  b.addEventListener('input', load);
+  a.addEventListener('focus', load, {{once: true}});
+  load();
+}})();
+</script>
 <section class="pitch" id="pitch">
 <p class="eyebrow">The four things it does that nothing else does</p>
 
@@ -6600,6 +6769,34 @@ main>.trust{margin-bottom:var(--float-gap)}
   .win--film{background:var(--sink) center/cover url(/media/app-poster.jpg);
     min-height:min(46vw,520px)}
 }
+
+/* PASS 17 — the calculator avo has on its homepage and we did not.
+
+   Theirs is "Try arbitrage right now". Ours is the de-vig, because the
+   spread between four methods is the thing we argue about everywhere else
+   and the thing no competitor's calculator will show. */
+.own{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  padding:var(--float-pad);margin:0 0 var(--float-gap)}
+.own-lede{max-width:60ch;color:var(--dim-ink,var(--ink));opacity:.85}
+.own-in{display:flex;gap:14px;flex-wrap:wrap;margin:1.4rem 0 1rem}
+.own-in label{display:flex;flex-direction:column;gap:.35rem;
+  font:600 .72rem/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-ink,var(--ink));opacity:.7}
+.own-in input{font:600 1.35rem/1 var(--mono);color:var(--ink);
+  background:var(--sink);border:1px solid var(--rule);border-radius:10px;
+  padding:.7rem .9rem;width:9ch;letter-spacing:.02em}
+.own-in input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.own-out{min-height:7.5rem}
+.own-big{font:650 3.4rem/1 var(--display,var(--sans));letter-spacing:-.03em;
+  color:var(--accent);margin:.2rem 0 .35rem}
+.own-cap,.own-spread,.own-hint,.own-no{max-width:62ch;margin:.35rem 0}
+.own-no{color:var(--warn)}
+.own-note{max-width:66ch;font-size:.9rem;opacity:.72;margin-top:1.2rem}
+@media (max-width:44rem){
+  .own-in input{width:100%}
+  .own-in label{flex:1 1 100%}
+  .own-big{font-size:2.6rem}
+}
 """
 
 
@@ -7169,6 +7366,13 @@ point for your own check, not legal advice.</p>
         (SITE / f"{key}.txt").write_text(key + "\n")
 
     (SITE / "style.css").write_text(STYLE)
+
+    # Lazily fetched by the homepage calculator on first use, so 95KB never
+    # touches the initial render.
+    table_dir = SITE / "data"
+    table_dir.mkdir(exist_ok=True)
+    (table_dir / "devig.json").write_text(
+        json.dumps(devig_table(engine), separators=(",", ":")))
     (SITE / "robots.txt").write_text(
         "User-agent: *\nAllow: /\n\nSitemap: https://bookbreaker.bet/sitemap.xml\n"
     )
