@@ -182,6 +182,17 @@ CASES = [
 ]
 
 
+# (label, check, path to create, contents)
+CREATE_CASES = [
+    (
+        "an internal document tracked in the public site repo",
+        "check_no_internal_docs_are_served",
+        "DEPLOY.md",
+        "# internal deploy notes planted by the break harness\n",
+    ),
+]
+
+
 APP_REPO = "/Users/matthewkerr/arb betting aqpp"
 
 
@@ -263,12 +274,38 @@ def main() -> int:
 
     # Every check must have a case. A check with none has never been watched
     # to fail, which is not distinguishable from a check that cannot.
-    unproven = registered_checks() - {case[1] for case in CASES}
+    unproven = (registered_checks()
+                - {case[1] for case in CASES}
+                - {case[1] for case in CREATE_CASES})
     if unproven:
         for name in sorted(unproven):
             print(f"  UNPROVEN  {name} — no break case aims at it")
         failures.append(f"{len(unproven)} check(s) have no break case: "
                         f"{sorted(unproven)}")
+
+    # Cases whose defect is a file existing at all, rather than a file
+    # containing the wrong thing. Written first as a find/replace that
+    # replaced a string with itself — a case that cannot fail, which is the
+    # exact fault this harness exists to catch.
+    for label, check, rel, body in CREATE_CASES:
+        path = SITE / rel
+        if path.exists():
+            failures.append(f"{label}: {rel} already exists — case is stale")
+            continue
+        path.write_text(body)
+        try:
+            board_red = not gate_is_clean()
+            named_red = not gate_is_clean(only=check)
+        finally:
+            path.unlink()
+            if path.exists():
+                print(f"RESTORE FAILED: {rel} still there", file=sys.stderr)
+                return 2
+        caught = board_red and named_red
+        print(f"  {'caught ' if caught else 'MISSED '}  {label}  ({check})")
+        if not caught:
+            failures.append(
+                f"{label}: {check} did not catch a file it should refuse")
 
     for case in CASES:
         label, check, rel, find, replace = case[:5]
@@ -302,11 +339,11 @@ def main() -> int:
 
     print()
     if failures:
-        print(f"{len(failures)} of {len(CASES) + len(SOURCE_CASES)} breaks went undetected:")
+        print(f"{len(failures)} of {len(CASES) + len(SOURCE_CASES) + len(CREATE_CASES)} breaks went undetected:")
         for problem in failures:
             print(f"  - {problem}")
         return 1
-    print(f"all {len(CASES) + len(SOURCE_CASES)} breaks caught")
+    print(f"all {len(CASES) + len(SOURCE_CASES) + len(CREATE_CASES)} breaks caught")
     return 0
 
 

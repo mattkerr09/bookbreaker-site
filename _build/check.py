@@ -854,6 +854,33 @@ def check_media_exists(pages, fails: list[str]) -> None:
             fails.append("fonts/ ships a woff2 with no licence file beside it")
 
 
+def check_no_internal_docs_are_served(fails: list[str]) -> None:
+    """Nothing internal is tracked in a repo that serves every tracked file.
+
+    GitHub Pages with .nojekyll publishes the whole tree, so a markdown file
+    committed here is a page on the marketing domain whether or not anything
+    links to it. DEPLOY.md was live at bookbreaker.bet/DEPLOY.md returning
+    200 — no credentials in it, but internal process notes on a public domain
+    all the same, and DESIGN-BRIEF.md had already had to be purged from this
+    repo's history for the same reason.
+
+    Checked by name rather than by scanning for secrets, because "does this
+    file contain a credential" is the wrong question. The right one is
+    whether it was written for customers.
+    """
+    internal = ("DEPLOY", "AUDIT", "DO-NOT-REBREAK", "BRIEF", "ROADMAP",
+                "NOTES", "TODO", "HANDOVER", "POSTMORTEM")
+    for path in sorted(SITE.glob("*.md")) + sorted(SITE.glob("*.txt")):
+        if path.name in ("README.md",):
+            continue
+        stem = path.stem.upper()
+        if any(word in stem for word in internal):
+            fails.append(
+                f"{path.name} is tracked here, so it is served at "
+                f"https://bookbreaker.bet/{path.name}. Internal documents "
+                f"belong in the private app repo.")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
@@ -913,6 +940,8 @@ def main() -> int:
         "check_responsible_gambling":
             lambda: check_responsible_gambling(pages, fails),
         "check_media_exists": lambda: check_media_exists(pages, fails),
+        "check_no_internal_docs_are_served":
+            lambda: check_no_internal_docs_are_served(fails),
         "check_one_palette": lambda: check_one_palette(fails),
         "check_every_pass_reaches_the_stylesheet":
             lambda: check_every_pass_reaches_the_stylesheet(fails),
