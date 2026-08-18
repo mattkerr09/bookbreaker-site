@@ -72,13 +72,13 @@
 
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --plate:#000000;
-    --card:#0b0d10;
-    --sink:#08090c;
+    --plate:#0d0f13;
+    --card:#161a21;
+    --sink:#11141a;
     --ink:#ffffff;
     --ink-2:#9aa4b2;
     --ink-3:#6b7280;
-    --rule:#1e2229;
+    --rule:#2f3540;
     --indigo:#8f9bd8;
     --oxblood:#e0685c;
     --band:rgba(143,155,216,.22);
@@ -87,18 +87,18 @@
     --accent:#38bdf8;
     --accent-hi:#7dd3fc;
     --accent-ink:#07131a;
-    --term:#0b0d10;
-    --term-line:#1e2229;
+    --term:#05070a;
+    --term-line:#2f3540;
   }
 }
 :root[data-theme="dark"]{
-  --plate:#000000; --card:#0b0d10; --sink:#08090c;
-  --ink:#ffffff;   --ink-2:#9aa4b2; --ink-3:#6b7280; --rule:#1e2229;
+  --plate:#0d0f13; --card:#161a21; --sink:#11141a;
+  --ink:#ffffff;   --ink-2:#9aa4b2; --ink-3:#6b7280; --rule:#2f3540;
   --indigo:#8f9bd8;--oxblood:#e0685c;
   --band:rgba(143,155,216,.22); --band-neg:rgba(224,104,92,.20);
   --hatch:rgba(224,104,92,.34);
   --accent:#38bdf8; --accent-hi:#7dd3fc; --accent-ink:#07131a;
-  --term:#0b0d10; --term-line:#1e2229;
+  --term:#05070a; --term-line:#2f3540;
 }
 
 *{box-sizing:border-box}
@@ -128,7 +128,8 @@ nav .links a{color:var(--ink-2);text-decoration:none;font-size:.92rem;
   font-weight:500;padding:.15rem 0;border-bottom:1px solid transparent}
 nav .links a:hover{color:var(--ink);border-bottom-color:var(--ink)}
 
-main{max-width:var(--measure-page);margin:0 auto;padding:0 var(--s-5) var(--s-8)}
+main{width:100%;max-width:var(--measure-page);margin:0 auto;
+  padding:0 var(--s-5) var(--s-8)}
 body.home main,body.hub main{max-width:76rem}
 body.home main>h1,body.home main>h2,body.home main>p,
 body.home main>ul,body.home main>table{
@@ -485,16 +486,9 @@ td:first-child{font-family:var(--sans);color:var(--ink-2)}
 tr:hover td{background:var(--sink)}
 
 /* ---------- cards ---------- */
-main>ul:has(a){list-style:none;padding:0;margin:var(--s-6) 0;display:grid;
-  gap:var(--s-3);grid-template-columns:repeat(auto-fill,minmax(16.5rem,1fr))}
-main>ul:has(a) li{margin:0;background:var(--card);border:1px solid var(--rule);
-  border-radius:var(--r);padding:var(--s-4) var(--s-4);font-size:var(--t-3);
-  color:var(--ink-2);display:flex;flex-direction:column;gap:var(--s-1);
-  transition:border-color .15s ease}
-main>ul:has(a) li:hover{border-color:var(--ink)}
-main>ul:has(a) a{font-weight:600;text-decoration:none;color:var(--ink);
-  font-family:var(--serif);letter-spacing:-.005em}
-main>ul:has(a) li:hover a{color:var(--ink)}
+/* The legacy card list was superseded by .cards and deleted: it still
+   matched the new grid and set every description in serif bold. */
+
 
 /* ---------- footer ---------- */
 footer{border-top:1px solid var(--rule);background:var(--sink);
@@ -758,7 +752,7 @@ body.hub main>h1{font-size:clamp(2.1rem,4vw,3rem);line-height:1.08}
    empty ground under it. */
 body{min-height:100vh;display:flex;flex-direction:column}
 body>footer{margin-top:auto}
-main{flex:1 0 auto}
+main{flex:1 0 auto;min-width:0;width:100%}
 
 /* Prose sized to be read rather than to fit. 17px at a 46rem measure is a
    documentation default; guides are the product's argument and are read
@@ -810,6 +804,11 @@ main p>a[href^="/"]:only-child:hover{border-bottom-color:var(--accent)}
    colour the stylesheet reserves for things that carry no meaning. */
 .card-go{color:var(--ink-2)}
 
+/* Anything that cannot wrap gets its own scroll box. Without this the widest
+   table on the page sets the width of the page. */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+main table{max-width:100%}
+
 /* Every guide ends somewhere. Ending on a dead stop above a pinned footer
    left a band of empty ground; ending on the next three guides fills it with
    the one thing a reader here actually wants. */
@@ -844,3 +843,81 @@ main p>a[href^="/"]:only-child:hover{border-bottom-color:var(--accent)}
 }
 /* Nothing on the page may push the document wider than the phone holding it. */
 html,body{max-width:100%;overflow-x:clip}
+
+/* ================================================================= PASS 4
+   Findings from an independent review, each measured before it was believed.
+   --------------------------------------------------------------------- */
+
+/* One container width. The header sat at 70rem, the home main at 76rem and a
+   leaf main at 46rem, so the wordmark shared a vertical edge with nothing on
+   any page — 24px out on the home page and 192px out on a leaf. */
+:root{--shell:76rem}
+nav,.banner-in,.foot-grid,.foot-fine{max-width:var(--shell);
+  padding-inline:var(--s-5)}
+body.home main,body.hub main{max-width:var(--shell)}
+main{padding-inline:var(--s-5)}
+/* A leaf page keeps its reading measure but starts on the same edge as the
+   header rather than being centred against it. */
+@media (min-width:64rem){
+  body:not(.home):not(.hub) main{margin-inline:auto;
+    max-width:var(--shell);display:grid;
+    grid-template-columns:minmax(0,var(--measure-page))}
+}
+
+/* A right-aligned column under a left-aligned label put the header 344px from
+   its own data. */
+main table th:not(:first-child),
+.pitch-fig table.bare th:not(:first-child){text-align:right}
+main table th.prose,main table td.prose{text-align:left}
+
+/* The numeric treatment assumed every column after the first was a number.
+   On the download page that column is English, set in right-aligned mono and
+   truncated mid-word on the page carrying the primary call to action. */
+main table td.prose,table td.prose{white-space:normal;font-family:var(--sans);
+  text-align:left;color:var(--ink-2);font-weight:400;
+  min-width:20ch;line-height:1.5}
+
+/* Prose links were white text with a 1.32:1 underline — indistinguishable
+   from bold. */
+main p a,main li a{color:var(--accent);
+  text-decoration-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+main p a:hover,main li a:hover{text-decoration-color:var(--accent)}
+
+/* .foot-brand (0,1,0) lost to .foot-grid p (0,1,1), so the footer wordmark
+   rendered in secondary ink. */
+.foot-grid p.foot-brand{color:var(--ink)}
+
+/* The four headline proof points were 28px against a 20px lede — a 1.4x
+   ratio that read as captions. The earlier mobile override for them was dead
+   code, overridden by a later unmediated rule. */
+.trust b{font-size:clamp(2rem,3.2vw,2.5rem)}
+@media (max-width:40rem){.trust b{font-size:var(--t-7)}}
+
+/* One h2 tag rendered at two leadings on the same page: 1.62 inherited from
+   body in one place, 1.15 in another. */
+h2{line-height:1.15}
+
+/* The glow was pushing the document 24px past the viewport, so every page
+   scrolled sideways. Clipping the hero fixed the width and drew a hard edge
+   where the gradient was cut; keeping the bleed vertical removes both. */
+/* Sized so the gradient reaches transparent before it meets any edge of its
+   own box. Cut mid-fade it draws a visible rectangle on the page, which is
+   what both the bleed and the clip were doing. */
+.hero-glow::before{inset:-14rem 0 auto 0;height:40rem;
+  background:radial-gradient(42% 58% at 38% 46%,
+    color-mix(in srgb, var(--accent) 17%, transparent) 0%,
+    transparent 62%)}
+
+/* Ten letter-spacing values for what the eye reads as one label style. */
+:root{--label:.1em}
+.plate-cap,.foot-head,.trust span,.vs-cap,.wall-cap,.crumb,.card-go,
+.onward-cap,.pitch-copy::before{letter-spacing:var(--label)}
+.eyebrow{letter-spacing:.14em}
+.eyebrow.accent{letter-spacing:.14em}
+
+/* --ink-3 is documented as decorative and never text that carries meaning;
+   the breadcrumb was set in it at 4.34:1. */
+.crumb{color:var(--ink-2)}
+
+/* Footer links were 17px tall — under even the 24px minimum. */
+.foot-grid a{display:inline-block;padding:.35rem 0}
