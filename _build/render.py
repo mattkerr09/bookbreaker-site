@@ -1366,6 +1366,68 @@ RELEASE_VERSION = None
 TABLE = re.compile(r"(?s)<table>.*?</table>")
 
 
+def site_schema(path: str, body: str) -> str:
+    """Structured data, emitted from page() so no hub can be missed.
+
+    WHY IT IS HERE AND NOT IN EACH BUILDER. This site had ZERO ld+json on `/`,
+    `/how-it-works/`, `/calculators/` and `/guides/` while `/sportsbooks/<state>/`
+    carried two blocks — the only site in the portfolio with none on its
+    homepage, on the page an answer engine reads to decide the entity exists.
+    faq_schema and breadcrumb_schema already existed and worked; they were simply
+    called from the /sportsbooks/ cluster and nowhere else.
+
+    This file already worries about exactly that failure, in page()'s own words:
+    "a body class that has to be remembered at six call sites is one that will be
+    missed at the seventh." Schema is the same shape of problem, so it is derived
+    from `path` in the wrapper rather than remembered at each builder.
+
+    WHAT IS DELIBERATELY NOT CLAIMED. No `offers`, no price, no aggregateRating,
+    no ratingValue. Bookbreaker has no checkout and no customers, so any of those
+    would be an invented fact on a machine-readable surface — which is worse than
+    on a human one, because nothing about it looks like marketing. operatingSystem
+    says macOS because the only artifact is an arm64 .dmg.
+
+    A BreadcrumbList is emitted only when the body does not already carry one:
+    the /sportsbooks/ pages build their own, and two BreadcrumbLists on one page
+    is a contradiction rather than a duplicate.
+    """
+    blocks = []
+
+    if path == "/":
+        blocks.append(json.dumps({
+            "@context": "https://schema.org",
+            "@graph": [
+                {"@type": "Organization", "@id": "https://bookbreaker.bet/#org",
+                 "name": "Bookbreaker", "url": "https://bookbreaker.bet/"},
+                {"@type": "WebSite", "@id": "https://bookbreaker.bet/#site",
+                 "name": "Bookbreaker", "url": "https://bookbreaker.bet/",
+                 "publisher": {"@id": "https://bookbreaker.bet/#org"}},
+                {"@type": "SoftwareApplication", "name": "Bookbreaker",
+                 "applicationCategory": "FinanceApplication",
+                 "operatingSystem": "macOS",
+                 "softwareVersion": RELEASE_VERSION,
+                 "url": "https://bookbreaker.bet/",
+                 "publisher": {"@id": "https://bookbreaker.bet/#org"}},
+            ],
+        }, ensure_ascii=False))
+
+    if "BreadcrumbList" not in body and path != "/":
+        trail, acc = [], ""
+        for seg in [x for x in path.split("/") if x]:
+            acc += "/" + seg
+            trail.append((seg.replace("-", " ").title(), acc + "/"))
+        if trail:
+            blocks.append(json.dumps({
+                "@context": "https://schema.org", "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": i + 1, "name": name,
+                     "item": f"https://bookbreaker.bet{url}"}
+                    for i, (name, url) in enumerate(trail)],
+            }, ensure_ascii=False))
+
+    return "".join(f'<script type="application/ld+json">{b}</script>' for b in blocks)
+
+
 def page(title: str, description: str, body: str, path: str,
          body_class: str = "") -> str:
     body = TABLE.sub(lambda m: f'<div class="scroll">{m.group(0)}</div>', body)
@@ -1432,6 +1494,7 @@ def page(title: str, description: str, body: str, path: str,
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0B6CFF">
 <link rel="stylesheet" href="/style.css?v={STYLE_HASH}">
+{site_schema(path, body)}
 </head>
 <body class="{body_class}">
 <header>{nav}</header>
