@@ -4529,11 +4529,20 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
 .hero-copy{min-width:0}
 .hero-app{min-width:0}
 @media (min-width:64rem){
-  .hero{grid-template-columns:minmax(0,31rem) minmax(0,1fr);
-    gap:var(--s-7);align-items:center}
-  /* Type set for a full-width hero is too large for a column: 72px broke the
-     headline into four pieces. Sized to land in two. */
-  .hero-copy h1{font-size:clamp(2.5rem,3.6vw,3.35rem);line-height:1.06}
+  /* Stacked, not side by side. The two-column hero gave the text 496px and
+     the product shot 623px — the argument had less room than the picture of
+     it, and a headline big enough to lead cannot break well in a 31rem
+     column. Full width lets the type be the size it needs and lets the proof
+     underneath it be large enough to read. */
+  .hero{grid-template-columns:1fr;gap:clamp(2rem,3.5vw,3.25rem);
+    align-items:start}
+  .hero-copy h1{font-size:clamp(3.2rem,5.6vw,4.75rem);line-height:1;
+    max-width:16ch}
+  .hero-copy .lede{font-size:clamp(1.15rem,1.35vw,1.35rem);max-width:44ch}
+  .hero-app{width:100%}
+  .app--hero{max-width:none;transform:perspective(2000px) rotateX(2deg);
+    transform-origin:top center}
+  .hero-app:hover .app--hero{transform:perspective(2000px) rotateX(0)}
 }
 /* Two buttons that stack are two decisions; side by side they are one. */
 .hero .cta{flex-wrap:nowrap}
@@ -5212,6 +5221,107 @@ figure.plate figcaption span:nth-child(2){text-transform:none;letter-spacing:0;
   figure.plate figcaption{flex-wrap:wrap;justify-content:center}
   figure.plate figcaption span:nth-child(2){order:-1;flex:1 0 100%}
 }
+
+/* ================================================================= PASS 6
+   "Dull" was the right word, and the screenshot showed why. Everything sat on
+   one flat plane: a single background value with no light source, a product
+   shot smaller than the paragraph beside it, stat cards at the same visual
+   weight as body copy, and nothing that moved or responded. A page where every
+   element carries equal weight has no hierarchy, and a page with no hierarchy
+   reads as dull however clean the type is.
+
+   Four moves, in order of how much they do: depth, scale contrast, a product
+   shot that behaves like the proof it is, and motion that only responds to the
+   reader rather than animating at them. */
+
+/* --- 1. A light source ------------------------------------------------
+   Two offset radial gradients and a grain overlay. The page stops being a
+   flat fill and gets a direction the eye can orient against. Grain is a data
+   URI so it costs no request and cannot break the privacy claim. */
+body{position:relative;background:var(--plate)}
+body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(80rem 40rem at 12% -8%,
+      color-mix(in srgb, var(--accent) 13%, transparent) 0%, transparent 60%),
+    radial-gradient(60rem 35rem at 92% 4%,
+      color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 62%)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) body::after{opacity:.28}}
+:root[data-theme="dark"] body::after{opacity:.28}
+
+/* --- 2. Scale contrast -------------------------------------------------
+   The hero was 52px against 20px body — a 2.6x ratio that reads as "slightly
+   bigger". Real hierarchy needs the headline to dominate. */
+.hero h1{letter-spacing:-.04em;font-weight:700}
+.hero .lede{font-size:clamp(1.1rem,1.5vw,1.3rem);max-width:34rem;
+  color:var(--ink-2)}
+.eyebrow{font-size:.7rem}
+
+/* Numbers should be the loudest thing on a page about numbers. */
+.trust b{font-size:clamp(2.4rem,4vw,3.4rem);line-height:1;
+  letter-spacing:-.04em;font-weight:700;
+  background:linear-gradient(180deg, var(--ink) 55%,
+    color-mix(in srgb, var(--ink) 62%, var(--plate)));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* --- 3. Surfaces that catch the light ----------------------------------
+   A 1px solid border is inert. A border that is brighter at the top reads as
+   a surface lit from above, which is what makes a card look like an object. */
+.trust>div,.trust>li,.cards .card,.cards>li,figure.plate,.demo-box,.app{
+  position:relative;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--ink) 4%, var(--card)) 0%,
+      var(--card) 45%)}
+.trust>div::before,.cards .card::before,figure.plate::before,.app::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:linear-gradient(180deg,
+    color-mix(in srgb, var(--ink) 16%, transparent),
+    transparent 55%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+
+/* --- 4. The product shot is the proof, so it behaves like one ----------- */
+.hero-app{position:relative}
+.app--hero{transform:perspective(1600px) rotateY(-1.4deg) rotateX(1.2deg);
+  transform-origin:left center;
+  box-shadow:0 2px 4px rgba(16,24,40,.06),0 24px 60px -12px rgba(16,24,40,.28),
+    0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
+  transition:transform .5s cubic-bezier(.2,.7,.3,1),box-shadow .5s ease}
+.hero-app:hover .app--hero{transform:perspective(1600px) rotateY(0) rotateX(0)}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .app--hero{
+    box-shadow:0 24px 70px -10px rgba(0,0,0,.7),
+      0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 0 90px -30px color-mix(in srgb, var(--accent) 55%, transparent)}}
+/* A live product should look live. */
+.app-bar .dot:nth-of-type(3){position:relative}
+.app-bar .dot:nth-of-type(3)::after{content:"";position:absolute;inset:-3px;
+  border-radius:50%;border:1px solid var(--good);opacity:.55;
+  animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.8);opacity:.6}
+  70%{transform:scale(1.9);opacity:0}100%{opacity:0}}
+
+/* --- 5. Motion that answers the reader --------------------------------- */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(14px);
+    animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;
+    animation-timeline:view();animation-range:entry 0% cover 26%}
+  @keyframes rise{to{opacity:1;transform:none}}
+}
+.trust>div{transition:transform .2s cubic-bezier(.2,.7,.3,1),
+  box-shadow .2s ease,border-color .2s ease}
+.trust>div:hover{transform:translateY(-3px);box-shadow:var(--shadow-2);
+  border-color:color-mix(in srgb, var(--accent) 42%, var(--rule))}
+
+/* --- 6. Break the uniform rhythm --------------------------------------
+   Every section had the same padding, so nothing read as more important than
+   anything else. The hero gets room; the proof points sit tight under it. */
+.hero{padding-block:clamp(3rem,7vw,6.5rem) clamp(2rem,4vw,3.5rem)}
+.trust{margin-top:0}
 """
 
 STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
