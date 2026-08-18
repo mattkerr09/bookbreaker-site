@@ -109,6 +109,58 @@ def gate_is_clean() -> bool:
     return result.returncode == 0
 
 
+# The source check is a separate script over a separate input, so it gets a
+# separate case. Its whole job is to stand behind the numbers `check.py`
+# deliberately exempts, which means "it runs" and "it can fail" are two
+# different claims — and today has been a catalogue of checks that ran, passed,
+# and measured nothing anyone cared about.
+SOURCE_CASES = [
+    (
+        "a cited source that 404s",
+        "https://gaming.ny.gov/sports-wagering",
+        "https://gaming.ny.gov/bookbreaker-break-test-does-not-exist",
+    ),
+]
+
+
+def source_gate_is_clean() -> bool:
+    run = subprocess.run([sys.executable, "_build/check_sources.py"],
+                         cwd=SITE, capture_output=True, text=True, timeout=600)
+    if run.returncode == 2:
+        print("  SKIP     source check could not run (no network?) — "
+              "this case verified nothing", file=sys.stderr)
+        raise RuntimeError("source check unavailable")
+    return run.returncode == 0
+
+
+def run_source_cases() -> list[str]:
+    """Returns the list of failures. A case that could not run is a failure,
+    not a pass — the distinction this whole harness exists for."""
+    failures = []
+    data = SITE / "_data" / "jurisdictions.csv"
+    for label, find, replace in SOURCE_CASES:
+        original = data.read_text()
+        if find not in original:
+            failures.append(f"{label}: anchor URL not in jurisdictions.csv — stale")
+            continue
+        data.write_text(original.replace(find, replace, 1))
+        try:
+            caught = not source_gate_is_clean()
+        except RuntimeError:
+            failures.append(f"{label}: source check unavailable, nothing verified")
+            caught = None
+        finally:
+            data.write_text(original)
+            if data.read_text() != original:
+                print("RESTORE FAILED for jurisdictions.csv", file=sys.stderr)
+                raise SystemExit(2)
+        if caught is not None:
+            print(f"  {'caught ' if caught else 'MISSED '}  {label}")
+            if not caught:
+                failures.append(f"{label}: the source check passed a dead citation")
+    return failures
+
+
 def main() -> int:
     if not gate_is_clean():
         print("the gate is already failing — fix that before breaking anything",
@@ -136,13 +188,15 @@ def main() -> int:
         if not caught:
             failures.append(f"{label}: the gate passed against a broken page")
 
+    failures += run_source_cases()
+
     print()
     if failures:
-        print(f"{len(failures)} of {len(CASES)} breaks went undetected:")
+        print(f"{len(failures)} of {len(CASES) + len(SOURCE_CASES)} breaks went undetected:")
         for problem in failures:
             print(f"  - {problem}")
         return 1
-    print(f"all {len(CASES)} breaks caught")
+    print(f"all {len(CASES) + len(SOURCE_CASES)} breaks caught")
     return 0
 
 
