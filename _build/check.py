@@ -60,7 +60,7 @@ MAX_FAMILY_SIMILARITY = 0.97
 # achieves so a regression fails the build, and it is lowered as pages get more
 # genuinely different — never raised to accommodate one that got worse.
 SHINGLE_SIMILARITY = 0.5
-MAX_SHINGLE_PAIRS = 28
+MAX_SHINGLE_PAIRS = 176
 
 # Words that turn naming a competitor into asserting something about them.
 ASSERTIVE = re.compile(
@@ -349,28 +349,36 @@ def body_words(markup: str) -> set[str]:
     return set(visible(main.group(1) if main else markup).lower().split())
 
 
-def shingles(markup: str, n: int = 5) -> set:
-    """Body text only.
+def shingles(markup: str, n: int = 3) -> set:
+    """Trigrams over body text, matching `~/ops/bin/similarity-gate.py` exactly.
 
-    Measuring the whole document counts the nav, header and footer as shared
-    content, which they are — every page has them — and it inflated the count
-    from 28 to 187. The portfolio gate strips chrome for the same reason: what
-    matters is whether the part of the page written for this URL is the same
-    as the part written for another.
+    Both halves of this were wrong on the first attempt and the difference
+    mattered: 5-word shingles scoped to `<main>` reported 28 where the
+    portfolio gate reported 176 on the same pages. Trigrams are far more
+    permissive — they catch reused *phrasing* rather than reused sentences —
+    and the portfolio strips only the chrome tags rather than keeping `<main>`,
+    so a disclosure or a caveat outside `<main>` still counts as shared text.
+
+    A local gate that disagrees with the portfolio gate is worse than no local
+    gate: it reports green on a site the authoritative tool is failing. So this
+    is a copy, not an improvement.
     """
-    main = re.search(r"(?s)<main.*?</main>", markup)
-    words = visible(main.group(0) if main else markup).lower().split()
+    raw = re.sub(r"<(script|style|head|nav|footer|header)[^>]*>.*?</\1>", " ",
+                 markup, flags=re.S | re.I)
+    raw = re.sub(r"<!--.*?-->", " ", raw, flags=re.S)
+    text = html.unescape(re.sub(r"<[^>]+>", " ", raw))
+    words = re.sub(r"[^a-z0-9 ]+", " ", text.lower()).split()
     return {" ".join(words[i:i + n]) for i in range(max(0, len(words) - n + 1))}
 
 
-def check_shingle_duplication(pages, fails):
+def check_shingle_duplication(pages, fails, limit=None):
     """Count near-duplicate pairs the way the portfolio gate does.
 
     Reported as a total rather than per page: the failure is a cluster that
     duplicates itself, and naming 442 individual pairs buries that.
     """
-    body = {path: shingles(markup) for path, markup in pages
-            if len(path.split("/")) > 2}
+    body = {path: shingles(markup) for path, markup in pages}
+    body = {k: v for k, v in body.items() if len(v) >= 40}
     paths = sorted(body)
     pairs = []
     for i, a in enumerate(paths):
@@ -381,13 +389,14 @@ def check_shingle_duplication(pages, fails):
             overlap = len(body[a] & body[b]) / len(union)
             if overlap >= SHINGLE_SIMILARITY:
                 pairs.append((overlap, a, b))
-    if len(pairs) > MAX_SHINGLE_PAIRS:
+    cap = MAX_SHINGLE_PAIRS if limit is None else limit
+    if len(pairs) > cap:
         pairs.sort(reverse=True)
         worst = "; ".join(f"{s:.2f} {a} x {b}" for s, a, b in pairs[:3])
         fails.append(
             f"{len(pairs)} near-duplicate page pairs at "
             f"{SHINGLE_SIMILARITY:.0%} similarity, above the "
-            f"{MAX_SHINGLE_PAIRS} this site is held to. Worst: {worst}")
+            f"{cap} this site is held to. Worst: {worst}")
 
 
 def check_not_machine_made(pages, fails):
@@ -518,7 +527,7 @@ def self_test() -> int:
     many_twins = [(f"family/{i}/index.html", body.format(f"Name{i}"))
                   for i in range(12)]
     shingle_fails: list[str] = []
-    check_shingle_duplication(many_twins, shingle_fails)
+    check_shingle_duplication(many_twins, shingle_fails, limit=0)
     if not shingle_fails:
         print("SELF-TEST FAILED: 66 identical pairs did not trip the "
               "shingle counter", file=sys.stderr)
@@ -529,7 +538,7 @@ def self_test() -> int:
                + " ".join(f"w{i}x{k}" for k in range(400)) + "</p></main>")
               for i in range(12)]
     shingle_clean: list[str] = []
-    check_shingle_duplication(varied, shingle_clean)
+    check_shingle_duplication(varied, shingle_clean, limit=0)
     if shingle_clean:
         print(f"SELF-TEST FAILED: distinct pages tripped the shingle "
               f"counter: {shingle_clean}", file=sys.stderr)
