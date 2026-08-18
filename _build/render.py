@@ -1368,6 +1368,18 @@ RELEASE_VERSION = None
 TABLE = re.compile(r"(?s)<table>.*?</table>")
 
 
+#: Words `.title()` gets wrong. It renders "best-ev-betting-software" as
+#: "Best Ev Betting Software", and that string goes into machine-readable
+#: markup where a reader cannot mentally correct it the way they would in prose.
+_ACRONYMS = {"ev": "EV", "ai": "AI", "roi": "ROI", "api": "API",
+             "nfl": "NFL", "nba": "NBA", "mlb": "MLB", "nhl": "NHL",
+             "ncaa": "NCAA", "mma": "MMA", "ufc": "UFC"}
+
+
+def _crumb_name(slug: str) -> str:
+    return " ".join(_ACRONYMS.get(w, w.title()) for w in slug.split("-"))
+
+
 def site_schema(path: str, body: str) -> str:
     """Structured data, emitted from page() so no hub can be missed.
 
@@ -1414,10 +1426,29 @@ def site_schema(path: str, body: str) -> str:
         }, ensure_ascii=False))
 
     if "BreadcrumbList" not in body and path != "/":
+        # AN ANCESTOR THAT DOES NOT EXIST IS A CLAIM THAT A PAGE IS THERE.
+        #
+        # The first version of this walked the path and invented an ancestor for
+        # every segment without checking any of them. `/best/` and `/for/` are
+        # directories with no index page, so eight pages shipped a BreadcrumbList
+        # whose first item pointed at a 404 — four under each.
+        #
+        # It survived review because presence, parsing and the no-duplicate case
+        # were all checked and all passed. What was not checked is the only thing
+        # this markup actually asserts: that the URL resolves. A false claim here
+        # is the least likely of any to be noticed, because no human reads it.
+        #
+        # ops/bin/structured-data-gate.py now fetches every same-host URL found
+        # in schema, and was proved against these two pages rather than merely
+        # watched passing.
         trail, acc = [], ""
-        for seg in [x for x in path.split("/") if x]:
+        segs = [x for x in path.split("/") if x]
+        for i, seg in enumerate(segs):
             acc += "/" + seg
-            trail.append((seg.replace("-", " ").title(), acc + "/"))
+            is_last = i == len(segs) - 1
+            if not is_last and not (SITE / acc.strip("/") / "index.html").exists():
+                continue
+            trail.append((_crumb_name(seg), acc + "/"))
         if trail:
             blocks.append(json.dumps({
                 "@context": "https://schema.org", "@type": "BreadcrumbList",
@@ -3509,6 +3540,25 @@ def render_versus(m: dict, row: dict) -> str:
     cite = (f'read {e(row["read"])}, '
             f'<a href="{e(row["source"])}">source</a>')
 
+    # Nine of these pages shipped under one headline — "A X alternative that
+    # shows its uncertainty" — which is both a duplicate title nine times over
+    # and a sentence that says nothing about the tool it names. The angle now
+    # comes from that competitor's own recorded gap, so each page leads with
+    # the thing it is actually arguing.
+    gap = row["gap"].lower()
+    if "fill" in gap or "latency" in gap or "delay" in gap:
+        angle = "dates every quote it shows you"
+    elif "price" in gap or "cost" in gap or "free" in gap:
+        angle = "costs nothing before you win anything"
+    elif "devig" in gap or "method" in gap or "model" in gap:
+        angle = "shows all four devig methods disagreeing"
+    elif "limit" in gap or "account" in gap:
+        angle = "treats your account as part of the edge"
+    else:
+        angle = "publishes the interval around every number"
+    headline = (f"{article(row['name']).title()} {e(row['name'])} "
+                f"alternative that {angle}")
+
     if sub:
         cost = (f"<p>{e(row['name'])} lists {e(row['price'])}. The cheapest "
                 f"monthly plan is {sub['sym']}{sub['yearly_whole']:,} a year you "
@@ -3523,10 +3573,10 @@ def render_versus(m: dict, row: dict) -> str:
                 f"win anything &mdash; is not available.</p>")
 
     return f"""
-<h1>A {e(row['name'])} alternative that shows its uncertainty</h1>
+<h1>{headline}</h1>
 <p class="lede">{e(row['note'])}, at {e(row['price'])} &mdash; {cite}.</p>
 
-<h2>The gap</h2>
+<h2>What {e(row['name'])} does not tell you</h2>
 <p>{e(row['gap'])}.</p>
 {cost}
 
@@ -3535,6 +3585,29 @@ def render_versus(m: dict, row: dict) -> str:
 &rarr;</a></p>
 <p class="caveat">Prices change. This one carries the date it was read.</p>
 """
+
+
+def article(word: str) -> str:
+    """"a" or "an", by how the name is actually said.
+
+    Nine competitor pages shipped reading "A OddsJam alternative", "A AVO
+    alternative" and "A Unabated alternative". These are the pages that carry
+    a competitor's brand in the title tag and the h1, which makes a grammar
+    slip in the first three words the most visible copy error on the site.
+
+    Initialisms are the reason this is not just a vowel test: AVO is said
+    "ay-vee-oh", so it takes "an" despite starting with a consonant sound in
+    some readings, and a name like FanDuel takes "a" despite the F. The rule
+    below follows the sound, with the letters that are pronounced with a
+    leading vowel listed explicitly.
+    """
+    if not word:
+        return "a"
+    first = word[0].upper()
+    # Set apart because a name in caps is read letter by letter.
+    if word[:2].isupper() and word[:2].isalpha():
+        return "an" if first in "AEFHILMNORSX" else "a"
+    return "an" if first in "AEIOU" else "a"
 
 
 def render_longevity(m: dict) -> str:
