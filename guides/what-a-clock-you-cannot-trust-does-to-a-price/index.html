@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What a clock you cannot trust does to a price</title>
+<meta name="description" content="Why does my odds feed timestamp disagree with my own clock? Worked through with the arithmetic done, not just the formula.">
+<link rel="canonical" href="https://bookbreaker.bet/guides/what-a-clock-you-cannot-trust-does-to-a-price/">
+<link rel="stylesheet" href="/style.css?v=b728110d51">
+</head>
+<body class="">
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<main>
+<h1>What a clock you cannot trust does to a price</h1>
+<p class="lede">Why does my odds feed timestamp disagree with my own clock?</p>
+
+<p>Every freshness claim rests on two clocks agreeing. The feed stamps a quote with its clock. You judge that quote against yours. When the clocks disagree, a stale price reads as fresh and a fresh one reads as stale, and nothing about the number on screen reveals which case you are in.</p>
+<p>The usual arithmetic hides this. Subtract the vendor timestamp from local time, print the difference as age, and the answer inherits the error of whichever clock is worse &mdash; with nothing in the output to say which one supplied it. The error does not surface as noise. It surfaces as confidence.</p>
+<h2>Why a bad timestamp is worse than none</h2>
+<p>A quote stamped more than 120 seconds ahead of our own clock is dropped from the snapshot rather than scored, and the count of what was dropped is reported alongside what survived. That ceiling is a stated prior &mdash; chosen, not measured. The rule is one-sided on purpose. A feed clock running ahead makes a stale price read as fresher than live and ranks it above every honestly dated quote on the screen; a feed clock running behind only makes a price look older than it is. A missing timestamp makes you cautious. A wrong one makes you confident, and confidence is the expensive failure. The ceiling is also wider than the whole table below, whose oldest row is 60 seconds &mdash; a clock error this engine still tolerates can exceed every age it scores.</p>
+<h2>The floor under an undated quote</h2>
+<p>Under the ceiling sits a floor. When the feed gives no timestamp of its own, age is never priced below 2.0 seconds &mdash; a stated prior, not a measurement of any feed. It is not zero, because zero is the one value certainly wrong: the price left the book, crossed a network, and rendered before you read it. A quote the feed did date needs no such addition &mdash; that delay already sits inside the age you compute, and adding the floor on top would count it twice. The youngest row below is that floor, and survival there is already short of certain.</p>
+<h2>What a mis-estimated age costs</h2>
+<p>Survival is modelled as exponential decay on a mean lifetime of 60.0 seconds &mdash; again a stated prior, standing until your own accept and reject record replaces it. On that assumption the half-life is 41.6 seconds, and the rows below are what the assumption implies rather than what any feed has been observed to do.</p>
+<div class="scroll"><table>
+<tr><th>Quote age (seconds)</th><th>Edge surviving</th></tr>
+<tr><td>2</td><td>96.7%</td></tr><tr><td>5</td><td>92.0%</td></tr><tr><td>10</td><td>84.6%</td></tr><tr><td>30</td><td>60.7%</td></tr><tr><td>60</td><td>36.8%</td></tr>
+</table></div>
+<p>Read the cost off the rows. Take a quote for 5 seconds old when it is really 30, and you priced 92.0% of your edge as surviving when the curve gives 60.7%. A stated edge of 3.0% at 30 seconds is worth 1.82% once survival is applied. The clock error never appears in the price. It appears in the fill.</p>
+<p><a href="/guides/how-old-is-the-price-on-your-screen/">How old is the price on your screen &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

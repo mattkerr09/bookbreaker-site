@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How a betting model improves itself</title>
+<meta name="description" content="How does a betting model get better over time? Worked through with the arithmetic done, not just the formula.">
+<link rel="canonical" href="https://bookbreaker.bet/guides/how-a-betting-model-improves-itself/">
+<link rel="stylesheet" href="/style.css?v=b728110d51">
+</head>
+<body class="">
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<main>
+<h1>How a betting model improves itself</h1>
+<p class="lede">How does a betting model get better over time?</p>
+
+<p>Any tool that prices a market has to strip the bookmaker's margin out of the odds first. That step is called devigging, and there is more than one way to do it. Picking one method and naming it in a footnote settles the question by assertion. This tool scores the methods against each other instead, and lets the scores set the blend.</p>
+<p>The target is the closing line. When a market closes, the closing price is the sharpest estimate available of the true probability. Each devig method makes its prediction hours before that. Once the market closes, the engine measures how far the prediction missed, squares the miss, and folds it into that method's mean squared error. Mean squared error is a proper scoring rule: the score is minimised by reporting what you actually believe. A method cannot climb the table by shading every number toward the middle, and it cannot climb by exaggerating. Timid and bold both cost.</p>
+<h2>What the scorer does with a log</h2>
+<p>The scorer run over a 60-bet log. The error column is scaled mean squared error &mdash; relative error, comparable across these rows and to nothing outside them. Lower is better.</p>
+<div class="scroll"><table>
+<tr><th>Method</th><th>Relative error</th><th>Blend weight</th></tr>
+<tr><td>power</td><td>0.16</td><td>65.2%</td></tr><tr><td>shin</td><td>0.64</td><td>20.1%</td></tr><tr><td>multiplicative</td><td>2.56</td><td>8.8%</td></tr><tr><td>additive</td><td>10.24</td><td>5.9%</td></tr>
+</table></div>
+<p class="caveat">That log is constructed, not a record of live markets. Each method was handed a fixed offset from the target before the run, so the ranking was known in advance and the error column is those offsets squared and rescaled. It shows the mechanism turning error into weight, not which devig method wins on any real market — your own graded bets are what put real standings in it.</p>
+<p>The ranking is monotone: every step up in relative error buys a smaller share of the blend. The leader here, power, carries 65.2% on its own &mdash; more than everything below it combined.</p>
+<h2>Why the losers stay in</h2>
+<p>The worst method on the table, additive, still receives 5.9%. That is deliberate. Weights are held above a floor of 5%, and that floor is a prior &mdash; the standing assumption that no method is worthless and that 60 graded bets is not enough evidence to retire one. Nothing sits at the floor in this run. If the standings shift, the weights shift with them, and a method that is down today can come back.</p>
+<h2>Where the choice lives</h2>
+<p>The devig choice can be an input: made once, before there was any evidence, and never revisited by anything the product observes. Here it is an output. Every graded bet re-scores all 4 methods and re-cuts the blend, so the model pricing today's markets is not quite the model that priced the ones before it.</p>
+<p><a href="/guides/what-is-closing-line-value/">Why the closing line is the thing worth scoring against &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

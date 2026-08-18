@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to choose an odds feed</title>
+<meta name="description" content="How do I compare odds feeds before paying for one? Worked through with the arithmetic done, not just the formula.">
+<link rel="canonical" href="https://bookbreaker.bet/guides/how-to-choose-an-odds-feed/">
+<link rel="stylesheet" href="/style.css?v=b728110d51">
+</head>
+<body class="">
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<main>
+<h1>How to choose an odds feed</h1>
+<p class="lede">How do I compare odds feeds before paying for one?</p>
+
+<p>Feeds are sold on a published latency figure. Several publish none at all. Neither case tells you what the feed does on your markets, in your sports, at the minutes you actually bet.</p>
+<p>The honest way to choose is to record a trial window from every candidate and replay those recordings through the same engine. Same markets, same clock, same decision rules &mdash; only the feed changes. A quoted latency is a claim about the vendor. A replay is a measurement of your book.</p>
+<h2>Replay, not datasheets</h2>
+<p>Replay only works if the recordings line up in time. Ours refuses to compare captures whose clocks disagree by more than 120 seconds, because past that you are measuring clock drift and calling it latency. It also applies a stated prior: a latency floor of 2.0 seconds, below which no feed is credited with being faster. That floor is a prior, not a measurement.</p>
+<h2>Why latency decides more than it looks</h2>
+<p>A quote arrives stamped at 10.0 seconds old. The feed carrying it took 5.4 seconds, above the stated floor. So the price you are pricing against is really 15.4 seconds old. Everything downstream moves with that.</p>
+<p>Fill probability splits the same way. Read at stamped age, the fill looks like 89%. Read at effective age, it is 84%. On a nominal edge of 4.0%, the naive read books 3.58% and the honest read books 3.37%. The smaller figure is the one that settles. Both fills come off a stated prior survival curve for this market class, not off a measurement of any feed &mdash; your own accept and reject record replaces it.</p>
+<p>The table below shows the same mechanism on a different stated prior: survival modelled as exponential decay with a tau of 60.0 seconds, tabulated from the latency floor prior of 2.0 seconds upward. The half-life that follows from that tau is 41.6 seconds. Modelled, not measured, and it falls at every step.</p>
+<div class="scroll"><table>
+<tr><th>Quote age (s)</th><th>Edge surviving</th></tr>
+<tr><td>2</td><td>96.7%</td></tr><tr><td>5</td><td>92.0%</td></tr><tr><td>10</td><td>84.6%</td></tr><tr><td>30</td><td>60.7%</td></tr><tr><td>60</td><td>36.8%</td></tr>
+</table></div>
+<p>Read any such curve against effective age, never against stamped age. An effective age of 15.4 seconds still sits inside the half-life; a stamped age of 10.0 seconds flatters the feed by exactly the latency you failed to subtract. Do not expect this table to reproduce the fill figures above &mdash; different tau, different curve. What carries across is the direction.</p>
+<h2>The thing nobody sells on</h2>
+<p>A feed that stamps its own observation time is worth more than a faster feed that does not. Without a stamp you cannot recover effective age, so you cannot compute the honest fill, so the 3.58% figure is the only one available to you and it overstates. Speed you cannot check is a marketing claim. A timestamp is evidence. Buy the evidence.</p>
+<p><a href="/guides/how-old-is-the-price-on-your-screen/">How old is the price on your screen &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

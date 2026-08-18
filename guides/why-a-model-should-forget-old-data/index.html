@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why a model should forget old data</title>
+<meta name="description" content="Why would a betting model throw away old data? Worked through with the arithmetic done, not just the formula.">
+<link rel="canonical" href="https://bookbreaker.bet/guides/why-a-model-should-forget-old-data/">
+<link rel="stylesheet" href="/style.css?v=b728110d51">
+</head>
+<body class="">
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<main>
+<h1>Why a model should forget old data</h1>
+<p class="lede">Why would a betting model throw away old data?</p>
+
+<p>A pricing weight has an expiry date. The overlay fits a weight per book&mdash;how much that book's price should count when the fair line is estimated&mdash;and once the calibration behind it has aged past 90 days, every price built on it is labelled stale in the same line as the number. Not down-weighted, and not quietly dropped: named, where the price is read. The label is on or off, because there is nothing to taper along.</p>
+<p>Books change. A book revises its margin, tightens or loosens its risk appetite, drops a market, adds another, hands pricing to someone else. A weight fitted before any of that describes a book that no longer exists&mdash;a precise measurement of a vanished thing. The cutoff is a prior, not a measurement: nothing in the settled record announces the day a trading desk changed its policy, so the engine picks a round age, roughly one off-season, and stops vouching for anything older.</p>
+<h2>The bars that pull the other way</h2>
+<p>The other bars in the fit ask for evidence, not freshness. No weight is fitted at all until 30 graded bets exist. Of those, 30% is held back in time order&mdash;the newest slice, never a random sample, because a random split leaks the future into the fit. At that minimum it comes to 21 graded bets to fit on and 9 to score against. A book also has to clear 20 graded bets of its own before it earns a fitted weight instead of falling back to the default its tier carries. That per-book bar sits below the global one, because a book only has to describe itself.</p>
+<div class="scroll"><table>
+<tr><th>Bar</th><th>Value</th></tr>
+<tr><td>Graded bets before anything is fitted</td><td>30</td></tr>
+<tr><td>Held back, newest first</td><td>30%</td></tr>
+<tr><td>Fitted on, at that minimum</td><td>21</td></tr>
+<tr><td>Scored against, at that minimum</td><td>9</td></tr>
+<tr><td>Graded bets per book for its own weight</td><td>20</td></tr>
+<tr><td>Calibration labelled stale past this age (days)</td><td>90</td></tr>
+</table></div>
+<h2>A window, not an archive</h2>
+<p>The forces point in opposite directions. More data makes an estimate tighter. Older data makes it wrong. Together they give a window rather than an archive: the sample has to be large enough to fit and young enough to be true, and both conditions bind at once. A book that goes quiet never clears its coverage bar in the first place, and a fit that outlives the window stops being presented as current&mdash;not because the book became untrustworthy, but because nothing recent enough remains to say.</p>
+<p>This is where the rest of the market goes wrong. Depth of history is sold as an unqualified virtue: seasons of backfill, years of closing lines, the biggest database wins. History is treated as monotonically valuable, as though a price from a book's retired pricing regime were weak evidence. It is not weak evidence. It is wrong evidence, and more of it adds bias rather than noise. Bias does not average out with volume.</p>
+<p>The held-back slice is what turns any of this into a claim you can check. <a href="/guides/how-to-tell-if-your-model-actually-works/">How to tell if your model actually works &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

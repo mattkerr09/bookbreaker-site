@@ -669,6 +669,95 @@ def measure(engine) -> dict:
         "implied": round(sum(1.0 / d for d in dutch_prices) * 100, 2),
     }
 
+    # 7i. The four engine surfaces the site has never written about: the CLV
+    # scoring loop that changes the model's own weights, promotional decay,
+    # per-book pricing weights, and the replay path that makes a feed
+    # decision measurable instead of vendor-quoted.
+
+    # --- the loop that makes the tool improve --------------------------------
+    # A synthetic log where one method really is closer to the closing line,
+    # scored by mean squared error and turned into blend weights. The numbers
+    # are the estimator's, not a claim about any sport: what is being shown is
+    # that the loop demotes rather than deletes.
+    from overlay_engine.clv import (
+        GradedBet, METHODS, method_scores, weights_from_scores)
+
+    n_graded = 60
+    truth = [0.50 + 0.002 * i for i in range(n_graded)]
+    graded = [
+        GradedBet(bet_id=f"b{i}", sport="nfl", market_type="h2h", book="dk",
+                  decimal=2.0, stake=100.0, fair_prob_at_bet=t,
+                  closing_fair_prob=t)
+        for i, t in enumerate(truth)
+    ]
+    # Each candidate is offset from the truth by a fixed amount, so the ranking
+    # is known before the scorer runs and the scorer can be checked against it.
+    offsets = {"power": 0.004, "shin": 0.008, "multiplicative": 0.016,
+               "additive": 0.032}
+    candidates = {m: [t + off for t in truth] for m, off in offsets.items()}
+    scores = method_scores(graded, candidates)
+    weights = weights_from_scores(scores)
+    floor = 0.05
+    out["scoring"] = {
+        "note": (
+            "That log is constructed, not a record of live markets. Each "
+            "method was handed a fixed offset from the target before the run, "
+            "so the ranking was known in advance and the error column is those "
+            "offsets squared and rescaled. It shows the mechanism turning "
+            "error into weight, not which devig method wins on any real "
+            "market \u2014 your own graded bets are what put real standings "
+            "in it."),
+        "bets": n_graded,
+        "floor": round(floor * 100),
+        "methods": len(METHODS),
+        "rows": sorted(
+            ({"method": m, "error": round(scores[m] * 10_000, 3),
+              "weight": round(weights[m] * 100, 1)} for m in scores),
+            key=lambda r: r["error"]),
+        "best": min(scores, key=scores.get),
+        "worst": max(scores, key=scores.get),
+        "best_weight": round(max(weights.values()) * 100, 1),
+        "worst_weight": round(min(weights.values()) * 100, 1),
+    }
+
+    # --- a promotion is a decaying asset -------------------------------------
+    from overlay_engine.promo import URGENT_DAYS, Holding
+
+    promo_now = NOW
+    held = Holding(promo_id=1, book="dk", kind="bonus_bet", amount=100.0,
+                   conversion=0.75, expires_at=promo_now + 7 * 86400.0)
+    decay = []
+    for days in (7, 3, 1, 0):
+        at = promo_now + (7 - days) * 86400.0
+        decay.append({
+            "days": days,
+            "value": round(held.value(at), 2),
+            "urgent": held.urgent(at),
+        })
+    out["holdings"] = {
+        "face": int(held.amount),
+        "conversion": round(held.conversion * 100),
+        "urgent_days": URGENT_DAYS,
+        "worth": round(held.value(promo_now), 2),
+        "lapsed": round(held.value(promo_now + 8 * 86400.0), 2),
+        "rows": decay,
+    }
+
+    # --- how old a weight is allowed to be -----------------------------------
+    from overlay_engine.pricing import MAX_WEIGHT_AGE
+
+    out["weights"] = {
+        "max_age_days": round(MAX_WEIGHT_AGE / 86400.0),
+    }
+
+    # --- the replay path -----------------------------------------------------
+    from overlay_engine.feed import MAX_CLOCK_SKEW
+
+    out["replay"] = {
+        "max_skew": round(MAX_CLOCK_SKEW),
+        "latency_floor": PRIOR_LATENCY,
+    }
+
     # 8a. The commission example, computed rather than asserted. A pair that
     # is an arbitrage on the face of it and is not one once the exchange takes
     # its cut — the case a screen that skips netting will surface every time.
@@ -2647,6 +2736,114 @@ the number is wrong; it is that nobody can tell you whether it is. Every figure
 on this site is computed by running the engine at build time, and the build
 refuses to publish a figure that is not.</p>
 <p><a href="/how-it-works/">How the engine prices things &rarr;</a></p>
+""",
+
+"how-a-betting-model-improves-itself": f"""
+<p>Any tool that prices a market has to strip the bookmaker's margin out of the odds first. That step is called devigging, and there is more than one way to do it. Picking one method and naming it in a footnote settles the question by assertion. This tool scores the methods against each other instead, and lets the scores set the blend.</p>
+<p>The target is the closing line. When a market closes, the closing price is the sharpest estimate available of the true probability. Each devig method makes its prediction hours before that. Once the market closes, the engine measures how far the prediction missed, squares the miss, and folds it into that method's mean squared error. Mean squared error is a proper scoring rule: the score is minimised by reporting what you actually believe. A method cannot climb the table by shading every number toward the middle, and it cannot climb by exaggerating. Timid and bold both cost.</p>
+<h2>What the scorer does with a log</h2>
+<p>The scorer run over a {m['scoring']['bets']}-bet log. The error column is scaled mean squared error &mdash; relative error, comparable across these rows and to nothing outside them. Lower is better.</p>
+<table>
+<tr><th>Method</th><th>Relative error</th><th>Blend weight</th></tr>
+{"".join(f"<tr><td>{e(r['method'])}</td><td>{r['error']:.2f}</td><td>{r['weight']:.1f}%</td></tr>" for r in m['scoring']['rows'])}
+</table>
+<p class="caveat">{e(m['scoring']['note'])}</p>
+<p>The ranking is monotone: every step up in relative error buys a smaller share of the blend. The leader here, {e(m['scoring']['best'])}, carries {m['scoring']['best_weight']:.1f}% on its own &mdash; more than everything below it combined.</p>
+<h2>Why the losers stay in</h2>
+<p>The worst method on the table, {e(m['scoring']['worst'])}, still receives {m['scoring']['worst_weight']:.1f}%. That is deliberate. Weights are held above a floor of {m['scoring']['floor']}%, and that floor is a prior &mdash; the standing assumption that no method is worthless and that {m['scoring']['bets']} graded bets is not enough evidence to retire one. Nothing sits at the floor in this run. If the standings shift, the weights shift with them, and a method that is down today can come back.</p>
+<h2>Where the choice lives</h2>
+<p>The devig choice can be an input: made once, before there was any evidence, and never revisited by anything the product observes. Here it is an output. Every graded bet re-scores all {m['scoring']['methods']} methods and re-cuts the blend, so the model pricing today's markets is not quite the model that priced the ones before it.</p>
+<p><a href="/guides/what-is-closing-line-value/">Why the closing line is the thing worth scoring against &rarr;</a></p>
+""",
+
+"why-a-losing-method-is-demoted-not-deleted": f"""
+<p>The engine de-vigs every market with {m['scoring']['methods']} methods and weights them by how badly each has missed. The worst, {e(m['scoring']['worst'])}, holds {m['scoring']['worst_weight']:.1f}% of the vote. It did not earn all of that. A floor of {m['scoring']['floor']}% was reserved for it before any weight was handed out, and its share of the remainder lifted it the rest of the way. The tempting move is to drop the loser instead. That is the error.</p>
+<h2>Deleting a method destroys the evidence that would clear it</h2>
+<p>These weights are fitted over {m['scoring']['bets']} graded bets. That sample cannot separate a bad method from an unlucky one. Across {m['performance']['n']} graded bets this engine measures {m['performance']['roi']:.2f}% flat-bet ROI with an interval running from {m['performance']['low']:.1f}% to {m['performance']['high']:.1f}%, which spans zero and is indistinguishable from break-even. If that many bets cannot settle whether a strategy makes money, a smaller sample cannot settle which de-vig method is right.</p>
+<p>A deleted method stops making predictions. No predictions means no errors, no errors means no evidence, and the record that would have exonerated it is never written. The pruning is self-sealing: it removes the only thing that could reverse it. Demotion costs almost nothing and stays reversible.</p>
+<h2>Reserve the floor first then distribute the remainder</h2>
+<p>Order matters, and it is where implementations go wrong. The tempting version normalises the inverse errors to a full allocation, raises anything below the floor up to it, then renormalises so the total sums back to a full allocation. That last step scales every weight down again, and the methods just lifted to the floor land back underneath it. The floor is enforced and undone in one operation, arriving at the outcome it exists to prevent.</p>
+<p>Reserving {m['scoring']['floor']}% per method first and dividing only what is left needs no renormalisation, so nothing falls through.</p>
+<table>
+<tr><th>Method</th><th>Error</th><th>Weight</th></tr>
+{"".join(f"<tr><td>{e(r['method'])}</td><td>{r['error']:.2f}</td><td>{r['weight']:.1f}%</td></tr>" for r in m['scoring']['rows'])}
+</table>
+<p class="caveat">{e(m['scoring']['note'])}</p>
+<h2>The floor is a prior</h2>
+<p>Named as a prior, because that is what it is: the {m['scoring']['floor']}% floor asserts, ahead of any evidence, that no method is worthless. Measured error moves everything above it. Each error in the table is a multiple of the one above it, yet the weights do not fall in that proportion &mdash; the gaps compress toward the bottom, which is the floor doing its work. {e(m['scoring']['best'])} leads at {m['scoring']['best_weight']:.1f}%: the same floor as every other method, plus the largest share of the remainder.</p>
+<p><a href="/guides/how-to-tell-if-your-model-actually-works/">How to tell if your model actually works &rarr;</a></p>
+""",
+
+"when-do-bonus-bets-expire": f"""
+<p>A promotion is held like a decaying asset and it is not one. The decay is a cliff. A face amount of {m['holdings']['face']:,} is worth {m['holdings']['worth']:.2f} for every day the offer is live, and {m['holdings']['lapsed']:.2f} from the deadline onward. There is no slope in between.</p>
+<p>The figure behind that conversion is a prior &mdash; an assumed rate, here {m['holdings']['conversion']}%, at which a bonus bet is turned into withdrawable cash. It is an input to the valuation, not a measurement of your account. Move the prior and the cliff gets taller or shorter. It never becomes a slope.</p>
+<h2>The value does not slide</h2>
+<p>Read the table downward. The holding is worth the same at {m['holdings']['rows'][0]['days']} days out as at {m['holdings']['rows'][2]['days']} day out. Then it is worth {m['holdings']['lapsed']:.2f}. Most write-ups describe a promotion as though time value bleeds out of it, so an old bonus is worth less than a fresh one. That is wrong in both directions. Nothing bleeds, and then everything goes at once.</p>
+<table>
+<tr><th>Days to deadline</th><th>Value</th><th>Flagged urgent</th></tr>
+{"".join(f"<tr><td>{r['days']}</td><td>{r['value']:.2f}</td><td>{'yes' if r['urgent'] else 'no'}</td></tr>" for r in m['holdings']['rows'])}
+</table>
+<h2>Urgent is a flag, not a discount</h2>
+<p>At or inside {m['holdings']['urgent_days']:.0f} days, while it is still live, the holding is flagged urgent. The flag changes no value in the table. It changes the ordering of your week. A bonus converted at a poor rate today beats the same bonus converted at a good rate tomorrow whenever tomorrow falls past the deadline, because the alternative is {m['holdings']['lapsed']:.2f} and any conversion clears that bar. Note that the expired row carries no flag. Urgency is for things that can still be saved.</p>
+<h2>The face amount is never true</h2>
+<p>The headline face amount is the one number about a promotion that is never true. A balance that reads {m['holdings']['face']:,} is worth {m['holdings']['worth']:.2f} while it is live and {m['holdings']['lapsed']:.2f} once it lapses. At no point in its life is it worth {m['holdings']['face']:,}. That is the number in the advertisement and it is the number to leave out of your bankroll. Book the converted figure on the day the credit lands, and put the deadline next to it.</p>
+<p><a href="/guides/how-to-convert-a-bonus-bet/">How to convert a bonus bet &rarr;</a></p>
+""",
+
+"why-a-model-should-forget-old-data": f"""
+<p>A pricing weight has an expiry date. The overlay fits a weight per book&mdash;how much that book's price should count when the fair line is estimated&mdash;and once the calibration behind it has aged past {m['weights']['max_age_days']:,} days, every price built on it is labelled stale in the same line as the number. Not down-weighted, and not quietly dropped: named, where the price is read. The label is on or off, because there is nothing to taper along.</p>
+<p>Books change. A book revises its margin, tightens or loosens its risk appetite, drops a market, adds another, hands pricing to someone else. A weight fitted before any of that describes a book that no longer exists&mdash;a precise measurement of a vanished thing. The cutoff is a prior, not a measurement: nothing in the settled record announces the day a trading desk changed its policy, so the engine picks a round age, roughly one off-season, and stops vouching for anything older.</p>
+<h2>The bars that pull the other way</h2>
+<p>The other bars in the fit ask for evidence, not freshness. No weight is fitted at all until {m['holdout']['min_graded']:,} graded bets exist. Of those, {m['holdout']['holdout_pct']:,}% is held back in time order&mdash;the newest slice, never a random sample, because a random split leaks the future into the fit. At that minimum it comes to {m['holdout']['train']:,} graded bets to fit on and {m['holdout']['test']:,} to score against. A book also has to clear {m['holdout']['min_coverage']:,} graded bets of its own before it earns a fitted weight instead of falling back to the default its tier carries. That per-book bar sits below the global one, because a book only has to describe itself.</p>
+<table>
+<tr><th>Bar</th><th>Value</th></tr>
+<tr><td>Graded bets before anything is fitted</td><td>{m['holdout']['min_graded']:,}</td></tr>
+<tr><td>Held back, newest first</td><td>{m['holdout']['holdout_pct']:,}%</td></tr>
+<tr><td>Fitted on, at that minimum</td><td>{m['holdout']['train']:,}</td></tr>
+<tr><td>Scored against, at that minimum</td><td>{m['holdout']['test']:,}</td></tr>
+<tr><td>Graded bets per book for its own weight</td><td>{m['holdout']['min_coverage']:,}</td></tr>
+<tr><td>Calibration labelled stale past this age (days)</td><td>{m['weights']['max_age_days']:,}</td></tr>
+</table>
+<h2>A window, not an archive</h2>
+<p>The forces point in opposite directions. More data makes an estimate tighter. Older data makes it wrong. Together they give a window rather than an archive: the sample has to be large enough to fit and young enough to be true, and both conditions bind at once. A book that goes quiet never clears its coverage bar in the first place, and a fit that outlives the window stops being presented as current&mdash;not because the book became untrustworthy, but because nothing recent enough remains to say.</p>
+<p>This is where the rest of the market goes wrong. Depth of history is sold as an unqualified virtue: seasons of backfill, years of closing lines, the biggest database wins. History is treated as monotonically valuable, as though a price from a book's retired pricing regime were weak evidence. It is not weak evidence. It is wrong evidence, and more of it adds bias rather than noise. Bias does not average out with volume.</p>
+<p>The held-back slice is what turns any of this into a claim you can check. <a href="/guides/how-to-tell-if-your-model-actually-works/">How to tell if your model actually works &rarr;</a></p>
+""",
+
+"how-to-choose-an-odds-feed": f"""
+<p>Feeds are sold on a published latency figure. Several publish none at all. Neither case tells you what the feed does on your markets, in your sports, at the minutes you actually bet.</p>
+<p>The honest way to choose is to record a trial window from every candidate and replay those recordings through the same engine. Same markets, same clock, same decision rules &mdash; only the feed changes. A quoted latency is a claim about the vendor. A replay is a measurement of your book.</p>
+<h2>Replay, not datasheets</h2>
+<p>Replay only works if the recordings line up in time. Ours refuses to compare captures whose clocks disagree by more than {m['replay']['max_skew']} seconds, because past that you are measuring clock drift and calling it latency. It also applies a stated prior: a latency floor of {m['replay']['latency_floor']:.1f} seconds, below which no feed is credited with being faster. That floor is a prior, not a measurement.</p>
+<h2>Why latency decides more than it looks</h2>
+<p>A quote arrives stamped at {m['fill']['age']:.1f} seconds old. The feed carrying it took {m['fill']['latency']:.1f} seconds, above the stated floor. So the price you are pricing against is really {m['fill']['effective']:.1f} seconds old. Everything downstream moves with that.</p>
+<p>Fill probability splits the same way. Read at stamped age, the fill looks like {m['fill']['naive']}%. Read at effective age, it is {m['fill']['honest']}%. On a nominal edge of {m['fill']['edge']:.1f}%, the naive read books {m['fill']['edge_naive']:.2f}% and the honest read books {m['fill']['edge_honest']:.2f}%. The smaller figure is the one that settles. Both fills come off a stated prior survival curve for this market class, not off a measurement of any feed &mdash; your own accept and reject record replaces it.</p>
+<p>The table below shows the same mechanism on a different stated prior: survival modelled as exponential decay with a tau of {m['quote_age']['tau']:.1f} seconds, tabulated from the latency floor prior of {m['quote_age']['latency_floor']:.1f} seconds upward. The half-life that follows from that tau is {m['quote_age']['half_life']:.1f} seconds. Modelled, not measured, and it falls at every step.</p>
+<table>
+<tr><th>Quote age (s)</th><th>Edge surviving</th></tr>
+{"".join(f"<tr><td>{r['age']}</td><td>{r['survives']:.1f}%</td></tr>" for r in m['quote_age']['rows'])}
+</table>
+<p>Read any such curve against effective age, never against stamped age. An effective age of {m['fill']['effective']:.1f} seconds still sits inside the half-life; a stamped age of {m['fill']['age']:.1f} seconds flatters the feed by exactly the latency you failed to subtract. Do not expect this table to reproduce the fill figures above &mdash; different tau, different curve. What carries across is the direction.</p>
+<h2>The thing nobody sells on</h2>
+<p>A feed that stamps its own observation time is worth more than a faster feed that does not. Without a stamp you cannot recover effective age, so you cannot compute the honest fill, so the {m['fill']['edge_naive']:.2f}% figure is the only one available to you and it overstates. Speed you cannot check is a marketing claim. A timestamp is evidence. Buy the evidence.</p>
+<p><a href="/guides/how-old-is-the-price-on-your-screen/">How old is the price on your screen &rarr;</a></p>
+""",
+
+"what-a-clock-you-cannot-trust-does-to-a-price": f"""
+<p>Every freshness claim rests on two clocks agreeing. The feed stamps a quote with its clock. You judge that quote against yours. When the clocks disagree, a stale price reads as fresh and a fresh one reads as stale, and nothing about the number on screen reveals which case you are in.</p>
+<p>The usual arithmetic hides this. Subtract the vendor timestamp from local time, print the difference as age, and the answer inherits the error of whichever clock is worse &mdash; with nothing in the output to say which one supplied it. The error does not surface as noise. It surfaces as confidence.</p>
+<h2>Why a bad timestamp is worse than none</h2>
+<p>A quote stamped more than {m['replay']['max_skew']:,} seconds ahead of our own clock is dropped from the snapshot rather than scored, and the count of what was dropped is reported alongside what survived. That ceiling is a stated prior &mdash; chosen, not measured. The rule is one-sided on purpose. A feed clock running ahead makes a stale price read as fresher than live and ranks it above every honestly dated quote on the screen; a feed clock running behind only makes a price look older than it is. A missing timestamp makes you cautious. A wrong one makes you confident, and confidence is the expensive failure. The ceiling is also wider than the whole table below, whose oldest row is {m['quote_age']['rows'][4]['age']:,} seconds &mdash; a clock error this engine still tolerates can exceed every age it scores.</p>
+<h2>The floor under an undated quote</h2>
+<p>Under the ceiling sits a floor. When the feed gives no timestamp of its own, age is never priced below {m['replay']['latency_floor']:.1f} seconds &mdash; a stated prior, not a measurement of any feed. It is not zero, because zero is the one value certainly wrong: the price left the book, crossed a network, and rendered before you read it. A quote the feed did date needs no such addition &mdash; that delay already sits inside the age you compute, and adding the floor on top would count it twice. The youngest row below is that floor, and survival there is already short of certain.</p>
+<h2>What a mis-estimated age costs</h2>
+<p>Survival is modelled as exponential decay on a mean lifetime of {m['quote_age']['tau']:.1f} seconds &mdash; again a stated prior, standing until your own accept and reject record replaces it. On that assumption the half-life is {m['quote_age']['half_life']:.1f} seconds, and the rows below are what the assumption implies rather than what any feed has been observed to do.</p>
+<table>
+<tr><th>Quote age (seconds)</th><th>Edge surviving</th></tr>
+{"".join(f"<tr><td>{r['age']:,}</td><td>{r['survives']:.1f}%</td></tr>" for r in m['quote_age']['rows'])}
+</table>
+<p>Read the cost off the rows. Take a quote for {m['quote_age']['rows'][1]['age']:,} seconds old when it is really {m['quote_age']['rows'][3]['age']:,}, and you priced {m['quote_age']['rows'][1]['survives']:.1f}% of your edge as surviving when the curve gives {m['quote_age']['rows'][3]['survives']:.1f}%. A stated edge of {m['quote_age']['example_edge']:.1f}% at {m['quote_age']['example_age']:,} seconds is worth {m['quote_age']['example_realised']:.2f}% once survival is applied. The clock error never appears in the price. It appears in the fill.</p>
+<p><a href="/guides/how-old-is-the-price-on-your-screen/">How old is the price on your screen &rarr;</a></p>
 """,
 
 "why-your-bets-get-rejected": f"""

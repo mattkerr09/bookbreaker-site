@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why a losing method is demoted not deleted</title>
+<meta name="description" content="Why does my model still use a method that keeps losing? Worked through with the arithmetic done, not just the formula.">
+<link rel="canonical" href="https://bookbreaker.bet/guides/why-a-losing-method-is-demoted-not-deleted/">
+<link rel="stylesheet" href="/style.css?v=b728110d51">
+</head>
+<body class="">
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.0 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<main>
+<h1>Why a losing method is demoted not deleted</h1>
+<p class="lede">Why does my model still use a method that keeps losing?</p>
+
+<p>The engine de-vigs every market with 4 methods and weights them by how badly each has missed. The worst, additive, holds 5.9% of the vote. It did not earn all of that. A floor of 5% was reserved for it before any weight was handed out, and its share of the remainder lifted it the rest of the way. The tempting move is to drop the loser instead. That is the error.</p>
+<h2>Deleting a method destroys the evidence that would clear it</h2>
+<p>These weights are fitted over 60 graded bets. That sample cannot separate a bad method from an unlucky one. Across 220 graded bets this engine measures 5.91% flat-bet ROI with an interval running from -7.0% to 18.9%, which spans zero and is indistinguishable from break-even. If that many bets cannot settle whether a strategy makes money, a smaller sample cannot settle which de-vig method is right.</p>
+<p>A deleted method stops making predictions. No predictions means no errors, no errors means no evidence, and the record that would have exonerated it is never written. The pruning is self-sealing: it removes the only thing that could reverse it. Demotion costs almost nothing and stays reversible.</p>
+<h2>Reserve the floor first then distribute the remainder</h2>
+<p>Order matters, and it is where implementations go wrong. The tempting version normalises the inverse errors to a full allocation, raises anything below the floor up to it, then renormalises so the total sums back to a full allocation. That last step scales every weight down again, and the methods just lifted to the floor land back underneath it. The floor is enforced and undone in one operation, arriving at the outcome it exists to prevent.</p>
+<p>Reserving 5% per method first and dividing only what is left needs no renormalisation, so nothing falls through.</p>
+<div class="scroll"><table>
+<tr><th>Method</th><th>Error</th><th>Weight</th></tr>
+<tr><td>power</td><td>0.16</td><td>65.2%</td></tr><tr><td>shin</td><td>0.64</td><td>20.1%</td></tr><tr><td>multiplicative</td><td>2.56</td><td>8.8%</td></tr><tr><td>additive</td><td>10.24</td><td>5.9%</td></tr>
+</table></div>
+<p class="caveat">That log is constructed, not a record of live markets. Each method was handed a fixed offset from the target before the run, so the ranking was known in advance and the error column is those offsets squared and rescaled. It shows the mechanism turning error into weight, not which devig method wins on any real market — your own graded bets are what put real standings in it.</p>
+<h2>The floor is a prior</h2>
+<p>Named as a prior, because that is what it is: the 5% floor asserts, ahead of any evidence, that no method is worthless. Measured error moves everything above it. Each error in the table is a multiple of the one above it, yet the weights do not fall in that proportion &mdash; the gaps compress toward the bottom, which is the floor doing its work. power leads at 65.2%: the same floor as every other method, plus the largest share of the remainder.</p>
+<p><a href="/guides/how-to-tell-if-your-model-actually-works/">How to tell if your model actually works &rarr;</a></p>
+
+</main>
+<footer>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets.</p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every figure on this site is computed by running the engine at
+build time &mdash; none is typed in. Generated 2026-08-17.</p>
+<p class="foot-fine">21+. Gambling involves risk. If it stops being fun, it is
+not fun &mdash;
+<a href="https://www.ncpgambling.org/help-treatment/">get help</a>.</p>
+</footer>
+</body>
+</html>

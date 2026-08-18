@@ -458,6 +458,35 @@
     "price": "+110",
     "realised": 5.13
   },
+  "holdings": {
+    "conversion": 75,
+    "face": 100,
+    "lapsed": 0.0,
+    "rows": [
+      {
+        "days": 7,
+        "urgent": false,
+        "value": 75.0
+      },
+      {
+        "days": 3,
+        "urgent": true,
+        "value": 75.0
+      },
+      {
+        "days": 1,
+        "urgent": true,
+        "value": 75.0
+      },
+      {
+        "days": 0,
+        "urgent": false,
+        "value": 0.0
+      }
+    ],
+    "urgent_days": 3.0,
+    "worth": 75.0
+  },
   "holdout": {
     "holdout_pct": 30,
     "min_coverage": 20,
@@ -655,6 +684,10 @@
       "sha256": "e2ac62d954008b973eb90e5beb6d52027dca5c4841491382d76dd928a713c094"
     }
   },
+  "replay": {
+    "latency_floor": 2.0,
+    "max_skew": 120
+  },
   "rounding": {
     "cost": 2.35,
     "cost_bps": 23.5,
@@ -698,6 +731,38 @@
     ],
     "short_premium": 375.0,
     "stake": 1000
+  },
+  "scoring": {
+    "best": "power",
+    "best_weight": 65.2,
+    "bets": 60,
+    "floor": 5,
+    "methods": 4,
+    "note": "That log is constructed, not a record of live markets. Each method was handed a fixed offset from the target before the run, so the ranking was known in advance and the error column is those offsets squared and rescaled. It shows the mechanism turning error into weight, not which devig method wins on any real market \u2014 your own graded bets are what put real standings in it.",
+    "rows": [
+      {
+        "error": 0.16,
+        "method": "power",
+        "weight": 65.2
+      },
+      {
+        "error": 0.64,
+        "method": "shin",
+        "weight": 20.1
+      },
+      {
+        "error": 2.56,
+        "method": "multiplicative",
+        "weight": 8.8
+      },
+      {
+        "error": 10.24,
+        "method": "additive",
+        "weight": 5.9
+      }
+    ],
+    "worst": "additive",
+    "worst_weight": 5.9
   },
   "screen": [
     {
@@ -3305,5 +3370,8 @@
     "sigma": 13.0,
     "window": 3
   },
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "weights": {
+    "max_age_days": 90
+  }
 }
