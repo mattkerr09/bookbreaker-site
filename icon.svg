@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="15" fill="#0B6CFF"/>
+  <!-- the interval: two bounds, a point estimate, and the band between them -->
+  <rect x="13" y="28.5" width="38" height="7" rx="3.5" fill="#FFFFFF" opacity=".38"/>
+  <rect x="13" y="20" width="5" height="24" rx="2.5" fill="#FFFFFF"/>
+  <rect x="46" y="20" width="5" height="24" rx="2.5" fill="#FFFFFF"/>
+  <circle cx="30" cy="32" r="5.5" fill="#FFFFFF"/>
+</svg>

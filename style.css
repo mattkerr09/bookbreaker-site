@@ -921,3 +921,237 @@ h2{line-height:1.15}
 
 /* Footer links were 17px tall — under even the 24px minimum. */
 .foot-grid a{display:inline-block;padding:.35rem 0}
+
+/* ================================================================= PASS 5
+   The brief changed, and the old one was answered too well.
+
+   The system above describes "a printed statistical plate with a dark
+   terminal block set into it." That is a Bloomberg terminal, and Matt's
+   reaction — bleak, uninspiring, reminds me of stock trading — is the design
+   working exactly as specified. The specification was wrong for the audience.
+
+   This is a sports betting product. The people using it also use FanDuel and
+   an iPhone, and both of those are bright, rounded, generous and confident.
+   Nothing below softens what the engine SAYS — every figure stays measured,
+   every prior stays labelled — it changes who the page looks like it was
+   built for.
+
+   Three moves: lift the ground to white, round everything, and let colour
+   mean something friendly instead of only marking a measurement. */
+
+:root{
+  /* Apple's near-black on white, which is warmer and far less severe than
+     pure #000 on #fff and is the single biggest change here. */
+  --plate:#ffffff;
+  --card:#f5f5f7;
+  --sink:#fafafa;
+  --ink:#1d1d1f;
+  --ink-2:#4b4f56;
+  --ink-3:#86868b;
+  --rule:#e3e3e6;
+
+  /* One confident brand blue, used for actions AND for computed values, so
+     the page reads as one product rather than as a chart with a button on
+     it. Green earns its place: it is what a bettor is actually looking for. */
+  --accent:#0b6cff;
+  --accent-hi:#0356d6;
+  --accent-ink:#ffffff;
+  --accent-soft:#eaf1ff;
+  --indigo:#0b6cff;
+  --good:#0a8f4d;
+  --oxblood:#d1293d;
+
+  --band:rgba(11,108,255,.14);
+  --band-neg:rgba(209,41,61,.13);
+  --hatch:rgba(209,41,61,.26);
+
+  --term:#0f1115;
+  --term-line:#262a31;
+
+  /* Serif headings read academic. The audience is not academic. */
+  --serif:var(--sans);
+  --display:var(--sans);
+
+  /* 2px radius is a spreadsheet. */
+  --r:14px;
+  --r-sm:10px;
+  --r-pill:999px;
+
+  --shadow-1:0 1px 2px rgba(16,24,40,.05), 0 1px 3px rgba(16,24,40,.06);
+  --shadow-2:0 4px 12px rgba(16,24,40,.07), 0 2px 4px rgba(16,24,40,.04);
+  --shadow-3:0 12px 32px rgba(16,24,40,.10), 0 4px 8px rgba(16,24,40,.05);
+}
+
+/* Dark stays available and stops being the personality. Charcoal, not void. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --plate:#0f1115; --card:#181b21; --sink:#14171c;
+    --ink:#f5f6f7; --ink-2:#b3b9c4; --ink-3:#868d99; --rule:#2a2f38;
+    --accent:#4d94ff; --accent-hi:#7fb2ff; --accent-ink:#08101f;
+    --accent-soft:#16233a;
+    --indigo:#7fb2ff; --good:#3ecf8e; --oxblood:#ff6b7a;
+    --band:rgba(127,178,255,.20); --band-neg:rgba(255,107,122,.18);
+    --term:#080a0e; --term-line:#2a2f38;
+    --shadow-1:0 1px 2px rgba(0,0,0,.4);
+    --shadow-2:0 4px 12px rgba(0,0,0,.45);
+    --shadow-3:0 12px 32px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --plate:#0f1115; --card:#181b21; --sink:#14171c;
+  --ink:#f5f6f7; --ink-2:#b3b9c4; --ink-3:#868d99; --rule:#2a2f38;
+  --accent:#4d94ff; --accent-hi:#7fb2ff; --accent-ink:#08101f;
+  --accent-soft:#16233a;
+  --indigo:#7fb2ff; --good:#3ecf8e; --oxblood:#ff6b7a;
+  --band:rgba(127,178,255,.20); --band-neg:rgba(255,107,122,.18);
+  --term:#080a0e; --term-line:#2a2f38;
+}
+
+/* --- type: bigger, tighter, friendlier ------------------------------- */
+body{font-family:var(--sans);letter-spacing:-.011em}
+h1{letter-spacing:-.033em;font-weight:700;line-height:1.04}
+h2{letter-spacing:-.024em;font-weight:700}
+h3{letter-spacing:-.016em;font-weight:650}
+.lede{font-size:1.25rem;line-height:1.5;color:var(--ink-2);
+  letter-spacing:-.014em}
+
+/* --- the primary action: a real button ------------------------------- */
+.btn,.cta a:first-child,a.btn-primary{
+  border-radius:var(--r-pill);padding:.9rem 1.6rem;font-weight:650;
+  font-size:1.0625rem;letter-spacing:-.01em;box-shadow:var(--shadow-2);
+  border:0;transition:transform .16s cubic-bezier(.2,.7,.3,1),
+    box-shadow .16s ease,background .16s ease}
+.btn:hover,.cta a:first-child:hover{transform:translateY(-1px);
+  box-shadow:var(--shadow-3)}
+.btn:active,.cta a:first-child:active{transform:translateY(0)}
+.cta a+a,.btn-ghost{border-radius:var(--r-pill);padding:.9rem 1.5rem;
+  font-weight:600;font-size:1.0625rem;border:1.5px solid var(--rule);
+  background:var(--plate);color:var(--ink);transition:border-color .16s ease,
+    background .16s ease}
+.cta a+a:hover,.btn-ghost:hover{border-color:var(--ink-3);
+  background:var(--card)}
+
+/* --- surfaces: lift instead of outline ------------------------------- */
+.cards{gap:1rem;background:none}
+.cards .card,.cards>li{background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r);box-shadow:var(--shadow-1);overflow:hidden;
+  transition:transform .18s cubic-bezier(.2,.7,.3,1),
+    box-shadow .18s ease,border-color .18s ease}
+.cards .card:hover,.cards>li:hover{transform:translateY(-2px);
+  box-shadow:var(--shadow-2);border-color:color-mix(in srgb,var(--accent) 40%,var(--rule))}
+.cards .card a{border-radius:var(--r)}
+.cards .card:hover .card-go{color:var(--accent)}
+.plate,.figure,.demo-box,.scroll,.screen,pre,.caveat{border-radius:var(--r)}
+.demo-box,.plate,.figure{box-shadow:var(--shadow-1)}
+
+/* --- header: lighter, floatier --------------------------------------- */
+header{background:color-mix(in srgb,var(--plate) 86%,transparent);
+  backdrop-filter:saturate(1.6) blur(14px);
+  border-bottom:1px solid var(--rule)}
+@supports not (backdrop-filter:blur(1px)){header{background:var(--plate)}}
+nav .links a{border-radius:var(--r-pill);padding:.45rem .7rem;
+  transition:background .14s ease,color .14s ease}
+nav .links a:hover{background:var(--card);color:var(--ink)}
+.banner{background:var(--accent-soft);border-bottom:1px solid
+  color-mix(in srgb,var(--accent) 18%,transparent)}
+.banner a{color:var(--accent)}
+
+/* --- the numbers stay the point, and now read as good news ----------- */
+.trust b{color:var(--ink);letter-spacing:-.03em}
+.pos,.up,.realised{color:var(--good)}
+table{font-family:var(--sans);border-radius:var(--r)}
+main table td:not(:first-child){font-family:var(--mono);
+  font-variant-numeric:tabular-nums}
+th{letter-spacing:.06em;color:var(--ink-3);font-weight:600}
+
+/* --- forms, for when the calculators get their inputs ---------------- */
+input,select,button{font:inherit;border-radius:var(--r-sm)}
+input[type=range]{accent-color:var(--accent)}
+
+/* --- respect the setting ---------------------------------------------- */
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;transform:none!important;
+    scroll-behavior:auto!important}
+}
+
+/* --- the product shot ------------------------------------------------
+   It was a black terminal, which on a consumer page says "this is for
+   developers" before anyone reads a word. The product is a CLI today, but
+   what the shot has to communicate is the OUTPUT — four prices, an interval
+   drawn on each, and what survives the chance of getting on. That reads
+   better as a light product surface, and it is the same data either way. */
+.app{
+  --card:var(--sink); --sink:#f7f8fa;
+  --ink:#1d1d1f; --ink-2:#5b6069; --ink-3:#8a8f98; --rule:#e6e8ec;
+  --indigo:var(--accent); --oxblood:#d1293d;
+  --band:rgba(11,108,255,.16); --band-neg:rgba(209,41,61,.14);
+  background:var(--plate);border:1px solid var(--rule);
+  box-shadow:var(--shadow-3);font-family:var(--sans);
+  font-size:var(--t-3);border-radius:var(--r)}
+.app-bar{background:var(--sink);padding:.7rem 1rem}
+.app .dot{background:#d9dce1}
+.app .dot:nth-of-type(1){background:#ff5f57}
+.app .dot:nth-of-type(2){background:#febc2e}
+.app .dot:nth-of-type(3){background:#28c840}
+.app-head{background:var(--sink);color:var(--ink-3);letter-spacing:.06em}
+.app-row{transition:background .14s ease}
+.app-row:hover{background:var(--accent-soft)}
+.app .ev-name{font-weight:650;letter-spacing:-.01em}
+.app .price,.app .pos,.app .realised,
+.app-head span:nth-child(3),.app-row span:nth-child(3),
+.app-head span:nth-child(4),.app-row span:nth-child(4),
+.app-head span:nth-child(6),.app-row span:nth-child(6),
+.app-head span:nth-child(8),.app-row span:nth-child(8){
+  font-family:var(--mono);font-variant-numeric:tabular-nums}
+/* Realised EV is the number the product exists to show, so it gets the one
+   colour a bettor is actually looking for. */
+.app .realised{color:var(--good);font-weight:650}
+
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .app{
+    --sink:#14171c; --ink:#f5f6f7; --ink-2:#b3b9c4; --ink-3:#868d99;
+    --rule:#2a2f38; --indigo:var(--accent)}
+}
+:root[data-theme="dark"] .app{
+  --sink:#14171c; --ink:#f5f6f7; --ink-2:#b3b9c4; --ink-3:#868d99;
+  --rule:#2a2f38; --indigo:var(--accent)}
+
+/* --- the proof points, as objects rather than loose text -------------- */
+.trust{gap:1rem;border:0;padding:0}
+.trust>div,.trust>li{background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r);padding:1.25rem 1.35rem;box-shadow:var(--shadow-1)}
+.trust span{color:var(--ink-3)}
+
+/* The matchup column was narrow enough to wrap "DEN @ PHX" onto two lines,
+   which pushed that row taller than its neighbours and broke the shared
+   axis the whole figure depends on. */
+.app-head,.app-row{grid-template-columns:1.75fr .95fr .62fr .72fr 1.85fr .5fr .6fr .85fr;
+  gap:var(--s-2)}
+.app .ev-name{white-space:nowrap}
+.app-row{min-height:2.9rem}
+
+/* Four proof points that each broke onto two lines read as four problems.
+   Wider cells, and a label size that fits one. */
+.trust{grid-template-columns:repeat(auto-fit,minmax(13.5rem,1fr))}
+.trust span{font-size:.68rem;line-height:1.35;letter-spacing:.07em}
+@media (max-width:52rem){.trust{grid-template-columns:repeat(2,1fr)}}
+
+/* --- mobile header ---------------------------------------------------
+   The banner plus a two-row nav was taking the whole first screen before a
+   word of the page appeared. */
+@media (max-width:40rem){
+  .banner{font-size:.82rem;padding:.5rem 0}
+  .banner-in{display:flex;align-items:center;gap:.5rem;flex-wrap:nowrap}
+  .banner-in p,.banner-in span{margin:0;white-space:nowrap;overflow:hidden;
+    text-overflow:ellipsis;min-width:0}
+  .banner .tag{flex:none;font-size:.62rem;padding:.15rem .45rem}
+  .banner a{flex:none}
+  nav{flex-wrap:nowrap;padding-block:.55rem}
+  nav .brand{font-size:1rem}
+  .links{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch}
+  .links::-webkit-scrollbar{display:none}
+  nav .links a{white-space:nowrap;padding:.35rem .55rem;font-size:.9rem}
+  /* The header follows the page instead of holding a third of the screen. */
+  header{position:static}
+}
