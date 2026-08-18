@@ -312,7 +312,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "623072c862afb9d4",
+  "engine_fingerprint": "1f5dbc17581c339e",
   "evidence": {
     "bars": [
       {
@@ -677,16 +677,24 @@
     "tau": 60.0
   },
   "release": {
+    "app": {
+      "kb": 6319,
+      "mb": 6.2,
+      "name": "Bookbreaker-0.1.0.dmg",
+      "sha256": "6352457d3748bc8070e8a16c15340703eb81255ea05c6e73c7f3277c131940aa"
+    },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
       "kb": 233,
+      "mb": 0.2,
       "name": "overlay-0.1.0.tar.gz",
       "sha256": "f7db5d2c6d4cee4bb9b00801fa4441be055e7911c2fd0199c38596839eac19cf"
     },
     "version": "0.1.0",
     "wheel": {
       "kb": 150,
+      "mb": 0.1,
       "name": "overlay-0.1.0-py3-none-any.whl",
       "sha256": "e2ac62d954008b973eb90e5beb6d52027dca5c4841491382d76dd928a713c094"
     }

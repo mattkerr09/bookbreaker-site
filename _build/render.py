@@ -560,13 +560,27 @@ def measure(engine) -> dict:
             "name": path.name,
             "sha256": hashlib.sha256(raw).hexdigest(),
             "kb": round(len(raw) / 1024),
+            # Measured here rather than derived in the template. Dividing kb by
+            # 1024 where the page is written produces a figure the build has
+            # never seen, and the figure gate caught exactly that.
+            "mb": round(len(raw) / 1024 / 1024, 1),
         }
+
+    # The macOS app, if this render has one to offer. Optional on purpose:
+    # the wheel is the product's floor and always ships, and a render should
+    # not fail because a signed build has not been copied over yet. But when a
+    # DMG IS present its digest is read off the served file, exactly like the
+    # wheel's — the page never publishes a checksum for a file nobody can
+    # download.
+    dmgs = sorted(dist.glob("*.dmg")) if dist.exists() else []
+    app = _art(dmgs[-1]) if dmgs else None
 
     wheel, sdist = _art(wheels[-1]), _art(sdists[-1])
     out["release"] = {
         "version": engine.__version__,
         "wheel": wheel,
         "sdist": sdist,
+        "app": app,
         "python": "3.9",
         "hash_bits": len(wheel["sha256"]) * 4,
     }
@@ -1385,17 +1399,38 @@ def render_download(m: dict) -> str:
     only arrangement under which a checksum is worth printing at all.
     """
     r = m["release"]
-    w, sd = r["wheel"], r["sdist"]
+    w, sd, app = r["wheel"], r["sdist"], r.get("app")
+
+    # The app leads when there is one. Until tonight this page offered a
+    # Python wheel to an audience the site had spent 116 pages recruiting,
+    # which is a real answer to "where do I get it" and the wrong one for
+    # most of the people asking.
+    if app:
+        primary = (f'<a class="btn primary" href="/releases/{app["name"]}">'
+                   f'Download for macOS<span class="sub">'
+                   f'{app["mb"]} MB &middot; signed</span></a>'
+                   f'<a class="btn ghost" href="/releases/{w["name"]}">'
+                   f'Command-line wheel</a>')
+        app_note = (
+            "<p>The macOS app is signed with a Developer ID and notarised by "
+            "Apple, so it opens without a warning and without you having to "
+            "right-click your way past Gatekeeper. It carries the same engine "
+            "the command line runs &mdash; the window does no arithmetic of "
+            "its own, it asks the engine and shows the answer.</p>")
+    else:
+        primary = (f'<a class="btn primary" href="/releases/{w["name"]}">'
+                   f'Download the wheel<span class="sub">{w["kb"]} KB</span></a>'
+                   f'<a class="btn ghost" href="/releases/{sd["name"]}">'
+                   f'Source tarball</a>')
+        app_note = ""
+
     return f"""
 <h1>Download Bookbreaker</h1>
 <p class="lede">Version {r['version']}. Free, no account, and it never sends
 your record anywhere &mdash; the ledger is a SQLite file on your own disk.</p>
 
-<div class="cta">
-<a class="btn primary" href="/releases/{w['name']}">Download the wheel
-<span class="sub">{w['kb']} KB</span></a>
-<a class="btn ghost" href="/releases/{sd['name']}">Source tarball</a>
-</div>
+<div class="cta">{primary}</div>
+{app_note}
 
 <h2>Install it</h2>
 <p>Bookbreaker is a command-line tool. It is pure Python with no third-party
