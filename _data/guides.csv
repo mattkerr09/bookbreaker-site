@@ -1,41 +1,41 @@
-slug,title,question
-how-to-devig-odds,How to devig odds,How do you find the true probability behind a sportsbook's price?
-what-is-closing-line-value,What is closing line value,Why do sharp bettors care more about CLV than profit?
-how-to-convert-a-bonus-bet,How to convert a bonus bet to cash,What is a free bet actually worth and how do you cash it?
-what-is-arbitrage-betting,What is arbitrage betting,How do you bet both sides and still win?
-what-does-plus-ev-mean,What does +EV mean in betting,What makes a bet mathematically profitable?
-what-is-a-middle-bet,What is a middle bet,How can two bets both win?
-how-to-avoid-getting-limited,How to avoid getting limited,Why do sportsbooks limit winners and what actually extends an account?
-what-is-vig-and-hold,What is vig and hold,How much is the sportsbook charging you?
-how-to-use-the-kelly-criterion,How to use the Kelly criterion,How much of your bankroll should one bet be?
-how-to-read-american-odds,How to read American odds,What do +150 and -200 actually mean?
-how-to-hedge-a-bet,How to hedge a bet,How do you lock in a profit on a position you already hold?
-what-is-a-low-hold-bet,What is a low hold bet,How do you pay less juice on every bet?
-how-to-track-your-betting-results,How to track your betting results,What should you actually measure?
-why-your-bets-get-rejected,Why your bets get rejected,Why does the line disappear the moment you tap it?
-what-is-a-parlay-really-worth,What is a parlay really worth,Why does a bigger payout mean a worse bet?
-what-is-a-same-game-parlay-worth,What is a same-game parlay worth,Why can't you just multiply the legs together?
-what-is-a-sharp-sportsbook,What is a sharp sportsbook,Why do some books' prices count as evidence and others don't?
-how-to-line-shop,How to line shop,How much is taking the best available price actually worth?
-what-is-bankroll-management,What is bankroll management,How do you size bets so a bad run doesn't end you?
-what-is-a-deposit-match-worth,What is a deposit match worth,Is a 100% deposit match actually free money?
-what-is-a-no-sweat-bet-worth,What is a no-sweat bet worth,What odds should you take on a first-bet-refunded offer?
-what-is-a-profit-boost-worth,What is a profit boost worth,Where should you spend a 50% profit boost?
-how-to-read-a-betslip-into-your-record,How to read a betslip into your record,How do you log a bet without corrupting your own numbers?
-which-welcome-offer-to-do-first,Which welcome offer to do first,What order should you claim sportsbook sign-up offers in?
-why-your-best-sport-is-probably-noise,Why your best sport is probably noise,Does your most profitable category mean anything?
-how-to-stake-an-arbitrage-in-round-numbers,How to stake an arbitrage in round numbers,What does betting $490 instead of $493.98 actually cost you?
-how-old-is-the-price-on-your-screen,How old is the price on your screen,Why does the line move between clicking and confirming?
-how-to-tell-if-your-model-actually-works,How to tell if your model actually works,How do you know a betting model is not just fitted to the past?
-how-to-grade-your-own-bets,How to grade your own bets,What are the rules for settling your own betting record?
-how-many-bets-are-you-actually-making,How many bets are you actually making,Are twelve simultaneous bets really twelve bets?
-what-is-a-totals-middle-worth,What is a totals middle worth,How do you price an over/under middle without guessing?
-why-your-worst-case-is-worse-than-it-looks,Why your worst case is worse than it looks,What does your open book lose if everything goes wrong at once?
-how-much-of-your-bankroll-should-be-live,How much of your bankroll should be live,How much money should be on the table at one time?
-what-does-it-mean-that-a-number-is-measured,What it means for a number to be measured,How can you tell a counted number from a guessed one?
-how-a-betting-model-improves-itself,How a betting model improves itself,How does a betting model get better over time?
-why-a-losing-method-is-demoted-not-deleted,Why a losing method is demoted not deleted,Why does my model still use a method that keeps losing?
-when-do-bonus-bets-expire,When do bonus bets expire,When do bonus bets expire and what are they worth before then?
-why-a-model-should-forget-old-data,Why a model should forget old data,Why would a betting model throw away old data?
-how-to-choose-an-odds-feed,How to choose an odds feed,How do I compare odds feeds before paying for one?
-what-a-clock-you-cannot-trust-does-to-a-price,What a clock you cannot trust does to a price,Why does my odds feed timestamp disagree with my own clock?
+slug,title,question,group
+how-to-devig-odds,How to devig odds,How do you find the true probability behind a sportsbook's price?,the-basics
+what-is-closing-line-value,What is closing line value,Why do sharp bettors care more about CLV than profit?,proving-it-works
+how-to-convert-a-bonus-bet,How to convert a bonus bet to cash,What is a free bet actually worth and how do you cash it?,bonuses-and-offers
+what-is-arbitrage-betting,What is arbitrage betting,How do you bet both sides and still win?,finding-a-bet
+what-does-plus-ev-mean,What does +EV mean in betting,What makes a bet mathematically profitable?,the-basics
+what-is-a-middle-bet,What is a middle bet,How can two bets both win?,finding-a-bet
+how-to-avoid-getting-limited,How to avoid getting limited,Why do sportsbooks limit winners and what actually extends an account?,keeping-the-account
+what-is-vig-and-hold,What is vig and hold,How much is the sportsbook charging you?,the-basics
+how-to-use-the-kelly-criterion,How to use the Kelly criterion,How much of your bankroll should one bet be?,staking-and-bankroll
+how-to-read-american-odds,How to read American odds,What do +150 and -200 actually mean?,the-basics
+how-to-hedge-a-bet,How to hedge a bet,How do you lock in a profit on a position you already hold?,finding-a-bet
+what-is-a-low-hold-bet,What is a low hold bet,How do you pay less juice on every bet?,finding-a-bet
+how-to-track-your-betting-results,How to track your betting results,What should you actually measure?,proving-it-works
+why-your-bets-get-rejected,Why your bets get rejected,Why does the line disappear the moment you tap it?,keeping-the-account
+what-is-a-parlay-really-worth,What is a parlay really worth,Why does a bigger payout mean a worse bet?,parlays
+what-is-a-same-game-parlay-worth,What is a same-game parlay worth,Why can't you just multiply the legs together?,parlays
+what-is-a-sharp-sportsbook,What is a sharp sportsbook,Why do some books' prices count as evidence and others don't?,finding-a-bet
+how-to-line-shop,How to line shop,How much is taking the best available price actually worth?,finding-a-bet
+what-is-bankroll-management,What is bankroll management,How do you size bets so a bad run doesn't end you?,staking-and-bankroll
+what-is-a-deposit-match-worth,What is a deposit match worth,Is a 100% deposit match actually free money?,bonuses-and-offers
+what-is-a-no-sweat-bet-worth,What is a no-sweat bet worth,What odds should you take on a first-bet-refunded offer?,bonuses-and-offers
+what-is-a-profit-boost-worth,What is a profit boost worth,Where should you spend a 50% profit boost?,bonuses-and-offers
+how-to-read-a-betslip-into-your-record,How to read a betslip into your record,How do you log a bet without corrupting your own numbers?,keeping-the-account
+which-welcome-offer-to-do-first,Which welcome offer to do first,What order should you claim sportsbook sign-up offers in?,bonuses-and-offers
+why-your-best-sport-is-probably-noise,Why your best sport is probably noise,Does your most profitable category mean anything?,proving-it-works
+how-to-stake-an-arbitrage-in-round-numbers,How to stake an arbitrage in round numbers,What does betting $490 instead of $493.98 actually cost you?,finding-a-bet
+how-old-is-the-price-on-your-screen,How old is the price on your screen,Why does the line move between clicking and confirming?,finding-a-bet
+how-to-tell-if-your-model-actually-works,How to tell if your model actually works,How do you know a betting model is not just fitted to the past?,proving-it-works
+how-to-grade-your-own-bets,How to grade your own bets,What are the rules for settling your own betting record?,proving-it-works
+how-many-bets-are-you-actually-making,How many bets are you actually making,Are twelve simultaneous bets really twelve bets?,staking-and-bankroll
+what-is-a-totals-middle-worth,What is a totals middle worth,How do you price an over/under middle without guessing?,finding-a-bet
+why-your-worst-case-is-worse-than-it-looks,Why your worst case is worse than it looks,What does your open book lose if everything goes wrong at once?,staking-and-bankroll
+how-much-of-your-bankroll-should-be-live,How much of your bankroll should be live,How much money should be on the table at one time?,staking-and-bankroll
+what-does-it-mean-that-a-number-is-measured,What it means for a number to be measured,How can you tell a counted number from a guessed one?,the-basics
+how-a-betting-model-improves-itself,How a betting model improves itself,How does a betting model get better over time?,proving-it-works
+why-a-losing-method-is-demoted-not-deleted,Why a losing method is demoted not deleted,Why does my model still use a method that keeps losing?,proving-it-works
+when-do-bonus-bets-expire,When do bonus bets expire,When do bonus bets expire and what are they worth before then?,bonuses-and-offers
+why-a-model-should-forget-old-data,Why a model should forget old data,Why would a betting model throw away old data?,proving-it-works
+how-to-choose-an-odds-feed,How to choose an odds feed,How do I compare odds feeds before paying for one?,finding-a-bet
+what-a-clock-you-cannot-trust-does-to-a-price,What a clock you cannot trust does to a price,Why does my odds feed timestamp disagree with my own clock?,finding-a-bet

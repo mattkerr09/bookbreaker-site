@@ -5527,6 +5527,21 @@ body::before{
 /* --- stats stop being grey -------------------------------------------- */
 .trust b{background:linear-gradient(140deg,var(--ink) 30%,var(--violet));
   -webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* --- the guides hub, grouped ------------------------------------------
+   Forty cards in one grid is a wall. Seven titled groups turn the same
+   forty into a path through the subject. */
+.guide-group{margin:0 0 clamp(2.2rem,3.5vw,3.2rem)}
+.guide-group h2{display:flex;align-items:baseline;gap:.6rem;
+  font-size:clamp(1.3rem,1.9vw,1.65rem);letter-spacing:-.025em;
+  margin:0 0 .3rem}
+.guide-group h2 .n{font-size:.72rem;font-weight:600;color:var(--ink-3);
+  letter-spacing:.08em;font-variant-numeric:tabular-nums;
+  border:1px solid var(--rule);border-radius:var(--r-pill);
+  padding:.1rem .5rem}
+.group-note{margin:0 0 1.1rem;color:var(--ink-2);font-size:.95rem;
+  max-width:56ch}
+.cards .card:hover .card-go{color:var(--accent)}
 """
 
 STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
@@ -5683,13 +5698,51 @@ calculator.</p>
             url))
         built.append((url, rel))
 
+    # Forty cards in one grid is a wall, not an index: nothing tells a reader
+    # where to start or what sits next to what. Grouped, the same forty become
+    # seven answerable questions, and the order is a path through the subject
+    # rather than the order rows happen to sit in a CSV.
+    GUIDE_GROUPS = [
+        ("the-basics", "Start here",
+         "What the words mean, and how a price becomes a probability."),
+        ("finding-a-bet", "Finding a bet",
+         "Where an edge comes from, and whether it is still there when you "
+         "reach for it."),
+        ("staking-and-bankroll", "Staking",
+         "How much to bet, and why correlated bets are one bet."),
+        ("bonuses-and-offers", "Bonuses",
+         "What a promotion is worth after everything it costs to unlock."),
+        ("parlays", "Parlays",
+         "The most popular bet in the market and the worst priced."),
+        ("keeping-the-account", "Keeping the account",
+         "What bet shape gives away, and what actually extends an account."),
+        ("proving-it-works", "Proving it works",
+         "Whether your record can distinguish you from break-even yet."),
+    ]
+    by_group: dict[str, list] = {}
+    for row in guides:
+        by_group.setdefault(row.get("group", ""), []).append(row)
+    known = {key for key, _, _ in GUIDE_GROUPS}
+    stray = sorted(set(by_group) - known)
+    if stray:
+        raise SystemExit(
+            f"guides.csv has groups the hub does not render: {stray}")
+
+    def _cards(rows_):
+        return "".join(
+            f'<li class="card"><a href="/guides/{e(r["slug"])}/">'
+            f'<span class="card-t">{e(r["title"])}</span>'
+            f'<span class="card-q">{e(r["question"])}</span>'
+            f'<span class="card-go" aria-hidden="true">Read &rarr;</span>'
+            f'</a></li>' for r in rows_)
+
     links = "".join(
-        f'<li class="card"><a href="/guides/{e(r["slug"])}/">'
-        f'<span class="card-t">{e(r["title"])}</span>'
-        f'<span class="card-q">{e(r["question"])}</span>'
-        f'<span class="card-go" aria-hidden="true">Read &rarr;</span>'
-        f'</a></li>' for r in guides
-    )
+        f'<section class="guide-group">'
+        f'<h2>{e(label)} <span class="n">{len(by_group.get(key, []))}</span></h2>'
+        f'<p class="group-note">{e(note)}</p>'
+        f'<ul class="cards" data-hub>{_cards(by_group.get(key, []))}</ul>'
+        f'</section>'
+        for key, label, note in GUIDE_GROUPS if by_group.get(key))
     out = SITE / "guides/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page(
@@ -5702,7 +5755,7 @@ calculator.</p>
 The difference here is that the numbers are worked, and the parts that are
 usually left out &mdash; how uncertain the answer is, and whether you could
 actually have placed the bet &mdash; are the parts these lead with.</p>
-<ul class="cards" data-hub>{links}</ul>
+{links}
 """, "/guides/"))
     built.append(("/guides/", "guides/index.html"))
     print(f"  /guides/               {len(guides)} pages + hub")

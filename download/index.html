@@ -31,24 +31,24 @@
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0B6CFF">
-<link rel="stylesheet" href="/style.css?v=e8eda5a933">
+<link rel="stylesheet" href="/style.css?v=2b37bb51cc">
 </head>
 <body class="">
-<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.2 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.3 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="10" width="25" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="2" opacity=".38"/><circle cx="10" cy="14" r="3.4" fill="currentColor"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
 <h1>Download Bookbreaker</h1>
-<p class="lede">Version 0.1.2. Free, no account, and it never sends
+<p class="lede">Version 0.1.3. Free, no account, and it never sends
 your record anywhere &mdash; the ledger is a SQLite file on your own disk.</p>
 
-<div class="cta"><a class="btn primary" href="/releases/Bookbreaker-0.1.2.dmg">Download for macOS<span class="sub">6.2 MB &middot; signed</span></a><a class="btn ghost" href="/releases/overlay-0.1.2-py3-none-any.whl">Command-line wheel</a></div>
+<div class="cta"><a class="btn primary" href="/releases/Bookbreaker-0.1.3.dmg">Download for macOS<span class="sub">6.2 MB &middot; signed</span></a><a class="btn ghost" href="/releases/overlay-0.1.3-py3-none-any.whl">Command-line wheel</a></div>
 <p>The macOS app is signed with a Developer ID and notarised by Apple, so it opens without a warning and without you having to right-click your way past Gatekeeper. It carries the same engine the command line runs &mdash; the window does no arithmetic of its own, it asks the engine and shows the answer.</p>
 
 <h2>Install it</h2>
 <p>Bookbreaker is a command-line tool. It is pure Python with no third-party
 dependencies, so it runs the same on macOS, Linux and Windows and needs
 Python 3.9 or newer:</p>
-<pre><code>pip install https://bookbreaker.bet/releases/overlay-0.1.2-py3-none-any.whl
+<pre><code>pip install https://bookbreaker.bet/releases/overlay-0.1.3-py3-none-any.whl
 overlay --help</code></pre>
 <p>That is the whole installation. There is no installer, no signing prompt and
 no launch agent, because there is no background process &mdash; nothing runs
@@ -58,14 +58,14 @@ unless you type a command.</p>
 <p>The wheel's SHA-256 is worth checking against: the build pins its
 timestamps, and three separate builds of this version produced the same digest.
 Verify before installing:</p>
-<pre><code>shasum -a 256 overlay-0.1.2-py3-none-any.whl</code></pre>
+<pre><code>shasum -a 256 overlay-0.1.3-py3-none-any.whl</code></pre>
 <div class="scroll"><table>
 <tr><th>File</th><th>Size</th><th>SHA-256</th></tr>
-<tr><td>Bookbreaker-0.1.2.dmg</td><td>6.2 MB</td><td class="hash">dbade8c5676570c22fc0177d047aeb8dd79d7a1af27930763768088ed849eb7b</td></tr>
-<tr><td>overlay-0.1.2-py3-none-any.whl</td><td>167 KB</td>
-<td class="hash">d1b23ed7e39e7a2a96d4aaa05ff25409bbfb98e4a41568650a63b78ce04456ce</td></tr>
-<tr><td>overlay-0.1.2.tar.gz</td><td>270 KB</td>
-<td class="hash">40e0cf92fc6b75e25ae3d3e766a7193c5e8002a44449d0bea723299c0cfb2c00</td></tr>
+<tr><td>Bookbreaker-0.1.3.dmg</td><td>6.2 MB</td><td class="hash">78c11b34df4a781b4988eb4780a6f9dc69491d5c13f9e099e0be2afd938967b4</td></tr>
+<tr><td>overlay-0.1.3-py3-none-any.whl</td><td>167 KB</td>
+<td class="hash">cf2fc132d810b64e27a04de6a9a344722125d92a8e11d9ddf513f4212bf65edc</td></tr>
+<tr><td>overlay-0.1.3.tar.gz</td><td>274 KB</td>
+<td class="hash">418a16bdc5c08e12c492c6579a2d4ac303eb0432e67b85ce136191f7b3ddd369</td></tr>
 </table></div>
 <p>These are read off the files themselves when this page is built. Nothing
 here was typed in, which is the only arrangement that makes publishing a
