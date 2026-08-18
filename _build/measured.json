@@ -713,25 +713,25 @@
   },
   "release": {
     "app": {
-      "kb": 6325,
-      "mb": 6.2,
-      "name": "Bookbreaker-0.1.3.dmg",
-      "sha256": "78c11b34df4a781b4988eb4780a6f9dc69491d5c13f9e099e0be2afd938967b4"
+      "kb": 7930,
+      "mb": 7.7,
+      "name": "Bookbreaker-0.1.4.dmg",
+      "sha256": "92b03fa31923a0cd9e70b1a1324c0bb5103df899b1904218fa9f01f38c5d1b8f"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "kb": 274,
+      "kb": 282,
       "mb": 0.3,
-      "name": "overlay-0.1.3.tar.gz",
-      "sha256": "418a16bdc5c08e12c492c6579a2d4ac303eb0432e67b85ce136191f7b3ddd369"
+      "name": "overlay-0.1.4.tar.gz",
+      "sha256": "da4bc89d746139aa18c6f51f4db96e9697d210bf8c24154d9bd3cb9f5d12cccd"
     },
-    "version": "0.1.3",
+    "version": "0.1.4",
     "wheel": {
-      "kb": 167,
+      "kb": 172,
       "mb": 0.2,
-      "name": "overlay-0.1.3-py3-none-any.whl",
-      "sha256": "cf2fc132d810b64e27a04de6a9a344722125d92a8e11d9ddf513f4212bf65edc"
+      "name": "overlay-0.1.4-py3-none-any.whl",
+      "sha256": "62bc19f72b43ad7957d6289293cf69ac27054459d37e6528f161cba395613e29"
     }
   },
   "replay": {
