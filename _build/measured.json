@@ -335,7 +335,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "8aa90595882d3cea",
+  "engine_fingerprint": "e9ae3e432a4d5330",
   "evidence": {
     "bars": [
       {
@@ -4169,7 +4169,7 @@
     "sigma": 13.0,
     "window": 3
   },
-  "version": "0.1.4",
+  "version": "0.1.5",
   "weights": {
     "max_age_days": 90
   }

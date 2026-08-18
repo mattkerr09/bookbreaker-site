@@ -15,84 +15,148 @@ broken page on disk and the next green run means nothing.
 
 from __future__ import annotations
 
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 SITE = Path(__file__).resolve().parents[1]
 
+# (label, check that MUST catch it, file, find, replace)
+#
+# The check name is the part that was missing. Without it a case passes when
+# the board goes red for any reason at all, so a case aimed at one gate can be
+# satisfied by a different one tripping — and a gate with no case is never
+# watched to fail at all. All 15 checks here were in that position this
+# morning: proven by nothing, indistinguishable from checks that cannot fail.
 CASES = [
     (
         "a hand-typed figure on a page",
+        "check_numbers_are_measured",
         "index.html",
         "<h2>Same market, four defensible methods</h2>",
         "<h2>Same market, four defensible methods</h2>\n<p>Users average 12.7% ROI.</p>",
     ),
     (
         "a competitor's price with the date stripped",
+        "check_competitor_claims",
         "vs/index.html",
         "read 2026-08-17",
         "read recently",
     ),
     (
         "a competitor claim with no source link",
+        "check_every_competitor_row_is_sourced",
         "vs/index.html",
         '<a href="https://xclsvmedia.com/oddsjam-review-2026-is-this-199-month-betting-tool-worth-it/">source</a>',
         "source",
     ),
     (
         "an internal link that goes nowhere",
+        "check_internal_links",
         "index.html",
         'href="/how-it-works/"',
         'href="/pricing/"',
     ),
     (
         "a missing meta description",
+        "check_head",
         "index.html",
         '<meta name="description"',
         '<meta name="ignored"',
     ),
     (
         "the problem-gambling helpline removed",
+        "check_responsible_gambling",
         "index.html",
         "call 1-800-GAMBLER",
         "see the FAQ",
     ),
     (
         "the responsible-gambling notice removed",
+        "check_responsible_gambling",
         "index.html",
         "21+ and present in a state where betting is legal.",
         "Have fun out there.",
     ),
     (
         "the IndexNow key rotated without re-rendering",
+        "check_indexnow_key",
         "_build/indexnow.key",
         "1d72346274f3ba1a3957eb72beea0f75",
         "0" * 32,
     ),
     (
         "a stale render published against a changed engine",
+        "check_render_is_fresh",
         "_build/measured.json",
         '"engine_fingerprint"',
         '"engine_fingerprint_was"',
     ),
     (
         "a redirect stub losing its canonical",
+        "check_redirects",
         "sportsbooks/not-covered/index.html",
         '<link rel="canonical" href="https://bookbreaker.bet/sportsbooks/in-person-only/">',
         "<!-- canonical removed -->",
     ),
     (
-        "a duplicated <h2> across two pages",
-        "account-longevity/index.html",
-        "<h2>What a stake gives away</h2>",
-        "<h2>What stays out of the product</h2>",
+        # A single duplicated heading does not make two pages near-duplicates,
+        # and this case used to plant one and call the gate proven. The board
+        # went red — `check_not_machine_made` caught the repeated heading —
+        # and `check_shingle_duplication` was never exercised at all. Thirteen
+        # green runs said otherwise.
+        #
+        # This turns one state page into a copy of another, which is the
+        # actual failure mode: programmatic pages that differ only by name.
+        "a state page rewritten as a copy of another state's",
+        "check_shingle_duplication",
+        "sportsbooks/mo/index.html",
+        "Missouri",
+        "Kentucky",
+        -1,
     ),
     (
         "two pages sharing a heading",
+        "check_not_machine_made",
         "vs/index.html",
         "<h1>Compared</h1>",
         "<h1>Find your edge,<br>with the error bar.</h1>",
+    ),
+    (
+        "a class with no rule behind it",
+        "check_every_class_is_styled",
+        "index.html",
+        'class="hp"',
+        'class="hp bb-break-case-unstyled"',
+    ),
+    (
+        "the site announcing a version it cannot hand over",
+        "check_announced_version_is_downloadable",
+        "index.html",
+        "Bookbreaker 0.1.4 is out",
+        "Bookbreaker 9.9.9 is out",
+    ),
+    (
+        "the browser tab on last season's brand",
+        "check_the_tab_and_the_page_agree",
+        "index.html",
+        '<meta name="theme-color" content="#1493FF">',
+        '<meta name="theme-color" content="#F5A524">',
+    ),
+    (
+        "a page missing from the sitemap",
+        "check_sitemap",
+        "sitemap.xml",
+        "<loc>https://bookbreaker.bet/download/</loc>",
+        "",
+    ),
+    (
+        "a superseded palette left in the stylesheet",
+        "check_one_palette",
+        "style.css",
+        ":root{",
+        ":root{--accent:#f5a524;",
     ),
 ]
 
@@ -100,13 +164,20 @@ CASES = [
 APP_REPO = "/Users/matthewkerr/arb betting aqpp"
 
 
-def gate_is_clean() -> bool:
+def gate_is_clean(only: str | None = None) -> bool:
     result = subprocess.run(
         [sys.executable, str(SITE / "_build" / "check.py"),
-         "--app-repo", APP_REPO],
+         "--app-repo", APP_REPO] + (["--only", only] if only else []),
         cwd=SITE, capture_output=True, text=True,
     )
     return result.returncode == 0
+
+
+def registered_checks() -> set[str]:
+    """The checks check.py actually runs, straight from its registry."""
+    source = (SITE / "_build" / "check.py").read_text()
+    block = source[source.index("registry = {"):source.index("# Every check defined")]
+    return set(re.findall(r'"(check_[a-z_]+)"', block))
 
 
 # The source check is a separate script over a separate input, so it gets a
@@ -168,25 +239,43 @@ def main() -> int:
         return 2
 
     failures = []
-    for label, rel, find, replace in CASES:
+
+    # Every check must have a case. A check with none has never been watched
+    # to fail, which is not distinguishable from a check that cannot.
+    unproven = registered_checks() - {case[1] for case in CASES}
+    if unproven:
+        for name in sorted(unproven):
+            print(f"  UNPROVEN  {name} — no break case aims at it")
+        failures.append(f"{len(unproven)} check(s) have no break case: "
+                        f"{sorted(unproven)}")
+
+    for case in CASES:
+        label, check, rel, find, replace = case[:5]
+        times = case[5] if len(case) > 5 else 1
         path = SITE / rel
         original = path.read_text()
         if find not in original:
             failures.append(f"{label}: anchor text not found in {rel} — case is stale")
             continue
 
-        path.write_text(original.replace(find, replace, 1))
+        path.write_text(original.replace(find, replace, times))
         try:
-            caught = not gate_is_clean()
+            board_red = not gate_is_clean()
+            named_red = not gate_is_clean(only=check)
         finally:
             path.write_text(original)
             if path.read_text() != original:
                 print(f"RESTORE FAILED for {rel}", file=sys.stderr)
                 return 2
 
-        print(f"  {'caught ' if caught else 'MISSED '}  {label}")
-        if not caught:
+        caught = board_red and named_red
+        print(f"  {'caught ' if caught else 'MISSED '}  {label}  ({check})")
+        if not board_red:
             failures.append(f"{label}: the gate passed against a broken page")
+        elif not named_red:
+            failures.append(
+                f"{label}: the board went red but {check} stayed green — "
+                f"a different check caught it, so {check} is still unproven")
 
     failures += run_source_cases()
 

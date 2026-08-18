@@ -63,6 +63,16 @@ SHINGLE_SIMILARITY = 0.5
 WATCH_SIMILARITY = 0.35
 MAX_SHINGLE_PAIRS = 11
 
+#: A ceiling on how alike the *worst* pair may be, not just how many pairs
+#: there are. Both are ratchets and both may only fall.
+#:
+#: The count alone is blind in a way that took a break case to expose: a pair
+#: already over the line can be driven to any similarity at all — 0.57, 0.68,
+#: identical — without changing the count, so the gate stays green while the
+#: pages converge. The break case that renames one state page after another
+#: takes ky x mo from 0.565 to 0.677 and the count never moves.
+MAX_PAIR_SIMILARITY = 0.57
+
 # The whole similarity zone, not just the headline above it.
 #
 # Counting only pairs over 0.5 made a 60% "improvement" that moved almost
@@ -504,6 +514,16 @@ def check_shingle_duplication(pages, fails, limit=None):
             "to. Pushing pairs from above 0.5 to just below it is not an "
             "improvement; this is the count that says whether they moved or "
             "changed.")
+    ceiling = MAX_PAIR_SIMILARITY if limit is None else 1.0
+    too_alike = [p for p in all_pairs if p[0] > ceiling]
+    if too_alike:
+        too_alike.sort(reverse=True)
+        worst = "; ".join(f"{s:.3f} {a} x {b}" for s, a, b in too_alike[:3])
+        fails.append(
+            f"{len(too_alike)} page pair(s) above {ceiling:.0%} similarity, "
+            f"which the count-based cap cannot see because they were already "
+            f"counted. Worst: {worst}")
+
     if len(pairs) > cap:
         pairs.sort(reverse=True)
         worst = "; ".join(f"{s:.2f} {a} x {b}" for s, a, b in pairs[:3])
@@ -743,10 +763,46 @@ def self_test() -> int:
     return 0
 
 
+def check_one_palette(fails: list[str]) -> None:
+    """One declaration per token per context, and no more.
+
+    Three complete palettes accumulated in style.css — sky, then blue, then
+    FanDuel — because each repalette was written as an append and the cascade
+    quietly did the right thing. It was not harmless. The `theme-color` gate
+    asked whether the brand hex appeared anywhere in the stylesheet and
+    **passed on the exact bug it was written to catch**, because the
+    superseded hex was still sitting there as a dead override.
+
+    render.py folds the generations together now. This is what stops them
+    coming back: with one declaration per token, "present in the stylesheet"
+    and "actually renders" are the same question again, and a gate that greps
+    for a colour cannot be fooled by a corpse.
+    """
+    css = (SITE / "style.css").read_text()
+    contexts = (':root', ':root:not([data-theme="light"])', ':root[data-theme="dark"]')
+    for context in contexts:
+        seen: dict[str, int] = {}
+        for m in re.finditer(re.escape(context) + r"\s*\{", css):
+            if context == ":root" and css[m.start() - 1:m.start()] not in ("", "\n", "}", " ", "{"):
+                continue
+            end = css.find("}", m.end())
+            for decl in re.finditer(r"(--[a-z0-9-]+)\s*:", css[m.end():end]):
+                seen[decl.group(1)] = seen.get(decl.group(1), 0) + 1
+        repeated = {t: n for t, n in seen.items() if n > 1}
+        if repeated:
+            fails.append(
+                f"style.css declares {len(repeated)} token(s) more than once "
+                f"in {context} — a superseded palette is still present, which "
+                f"is what made the theme-color gate pass on its own bug: "
+                f"{sorted(repeated)[:5]}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--only", default=None,
+                        help="run one check by name, so a break case can\nprove which gate caught it")
     args = parser.parse_args()
 
     if args.self_test:
@@ -770,22 +826,55 @@ def main() -> int:
         return 1
 
     fails: list[str] = []
-    check_render_is_fresh(measured, fails,
-                          Path(args.app_repo).expanduser().resolve())
-    check_redirects(redirects, fails)
-    check_indexnow_key(fails)
-    check_numbers_are_measured(pages, measured, fails)
-    check_competitor_claims(pages, fails)
-    check_every_competitor_row_is_sourced(pages, fails)
-    check_head(pages, fails)
-    check_every_class_is_styled(pages, fails)
-    check_announced_version_is_downloadable(pages, fails)
-    check_the_tab_and_the_page_agree(pages, fails)
-    check_internal_links(pages, fails)
-    check_sitemap(pages, fails)
-    check_not_machine_made(pages, fails)
-    check_shingle_duplication(pages, fails)
-    check_responsible_gambling(pages, fails)
+
+    # Named, so `--only` can address one of them and so the break harness can
+    # assert that every check here has a case proving it can fail. A check
+    # nobody has watched fail is indistinguishable from a check that cannot.
+    registry = {
+        "check_render_is_fresh":
+            lambda: check_render_is_fresh(
+                measured, fails, Path(args.app_repo).expanduser().resolve()),
+        "check_redirects": lambda: check_redirects(redirects, fails),
+        "check_indexnow_key": lambda: check_indexnow_key(fails),
+        "check_numbers_are_measured":
+            lambda: check_numbers_are_measured(pages, measured, fails),
+        "check_competitor_claims": lambda: check_competitor_claims(pages, fails),
+        "check_every_competitor_row_is_sourced":
+            lambda: check_every_competitor_row_is_sourced(pages, fails),
+        "check_head": lambda: check_head(pages, fails),
+        "check_every_class_is_styled":
+            lambda: check_every_class_is_styled(pages, fails),
+        "check_announced_version_is_downloadable":
+            lambda: check_announced_version_is_downloadable(pages, fails),
+        "check_the_tab_and_the_page_agree":
+            lambda: check_the_tab_and_the_page_agree(pages, fails),
+        "check_internal_links": lambda: check_internal_links(pages, fails),
+        "check_sitemap": lambda: check_sitemap(pages, fails),
+        "check_not_machine_made": lambda: check_not_machine_made(pages, fails),
+        "check_shingle_duplication":
+            lambda: check_shingle_duplication(pages, fails),
+        "check_responsible_gambling":
+            lambda: check_responsible_gambling(pages, fails),
+        "check_one_palette": lambda: check_one_palette(fails),
+    }
+
+    # Every check defined in this file must be wired into the registry, or
+    # `--only` silently reports a green board for a check that never ran.
+    defined = {name for name in globals()
+               if name.startswith("check_") and callable(globals()[name])}
+    missing = defined - set(registry)
+    if missing:
+        print(f"checks defined but never run: {sorted(missing)}", file=sys.stderr)
+        return 2
+
+    if args.only:
+        if args.only not in registry:
+            print(f"no such check: {args.only}", file=sys.stderr)
+            return 2
+        registry[args.only]()
+    else:
+        for run_check in registry.values():
+            run_check()
 
     print(f"checked {len(pages)} pages against "
           f"{len(measured_numbers(measured))} measured figures"
