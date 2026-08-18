@@ -1328,12 +1328,12 @@ def measure(engine) -> dict:
 MARK = (
     '<svg class="mark" viewBox="0 0 64 64" aria-hidden="true">'
     '<defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1">'
-    '<stop offset="0" stop-color="#ffc75a"/>'
-    '<stop offset="1" stop-color="#e08700"/>'
+    '<stop offset="0" stop-color="#3ba3ff"/>'
+    '<stop offset="1" stop-color="#0057b8"/>'
     '</linearGradient></defs>'
     '<rect width="64" height="64" rx="14" fill="url(#bbTile)"/>'
-    '<path d="M22 9h14a11 11 0 010 22H22z" fill="#1a1206"/>'
-    '<path d="M17 34h17a11 11 0 010 22H17z" fill="#1a1206"/>'
+    '<path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/>'
+    '<path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/>'
     '</svg>'
 )
 
@@ -1561,7 +1561,7 @@ def page(title: str, description: str, body: str, path: str,
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#F5A524">
+<meta name="theme-color" content="#1493FF">
 <link rel="stylesheet" href="/style.css?v={STYLE_HASH}">
 {site_schema(path, body)}
 </head>
@@ -6130,51 +6130,54 @@ main table tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent
    that is bad, and a number that is stale are three different facts, and
    printing them all in one ink throws that away. */
 
-/* Amber, replacing the purple this shipped with.
+/* FanDuel's blues, at Matthew's request.
 
-   Two reasons, and only one of them is taste. A purple gradient on near-black
-   is the single most recognisable signature of a page a language model
-   designed; everyone arriving at it by the same route arrives at the same
-   place, so it is simultaneously the least distinctive option available and
-   the one that most advertises how the page was made.
+   Their signature bright blue is #1493FF and it carries 6.05:1 on the
+   navy-tinted near-black below, so dark mode can use it as published. Light
+   mode cannot: the same blue is 2.61:1 on our warm plate and fails outright,
+   so the light fill drops to the deep FanDuel-family blue #0057B8 at 5.67:1,
+   with white ink on it at 6.87:1.
 
-   Amber is what a market-data terminal has looked like since terminals had
-   one colour, which is the right heritage for an instrument that prices
-   quotes and ages them. It is also nothing like OddsJam's green.
+   Both values are the brand's documented blues rather than sampled ones —
+   fanduel.com is blocked by policy here, so nothing on this page claims to
+   have been eyedropped off their site.
 
-   Measured, not chosen by eye: 4.51:1 for the light fill on the warm plate,
-   5.47:1 for white ink on that fill, 9.81:1 and 9.08:1 for the dark pair.
+   One deliberate limit: the colours are theirs, the mark is not. Bookbreaker
+   is not a FanDuel product, is not affiliated with them, and takes no money
+   from them — the disclosure on every page says the sportsbook links earn us
+   nothing. Matching a palette is not claiming a relationship, and nothing
+   here uses their wordmark, their logo or their name as an endorsement.
 
-   The gradient partner token used to carry a colour in its name, which meant
-   every attempt to repalette the site left the headline and the primary
-   button half-purple. It now describes its job instead. */
+   The ground is tinted towards navy rather than left neutral, because a
+   bright blue on a pure grey-black reads as a link colour on a dark theme
+   instead of as a brand. */
 :root{
-  --accent:#9a5a00;
-  --accent-hi:#7a4700;
-  --accent-lo:#c07a12;
+  --accent:#0057b8;
+  --accent-hi:#004a9e;
+  --accent-lo:#2b7fd4;
   --good:#0a8f4d;
   --warn:#b45309;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --plate:#08080a;
-    --card:#131316;
-    --sink:#0d0d10;
-    --rule:#26262c;
-    --accent:#f5a524;
-    --accent-hi:#ffc75a;
-    --accent-ink:#1a1206;
-    --accent-soft:#241a08;
-    --accent-lo:#ffd27a;
+    --plate:#0a1017;
+    --card:#121b25;
+    --sink:#0e1620;
+    --rule:#22303d;
+    --accent:#1493ff;
+    --accent-hi:#5cb8ff;
+    --accent-ink:#04121f;
+    --accent-soft:#0d2439;
+    --accent-lo:#8fd1ff;
     --good:#34d399;
     --warn:#fbbf24;
     --oxblood:#fb7185;
   }
 }
 :root[data-theme="dark"]{
-  --plate:#08080a; --card:#131316; --sink:#0d0d10; --rule:#26262c;
-  --accent:#f5a524; --accent-hi:#ffc75a; --accent-ink:#1a1206;
-  --accent-soft:#241a08; --accent-lo:#ffd27a;
+  --plate:#0a1017; --card:#121b25; --sink:#0e1620; --rule:#22303d;
+  --accent:#1493ff; --accent-hi:#5cb8ff; --accent-ink:#04121f;
+  --accent-soft:#0d2439; --accent-lo:#8fd1ff;
   --good:#34d399; --warn:#fbbf24; --oxblood:#fb7185;
 }
 

@@ -695,8 +695,19 @@ def self_test() -> int:
         print("SELF-TEST FAILED: a theme-color absent from the stylesheet was "
               "not flagged", file=sys.stderr)
         return 1
+    # Read the brand colour out of the stylesheet rather than hardcoding it.
+    # The first version of this case named the amber hex directly and broke
+    # the moment the palette moved — a value hardcoded outside the token set,
+    # which is the exact defect the gate above exists to catch, sitting in the
+    # test written to prove it works.
+    brand = re.findall(r"--accent\s*:\s*(#[0-9a-f]{3,8})",
+                       (SITE / "style.css").read_text().lower())
+    if not brand:
+        print("SELF-TEST FAILED: no --accent in style.css to test against",
+              file=sys.stderr)
+        return 1
     live = [("x/index.html",
-             '<meta name="theme-color" content="#f5a524">')]
+             f'<meta name="theme-color" content="{brand[-1]}">')]
     tab_clean: list[str] = []
     check_the_tab_and_the_page_agree(live, tab_clean)
     if tab_clean:
