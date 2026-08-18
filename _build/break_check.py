@@ -15,12 +15,24 @@ broken page on disk and the next green run means nothing.
 
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 import sys
 from pathlib import Path
 
 SITE = Path(__file__).resolve().parents[1]
+
+def announced_version() -> str:
+    """Whatever the site currently says is out, read from the build's own
+    measurements rather than typed here."""
+    data = json.loads((SITE / "_build" / "measured.json").read_text())
+    return data["release"]["version"]
+
+
+ANNOUNCED = announced_version()
+
+
 
 # (label, check that MUST catch it, file, find, replace)
 #
@@ -131,10 +143,15 @@ CASES = [
         'class="hp bb-break-case-unstyled"',
     ),
     (
+        # The anchor is derived, not typed. Written first as a literal
+        # "Bookbreaker 0.1.4 is out", which went stale the moment 0.1.5
+        # shipped — a fixture carrying the value it is meant to track is the
+        # same fault as the theme-color self-test that hardcoded the brand
+        # hex it existed to check.
         "the site announcing a version it cannot hand over",
         "check_announced_version_is_downloadable",
         "index.html",
-        "Bookbreaker 0.1.4 is out",
+        f"Bookbreaker {ANNOUNCED} is out",
         "Bookbreaker 9.9.9 is out",
     ),
     (
