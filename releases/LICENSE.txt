@@ -1,0 +1,71 @@
+Bookbreaker / Overlay — Software Licence
+Copyright (c) 2026 Matthew Kerr. All rights reserved.
+
+Version 1.0, 17 August 2026.
+
+
+WHAT YOU MAY DO
+
+You may download, install and run this software free of charge, on any number
+of machines you control, for as long as you like.
+
+You may use it to make money. Placing bets, sizing them, tracking them and
+keeping the proceeds are exactly what it is for, and nothing in this licence
+limits what you do with your own bankroll or your own winnings. Any profit or
+loss is yours.
+
+You may read the source, modify your own copy, and keep those modifications
+for yourself.
+
+
+WHAT YOU MAY NOT DO
+
+You may not redistribute this software, modified or unmodified, in source or
+compiled form, to anyone else.
+
+You may not sell it, rent it, sublicense it, or bundle it with something you
+sell.
+
+You may not operate it as a service for other people — hosting it, running it
+on their behalf, or reselling its output as a product or a subscription.
+
+You may not remove or alter this licence, the copyright notice, or the
+provenance labelling in the software's own output.
+
+
+THAT LAST ONE, AND WHY IT IS HERE
+
+This engine reports where each of its numbers came from: whether a figure was
+counted from data or is a stated prior, how many observations sit behind it,
+and how stale the inputs are. Those labels are not decoration. A build that
+strips them prints the same digits while destroying the only thing that makes
+them worth reading, and it would still carry this project's name.
+
+
+NO WARRANTY
+
+This software is provided "as is", without warranty of any kind, express or
+implied, including but not limited to the warranties of merchantability,
+fitness for a particular purpose and non-infringement. In no event shall the
+author be liable for any claim, damages or other liability, whether in an
+action of contract, tort or otherwise, arising from, out of or in connection
+with the software or the use or other dealings in the software.
+
+It is a calculator, not advice. It does not know whether a bet is legal where
+you are, whether a sportsbook will honour a price, or whether its own priors
+apply to your markets. Every figure it prints is conditional on inputs you
+supplied and assumptions it labels. Check them.
+
+Gambling carries risk of financial loss. 21+ where applicable. If it stops
+being fun, it is not fun — https://www.ncpgambling.org/help-treatment/
+
+
+ON THIS LICENCE CHANGING
+
+These terms are deliberately narrow, because narrow terms can be widened later
+and wide ones cannot be taken back. A future release may be issued under a more
+permissive licence; if that happens, it applies to that release forward.
+Whatever you have already downloaded stays licensed under the terms it shipped
+with, and nothing here is revoked retroactively.
+
+For any permission this licence does not grant, ask: mattkerr09@gmail.com

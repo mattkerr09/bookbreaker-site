@@ -553,15 +553,15 @@
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "kb": 230,
+      "kb": 233,
       "name": "overlay-0.1.0.tar.gz",
-      "sha256": "3118cdc8072aaee2df57ead12551c9ae35ecadb0c7d5dbb4c4c1f3dad31e52be"
+      "sha256": "f7db5d2c6d4cee4bb9b00801fa4441be055e7911c2fd0199c38596839eac19cf"
     },
     "version": "0.1.0",
     "wheel": {
-      "kb": 147,
+      "kb": 150,
       "name": "overlay-0.1.0-py3-none-any.whl",
-      "sha256": "4dd554cefc520c048650268c5be3916fa8a29ebf731da52f11fd8a1243665044"
+      "sha256": "e2ac62d954008b973eb90e5beb6d52027dca5c4841491382d76dd928a713c094"
     }
   },
   "rounding": {
@@ -666,7 +666,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "AK",
       "venues": 1
     },
@@ -692,7 +692,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "AL",
       "venues": 1
     },
@@ -730,7 +730,7 @@
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "AR",
       "venues": 3
     },
@@ -823,7 +823,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "AZ",
       "venues": 12
     },
@@ -849,7 +849,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "CA",
       "venues": 1
     },
@@ -949,7 +949,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "CO",
       "venues": 13
     },
@@ -987,7 +987,7 @@
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "CT",
       "venues": 3
     },
@@ -1037,7 +1037,7 @@
       "retail": 4,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "DC",
       "venues": 5
     },
@@ -1069,7 +1069,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run by BetRivers",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "DE",
       "venues": 2
     },
@@ -1101,7 +1101,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "FL",
       "venues": 2
     },
@@ -1127,7 +1127,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "GA",
       "venues": 1
     },
@@ -1153,7 +1153,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "HI",
       "venues": 1
     },
@@ -1240,7 +1240,7 @@
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "IA",
       "venues": 11
     },
@@ -1266,7 +1266,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "ID",
       "venues": 1
     },
@@ -1347,7 +1347,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "IL",
       "venues": 10
     },
@@ -1427,7 +1427,7 @@
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "IN",
       "venues": 10
     },
@@ -1495,7 +1495,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "KS",
       "venues": 8
     },
@@ -1570,7 +1570,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "KY",
       "venues": 9
     },
@@ -1644,7 +1644,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "LA",
       "venues": 9
     },
@@ -1712,7 +1712,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "MA",
       "venues": 8
     },
@@ -1786,7 +1786,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "MD",
       "venues": 9
     },
@@ -1818,7 +1818,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "ME",
       "venues": 2
     },
@@ -1904,7 +1904,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "MI",
       "venues": 11
     },
@@ -1930,7 +1930,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "MN",
       "venues": 1
     },
@@ -2005,7 +2005,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "MO",
       "venues": 9
     },
@@ -2031,7 +2031,7 @@
       "retail": 0,
       "retail_only": "retail sportsbooks only, no online betting",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "MS",
       "venues": 1
     },
@@ -2063,7 +2063,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run by Intralot, where the app only works inside authorised Sports Bet Montana locations",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "MT",
       "venues": 2
     },
@@ -2137,7 +2137,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "NC",
       "venues": 9
     },
@@ -2163,7 +2163,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "ND",
       "venues": 1
     },
@@ -2195,7 +2195,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "an exclusive lottery contract with DraftKings",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "NH",
       "venues": 2
     },
@@ -2288,7 +2288,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "NJ",
       "venues": 12
     },
@@ -2314,7 +2314,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "NM",
       "venues": 1
     },
@@ -2359,7 +2359,7 @@
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "NV",
       "venues": 4
     },
@@ -2421,7 +2421,7 @@
       "retail": 6,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "NY",
       "venues": 7
     },
@@ -2513,7 +2513,7 @@
       "retail": 11,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "OH",
       "venues": 12
     },
@@ -2539,7 +2539,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "OK",
       "venues": 1
     },
@@ -2571,7 +2571,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "an exclusive lottery partnership with DraftKings",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "OR",
       "venues": 2
     },
@@ -2663,7 +2663,7 @@
       "retail": 11,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "PA",
       "venues": 12
     },
@@ -2695,7 +2695,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run on the IGT platform",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "RI",
       "venues": 2
     },
@@ -2721,7 +2721,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "SC",
       "venues": 1
     },
@@ -2747,7 +2747,7 @@
       "retail": 0,
       "retail_only": "Deadwood and tribal casinos only, no online betting",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "SD",
       "venues": 1
     },
@@ -2821,7 +2821,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "TN",
       "venues": 9
     },
@@ -2847,7 +2847,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "TX",
       "venues": 1
     },
@@ -2873,7 +2873,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "UT",
       "venues": 1
     },
@@ -2966,7 +2966,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "VA",
       "venues": 12
     },
@@ -3010,7 +3010,7 @@
       "retail": 3,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "VT",
       "venues": 4
     },
@@ -3042,7 +3042,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "WA",
       "venues": 2
     },
@@ -3068,7 +3068,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "WI",
       "venues": 1
     },
@@ -3142,7 +3142,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "WV",
       "venues": 9
     },
@@ -3198,7 +3198,7 @@
       "retail": 5,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 0,
+      "stale_days": 1,
       "state": "WY",
       "venues": 6
     }

@@ -1127,6 +1127,20 @@ and the next stake it implies</td></tr>
 around it, and whether it proves anything</td></tr>
 </table>
 
+<h2>The licence</h2>
+<p>Free to download and run on as many machines as you control, and free to
+use to make money &mdash; placing bets, sizing them and keeping the proceeds
+are what it is for, and the licence says so explicitly.</p>
+<p>What it does not grant is redistribution: you may not pass it on, sell it,
+bundle it, or run it as a service for other people. One clause is unusual and
+deliberate &mdash; you may not strip the provenance labelling from its output.
+A build that removes the <em>measured</em> and <em>prior</em> tags prints the
+same digits while destroying the only thing that makes them worth reading.</p>
+<p>The terms are narrow on purpose, because narrow terms can be widened later
+and wide ones cannot be taken back. Anything already downloaded stays licensed
+under the terms it shipped with.</p>
+<p><a href="/releases/LICENSE.txt">Read the full licence &rarr;</a></p>
+
 <h2>What it refuses to do</h2>
 <p>It will not log into a sportsbook for you. Account linking means handing a
 third party your credentials, and no feature is worth that &mdash; CSV import
