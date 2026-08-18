@@ -5,6 +5,7 @@
 #   check.py        that the pages are honest — every figure traceable, every
 #                   competitor claim dated and sourced, every link real
 #   break_check.py  that check.py can actually fail
+#   check_live      that the domain serves this build, not an older one.
 #   check_sources   that the citations check.py EXEMPTS actually resolve. A
 #                   number inside a dated, sourced block skips the figure
 #                   gate — that carve-out is right, and it means the source
@@ -37,6 +38,20 @@ case "${PIPESTATUS[0]}" in
   2) echo "  !! SOURCES NOT CHECKED — this run verified nothing" ;;
   *) fail=1 ;;
 esac
+echo
+echo "── deployed site ──────────────────────────────────"
+# Every check above this line reads files off this disk. This one asks what the
+# domain actually serves, which is the only thing a visitor sees. A commit that
+# is pushed but not yet rebuilt reports 1 here and is usually a minute away
+# from correct, so it is reported and does not fail the build; 2 means the
+# check could not run and must never read as a pass.
+python3 _build/check_live.py 2>&1 | tail -4
+case "${PIPESTATUS[0]}" in
+  0) ;;
+  1) echo "  !! THE DOMAIN IS NOT SERVING THIS BUILD — push, or wait for Pages" ;;
+  2) echo "  !! DEPLOY NOT CHECKED — this run compared nothing" ;;
+esac
+
 echo
 if [ "$fail" -ne 0 ]; then echo "SITE RED"; exit 1; fi
 echo "SITE GREEN"
