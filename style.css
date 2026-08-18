@@ -1587,3 +1587,13 @@ body::before{
 .group-note{margin:0 0 1.1rem;color:var(--ink-2);font-size:.95rem;
   max-width:56ch}
 .cards .card:hover .card-go{color:var(--accent)}
+
+/* The source column was truncating mid-date inside its scroll box, so every
+   citation read "read 2026-08-" and the reader had to drag to see a date that
+   is the whole point of the citation. */
+main table td.prose{white-space:normal}
+main table td:last-child{white-space:nowrap;font-size:.78rem;
+  color:var(--ink-3)}
+@media (min-width:64rem){
+  main table{min-width:0;width:100%}
+}

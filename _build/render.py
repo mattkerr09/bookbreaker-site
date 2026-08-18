@@ -999,10 +999,13 @@ def measure(engine) -> dict:
         f"a {a['margin']:.2f}% arbitrage on {1000:,} staked:</p>"
         + table([("Exact stakes",
                   f"{a['exact_stakes'][0]:,.2f} / {a['exact_stakes'][1]:,.2f}"),
-                 ("Guaranteed", f"{a['exact_profit']:,.2f}"),
+                 # Two rows both labelled "Guaranteed" with different
+                 # numbers, told apart only by which came first, in the table
+                 # the page exists to show.
+                 ("Guaranteed, exact", f"{a['exact_profit']:,.2f}"),
                  ("Round stakes",
                   f"{a['round_stakes'][0]:,} / {a['round_stakes'][1]:,}"),
-                 ("Guaranteed", f"{a['round_profit']:,.2f}"),
+                 ("Guaranteed, rounded", f"{a['round_profit']:,.2f}"),
                  ("Cost of looking human", f"{a['rounding_cost']:,.2f}")])
         + "<p>A stake to the cent is the loudest fingerprint a risk desk "
         "reads. This solves for round stakes directly, because rounding a "
@@ -3732,7 +3735,6 @@ def render_state_page(m: dict, code: str) -> str:
 {e(name)} as of {e(st['as_of'])}. {len(limiting)} of the {len(books)} {_n(len(books), 'venue')}
 covering the state limit accounts that win{'; ' + e(never_names) + ' ' + _does(len(never)) if never else ''}.</p>
 {disclosure()}
-{f'<p>{e(JURISDICTIONS[code]["note"])}</p>' if JURISDICTIONS.get(code, {}).get("note") else ''}
 {jurisdiction_facts(code, name)}
 
 <h2>Every sportsbook covering {e(name)}</h2>
@@ -5542,6 +5544,16 @@ body::before{
 .group-note{margin:0 0 1.1rem;color:var(--ink-2);font-size:.95rem;
   max-width:56ch}
 .cards .card:hover .card-go{color:var(--accent)}
+
+/* The source column was truncating mid-date inside its scroll box, so every
+   citation read "read 2026-08-" and the reader had to drag to see a date that
+   is the whole point of the citation. */
+main table td.prose{white-space:normal}
+main table td:last-child{white-space:nowrap;font-size:.78rem;
+  color:var(--ink-3)}
+@media (min-width:64rem){
+  main table{min-width:0;width:100%}
+}
 """
 
 STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]

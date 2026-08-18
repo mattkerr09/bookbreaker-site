@@ -77,7 +77,7 @@
   },
   "calculators": {
     "arbitrage": {
-      "body": "<p>+110 at one book and +105 at another is a 3.73% arbitrage on 1,000 staked:</p><table><tr><td>Exact stakes</td><td>493.98 / 506.02</td></tr><tr><td>Guaranteed</td><td>37.35</td></tr><tr><td>Round stakes</td><td>490 / 500</td></tr><tr><td>Guaranteed</td><td>35.00</td></tr><tr><td>Cost of looking human</td><td>2.35</td></tr></table><p>A stake to the cent is the loudest fingerprint a risk desk reads. This solves for round stakes directly, because rounding a lock afterwards breaks it.</p>"
+      "body": "<p>+110 at one book and +105 at another is a 3.73% arbitrage on 1,000 staked:</p><table><tr><td>Exact stakes</td><td>493.98 / 506.02</td></tr><tr><td>Guaranteed, exact</td><td>37.35</td></tr><tr><td>Round stakes</td><td>490 / 500</td></tr><tr><td>Guaranteed, rounded</td><td>35.00</td></tr><tr><td>Cost of looking human</td><td>2.35</td></tr></table><p>A stake to the cent is the loudest fingerprint a risk desk reads. This solves for round stakes directly, because rounding a lock afterwards breaks it.</p>"
     },
     "bonus-bet-conversion": {
       "body": "<p>A 1,000 bonus bet does not return its stake, so it is worth about half its face value bet naively. Hedged:</p><table><tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Guaranteed</th><th>Rate</th></tr><tr><td>+100</td><td>-110</td><td>524</td><td>476</td><td>47.6%</td></tr><tr><td>+200</td><td>-230</td><td>1,394</td><td>606</td><td>60.6%</td></tr><tr><td>+400</td><td>-450</td><td>3,273</td><td>727</td><td>72.7%</td></tr><tr><td>+1200</td><td>-1400</td><td>11,200</td><td>800</td><td>80.0%</td></tr></table><p>The hedge column is the constraint every guide omits.</p>"
