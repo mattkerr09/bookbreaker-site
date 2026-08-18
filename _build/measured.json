@@ -369,6 +369,7 @@
     "effective": 15.4,
     "honest": 84,
     "latency": 5.4,
+    "latency_observations": 30,
     "naive": 89
   },
   "generated": "2026-08-18",

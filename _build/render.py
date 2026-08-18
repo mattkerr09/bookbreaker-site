@@ -254,6 +254,12 @@ def measure(engine) -> dict:
     honest = fills.p_fill("dk", "h2h", age + lag)
     naive = fills.p_fill("dk", "h2h", age)
     out["fill"] = {
+        # 30 observations were fed in above, so this lag is fitted rather than
+        # assumed. A fresh install has no such record and falls back to a
+        # stated prior, which is a different claim and a different number — and
+        # the whole product rests on that distinction, so the page has to make
+        # it rather than quietly showing the better figure.
+        "latency_observations": 30,
         "age": age, "latency": round(lag, 1),
         "effective": round(age + lag, 1),
         "honest": round(honest * 100),
@@ -1883,7 +1889,10 @@ bets and keep the account that places them.</p>
   </div>
   <p class="hero-app-cap">The window as it ships &mdash; five tabs, no feed, no
   account. Every figure here is the engine's own answer, computed when this
-  page was built.</p>
+  page was built. The {m['fill']['latency']}s of lag is fitted to
+  {m['fill']['latency_observations']} recorded observations; a fresh install
+  has none of your own yet and says so, starting from a stated prior and a
+  slightly kinder number until it does.</p>
 </div>
 </div>
 
