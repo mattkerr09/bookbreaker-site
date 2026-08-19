@@ -5129,12 +5129,12 @@ header{position:sticky;top:0;z-index:20;background:var(--plate);
 nav{max-width:70rem;margin:0 auto;padding:.8rem 1.5rem;display:flex;
   align-items:center;gap:1.6rem;flex-wrap:wrap}
 .brand{display:inline-flex;align-items:center;gap:.5rem;color:var(--ink);
-  font-family:var(--serif);font-weight:600;font-size:1.0625rem;
+  font-family:var(--serif);font-weight:600;font-size:var(--t-5);
   letter-spacing:-.015em;text-decoration:none}
 .brand:hover{color:var(--ink)}
 .mark{width:1.35rem;height:1.35rem;color:var(--ink);flex:none}
 .links{display:flex;gap:1.35rem;flex-wrap:wrap}
-nav .links a{color:var(--ink-2);text-decoration:none;font-size:0.9rem;
+nav .links a{color:var(--ink-2);text-decoration:none;font-size:var(--t-3);
   font-weight:500;padding:.15rem 0;border-bottom:1px solid transparent}
 nav .links a:hover{color:var(--ink);border-bottom-color:var(--ink)}
 
@@ -5312,7 +5312,7 @@ pre{background:var(--sink);border:1px solid var(--rule);border-radius:var(--r);
   max-width:100%;font-size:var(--t-3);line-height:1.6}
 pre code{font-family:var(--mono);color:var(--ink);white-space:pre;
   background:none;padding:0;border:0}
-code{font-family:var(--mono);font-size:.94em;background:var(--sink);
+code{font-family:var(--mono);font-size:var(--t-3);background:var(--sink);
   padding:.1em .35em;border-radius:var(--r);
   overflow-wrap:anywhere}
 
@@ -5516,11 +5516,11 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
      the links slide. */
   nav{padding:.6rem 0 .6rem 1.15rem;gap:.85rem;flex-wrap:nowrap;
     align-items:center}
-  .brand{flex:none;font-size:1.0625rem}
+  .brand{flex:none;font-size:var(--t-5)}
   .links{flex:1 1 auto;flex-wrap:nowrap;gap:1.05rem;overflow-x:auto;
     padding-right:1.15rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .links::-webkit-scrollbar{display:none}
-  nav .links a{white-space:nowrap;font-size:0.9rem}
+  nav .links a{white-space:nowrap;font-size:var(--t-3)}
 }
 
 /* Narrow screens. Last in the sheet on purpose: these rules restate
@@ -5770,7 +5770,7 @@ main .figure{font-family:var(--mono);font-size:var(--t-5);color:var(--ink);
 
 /* Numbers inside running prose. The site's whole claim is about figures, and
    they were set in the same face and colour as the words around them. */
-main p code,main p .num{font-family:var(--mono);font-size:.94em;
+main p code,main p .num{font-family:var(--mono);font-size:var(--t-3);
   color:var(--ink);background:color-mix(in srgb,var(--ink) 7%,transparent);
   padding:.08em .3em;border-radius:var(--r)}
 
@@ -6006,19 +6006,19 @@ body{font-family:var(--sans);letter-spacing:-.011em}
 h1{letter-spacing:-.033em;font-weight:700;line-height:1.04}
 h2{letter-spacing:-.024em;font-weight:700}
 h3{letter-spacing:-.016em;font-weight:650}
-.lede{font-size:1.25rem;line-height:1.5;color:var(--ink-2);
+.lede{font-size:var(--t-6);line-height:1.5;color:var(--ink-2);
   letter-spacing:-.014em}
 /* --- the primary action: a real button ------------------------------- */
 .btn,.cta a:first-child{
   border-radius:var(--r-pill);padding:.9rem 1.6rem;font-weight:650;
-  font-size:1.0625rem;letter-spacing:-.01em;box-shadow:var(--shadow-2);
+  font-size:var(--t-5);letter-spacing:-.01em;box-shadow:var(--shadow-2);
   border:0;transition:transform .16s cubic-bezier(.2,.7,.3,1),
     box-shadow .16s ease,background .16s ease}
 .btn:hover,.cta a:first-child:hover{transform:translateY(-1px);
   box-shadow:var(--shadow-3)}
 .btn:active,.cta a:first-child:active{transform:translateY(0)}
 .cta a+a{border-radius:var(--r-pill);padding:.9rem 1.5rem;
-  font-weight:600;font-size:1.0625rem;border:1.5px solid var(--rule);
+  font-weight:600;font-size:var(--t-5);border:1.5px solid var(--rule);
   background:var(--plate);color:var(--ink);transition:border-color .16s ease,
     background .16s ease}
 .cta a+a:hover{border-color:var(--ink-3);
@@ -6104,25 +6104,25 @@ input[type=range]{accent-color:var(--accent)}
 /* Four proof points that each broke onto two lines read as four problems.
    Wider cells, and a label size that fits one. */
 .trust{grid-template-columns:repeat(auto-fit,minmax(13.5rem,1fr))}
-.trust span{font-size:0.72rem;line-height:1.35;letter-spacing:.07em}
+.trust span{font-size:var(--t-1);line-height:1.35;letter-spacing:.07em}
 @media (max-width:52rem){.trust{grid-template-columns:repeat(2,1fr)}}
 
 /* --- mobile header ---------------------------------------------------
    The banner plus a two-row nav was taking the whole first screen before a
    word of the page appeared. */
 @media (max-width:40rem){
-  .banner{font-size:.82rem;padding:.5rem 0}
+  .banner{font-size:var(--t-2);padding:.5rem 0}
   .banner-in{display:flex;align-items:center;gap:.5rem;flex-wrap:nowrap}
   .banner-in p,.banner-in span{margin:0;white-space:nowrap;overflow:hidden;
     text-overflow:ellipsis;min-width:0}
-  .banner .tag{flex:none;font-size:.62rem;padding:.15rem .45rem}
+  .banner .tag{flex:none;font-size:var(--t-1);padding:.15rem .45rem}
   .banner a{flex:none}
   nav{flex-wrap:nowrap;padding-block:.55rem}
-  nav .brand{font-size:1rem}
+  nav .brand{font-size:var(--t-4)}
   .links{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;
     -webkit-overflow-scrolling:touch}
   .links::-webkit-scrollbar{display:none}
-  nav .links a{white-space:nowrap;padding:.35rem .55rem;font-size:.9rem}
+  nav .links a{white-space:nowrap;padding:.35rem .55rem;font-size:var(--t-3)}
   /* The header follows the page instead of holding a third of the screen. */
   header{position:static}
 }
@@ -6134,13 +6134,13 @@ input[type=range]{accent-color:var(--accent)}
    are styled to be read, not to be technically present. */
 .disclose{background:var(--accent-soft);border:1px solid
   color-mix(in srgb,var(--accent) 22%,transparent);
-  border-radius:var(--r);padding:.85rem 1.1rem;font-size:0.9rem;
+  border-radius:var(--r);padding:.85rem 1.1rem;font-size:var(--t-3);
   color:var(--ink-2);margin:1.25rem 0}
 .disclose strong{color:var(--ink)}
 
 .rg{border:1px solid var(--rule);border-left:4px solid var(--accent);
   border-radius:var(--r);background:var(--card);padding:1.1rem 1.35rem;
-  margin:2rem 0 1rem;font-size:0.9rem;color:var(--ink-2)}
+  margin:2rem 0 1rem;font-size:var(--t-3);color:var(--ink-2)}
 .rg p{margin:.4rem 0}
 .rg strong{color:var(--ink)}
 .rg a{color:var(--accent);font-weight:600}
@@ -6165,7 +6165,7 @@ ul.states li:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--rule))
   transform:translateY(-1px)}
 ul.states a{font-weight:650;text-decoration:none;color:var(--ink)}
 ul.states li:hover a{color:var(--accent)}
-ul.states .n{font-size:0.72rem;color:var(--ink-3);white-space:nowrap;
+ul.states .n{font-size:var(--t-1);color:var(--ink-3);white-space:nowrap;
   font-variant-numeric:tabular-nums}
 /* ------------------------------------------------------------ data plates
    Five of these classes did not exist when the plates were first drawn,and
@@ -6265,7 +6265,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .hero h1{letter-spacing:-.035em;font-weight:560}
 .hero .lede{font-size:clamp(1.1rem,1.5vw,1.3rem);max-width:34rem;
   color:var(--ink-2)}
-.eyebrow{font-size:0.72rem}
+.eyebrow{font-size:var(--t-1)}
 
 /* Numbers should be the loudest thing on a page about numbers. */
 .trust b{font-size:clamp(2.4rem,4vw,3.4rem);line-height:1;
@@ -6352,7 +6352,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
    as coverage, which is what it is evidence of. */
 .wall-list{display:flex;flex-wrap:wrap;gap:.45rem;margin:1rem 0 0;padding:0;
   list-style:none}
-.wall-list li{white-space:nowrap;font-size:.82rem;color:var(--ink-2);
+.wall-list li{white-space:nowrap;font-size:var(--t-2);color:var(--ink-2);
   background:var(--card);border:1px solid var(--rule);
   border-radius:var(--r-pill);padding:.38rem .8rem;
   transition:border-color .15s ease,color .15s ease,transform .15s ease}
@@ -6394,32 +6394,32 @@ body.home .plate .rf{--rf-h:1.15rem}
 /* --- the page head carries the page ---------------------------------- */
 .phead h1{font-size:clamp(2.2rem,3.4vw,3.1rem);line-height:1.05;
   letter-spacing:-.035em;margin-bottom:.5rem}
-.phead .lede{font-size:1.25rem;color:var(--ink-2);max-width:44ch}
-.crumb{font-size:.72rem;letter-spacing:.1em;margin-bottom:1.1rem}
+.phead .lede{font-size:var(--t-6);color:var(--ink-2);max-width:44ch}
+.crumb{font-size:var(--t-1);letter-spacing:.1em;margin-bottom:1.1rem}
 
 /* --- reading rhythm ---------------------------------------------------
    17px at 1.65 in a 736px column is a comfortable measure; the paragraphs
    just had nothing to break them up. A lead-in sentence set in the ink
    colour gives the eye a place to land every few paragraphs. */
-main>p{font-size:1.0625rem;line-height:1.7}
+main>p{font-size:var(--t-5);line-height:1.7}
 main>p>strong:first-child{color:var(--ink);font-weight:650}
 main>h2{margin-top:2.6rem;font-size:clamp(1.45rem,2vw,1.85rem);
   letter-spacing:-.02em}
-main>h3{margin-top:1.8rem;font-size:1.0625rem}
+main>h3{margin-top:1.8rem;font-size:var(--t-5)}
 
 /* First paragraph of a leaf reads as a standfirst. */
-body:not(.home):not(.hub) .phead + p{font-size:1.15rem;line-height:1.6;
+body:not(.home):not(.hub) .phead + p{font-size:var(--t-5);line-height:1.6;
   color:var(--ink)}
 
 /* --- keep reading, as cards worth clicking --------------------------- */
 .onward{margin-top:clamp(3rem,5vw,4.5rem)}
-.onward-cap{font-size:.72rem;letter-spacing:.12em;color:var(--ink-3)}
+.onward-cap{font-size:var(--t-1);letter-spacing:.12em;color:var(--ink-3)}
 .cards--onward{gap:.9rem}
 .cards--onward .card{border-radius:var(--r)}
 .cards--onward .card a{padding:1.15rem 1.25rem}
-.card-t{font-size:1rem;letter-spacing:-.015em;line-height:1.3}
-.card-q{font-size:.9rem;line-height:1.45;color:var(--ink-2)}
-.card-go{font-size:0.72rem;letter-spacing:.12em}
+.card-t{font-size:var(--t-4);letter-spacing:-.015em;line-height:1.3}
+.card-q{font-size:var(--t-3);line-height:1.45;color:var(--ink-2)}
+.card-go{font-size:var(--t-1);letter-spacing:.12em}
 
 /* --- tables on leaf pages had no presence ---------------------------- */
 main .scroll{box-shadow:var(--shadow-1)}
@@ -6507,7 +6507,7 @@ body::before{
 .hero h1 em{font-style:normal;
   background:linear-gradient(96deg, var(--accent-lo), var(--accent) 62%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
-/* --- the product shot reads as software{font-size:.82rem}
+/* --- the product shot reads as software{font-size:var(--t-2)}
 
 
 
@@ -6536,11 +6536,11 @@ body::before{
 .guide-group h2{display:flex;align-items:baseline;gap:.6rem;
   font-size:clamp(1.3rem,1.9vw,1.65rem);letter-spacing:-.025em;
   margin:0 0 .3rem}
-.guide-group h2 .n{font-size:.72rem;font-weight:600;color:var(--ink-3);
+.guide-group h2 .n{font-size:var(--t-1);font-weight:600;color:var(--ink-3);
   letter-spacing:.08em;font-variant-numeric:tabular-nums;
   border:1px solid var(--rule);border-radius:var(--r-pill);
   padding:.1rem .5rem}
-.group-note{margin:0 0 1.1rem;color:var(--ink-2);font-size:0.9rem;
+.group-note{margin:0 0 1.1rem;color:var(--ink-2);font-size:var(--t-3);
   max-width:56ch}
 .cards .card:hover .card-go{color:var(--accent)}
 
@@ -6548,7 +6548,7 @@ body::before{
    citation read "read 2026-08-" and the reader had to drag to see a date that
    is the whole point of the citation. */
 main table td.prose{white-space:normal}
-main table td:last-child{white-space:nowrap;font-size:0.82rem;
+main table td:last-child{white-space:nowrap;font-size:var(--t-2);
   color:var(--ink-3)}
 @media (min-width:64rem){
   main table{min-width:0;width:100%}
@@ -6568,7 +6568,7 @@ main table td:last-child{white-space:nowrap;font-size:0.82rem;
   border-bottom:1px solid var(--rule);
   background:var(--sink);
 }
-.win-name{margin-left:9px;font-weight:650;font-size:.82rem;letter-spacing:-.01em}
+.win-name{margin-left:9px;font-weight:650;font-size:var(--t-2);letter-spacing:-.01em}
 .win-ver{margin-left:auto;font:500 0.72rem/1 var(--mono);color:var(--ink-2);
   letter-spacing:.06em}
 
@@ -6774,7 +6774,7 @@ main>.trust{margin-bottom:var(--float-gap)}
   color:var(--accent);margin:.2rem 0 .35rem}
 .own-cap,.own-spread,.own-hint,.own-no{max-width:62ch;margin:.35rem 0}
 .own-no{color:var(--warn)}
-.own-note{max-width:66ch;font-size:.9rem;opacity:.72;margin-top:1.2rem}
+.own-note{max-width:66ch;font-size:var(--t-3);opacity:.72;margin-top:1.2rem}
 @media (max-width:44rem){
   .own-in input{width:100%}
   .own-in label{flex:1 1 100%}
@@ -6931,8 +6931,8 @@ table tbody tr:hover,table tr:hover{
   display:grid;place-items:center;
   font:600 .72rem/1 var(--mono);color:var(--accent-ink,#fff);
   background:linear-gradient(135deg,var(--accent-hi,var(--accent)),var(--accent))}
-.verify-list b{display:block;font-size:1.02rem;margin-bottom:.3rem}
-.verify-list span{display:block;max-width:70ch;opacity:.82;font-size:.95rem}
+.verify-list b{display:block;font-size:var(--t-4);margin-bottom:.3rem}
+.verify-list span{display:block;max-width:70ch;opacity:.82;font-size:var(--t-3)}
 .verify-list code{font:500 .86em/1.4 var(--mono);background:var(--plate);
   border:1px solid var(--rule);border-radius:5px;padding:.1em .4em;
   white-space:nowrap;overflow-wrap:anywhere}
@@ -6945,7 +6945,7 @@ table tbody tr:hover,table tr:hover{
 .refuse-grid>div:hover{border-color:var(--hover-rule);
   background-color:var(--hover-face)}
 .refuse-grid b{display:block;margin-bottom:.35rem}
-.refuse-grid span{display:block;opacity:.8;font-size:.94rem}
+.refuse-grid span{display:block;opacity:.8;font-size:var(--t-3)}
 
 @media (max-width:44rem){
   .verify-list li{padding:1rem 1rem 1.1rem 3rem}
@@ -6981,6 +6981,68 @@ table tbody tr:hover,table tr:hover{
      point of that section. */
   input[type=range]{min-height:44px}
 }
+
+/* PASS 21 — every section lit from behind.
+
+   Matthew: "needs to feel like each section is being lit up from behind."
+   Three layers, and the order matters:
+
+   1. The card face itself is no longer flat. A 160deg gradient runs from a
+      few percent of accent at the top-left corner into the plain card
+      colour by 55% — so the top edge reads as catching light and the body
+      settles back down. Flat fills are what made this feel printed.
+
+   2. Behind each section, a wide radial glow, alternating left and right
+      down the page so the light appears to travel rather than repeat. It
+      sits on a ::before at z-index 0 with the content lifted above it, and
+      it bleeds past the card's rounded corners because a glow clipped to
+      the box is a rectangle, not a light.
+
+   3. A one-pixel highlight along the top border, brightest in the middle
+      and fading at both ends — the seam where the light escapes.
+
+   Kept honest about contrast: the glow tops out at 9% of the accent over
+   the card, which moves the surface by about one step of tone and leaves
+   body text at the same ratio it had before. Verified after, not assumed. */
+
+:root{
+  --lit-face:color-mix(in srgb, var(--accent) 5%, var(--card));
+  --lit-glow:color-mix(in srgb, var(--accent) 9%, transparent);
+  --lit-edge:color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.wall,.demo,.speed,.heat-home,.pitch>article,.own,.verify,.refuse,.close,.hp{
+  position:relative;isolation:isolate;
+  background-image:linear-gradient(160deg,
+    var(--lit-face) 0%, var(--card) 55%);
+}
+
+/* The light behind. Alternating side, and wider than the card so the falloff
+   is never a visible edge. */
+.wall::after,.demo::after,.speed::after,.heat-home::after,
+.own::after,.verify::after,.refuse::after,.close::after{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  left:-14%;right:-14%;top:-38%;height:120%;
+  background:radial-gradient(ellipse 60% 50% at 26% 0%,
+    var(--lit-glow) 0%, transparent 68%);
+}
+.demo::after,.heat-home::after,.refuse::after{
+  background:radial-gradient(ellipse 60% 50% at 74% 0%,
+    var(--lit-glow) 0%, transparent 68%);
+}
+
+/* The seam. Brightest where the light is strongest, gone at both ends. */
+.wall::before,.demo::before,.speed::before,.heat-home::before,
+.own::before,.verify::before,.refuse::before,.close::before{
+  content:"";position:absolute;left:12%;right:12%;top:-1px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--lit-edge),transparent);
+  pointer-events:none;
+}
+
+/* PASS 18 gave .own and .close their own ::before glow; this replaces it, so
+   the earlier rule would fight this one for the same pseudo-element. */
+.own::before,.close::before{inset:auto 12% auto 12%;top:-1px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--lit-edge),transparent)}
 """
 
 
