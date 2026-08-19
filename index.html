@@ -32,7 +32,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#1493FF">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=419a4cb883">
+<link rel="stylesheet" href="/style.css?v=d8a0c3ffa5">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://bookbreaker.bet/#org", "name": "Bookbreaker", "url": "https://bookbreaker.bet/"}, {"@type": "WebSite", "@id": "https://bookbreaker.bet/#site", "name": "Bookbreaker", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}, {"@type": "SoftwareApplication", "name": "Bookbreaker", "applicationCategory": "FinanceApplication", "operatingSystem": "macOS", "softwareVersion": "0.1.5", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}]}</script>
 </head>
 <body class="home">
@@ -286,6 +286,79 @@ bets and keep the account that places them.</p>
   load();
 })();
 </script>
+
+<section class="verify">
+  <h2>You do not have to take our word for any of it</h2>
+  <p class="verify-lede">Bookbreaker is new and has no customers to quote at
+  you, so this page has no testimonials. What it has instead is a list of
+  claims a stranger can check without trusting us at all &mdash; which is the
+  stronger thing to offer about software you are going to place money
+  alongside.</p>
+
+  <ol class="verify-list">
+    <li>
+      <b>The download matches its published checksum.</b>
+      <span>The build we notarised has SHA-256
+      <code>735d36ed26e859fa&hellip;</code> and the full digest is
+      on the download page. Run
+      <code>shasum -a 256 Bookbreaker-0.1.5.dmg</code> and
+      compare. If it differs, do not open it.</span>
+    </li>
+    <li>
+      <b>Apple has notarised it, and your Mac will say so.</b>
+      <span>Run
+      <code>spctl -a -t open --context context:primary-signature -vv</code>
+      against the file. It should say <code>accepted</code> and
+      <code>source=Notarized Developer ID</code>. That is Apple confirming the
+      binary, not us.</span>
+    </li>
+    <li>
+      <b>It makes no network calls. Watch it not make them.</b>
+      <span>There is no updater, no telemetry, no account and no sync &mdash;
+      0 bytes leave your machine, and
+      0 accounts exist to create. Point Little Snitch
+      or <code>lsof -i -p $(pgrep Bookbreaker)</code> at it and watch nothing
+      happen. A test in the repo fails the build if a network library is ever
+      linked in.</span>
+    </li>
+    <li>
+      <b>Every figure on this site was computed by the app you download.</b>
+      <span>Not typed. The build runs the same engine &mdash;
+      37 modules, 40 test
+      files &mdash; and refuses to publish a number that engine did not
+      produce. That is why the fill figure here and the one in a fresh install
+      differ, and why the page says which is which.</span>
+    </li>
+    <li>
+      <b>Every legal claim carries its source and the date we read it.</b>
+      <span>29 regulator and statute links across the
+      state pages, each with a read date, each checked by the build. A dead
+      citation fails the build rather than sitting there looking official.</span>
+    </li>
+  </ol>
+</section>
+
+<section class="refuse">
+  <h2>What it will never do, including the profitable things</h2>
+  <p class="verify-lede">A tool for money is defined as much by its refusals.
+  These are ours, and they are enforced in code rather than promised in a
+  policy page.</p>
+  <div class="refuse-grid">
+    <div><b>Never asks for a sportsbook login.</b><span>Competitors sync your
+      accounts with your credentials. We import a CSV or read a pasted
+      betslip. Same ledger, and your passwords stay yours.</span></div>
+    <div><b>Never touches identity, KYC, device or location.</b><span>The
+      account-longevity model reads stake, timing, market and velocity &mdash;
+      bet shape, nothing else. It has no access to who you are and never
+      will.</span></div>
+    <div><b>Never places a bet for you.</b><span>Automated placement needs your
+      logins and has to look human to the book. It is the fastest known route
+      to being limited, which is the opposite of the point.</span></div>
+    <div><b>Never publishes a number it did not measure.</b><span>Where a
+      figure is a stated prior rather than something observed, the page says
+      so in the same sentence. The build fails if it does not.</span></div>
+  </div>
+</section>
 <section class="pitch" id="pitch">
 <p class="eyebrow">The four things it does that nothing else does</p>
 

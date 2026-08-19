@@ -4217,6 +4217,15 @@
     "sigma": 13.0,
     "window": 3
   },
+  "verify": {
+    "accounts": 0,
+    "engine_modules": 37,
+    "network_calls": 0,
+    "sha256": "735d36ed26e859fa1ad0cc055ace98bdee6eee95dbab48783d89a581d0f7f27c",
+    "sha256_short": "735d36ed26e859fa",
+    "sources": 29,
+    "test_files": 40
+  },
   "version": "0.1.5",
   "weights": {
     "max_age_days": 90

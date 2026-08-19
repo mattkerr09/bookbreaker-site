@@ -197,6 +197,13 @@ CASES = [
         ".bb-class-that-exists-nowhere:hover{",
     ),
     (
+        "the hero video showing a window that no longer exists",
+        "check_hero_video_matches_the_app",
+        "media/app-video.json",
+        '"De-vig"',
+        '"De-vig (renamed since the take)"',
+    ),
+    (
         "a superseded palette left in the stylesheet",
         "check_one_palette",
         "style.css",

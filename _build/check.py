@@ -931,6 +931,47 @@ def check_no_dead_css(pages, fails: list[str]) -> None:
             f"never written: {dead[:12]}")
 
 
+def check_hero_video_matches_the_app(fails: list[str], app_repo: Path) -> None:
+    """The hero video shows the window that ships today, not one that used to.
+
+    Taken from the portfolio site, which learned it the expensive way: a
+    product screenshot that drifted 2.2% from the live site, and three more
+    that declared the wrong height. A picture of a product is a claim about
+    the product, and it rots silently — nothing renders differently when it
+    goes stale, which is exactly why it needs a gate rather than a habit.
+
+    Ours is a recording rather than a still, and the failure is worse: a
+    visitor watches a tab that no longer exists being clicked. The manifest
+    records the tabs and panel questions as they were when the take was made;
+    this compares them to `ui/src/index.html` as it stands now.
+    """
+    manifest_path = SITE / "media" / "app-video.json"
+    if not manifest_path.exists():
+        fails.append("media/app-video.json is missing — nothing records which "
+                     "version of the window the hero video shows")
+        return
+    manifest = json.loads(manifest_path.read_text())
+
+    # render.py's extractor, imported rather than reimplemented. A second
+    # parser of ui/src/index.html would drift from the first, which is
+    # precisely the class of bug this gate exists to catch.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "_render", SITE / "_build" / "render.py")
+    render = importlib.util.module_from_spec(spec)
+    sys.modules["_render"] = render
+    spec.loader.exec_module(render)
+    now = render.read_app_window(app_repo)
+    for field in ("tabs", "heads"):
+        was, is_now = manifest.get(field), now.get(field)
+        if was != is_now:
+            fails.append(
+                f"the hero video was recorded when the window's {field} were "
+                f"{was}, and they are now {is_now}. The video shows a product "
+                f"that no longer exists; re-record it and update "
+                f"media/app-video.json.")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
@@ -992,6 +1033,9 @@ def main() -> int:
         "check_media_exists": lambda: check_media_exists(pages, fails),
         "check_no_internal_docs_are_served":
             lambda: check_no_internal_docs_are_served(fails),
+        "check_hero_video_matches_the_app":
+            lambda: check_hero_video_matches_the_app(
+                fails, Path(args.app_repo).expanduser().resolve()),
         "check_no_dead_css": lambda: check_no_dead_css(pages, fails),
         "check_one_palette": lambda: check_one_palette(fails),
         "check_every_pass_reaches_the_stylesheet":
