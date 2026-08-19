@@ -1763,6 +1763,8 @@ def page(title: str, description: str, body: str, path: str,
 {site_schema(path, body)}
 </head>
 <body class="{body_class}">
+<div class="mesh" aria-hidden="true"><b class="m1"></b><b class="m2"></b><b class="m3"></b></div>
+<div class="grid-ovl" aria-hidden="true"></div>
 <header>{nav}</header>
 <main>
 {body}
@@ -1796,6 +1798,37 @@ will win. If it stops being fun, it is not fun &mdash;
 <a href="tel:1-800-426-2537">call 1-800-GAMBLER</a> or visit
 <a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>.</p>
 </footer>
+<script>
+/* Scroll reveal, taken from the Outlier site because Matthew asked for
+   exactly its behaviour.
+
+   Direction is set with custom properties rather than by overriding
+   transform, so a single rule owns the transform and a element sliding in
+   from the left cannot fight one settling from below.
+
+   Two-way on purpose: the observer is NOT unobserved after firing. Calling
+   unobserve is what turns this into a one-shot effect that fills the page in
+   once and then sits there — scrolling back up and down again should replay
+   it. */
+(function () {{
+  var root = document.documentElement;
+  root.classList.add('js');           // CSS only hides things once JS is here,
+                                      // so no-JS renders the page fully visible
+  var reduce = window.matchMedia
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {{
+    for (var i = 0; i < els.length; i++) els[i].classList.add('in');
+    return;
+  }}
+  var io = new IntersectionObserver(function (entries) {{
+    entries.forEach(function (e) {{
+      e.target.classList.toggle('in', e.isIntersecting);
+    }});
+  }}, {{ rootMargin: '0px 0px -8% 0px', threshold: 0.08 }});
+  for (var j = 0; j < els.length; j++) io.observe(els[j]);
+}})();
+</script>
 </body>
 </html>
 """
@@ -2080,7 +2113,7 @@ bets and keep the account that places them.</p>
 </div>
 </div>
 
-<div class="trust">
+<div class="trust reveal">
   <div><b>{len(m['devig']['methods'])}</b><span>Devig methods, side by side</span></div>
   <div><b>{m['devig']['spread']:.2f}%</b><span>Spread they disagree by</span></div>
   <div><b>{m['fill']['honest']}%</b><span>Fill on a {m['fill']['age']:.0f}s quote</span></div>
@@ -2164,7 +2197,7 @@ bets and keep the account that places them.</p>
 
 
 
-<section class="own">
+<section class="own reveal">
   <h2>Try it on your own price</h2>
   <p class="own-lede">Type the two sides of any market. You get the four
   methods and the distance between them &mdash; which is the number every
@@ -2280,7 +2313,7 @@ bets and keep the account that places them.</p>
 }})();
 </script>
 
-<section class="verify">
+<section class="verify reveal">
   <h2>You do not have to take our word for any of it</h2>
   <p class="verify-lede">Bookbreaker is new and has no customers to quote at
   you, so this page has no testimonials. What it has instead is a list of
@@ -2331,23 +2364,23 @@ bets and keep the account that places them.</p>
   </ol>
 </section>
 
-<section class="refuse">
+<section class="refuse reveal">
   <h2>What it will never do, including the profitable things</h2>
   <p class="verify-lede">A tool for money is defined as much by its refusals.
   These are ours, and they are enforced in code rather than promised in a
   policy page.</p>
   <div class="refuse-grid">
-    <div><b>Never asks for a sportsbook login.</b><span>Competitors sync your
+    <div class="reveal"><b>Never asks for a sportsbook login.</b><span>Competitors sync your
       accounts with your credentials. We import a CSV or read a pasted
       betslip. Same ledger, and your passwords stay yours.</span></div>
-    <div><b>Never touches identity, KYC, device or location.</b><span>The
+    <div class="reveal d1"><b>Never touches identity, KYC, device or location.</b><span>The
       account-longevity model reads stake, timing, market and velocity &mdash;
       bet shape, nothing else. It has no access to who you are and never
       will.</span></div>
-    <div><b>Never places a bet for you.</b><span>Automated placement needs your
+    <div class="reveal d2"><b>Never places a bet for you.</b><span>Automated placement needs your
       logins and has to look human to the book. It is the fastest known route
       to being limited, which is the opposite of the point.</span></div>
-    <div><b>Never publishes a number it did not measure.</b><span>Where a
+    <div class="reveal d3"><b>Never publishes a number it did not measure.</b><span>Where a
       figure is a stated prior rather than something observed, the page says
       so in the same sentence. The build fails if it does not.</span></div>
   </div>
@@ -2440,7 +2473,7 @@ bets and keep the account that places them.</p>
 </article>
 </section>
 
-<section class="speed">
+<section class="speed reveal">
   <p class="eyebrow accent">From a price on screen to a decision</p>
   <h2>The bet you place late is a different bet</h2>
   <p class="speed-lede">A quote you take {m['fill']['effective']}s after it was
@@ -2474,7 +2507,7 @@ bets and keep the account that places them.</p>
   </ol>
 </section>
 
-<section class="heat-home">
+<section class="heat-home reveal">
   <div class="heat-say">
     <p class="eyebrow accent">And the account still has to be there tomorrow</p>
     <h2>An edge you get limited out of is a hobby</h2>
@@ -2525,7 +2558,7 @@ bets and keep the account that places them.</p>
   </div>
 </section>
 
-<section class="close">
+<section class="close reveal">
   <h2>Download it and price one market</h2>
   <p>Free, {m['release']['wheel']['kb']} KB, no account, and it never talks to
   us. If the first market you run through it does not tell you something your
@@ -7043,6 +7076,87 @@ table tbody tr:hover,table tr:hover{
    the earlier rule would fight this one for the same pseudo-element. */
 .own::before,.close::before{inset:auto 12% auto 12%;top:-1px;height:1px;
   background:linear-gradient(90deg,transparent,var(--lit-edge),transparent)}
+
+/* PASS 22 — Outlier's treatment, in our blues.
+
+   Matthew named it as the bar and asked for its gradient, its scroll
+   behaviour and its texture specifically, so this is its structure rather
+   than an impression of it: three blurred orbs drifting behind a fixed dot
+   grid, and a reveal system driven by an IntersectionObserver.
+
+   Two details from their implementation that are the whole difference
+   between this working and looking cheap, both preserved:
+
+   Direction is set with CUSTOM PROPERTIES, never by overriding transform.
+   One rule owns the transform, so an element sliding in from the left cannot
+   fight one settling from below — which is what happens the moment two rules
+   both write transform.
+
+   The observer is deliberately NOT unobserved. Their comment says calling
+   unobserve is exactly what made it a one-shot that fills the page in once
+   and then sits there; toggling on isIntersecting means scrolling back up
+   and down replays it. */
+
+.mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.mesh b{position:absolute;border-radius:50%;filter:blur(120px);opacity:.5}
+.mesh .m1{width:60vw;height:60vw;max-width:820px;max-height:820px;
+  background:radial-gradient(circle,rgba(20,147,255,.40),transparent 68%);
+  top:-22vw;left:-8vw;animation:drift1 26s ease-in-out infinite}
+.mesh .m2{width:52vw;height:52vw;max-width:720px;max-height:720px;
+  background:radial-gradient(circle,rgba(92,184,255,.26),transparent 66%);
+  top:-6vw;right:-12vw;animation:drift2 32s ease-in-out infinite}
+.mesh .m3{width:46vw;height:46vw;max-width:640px;max-height:640px;
+  background:radial-gradient(circle,rgba(0,87,184,.34),transparent 66%);
+  top:44vw;left:34vw;animation:drift3 38s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(6vw,4vw) scale(1.08)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(-5vw,6vw) scale(1.06)}}
+@keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(4vw,-5vw) scale(1.1)}}
+
+/* The texture. A 1px dot on a 34px grid at 5% white — invisible as a dot,
+   and the reason a large dark surface stops reading as flat paint. Masked so
+   it is strongest at the edges and gone through the middle, where text is. */
+.grid-ovl{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle at 1px 1px,
+    rgba(255,255,255,.05) 1px,transparent 0);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,
+    transparent 10%,#000 78%);
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,
+    transparent 10%,#000 78%)}
+:root:not([data-theme="dark"]) .grid-ovl{
+  background-image:radial-gradient(circle at 1px 1px,
+    rgba(11,18,28,.055) 1px,transparent 0)}
+
+/* Everything real sits above both layers. */
+body>nav,body>main,body>footer,body>.banner{position:relative;z-index:1}
+
+/* --- reveal ------------------------------------------------------------ */
+/* Only once JS is present, so a reader without it gets the whole page. */
+.js .reveal{opacity:0;
+  transform:translate(var(--rx,0),var(--ry,26px)) scale(var(--rs,1));
+  transition:opacity .8s cubic-bezier(.22,.61,.36,1),
+             transform .8s cubic-bezier(.22,.61,.36,1)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal.d1{transition-delay:.08s}
+.js .reveal.d2{transition-delay:.16s}
+.js .reveal.d3{transition-delay:.24s}
+
+/* Direction, by custom property only. Big surfaces settle rather than
+   slide: a 1000px-wide table sliding in from the side looks like a mistake. */
+.js .pitch>article.reveal:nth-child(odd){--rx:-38px;--ry:8px}
+.js .pitch>article.reveal:nth-child(even){--rx:38px;--ry:8px}
+.js .trust.reveal{--ry:22px;--rs:.975}
+.js .wall.reveal,.js .demo.reveal{--ry:22px;--rs:.975}
+.js .verify.reveal,.js .refuse.reveal{--ry:30px}
+.js .close.reveal{--ry:38px;--rs:.985}
+
+@media (prefers-reduced-motion:reduce){
+  .js .reveal{opacity:1!important;transform:none!important;transition:none}
+  .mesh b{animation:none!important}
+}
 """
 
 

@@ -204,6 +204,17 @@ CASES = [
         '"De-vig (renamed since the take)"',
     ),
     (
+        "a runtime-class exemption left behind after its script went",
+        "check_runtime_classes_are_real",
+        # The defect is a stale ENTRY, so the case plants one. Removing a
+        # reference from one page is not stale — the exemption is site-wide
+        # and every page carries the reveal script, which is why the two
+        # earlier versions of this case caught nothing.
+        "_build/check.py",
+        '    "reveal",',
+        '    "reveal", "class-whose-script-was-deleted",',
+    ),
+    (
         "a superseded palette left in the stylesheet",
         "check_one_palette",
         "style.css",

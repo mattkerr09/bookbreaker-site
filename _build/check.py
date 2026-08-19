@@ -886,8 +886,39 @@ def check_no_internal_docs_are_served(fails: list[str]) -> None:
 #: because "does any script mention this string" matches far too much.
 RUNTIME_CLASSES = {
     "own-big", "own-cap", "own-spread", "own-hint", "own-no",
-    "is-on", "reveal",
+    "reveal",
+    # `js` goes on <html> the moment the script runs and `in` is toggled by
+    # the IntersectionObserver. The d1-d3 stagger classes are NOT here: they
+    # are written into the markup like any other class, and listing them
+    # would have exempted them from ever being checked.
+    "js", "in",
 }
+
+
+
+def check_runtime_classes_are_real(pages, fails: list[str]) -> None:
+    """Every name exempted as "added by JavaScript" is still used by JavaScript.
+
+    RUNTIME_CLASSES exists because a class a script applies never appears in
+    the rendered markup, so the dead-CSS check would call it dead. That is a
+    real exemption and it is also a hole: a name left in this set after its
+    script is deleted silently re-permits the dead CSS it was covering.
+
+    So the exemption has to keep being earned. Not "does any script mention
+    this string" as the whole test — the set is still by name — but each name
+    must appear in some script on the site, or it has gone stale.
+    """
+    scripts = "\n".join(
+        m for _, markup in pages
+        for m in re.findall(r"<script[^>]*>(.*?)</script>", markup, re.S))
+    stale = sorted(
+        name for name in RUNTIME_CLASSES
+        if not re.search(r"(?<![\w-])" + re.escape(name) + r"(?![\w-])", scripts))
+    if stale:
+        fails.append(
+            f"{len(stale)} name(s) in RUNTIME_CLASSES are not used by any "
+            f"script on the site — the exemption is stale and is now hiding "
+            f"dead CSS rather than explaining it: {stale}")
 
 
 def check_no_dead_css(pages, fails: list[str]) -> None:
@@ -1037,6 +1068,8 @@ def main() -> int:
             lambda: check_hero_video_matches_the_app(
                 fails, Path(args.app_repo).expanduser().resolve()),
         "check_no_dead_css": lambda: check_no_dead_css(pages, fails),
+        "check_runtime_classes_are_real":
+            lambda: check_runtime_classes_are_real(pages, fails),
         "check_one_palette": lambda: check_one_palette(fails),
         "check_every_pass_reaches_the_stylesheet":
             lambda: check_every_pass_reaches_the_stylesheet(fails),

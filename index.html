@@ -32,10 +32,12 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#1493FF">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=07571c1307">
+<link rel="stylesheet" href="/style.css?v=9ea74d9940">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://bookbreaker.bet/#org", "name": "Bookbreaker", "url": "https://bookbreaker.bet/"}, {"@type": "WebSite", "@id": "https://bookbreaker.bet/#site", "name": "Bookbreaker", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}, {"@type": "SoftwareApplication", "name": "Bookbreaker", "applicationCategory": "FinanceApplication", "operatingSystem": "macOS", "softwareVersion": "0.1.5", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}]}</script>
 </head>
 <body class="home">
+<div class="mesh" aria-hidden="true"><b class="m1"></b><b class="m2"></b><b class="m3"></b></div>
+<div class="grid-ovl" aria-hidden="true"></div>
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.5 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ba3ff"/><stop offset="1" stop-color="#0057b8"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
 
@@ -87,7 +89,7 @@ bets and keep the account that places them.</p>
 </div>
 </div>
 
-<div class="trust">
+<div class="trust reveal">
   <div><b>4</b><span>Devig methods, side by side</span></div>
   <div><b>0.39%</b><span>Spread they disagree by</span></div>
   <div><b>84%</b><span>Fill on a 10s quote</span></div>
@@ -171,7 +173,7 @@ bets and keep the account that places them.</p>
 
 
 
-<section class="own">
+<section class="own reveal">
   <h2>Try it on your own price</h2>
   <p class="own-lede">Type the two sides of any market. You get the four
   methods and the distance between them &mdash; which is the number every
@@ -287,7 +289,7 @@ bets and keep the account that places them.</p>
 })();
 </script>
 
-<section class="verify">
+<section class="verify reveal">
   <h2>You do not have to take our word for any of it</h2>
   <p class="verify-lede">Bookbreaker is new and has no customers to quote at
   you, so this page has no testimonials. What it has instead is a list of
@@ -338,23 +340,23 @@ bets and keep the account that places them.</p>
   </ol>
 </section>
 
-<section class="refuse">
+<section class="refuse reveal">
   <h2>What it will never do, including the profitable things</h2>
   <p class="verify-lede">A tool for money is defined as much by its refusals.
   These are ours, and they are enforced in code rather than promised in a
   policy page.</p>
   <div class="refuse-grid">
-    <div><b>Never asks for a sportsbook login.</b><span>Competitors sync your
+    <div class="reveal"><b>Never asks for a sportsbook login.</b><span>Competitors sync your
       accounts with your credentials. We import a CSV or read a pasted
       betslip. Same ledger, and your passwords stay yours.</span></div>
-    <div><b>Never touches identity, KYC, device or location.</b><span>The
+    <div class="reveal d1"><b>Never touches identity, KYC, device or location.</b><span>The
       account-longevity model reads stake, timing, market and velocity &mdash;
       bet shape, nothing else. It has no access to who you are and never
       will.</span></div>
-    <div><b>Never places a bet for you.</b><span>Automated placement needs your
+    <div class="reveal d2"><b>Never places a bet for you.</b><span>Automated placement needs your
       logins and has to look human to the book. It is the fastest known route
       to being limited, which is the opposite of the point.</span></div>
-    <div><b>Never publishes a number it did not measure.</b><span>Where a
+    <div class="reveal d3"><b>Never publishes a number it did not measure.</b><span>Where a
       figure is a stated prior rather than something observed, the page says
       so in the same sentence. The build fails if it does not.</span></div>
   </div>
@@ -447,7 +449,7 @@ bets and keep the account that places them.</p>
 </article>
 </section>
 
-<section class="speed">
+<section class="speed reveal">
   <p class="eyebrow accent">From a price on screen to a decision</p>
   <h2>The bet you place late is a different bet</h2>
   <p class="speed-lede">A quote you take 15.4s after it was
@@ -481,7 +483,7 @@ bets and keep the account that places them.</p>
   </ol>
 </section>
 
-<section class="heat-home">
+<section class="heat-home reveal">
   <div class="heat-say">
     <p class="eyebrow accent">And the account still has to be there tomorrow</p>
     <h2>An edge you get limited out of is a hobby</h2>
@@ -532,7 +534,7 @@ bets and keep the account that places them.</p>
   </div>
 </section>
 
-<section class="close">
+<section class="close reveal">
   <h2>Download it and price one market</h2>
   <p>Free, 172 KB, no account, and it never talks to
   us. If the first market you run through it does not tell you something your
@@ -616,5 +618,36 @@ will win. If it stops being fun, it is not fun &mdash;
 <a href="tel:1-800-426-2537">call 1-800-GAMBLER</a> or visit
 <a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>.</p>
 </footer>
+<script>
+/* Scroll reveal, taken from the Outlier site because Matthew asked for
+   exactly its behaviour.
+
+   Direction is set with custom properties rather than by overriding
+   transform, so a single rule owns the transform and a element sliding in
+   from the left cannot fight one settling from below.
+
+   Two-way on purpose: the observer is NOT unobserved after firing. Calling
+   unobserve is what turns this into a one-shot effect that fills the page in
+   once and then sits there — scrolling back up and down again should replay
+   it. */
+(function () {
+  var root = document.documentElement;
+  root.classList.add('js');           // CSS only hides things once JS is here,
+                                      // so no-JS renders the page fully visible
+  var reduce = window.matchMedia
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    for (var i = 0; i < els.length; i++) els[i].classList.add('in');
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      e.target.classList.toggle('in', e.isIntersecting);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  for (var j = 0; j < els.length; j++) io.observe(els[j]);
+})();
+</script>
 </body>
 </html>

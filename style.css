@@ -2041,3 +2041,84 @@ table tbody tr:hover,table tr:hover{
    the earlier rule would fight this one for the same pseudo-element. */
 .own::before,.close::before{inset:auto 12% auto 12%;top:-1px;height:1px;
   background:linear-gradient(90deg,transparent,var(--lit-edge),transparent)}
+
+/* PASS 22 — Outlier's treatment, in our blues.
+
+   Matthew named it as the bar and asked for its gradient, its scroll
+   behaviour and its texture specifically, so this is its structure rather
+   than an impression of it: three blurred orbs drifting behind a fixed dot
+   grid, and a reveal system driven by an IntersectionObserver.
+
+   Two details from their implementation that are the whole difference
+   between this working and looking cheap, both preserved:
+
+   Direction is set with CUSTOM PROPERTIES, never by overriding transform.
+   One rule owns the transform, so an element sliding in from the left cannot
+   fight one settling from below — which is what happens the moment two rules
+   both write transform.
+
+   The observer is deliberately NOT unobserved. Their comment says calling
+   unobserve is exactly what made it a one-shot that fills the page in once
+   and then sits there; toggling on isIntersecting means scrolling back up
+   and down replays it. */
+
+.mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.mesh b{position:absolute;border-radius:50%;filter:blur(120px);opacity:.5}
+.mesh .m1{width:60vw;height:60vw;max-width:820px;max-height:820px;
+  background:radial-gradient(circle,rgba(20,147,255,.40),transparent 68%);
+  top:-22vw;left:-8vw;animation:drift1 26s ease-in-out infinite}
+.mesh .m2{width:52vw;height:52vw;max-width:720px;max-height:720px;
+  background:radial-gradient(circle,rgba(92,184,255,.26),transparent 66%);
+  top:-6vw;right:-12vw;animation:drift2 32s ease-in-out infinite}
+.mesh .m3{width:46vw;height:46vw;max-width:640px;max-height:640px;
+  background:radial-gradient(circle,rgba(0,87,184,.34),transparent 66%);
+  top:44vw;left:34vw;animation:drift3 38s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(6vw,4vw) scale(1.08)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(-5vw,6vw) scale(1.06)}}
+@keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(4vw,-5vw) scale(1.1)}}
+
+/* The texture. A 1px dot on a 34px grid at 5% white — invisible as a dot,
+   and the reason a large dark surface stops reading as flat paint. Masked so
+   it is strongest at the edges and gone through the middle, where text is. */
+.grid-ovl{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle at 1px 1px,
+    rgba(255,255,255,.05) 1px,transparent 0);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,
+    transparent 10%,#000 78%);
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,
+    transparent 10%,#000 78%)}
+:root:not([data-theme="dark"]) .grid-ovl{
+  background-image:radial-gradient(circle at 1px 1px,
+    rgba(11,18,28,.055) 1px,transparent 0)}
+
+/* Everything real sits above both layers. */
+body>nav,body>main,body>footer,body>.banner{position:relative;z-index:1}
+
+/* --- reveal ------------------------------------------------------------ */
+/* Only once JS is present, so a reader without it gets the whole page. */
+.js .reveal{opacity:0;
+  transform:translate(var(--rx,0),var(--ry,26px)) scale(var(--rs,1));
+  transition:opacity .8s cubic-bezier(.22,.61,.36,1),
+             transform .8s cubic-bezier(.22,.61,.36,1)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal.d1{transition-delay:.08s}
+.js .reveal.d2{transition-delay:.16s}
+.js .reveal.d3{transition-delay:.24s}
+
+/* Direction, by custom property only. Big surfaces settle rather than
+   slide: a 1000px-wide table sliding in from the side looks like a mistake. */
+.js .pitch>article.reveal:nth-child(odd){--rx:-38px;--ry:8px}
+.js .pitch>article.reveal:nth-child(even){--rx:38px;--ry:8px}
+.js .trust.reveal{--ry:22px;--rs:.975}
+.js .wall.reveal,.js .demo.reveal{--ry:22px;--rs:.975}
+.js .verify.reveal,.js .refuse.reveal{--ry:30px}
+.js .close.reveal{--ry:38px;--rs:.985}
+
+@media (prefers-reduced-motion:reduce){
+  .js .reveal{opacity:1!important;transform:none!important;transition:none}
+  .mesh b{animation:none!important}
+}
