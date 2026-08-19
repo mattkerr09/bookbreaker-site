@@ -748,14 +748,16 @@
   },
   "release": {
     "app": {
+      "bytes": 8210307,
       "kb": 8018,
-      "mb": 7.8,
+      "mb": 8.2,
       "name": "Bookbreaker-0.1.5.dmg",
       "sha256": "735d36ed26e859fa1ad0cc055ace98bdee6eee95dbab48783d89a581d0f7f27c"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
+      "bytes": 288810,
       "kb": 282,
       "mb": 0.3,
       "name": "overlay-0.1.5.tar.gz",
@@ -763,6 +765,7 @@
     },
     "version": "0.1.5",
     "wheel": {
+      "bytes": 175959,
       "kb": 172,
       "mb": 0.2,
       "name": "overlay-0.1.5-py3-none-any.whl",
@@ -944,7 +947,8 @@
   "showcase": {
     "arb_a": 2.1,
     "arb_b": 2.05,
-    "arb_margin_pct": 3.73,
+    "arb_margin_ideal_pct": 3.73,
+    "arb_margin_pct": 3.54,
     "arb_profit": 35.0,
     "arb_stake": 990.0,
     "kelly_fraction_pct": 25,

@@ -316,7 +316,15 @@ def measure(engine) -> dict:
         "arb_b": 2.05,
         "arb_profit": round(_shot_arb.profit, 2),
         "arb_stake": round(_shot_arb.total_stake, 2),
-        "arb_margin_pct": round(_arb.arb_margin([2.10, 2.05]) * 100.0, 2),
+        # The REALISED margin — profit over the stake actually placed — which
+        # is what the panel in the screenshot beside this caption displays.
+        # arb_margin() returns the ideal 3.73% before stakes are rounded to
+        # what a book accepts, and captioning the picture with that number
+        # put 3.73% next to an image reading 3.54%.
+        "arb_margin_pct": round(
+            _shot_arb.profit / _shot_arb.total_stake * 100.0, 2),
+        "arb_margin_ideal_pct": round(
+            _arb.arb_margin([2.10, 2.05]) * 100.0, 2),
         "kelly_full_pct": round(_shot_kelly.full_kelly * 100.0, 2),
         "kelly_used_pct": round(
             _shot_kelly.stake / _shot_kelly.bankroll * 100.0, 2),
@@ -803,7 +811,14 @@ def measure(engine) -> dict:
             # Measured here rather than derived in the template. Dividing kb by
             # 1024 where the page is written produces a figure the build has
             # never seen, and the figure gate caught exactly that.
-            "mb": round(len(raw) / 1024 / 1024, 1),
+            #
+            # DECIMAL megabytes, because the reader checks this against Finder
+            # and Finder reports decimal. The binary convention called an
+            # 8,210,307-byte download "7.8 MB" while macOS called the same
+            # file 8.21 MB — technically defensible, and still a number that
+            # disagrees with the one on the user's screen.
+            "mb": round(len(raw) / 1_000_000, 1),
+            "bytes": len(raw),
         }
 
     # The macOS app, if this render has one to offer. Optional on purpose:
@@ -2105,7 +2120,7 @@ def render_index(m: dict) -> str:
 four ways, and every number carrying what it might be wrong by. Built to find
 bets and keep the account that places them.</p>
 <div class="cta">
-<a class="btn primary" href="/download/">Download free<span class="sub">v{m['release']['version']} &middot; {m['release']['wheel']['kb']} KB</span></a>
+<a class="btn primary" href="/download/">Download free<span class="sub">v{m['release']['version']} &middot; {m['release']['app']['mb']} MB</span></a>
 <a class="btn ghost" href="/how-it-works/">See how it prices a market</a>
 </div>
 </div>
@@ -2631,7 +2646,7 @@ bets and keep the account that places them.</p>
 
 <section class="close reveal">
   <h2>Download it and price one market</h2>
-  <p>Free, {m['release']['wheel']['kb']} KB, no account, and it never talks to
+  <p>Free, {m['release']['app']['mb']} MB, no account, and it never talks to
   us. If the first market you run through it does not tell you something your
   current tool did not, you have lost ninety seconds.</p>
   <div class="cta">
@@ -4102,7 +4117,7 @@ def render_versus(m: dict, row: dict) -> str:
         f'<p><b>0</b><i>no account, no tier, no card</i></p></div>')
     size_stat = (
         f'<div class="sf"><span class="sf-lab">Download</span>'
-        f'<p><b>{m["release"]["wheel"]["kb"]} KB</b><i>runs on your machine, '
+        f'<p><b>{m["release"]["app"]["mb"]} MB</b><i>runs on your machine, '
         f'sends nothing anywhere</i></p></div>')
     heat_stat = (
         f'<div class="sf"><span class="sf-lab">Stake fingerprint</span>'
@@ -4238,7 +4253,7 @@ def render_versus(m: dict, row: dict) -> str:
 <th class="prose">Bookbreaker, as computed</th></tr>
 <tr><td class="prose">Price</td>
 <td class="prose">{e(row['price'])} &mdash; {cite}</td>
-<td class="prose">Free &mdash; {m['release']['wheel']['kb']} KB, no account</td></tr>
+<td class="prose">Free &mdash; {m['release']['app']['mb']} MB, no account</td></tr>
 <tr><td class="prose">What it advertises</td>
 <td class="prose">{e(row['note'])} &mdash; {cite}</td>
 <td class="prose">{m['catalog']['venues']} venues catalogued across

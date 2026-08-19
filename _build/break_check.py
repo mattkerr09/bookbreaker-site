@@ -215,6 +215,13 @@ CASES = [
         '    "reveal", "class-whose-script-was-deleted",',
     ),
     (
+        "the download button advertising the wrong artefact's size",
+        "check_announced_version_is_downloadable",
+        "_build/measured.json",
+        '"mb": 8.2',
+        '"mb": 0.2',
+    ),
+    (
         "a superseded palette left in the stylesheet",
         "check_one_palette",
         "style.css",

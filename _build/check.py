@@ -353,7 +353,7 @@ def check_every_class_is_styled(pages, fails):
         )
 
 
-def check_announced_version_is_downloadable(pages, fails):
+def check_announced_version_is_downloadable(pages, fails, measured):
     """The version the site names must be the version it can hand over.
 
     Bumping the engine to 0.1.4 made every page read "Bookbreaker 0.1.4 is
@@ -379,6 +379,33 @@ def check_announced_version_is_downloadable(pages, fails):
                     f"names a version it cannot give anyone"
                 )
 
+
+    # And the SIZE. The button said "172 KB" beside a 8,210,307-byte DMG for
+    # several releases — the wheel's size rendered onto the macOS button. A
+    # real number attached to the wrong artefact, which is the shape of fault
+    # this whole gate family exists for, and the version check sailed past it
+    # because the version was right.
+    app = measured.get("release", {}).get("app", {})
+    dmg = SITE / "releases" / app.get("name", "")
+    if app and dmg.exists():
+        actual_mb = round(dmg.stat().st_size / 1_000_000, 1)
+        actual_kb = round(dmg.stat().st_size / 1000)
+        if abs(actual_mb - float(app.get("mb", 0))) > 0.15:
+            fails.append(
+                f"measured.json says the download is {app.get('mb')} MB and "
+                f"{dmg.name} is {actual_mb} MB")
+        for page, markup in pages:
+            for claim in re.findall(r"(\d+(?:\.\d+)?)\s*(MB|KB)\b", markup):
+                size, unit = float(claim[0]), claim[1]
+                as_mb = size if unit == "MB" else size / 1000
+                # Only sizes sitting next to the download itself.
+                if "Download free" not in markup:
+                    continue
+                if unit == "KB" and abs(as_mb - actual_mb) > 0.15 and size in (
+                        app.get("kb"), measured["release"]["wheel"]["kb"]):
+                    fails.append(
+                        f"{page} advertises {size:.0f} {unit} for a download "
+                        f"that is {actual_mb} MB")
 
 def check_the_tab_and_the_page_agree(pages, fails):
     """theme-color has to be a colour the stylesheet actually uses.
@@ -1051,7 +1078,8 @@ def main() -> int:
         "check_every_class_is_styled":
             lambda: check_every_class_is_styled(pages, fails),
         "check_announced_version_is_downloadable":
-            lambda: check_announced_version_is_downloadable(pages, fails),
+            lambda: check_announced_version_is_downloadable(
+                pages, fails, measured),
         "check_the_tab_and_the_page_agree":
             lambda: check_the_tab_and_the_page_agree(pages, fails),
         "check_internal_links": lambda: check_internal_links(pages, fails),
