@@ -32,7 +32,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#1493FF">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=cea2b05559">
+<link rel="stylesheet" href="/style.css?v=9c02558014">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://bookbreaker.bet/#org", "name": "Bookbreaker", "url": "https://bookbreaker.bet/"}, {"@type": "WebSite", "@id": "https://bookbreaker.bet/#site", "name": "Bookbreaker", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}, {"@type": "SoftwareApplication", "name": "Bookbreaker", "applicationCategory": "FinanceApplication", "operatingSystem": "macOS", "softwareVersion": "0.1.5", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}]}</script>
 </head>
 <body class="home">
@@ -339,7 +339,7 @@ bets and keep the account that places them.</p>
   alongside.</p>
 
   <ol class="verify-list">
-    <li>
+    <li class="reveal">
       <b>The download matches its published checksum.</b>
       <span>The build we notarised has SHA-256
       <code>735d36ed26e859fa&hellip;</code> and the full digest is
@@ -347,7 +347,7 @@ bets and keep the account that places them.</p>
       <code>shasum -a 256 Bookbreaker-0.1.5.dmg</code> and
       compare. If it differs, do not open it.</span>
     </li>
-    <li>
+    <li class="reveal">
       <b>Apple has notarised it, and your Mac will say so.</b>
       <span>Run
       <code>spctl -a -t open --context context:primary-signature -vv</code>
@@ -355,7 +355,7 @@ bets and keep the account that places them.</p>
       <code>source=Notarized Developer ID</code>. That is Apple confirming the
       binary, not us.</span>
     </li>
-    <li>
+    <li class="reveal">
       <b>It makes no network calls. Watch it not make them.</b>
       <span>There is no updater, no telemetry, no account and no sync &mdash;
       0 bytes leave your machine, and
@@ -364,7 +364,7 @@ bets and keep the account that places them.</p>
       happen. A test in the repo fails the build if a network library is ever
       linked in.</span>
     </li>
-    <li>
+    <li class="reveal">
       <b>Every figure on this site was computed by the app you download.</b>
       <span>Not typed. The build runs the same engine &mdash;
       37 modules, 40 test
@@ -372,7 +372,7 @@ bets and keep the account that places them.</p>
       produce. That is why the fill figure here and the one in a fresh install
       differ, and why the page says which is which.</span>
     </li>
-    <li>
+    <li class="reveal">
       <b>Every legal claim carries its source and the date we read it.</b>
       <span>29 regulator and statute links across the
       state pages, each with a read date, each checked by the build. A dead

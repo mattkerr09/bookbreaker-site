@@ -2111,8 +2111,24 @@ body>nav,body>main,body>footer,body>.banner{position:relative;z-index:1}
 
 /* Direction, by custom property only. Big surfaces settle rather than
    slide: a 1000px-wide table sliding in from the side looks like a mistake. */
+/* Outlier's row-grid pattern: children come in from alternating sides. This
+   is the part that reads as "slides in and out" — a 22px vertical nudge on a
+   large surface is two-way and almost invisible, which is what "it does not
+   work both ways" actually meant. Measured before changing it: all fifteen
+   elements were already toggling in both directions. */
 .js .pitch>article.reveal:nth-child(odd){--rx:-38px;--ry:8px}
 .js .pitch>article.reveal:nth-child(even){--rx:38px;--ry:8px}
+.js .shots>figure.reveal:nth-child(1){--rx:-42px;--ry:6px}
+.js .shots>figure.reveal:nth-child(2){--ry:34px;--rs:.97}
+.js .shots>figure.reveal:nth-child(3){--rx:42px;--ry:6px}
+.js .refuse-grid>.reveal:nth-child(odd){--rx:-28px;--ry:6px}
+.js .refuse-grid>.reveal:nth-child(even){--rx:28px;--ry:6px}
+/* The numbered verification steps come up one after another. */
+.js .verify-list>li{--ry:18px}
+.js .verify-list>li:nth-child(2){transition-delay:.06s}
+.js .verify-list>li:nth-child(3){transition-delay:.12s}
+.js .verify-list>li:nth-child(4){transition-delay:.18s}
+.js .verify-list>li:nth-child(5){transition-delay:.24s}
 .js .trust.reveal{--ry:22px;--rs:.975}
 .js .wall.reveal,.js .demo.reveal{--ry:22px;--rs:.975}
 .js .verify.reveal,.js .refuse.reveal{--ry:30px}

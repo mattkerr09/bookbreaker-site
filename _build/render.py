@@ -2408,7 +2408,7 @@ bets and keep the account that places them.</p>
   alongside.</p>
 
   <ol class="verify-list">
-    <li>
+    <li class="reveal">
       <b>The download matches its published checksum.</b>
       <span>The build we notarised has SHA-256
       <code>{m['verify']['sha256_short']}&hellip;</code> and the full digest is
@@ -2416,7 +2416,7 @@ bets and keep the account that places them.</p>
       <code>shasum -a 256 Bookbreaker-{m['release']['version']}.dmg</code> and
       compare. If it differs, do not open it.</span>
     </li>
-    <li>
+    <li class="reveal">
       <b>Apple has notarised it, and your Mac will say so.</b>
       <span>Run
       <code>spctl -a -t open --context context:primary-signature -vv</code>
@@ -2424,7 +2424,7 @@ bets and keep the account that places them.</p>
       <code>source=Notarized Developer ID</code>. That is Apple confirming the
       binary, not us.</span>
     </li>
-    <li>
+    <li class="reveal">
       <b>It makes no network calls. Watch it not make them.</b>
       <span>There is no updater, no telemetry, no account and no sync &mdash;
       {m['verify']['network_calls']} bytes leave your machine, and
@@ -2433,7 +2433,7 @@ bets and keep the account that places them.</p>
       happen. A test in the repo fails the build if a network library is ever
       linked in.</span>
     </li>
-    <li>
+    <li class="reveal">
       <b>Every figure on this site was computed by the app you download.</b>
       <span>Not typed. The build runs the same engine &mdash;
       {m['verify']['engine_modules']} modules, {m['verify']['test_files']} test
@@ -2441,7 +2441,7 @@ bets and keep the account that places them.</p>
       produce. That is why the fill figure here and the one in a fresh install
       differ, and why the page says which is which.</span>
     </li>
-    <li>
+    <li class="reveal">
       <b>Every legal claim carries its source and the date we read it.</b>
       <span>{m['verify']['sources']} regulator and statute links across the
       state pages, each with a read date, each checked by the build. A dead
@@ -7232,8 +7232,24 @@ body>nav,body>main,body>footer,body>.banner{position:relative;z-index:1}
 
 /* Direction, by custom property only. Big surfaces settle rather than
    slide: a 1000px-wide table sliding in from the side looks like a mistake. */
+/* Outlier's row-grid pattern: children come in from alternating sides. This
+   is the part that reads as "slides in and out" — a 22px vertical nudge on a
+   large surface is two-way and almost invisible, which is what "it does not
+   work both ways" actually meant. Measured before changing it: all fifteen
+   elements were already toggling in both directions. */
 .js .pitch>article.reveal:nth-child(odd){--rx:-38px;--ry:8px}
 .js .pitch>article.reveal:nth-child(even){--rx:38px;--ry:8px}
+.js .shots>figure.reveal:nth-child(1){--rx:-42px;--ry:6px}
+.js .shots>figure.reveal:nth-child(2){--ry:34px;--rs:.97}
+.js .shots>figure.reveal:nth-child(3){--rx:42px;--ry:6px}
+.js .refuse-grid>.reveal:nth-child(odd){--rx:-28px;--ry:6px}
+.js .refuse-grid>.reveal:nth-child(even){--rx:28px;--ry:6px}
+/* The numbered verification steps come up one after another. */
+.js .verify-list>li{--ry:18px}
+.js .verify-list>li:nth-child(2){transition-delay:.06s}
+.js .verify-list>li:nth-child(3){transition-delay:.12s}
+.js .verify-list>li:nth-child(4){transition-delay:.18s}
+.js .verify-list>li:nth-child(5){transition-delay:.24s}
 .js .trust.reveal{--ry:22px;--rs:.975}
 .js .wall.reveal,.js .demo.reveal{--ry:22px;--rs:.975}
 .js .verify.reveal,.js .refuse.reveal{--ry:30px}
