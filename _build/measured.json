@@ -941,6 +941,20 @@
       "realised": 2.72
     }
   ],
+  "showcase": {
+    "arb_a": 2.1,
+    "arb_b": 2.05,
+    "arb_margin_pct": 3.73,
+    "arb_profit": 35.0,
+    "arb_stake": 990.0,
+    "kelly_fraction_pct": 25,
+    "kelly_full_pct": 8.33,
+    "kelly_used_pct": 2.08,
+    "parlay_fair": 15.0,
+    "parlay_hold_pct": 4.55,
+    "parlay_legs": 4,
+    "parlay_pays": 12.28
+  },
   "state_standings": {
     "AR": {
       "tax_of": 23,

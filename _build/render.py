@@ -297,6 +297,36 @@ def measure(engine) -> dict:
     out["calculator"] = {"markets": len(devig_table(engine)["flat"]) // 3,
                          "low": -600, "high": 600, "step": 5}
 
+    # 2c-bis. The three showcase stills. Computed with exactly the inputs the
+    # captures were taken with, so the caption beside each shot is the
+    # engine's answer rather than digits read off an image — which is what
+    # the figure gate caught me doing, correctly.
+    from overlay_engine import arb as _arb, kelly as _kelly, parlay as _parlay
+    from overlay_engine.odds import american_to_decimal as _a2d
+
+    _shot_arb = _arb.stake_arb([2.10, 2.05], 1000.0)
+    _shot_kelly = _kelly.size_bet(_a2d(150.0), 0.45, 10000.0, fraction=0.25)
+    _shot_parlay = _parlay.value([_a2d(-110.0)] * 4)
+    # Rounded here rather than at render time, so measured.json records the
+    # figure the page actually publishes. The gate compares the two literally
+    # — storing 8.333333333333332 and printing 8.33 reads to it as a number
+    # nobody measured, which is the correct reading.
+    out["showcase"] = {
+        "arb_a": 2.10,
+        "arb_b": 2.05,
+        "arb_profit": round(_shot_arb.profit, 2),
+        "arb_stake": round(_shot_arb.total_stake, 2),
+        "arb_margin_pct": round(_arb.arb_margin([2.10, 2.05]) * 100.0, 2),
+        "kelly_full_pct": round(_shot_kelly.full_kelly * 100.0, 2),
+        "kelly_used_pct": round(
+            _shot_kelly.stake / _shot_kelly.bankroll * 100.0, 2),
+        "kelly_fraction_pct": round(_shot_kelly.fraction_used * 100.0),
+        "parlay_legs": 4,
+        "parlay_hold_pct": round(_shot_parlay.leg_hold * 100.0, 2),
+        "parlay_pays": round(_shot_parlay.offered - 1.0, 2),
+        "parlay_fair": round(_shot_parlay.fair - 1.0, 2),
+    }
+
     # 2d. What a stranger can check for themselves. A product people hand
     # money to needs verifiable claims, not adjectives — and we have no users
     # yet, so testimonials would be fabrication. These are all things someone
@@ -2313,6 +2343,47 @@ bets and keep the account that places them.</p>
 }})();
 </script>
 
+
+<section class="showcase reveal">
+  <p class="eyebrow">The other three tabs, doing the work</p>
+  <h2>Not screenshots of a design. Screenshots of the answer.</h2>
+  <p class="verify-lede">Every figure in these three was computed by the
+  engine while the shot was taken, and each was only captured once the
+  panel's output agreed with the input that produced it.</p>
+
+  <div class="shots">
+    <figure class="reveal">
+      <img src="/media/panel-arbitrage.jpg" width="1280" height="720"
+        loading="lazy" alt="The arbitrage tab: two prices, the stake split
+        across both, and the guaranteed return.">
+      <figcaption><b>Arbitrage</b><span>{m['showcase']['arb_a']:.2f} against
+      {m['showcase']['arb_b']:.2f} &mdash; {m['showcase']['arb_margin_pct']:.2f}%
+      either way, with the stake on each leg already rounded to something a
+      book will actually accept.</span></figcaption>
+    </figure>
+    <figure class="reveal d1">
+      <img src="/media/panel-stake.jpg" width="1280" height="720"
+        loading="lazy" alt="The stake tab: a Kelly fraction and the bet size
+        it implies.">
+      <figcaption><b>Stake</b><span>Full Kelly says
+      {m['showcase']['kelly_full_pct']:.2f}% of the bankroll. The
+      {m['showcase']['kelly_fraction_pct']:.0f}% fraction it recommends says
+      {m['showcase']['kelly_used_pct']:.2f}% &mdash; and it names the
+      constraint that bound it rather than printing a number and leaving you
+      to trust it.</span></figcaption>
+    </figure>
+    <figure class="reveal d2">
+      <img src="/media/panel-parlay.jpg" width="1280" height="720"
+        loading="lazy" alt="The parlay tab: the hold on a four-leg parlay
+        against the hold on a single leg.">
+      <figcaption><b>Parlay</b><span>{m['showcase']['parlay_legs']} legs at
+      &minus;110 pay {m['showcase']['parlay_pays']:.2f} to 1 where fair is
+      {m['showcase']['parlay_fair']:.2f} to 1, against
+      {m['showcase']['parlay_hold_pct']:.2f}% hold on a single leg &mdash; the
+      number the bet slip never shows you.</span></figcaption>
+    </figure>
+  </div>
+</section>
 <section class="verify reveal">
   <h2>You do not have to take our word for any of it</h2>
   <p class="verify-lede">Bookbreaker is new and has no customers to quote at
@@ -7157,6 +7228,38 @@ body>nav,body>main,body>footer,body>.banner{position:relative;z-index:1}
   .js .reveal{opacity:1!important;transform:none!important;transition:none}
   .mesh b{animation:none!important}
 }
+
+/* PASS 23 — the product, in use, three more times.
+
+   Matthew: "showcase the actual products in use". The hero carries a
+   recording; below it the page described features in prose and showed none
+   of them. These are real captures of the other three tabs, taken through
+   the live bridge under the same rule as the video: the shot is only taken
+   once the panel's output agrees with the input that produced it, so a still
+   cannot show a number computed from something else. */
+.showcase{background:var(--card);border:1px solid var(--rule);
+  border-radius:14px;padding:var(--float-pad);margin:0 0 var(--float-gap);
+  position:relative;isolation:isolate;
+  background-image:linear-gradient(160deg,var(--lit-face) 0%,var(--card) 55%)}
+.showcase::after{content:"";position:absolute;z-index:-1;pointer-events:none;
+  left:-14%;right:-14%;top:-38%;height:120%;
+  background:radial-gradient(ellipse 60% 50% at 50% 0%,
+    var(--lit-glow) 0%,transparent 68%)}
+.showcase::before{content:"";position:absolute;left:12%;right:12%;top:-1px;
+  height:1px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--lit-edge),transparent)}
+.shots{display:grid;gap:18px;margin-top:1.6rem;
+  grid-template-columns:repeat(auto-fit,minmax(19rem,1fr))}
+.shots figure{margin:0;background:var(--sink);border:1px solid var(--rule);
+  border-radius:12px;overflow:hidden;
+  transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.shots figure:hover{border-color:var(--hover-rule);transform:translateY(-2px);
+  box-shadow:0 14px 34px -18px var(--lift)}
+.shots img{display:block;width:100%;height:auto;
+  border-bottom:1px solid var(--rule)}
+.shots figcaption{padding:.95rem 1.1rem 1.1rem}
+.shots figcaption b{display:block;font-size:var(--t-5);margin-bottom:.3rem}
+.shots figcaption span{display:block;opacity:.82;font-size:var(--t-3)}
 """
 
 

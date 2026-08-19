@@ -2122,3 +2122,35 @@ body>nav,body>main,body>footer,body>.banner{position:relative;z-index:1}
   .js .reveal{opacity:1!important;transform:none!important;transition:none}
   .mesh b{animation:none!important}
 }
+
+/* PASS 23 — the product, in use, three more times.
+
+   Matthew: "showcase the actual products in use". The hero carries a
+   recording; below it the page described features in prose and showed none
+   of them. These are real captures of the other three tabs, taken through
+   the live bridge under the same rule as the video: the shot is only taken
+   once the panel's output agrees with the input that produced it, so a still
+   cannot show a number computed from something else. */
+.showcase{background:var(--card);border:1px solid var(--rule);
+  border-radius:14px;padding:var(--float-pad);margin:0 0 var(--float-gap);
+  position:relative;isolation:isolate;
+  background-image:linear-gradient(160deg,var(--lit-face) 0%,var(--card) 55%)}
+.showcase::after{content:"";position:absolute;z-index:-1;pointer-events:none;
+  left:-14%;right:-14%;top:-38%;height:120%;
+  background:radial-gradient(ellipse 60% 50% at 50% 0%,
+    var(--lit-glow) 0%,transparent 68%)}
+.showcase::before{content:"";position:absolute;left:12%;right:12%;top:-1px;
+  height:1px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--lit-edge),transparent)}
+.shots{display:grid;gap:18px;margin-top:1.6rem;
+  grid-template-columns:repeat(auto-fit,minmax(19rem,1fr))}
+.shots figure{margin:0;background:var(--sink);border:1px solid var(--rule);
+  border-radius:12px;overflow:hidden;
+  transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.shots figure:hover{border-color:var(--hover-rule);transform:translateY(-2px);
+  box-shadow:0 14px 34px -18px var(--lift)}
+.shots img{display:block;width:100%;height:auto;
+  border-bottom:1px solid var(--rule)}
+.shots figcaption{padding:.95rem 1.1rem 1.1rem}
+.shots figcaption b{display:block;font-size:var(--t-5);margin-bottom:.3rem}
+.shots figcaption span{display:block;opacity:.82;font-size:var(--t-3)}
