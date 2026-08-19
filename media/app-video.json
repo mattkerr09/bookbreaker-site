@@ -1,18 +1,28 @@
 {
+  "covers": [
+    "app.mp4",
+    "app.webm",
+    "app-poster.jpg",
+    "panel-arbitrage.jpg",
+    "panel-stake.jpg",
+    "panel-parlay.jpg"
+  ],
   "heads": [
+    "Every play, best first",
     "What is this price really worth?",
     "Does this pair cross?",
     "How much should this be?",
     "What is this parlay really worth?",
-    "Is that price still there?"
+    "Will you actually get this bet on?"
   ],
-  "note": "The window this video shows. If the app's tabs or panel questions change, the video depicts a product that no longer exists and must be re-recorded \u2014 scripts/record the app again, then update this file.",
+  "note": "The window these show. If the app's tabs or panel questions change, every file listed in `covers` depicts a product that no longer exists. Re-record with the recorder, re-shoot the stills with _build/shoot_panels.py, then update this file.",
   "recorded_from": "ui/src/index.html",
   "tabs": [
+    "Board",
     "De-vig",
     "Arbitrage",
     "Stake",
     "Parlay",
-    "Will it fill?"
+    "Will it land?"
   ]
 }

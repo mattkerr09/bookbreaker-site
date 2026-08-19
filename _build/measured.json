@@ -1,25 +1,28 @@
 {
   "app": {
     "heads": [
+      "Every play, best first",
       "What is this price really worth?",
       "Does this pair cross?",
       "How much should this be?",
       "What is this parlay really worth?",
-      "Is that price still there?"
+      "Will you actually get this bet on?"
     ],
     "panels": [
       "arb",
+      "board",
       "devig",
       "fill",
       "kelly",
       "parlay"
     ],
     "tabs": [
+      "Board",
       "De-vig",
       "Arbitrage",
       "Stake",
       "Parlay",
-      "Will it fill?"
+      "Will it land?"
     ]
   },
   "arb": {
@@ -350,7 +353,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "51ef3d03eeddca99",
+  "engine_fingerprint": "ba65e2631ee6d8aa",
   "evidence": {
     "bars": [
       {
@@ -4237,12 +4240,12 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 37,
+    "engine_modules": 38,
     "network_calls": 0,
     "sha256": "735d36ed26e859fa1ad0cc055ace98bdee6eee95dbab48783d89a581d0f7f27c",
     "sha256_short": "735d36ed26e859fa",
     "sources": 29,
-    "test_files": 40
+    "test_files": 41
   },
   "version": "0.1.5",
   "weights": {
