@@ -6797,6 +6797,123 @@ main>.trust{margin-bottom:var(--float-gap)}
   .own-in label{flex:1 1 100%}
   .own-big{font-size:2.6rem}
 }
+
+/* PASS 18 — the page was correct and dry.
+
+   Matthew's words: it feels dry. He is right, and Outlier is the reference
+   because its whole surface is built from four techniques and nothing else:
+
+     1. gradient-clipped text on one phrase, never on a paragraph
+     2. a radial accent glow at about 8% opacity behind the hero
+     3. hover = translateY(-1px) plus a shadow in the accent at ~30%
+     4. quiet things gain a BORDER on hover rather than changing colour
+
+   All four are cheap and none of them is decoration for its own sake: each
+   one tells you something is interactive, or where the eye should land. That
+   is the difference between rich and busy.
+
+   Everything below respects prefers-reduced-motion, and nothing here moves
+   on its own — motion happens because the pointer asked for it. */
+
+:root{
+  --glow:color-mix(in srgb, var(--accent) 16%, transparent);
+  --glow-soft:color-mix(in srgb, var(--accent) 7%, transparent);
+  --lift:color-mix(in srgb, var(--accent) 26%, transparent);
+  --hover-face:color-mix(in srgb, var(--accent) 4%, var(--card));
+  --hover-rule:color-mix(in srgb, var(--accent) 42%, var(--rule));
+}
+
+/* 1. One phrase in gradient, and only one. A gradient across a paragraph is
+      the tell of a template; across a single clause it is emphasis. */
+.hero h1 em,.own-big,.trust>div>b{
+  background:linear-gradient(135deg,var(--accent-hi,var(--accent)) 0%,
+    var(--accent) 55%,var(--accent-lo,var(--accent)) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+
+/* 2. The glow. Behind the plate, never on top of text, and low enough that
+      it reads as light rather than as a shape. */
+.hero{position:relative;isolation:isolate}
+.hero::after{
+  content:"";position:absolute;inset:-10% -20% auto;height:min(70vw,760px);
+  background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,transparent 62%);
+  pointer-events:none;z-index:-1;
+}
+.own,.close{position:relative;overflow:hidden}
+.own::before,.close::before{
+  content:"";position:absolute;inset:-60% -30% auto;height:150%;
+  background:radial-gradient(ellipse at 20% 0%,var(--glow-soft) 0%,transparent 58%);
+  pointer-events:none;
+}
+.own>*,.close>*{position:relative}
+
+/* 3 + 4. Surfaces answer the pointer: a hairline brightens, the face lifts a
+      shade, and the card rises a single pixel. One pixel is the whole trick —
+      more reads as a button, less reads as nothing. */
+.wall,.demo,.speed,.heat-home,.hp,.vs-side,.pitch>article,.close,.own,
+.trust>div,.trust>li,ul.states li,figure.plate{
+  transition:border-color .18s ease,background-color .18s ease,
+    box-shadow .18s ease,transform .18s ease;
+}
+.wall:hover,.demo:hover,.speed:hover,.heat-home:hover,.hp:hover,
+.vs-side:hover,.pitch>article:hover,.own:hover,figure.plate:hover{
+  border-color:var(--hover-rule);
+  background-color:var(--hover-face);
+  transform:translateY(-1px);
+  box-shadow:0 1px 2px rgba(16,24,40,.05),0 14px 34px -18px var(--lift);
+}
+/* The quiet ones have no border until you point at them. */
+.trust>div,.trust>li,ul.states li{border:1px solid transparent}
+.trust>div:hover,.trust>li:hover,ul.states li:hover{
+  border-color:var(--hover-rule);background-color:var(--hover-face);
+}
+
+/* Buttons lift towards the pointer and carry the accent in their shadow. */
+.btn,.cta a,a.btn-primary,.btn-ghost{
+  transition:transform .16s ease,box-shadow .16s ease,
+    background-color .16s ease,border-color .16s ease,color .16s ease;
+}
+.btn:hover,.cta a:hover,a.btn-primary:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 26px -10px var(--lift);
+}
+.btn-ghost:hover{border-color:var(--hover-rule);background:var(--hover-face)}
+
+/* Links resolve rather than blink. */
+nav .links a,.pitch a,main a{transition:color .16s ease,opacity .16s ease}
+nav .links a:hover{color:var(--accent)}
+
+/* Rows in a data table light up under the pointer, so a long table can be
+   read across without losing the line. */
+table tr{transition:background-color .14s ease}
+table tbody tr:hover,table tr:hover{
+  background-color:color-mix(in srgb,var(--accent) 5%,transparent);
+}
+
+/* The calculator's inputs say they are inputs before you click them. */
+.own-in input{transition:border-color .16s ease,box-shadow .16s ease}
+.own-in input:hover{border-color:var(--hover-rule)}
+.own-in input:focus{border-color:var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+
+/* A rule that fades at both ends reads as a seam rather than a line. */
+.wall::before,.speed::before{
+  content:"";display:block;height:1px;margin:0 0 1.4rem;
+  background:linear-gradient(90deg,transparent,var(--hover-rule) 22%,
+    var(--hover-rule) 78%,transparent);
+}
+
+@media (prefers-reduced-motion:reduce){
+  .wall,.demo,.speed,.heat-home,.hp,.vs-side,.pitch>article,.close,.own,
+  .trust>div,.trust>li,ul.states li,figure.plate,.btn,.cta a,a.btn-primary,
+  .btn-ghost,table tr,.own-in input,nav .links a,.pitch a,main a{
+    transition:none;
+  }
+  .wall:hover,.demo:hover,.speed:hover,.heat-home:hover,.hp:hover,
+  .vs-side:hover,.pitch>article:hover,.own:hover,figure.plate:hover,
+  .btn:hover,.cta a:hover,a.btn-primary:hover{transform:none}
+}
 """
 
 
