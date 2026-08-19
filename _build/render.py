@@ -1804,6 +1804,7 @@ def page(title: str, description: str, body: str, path: str,
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#1493FF">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css?v={STYLE_HASH}">
 {site_schema(path, body)}
 </head>
@@ -5108,6 +5109,13 @@ STYLE = """/* PASS 16 — a typeface,because we were the only one of the six wit
 
    Geist,self-hosted,latin subset only,so the text is readable while 29KB arrives. */
 @font-face{
+  font-family:"Space Grotesk";
+  src:url("/fonts/space-grotesk.woff2") format("woff2");
+  font-weight:500 700;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
   font-family:"Geist";
   src:url("/fonts/geist.woff2") format("woff2");
   font-weight:300 700;
@@ -7291,6 +7299,48 @@ body>nav,body>main,body>footer,body>.banner{position:relative;z-index:1}
 .shots figcaption{padding:.95rem 1.1rem 1.1rem}
 .shots figcaption b{display:block;font-size:var(--t-5);margin-bottom:.3rem}
 .shots figcaption span{display:block;opacity:.82;font-size:var(--t-3)}
+
+/* PASS 24 — a display face, and figures that line up.
+
+   Outlier runs four families: Clash Display for display, Satoshi for heads,
+   DM Sans for body, JetBrains Mono for data. Geist alone was doing all four
+   jobs here and it is a neutral face — excellent for a UI, quiet in a
+   headline.
+
+   Space Grotesk for display only. It is a grotesk with genuinely odd
+   details — the flat-topped 3, the angular G, the narrow 1 — which reads as
+   technical rather than decorative, and that is the right register for a
+   product whose whole argument is arithmetic. Geist keeps the body and the
+   data, so this is three files and not four.
+
+   And the part that actually matters for us: TABULAR FIGURES. Every table on
+   this site is a column of percentages meant to be compared down the column.
+   Proportional digits make a 1 narrower than a 7, so the decimal points
+   wander and two numbers of the same magnitude look different lengths. On a
+   page arguing that a 0.39-point spread matters, digits that do not line up
+   undercut the argument. */
+:root{--display:"Space Grotesk","Geist",-apple-system,sans-serif;}
+h1,h2,.hero h1,.trust b,.own-big{font-family:var(--display)}
+h1,h2{letter-spacing:-.028em}
+
+/* Anywhere numbers are read against each other. */
+table,.rf,.trust b,.own-big,.verify-list code,
+.demo-read b,.shots figcaption,.plate,code{
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum" 1,"cv01" 1}
+
+/* More of the gradient, on the things worth looking at twice. A heading is a
+   claim; the gradient marks the ones that are the product's argument rather
+   than a label. Kept to headings and figures so it never lands on a
+   paragraph, where clipped text loses its selection colour. */
+h2,.showcase h2,.verify h2,.refuse h2{
+  background:linear-gradient(112deg,
+    var(--ink) 0%, var(--ink) 42%,
+    color-mix(in srgb, var(--accent) 62%, var(--ink)) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{background:linear-gradient(90deg,
+    var(--accent-hi,var(--accent)),var(--accent-lo,var(--accent)));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
 """
 
 
@@ -7364,7 +7414,7 @@ def canonicalise_palette(css):
     # offsets stay valid, keeping any real rules that share the block.
     for sel, lo, hi in sorted(_root_blocks(css), key=lambda b: -b[1]):
         body = css[lo:hi]
-        kept = re.sub(r"\s*--[a-z0-9-]+\s*:\s*[^;]+;", "", body)
+        kept = re.sub(r"\s*--[a-z0-9-]+\s*:\s*[^;}]+;?", "", body)
         css = css[:lo] + kept + css[hi:]
 
     # Re-emit, one block per context, in cascade order.

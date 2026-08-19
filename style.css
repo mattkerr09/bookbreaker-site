@@ -12,7 +12,7 @@
   --band:rgba(11,108,255,.14);
   --band-neg:rgba(209,41,61,.13);
   --card:#f5f5f7;
-  --display:var(--sans);
+  --display:"Space Grotesk","Geist",-apple-system,sans-serif;
   --float-gap:clamp(2.25rem,4vw,3.5rem);
   --float-pad:clamp(1.5rem,3vw,2.5rem);
   --glow:color-mix(in srgb, var(--accent) 16%, transparent);
@@ -122,6 +122,13 @@
    a template no matter what else moved.
 
    Geist,self-hosted,latin subset only,so the text is readable while 29KB arrives. */
+@font-face{
+  font-family:"Space Grotesk";
+  src:url("/fonts/space-grotesk.woff2") format("woff2");
+  font-weight:500 700;
+  font-style:normal;
+  font-display:swap;
+}
 @font-face{
   font-family:"Geist";
   src:url("/fonts/geist.woff2") format("woff2");
@@ -921,7 +928,7 @@ html,body{max-width:100%;overflow-x:clip}
 /* One container width. The header sat at 70rem, the home main at 76rem and a
    leaf main at 46rem, so the wordmark shared a vertical edge with nothing on
    any page — 24px out on the home page and 192px out on a leaf. */
-:root{--shell:76rem}
+:root{}
 nav,.banner-in,.foot-grid,.foot-fine{max-width:var(--shell);
   padding-inline:var(--s-5)}
 body.home main,body.hub main{max-width:var(--shell)}
@@ -979,7 +986,7 @@ h2{line-height:1.15}
     transparent 62%)}
 
 /* Ten letter-spacing values for what the eye reads as one label style. */
-:root{--label:.1em}
+:root{}
 .plate-cap,.foot-head,.trust span,.vs-cap,.wall-cap,.crumb,.card-go,
 .onward-cap,.pitch-copy::before{letter-spacing:var(--label)}
 .eyebrow{letter-spacing:.14em}
@@ -2170,3 +2177,45 @@ body>nav,body>main,body>footer,body>.banner{position:relative;z-index:1}
 .shots figcaption{padding:.95rem 1.1rem 1.1rem}
 .shots figcaption b{display:block;font-size:var(--t-5);margin-bottom:.3rem}
 .shots figcaption span{display:block;opacity:.82;font-size:var(--t-3)}
+
+/* PASS 24 — a display face, and figures that line up.
+
+   Outlier runs four families: Clash Display for display, Satoshi for heads,
+   DM Sans for body, JetBrains Mono for data. Geist alone was doing all four
+   jobs here and it is a neutral face — excellent for a UI, quiet in a
+   headline.
+
+   Space Grotesk for display only. It is a grotesk with genuinely odd
+   details — the flat-topped 3, the angular G, the narrow 1 — which reads as
+   technical rather than decorative, and that is the right register for a
+   product whose whole argument is arithmetic. Geist keeps the body and the
+   data, so this is three files and not four.
+
+   And the part that actually matters for us: TABULAR FIGURES. Every table on
+   this site is a column of percentages meant to be compared down the column.
+   Proportional digits make a 1 narrower than a 7, so the decimal points
+   wander and two numbers of the same magnitude look different lengths. On a
+   page arguing that a 0.39-point spread matters, digits that do not line up
+   undercut the argument. */
+:root{}
+h1,h2,.hero h1,.trust b,.own-big{font-family:var(--display)}
+h1,h2{letter-spacing:-.028em}
+
+/* Anywhere numbers are read against each other. */
+table,.rf,.trust b,.own-big,.verify-list code,
+.demo-read b,.shots figcaption,.plate,code{
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum" 1,"cv01" 1}
+
+/* More of the gradient, on the things worth looking at twice. A heading is a
+   claim; the gradient marks the ones that are the product's argument rather
+   than a label. Kept to headings and figures so it never lands on a
+   paragraph, where clipped text loses its selection colour. */
+h2,.showcase h2,.verify h2,.refuse h2{
+  background:linear-gradient(112deg,
+    var(--ink) 0%, var(--ink) 42%,
+    color-mix(in srgb, var(--accent) 62%, var(--ink)) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{background:linear-gradient(90deg,
+    var(--accent-hi,var(--accent)),var(--accent-lo,var(--accent)));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
