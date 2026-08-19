@@ -190,6 +190,13 @@ CASES = [
         '/media/app-that-does-not-exist.mp4',
     ),
     (
+        "a rule for a class that appears on no page",
+        "check_no_dead_css",
+        "style.css",
+        ".own-in input:hover{",
+        ".bb-class-that-exists-nowhere:hover{",
+    ),
+    (
         "a superseded palette left in the stylesheet",
         "check_one_palette",
         "style.css",

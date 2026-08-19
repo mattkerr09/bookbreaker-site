@@ -112,20 +112,13 @@
   --term-line:#2a2f38;
   --warn:#fbbf24;
 }
-/* PASS 16 — a typeface, because we were the only one of the six without one.
+/* PASS 16 — a typeface,because we were the only one of the six without one.
 
-   Measured: langchain sets its headline in Twklausanne, cofounder in neoris,
-   framer in GT Walsheim, avo in Inter. Ours resolved to -apple-system, which
-   is not a choice, it is the absence of one — and it is why the page read as
+   Measured: langchain sets its headline in Twklausanne,cofounder in neoris,framer in GT Walsheim,avo in Inter. Ours resolved to -apple-system,which
+   is not a choice,it is the absence of one — and it is why the page read as
    a template no matter what else moved.
 
-   Geist, self-hosted, latin subset only, variable so both weights are one
-   29KB file. SIL OFL 1.1; the licence ships beside it in /fonts/OFL.txt as
-   that licence requires. Nothing is fetched from a font CDN at runtime: the
-   site makes no third-party requests and adding one for a typeface would be
-   a real cost to a page whose whole argument is that it does not phone home.
-
-   font-display:swap, so the text is readable while 29KB arrives. */
+   Geist,self-hosted,latin subset only,so the text is readable while 29KB arrives. */
 @font-face{
   font-family:"Geist";
   src:url("/fonts/geist.woff2") format("woff2");
@@ -201,7 +194,7 @@ body{margin:0;background:var(--plate);color:var(--ink);
 /* numbers in sentences should read as sentences; numbers in columns should
    line up. On the system stacks this is a graceful no-op. */
 p,li{font-variant-numeric:oldstyle-nums}
-.rf,.app,table,.figure,.screen,.plate{font-variant-numeric:tabular-nums lining}
+.rf,table,.figure,.screen,.plate{font-variant-numeric:tabular-nums lining}
 
 /* ---------- chrome ---------- */
 header{position:sticky;top:0;z-index:20;background:var(--plate);
@@ -224,8 +217,7 @@ body.home main,body.hub main{max-width:76rem}
 body.home main>h1,body.home main>h2,body.home main>p,
 body.home main>ul,body.home main>table{
   max-width:var(--measure-prose);margin-inline:0}
-body.home main>.plate,body.home main>.app,body.home main>.scroll,
-body.home main>.figure,body.home main>.screen{max-width:var(--measure-plate)}
+body.home main>.plate,body.home main>.scroll,body.home main>.figure,body.home main>.screen{max-width:var(--measure-plate)}
 
 /* ---------- type ---------- */
 h1{font-family:var(--display);font-weight:600;letter-spacing:-.025em;font-size:var(--t-8);line-height:1.08;
@@ -440,9 +432,7 @@ code{font-family:var(--mono);font-size:.94em;background:var(--sink);
 
 .rf-pt{position:absolute;left:var(--pt);top:22%;height:56%;
   width:1.5px;margin-left:-.75px;background:var(--ink)}
-
-/* the value Bookbreaker actually stands behind: solid, below the axis */
-.rf-real{position:absolute;left:var(--rl);bottom:-5px;
+/* the value Bookbreaker actually stands behind: solid{position:absolute;left:var(--rl);bottom:-5px;
   width:0;height:0;margin-left:-3px;
   border-left:3px solid transparent;border-right:3px solid transparent;
   border-bottom:4px solid var(--indigo)}
@@ -460,12 +450,10 @@ code{font-family:var(--mono);font-size:.94em;background:var(--sink);
 .rf--bare .rf-band{background:none}
 .rf--bare .rf-band::before,.rf--bare .rf-band::after{display:none}
 
-.rf--inline{--rf-w:4rem;--rf-h:.8em}
-.rf--row{--rf-w:100%;--rf-h:.95rem;display:block;vertical-align:baseline}
-.rf--plate{--rf-w:100%;--rf-h:2.4rem;display:block;margin:var(--s-3) 0}
+
+
 .rf--hero{--rf-w:100%;--rf-h:3.4rem;display:block;margin:var(--s-4) 0}
-.rf--plate .rf-pt,.rf--hero .rf-pt{top:26%;height:48%;width:2px;margin-left:-1px}
-.rf--plate .rf-band::before,.rf--plate .rf-band::after,
+.rf--hero .rf-pt{top:26%;height:48%;width:2px;margin-left:-1px}
 .rf--hero  .rf-band::before,.rf--hero  .rf-band::after{width:2px;top:-5px;bottom:-5px}
 
 /* ---------- the plate wrapper ---------- */
@@ -486,18 +474,12 @@ code{font-family:var(--mono);font-size:.94em;background:var(--sink);
 .plate-key .neg{color:var(--oxblood)}
 .plate--split{display:grid;gap:var(--s-5)}
 @media(min-width:44rem){.plate--split{grid-template-columns:1fr 1fr}}
-
 /* Marks a competitor's over-precision. The dotted rule is the whole device:
-   dimming just the decimals would mean wrapping them in a tag, and check.py's
-   visible() replaces tags with spaces — "5.<em>91</em>" tokenises as 5 and 91,
-   neither of which is a measured number, and the build fails. The number stays
+   dimming just the decimals would mean wrapping them in a tag,neither of which is a measured number,and the build fails. The number stays
    one text node. */
 .over{border-bottom:1px dotted var(--rule)}
 
-/* ---------- the terminal block: the one dark object, in BOTH themes ----------
-   Re-scoping the tokens inside .app is what lets one range-frame component
-   serve two grounds: every .rf inside recolours itself automatically. */
-.app{
+/* ---------- the terminal block: the one dark object{
   --card:#1c1e24; --sink:#1a1b21;
   --ink:#e8e6e0; --ink-2:#9a968b; --ink-3:#75716a; --rule:#3a3d46;
   --indigo:#8f9bd8; --oxblood:#e0685c;
@@ -508,47 +490,27 @@ code{font-family:var(--mono);font-size:.94em;background:var(--sink);
   background:var(--term);color:var(--ink);
   border:1px solid var(--term-line);border-radius:var(--r);
   overflow:hidden;font-family:var(--mono);font-size:var(--t-2)}
-.app-bar{display:flex;align-items:center;gap:var(--s-2);
-  padding:var(--s-2) var(--s-4);background:var(--sink);
-  border-bottom:1px solid var(--rule)}
+
 .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--rule);flex:none}
-.app-title{margin-left:var(--s-2);color:var(--ink-2);font-weight:500}
-.app-meta{margin-left:auto;color:var(--ink-2);font-size:var(--t-1)}
-.app-head,.app-row{display:grid;
-  grid-template-columns:1.3fr .86fr .58fr .7fr 2.3fr .48fr .82fr .78fr;
-  gap:var(--s-3);padding:var(--s-2) var(--s-4);align-items:center}
-.app-head{font-family:var(--sans);font-size:var(--t-1);text-transform:uppercase;
-  letter-spacing:.09em;color:var(--ink-2);background:var(--sink);
-  border-bottom:1px solid var(--rule)}
-.app-row{border-bottom:1px solid var(--rule)}
-.app-row:last-of-type{border-bottom:0}
-.app-row:hover{background:var(--card)}
 
-/* tabular figures make + and - exactly one digit wide, so right-aligned
-   numeric columns align their signs down the whole strip */
-.app-head span:nth-child(3),.app-row span:nth-child(3),
-.app-head span:nth-child(4),.app-row span:nth-child(4),
-.app-head span:nth-child(6),.app-row span:nth-child(6),
-.app-head span:nth-child(8),.app-row span:nth-child(8){text-align:right}
 
-.ev-name{color:var(--ink);font-weight:500}
+
+
+
+
+
+/* tabular figures make + and - exactly one digit wide{text-align:right}
+
 .dim{color:var(--ink-2)}
-.price{color:var(--ink-2)}
-.band{min-width:0}
+
+
 .pos{color:var(--ink-2);font-weight:400}
-.pos.strong{color:var(--indigo);font-weight:500}
 
-/* fill stays deliberately subordinate: a bar with NO terminators, so it can
-   never be mistaken for an interval */
-.fill{display:flex;align-items:center;gap:var(--s-2);min-width:0}
-.fill i{display:block;height:2px;border-radius:0;background:var(--rule);
-  opacity:1;min-width:2px}
-.fill b{font-weight:400;color:var(--ink-2);font-size:var(--t-1)}
+/* fill stays deliberately subordinate: a bar with NO terminators{display:flex;align-items:center;gap:var(--s-2);min-width:0}
 
-.app-foot{padding:var(--s-3) var(--s-4);background:var(--sink);
-  color:var(--ink-2);font-family:var(--sans);font-size:var(--t-3);
-  line-height:1.5;border-top:1px solid var(--rule)}
-.app-foot strong{color:var(--ink);font-weight:600}
+
+
+
 
 /* ---------- figures ---------- */
 .figure{background:var(--card);border:1px solid var(--rule);
@@ -607,15 +569,10 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
 :focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
 
 @media(max-width:52rem){
-  .app{font-size:0.72rem}
-  /* the band is now the most valuable column on the strip, so it survives to
-     the smallest breakpoint. Book and Age go first. */
-  .app-head,.app-row{grid-template-columns:1.4fr .62fr .78fr 1.6fr .9fr .85fr}
-  .app-head span:nth-child(2),.app-row span:nth-child(2),
-  .app-head span:nth-child(6),.app-row span:nth-child(6){display:none}
-  .app-head span:nth-child(3),.app-row span:nth-child(3),
-  .app-head span:nth-child(4),.app-row span:nth-child(4),
-  .app-head span:nth-child(8),.app-row span:nth-child(8){text-align:right}
+
+/* the band is now the most valuable column on the strip{grid-template-columns:1.4fr .62fr .78fr 1.6fr .9fr .85fr}
+
+
 }
 @media(max-width:40rem){
   main{padding:0 1.15rem 3.5rem}
@@ -623,10 +580,9 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
   .hero .lede{font-size:var(--t-4)}
   h2{margin-top:var(--s-6)}
   .foot-grid{grid-template-columns:1fr;padding:var(--s-6) 1.15rem .6rem}
-  .app-meta{display:none}
-  .app-head,.app-row{grid-template-columns:1.3fr .8fr 1.5fr .9fr}
-  .app-head span:nth-child(3),.app-row span:nth-child(3),
-  .app-head span:nth-child(7),.app-row span:nth-child(7){display:none}
+
+
+
 
   /* The nav wrapped onto three lines and ate half a phone screen of sticky
      header. One row that scrolls sideways instead — the brand stays put and
@@ -700,9 +656,7 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
   .hero-aside .lede{max-width:34ch}
   .hero-copy .lede{font-size:clamp(1.15rem,1.35vw,1.35rem);max-width:44ch}
   .hero-app{width:100%}
-  .app--hero{max-width:none;transform:perspective(2000px) rotateX(2deg);
-    transform-origin:top center}
-  .hero-app:hover .app--hero{transform:perspective(2000px) rotateX(0)}
+
 }
 /* Two buttons that stack are two decisions; side by side they are one. */
 .hero .cta{flex-wrap:nowrap}
@@ -711,15 +665,12 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
 body.home main>.hero{max-width:none}
 .hero-copy>h1{max-width:none}
 .hero-copy>.lede{max-width:32rem}
-
-/* Lifted and turned a degree off true, so it reads as an object sitting on
-   the page rather than a table that failed to inherit its borders. */
-.app--hero{margin:0;box-shadow:
+/* Lifted and turned a degree off true{margin:0;box-shadow:
     0 1px 0 color-mix(in srgb, var(--ink) 6%, transparent),
     0 24px 60px -20px rgba(0,0,0,.55);
   transform:perspective(1600px) rotateY(-1.2deg);
   transform-origin:left center}
-.app--hero .app-row:last-of-type{border-bottom:0}
+
 .hero-app-cap{font-size:var(--t-2);color:var(--ink-2);
   margin:var(--s-3) 0 0;max-width:34rem}
 .hero-app-cap strong{color:var(--ink);font-weight:600}
@@ -1083,9 +1034,8 @@ h2{letter-spacing:-.024em;font-weight:700}
 h3{letter-spacing:-.016em;font-weight:650}
 .lede{font-size:1.25rem;line-height:1.5;color:var(--ink-2);
   letter-spacing:-.014em}
-
 /* --- the primary action: a real button ------------------------------- */
-.btn,.cta a:first-child,a.btn-primary{
+.btn,.cta a:first-child{
   border-radius:var(--r-pill);padding:.9rem 1.6rem;font-weight:650;
   font-size:1.0625rem;letter-spacing:-.01em;box-shadow:var(--shadow-2);
   border:0;transition:transform .16s cubic-bezier(.2,.7,.3,1),
@@ -1093,11 +1043,11 @@ h3{letter-spacing:-.016em;font-weight:650}
 .btn:hover,.cta a:first-child:hover{transform:translateY(-1px);
   box-shadow:var(--shadow-3)}
 .btn:active,.cta a:first-child:active{transform:translateY(0)}
-.cta a+a,.btn-ghost{border-radius:var(--r-pill);padding:.9rem 1.5rem;
+.cta a+a{border-radius:var(--r-pill);padding:.9rem 1.5rem;
   font-weight:600;font-size:1.0625rem;border:1.5px solid var(--rule);
   background:var(--plate);color:var(--ink);transition:border-color .16s ease,
     background .16s ease}
-.cta a+a:hover,.btn-ghost:hover{border-color:var(--ink-3);
+.cta a+a:hover{border-color:var(--ink-3);
   background:var(--card)}
 
 /* --- surfaces: lift instead of outline ------------------------------- */
@@ -1127,7 +1077,7 @@ nav .links a:hover{background:var(--card);color:var(--ink)}
 
 /* --- the numbers stay the point, and now read as good news ----------- */
 .trust b{color:var(--ink);letter-spacing:-.03em}
-.pos,.up,.realised{color:var(--good)}
+.pos{color:var(--good)}
 table{font-family:var(--sans);border-radius:var(--r)}
 main table td:not(:first-child){font-family:var(--mono);
   font-variant-numeric:tabular-nums}
@@ -1142,14 +1092,12 @@ input[type=range]{accent-color:var(--accent)}
   *{transition:none!important;transform:none!important;
     scroll-behavior:auto!important}
 }
-
 /* --- the product shot ------------------------------------------------
-   It was a black terminal, which on a consumer page says "this is for
-   developers" before anyone reads a word. The product is a CLI today, but
-   what the shot has to communicate is the OUTPUT — four prices, an interval
-   drawn on each, and what survives the chance of getting on. That reads
-   better as a light product surface, and it is the same data either way. */
-.app{
+   It was a black terminal,which on a consumer page says "this is for
+   developers" before anyone reads a word. The product is a CLI today,but
+   what the shot has to communicate is the OUTPUT — four prices,an interval
+   drawn on each,and what survives the chance of getting on. That reads
+   better as a light product surface{
   --card:var(--sink); --sink:#f7f8fa;
   --ink:#1d1d1f; --ink-2:#5b6069; --ink-3:#8a8f98; --rule:#e6e8ec;
   --indigo:var(--accent); --oxblood:#d1293d;
@@ -1157,47 +1105,27 @@ input[type=range]{accent-color:var(--accent)}
   background:var(--plate);border:1px solid var(--rule);
   box-shadow:var(--shadow-3);font-family:var(--sans);
   font-size:var(--t-3);border-radius:var(--r)}
-.app-bar{background:var(--sink);padding:.7rem 1rem}
-.app .dot{background:#d9dce1}
-.app .dot:nth-of-type(1){background:#ff5f57}
-.app .dot:nth-of-type(2){background:#febc2e}
-.app .dot:nth-of-type(3){background:#28c840}
-.app-head{background:var(--sink);color:var(--ink-3);letter-spacing:.06em}
-.app-row{transition:background .14s ease}
-.app-row:hover{background:var(--accent-soft)}
-.app .ev-name{font-weight:650;letter-spacing:-.01em}
-.app .price,.app .pos,.app .realised,
-.app-head span:nth-child(3),.app-row span:nth-child(3),
-.app-head span:nth-child(4),.app-row span:nth-child(4),
-.app-head span:nth-child(6),.app-row span:nth-child(6),
-.app-head span:nth-child(8),.app-row span:nth-child(8){
-  font-family:var(--mono);font-variant-numeric:tabular-nums}
-/* Realised EV is the number the product exists to show, so it gets the one
-   colour a bettor is actually looking for. */
-.app .realised{color:var(--good);font-weight:650}
+
+
+
+
+
+/* Realised EV is the number the product exists to show{color:var(--good);font-weight:650}
 
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) .app{
-    --sink:#14171c; --ink:#f5f6f7; --ink-2:#b3b9c4; --ink-3:#868d99;
-    --rule:#2a2f38; --indigo:var(--accent)}
+
 }
-:root[data-theme="dark"] .app{
-  --sink:#14171c; --ink:#f5f6f7; --ink-2:#b3b9c4; --ink-3:#868d99;
-  --rule:#2a2f38; --indigo:var(--accent)}
+
 
 /* --- the proof points, as objects rather than loose text -------------- */
 .trust{gap:1rem;border:0;padding:0}
 .trust>div,.trust>li{background:var(--card);border:1px solid var(--rule);
   border-radius:var(--r);padding:1.25rem 1.35rem;box-shadow:var(--shadow-1)}
 .trust span{color:var(--ink-3)}
-
-/* The matchup column was narrow enough to wrap "DEN @ PHX" onto two lines,
-   which pushed that row taller than its neighbours and broke the shared
-   axis the whole figure depends on. */
-.app-head,.app-row{grid-template-columns:1.75fr .95fr .62fr .72fr 1.85fr .5fr .6fr .85fr;
+/* The matchup column was narrow enough to wrap "DEN @ PHX" onto two lines{grid-template-columns:1.75fr .95fr .62fr .72fr 1.85fr .5fr .6fr .85fr;
   gap:var(--s-2)}
-.app .ev-name{white-space:nowrap}
-.app-row{min-height:2.9rem}
+
+
 
 /* Four proof points that each broke onto two lines read as four problems.
    Wider cells, and a label size that fits one. */
@@ -1243,12 +1171,7 @@ input[type=range]{accent-color:var(--accent)}
 .rg strong{color:var(--ink)}
 .rg a{color:var(--accent);font-weight:600}
 
-/* A paid link and an unpaid one do not look the same. */
-a.book-cta{display:inline-block;background:var(--accent);color:var(--accent-ink);
-  border-radius:var(--r-pill);padding:.4rem .95rem;font-weight:650;
-  text-decoration:none;font-size:0.9rem;white-space:nowrap;
-  box-shadow:var(--shadow-1);transition:transform .14s ease,box-shadow .14s ease}
-a.book-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-2)}
+
 a.book-link{color:var(--ink);font-weight:600;text-decoration:none;
   border-bottom:1.5px solid var(--rule)}
 a.book-link:hover{border-bottom-color:var(--accent);color:var(--accent)}
@@ -1270,12 +1193,9 @@ ul.states a{font-weight:650;text-decoration:none;color:var(--ink)}
 ul.states li:hover a{color:var(--accent)}
 ul.states .n{font-size:0.72rem;color:var(--ink-3);white-space:nowrap;
   font-variant-numeric:tabular-nums}
-
-
 /* ------------------------------------------------------------ data plates
-   Five of these classes did not exist when the plates were first drawn, and
-   the build went GREEN anyway: rf() puts geometry in a style="" attribute,
-   which check.py strips before looking for unmeasured numbers, so an
+   Five of these classes did not exist when the plates were first drawn,and
+   the build went GREEN anyway: rf() puts geometry in a style="" attribute,so an
    invisible plate and a correct one are identical to the figure gate. The
    plate is verified by looking at it. */
 figure.plate{margin:var(--s-5) 0;padding:0;border:1px solid var(--rule);
@@ -1379,17 +1299,16 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:linear-gradient(180deg, var(--ink) 55%,
     color-mix(in srgb, var(--ink) 62%, var(--plate)));
   -webkit-background-clip:text;background-clip:text;color:transparent}
-
 /* --- 3. Surfaces that catch the light ----------------------------------
    A 1px solid border is inert. A border that is brighter at the top reads as
-   a surface lit from above, which is what makes a card look like an object. */
-.trust>div,.trust>li,.cards .card,.cards>li,figure.plate,.demo-box,.app{
+   a surface lit from above,which is what makes a card look like an object. */
+.trust>div,.trust>li,.cards .card,.cards>li,figure.plate,.demo-box{
   position:relative;
   background:
     linear-gradient(180deg,
       color-mix(in srgb, var(--ink) 4%, var(--card)) 0%,
       var(--card) 45%)}
-.trust>div::before,.cards .card::before,figure.plate::before,.app::before{
+.trust>div::before,.cards .card::before,figure.plate::before{
   content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
   background:linear-gradient(180deg,
     color-mix(in srgb, var(--ink) 16%, transparent),
@@ -1399,22 +1318,11 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 
 /* --- 4. The product shot is the proof, so it behaves like one ----------- */
 .hero-app{position:relative}
-.app--hero{transform:perspective(1600px) rotateY(-1.4deg) rotateX(1.2deg);
-  transform-origin:left center;
-  box-shadow:0 2px 4px rgba(16,24,40,.06),0 24px 60px -12px rgba(16,24,40,.28),
-    0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
-  transition:transform .5s cubic-bezier(.2,.7,.3,1),box-shadow .5s ease}
-.hero-app:hover .app--hero{transform:perspective(1600px) rotateY(0) rotateX(0)}
+
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) .app--hero{
-    box-shadow:0 24px 70px -10px rgba(0,0,0,.7),
-      0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent),
-      0 0 90px -30px color-mix(in srgb, var(--accent) 55%, transparent)}}
-/* A live product should look live. */
-.app-bar .dot:nth-of-type(3){position:relative}
-.app-bar .dot:nth-of-type(3)::after{content:"";position:absolute;inset:-3px;
-  border-radius:50%;border:1px solid var(--good);opacity:.55;
-  animation:pulse 2.4s ease-out infinite}
+}
+
+
 @keyframes pulse{0%{transform:scale(.8);opacity:.6}
   70%{transform:scale(1.9);opacity:0}100%{opacity:0}}
 
@@ -1604,19 +1512,11 @@ body::before{
 .hero h1 em{font-style:normal;
   background:linear-gradient(96deg, var(--accent-lo), var(--accent) 62%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
+/* --- the product shot reads as software{font-size:.82rem}
 
-/* --- the product shot reads as software, not a table ------------------ */
-.app{font-size:.82rem}
-.app-row{min-height:2.55rem}
-.app .pos{color:var(--good);font-weight:650}
-.app .realised{color:var(--good);font-weight:750;font-size:.9rem}
-.app .price{color:var(--ink-2)}
-/* A fill under half is the row the whole screen exists to demote. */
-.app .fill b{color:var(--ink-2);font-weight:650}
-.app-row:has(.fill b:not(:empty)) .dim{color:var(--ink-3)}
-.app .fill i{background:linear-gradient(90deg,var(--accent),var(--accent-lo))}
-.app-bar{background:linear-gradient(180deg,
-  color-mix(in srgb,var(--accent-lo) 9%,var(--sink)), var(--sink))}
+
+
+
 
 /* --- qualifiers get the tick AVO uses, in our own colour -------------- */
 .quals li::before,.hero .quals li::before{color:var(--good)}
@@ -1660,9 +1560,7 @@ main table td:last-child{white-space:nowrap;font-size:0.82rem;
 }
 
 /* PASS 12 — the hero depicts the window that ships.
-   New class names throughout (.win*), so nothing above is overridden. The old
-   .app--hero rules are left in place: other pages still use .app. */
-.win{
+   New class names throughout (.win*){
   border:1px solid var(--rule);
   border-radius:16px;
   background:var(--card);
@@ -1678,53 +1576,26 @@ main table td:last-child{white-space:nowrap;font-size:0.82rem;
 .win-name{margin-left:9px;font-weight:650;font-size:.82rem;letter-spacing:-.01em}
 .win-ver{margin-left:auto;font:500 0.72rem/1 var(--mono);color:var(--ink-2);
   letter-spacing:.06em}
-.win-tabs{display:flex;gap:5px;padding:12px 14px 0;flex-wrap:wrap}
-.win-tab{
-  font:600 0.72rem/1 var(--sans);
-  padding:8px 13px;border-radius:8px 8px 0 0;
-  color:var(--ink-2);white-space:nowrap;
-}
-.win-tab.is-on{
-  color:#fff;
-  background:linear-gradient(180deg,var(--accent),var(--accent-hi));
-}
-.win-body{padding:26px 26px 28px;border-top:1px solid var(--rule);margin-top:-1px}
-.win-q{margin:0 0 20px;font-size:1.25rem;letter-spacing:-.022em;line-height:1.2}
-.win-in{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
-.win-in span{
-  flex:1 1 130px;min-width:0;
-  border:1px solid var(--rule);border-radius:10px;
-  padding:9px 12px;background:rgba(255,255,255,.02);
-}
-.win-in i{
-  display:block;font:600 0.62rem/1 var(--mono);letter-spacing:.13em;
-  text-transform:uppercase;color:var(--ink-2);margin-bottom:5px;font-style:normal;
-}
-.win-in b{font-weight:600;font-size:.9rem}
-.win-out{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
-.win-big{flex:0 0 auto}
-.win-big b{
-  display:block;font-size:3.5rem;line-height:.92;letter-spacing:-.045em;
-  font-weight:700;
-  background:linear-gradient(135deg,var(--accent),var(--accent-hi));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.win-big span{
-  display:block;margin-top:7px;
-  font:600 0.62rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink-2);max-width:15ch;
-}
-.win-side{flex:1 1 220px;min-width:0;border-left:1px solid var(--rule);
-  padding-left:22px}
-.win-side p{margin:0 0 10px;font-size:0.82rem;line-height:1.55;color:var(--ink-2)}
-.win-side p:last-child{margin-bottom:0}
-.win-side b{color:var(--ink);font-weight:650}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width:44rem){
-  .win-out{gap:18px}
-  .win-side{border-left:0;border-top:1px solid var(--rule);
-    padding-left:0;padding-top:16px;flex-basis:100%}
-  .win-big b{font-size:3.2rem}
-  .win-body{padding:20px 18px 22px}
+
+
+
+
 }
 
 /* PASS 13 — the three sections the homepage was missing: how fast you get to
@@ -1980,15 +1851,15 @@ main>.trust{margin-bottom:var(--float-gap)}
 }
 
 /* Buttons lift towards the pointer and carry the accent in their shadow. */
-.btn,.cta a,a.btn-primary,.btn-ghost{
+.btn,.cta a,.btn.primary,.btn.ghost{
   transition:transform .16s ease,box-shadow .16s ease,
     background-color .16s ease,border-color .16s ease,color .16s ease;
 }
-.btn:hover,.cta a:hover,a.btn-primary:hover{
+.btn:hover,.cta a:hover,.btn.primary:hover{
   transform:translateY(-1px);
   box-shadow:0 10px 26px -10px var(--lift);
 }
-.btn-ghost:hover{border-color:var(--hover-rule);background:var(--hover-face)}
+.btn.ghost:hover{border-color:var(--hover-rule);background:var(--hover-face)}
 
 /* Links resolve rather than blink. */
 nav .links a,.pitch a,main a{transition:color .16s ease,opacity .16s ease}
@@ -2016,11 +1887,11 @@ table tbody tr:hover,table tr:hover{
 
 @media (prefers-reduced-motion:reduce){
   .wall,.demo,.speed,.heat-home,.hp,.vs-side,.pitch>article,.close,.own,
-  .trust>div,.trust>li,ul.states li,figure.plate,.btn,.cta a,a.btn-primary,
-  .btn-ghost,table tr,.own-in input,nav .links a,.pitch a,main a{
+  .trust>div,.trust>li,ul.states li,figure.plate,.btn,.cta a,.btn.primary,
+  .btn.ghost,table tr,.own-in input,nav .links a,.pitch a,main a{
     transition:none;
   }
   .wall:hover,.demo:hover,.speed:hover,.heat-home:hover,.hp:hover,
   .vs-side:hover,.pitch>article:hover,.own:hover,figure.plate:hover,
-  .btn:hover,.cta a:hover,a.btn-primary:hover{transform:none}
+  .btn:hover,.cta a:hover,.btn.primary:hover{transform:none}
 }

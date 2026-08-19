@@ -881,6 +881,56 @@ def check_no_internal_docs_are_served(fails: list[str]) -> None:
                 f"belong in the private app repo.")
 
 
+#: Classes only ever added by JavaScript, so they never appear in the
+#: rendered HTML and are not dead. Listed by name rather than detected,
+#: because "does any script mention this string" matches far too much.
+RUNTIME_CLASSES = {
+    "own-big", "own-cap", "own-spread", "own-hint", "own-no",
+    "is-on", "reveal",
+}
+
+
+def check_no_dead_css(pages, fails: list[str]) -> None:
+    """Every class the stylesheet targets exists somewhere in the site.
+
+    CSS that matches nothing renders exactly like CSS that was never
+    written, which is why this keeps happening: a rule for `.hero h1 .lit`
+    when no element has that class, a `.win-big b` left behind when the hero
+    became a video, a whole `.win-*` family orphaned by one markup change.
+    Four times now, and each one was found by hand or not at all.
+
+    The mirror of check_every_class_is_styled: that one catches markup with
+    no rules, this catches rules with no markup. Together they mean the
+    stylesheet and the pages describe the same site.
+    """
+    css = (SITE / "style.css").read_text()
+    # Strip comments first. The prose in this stylesheet mentions avo.bet and
+    # fanduel.com, and a naive scan reads those as `.bet` and `.com` — the
+    # same fault as a guard that once tripped on `--violet` written inside
+    # its own explanatory comment.
+    css = re.sub(r"/\*.*?\*/", " ", css, flags=re.S)
+    targeted: set[str] = set()
+    for block in re.finditer(r"(?m)^([^{}@][^{}]*?)\{", css):
+        for selector in block.group(1).split(","):
+            targeted.update(re.findall(r"\.([a-zA-Z][\w-]*)", selector))
+
+    used: set[str] = set()
+    for _, markup in pages:
+        for attr in re.findall(r'class="([^"]+)"', markup):
+            used.update(attr.split())
+
+    # A selector matches only if EVERY class in it exists: `.app-bar .dot`
+    # needs an `.app-bar` however many `.dot`s there are. Checking that any
+    # one class is missing — rather than all of them — is the difference
+    # between catching a dead family and catching none of it.
+    dead = sorted(targeted - used - RUNTIME_CLASSES)
+    if dead:
+        fails.append(
+            f"style.css styles {len(dead)} class(es) that appear on no page. "
+            f"Dead CSS is invisible — it renders identically to CSS that was "
+            f"never written: {dead[:12]}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
@@ -942,6 +992,7 @@ def main() -> int:
         "check_media_exists": lambda: check_media_exists(pages, fails),
         "check_no_internal_docs_are_served":
             lambda: check_no_internal_docs_are_served(fails),
+        "check_no_dead_css": lambda: check_no_dead_css(pages, fails),
         "check_one_palette": lambda: check_one_palette(fails),
         "check_every_pass_reaches_the_stylesheet":
             lambda: check_every_pass_reaches_the_stylesheet(fails),
