@@ -13,16 +13,22 @@
     "Does this pair cross?",
     "How much should this be?",
     "What is this parlay really worth?",
+    "What your record actually says",
     "Will you actually get this bet on?"
   ],
   "note": "The window these show. If the app's tabs or panel questions change, every file listed in `covers` depicts a product that no longer exists. Re-record with the recorder, re-shoot the stills with _build/shoot_panels.py, then update this file.",
   "recorded_from": "ui/src/index.html",
+  "recorded_with": [
+    "_build/record_app.py",
+    "_build/shoot_panels.py"
+  ],
   "tabs": [
     "Board",
     "De-vig",
     "Arbitrage",
     "Stake",
     "Parlay",
+    "Results",
     "Will it land?"
   ]
 }
