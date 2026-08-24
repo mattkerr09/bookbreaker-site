@@ -40,7 +40,9 @@ from pathlib import Path
 
 SITE = Path(__file__).resolve().parent.parent
 BASELINE = SITE / "_data" / "watch_baseline.json"
-CHROME = ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/151.0 Safari/537.36")
 
 #: Below this, a page changed a timestamp or rotated a testimonial. Above it,
 #: something was said differently. Tuned to be quiet enough that a report
@@ -57,32 +59,132 @@ PRICE = re.compile(
     r"(mo|month|monthly|yr|year)?", re.I)
 
 
+def fetch_pdf(url: str, timeout: int = 45) -> str | None:
+    """Text out of a PDF.
+
+    Four of the twenty-four regulator sources are PDFs — Arkansas, Arizona,
+    Indiana and Missouri all publish their rules that way. Chrome's
+    --dump-dom returns the PDF *viewer shell* for these, a few hundred
+    characters of chrome UI with none of the document in it, so they were
+    reported unreachable every single run. They answer 200 to curl; the
+    fetcher was the broken part, not the sites.
+    """
+    from urllib.request import Request, urlopen
+
+    try:
+        request = Request(url, headers={"User-Agent": UA})
+        with urlopen(request, timeout=timeout) as response:  # noqa: S310
+            raw = response.read()
+    except Exception:                                        # noqa: BLE001
+        return None
+    try:
+        import io
+
+        import pypdf
+
+        reader = pypdf.PdfReader(io.BytesIO(raw))
+        return " ".join((page.extract_text() or "") for page in reader.pages)
+    except Exception:                                        # noqa: BLE001
+        return None
+
+
+def fetch_plain(url: str, timeout: int = 45) -> str | None:
+    """Markup over urllib, for HTML that headless Chrome will not serve.
+
+    Some state sites refuse the headless user agent and answer a normal one
+    fine — Florida's statute pages among them.
+    """
+    from urllib.request import Request, urlopen
+
+    try:
+        request = Request(url, headers={"User-Agent": UA,
+                                        "Accept": "text/html,*/*"})
+        with urlopen(request, timeout=timeout) as response:  # noqa: S310
+            return response.read().decode("utf-8", "replace")
+    except Exception:                                        # noqa: BLE001
+        return None
+
+
+def content_type(url: str, timeout: int = 20) -> str:
+    from urllib.request import Request, urlopen
+
+    try:
+        request = Request(url, method="HEAD", headers={"User-Agent": UA})
+        with urlopen(request, timeout=timeout) as response:  # noqa: S310
+            return (response.headers.get("Content-Type") or "").lower()
+    except Exception:                                        # noqa: BLE001
+        return ""
+
+
 def fetch(url: str, timeout: int = 45) -> str | None:
     """Rendered text. Chrome, because every competitor here is a JS app.
 
     urllib returns an empty shell for most of these — the first version of
     this used it and reported 100% drift on six sites at once, which is what
     a broken fetcher looks like from the outside.
+
+    But Chrome is wrong for PDFs and for the handful of state sites that
+    refuse a headless agent, so both have fallbacks. Six of thirty-eight
+    pages were permanently unreachable before they existed, and this file's
+    own rule is that unreachable is not the same as unchanged.
     """
+    kind = content_type(url)
+    if "pdf" in kind or url.lower().endswith(".pdf"):
+        text = fetch_pdf(url, timeout)
+        return f"<pdf>{text}</pdf>" if text and len(text) > 200 else None
     try:
         done = subprocess.run(
             [CHROME, "--headless=new", "--disable-gpu", "--no-sandbox",
              f"--virtual-time-budget={timeout * 400}", "--dump-dom", url],
             capture_output=True, text=True, timeout=timeout)
-    except (subprocess.TimeoutExpired, FileNotFoundError):
-        return None
-    if done.returncode != 0 or len(done.stdout) < 500:
-        return None
-    return done.stdout
+    except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+        # A Chrome timeout used to return here, which skipped the urllib
+        # fallback entirely — Florida's statute page answers urllib in a
+        # second and was reported unreachable on every run because Chrome
+        # hung on it first.
+        plain = fetch_plain(url, timeout)
+        return plain if plain and len(plain) >= 500 else None
+    if done.returncode == 0 and len(done.stdout) >= 500:
+        return done.stdout
+    plain = fetch_plain(url, timeout)
+    return plain if plain and len(plain) >= 500 else None
+
+
+#: Things that differ on every request and mean nothing. Every one of these
+#: fired on the watcher's first real run against live regulator sites:
+#: Colorado changed a CloudFront request id, Kentucky an Akamai cache token,
+#: and Virginia its lottery countdown from "05 hr : 15 mins" to "05 hr : 53
+#: mins". Three pages reported as drifted, none of which had said anything
+#: different. A watcher that fires daily on noise gets muted, and a muted
+#: watcher is worse than none because it still looks like coverage.
+VOLATILE = (
+    # CDN request ids and cache tokens: long unbroken runs of hex/base64.
+    re.compile(r"\b[0-9a-f]{16,}\b", re.I),
+    re.compile(r"\b[a-z0-9_\-]{24,}={0,2}\b", re.I),
+    # Countdown timers and clock times.
+    re.compile(r"\b\d{1,2}\s*hr\s*:\s*\d{1,2}\s*mins?\b", re.I),
+    re.compile(r"\b\d{1,2}:\d{2}(:\d{2})?\s*(am|pm)?\b", re.I),
+    # Dates in any of the forms these sites print them.
+    re.compile(r"\b\d{1,2}/\d{1,2}/\d{2,4}\b"),
+    re.compile(r"\b\d{4}-\d{2}-\d{2}t?\d{0,6}z?\b", re.I),
+    # Cache-buster query strings on assets.
+    re.compile(r"[?&](v|ver|t|ts|cb|rev)=[0-9a-z._-]+", re.I),
+)
 
 
 def visible(markup: str) -> str:
-    """Just the words, so a rebuild hash or a rotated asset URL is not news."""
+    """Just the words, with the per-request noise taken out.
+
+    A rebuild hash, a rotated asset URL, a request id or a ticking clock is
+    not the page saying something different.
+    """
     body = re.sub(r"<(script|style|noscript|svg)[^>]*>.*?</\1>", " ",
                   markup, flags=re.S | re.I)
     body = re.sub(r"<!--.*?-->", " ", body, flags=re.S)
-    text = html.unescape(re.sub(r"<[^>]+>", " ", body))
-    return re.sub(r"\s+", " ", text).strip().lower()
+    text = html.unescape(re.sub(r"<[^>]+>", " ", body)).lower()
+    for pattern in VOLATILE:
+        text = pattern.sub(" ", text)
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def prices(text: str) -> list[str]:
@@ -188,13 +290,16 @@ def main() -> int:
         text = visible(markup)
         record = {"url": got_from, "name": t["name"], "kind": t["kind"],
                   "words": len(text.split()), "prices": prices(text),
-                  "text": text[:20000]}
+                  "text": text[:120000]}
         fresh[t["id"]] = record
 
         was = base.get(t["id"])
         if not was:
             drifted.append((t, 1.0, "new — nothing recorded before"))
             continue
+        # Arkansas publishes a 963,000-character PDF. A 20,000-character
+        # window compared 2% of it and would have called the other 98%
+        # unchanged without ever reading it.
         ratio = difflib.SequenceMatcher(None, was.get("text", ""),
                                         record["text"]).quick_ratio()
         moved = 1.0 - ratio
