@@ -356,7 +356,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "8cd3068d953aeea0",
+  "engine_fingerprint": "08dd339ee5ff1d50",
   "evidence": {
     "bars": [
       {
@@ -393,7 +393,7 @@
     "latency_observations": 30,
     "naive": 89
   },
-  "generated": "2026-08-23",
+  "generated": "2026-08-25",
   "grading": {
     "gap": 2.16,
     "p110": 52.38,
@@ -972,7 +972,7 @@
       "tax_rate": 13.0
     },
     "AZ": {
-      "age_days": 1809,
+      "age_days": 1811,
       "age_months": 59,
       "age_of": 16,
       "age_rank": 8,
@@ -982,7 +982,7 @@
       "tax_rate": 10.0
     },
     "CO": {
-      "age_days": 2305,
+      "age_days": 2307,
       "age_months": 76,
       "age_of": 16,
       "age_rank": 1,
@@ -992,7 +992,7 @@
       "tax_rate": 10.0
     },
     "CT": {
-      "age_days": 1769,
+      "age_days": 1771,
       "age_months": 58,
       "age_of": 16,
       "age_rank": 9,
@@ -1002,7 +1002,7 @@
       "tax_rate": 13.75
     },
     "DC": {
-      "age_days": 2278,
+      "age_days": 2280,
       "age_months": 75,
       "age_of": 16,
       "age_rank": 2,
@@ -1012,7 +1012,7 @@
       "tax_rate": 20.0
     },
     "DE": {
-      "age_days": 963,
+      "age_days": 965,
       "age_months": 32,
       "age_of": 16,
       "age_rank": 14,
@@ -1027,7 +1027,7 @@
       "tax_rate": 6.75
     },
     "IL": {
-      "age_days": 2257,
+      "age_days": 2259,
       "age_months": 74,
       "age_of": 16,
       "age_rank": 3,
@@ -1044,7 +1044,7 @@
       "tax_rate": 10.0
     },
     "KY": {
-      "age_days": 1060,
+      "age_days": 1062,
       "age_months": 35,
       "age_of": 16,
       "age_rank": 13,
@@ -1064,11 +1064,11 @@
       "tax_rate": 20.0
     },
     "MD": {
-      "age_days": 1369,
+      "age_days": 1371,
       "age_months": 45,
       "age_of": 16,
       "age_rank": 11,
-      "age_years": 3.7,
+      "age_years": 3.8,
       "tax_of": 23,
       "tax_rank": 4,
       "tax_rate": 20.0
@@ -1079,7 +1079,7 @@
       "tax_rate": 10.0
     },
     "MI": {
-      "age_days": 2039,
+      "age_days": 2041,
       "age_months": 67,
       "age_of": 16,
       "age_rank": 6,
@@ -1089,7 +1089,7 @@
       "tax_rate": 8.4
     },
     "MO": {
-      "age_days": 265,
+      "age_days": 267,
       "age_months": 9,
       "age_of": 16,
       "age_rank": 16,
@@ -1099,7 +1099,7 @@
       "tax_rate": 10.0
     },
     "NC": {
-      "age_days": 895,
+      "age_days": 897,
       "age_months": 29,
       "age_of": 16,
       "age_rank": 15,
@@ -1119,8 +1119,8 @@
       "tax_rate": 6.75
     },
     "NY": {
-      "age_days": 1688,
-      "age_months": 55,
+      "age_days": 1690,
+      "age_months": 56,
       "age_of": 16,
       "age_rank": 10,
       "age_years": 4.6,
@@ -1129,7 +1129,7 @@
       "tax_rate": 51.0
     },
     "OH": {
-      "age_days": 1330,
+      "age_days": 1332,
       "age_months": 44,
       "age_of": 16,
       "age_rank": 12,
@@ -1139,14 +1139,14 @@
       "tax_rate": 20.0
     },
     "TN": {
-      "age_days": 2121,
+      "age_days": 2123,
       "age_months": 70,
       "age_of": 16,
       "age_rank": 4,
       "age_years": 5.8
     },
     "VA": {
-      "age_days": 2040,
+      "age_days": 2042,
       "age_months": 67,
       "age_of": 16,
       "age_rank": 5,
@@ -1161,7 +1161,7 @@
       "tax_rate": 10.0
     },
     "WY": {
-      "age_days": 1817,
+      "age_days": 1819,
       "age_months": 60,
       "age_of": 16,
       "age_rank": 7,
@@ -1193,7 +1193,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "AK",
       "venues": 1
     },
@@ -1221,7 +1221,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "AL",
       "venues": 1
     },
@@ -1263,7 +1263,7 @@
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "AR",
       "venues": 3
     },
@@ -1369,7 +1369,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "AZ",
       "venues": 12
     },
@@ -1397,7 +1397,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "CA",
       "venues": 1
     },
@@ -1511,7 +1511,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "CO",
       "venues": 13
     },
@@ -1553,7 +1553,7 @@
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "CT",
       "venues": 3
     },
@@ -1609,7 +1609,7 @@
       "retail": 4,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "DC",
       "venues": 5
     },
@@ -1644,7 +1644,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run by BetRivers",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "DE",
       "venues": 2
     },
@@ -1679,7 +1679,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "FL",
       "venues": 2
     },
@@ -1707,7 +1707,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "GA",
       "venues": 1
     },
@@ -1735,7 +1735,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "HI",
       "venues": 1
     },
@@ -1834,7 +1834,7 @@
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "IA",
       "venues": 11
     },
@@ -1862,7 +1862,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "ID",
       "venues": 1
     },
@@ -1954,7 +1954,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "IL",
       "venues": 10
     },
@@ -2045,7 +2045,7 @@
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "IN",
       "venues": 10
     },
@@ -2122,7 +2122,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "KS",
       "venues": 8
     },
@@ -2207,7 +2207,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "KY",
       "venues": 9
     },
@@ -2291,7 +2291,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "LA",
       "venues": 9
     },
@@ -2368,7 +2368,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "MA",
       "venues": 8
     },
@@ -2452,7 +2452,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "MD",
       "venues": 9
     },
@@ -2487,7 +2487,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "ME",
       "venues": 2
     },
@@ -2585,7 +2585,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "MI",
       "venues": 11
     },
@@ -2613,7 +2613,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "MN",
       "venues": 1
     },
@@ -2698,7 +2698,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "MO",
       "venues": 9
     },
@@ -2726,7 +2726,7 @@
       "retail": 0,
       "retail_only": "retail sportsbooks only, no online betting",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "MS",
       "venues": 1
     },
@@ -2761,7 +2761,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run by Intralot, where the app only works inside authorised Sports Bet Montana locations",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "MT",
       "venues": 2
     },
@@ -2845,7 +2845,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "NC",
       "venues": 9
     },
@@ -2873,7 +2873,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "ND",
       "venues": 1
     },
@@ -2908,7 +2908,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "an exclusive lottery contract with DraftKings",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "NH",
       "venues": 2
     },
@@ -3014,7 +3014,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "NJ",
       "venues": 12
     },
@@ -3042,7 +3042,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "NM",
       "venues": 1
     },
@@ -3092,7 +3092,7 @@
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "NV",
       "venues": 4
     },
@@ -3162,7 +3162,7 @@
       "retail": 6,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "NY",
       "venues": 7
     },
@@ -3267,7 +3267,7 @@
       "retail": 11,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "OH",
       "venues": 12
     },
@@ -3295,7 +3295,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "OK",
       "venues": 1
     },
@@ -3330,7 +3330,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "an exclusive lottery partnership with DraftKings",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "OR",
       "venues": 2
     },
@@ -3435,7 +3435,7 @@
       "retail": 11,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "PA",
       "venues": 12
     },
@@ -3470,7 +3470,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run on the IGT platform",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "RI",
       "venues": 2
     },
@@ -3498,7 +3498,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "SC",
       "venues": 1
     },
@@ -3526,7 +3526,7 @@
       "retail": 0,
       "retail_only": "Deadwood and tribal casinos only, no online betting",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "SD",
       "venues": 1
     },
@@ -3610,7 +3610,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "TN",
       "venues": 9
     },
@@ -3638,7 +3638,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "TX",
       "venues": 1
     },
@@ -3666,7 +3666,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "UT",
       "venues": 1
     },
@@ -3772,7 +3772,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "VA",
       "venues": 12
     },
@@ -3821,7 +3821,7 @@
       "retail": 3,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "VT",
       "venues": 4
     },
@@ -3856,7 +3856,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "WA",
       "venues": 2
     },
@@ -3884,7 +3884,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "WI",
       "venues": 1
     },
@@ -3968,7 +3968,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "WV",
       "venues": 9
     },
@@ -4031,7 +4031,7 @@
       "retail": 5,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 6,
+      "stale_days": 8,
       "state": "WY",
       "venues": 6
     }
@@ -4248,7 +4248,7 @@
     "sha256": "735d36ed26e859fa1ad0cc055ace98bdee6eee95dbab48783d89a581d0f7f27c",
     "sha256_short": "735d36ed26e859fa",
     "sources": 29,
-    "test_files": 42
+    "test_files": 43
   },
   "version": "0.1.5",
   "weights": {
