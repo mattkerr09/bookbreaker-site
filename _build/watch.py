@@ -172,6 +172,32 @@ VOLATILE = (
 )
 
 
+#: What a WAF says when it refuses us. These pages are 200s with real
+#: markup, so every size check passed and they were fingerprinted as though
+#: they were the source. Colorado, Kentucky and New York were all being
+#: "watched" this way: the only thing that changes on a block page is the
+#: request id, which is exactly the "drift" reported on the first run and
+#: which the volatile-token filter then silenced. The filter was right; the
+#: conclusion drawn from it was not.
+BLOCKED = (
+    "request is blocked", "request blocked", "access denied",
+    "attention required", "you have been blocked", "403 error",
+    "could not be satisfied", "service unavailable",
+    "enable cookies", "are you a robot", "verify you are human",
+    "checking your browser", "cf-ray",
+)
+
+#: Below this much visible text there is no page here worth comparing. A
+#: statute section runs to a couple of thousand characters; a block page
+#: renders to a few dozen.
+MIN_TEXT = 700
+
+
+def looks_blocked(text: str) -> bool:
+    head = text[:1200]
+    return any(phrase in head for phrase in BLOCKED)
+
+
 def visible(markup: str) -> str:
     """Just the words, with the per-request noise taken out.
 
@@ -288,6 +314,16 @@ def main() -> int:
                 fresh[t["id"]] = base[t["id"]]
             continue
         text = visible(markup)
+        # A 200 carrying a WAF challenge is not the page. Treating it as one
+        # made three regulator sources look watched while nothing was being
+        # compared but an error message.
+        if looks_blocked(text) or len(text) < MIN_TEXT:
+            why = "blocked" if looks_blocked(text) else f"only {len(text)} chars"
+            unreachable.append(dict(t, why=why))
+            if t["id"] in base:
+                fresh[t["id"]] = base[t["id"]]
+            continue
+
         record = {"url": got_from, "name": t["name"], "kind": t["kind"],
                   "words": len(text.split()), "prices": prices(text),
                   "text": text[:120000]}
@@ -324,8 +360,9 @@ def main() -> int:
             print(f"{'':>13}this site states {t['claimed_price']!r} — verify "
                   f"by hand; these figures include earnings claims")
     if unreachable:
-        print(f"\n  could not reach: "
-              f"{', '.join(t['name'][:20] for t in unreachable[:6])}")
+        print(f"\n  {len(unreachable)} not readable:")
+        for t in unreachable:
+            print(f"    {t['name'][:30]:<32} {t.get('why', 'no response')}")
 
     if not BASELINE.exists():
         print("\nno baseline yet — run with --accept to record one")
