@@ -7934,8 +7934,30 @@ point for your own check, not legal advice.</p>
     table_dir.mkdir(exist_ok=True)
     (table_dir / "devig.json").write_text(
         json.dumps(devig_table(engine), separators=(",", ":")))
+    # ⚠️ THIS OVERWRITES robots.txt ON EVERY BUILD, which is how the named
+    # AI-crawler blocks added by hand on 2026-09-02 lasted under an hour:
+    # committed at ad2354b, gone by the next render, locally and live, with
+    # nothing reporting it. The blocks belong here or they do not exist.
+    #
+    # This site's `*` block carries no Disallow, so the named blocks have
+    # nothing to inherit. On matthewkerr.dev and builtbykerr.com they do —
+    # a named User-agent block REPLACES the `*` block rather than merging,
+    # so a verbatim copy of this would hand those crawlers paths the `*`
+    # rule denies. Do not copy this block to a site without checking.
+    #
+    # It changes no access: `User-agent: * / Allow: /` already permits all
+    # of them. It states the intent so it survives a later tightening.
     (SITE / "robots.txt").write_text(
-        "User-agent: *\nAllow: /\n\nSitemap: https://bookbreaker.bet/sitemap.xml\n"
+        "User-agent: *\nAllow: /\n"
+        "\nUser-agent: GPTBot\nAllow: /\n"
+        "\nUser-agent: OAI-SearchBot\nAllow: /\n"
+        "\nUser-agent: ChatGPT-User\nAllow: /\n"
+        "\nUser-agent: ClaudeBot\nAllow: /\n"
+        "\nUser-agent: Claude-SearchBot\nAllow: /\n"
+        "\nUser-agent: PerplexityBot\nAllow: /\n"
+        "\nUser-agent: Google-Extended\nAllow: /\n"
+        "\nUser-agent: Applebot-Extended\nAllow: /\n"
+        "\nSitemap: https://bookbreaker.bet/sitemap.xml\n"
     )
     urls = "".join(
         f"  <url><loc>https://bookbreaker.bet{u}</loc>"
