@@ -7797,7 +7797,7 @@ your own check, not advice.</p>
     out = SITE / "sportsbooks/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page(
-        "Sports betting by state — every book, and which limit winners",
+        "Sports betting by state — which books limit winners",
         "Every US state, the licensed sportsbooks covering it, and which of "
         "them limit accounts that win. Dated, and computed rather than "
         "supplied by a sportsbook.",
@@ -7869,7 +7869,12 @@ point for your own check, not legal advice.</p>
         out = SITE / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(
-            f"{name} sports betting — every book, and which limit winners",
+            # 2026-09-02: 52-character suffix, so any state name of 9 or more
+            # characters ran past 60 — 20 of the 29 did, worst 67 for North
+            # Carolina. Sized against the longest name in the set (14) so it
+            # cannot overflow: 14 + 42 = 56. "every book, and" went; "which
+            # books limit winners" is the distinctive half and it stays.
+            f"{name} sports betting — which books limit winners",
             state_description(name),
             render_state_page(measured, code), url))
         built.append((url, rel))

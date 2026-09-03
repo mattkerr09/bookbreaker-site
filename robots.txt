@@ -1,40 +1,4 @@
 User-agent: *
 Allow: /
 
-# ── AI crawlers, named explicitly ────────────────────────────────────────────
-# ⚠️ A NAMED User-agent BLOCK REPLACES THE `*` BLOCK FOR THAT AGENT. robots.txt
-# is most-specific-wins and directives do NOT merge, so every Disallow above had
-# to be repeated here or these agents would be granted paths the `*` rule denies
-# everyone else. Copying another site's block verbatim would have done exactly
-# that.
-#
-# This changes no access today: `User-agent: * / Allow: /` above already permits
-# these crawlers, and nothing here was ever blocked. It is a statement of intent
-# that survives someone later tightening the `*` rule, and ChatGPT is currently
-# the #5 traffic source on outlier.host.
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Claude-SearchBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Applebot-Extended
-Allow: /
-
 Sitemap: https://bookbreaker.bet/sitemap.xml
