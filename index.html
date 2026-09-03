@@ -15,16 +15,28 @@
      cannot drift from them the way a second hand-written copy would. That is
      the same fault that let the version banner sit at 0.1.0 for two releases.
 
-     og:image is deliberately ABSENT rather than pointed at a placeholder: a
+     og:image was deliberately ABSENT rather than pointed at a placeholder: a
      tag naming a file that 404s is worse than no tag, because a scraper
-     records the miss. A card generated from this site's own palette belongs
-     here when it exists. -->
+     records the miss. The card now exists, so the tag does. 2026-09-02:
+     /og.png, 1200x630, drawn from the LIVE computed palette rather than a
+     guess -- #0057B8 read off the page's own link colour, #1D1D1F off its
+     body text, Space Grotesk off its h1 -- and carrying this site's own
+     headline. The motif is a point estimate inside its interval, which is
+     the product's whole claim rather than decoration.
+
+     twitter:card moves from summary to summary_large_image with it: a 1.91:1
+     card served as `summary` renders as a thumbnail and wastes the image. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bookbreaker">
 <meta property="og:title" content="Bookbreaker — the edge is an interval">
 <meta property="og:description" content="An arbitrage and +EV engine that reports how wrong it might be: the devig spread, the chance of getting on, and what your record can support.">
 <meta property="og:url" content="https://bookbreaker.bet/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://bookbreaker.bet/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Bookbreaker — find your edge, with the error bar.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bookbreaker.bet/og.png">
 <meta name="twitter:title" content="Bookbreaker — the edge is an interval">
 <meta name="twitter:description" content="An arbitrage and +EV engine that reports how wrong it might be: the devig spread, the chance of getting on, and what your record can support.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -653,7 +665,7 @@ bets and keep the account that places them.</p>
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
 ever requested. Every figure on this site is computed by running the engine at
-build time &mdash; none is typed in. Generated 2026-08-25.</p>
+build time &mdash; none is typed in. Generated 2026-09-02.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
 will win. If it stops being fun, it is not fun &mdash;
