@@ -349,7 +349,18 @@ def main() -> int:
             drifted.append((t, moved, f"{moved:.0%} of the text changed"))
 
     if args.accept:
-        BASELINE.write_text(json.dumps(fresh, indent=1, sort_keys=True) + "\n")
+        # ensure_ascii=False is load-bearing, not cosmetic. This file lives in
+        # _data/, so JEKYLL PARSES IT AS YAML on every Pages build — and YAML
+        # rejects the surrogate pairs JSON uses for astral characters. Scraped
+        # competitor copy contains emoji; 58 of them became \ud83d\udd25 and
+        # friends, and GitHub Pages failed every deploy from 2026-08-23 with
+        # "found invalid Unicode character escape code ... line 447 column 11".
+        # bookbreaker.bet served a 2026-08-18 build for eight days, on a page
+        # whose own text says every figure is computed at build time.
+        # Reproduced locally with Ruby's Psych, which is the parser Jekyll uses:
+        # the old file fails with that exact message, the re-encoded one parses.
+        BASELINE.write_text(
+            json.dumps(fresh, indent=1, sort_keys=True, ensure_ascii=False) + "\n")
         print(f"baseline recorded: {len(fresh)} page(s)")
         return 0
 
