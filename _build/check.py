@@ -721,14 +721,18 @@ def self_test() -> int:
         ahead = "9.9.9"
         bad_ver = [("x/index.html", f"<main>Bookbreaker {ahead} is out</main>")]
         ver_fails: list[str] = []
-        check_announced_version_is_downloadable(bad_ver, ver_fails)
+        # The function grew a 'measured' argument (release facts) after these calls were written; the self-test
+        # crashed with a TypeError from then on and gates.sh read SITE RED on every run (found 2026-09-08 13:40Z
+        # by the CEO SEO loop, on a deploy that was otherwise clean). Real file, so the control reads real facts.
+        st_measured = json.loads((SITE / "_build" / "measured.json").read_text()) if (SITE / "_build" / "measured.json").exists() else {}
+        check_announced_version_is_downloadable(bad_ver, ver_fails, st_measured)
         if not ver_fails:
             print("SELF-TEST FAILED: a page announcing an unpublished version "
                   "was not flagged", file=sys.stderr)
             return 1
         ok_ver = [("x/index.html", f"<main>Bookbreaker {real[0]} is out</main>")]
         ver_clean: list[str] = []
-        check_announced_version_is_downloadable(ok_ver, ver_clean)
+        check_announced_version_is_downloadable(ok_ver, ver_clean, st_measured)
         if ver_clean:
             print(f"SELF-TEST FAILED: a published version was flagged: "
                   f"{ver_clean}", file=sys.stderr)
