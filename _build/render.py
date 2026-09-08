@@ -7714,8 +7714,15 @@ actually have placed the bet &mdash; are the parts these lead with.</p>
         rel = f"vs/{row['slug']}-alternative/index.html"
         out = SITE / rel
         out.parent.mkdir(parents=True, exist_ok=True)
+        # MEASURED TITLE (CEO SEO loop, Search Console 28d to 2026-09-06, read 2026-09-08): "crazy ninja odds" put
+        # this page at position 7.0 for 375 impressions with 0 clicks — the only /vs/ page with a page-one reading.
+        # The pattern title says nothing the searcher typed; this one leads with the name and the page's own
+        # argument (the H1's angle). Only the measured page changes: the other eight have no reading yet, and a
+        # lever the numbers do not support is not carried. FALSIFIER: if clicks are still 0 on ≥300 impressions in
+        # the 28 days to 2026-09-22, the title was not the problem — revert this line and say so in SEO-LOOP.md.
+        measured_title = {"crazy-ninja-odds": "Crazy Ninja Odds alternative: all four devig methods at once"}
         out.write_text(page(
-            f"{row['name']} alternative — the edge as a range",
+            measured_title.get(row["slug"], f"{row['name']} alternative — the edge as a range"),
             versus_description(row),
             render_versus(measured, row), url))
         built.append((url, rel))
