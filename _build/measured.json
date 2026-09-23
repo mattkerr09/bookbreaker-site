@@ -359,7 +359,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "5a01922c6534721f",
+  "engine_fingerprint": "df2337537ac2534c",
   "evidence": {
     "bars": [
       {
@@ -757,28 +757,28 @@
   },
   "release": {
     "app": {
-      "bytes": 8210307,
-      "kb": 8018,
+      "bytes": 8239290,
+      "kb": 8046,
       "mb": 8.2,
-      "name": "Bookbreaker-0.1.5.dmg",
-      "sha256": "735d36ed26e859fa1ad0cc055ace98bdee6eee95dbab48783d89a581d0f7f27c"
+      "name": "Bookbreaker-0.1.6.dmg",
+      "sha256": "ca56d69e1e235b9316c91aa9a8c299562ff8b3201b07659f0d3218e5576257c7"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 288810,
-      "kb": 282,
+      "bytes": 333386,
+      "kb": 326,
       "mb": 0.3,
-      "name": "overlay-0.1.5.tar.gz",
-      "sha256": "5c15e76db3cb36dfc3e8a86ab38a52b95099a0ba3b4af240f8f039289bee8ddf"
+      "name": "overlay-0.1.6.tar.gz",
+      "sha256": "bcaa3bd2b427c64f027dd18834e3464ed0da7622d1a1306e9572488333ba1568"
     },
-    "version": "0.1.5",
+    "version": "0.1.6",
     "wheel": {
-      "bytes": 175959,
-      "kb": 172,
+      "bytes": 203507,
+      "kb": 199,
       "mb": 0.2,
-      "name": "overlay-0.1.5-py3-none-any.whl",
-      "sha256": "38f0baea03f6d5c7228a876f76187e7e6d1a2e09aca62497b80761e00da44c34"
+      "name": "overlay-0.1.6-py3-none-any.whl",
+      "sha256": "5b20347fc5d95ff41bc7e99447c9fce1af5534d77c6d48bbca51b3ed91ec9e1b"
     }
   },
   "replay": {
@@ -4248,12 +4248,12 @@
     "accounts": 0,
     "engine_modules": 40,
     "network_calls": 0,
-    "sha256": "735d36ed26e859fa1ad0cc055ace98bdee6eee95dbab48783d89a581d0f7f27c",
-    "sha256_short": "735d36ed26e859fa",
+    "sha256": "ca56d69e1e235b9316c91aa9a8c299562ff8b3201b07659f0d3218e5576257c7",
+    "sha256_short": "ca56d69e1e235b93",
     "sources": 29,
-    "test_files": 44
+    "test_files": 46
   },
-  "version": "0.1.5",
+  "version": "0.1.6",
   "weights": {
     "max_age_days": 90
   },
@@ -4267,11 +4267,13 @@
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.4,
-        "expected": 241.09999999999997,
+        "expected": 240.05454545454543,
         "expires_days": "1",
         "face": 350.0,
-        "guaranteed": 241.09999999999997,
+        "guaranteed": 240.05454545454543,
         "headline": "Bet $20, get $350 in FanCash",
+        "hedge_heat": 0.3,
+        "hedge_stake": 115.0,
         "installments": 7,
         "name": "Fanatics",
         "note": "Secondary source. Paid as seven separate $50 installments, one a day, each claimed separately and expiring 24 hours after issue.",
@@ -4281,8 +4283,9 @@
         "stale": false,
         "steps": [
           "Qualify: bet $20 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.40. It is a fee, not a bet.",
-          "Convert: place each $50 bonus bet at +300 and hedge $115.50 cash on the other side at another book. Either way you keep $34.50. Repeat for all 7 installments.",
-          "Collect: $241.10 guaranteed from $350 face, before the bonus expires (1 day)."
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. Whichever side wins, you keep at least $34.35. Repeat for all 7 installments.",
+          "Collect: $240.05 guaranteed from $350 face, before the bonus expires (1 day).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
         ]
       },
       {
@@ -4290,11 +4293,13 @@
         "book": "fd",
         "conversion": 0.69,
         "cost": 0.1,
-        "expected": 172.4,
+        "expected": 171.65324675324675,
         "expires_days": "5",
         "face": 250.0,
-        "guaranteed": 172.4,
+        "guaranteed": 171.65324675324675,
         "headline": "Get $250 in bonus bets",
+        "hedge_heat": 0.12,
+        "hedge_stake": 575.0,
         "installments": 1,
         "name": "FanDuel",
         "note": "Secondary source. States a $5 first deposit is required; bonus bets are non-withdrawable and expire five days after receipt.",
@@ -4304,8 +4309,9 @@
         "stale": false,
         "steps": [
           "Qualify: bet $5 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.10. It is a fee, not a bet.",
-          "Convert: place each $250 bonus bet at +300 and hedge $577.50 cash on the other side at another book. Either way you keep $172.50.",
-          "Collect: $172.40 guaranteed from $250 face, before the bonus expires (5 days)."
+          "Convert: place each $250 bonus bet at +300 and hedge $575 cash on the other side at another book. Whichever side wins, you keep at least $171.75.",
+          "Collect: $171.65 guaranteed from $250 face, before the bonus expires (5 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
         ]
       },
       {
@@ -4313,11 +4319,13 @@
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
-        "expected": 137.8,
+        "expected": 137.2025974025974,
         "expires_days": "7",
         "face": 200.0,
-        "guaranteed": 137.8,
+        "guaranteed": 137.2025974025974,
         "headline": "Bet $10, get $200 in bonus bets, win or lose",
+        "hedge_heat": 0.2,
+        "hedge_stake": 460.0,
         "installments": 1,
         "name": "bet365",
         "note": "Secondary source. Deposit required; bonus bets are non-withdrawable, expire seven days after receipt, and the stake is excluded from returns.",
@@ -4327,8 +4335,9 @@
         "stale": false,
         "steps": [
           "Qualify: bet $10 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
-          "Convert: place each $200 bonus bet at +300 and hedge $462.00 cash on the other side at another book. Either way you keep $138.00.",
-          "Collect: $137.80 guaranteed from $200 face, before the bonus expires (7 days)."
+          "Convert: place each $200 bonus bet at +300 and hedge $460 cash on the other side at another book. Whichever side wins, you keep at least $137.40.",
+          "Collect: $137.20 guaranteed from $200 face, before the bonus expires (7 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
         ]
       },
       {
@@ -4336,11 +4345,13 @@
         "book": "dk",
         "conversion": 0.69,
         "cost": 0.1,
-        "expected": 103.39999999999999,
+        "expected": 101.45844155844156,
         "expires_days": "7",
         "face": 150.0,
-        "guaranteed": 103.39999999999999,
+        "guaranteed": 101.45844155844156,
         "headline": "Bet $5, get $150 in bonus bets",
+        "hedge_heat": 0.2,
+        "hedge_stake": 340.0,
         "installments": 1,
         "name": "DraftKings",
         "note": "Secondary source. Each bonus bet expires seven days after it is issued; later rewards must be claimed by logging in.",
@@ -4350,8 +4361,9 @@
         "stale": false,
         "steps": [
           "Qualify: bet $5 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.10. It is a fee, not a bet.",
-          "Convert: place each $150 bonus bet at +300 and hedge $346.50 cash on the other side at another book. Either way you keep $103.50.",
-          "Collect: $103.40 guaranteed from $150 face, before the bonus expires (7 days)."
+          "Convert: place each $150 bonus bet at +300 and hedge $340 cash on the other side at another book. Whichever side wins, you keep at least $101.56.",
+          "Collect: $101.46 guaranteed from $150 face, before the bonus expires (7 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
         ]
       },
       {
@@ -4359,11 +4371,13 @@
         "book": "mgm",
         "conversion": 0.69,
         "cost": 0.2,
-        "expected": 103.29999999999998,
+        "expected": 101.35844155844156,
         "expires_days": "",
         "face": 150.0,
-        "guaranteed": 103.29999999999998,
+        "guaranteed": 101.35844155844156,
         "headline": "Bet $10, get $150 in bonus",
+        "hedge_heat": 0.2,
+        "hedge_stake": 340.0,
         "installments": 1,
         "name": "BetMGM",
         "note": "Secondary source. Expiry was not stated on the page read.",
@@ -4373,8 +4387,9 @@
         "stale": false,
         "steps": [
           "Qualify: bet $10 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
-          "Convert: place each $150 bonus bet at +300 and hedge $346.50 cash on the other side at another book. Either way you keep $103.50.",
-          "Collect: $103.30 guaranteed from $150 face, before the bonus expires."
+          "Convert: place each $150 bonus bet at +300 and hedge $340 cash on the other side at another book. Whichever side wins, you keep at least $101.56.",
+          "Collect: $101.36 guaranteed from $150 face, before the bonus expires.",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
         ]
       },
       {
@@ -4387,6 +4402,8 @@
         "face": 750.0,
         "guaranteed": 0.0,
         "headline": "Bet $1+, double your winnings on your next 10 wagers",
+        "hedge_heat": 0.0,
+        "hedge_stake": 0.0,
         "installments": 10,
         "name": "Caesars",
         "note": "Secondary source. Ten 100% profit-boost tokens, $25 maximum stake per token, expiring 14 days after receipt.",
@@ -4400,6 +4417,6 @@
         ]
       }
     ],
-    "total_guaranteed": 758.0
+    "total_guaranteed": 751.73
   }
 }
