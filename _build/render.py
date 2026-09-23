@@ -6250,8 +6250,8 @@ input[type=range]{accent-color:var(--accent)}
    what the shot has to communicate is the OUTPUT — four prices,an interval
    drawn on each,and what survives the chance of getting on. That reads
    better as a light product surface{
-  --card:var(--sink); --sink:#f7f8fa;
-  --ink:#1d1d1f; --ink-2:#5b6069; --ink-3:#8a8f98; --rule:#e6e8ec;
+  --card:var(--sink); --sink:#f5f5f7;
+  --ink:#1d1d1f; --ink-2:#5b6069; --ink-3:#868d99; --rule:#e3e3e6;
   --indigo:var(--accent); --oxblood:#d1293d;
   --band:rgba(11,108,255,.16); --band-neg:rgba(209,41,61,.14);
   background:var(--plate);border:1px solid var(--rule);
@@ -6854,8 +6854,8 @@ body{counter-reset:step}
    from the nav to the footer, and the only surface on the entire page was
    the closing card. That is the whole reason it read flat next to Outlier,
    whose trick is not shadow — there is exactly one box-shadow in its
-   stylesheet — but tonal layering: ground #0a0a0b, surface #111114, a
-   #1f1f26 hairline, small radius, generous padding.
+   stylesheet — but tonal layering: a near-black ground, a surface one step lighter, a
+   hairline one step lighter again, small radius, generous padding.
 
    We already had the tokens for it (--plate under --card under --rule) and
    were using them on one element out of nine.
