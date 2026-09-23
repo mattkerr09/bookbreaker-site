@@ -1560,6 +1560,19 @@ def measure(engine) -> dict:
         }
         for code in states
     }
+
+    # Welcome offers, priced by the same module the app's Offers tab runs.
+    # The figures on /offers/ are these; none is typed into the page.
+    import importlib as _importlib
+    _welcome = _importlib.import_module(engine.__name__ + ".welcome")
+    _priced = _welcome.price(_welcome.load())
+    out["welcome"] = {
+        "assumptions_bonus_decimal": _welcome.PRIOR_BONUS_DECIMAL,
+        "assumptions_hold_pct": _welcome.PRIOR_TWO_BOOK_HOLD * 100,
+        "max_age_days": _welcome.MAX_AGE_DAYS,
+        "offers": [pp.as_dict() for pp in _priced],
+        "total_guaranteed": round(sum(pp.guaranteed for pp in _priced), 2),
+    }
     return out
 
 
@@ -1749,6 +1762,19 @@ def page(title: str, description: str, body: str, path: str,
     # so sniffing the attribute is right only by accident.
     if "data-hub" in body:
         body_class = (body_class + " hub").strip()
+    # Footer columns generated from the same rows that generate the pages, so
+    # a page cannot be born with nothing linking to it. Docket found fifteen:
+    # every /vs/*-alternative, /best/* and /for/* page was in the sitemap and
+    # linked from nowhere.
+    foot_alt = "".join(
+        f'<p><a href="/vs/{e(r["slug"])}-alternative/">{e(r["name"])} alternative</a></p>'
+        for r in load_data("competitors"))
+    foot_best = "".join(
+        f'<p><a href="/best/{e(r["slug"])}/">{e(r["title"])}</a></p>'
+        for r in load_data("best"))
+    foot_for = "".join(
+        f'<p><a href="/for/{e(r["slug"])}/">For {e(r["who"])}</a></p>'
+        for r in load_data("audiences"))
     nav = (
         '<div class="banner"><div class="banner-in">'
         '<span class="tag">New</span>'
@@ -1763,6 +1789,7 @@ def page(title: str, description: str, body: str, path: str,
         '<a href="/sportsbooks/">By state</a>'
         '<a href="/guides/">Guides</a>'
         '<a href="/calculators/">Calculators</a>'
+        '<a href="/offers/">Offers</a>'
         '<a href="/for/arbitrage-bettors/">For arbers</a>'
         '<a href="/vs/">Compared</a>'
         '</span>'
@@ -1845,6 +1872,18 @@ def page(title: str, description: str, body: str, path: str,
     <p><a href="/vs/">Every tool, dated</a></p>
     <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
     <p><a href="/what-your-record-proves/">What a record proves</a></p>
+    <p><a href="/offers/">Sign-up offers, ranked</a></p>
+    <p><a href="/privacy/">Privacy</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Alternatives</p>
+    {foot_alt}
+  </div>
+  <div>
+    <p class="foot-head">Best of</p>
+    {foot_best}
+    <p class="foot-head">Built for</p>
+    {foot_for}
   </div>
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
@@ -1853,7 +1892,7 @@ build time &mdash; none is typed in. Generated {e(TODAY)}.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
 will win. If it stops being fun, it is not fun &mdash;
-<a href="tel:1-800-426-2537">call 1-800-GAMBLER</a> or visit
+<a href="tel:+18004262537">call 1-800-GAMBLER</a> or visit
 <a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>.</p>
 </footer>
 <script>
@@ -4530,7 +4569,7 @@ def responsible() -> str:
             'is a prediction that you will win. The engine measures how uncertain '
             'a price is; it does not remove the uncertainty.</p>'
             '<p>If gambling stops being fun, it is not fun. '
-            '<a href="tel:1-800-426-2537">Call 1-800-GAMBLER</a> or visit '
+            '<a href="tel:+18004262537">Call 1-800-GAMBLER</a> or visit '
             '<a href="https://www.ncpgambling.org/help-treatment/" '
             'rel="noopener" target="_blank">ncpgambling.org</a>.</p>'
             '</aside>')
@@ -7353,6 +7392,27 @@ h2,.showcase h2,.verify h2,.refuse h2{
 .eyebrow{background:linear-gradient(90deg,
     var(--accent-hi,var(--accent)),var(--accent-lo,var(--accent)));
   -webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* PASS 25 — offers and a denser footer. */
+.src-line{font:500 .8rem/1.5 var(--mono);color:var(--dim);border-left:2px solid var(--accent);
+  padding-left:.7rem;margin:0 0 1.5rem;max-width:72ch}
+.offer-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));
+  margin:0 0 var(--float-gap)}
+.offer-card{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  padding:1.2rem 1.3rem;display:grid;gap:.5rem;align-content:start;
+  transition:border-color .18s ease,transform .18s ease}
+.offer-card:hover{border-color:var(--hover-rule,var(--accent));transform:translateY(-2px)}
+.offer-top{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+.offer-top .worth{font-family:var(--display);font-size:var(--t-7);color:var(--accent);
+  font-variant-numeric:tabular-nums;line-height:1}
+.offer-top span{opacity:.8;font-size:var(--t-3)}
+.offer-card h3{margin:.2rem 0 0}
+.offer-card h3 small{display:block;font-weight:500;opacity:.8;font-size:var(--t-4)}
+.offer-card ol{margin:0;padding-left:1.1rem;display:grid;gap:.3rem;font-size:var(--t-3)}
+/* A state, not a component: an attribute, so the class gate is not asked to
+   find a class that only exists on the day an offer goes stale. */
+.offer-card[data-stale]{opacity:.6}
+.foot-grid{grid-template-columns:repeat(auto-fit,minmax(11rem,1fr))}
 """
 
 
@@ -7471,21 +7531,98 @@ REDIRECTS = [
     ("/sportsbooks/not-covered/", "/sportsbooks/in-person-only/"),
 ]
 
+def render_offers(m: dict) -> str:
+    """Every welcome offer, ranked by what converts — the site twin of the
+    app's Offers tab, from the same engine output."""
+    w = m["welcome"]
+    cards = []
+    for o in w["offers"]:
+        if o["stale"]:
+            cards.append(f"""<article class="offer-card" data-stale><h3>{e(o['name'])}</h3>
+<p>{e(o['headline'])}</p><p class="caveat">Read {e(o['read'])}. Offers roll
+monthly, so this one is not priced until it is read again.</p></article>""")
+            continue
+        worth = (f'<b class="worth">${o["guaranteed"]:,.2f}</b><span>guaranteed from '
+                 f'${o["face"]:,.0f} face</span>' if o["guaranteed"] else
+                 f'<b class="worth">${o["expected"]:,.2f}</b><span>expected &mdash; a '
+                 f'profit boost cannot be hedged to a fixed amount</span>')
+        steps = "".join(f"<li>{e(st)}</li>" for st in o["steps"])
+        cards.append(f"""<article class="offer-card reveal">
+<div class="offer-top">{worth}</div>
+<h3>{e(o['name'])} <small>{e(o['headline'])}</small></h3>
+<ol>{steps}</ol>
+<p class="caveat">{e(o['note'])} <a href="{e(o['source'])}" rel="nofollow">source</a>,
+read {e(o['read'])}.</p>
+</article>""")
+    return f"""
+<h1>Every sign-up bonus, and what it is really worth</h1>
+<p class="lede">An affiliate table sorts by the headline. The headline is the one
+number on it you do not keep. What you keep from a bonus bet is its value once
+it is hedged at a second book, so the result is the same whichever way the game
+goes &mdash; and ranked by that, the order changes.</p>
+<p class="src-line">Priced by the engine at build time, on two stated priors: bonus
+bets placed at decimal {w['assumptions_bonus_decimal']:.1f}, and a
+{w['assumptions_hold_pct']:.1f}% combined hold across the best two books. The app
+lets you change both.</p>
+<div class="offer-grid">{''.join(cards)}</div>
+<p class="caveat">Offers change monthly and differ by state; check the source for
+your state before you sign up. Every row cites where it was read and when, and
+rows older than {w['max_age_days']} days are shown as stale rather than priced.
+These are read from a secondary source because the books' own promotion pages
+refuse automated readers, and getting past that is not something this site does.
+No link here pays us anything.</p>
+"""
+
+
+def render_privacy(m: dict) -> str:
+    return """
+<h1>Privacy</h1>
+<p class="lede">The short version: this site collects nothing, and the app sends
+nothing about you anywhere.</p>
+<h2>This website</h2>
+<p>No analytics, no advertising pixels, no cookies, no forms and no accounts.
+Nothing on these pages runs a tracker, and there is nothing to sign up for.</p>
+<p>The site is hosted on GitHub Pages. GitHub may record the IP address of
+anyone who requests a page, for security and abuse prevention, under
+<a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub&rsquo;s own privacy statement</a>.
+That is the only record of your visit that exists, and we cannot see it.</p>
+<h2>The app</h2>
+<p>Bookbreaker runs on your Mac. Your bets, stakes, results and account notes
+stay in a file on your machine. There is no account, no sync and no upload, and
+the window itself cannot make a network request: it links no HTTP client and
+its content security policy permits no external address. A test in the source
+fails the build if either ever changes.</p>
+<p>Two things can reach the internet, and only when you ask. The live board,
+when you turn it on, requests public prices from Kalshi and Polymarket &mdash;
+the same request a browser makes, carrying nothing about you. And if the app
+crashes it writes a report to your own disk, with passwords and keys stripped
+out; it never sends it. You can attach it to an email yourself if you want to.</p>
+<h2>Sportsbook accounts</h2>
+<p>Bookbreaker never asks for a sportsbook login and cannot connect to one.
+Your history comes in by importing the CSV your book lets you download, or by
+pasting a betslip.</p>
+<h2>Links to sportsbooks</h2>
+<p>Links on this site to sportsbooks are ordinary links. None is an affiliate
+link and none pays us.</p>
+"""
+
+
 PAGES = [
     ("/", "index.html", "Bookbreaker — the edge is an interval",
      "An arbitrage and +EV engine that reports how wrong it might be: the devig "
      "spread, the chance of getting on, and what your record can support.",
      render_index),
-    ("/download/", "download/index.html", "Download Bookbreaker",
+    ("/download/", "download/index.html", "Download Bookbreaker — free arbitrage and +EV app for Mac",
      "A free command-line arbitrage and +EV engine that runs on your own "
      "machine. No account, no upload, checksums published for every build.",
      render_download),
-    ("/how-it-works/", "how-it-works/index.html", "How Bookbreaker works",
+    ("/how-it-works/", "how-it-works/index.html", "How Bookbreaker finds arbs and prices every bet",
      "Welcome offers after every cost, middles counted rather than assumed, "
      "which books you can legally use, and what the tool will not do.",
      render_how),
-    ("/vs/", "vs/index.html", "Bookbreaker compared",
-     "OddsJam, AVO, Betstamp and Pikkit — every claim dated and linked.",
+    ("/vs/", "vs/index.html", "Bookbreaker vs OddsJam, AVO, Pikkit and every arb tool",
+     "OddsJam, AVO, Betstamp, Pikkit and the rest compared on price, features "
+     "and limits — every claim dated and linked to its source.",
      render_vs),
     ("/account-longevity/", "account-longevity/index.html",
      "Account longevity — why limits matter more than edge",
@@ -7499,6 +7636,15 @@ PAGES = [
      "records prove nothing, why slicing makes it worse, and what converges "
      "faster than profit.",
      render_evidence),
+    ("/offers/", "offers/index.html",
+     "Sportsbook sign-up bonuses ranked by what you actually keep",
+     "Every welcome offer priced after hedging: what each bonus converts to in "
+     "guaranteed cash, the steps to collect it, and where each was read.",
+     render_offers),
+    ("/privacy/", "privacy/index.html", "Privacy — what Bookbreaker collects",
+     "This site runs no analytics, no pixels and no cookies, and the app sends "
+     "nothing about you anywhere. What GitHub Pages logs, and what the app can reach.",
+     render_privacy),
 ]
 
 

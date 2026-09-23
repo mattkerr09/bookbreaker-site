@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How to devig odds</title>
-<meta name="description" content="How do you find the true probability behind a sportsbook&#x27;s price? Worked through with the arithmetic done, not just the formula.">
-<link rel="canonical" href="https://bookbreaker.bet/guides/how-to-devig-odds/">
+<title>Privacy — what Bookbreaker collects</title>
+<meta name="description" content="This site runs no analytics, no pixels and no cookies, and the app sends nothing about you anywhere. What GitHub Pages logs, and what the app can reach.">
+<link rel="canonical" href="https://bookbreaker.bet/privacy/">
 <!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE — no og:title, no
      og:description, no twitter:card — so every shared link unfurled as a bare
      URL. It was the only site in the portfolio without any, on the one whose
@@ -28,17 +28,17 @@
      card served as `summary` renders as a thumbnail and wastes the image. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bookbreaker">
-<meta property="og:title" content="How to devig odds">
-<meta property="og:description" content="How do you find the true probability behind a sportsbook&#x27;s price? Worked through with the arithmetic done, not just the formula.">
-<meta property="og:url" content="https://bookbreaker.bet/guides/how-to-devig-odds/">
+<meta property="og:title" content="Privacy — what Bookbreaker collects">
+<meta property="og:description" content="This site runs no analytics, no pixels and no cookies, and the app sends nothing about you anywhere. What GitHub Pages logs, and what the app can reach.">
+<meta property="og:url" content="https://bookbreaker.bet/privacy/">
 <meta property="og:image" content="https://bookbreaker.bet/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Bookbreaker — find your edge, with the error bar.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bookbreaker.bet/og.png">
-<meta name="twitter:title" content="How to devig odds">
-<meta name="twitter:description" content="How do you find the true probability behind a sportsbook&#x27;s price? Worked through with the arithmetic done, not just the formula.">
+<meta name="twitter:title" content="Privacy — what Bookbreaker collects">
+<meta name="twitter:description" content="This site runs no analytics, no pixels and no cookies, and the app sends nothing about you anywhere. What GitHub Pages logs, and what the app can reach.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -46,31 +46,43 @@
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css?v=f5f669579d">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Guides", "item": "https://bookbreaker.bet/guides/"}, {"@type": "ListItem", "position": 2, "name": "How To Devig Odds", "item": "https://bookbreaker.bet/guides/how-to-devig-odds/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Privacy", "item": "https://bookbreaker.bet/privacy/"}]}</script>
 </head>
 <body class="">
 <div class="mesh" aria-hidden="true"><b class="m1"></b><b class="m2"></b><b class="m3"></b></div>
 <div class="grid-ovl" aria-hidden="true"></div>
 <header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.5 is out &mdash; free, runs on your machine, nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ba3ff"/><stop offset="1" stop-color="#0057b8"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
 <main>
-<div class="phead"><p class="crumb"><a href="/">Home</a><span>/</span><a href="/guides/">Guides</a></p><h1>How to devig odds</h1><p class="lede">How do you find the true probability behind a sportsbook&#x27;s price?</p></div>
 
-<p>A sportsbook's prices imply probabilities that add to more than 100%. The
-surplus is the margin. Devigging redistributes it to recover what the book
-actually believes &mdash; and <em>how</em> you redistribute it is a modelling
-choice, not arithmetic.</p>
-<p>On a -145 / +125 moneyline, the four standard methods give the
-favourite anywhere from 57.11% to 57.50%:</p>
-<p><strong>additive</strong> &mdash; 57.37%</p><p><strong>multiplicative</strong> &mdash; 57.11%</p><p><strong>power</strong> &mdash; 57.50%</p><p><strong>shin</strong> &mdash; 57.37%</p>
-<p>That spread is 0.39 points of probability on a market where a
-2% edge is a good day. Multiplicative is the usual default because it is one
-division, but it distributes the margin in proportion to implied probability
-&mdash; the opposite of the favourite-longshot bias real markets show, which
-makes it the method most likely to overstate a longshot.</p>
-<p>The practical answer: do not pick one. An edge that exists under one method
-and vanishes under another is a modelling artefact.
-<a href="/calculators/no-vig-odds/">Work it through &rarr;</a></p>
-<nav class="onward" aria-label="More guides"><p class="onward-cap">Keep reading</p><ul class="cards cards--onward"><li class="card"><a href="/guides/what-is-closing-line-value/"><span class="card-t">What is closing line value</span><span class="card-q">Why do sharp bettors care more about CLV than profit?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li><li class="card"><a href="/guides/how-to-convert-a-bonus-bet/"><span class="card-t">How to convert a bonus bet to cash</span><span class="card-q">What is a free bet actually worth and how do you cash it?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li><li class="card"><a href="/guides/what-is-arbitrage-betting/"><span class="card-t">What is arbitrage betting</span><span class="card-q">How do you bet both sides and still win?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li></ul></nav>
+<h1>Privacy</h1>
+<p class="lede">The short version: this site collects nothing, and the app sends
+nothing about you anywhere.</p>
+<h2>This website</h2>
+<p>No analytics, no advertising pixels, no cookies, no forms and no accounts.
+Nothing on these pages runs a tracker, and there is nothing to sign up for.</p>
+<p>The site is hosted on GitHub Pages. GitHub may record the IP address of
+anyone who requests a page, for security and abuse prevention, under
+<a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub&rsquo;s own privacy statement</a>.
+That is the only record of your visit that exists, and we cannot see it.</p>
+<h2>The app</h2>
+<p>Bookbreaker runs on your Mac. Your bets, stakes, results and account notes
+stay in a file on your machine. There is no account, no sync and no upload, and
+the window itself cannot make a network request: it links no HTTP client and
+its content security policy permits no external address. A test in the source
+fails the build if either ever changes.</p>
+<p>Two things can reach the internet, and only when you ask. The live board,
+when you turn it on, requests public prices from Kalshi and Polymarket &mdash;
+the same request a browser makes, carrying nothing about you. And if the app
+crashes it writes a report to your own disk, with passwords and keys stripped
+out; it never sends it. You can attach it to an email yourself if you want to.</p>
+<h2>Sportsbook accounts</h2>
+<p>Bookbreaker never asks for a sportsbook login and cannot connect to one.
+Your history comes in by importing the CSV your book lets you download, or by
+pasting a betslip.</p>
+<h2>Links to sportsbooks</h2>
+<p>Links on this site to sportsbooks are ordinary links. None is an affiliate
+link and none pays us.</p>
+
 </main>
 <footer>
 <div class="foot-grid">

@@ -2219,3 +2219,24 @@ h2,.showcase h2,.verify h2,.refuse h2{
 .eyebrow{background:linear-gradient(90deg,
     var(--accent-hi,var(--accent)),var(--accent-lo,var(--accent)));
   -webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* PASS 25 — offers and a denser footer. */
+.src-line{font:500 .8rem/1.5 var(--mono);color:var(--dim);border-left:2px solid var(--accent);
+  padding-left:.7rem;margin:0 0 1.5rem;max-width:72ch}
+.offer-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));
+  margin:0 0 var(--float-gap)}
+.offer-card{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  padding:1.2rem 1.3rem;display:grid;gap:.5rem;align-content:start;
+  transition:border-color .18s ease,transform .18s ease}
+.offer-card:hover{border-color:var(--hover-rule,var(--accent));transform:translateY(-2px)}
+.offer-top{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+.offer-top .worth{font-family:var(--display);font-size:var(--t-7);color:var(--accent);
+  font-variant-numeric:tabular-nums;line-height:1}
+.offer-top span{opacity:.8;font-size:var(--t-3)}
+.offer-card h3{margin:.2rem 0 0}
+.offer-card h3 small{display:block;font-weight:500;opacity:.8;font-size:var(--t-4)}
+.offer-card ol{margin:0;padding-left:1.1rem;display:grid;gap:.3rem;font-size:var(--t-3)}
+/* A state, not a component: an attribute, so the class gate is not asked to
+   find a class that only exists on the day an offer goes stale. */
+.offer-card[data-stale]{opacity:.6}
+.foot-grid{grid-template-columns:repeat(auto-fit,minmax(11rem,1fr))}

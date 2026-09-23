@@ -13,6 +13,7 @@
     "Does this pair cross?",
     "How much should this be?",
     "What is this parlay really worth?",
+    "Every sign-up bonus, and what it is really worth",
     "What your record actually says",
     "Will you actually get this bet on?"
   ],
@@ -28,6 +29,7 @@
     "Arbitrage",
     "Stake",
     "Parlay",
+    "Offers",
     "Results",
     "Will it land?"
   ]
