@@ -3964,6 +3964,13 @@ def versus_description(row: dict) -> str:
     of five competitor pages failed the 50-160 character rule on the first
     render, for no reason except that the source text varies in length.
     """
+    if row["slug"] == "crazy-ninja-odds":
+        # FROZEN for the CNO title test until 2026-10-06 (CEO order 2026-09-24:
+        # title and meta stay, body is fixed). This text repeats the old, false
+        # claim about CNO. Correct it on 2026-10-06.
+        return ("One devig method at a time rather than the spread. Bookbreaker "
+                "reports the devig spread, the chance of getting the bet down, "
+                "and when a record proves nothing.")
     for candidate in (
         f"{row['gap']}. Bookbreaker reports the devig spread, the chance of "
         f"getting the bet down, and when a record proves nothing.",
@@ -4133,7 +4140,7 @@ def render_versus(m: dict, row: dict) -> str:
         "avo": "has no delayed tier",
         "betstamp-pro": "says how often a line is still there",
         "pikkit": "never asks for a sportsbook password",
-        "crazy-ninja-odds": "shows all four devig methods at once",
+        "crazy-ninja-odds": "puts the spread between devig methods in one number",
         "rebelbetting": "prices the chance an arb survives",
         "betburger": "puts a fill probability behind the percentage",
         "unabated": "gives the range, not one fair line",
@@ -4222,10 +4229,10 @@ def render_versus(m: dict, row: dict) -> str:
         "crazy-ninja-odds": (
             "How much the method choice is worth",
             methods_stat + devig_stat + roi_stat,
-            "A devigger that shows one method at a time can show you all four "
-            "if you click four times, and it will never show you the spread "
-            "between them. The spread is the part that tells you whether the "
-            "fair price is known well enough to bet against."),
+            f"Crazy Ninja Odds' worst case takes the most conservative of the "
+            f"methods ({cite}), which is a careful way to bet. Bookbreaker also tells you "
+            "how far apart the methods are, as one number, so you can see when "
+            "the fair price is too uncertain to bet against at all."),
         "rebelbetting": (
             "How often an arb is still placeable",
             fill_stat + realised_stat + devig_stat,
@@ -4266,8 +4273,8 @@ def render_versus(m: dict, row: dict) -> str:
         "avo": "No delayed tier: one build, everything visible, free",
         "betstamp-pro": "A published fill probability for every quote age",
         "pikkit": "CSV or pasted betslip; no credentials, ever",
-        "crazy-ninja-odds": "All four methods side by side, with the spread "
-                            "between them",
+        "crazy-ninja-odds": "The spread between the four methods as one "
+                            "number, next to each method's fair price",
         "rebelbetting": "Both legs priced for survival before the arb is called",
         "betburger": "The arb percentage multiplied by the chance it fills",
         "unabated": "The range the four methods allow, not one line from one "
@@ -4276,7 +4283,26 @@ def render_versus(m: dict, row: dict) -> str:
                       "slices were tried",
     }[row["slug"]]
 
-    if sub:
+    # CNO is free; its $5/mo is optional support, so there is no plan cost to
+    # work out and no price row. Its section says what it does and what we add.
+    cno = row["slug"] == "crazy-ninja-odds"
+    lede = (f"{e(row['note'])}, free to use &mdash; {cite}." if cno else
+            f"{e(row['note'])}, at {e(row['price'])} &mdash; {cite}.")
+    gap_head = (f"What {e(row['name'])} does, and what Bookbreaker adds" if cno
+                else f"What {e(row['name'])} does not tell you")
+    gap_text = (f"Crazy Ninja Odds is free, and its devigger can show all four "
+                f"methods and a worst case ({cite}). Bookbreaker adds the spread between "
+                "methods as one number, the chance the price is still there when "
+                "your bet lands, and arb stakes in round numbers &mdash; offline "
+                "on your Mac." if cno else f"{e(row['gap'])}.")
+    price_row = ("" if cno else
+                 f"<tr><td class=\"prose\">Price</td>\n"
+                 f"<td class=\"prose\">{e(row['price'])} &mdash; {cite}</td>\n"
+                 f"<td class=\"prose\">Free &mdash; {m['release']['app']['mb']} MB, "
+                 f"no account</td></tr>\n")
+    if cno:
+        cost = ""
+    elif sub:
         cost = (f"<p>{e(row['name'])} lists {e(row['price'])}. The cheapest "
                 f"monthly plan is {sub['sym']}{sub['yearly_whole']:,} a year you "
                 f"clear before any profit is yours &mdash; "
@@ -4292,10 +4318,10 @@ def render_versus(m: dict, row: dict) -> str:
 
     return f"""
 <h1>{headline}</h1>
-<p class="lede">{e(row['note'])}, at {e(row['price'])} &mdash; {cite}.</p>
+<p class="lede">{lede}</p>
 
-<h2>What {e(row['name'])} does not tell you</h2>
-<p>{e(row['gap'])}.</p>
+<h2>{gap_head}</h2>
+<p>{gap_text}</p>
 {cost}
 
 <h2>Side by side</h2>
@@ -4303,10 +4329,7 @@ def render_versus(m: dict, row: dict) -> str:
 <tr><th class="prose">&nbsp;</th>
 <th class="prose">{e(row['name'])}, as published</th>
 <th class="prose">Bookbreaker, as computed</th></tr>
-<tr><td class="prose">Price</td>
-<td class="prose">{e(row['price'])} &mdash; {cite}</td>
-<td class="prose">Free &mdash; {m['release']['app']['mb']} MB, no account</td></tr>
-<tr><td class="prose">What it advertises</td>
+{price_row}<tr><td class="prose">What it advertises</td>
 <td class="prose">{e(row['note'])} &mdash; {cite}</td>
 <td class="prose">{m['catalog']['venues']} venues catalogued across
 {m['catalog']['states']} states</td></tr>

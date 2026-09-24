@@ -60,7 +60,7 @@ CASES = [
         "a competitor claim with no source link",
         "check_every_competitor_row_is_sourced",
         "vs/index.html",
-        '<a href="https://xclsvmedia.com/oddsjam-review-2026-is-this-199-month-betting-tool-worth-it/">source</a>',
+        '<a href="https://oddsjam.com/subscribe">source</a>',
         "source",
     ),
     (
