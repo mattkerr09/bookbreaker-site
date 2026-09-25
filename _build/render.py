@@ -1314,11 +1314,11 @@ def measure(engine) -> dict:
                  # Two rows both labelled "Guaranteed" with different
                  # numbers, told apart only by which came first, in the table
                  # the page exists to show.
-                 ("Guaranteed, exact", f"{a['exact_profit']:,.2f}"),
+                 ("Locked if both stand, exact", f"{a['exact_profit']:,.2f}"),
                  ("Round stakes",
                   f"{a['round_stakes'][0]:,} / {a['round_stakes'][1]:,}"),
-                 ("Guaranteed, rounded", f"{a['round_profit']:,.2f}"),
-                 ("Cost of looking human", f"{a['rounding_cost']:,.2f}")])
+                 ("Locked if both stand, rounded", f"{a['round_profit']:,.2f}"),
+                 ("Cost of rounding", f"{a['rounding_cost']:,.2f}")])
         + "<p>A stake to the cent is the loudest fingerprint a risk desk "
         "reads. This solves for round stakes directly, because rounding a "
         "lock afterwards breaks it.</p>")}
@@ -1349,7 +1349,7 @@ def measure(engine) -> dict:
         "stake, so it is worth about half its face value bet naively. Hedged:"
         "</p>"
         + "<table><tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th>"
-        "<th>Guaranteed</th><th>Rate</th></tr>"
+        "<th>Locked if both stand</th><th>Rate</th></tr>"
         + "".join(f"<tr><td>{e(r['free'])}</td><td>{e(r['hedge'])}</td>"
                   f"<td>{r['hedge_stake']:,}</td><td>{r['guaranteed']:,}</td>"
                   f"<td>{r['rate']:.1f}%</td></tr>" for r in ladder)
@@ -2423,7 +2423,7 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
     <figure class="reveal">
       <img src="/media/panel-arbitrage.jpg" width="1280" height="720"
         loading="lazy" alt="The arbitrage tab: two prices, the stake split
-        across both, and the guaranteed return.">
+        across both, and the return locked if both bets stand.">
       <figcaption><b>Arbitrage</b><span>{m['showcase']['arb_a']:.2f} against
       {m['showcase']['arb_b']:.2f} &mdash; {m['showcase']['arb_margin_pct']:.2f}%
       either way, with the stake on each leg already rounded to something a
@@ -2559,12 +2559,12 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
       <div class="vs-side">
         <p class="vs-cap">Every calculator</p>
         <p class="vs-val">{a['exact_stakes'][0]:,.2f} <i>/</i> {a['exact_stakes'][1]:,.2f}</p>
-        <p class="vs-sub">{a['exact_profit']:,.2f} guaranteed</p>
+        <p class="vs-sub">{a['exact_profit']:,.2f} locked if both stand</p>
       </div>
       <div class="vs-side vs-side--ours">
         <p class="vs-cap">Bookbreaker</p>
         <p class="vs-val">{a['round_stakes'][0]:,} <i>/</i> {a['round_stakes'][1]:,}</p>
-        <p class="vs-sub">{a['round_profit']:,.2f} guaranteed</p>
+        <p class="vs-sub">{a['round_profit']:,.2f} locked if both stand</p>
       </div>
     </div>
   </div>
@@ -2739,7 +2739,7 @@ value if bet naively. Converting means hedging &mdash; and every guide says
 second book. On a {c['bonus']:,} bonus:</p>
 <table>
 <tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th>
-<th>Guaranteed</th><th>Rate</th></tr>
+<th>Locked if both stand</th><th>Rate</th></tr>
 {rows}
 </table>
 <p>The hedge column is the constraint the advice always omits.</p>
@@ -2829,7 +2829,7 @@ margin. That reorders the screen, and the reorder is the point.</p>
 {a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. That precision is
 the clearest signal a risk desk reads. Rounding afterwards breaks the lock
 because the legs are not symmetric &mdash; solving over round stakes gives
-{a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still guaranteed, for
+{a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still locked if both bets are accepted and stand, for
 {a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}.</p>
 <p>Commission is netted before anything is called an arb, which matters more
 than it sounds. {e(m['commission']['price'])} on both sides looks like a
@@ -2877,7 +2877,7 @@ worth about half its face value.</p>
 <p>Converting a bonus bet means hedging it. Longer odds convert better, and the
 hedge column is what every guide omits:</p>
 <table>
-<tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Guaranteed</th><th>Rate</th></tr>
+<tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Locked if both stand</th><th>Rate</th></tr>
 {"".join(f"<tr><td>{e(r['free'])}</td><td>{e(r['hedge'])}</td><td>{r['hedge_stake']:,}</td><td>{r['guaranteed']:,}</td><td>{r['rate']:.1f}%</td></tr>" for r in conv['ladder'])}
 </table>
 <p>A deposit match is different arithmetic again. Rollover is a price, not a
@@ -3076,10 +3076,10 @@ one. Comparing two vigged prices understates your edge by the closing margin.
 money and you collect {conv['bonus']:,}, not {conv['doubled']:,} &mdash; so
 bet naively it is worth about half its face value.</p>
 <p>Converting means hedging: put the bonus on one side and cash on the other,
-so you keep a guaranteed amount whichever way it lands. Longer odds convert
+so you keep a set amount whichever way it lands, if both bets are accepted and stand. Longer odds convert
 better, because you are not risking the stake:</p>
 <table>
-<tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Guaranteed</th><th>Rate</th></tr>
+<tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Locked if both stand</th><th>Rate</th></tr>
 {"".join(f"<tr><td>{e(r['free'])}</td><td>{e(r['hedge'])}</td><td>{r['hedge_stake']:,}</td><td>{r['guaranteed']:,}</td><td>{r['rate']:.1f}%</td></tr>" for r in conv['ladder'])}
 </table>
 <p>Every guide stops at &ldquo;convert on a longshot&rdquo;. Look at the hedge
@@ -3106,7 +3106,7 @@ arbing, you are betting.</p>
 {a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. Nobody types that,
 and risk desks know it. Rounding afterwards breaks the lock because the legs
 are not symmetric &mdash; solving for round stakes directly gives
-{a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still guaranteed, for
+{a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still locked if both bets are accepted and stand, for
 {a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}.
 <a href="/calculators/arbitrage/">Stake one &rarr;</a></p>
 """,
@@ -3559,7 +3559,7 @@ precision is one of the cheapest signals a risk desk has, and it costs nothing
 to read.</p>
 <h2>What rounding costs</h2>
 <p>Round to {rd['round_legs'][0]:,.0f} and {rd['round_legs'][1]:,.0f} and the
-guaranteed profit becomes {rd['round_profit']:,.2f} &mdash; a cost of
+locked profit (if both bets are accepted and stand) becomes {rd['round_profit']:,.2f} &mdash; a cost of
 <strong>{rd['cost']:,.2f}</strong>, or {rd['cost_bps']:.1f} basis points of
 turnover.</p>
 <p>That is the whole trade, stated. It is a real cost and it is named rather
@@ -3573,7 +3573,7 @@ clean number &mdash; that is the account whose survival the shape protects
 combination by its <em>worst</em> outcome.</p>
 <p>Worst outcome, not average. Once stakes are rounded the legs pay
 differently, and quoting the average would describe a position you do not
-hold. The guaranteed number is the small one.</p>
+hold. The locked number is the small one.</p>
 <p><a href="/calculators/arbitrage/">Stake one &rarr;</a></p>
 """,
 
@@ -4077,8 +4077,8 @@ the cheapest signals a risk desk has. The round pair sits underneath:</p>
     <span>hairlines to the cent, blocks to the note</span>
     <span>{pl['stake_hi']:,}</span></figcaption>
 </figure>
-<p>The whole cost of looking human is {r['cost']:,.2f} of the
-{r['exact_profit']:,.2f} guaranteed &mdash; the notch below:</p>
+<p>Rounding costs {r['cost']:,.2f} of the
+{r['exact_profit']:,.2f} locked if both bets are accepted and stand &mdash; the notch below:</p>
 <figure class="plate">
   <div class="rf-frame">{rf(0, r['cost'], r['cost'], (0, pl['profit_hi']),
                             cls="rf--notch",
@@ -7553,6 +7553,17 @@ REDIRECTS = [
     ("/sportsbooks/not-covered/", "/sportsbooks/in-person-only/"),
 ]
 
+def _offer_step_wording(st: str) -> str:
+    """The engine's offer steps say "guaranteed" and advise placing ordinary
+    bets at the book. On the site the amount is locked only if both bets are
+    accepted and stand, and there is no advice on how a bettor looks to a book.
+    The app's Offers tab still carries the engine text; changing that is an app
+    release, not a site edit."""
+    st = re.sub(r"\$([\d,]+\.\d\d) guaranteed from \$([\d,]+) face",
+                r"$\1 locked from $\2 face if both bets are accepted and stand", st)
+    return st.replace("; and place some ordinary bets there too.", ".")
+
+
 def render_offers(m: dict) -> str:
     """Every welcome offer, ranked by what converts — the site twin of the
     app's Offers tab, from the same engine output."""
@@ -7564,11 +7575,11 @@ def render_offers(m: dict) -> str:
 <p>{e(o['headline'])}</p><p class="caveat">Read {e(o['read'])}. Offers roll
 monthly, so this one is not priced until it is read again.</p></article>""")
             continue
-        worth = (f'<b class="worth">${o["guaranteed"]:,.2f}</b><span>guaranteed from '
-                 f'${o["face"]:,.0f} face</span>' if o["guaranteed"] else
+        worth = (f'<b class="worth">${o["guaranteed"]:,.2f}</b><span>locked from '
+                 f'${o["face"]:,.0f} face, if both bets are accepted and stand</span>' if o["guaranteed"] else
                  f'<b class="worth">${o["expected"]:,.2f}</b><span>expected &mdash; a '
                  f'profit boost cannot be hedged to a fixed amount</span>')
-        steps = "".join(f"<li>{e(st)}</li>" for st in o["steps"])
+        steps = "".join(f"<li>{e(_offer_step_wording(st))}</li>" for st in o["steps"])
         cards.append(f"""<article class="offer-card reveal">
 <div class="offer-top">{worth}</div>
 <h3>{e(o['name'])} <small>{e(o['headline'])}</small></h3>
@@ -7661,7 +7672,7 @@ PAGES = [
     ("/offers/", "offers/index.html",
      "Sportsbook sign-up bonuses ranked by what you actually keep",
      "Every welcome offer priced after hedging: what each bonus converts to in "
-     "guaranteed cash, the steps to collect it, and where each was read.",
+     "cash locked if both bets stand, the steps to collect it, and where each was read.",
      render_offers),
     ("/privacy/", "privacy/index.html", "Privacy — what Bookbreaker collects",
      "This site runs no analytics, no pixels and no cookies, and the app sends "
