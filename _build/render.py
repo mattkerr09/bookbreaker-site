@@ -2106,9 +2106,9 @@ def own_devig_widget(m: dict) -> str:
     it uses fixed element ids."""
     return f"""<section class="own reveal">
   <h2>Try it on your own price</h2>
-  <p class="own-lede">Type the two sides of any market. You get the four
-  methods and the distance between them &mdash; which is the number every
-  other no-vig calculator resolves to one figure and does not mention.</p>
+  <p class="own-lede">Type the two sides of any market. You get the consensus
+  fair probability and how far the four methods disagree about it &mdash; the
+  number a one-figure no-vig calculator leaves out.</p>
   <div class="own-in">
     <label>Price one <input id="own-a" inputmode="text" value="-145"
       autocomplete="off" spellcheck="false"></label>
@@ -4016,6 +4016,7 @@ def render_calculator(m: dict, row: dict) -> str:
 <h1>{e(row['name'])}</h1>
 <p class="lede">{e(row['question'])}</p>
 </div>
+{own_devig_widget(m) if slug == "no-vig-odds" else ""}
 {body}
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the
@@ -4333,6 +4334,7 @@ def render_versus(m: dict, row: dict) -> str:
     return f"""
 <h1>{headline}</h1>
 <p class="lede">{lede}</p>
+{own_devig_widget(m) if cno else ""}
 
 <h2>{gap_head}</h2>
 <p>{gap_text}</p>
