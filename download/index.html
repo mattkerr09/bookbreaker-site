@@ -56,15 +56,18 @@
 
 <h1>Download Bookbreaker</h1>
 <p class="lede">Version 0.1.6. Free, no account, and it never sends
-your record anywhere &mdash; the ledger is a SQLite file on your own disk.</p>
+your record anywhere &mdash; the ledger is a SQLite file on your own disk.
+Run it as the Mac app, or run the same engine from the command line.</p>
 
-<div class="cta"><a class="btn primary" href="/releases/Bookbreaker-0.1.6.dmg">Download for macOS<span class="sub">8.2 MB &middot; signed</span></a><a class="btn ghost" href="/releases/overlay-0.1.6-py3-none-any.whl">Command-line wheel</a></div>
-<p>The macOS app is signed with a Developer ID and notarised by Apple, so it opens without a warning and without you having to right-click your way past Gatekeeper. It carries the same engine the command line runs &mdash; the window does no arithmetic of its own, it asks the engine and shows the answer.</p>
+<h2>The Mac app</h2>
+<div class="cta"><a class="btn primary" href="/releases/Bookbreaker-0.1.6.dmg">Download for Mac<span class="sub">Apple Silicon &middot; 8.2 MB &middot; notarised</span></a></div>
+<p>The macOS app is signed with a Developer ID and notarised by Apple, so it opens without a warning and without you having to right-click your way past Gatekeeper. It carries the same engine the command line runs &mdash; the window does no arithmetic of its own, it asks the engine and shows the answer. It needs a Mac with Apple Silicon (M1 or later).</p>
 
-<h2>Install it</h2>
-<p>Bookbreaker is a command-line tool. It is pure Python with no third-party
-dependencies, so it runs the same on macOS, Linux and Windows and needs
-Python 3.9 or newer:</p>
+<h2>The command line</h2>
+<p>The same engine, as a command-line tool for macOS, Linux or Windows. It is
+pure Python with no third-party dependencies and needs Python 3.9 or
+newer. <a href="/releases/overlay-0.1.6-py3-none-any.whl">Download the wheel</a> (199 KB), or
+install it straight from here:</p>
 <pre><code>pip install https://bookbreaker.bet/releases/overlay-0.1.6-py3-none-any.whl
 overlay --help</code></pre>
 <p>That is the whole installation. There is no installer, no signing prompt and

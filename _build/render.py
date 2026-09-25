@@ -1996,16 +1996,15 @@ def render_download(m: dict) -> str:
     # most of the people asking.
     if app:
         primary = (f'<a class="btn primary" href="/releases/{app["name"]}">'
-                   f'Download for macOS<span class="sub">'
-                   f'{app["mb"]} MB &middot; signed</span></a>'
-                   f'<a class="btn ghost" href="/releases/{w["name"]}">'
-                   f'Command-line wheel</a>')
+                   f'Download for Mac<span class="sub">'
+                   f'Apple Silicon &middot; {app["mb"]} MB &middot; notarised</span></a>')
         app_note = (
             "<p>The macOS app is signed with a Developer ID and notarised by "
             "Apple, so it opens without a warning and without you having to "
             "right-click your way past Gatekeeper. It carries the same engine "
             "the command line runs &mdash; the window does no arithmetic of "
-            "its own, it asks the engine and shows the answer.</p>")
+            "its own, it asks the engine and shows the answer. It needs a Mac "
+            "with Apple Silicon (M1 or later).</p>")
     else:
         primary = (f'<a class="btn primary" href="/releases/{w["name"]}">'
                    f'Download the wheel<span class="sub">{w["kb"]} KB</span></a>'
@@ -2016,15 +2015,18 @@ def render_download(m: dict) -> str:
     return f"""
 <h1>Download Bookbreaker</h1>
 <p class="lede">Version {r['version']}. Free, no account, and it never sends
-your record anywhere &mdash; the ledger is a SQLite file on your own disk.</p>
+your record anywhere &mdash; the ledger is a SQLite file on your own disk.
+Run it as the Mac app, or run the same engine from the command line.</p>
 
+{'<h2>The Mac app</h2>' if app else ''}
 <div class="cta">{primary}</div>
 {app_note}
 
-<h2>Install it</h2>
-<p>Bookbreaker is a command-line tool. It is pure Python with no third-party
-dependencies, so it runs the same on macOS, Linux and Windows and needs
-Python {r['python']} or newer:</p>
+<h2>The command line</h2>
+<p>The same engine, as a command-line tool for macOS, Linux or Windows. It is
+pure Python with no third-party dependencies and needs Python {r['python']} or
+newer. <a href="/releases/{w['name']}">Download the wheel</a> ({w['kb']} KB), or
+install it straight from here:</p>
 <pre><code>pip install https://bookbreaker.bet/releases/{w['name']}
 overlay --help</code></pre>
 <p>That is the whole installation. There is no installer, no signing prompt and
@@ -2302,7 +2304,7 @@ command-line tool. Knows which of {m['catalog']['venues']} books take bets in
 your state, devigs every price four ways, and every number carries what it
 might be wrong by. Built to find bets and keep the account that places them.</p>
 <div class="cta">
-<a class="btn primary" href="/download/">Download free<span class="sub">v{m['release']['version']} &middot; {m['release']['app']['mb']} MB</span></a>
+<a class="btn primary" href="/download/">Download free<span class="sub">Mac &middot; Apple Silicon &middot; {m['release']['app']['mb']} MB</span></a>
 <a class="btn ghost" href="/how-it-works/">See how it prices a market</a>
 </div>
 </div>
@@ -2716,7 +2718,7 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
   us. If the first market you run through it does not tell you something your
   current tool did not, you have lost ninety seconds.</p>
   <div class="cta">
-    <a class="btn primary" href="/download/">Download free<span class="sub">v{m['release']['version']} &middot; macOS</span></a>
+    <a class="btn primary" href="/download/">Download free<span class="sub">Mac &middot; Apple Silicon &middot; {m['release']['app']['mb']} MB</span></a>
     <a class="btn ghost" href="/how-it-works/">Read how it prices first</a>
   </div>
   <p class="close-note">Checksums are published for every release, and the
