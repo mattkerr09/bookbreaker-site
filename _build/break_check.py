@@ -81,7 +81,9 @@ CASES = [
         "the problem-gambling helpline removed",
         "check_responsible_gambling",
         "index.html",
-        "call 1-800-GAMBLER",
+        # The footer line became "call or text 1-800-MY-RESET ... or call
+        # 1-800-GAMBLER" on 2026-09-24; this anchors on the GAMBLER link itself.
+        '<a href="tel:+18004262537">1-800-GAMBLER</a>',
         "see the FAQ",
     ),
     (

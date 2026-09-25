@@ -1859,7 +1859,9 @@ def page(title: str, description: str, body: str, path: str,
   <div>
     <p class="foot-brand">Bookbreaker</p>
     <p>An analysis tool. It tells you what the numbers say; you place your own
-    bets.</p>
+    bets. Not affiliated with any sportsbook.</p>
+    <p>Built by Matthew Kerr in Grand Rapids, MI &middot;
+    <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
   </div>
   <div>
     <p class="foot-head">Tools</p>
@@ -1874,6 +1876,8 @@ def page(title: str, description: str, body: str, path: str,
     <p><a href="/what-your-record-proves/">What a record proves</a></p>
     <p><a href="/offers/">Sign-up offers, ranked</a></p>
     <p><a href="/privacy/">Privacy</a></p>
+    <p><a href="/terms/">Terms</a></p>
+    <p><a href="/responsible-gambling/">Responsible gambling</a></p>
   </div>
   <div>
     <p class="foot-head">Alternatives</p>
@@ -1892,8 +1896,10 @@ build time &mdash; none is typed in. Generated {e(TODAY)}.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
 will win. If it stops being fun, it is not fun &mdash;
-<a href="tel:+18004262537">call 1-800-GAMBLER</a> or visit
-<a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>.</p>
+call or text <a href="tel:+18006973738">1-800-MY-RESET</a>, the national
+helpline, or call <a href="tel:+18004262537">1-800-GAMBLER</a>, or visit
+<a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>. More on
+<a href="/responsible-gambling/">responsible gambling</a>.</p>
 </footer>
 <script>
 /* Scroll reveal, taken from the Outlier site because Matthew asked for
@@ -4822,7 +4828,7 @@ def state_difference(m: dict, name: str, code: str, row: dict) -> str:
     never = [b for b in st["books"] if not b["limits"]]
     cells.append((oddness(counts, mine_books), "Books here",
                   f"<b>{mine_books}</b> of {m['catalog']['venues']}"
-                  f"<i>{_ord(counts.index(mine_books) + 1)} of "
+                  f"<i>{_ord(st['books_rank'])} of "
                   f"{len(counts)} states</i>"))
     cells.append((0.4, "Never limit winners",
                   f"<b>{len(never)}</b> of {mine_books}"
@@ -7607,6 +7613,75 @@ No link here pays us anything.</p>
 """
 
 
+def render_responsible(m: dict) -> str:
+    return """
+<h1>Responsible gambling</h1>
+<p class="lede">Bookbreaker is an analysis tool for adults 21 and over in states
+where sports betting is legal. It does not take bets, hold money or connect to
+any sportsbook account, and it is not affiliated with any sportsbook.</p>
+<h2>Get help: free, confidential, any time</h2>
+<p>The National Problem Gambling Helpline is
+<a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738). Call or text it
+24 hours a day, or chat at <a href="https://www.1800myreset.org/">1800myreset.org</a>.
+It is run by the <a href="https://www.ncpgambling.org/help-treatment/">National
+Council on Problem Gambling</a>, and its older number, 1-800-522-4700, still works
+(read 2026-09-24, <a href="https://www.ncpgambling.org/news/1-800-my-reset-announcement/">source</a>).</p>
+<p><a href="tel:+18004262537">1-800-GAMBLER</a> (1-800-426-2537) is the helpline
+of the Council on Compulsive Gambling of New Jersey. Many states still print it
+in their required messages, and it still answers (read 2026-09-24,
+<a href="https://www.legalsportsreport.com/252681/ncpg-launches-1-800-my-reset-as-new-problem-gambling-helpline/">source</a>).</p>
+<h2>Limits and self-exclusion</h2>
+<p>Licensed sportsbooks offer deposit, wager and time limits, a cooling-off
+break and account closure; look under responsible gaming in your account
+settings. Most states with legal sports betting also run a self-exclusion list
+through the gaming regulator, which bars you from every licensed book in that
+state for the period you choose.</p>
+<h2>What the numbers here do not promise</h2>
+<p>Bookbreaker reports what a price implies and how uncertain that is. It cannot
+tell you that you will win. A locked figure holds only if both bets are accepted
+and stand, and a book can void, limit or refuse a bet. Bet only what you can
+afford to lose.</p>
+"""
+
+
+def render_terms(m: dict) -> str:
+    paid = ("Where a link on this site pays us, it says so beside the link."
+            if any_paid_links() else "No link on this site is an affiliate link.")
+    return f"""
+<h1>Terms of use</h1>
+<p class="lede">Bookbreaker is a free analysis tool: a calculator for prices,
+not a sportsbook and not advice. It is not affiliated with any sportsbook.</p>
+<h2>Who it is for</h2>
+<p>Adults 21 and over, in a state where sports betting is legal. Whether a bet
+is legal where you are is yours to check; the app cannot know.</p>
+<h2>What it does, and what it does not</h2>
+<p>Bookbreaker works out what a set of prices implies and how uncertain that is.
+It does not place bets, hold money, connect to sportsbook accounts or know
+whether a book will honour a price. Every figure depends on the prices and
+assumptions it is given, and it labels the assumptions it makes. A locked
+figure holds only if both bets are accepted and stand; books can void, limit
+or refuse bets, and prices move. Nothing here is financial, legal or betting
+advice.</p>
+<h2>Not affiliated with any sportsbook</h2>
+<p>Bookbreaker is independent. It is not affiliated with, endorsed by or paid by
+any sportsbook, exchange or prediction market. Their names are trademarks of
+their owners and appear here only to identify them. {paid}</p>
+<h2>The app&rsquo;s licence</h2>
+<p>The app is free to download and use on as many Macs as you control,
+including to bet with your own bankroll. You may not redistribute it, sell it
+or run it as a service for other people. It is provided as is, without warranty
+of any kind, and its author is not liable for any loss that comes from using
+it. Read the <a href="/releases/LICENSE.txt">full licence</a>.</p>
+<h2>About this site</h2>
+<p>Figures on this site are computed by the engine when the site is built, and
+every rival price carries the date it was read and a source. If you find an
+error, tell us and we will correct it.</p>
+<h2>Contact</h2>
+<p>Bookbreaker is built by Matthew Kerr in Grand Rapids, Michigan. Email
+<a href="mailto:matthew@kerrandcompanyholdings.com">matthew@kerrandcompanyholdings.com</a>.</p>
+"""
+
+
 def render_privacy(m: dict) -> str:
     return """
 <h1>Privacy</h1>
@@ -7678,6 +7753,15 @@ PAGES = [
      "This site runs no analytics, no pixels and no cookies, and the app sends "
      "nothing about you anywhere. What GitHub Pages logs, and what the app can reach.",
      render_privacy),
+    ("/responsible-gambling/", "responsible-gambling/index.html",
+     "Responsible gambling — Bookbreaker",
+     "Bookbreaker is for adults 21+ where betting is legal. Help any time: "
+     "1-800-MY-RESET or 1-800-GAMBLER, plus limits and self-exclusion.",
+     render_responsible),
+    ("/terms/", "terms/index.html", "Terms of use — Bookbreaker",
+     "Bookbreaker is a free analysis tool, not a sportsbook and not advice. "
+     "Not affiliated with any sportsbook. 21+ where sports betting is legal.",
+     render_terms),
 ]
 
 
@@ -7692,6 +7776,16 @@ def main() -> int:
     measured["engine_fingerprint"] = engine_fingerprint(app_repo)
     measured["app"] = read_app_window(app_repo)
     measured["state_standings"] = state_standings()
+    # The "Books here" cell ranks each state by how many books take bets there.
+    # A rank is a number on a page, so it is recorded here, where the figure gate
+    # reads, rather than worked out inside the page renderer. It was computed in
+    # state_difference() and passed only while every rank it printed happened to
+    # equal some other measured figure; the 2026-09-24 catalog re-check put Maine
+    # and Arkansas 26th, a number nothing else on the site measures.
+    _book_counts = sorted((len(v["books"]) for v in measured["states"].values()),
+                          reverse=True)
+    for _st in measured["states"].values():
+        _st["books_rank"] = _book_counts.index(len(_st["books"])) + 1
 
     built: list[tuple[str, str]] = []
 
