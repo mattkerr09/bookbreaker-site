@@ -15,6 +15,7 @@ broken page on disk and the next green run means nothing.
 
 from __future__ import annotations
 
+import os
 import json
 import re
 import subprocess
@@ -244,7 +245,10 @@ CREATE_CASES = [
 ]
 
 
-APP_REPO = "/Users/matthewkerr/arb betting aqpp"
+# The engine to check against. gates.sh already takes APP_REPO for check.py;
+# this read a hard-coded path, so the two could check different engines and a
+# render made against one failed the break tests against the other.
+APP_REPO = os.environ.get("APP_REPO", "/Users/matthewkerr/arb betting aqpp")
 
 
 def gate_is_clean(only: str | None = None) -> bool:
