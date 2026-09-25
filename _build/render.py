@@ -2098,6 +2098,129 @@ the shape of the bet, because everything else is fraud rather than strategy.</p>
 """
 
 
+def own_devig_widget(m: dict) -> str:
+    """The "Try it on your own price" devig: the engine's own table for every
+    two-way market between -600 and +600, looked up in the browser, never
+    recomputed. One definition, so the homepage, the Crazy Ninja Odds page and
+    the no-vig calculator cannot drift apart. Each page may carry it once:
+    it uses fixed element ids."""
+    return f"""<section class="own reveal">
+  <h2>Try it on your own price</h2>
+  <p class="own-lede">Type the two sides of any market. You get the four
+  methods and the distance between them &mdash; which is the number every
+  other no-vig calculator resolves to one figure and does not mention.</p>
+  <div class="own-in">
+    <label>Price one <input id="own-a" inputmode="text" value="-145"
+      autocomplete="off" spellcheck="false"></label>
+    <label>Price two <input id="own-b" inputmode="text" value="+125"
+      autocomplete="off" spellcheck="false"></label>
+  </div>
+  <div class="own-out" id="own-out" aria-live="polite">
+    <p class="own-hint">Loading the engine&rsquo;s answers&hellip;</p>
+  </div>
+  <p class="own-note">Every answer here was computed by the same engine that
+  built this page, for all {m['calculator']['markets']:,} two-way markets between &minus;600 and
+  &plus;600. Nothing is calculated in your browser: a second implementation
+  drifts from the first, and the drift is invisible until someone bets on it.
+  Prices that do not form a real two-way market are refused rather than
+  rounded into one.</p>
+</section>
+
+<script>
+/* The on-page devig. There is no arithmetic here on purpose: every figure is
+   read out of a table the engine built, because a second implementation of
+   the maths drifts from the first and nobody notices until a bet is placed on
+   the difference. This does index lookup and string formatting, nothing else.
+
+   The table is 95KB, so it is fetched the first time someone actually uses
+   the control rather than on page load. */
+(function () {{
+  var a = document.getElementById('own-a');
+  var b = document.getElementById('own-b');
+  var out = document.getElementById('own-out');
+  if (!a || !b || !out) return;
+  var table = null, loading = false;
+
+  function parse(text) {{
+    var t = String(text).trim().replace(/\u2212/g, '-').replace(/\s+/g, '');
+    if (!/^[+-]?\d+$/.test(t)) return null;
+    var n = parseInt(t, 10);
+    if (t.charAt(0) !== '-' && t.charAt(0) !== '+' && n > 0) n = n;
+    return n;
+  }}
+
+  function nearest(v, prices) {{
+    var best = null, gap = Infinity;
+    for (var i = 0; i < prices.length; i++) {{
+      var d = Math.abs(prices[i] - v);
+      if (d < gap) {{ gap = d; best = prices[i]; }}
+    }}
+    return best;
+  }}
+
+  function say(html) {{ out.innerHTML = html; }}
+
+  function render() {{
+    if (!table) return;
+    var av = parse(a.value), bv = parse(b.value);
+    if (av === null || bv === null) {{
+      say('<p class="own-hint">Two American prices, like &minus;145 and ' +
+          '&plus;125.</p>');
+      return;
+    }}
+    var prices = table.prices;
+    var ai = prices.indexOf(av), bi = prices.indexOf(bv);
+    var snapped = false;
+    if (ai < 0) {{ av = nearest(av, prices); ai = prices.indexOf(av); snapped = true; }}
+    if (bi < 0) {{ bv = nearest(bv, prices); bi = prices.indexOf(bv); snapped = true; }}
+    var key = ai * table.stride + bi;
+    var flat = table.flat, found = -1;
+    for (var i = 0; i < flat.length; i += 3) {{
+      if (flat[i] === key) {{ found = i; break; }}
+    }}
+    if (found < 0) {{
+      say('<p class="own-no">Those two prices do not make a two-way market ' +
+          '&mdash; together they imply a total outside the 0&ndash;12% ' +
+          'margin a real one carries. Rounding them into range would be ' +
+          'inventing an answer, so there is not one.</p>');
+      return;
+    }}
+    var consensus = flat[found + 1] / 100;
+    var spread = flat[found + 2] / 100;
+    say('<div class="own-big">' + consensus.toFixed(2) + '%</div>' +
+        '<p class="own-cap">Consensus fair probability for the first side' +
+        (snapped ? ' (nearest priced market: ' +
+          (av > 0 ? '+' : '') + av + ' / ' + (bv > 0 ? '+' : '') + bv + ')'
+          : '') + '.</p>' +
+        '<p class="own-spread">The four methods disagree by <b>' +
+        spread.toFixed(2) + ' points</b>. A calculator that prints one ' +
+        'number to two decimals has picked one of them and not told you.</p>');
+  }}
+
+  function load() {{
+    if (table || loading) {{ render(); return; }}
+    loading = true;
+    say('<p class="own-hint">Fetching the engine&rsquo;s answers&hellip;</p>');
+    fetch('/data/devig.json').then(function (r) {{
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }}).then(function (data) {{
+      table = data; loading = false; render();
+    }}).catch(function () {{
+      loading = false;
+      say('<p class="own-no">The table did not load, so there is no answer ' +
+          'to show. Nothing here guesses one.</p>');
+    }});
+  }}
+
+  a.addEventListener('input', load);
+  b.addEventListener('input', load);
+  a.addEventListener('focus', load, {{once: true}});
+  load();
+}})();
+</script>"""
+
+
 def render_index(m: dict) -> str:
     d = m["devig"]
     h = m["heat"]
@@ -2301,121 +2424,7 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
 
 
 
-<section class="own reveal">
-  <h2>Try it on your own price</h2>
-  <p class="own-lede">Type the two sides of any market. You get the four
-  methods and the distance between them &mdash; which is the number every
-  other no-vig calculator resolves to one figure and does not mention.</p>
-  <div class="own-in">
-    <label>Price one <input id="own-a" inputmode="text" value="-145"
-      autocomplete="off" spellcheck="false"></label>
-    <label>Price two <input id="own-b" inputmode="text" value="+125"
-      autocomplete="off" spellcheck="false"></label>
-  </div>
-  <div class="own-out" id="own-out" aria-live="polite">
-    <p class="own-hint">Loading the engine&rsquo;s answers&hellip;</p>
-  </div>
-  <p class="own-note">Every answer here was computed by the same engine that
-  built this page, for all {m['calculator']['markets']:,} two-way markets between &minus;600 and
-  &plus;600. Nothing is calculated in your browser: a second implementation
-  drifts from the first, and the drift is invisible until someone bets on it.
-  Prices that do not form a real two-way market are refused rather than
-  rounded into one.</p>
-</section>
-
-<script>
-/* The on-page devig. There is no arithmetic here on purpose: every figure is
-   read out of a table the engine built, because a second implementation of
-   the maths drifts from the first and nobody notices until a bet is placed on
-   the difference. This does index lookup and string formatting, nothing else.
-
-   The table is 95KB, so it is fetched the first time someone actually uses
-   the control rather than on page load. */
-(function () {{
-  var a = document.getElementById('own-a');
-  var b = document.getElementById('own-b');
-  var out = document.getElementById('own-out');
-  if (!a || !b || !out) return;
-  var table = null, loading = false;
-
-  function parse(text) {{
-    var t = String(text).trim().replace(/\u2212/g, '-').replace(/\s+/g, '');
-    if (!/^[+-]?\d+$/.test(t)) return null;
-    var n = parseInt(t, 10);
-    if (t.charAt(0) !== '-' && t.charAt(0) !== '+' && n > 0) n = n;
-    return n;
-  }}
-
-  function nearest(v, prices) {{
-    var best = null, gap = Infinity;
-    for (var i = 0; i < prices.length; i++) {{
-      var d = Math.abs(prices[i] - v);
-      if (d < gap) {{ gap = d; best = prices[i]; }}
-    }}
-    return best;
-  }}
-
-  function say(html) {{ out.innerHTML = html; }}
-
-  function render() {{
-    if (!table) return;
-    var av = parse(a.value), bv = parse(b.value);
-    if (av === null || bv === null) {{
-      say('<p class="own-hint">Two American prices, like &minus;145 and ' +
-          '&plus;125.</p>');
-      return;
-    }}
-    var prices = table.prices;
-    var ai = prices.indexOf(av), bi = prices.indexOf(bv);
-    var snapped = false;
-    if (ai < 0) {{ av = nearest(av, prices); ai = prices.indexOf(av); snapped = true; }}
-    if (bi < 0) {{ bv = nearest(bv, prices); bi = prices.indexOf(bv); snapped = true; }}
-    var key = ai * table.stride + bi;
-    var flat = table.flat, found = -1;
-    for (var i = 0; i < flat.length; i += 3) {{
-      if (flat[i] === key) {{ found = i; break; }}
-    }}
-    if (found < 0) {{
-      say('<p class="own-no">Those two prices do not make a two-way market ' +
-          '&mdash; together they imply a total outside the 0&ndash;12% ' +
-          'margin a real one carries. Rounding them into range would be ' +
-          'inventing an answer, so there is not one.</p>');
-      return;
-    }}
-    var consensus = flat[found + 1] / 100;
-    var spread = flat[found + 2] / 100;
-    say('<div class="own-big">' + consensus.toFixed(2) + '%</div>' +
-        '<p class="own-cap">Consensus fair probability for the first side' +
-        (snapped ? ' (nearest priced market: ' +
-          (av > 0 ? '+' : '') + av + ' / ' + (bv > 0 ? '+' : '') + bv + ')'
-          : '') + '.</p>' +
-        '<p class="own-spread">The four methods disagree by <b>' +
-        spread.toFixed(2) + ' points</b>. A calculator that prints one ' +
-        'number to two decimals has picked one of them and not told you.</p>');
-  }}
-
-  function load() {{
-    if (table || loading) {{ render(); return; }}
-    loading = true;
-    say('<p class="own-hint">Fetching the engine&rsquo;s answers&hellip;</p>');
-    fetch('/data/devig.json').then(function (r) {{
-      if (!r.ok) throw new Error(r.status);
-      return r.json();
-    }}).then(function (data) {{
-      table = data; loading = false; render();
-    }}).catch(function () {{
-      loading = false;
-      say('<p class="own-no">The table did not load, so there is no answer ' +
-          'to show. Nothing here guesses one.</p>');
-    }});
-  }}
-
-  a.addEventListener('input', load);
-  b.addEventListener('input', load);
-  a.addEventListener('focus', load, {{once: true}});
-  load();
-}})();
-</script>
+{own_devig_widget(m)}
 
 
 <section class="showcase reveal">
