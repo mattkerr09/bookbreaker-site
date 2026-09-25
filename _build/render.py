@@ -2168,9 +2168,10 @@ def render_index(m: dict) -> str:
 <h1>Find your edge,
 <em>with the error bar.</em></h1>
 <div class="hero-aside">
-<p class="lede">Real prices from {m['catalog']['venues']} sportsbooks, devigged
-four ways, and every number carrying what it might be wrong by. Built to find
-bets and keep the account that places them.</p>
+<p class="lede">Type any price, or pull live Kalshi and Polymarket markets with the
+command-line tool. Knows which of {m['catalog']['venues']} books take bets in
+your state, devigs every price four ways, and every number carries what it
+might be wrong by. Built to find bets and keep the account that places them.</p>
 <div class="cta">
 <a class="btn primary" href="/download/">Download free<span class="sub">v{m['release']['version']} &middot; {m['release']['app']['mb']} MB</span></a>
 <a class="btn ghost" href="/how-it-works/">See how it prices a market</a>
@@ -2477,13 +2478,12 @@ bets and keep the account that places them.</p>
       binary, not us.</span>
     </li>
     <li class="reveal">
-      <b>It makes no network calls. Watch it not make them.</b>
-      <span>There is no updater, no telemetry, no account and no sync &mdash;
+      <b>No network calls unless you turn on the live board. Your record never leaves your Mac.</b>
+      <span>The app has no updater, no telemetry, no account and no sync &mdash;
       {m['verify']['network_calls']} bytes leave your machine, and
       {m['verify']['accounts']} accounts exist to create. Point Little Snitch
       or <code>lsof -i -p $(pgrep Bookbreaker)</code> at it and watch nothing
-      happen. A test in the repo fails the build if a network library is ever
-      linked in.</span>
+      happen. The command-line live board, if you run it, requests public Kalshi and Polymarket prices and sends nothing about you. A test in the repo fails the build if the app window ever links a network library.</span>
     </li>
     <li class="reveal">
       <b>Every figure on this site was computed by the app you download.</b>
@@ -2524,7 +2524,7 @@ bets and keep the account that places them.</p>
   </div>
 </section>
 <section class="pitch" id="pitch">
-<p class="eyebrow">The four things it does that nothing else does</p>
+<p class="eyebrow">Four things it shows you</p>
 
 <article class="pitch-row">
   <div class="pitch-copy">
@@ -2532,8 +2532,7 @@ bets and keep the account that places them.</p>
     <p>Removing a book's margin to recover what it really believes is a
     modelling choice, not arithmetic. On a {e(d['market'])} moneyline the four
     standard methods disagree by {d['spread']:.2f} points of probability.</p>
-    <p class="pitch-kicker">Every competing tool picks one of these rows,
-    hard-codes it, and prints the result as fact.</p>
+    <p class="pitch-kicker">A devigger that reports one fair price has picked one of these rows. Bookbreaker shows all four, and how far apart they are.</p>
   </div>
   <div class="pitch-fig">
     <table class="bare">
@@ -4176,8 +4175,8 @@ def render_versus(m: dict, row: dict) -> str:
         f'<p><b>0</b><i>no account, no tier, no card</i></p></div>')
     size_stat = (
         f'<div class="sf"><span class="sf-lab">Download</span>'
-        f'<p><b>{m["release"]["app"]["mb"]} MB</b><i>runs on your machine, '
-        f'sends nothing anywhere</i></p></div>')
+        f'<p><b>{m["release"]["app"]["mb"]} MB</b><i>runs on your machine; '
+        f'your record never leaves it</i></p></div>')
     heat_stat = (
         f'<div class="sf"><span class="sf-lab">Stake fingerprint</span>'
         f'<p><b>{m["heat"]["stakes"][0]["heat"]}%</b><i>how mechanical '
