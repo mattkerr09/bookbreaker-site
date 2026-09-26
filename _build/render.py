@@ -1801,6 +1801,11 @@ def page(title: str, description: str, body: str, path: str,
     # eight Kerr sites (Matthew's order, 2026-09-26). It is in this template so
     # every page carries it, and in the REDIRECTS stub in main() as well, so a
     # re-render cannot drop it from any HTML file the site serves.
+    #
+    # "More from Kerr & Company" in the footer's first column is the same
+    # order: plain followed links to the other Kerr sites, in the wording
+    # already live on adplaybook.app, styled only by the existing .foot-grid
+    # rules. Bookbreaker itself is not in the list.
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -1867,6 +1872,12 @@ def page(title: str, description: str, body: str, path: str,
     bets. Not affiliated with any sportsbook.</p>
     <p>Built by Matthew Kerr in Grand Rapids, MI &middot;
     <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
+    <p><strong>More from Kerr &amp; Company</strong><br>
+    <a href="https://outlier.host/">Outlier</a>: private, offline AI for your Mac ·
+    <a href="https://crispvideo.app/">Crisp Video</a>: restore and upscale video offline on your Mac ·
+    <a href="https://docketseo.app/">Docket SEO</a>: website audits that rank what to fix first ·
+    <a href="https://adplaybook.app/">AdPlaybook</a>: the ad maker that proves its own claims ·
+    <a href="https://builtbykerr.com/">Built by Kerr</a>: websites and local SEO for Grand Rapids businesses</p>
   </div>
   <div>
     <p class="foot-head">Tools</p>
