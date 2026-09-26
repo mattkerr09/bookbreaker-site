@@ -7744,6 +7744,160 @@ link and none pays us.</p>
 """
 
 
+def _built_page(url: str) -> str:
+    """A page this render has already written, read back off disk."""
+    rel = "index.html" if url == "/" else url.strip("/") + "/index.html"
+    path = SITE / rel
+    if not path.exists():
+        raise SystemExit(f"llms.txt links {url}, which this render did not build")
+    return path.read_text()
+
+
+def render_llms(m: dict) -> str:
+    """/llms.txt, in the llmstxt.org format: an H1, a one-paragraph summary,
+    then sections of annotated links. Matthew's order of 2026-09-26.
+
+    Nothing in it is new copy. The summary and the paragraphs under it are
+    sentences from the homepage, /download/, /terms/, /privacy/ and
+    /responsible-gambling/. The release facts come from m["release"], exactly
+    as render_download() prints them, so the version, sizes and file names
+    cannot go stale the way the banner once did. The responsible-gambling
+    paragraph is the footer's own, and every page link's name and note are
+    that page's <title> and description, all read back from the files this
+    render has just written. A page that was not built stops the render
+    rather than shipping a dead link.
+
+    No macOS version is stated, because the site states none: the real floor
+    has not been measured.
+    """
+    site = "https://bookbreaker.bet"
+    r = m["release"]
+    w, app = r["wheel"], r.get("app")
+
+    def page_link(url: str, note: bool = True) -> str:
+        text = _built_page(url)
+        title = html.unescape(re.search(r"<title>(.*?)</title>", text, re.S).group(1))
+        if not note:
+            return f"- [{title}]({site}{url})"
+        desc = html.unescape(re.search(r'<meta name="description" content="([^"]*)">', text).group(1))
+        return f"- [{title}]({site}{url}): {desc}"
+
+    def row_link(url: str, name: str) -> str:
+        _built_page(url)
+        return f"- [{name}]({site}{url})"
+
+    def markdown(fragment: str) -> str:
+        fragment = re.sub(
+            r'(?s)<a href="([^"]+)">(.*?)</a>',
+            lambda a: f"[{a.group(2)}]({site + a.group(1) if a.group(1).startswith('/') else a.group(1)})",
+            fragment)
+        return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", fragment))).strip()
+
+    notice = next((p for p in re.findall(r'(?s)<p class="foot-fine">(.*?)</p>', _built_page("/"))
+                   if "21+" in p), None)
+    if notice is None:
+        raise SystemExit("llms.txt carries the footer's 21+ notice, and the "
+                         "homepage footer has none")
+    if not (SITE / "releases" / "LICENSE.txt").exists():
+        raise SystemExit("llms.txt links releases/LICENSE.txt, which is not there")
+    paid = ("Where a link on this site pays us, it says so beside the link."
+            if any_paid_links() else "No link on this site is an affiliate link.")
+
+    lines = [
+        "# BookBreaker",
+        "",
+        "> Bookbreaker is an arbitrage and +EV engine that reports how wrong it "
+        "might be: the devig spread, the chance of getting on, and what your "
+        "record can support. It is free, with no account, and it never sends "
+        "your record anywhere — the ledger is a SQLite file on your own "
+        "disk. Run it as the Mac app, or run the same engine from the command "
+        "line.",
+        "",
+        "Bookbreaker is a free analysis tool: a calculator for prices, not a "
+        "sportsbook and not advice. It does not place bets, hold money, connect "
+        "to sportsbook accounts or know whether a book will honour a price. "
+        "Bookbreaker never asks for a sportsbook login. Your history comes in "
+        "by importing the CSV your book lets you download, or by pasting a "
+        "betslip. The command-line live board, if you run it, requests public "
+        "Kalshi and Polymarket prices and sends nothing about you.",
+        "",
+        "**What the numbers here do not promise.** Bookbreaker reports what a "
+        "price implies and how uncertain that is. It cannot tell you that you "
+        "will win. A locked figure holds only if both bets are accepted and "
+        "stand, and a book can void, limit or refuse a bet. Bet only what you "
+        "can afford to lose.",
+        "",
+        "**Who it is for.** Adults 21 and over, in a state where sports betting "
+        "is legal. Whether a bet is legal where you are is yours to check; the "
+        "app cannot know.",
+        "",
+        f"**Responsible gambling.** {markdown(notice)}",
+        "",
+        "**Not affiliated with any sportsbook.** Bookbreaker is independent. It "
+        "is not affiliated with, endorsed by or paid by any sportsbook, exchange "
+        f"or prediction market. {paid}",
+        "",
+        "## Download",
+        "",
+        row_link("/download/", "Download Bookbreaker")
+        + f": Version {r['version']}. Free, no account. Checksums are published "
+        "for every release.",
+    ]
+    if app:
+        lines.append(
+            f"- [The Mac app, {app['name']}]({site}/releases/{app['name']}): "
+            f"{app['mb']} MB. Signed with a Developer ID and notarised by Apple. "
+            "It needs a Mac with Apple Silicon (M1 or later).")
+    lines += [
+        f"- [The command line, {w['name']}]({site}/releases/{w['name']}): "
+        f"{w['kb']} KB. The same engine, as a command-line tool for macOS, "
+        "Linux or Windows. It is pure Python with no third-party dependencies "
+        f"and needs Python {r['python']} or newer. Install it with "
+        f"`pip install {site}/releases/{w['name']}`, then run `overlay --help`.",
+        f"- [Licence]({site}/releases/LICENSE.txt): Free to download and run on "
+        "as many machines as you control. You may not pass it on, sell it, "
+        "bundle it, or run it as a service for other people. It is provided as "
+        "is, without warranty of any kind.",
+        "",
+        "## Key pages",
+        "",
+        # /account-longevity/ goes by its title alone. Its description says a
+        # limited account "stops earning", which on a betting site reads too
+        # easily as a promise that it earns, and this file makes none.
+        *(page_link(u, note=u != "/account-longevity/")
+          for u in ("/how-it-works/", "/calculators/", "/guides/",
+                    "/sportsbooks/", "/offers/", "/vs/",
+                    "/account-longevity/", "/what-your-record-proves/")),
+        "",
+        "## Calculators",
+        "",
+        *(row_link(f"/calculators/{c['slug']}/", c["name"])
+          for c in load_data("calculators")),
+        "",
+        "## Best of",
+        "",
+        *(page_link(f"/best/{b['slug']}/") for b in load_data("best")),
+        "",
+        "## Built for",
+        "",
+        *(row_link(f"/for/{a['slug']}/", a["title"]) for a in load_data("audiences")),
+        "",
+        "## Alternatives",
+        "",
+        *(row_link(f"/vs/{c['slug']}-alternative/", f"{c['name']} alternative")
+          for c in load_data("competitors")),
+        "",
+        "## Guides",
+        "",
+        *(row_link(f"/guides/{g['slug']}/", g["title"]) for g in load_data("guides")),
+        "",
+        "## Privacy, terms and responsible gambling",
+        "",
+        *(page_link(u) for u in ("/privacy/", "/terms/", "/responsible-gambling/")),
+    ]
+    return "\n".join(lines) + "\n"
+
+
 PAGES = [
     ("/", "index.html", "Bookbreaker — the edge is an interval",
      "An arbitrage and +EV engine that reports how wrong it might be: the devig "
@@ -8280,6 +8434,9 @@ point for your own check, not legal advice.</p>
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         f"{urls}</urlset>\n"
     )
+    # Written last among the pages' companions because it reads every page it
+    # links back off disk; see render_llms(). robots.txt above allows it.
+    (SITE / "llms.txt").write_text(render_llms(measured), encoding="utf-8")
 
     (SITE / "_build" / "measured.json").write_text(
         json.dumps(measured, indent=2, sort_keys=True)
