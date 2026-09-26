@@ -1797,11 +1797,16 @@ def page(title: str, description: str, body: str, path: str,
         '<a class="btn primary" href="/download/">Download</a>'
         '</span></nav>'
     )
+    # msvalidate.01 is the Bing Webmaster verification code shared by all
+    # eight Kerr sites (Matthew's order, 2026-09-26). It is in this template so
+    # every page carries it, and in the REDIRECTS stub in main() as well, so a
+    # re-render cannot drop it from any HTML file the site serves.
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
 <title>{e(title)}</title>
 <meta name="description" content="{e(description)}">
 <link rel="canonical" href="https://bookbreaker.bet{path}">
@@ -8187,9 +8192,12 @@ point for your own check, not legal advice.</p>
         rel = old_url.strip("/") + "/index.html"
         out = SITE / rel
         out.parent.mkdir(parents=True, exist_ok=True)
+        # The Bing verification line goes on every HTML file the site serves,
+        # stubs included; see the note above page()'s template.
         out.write_text(
             "<!doctype html>\n<html lang=\"en\">\n<head>\n"
             "<meta charset=\"utf-8\">\n"
+            "<meta name=\"msvalidate.01\" content=\"34D102FD9C044A2BDA597B176842725B\" />\n"
             f"<meta http-equiv=\"refresh\" content=\"0; url={new_url}\">\n"
             f"<link rel=\"canonical\" href=\"https://bookbreaker.bet{new_url}\">\n"
             "<title>Moved</title>\n</head>\n<body>\n"
