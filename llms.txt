@@ -1,0 +1,79 @@
+# Bookbreaker
+
+> A free sports-betting analysis app for Mac (Apple Silicon) and a command-line tool: it devigs every price four ways, stakes an arbitrage in round numbers, and shows what each number might be wrong by. No account, and your betting record never leaves your machine.
+
+Bookbreaker is an analysis tool for adults 21 and over in states where sports betting is legal. It tells you what the numbers say; you place your own bets. It does not take bets, hold money or connect to any sportsbook account, never asks for a sportsbook login, and is not affiliated with any sportsbook. The Mac app makes no network calls: you type prices, paste a betslip or import your book's CSV. Live prices (public Kalshi and Polymarket markets) come only through the command-line tool. An arbitrage profit is locked only if both bets are accepted and stand. Built by Matthew Kerr in Grand Rapids, Michigan.
+
+## The app
+
+- [Bookbreaker](https://bookbreaker.bet/): what it does, with every figure computed by the engine you download
+- [Download](https://bookbreaker.bet/download/): the Mac app (Apple Silicon, M1 or later; signed and notarised by Apple) and the same engine as a command-line tool for macOS, Linux or Windows (pure Python, 3.9 or newer). Free, with published SHA-256 checksums
+- [How it works](https://bookbreaker.bet/how-it-works/): the four devig methods side by side, what rounding an arbitrage stake costs, and how old a price already is
+- [Account longevity](https://bookbreaker.bet/account-longevity/): why an account that gets limited stops earning, what the shape of a bet gives away, and what the tool refuses to do
+- [What your betting record proves](https://bookbreaker.bet/what-your-record-proves/): a return with the interval around it, and why most records prove nothing
+
+## Free calculators
+
+- [All calculators](https://bookbreaker.bet/calculators/): each worked through on real prices, with the range the answer sits in
+- [No-vig odds calculator](https://bookbreaker.bet/calculators/no-vig-odds/): What are the true odds behind a sportsbook's price?
+- [Expected value calculator](https://bookbreaker.bet/calculators/expected-value/): Is this bet +EV?
+- [Arbitrage calculator](https://bookbreaker.bet/calculators/arbitrage/): How much do I stake on each side?
+- [Kelly criterion calculator](https://bookbreaker.bet/calculators/kelly/): How much should I bet?
+- [Hold and vig calculator](https://bookbreaker.bet/calculators/hold/): How much is this book charging me?
+- [Bonus bet conversion calculator](https://bookbreaker.bet/calculators/bonus-bet-conversion/): What is my free bet actually worth?
+- [Middle calculator](https://bookbreaker.bet/calculators/middle/): What does this middle need to hit to be worth it?
+- [Odds converter](https://bookbreaker.bet/calculators/odds-converter/): American to decimal to implied probability
+- [Break-even calculator](https://bookbreaker.bet/calculators/breakeven/): What win rate does this price need?
+- [CLV calculator](https://bookbreaker.bet/calculators/closing-line-value/): Did I beat the closing line?
+- [Hedge calculator](https://bookbreaker.bet/calculators/hedge/): How much do I bet to lock in a profit?
+- [Dutching calculator](https://bookbreaker.bet/calculators/dutching/): How do I split a stake across several outcomes?
+- [Parlay calculator](https://bookbreaker.bet/calculators/parlay/): How much does a parlay really pay?
+- [Deposit match calculator](https://bookbreaker.bet/calculators/deposit-match/): Is a deposit match bonus worth it after rollover?
+- [Effective bets calculator](https://bookbreaker.bet/calculators/effective-bets/): How many bets am I really making if they are correlated?
+- [Totals middle calculator](https://bookbreaker.bet/calculators/totals-middle/): How do you price a totals middle bet?
+- [No-sweat bet calculator](https://bookbreaker.bet/calculators/no-sweat-bet/): What odds should I use for a no-sweat first bet?
+- [Profit boost calculator](https://bookbreaker.bet/calculators/profit-boost/): What is a profit boost actually worth?
+- [Round robin calculator](https://bookbreaker.bet/calculators/round-robin/): What does a round robin actually have to do to pay?
+- [Poisson calculator](https://bookbreaker.bet/calculators/poisson/): What are the scoreline and totals probabilities?
+- [Low hold calculator](https://bookbreaker.bet/calculators/low-hold/): What does turning money over actually cost?
+
+## Compared
+
+- [Bookbreaker compared](https://bookbreaker.bet/vs/): the tools below compared on price, features and limits, each claim dated and linked to its source
+- [OddsJam alternative](https://bookbreaker.bet/vs/oddsjam-alternative/)
+- [AVO alternative](https://bookbreaker.bet/vs/avo-alternative/)
+- [Betstamp PRO alternative](https://bookbreaker.bet/vs/betstamp-pro-alternative/)
+- [Pikkit alternative](https://bookbreaker.bet/vs/pikkit-alternative/)
+- [Crazy Ninja Odds alternative](https://bookbreaker.bet/vs/crazy-ninja-odds-alternative/)
+- [RebelBetting alternative](https://bookbreaker.bet/vs/rebelbetting-alternative/)
+- [BetBurger alternative](https://bookbreaker.bet/vs/betburger-alternative/)
+- [Unabated alternative](https://bookbreaker.bet/vs/unabated-alternative/)
+- [SmartStake alternative](https://bookbreaker.bet/vs/smartstake-alternative/)
+
+## Guides
+
+- [All guides](https://bookbreaker.bet/guides/): each answered with the arithmetic done
+- [How to devig odds](https://bookbreaker.bet/guides/how-to-devig-odds/): How do you find the true probability behind a sportsbook's price?
+- [What does +EV mean in betting](https://bookbreaker.bet/guides/what-does-plus-ev-mean/): What makes a bet mathematically profitable?
+- [What is closing line value](https://bookbreaker.bet/guides/what-is-closing-line-value/): Why do sharp bettors care more about CLV than profit?
+- [What is arbitrage betting](https://bookbreaker.bet/guides/what-is-arbitrage-betting/): How do you bet both sides and still win?
+- [How to stake an arbitrage in round numbers](https://bookbreaker.bet/guides/how-to-stake-an-arbitrage-in-round-numbers/): What does betting $490 instead of $493.98 actually cost you?
+- [How to use the Kelly criterion](https://bookbreaker.bet/guides/how-to-use-the-kelly-criterion/): How much of your bankroll should one bet be?
+- [What is a middle bet](https://bookbreaker.bet/guides/what-is-a-middle-bet/): How can two bets both win?
+- [How to convert a bonus bet to cash](https://bookbreaker.bet/guides/how-to-convert-a-bonus-bet/): What is a free bet actually worth and how do you cash it?
+- [How old is the price on your screen](https://bookbreaker.bet/guides/how-old-is-the-price-on-your-screen/): Why does the line move between clicking and confirming?
+- [How to avoid getting limited](https://bookbreaker.bet/guides/how-to-avoid-getting-limited/): Why do sportsbooks limit winners and what actually extends an account?
+
+## Responsible gambling and terms
+
+- [Responsible gambling](https://bookbreaker.bet/responsible-gambling/): for adults 21 and over where betting is legal. Help any time: call or text 1-800-MY-RESET (1-800-697-3738), or call 1-800-GAMBLER
+- [Terms of use](https://bookbreaker.bet/terms/): a free analysis tool, not a sportsbook and not advice
+- [Privacy](https://bookbreaker.bet/privacy/): the site runs no analytics, pixels or cookies, and the app sends nothing about you anywhere
+
+## More from Kerr & Company
+
+- [Outlier](https://outlier.host/): private, offline AI for your Mac
+- [Crisp Video](https://crispvideo.app/): restore and upscale video offline on your Mac
+- [Docket SEO](https://docketseo.app/): website audits that rank what to fix first
+- [AdPlaybook](https://adplaybook.app/): ad copy within every platform's limits
+- [Built by Kerr](https://builtbykerr.com/): websites and local SEO for Grand Rapids businesses

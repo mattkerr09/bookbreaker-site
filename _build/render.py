@@ -1797,11 +1797,21 @@ def page(title: str, description: str, body: str, path: str,
         '<a class="btn primary" href="/download/">Download</a>'
         '</span></nav>'
     )
+    # msvalidate.01 is the Bing Webmaster verification code of the account that
+    # verifies all eight Kerr & Company sites; in the template so every page
+    # carries it. The last footer column is the "More from Kerr & Company" block,
+    # in the same words on every Kerr site (Matthew, 2026-09-26): plain followed
+    # links, and existing classes only, because check.py fails a class the
+    # stylesheet does not style. Each whole line is the link, like every other
+    # column here: a name-only link inside a line read as the same colour as its
+    # description, and the 44px coarse-pointer target made a wrapped line gap. Neither is content, so a render that adds them
+    # is not a reason to move sitemap lastmod.
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
 <title>{e(title)}</title>
 <meta name="description" content="{e(description)}">
 <link rel="canonical" href="https://bookbreaker.bet{path}">
@@ -1888,6 +1898,14 @@ def page(title: str, description: str, body: str, path: str,
     {foot_best}
     <p class="foot-head">Built for</p>
     {foot_for}
+  </div>
+  <div>
+    <p class="foot-head">More from Kerr &amp; Company</p>
+    <p><a href="https://outlier.host/">Outlier: private, offline AI for your Mac</a></p>
+    <p><a href="https://crispvideo.app/">Crisp Video: restore and upscale video offline on your Mac</a></p>
+    <p><a href="https://docketseo.app/">Docket SEO: website audits that rank what to fix first</a></p>
+    <p><a href="https://adplaybook.app/">AdPlaybook: ad copy within every platform's limits</a></p>
+    <p><a href="https://builtbykerr.com/">Built by Kerr: websites and local SEO for Grand Rapids businesses</a></p>
   </div>
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
@@ -7778,6 +7796,126 @@ PAGES = [
 ]
 
 
+# --- llms.txt ----------------------------------------------------------------
+
+#: The ten guides llms.txt points an AI at: one per thing the engine computes
+#: and the app shows (devig, +EV, CLV, arbitrage, round-number arb stakes,
+#: Kelly, middles, bonus conversion, quote age, account lifetime). Chosen by
+#: slug; titles and questions come from _data/guides.csv, so a renamed guide
+#: renames itself here and a deleted one stops the build.
+LLMS_GUIDES = (
+    "how-to-devig-odds", "what-does-plus-ev-mean", "what-is-closing-line-value",
+    "what-is-arbitrage-betting", "how-to-stake-an-arbitrage-in-round-numbers",
+    "how-to-use-the-kelly-criterion", "what-is-a-middle-bet",
+    "how-to-convert-a-bonus-bet", "how-old-is-the-price-on-your-screen",
+    "how-to-avoid-getting-limited",
+)
+
+
+def render_llms(built_urls: set[str]) -> str:
+    """/llms.txt in the llmstxt.org shape outlier.host and adplaybook.app use.
+
+    Written by the build, like robots.txt, so it cannot outlive the pages it
+    names: every link is checked against what this render produced. It states
+    no engine figure. The numbers on the pages are gated by check.py and this
+    file is not, so it carries none that could drift from them.
+    """
+    base = "https://bookbreaker.bet"
+
+    def sentence(text: str) -> str:
+        # Two calculator questions are stored lower-case, as search phrasing.
+        text = re.sub(r"\bi\b", "I", text.strip())
+        return text[:1].upper() + text[1:]
+
+    def link(path: str, title: str, note: str = "") -> str:
+        if path not in built_urls:
+            raise SystemExit(f"llms.txt links {path}, which this render did not build")
+        return f"- [{title}]({base}{path})" + (f": {note}" if note else "")
+
+    guides = {r["slug"]: r for r in load_data("guides")}
+    missing = [s for s in LLMS_GUIDES if s not in guides]
+    if missing:
+        raise SystemExit(f"llms.txt names guides that no longer exist: {missing}")
+    calcs = load_data("calculators")
+
+    lines = [
+        "# Bookbreaker",
+        "",
+        "> A free sports-betting analysis app for Mac (Apple Silicon) and a command-line "
+        "tool: it devigs every price four ways, stakes an arbitrage in round numbers, and "
+        "shows what each number might be wrong by. No account, and your betting record "
+        "never leaves your machine.",
+        "",
+        "Bookbreaker is an analysis tool for adults 21 and over in states where sports "
+        "betting is legal. It tells you what the numbers say; you place your own bets. It "
+        "does not take bets, hold money or connect to any sportsbook account, never asks "
+        "for a sportsbook login, and is not affiliated with any sportsbook. The Mac app "
+        "makes no network calls: you type prices, paste a betslip or import your book's "
+        "CSV. Live prices (public Kalshi and Polymarket markets) come only through the "
+        "command-line tool. An arbitrage profit is locked only if both bets are accepted "
+        "and stand. Built by Matthew Kerr in Grand Rapids, Michigan.",
+        "",
+        "## The app",
+        "",
+        link("/", "Bookbreaker", "what it does, with every figure computed by the engine "
+             "you download"),
+        link("/download/", "Download", "the Mac app (Apple Silicon, M1 or later; signed "
+             "and notarised by Apple) and the same engine as a command-line tool for "
+             "macOS, Linux or Windows (pure Python, 3.9 or newer). Free, with published "
+             "SHA-256 checksums"),
+        link("/how-it-works/", "How it works", "the four devig methods side by side, "
+             "what rounding an arbitrage stake costs, and how old a price already is"),
+        link("/account-longevity/", "Account longevity", "why an account that gets "
+             "limited stops earning, what the shape of a bet gives away, and what the "
+             "tool refuses to do"),
+        link("/what-your-record-proves/", "What your betting record proves",
+             "a return with the interval around it, and why most records prove nothing"),
+        # /sportsbooks/ and /offers/ are left out on purpose (CEO, 2026-09-28): the engine's state table was found
+        # wrong in 17 of 22 rows (bookbreaker-app c5b5590) and the live pages still render the old one, so an AI
+        # should not be pointed at them until they are re-rendered on the corrected data.
+        "",
+        "## Free calculators",
+        "",
+        link("/calculators/", "All calculators", "each worked through on real prices, "
+             "with the range the answer sits in"),
+        *(link(f"/calculators/{r['slug']}/", r["name"], sentence(r["question"]))
+          for r in calcs),
+        "",
+        "## Compared",
+        "",
+        link("/vs/", "Bookbreaker compared", "the tools below compared on price, "
+             "features and limits, each claim dated and linked to its source"),
+        *(link(f"/vs/{r['slug']}-alternative/", f"{r['name']} alternative")
+          for r in COMPETITORS),
+        "",
+        "## Guides",
+        "",
+        link("/guides/", "All guides", "each answered with the arithmetic done"),
+        *(link(f"/guides/{s}/", guides[s]["title"], sentence(guides[s]["question"]))
+          for s in LLMS_GUIDES),
+        "",
+        "## Responsible gambling and terms",
+        "",
+        link("/responsible-gambling/", "Responsible gambling", "for adults 21 and over "
+             "where betting is legal. Help any time: call or text 1-800-MY-RESET "
+             "(1-800-697-3738), or call 1-800-GAMBLER"),
+        link("/terms/", "Terms of use", "a free analysis tool, not a sportsbook and "
+             "not advice"),
+        link("/privacy/", "Privacy", "the site runs no analytics, pixels or cookies, "
+             "and the app sends nothing about you anywhere"),
+        "",
+        "## More from Kerr & Company",
+        "",
+        "- [Outlier](https://outlier.host/): private, offline AI for your Mac",
+        "- [Crisp Video](https://crispvideo.app/): restore and upscale video offline on your Mac",
+        "- [Docket SEO](https://docketseo.app/): website audits that rank what to fix first",
+        "- [AdPlaybook](https://adplaybook.app/): ad copy within every platform's limits",
+        "- [Built by Kerr](https://builtbykerr.com/): websites and local SEO for Grand "
+        "Rapids businesses",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
@@ -8190,6 +8328,7 @@ point for your own check, not legal advice.</p>
         out.write_text(
             "<!doctype html>\n<html lang=\"en\">\n<head>\n"
             "<meta charset=\"utf-8\">\n"
+            "<meta name=\"msvalidate.01\" content=\"34D102FD9C044A2BDA597B176842725B\" />\n"
             f"<meta http-equiv=\"refresh\" content=\"0; url={new_url}\">\n"
             f"<link rel=\"canonical\" href=\"https://bookbreaker.bet{new_url}\">\n"
             "<title>Moved</title>\n</head>\n<body>\n"
@@ -8252,6 +8391,7 @@ point for your own check, not legal advice.</p>
         "\nUser-agent: Applebot-Extended\nAllow: /\n"
         "\nSitemap: https://bookbreaker.bet/sitemap.xml\n"
     )
+    (SITE / "llms.txt").write_text(render_llms({u for u, _ in built}))
     urls = "".join(
         f"  <url><loc>https://bookbreaker.bet{u}</loc>"
         f"<lastmod>{TODAY}</lastmod></url>\n" for u, _ in built
