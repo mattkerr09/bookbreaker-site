@@ -2020,9 +2020,10 @@ DEMO_SCRIPT = """
 
 
 HUB = "https://kerr-affiliate-hub.kerrco.workers.dev"
-# The hub counts a download per page and then sends the file, as on the other Kerr sites. Off until its
-# /dl/bookbreaker route is live: a link to a route that does not exist would break the download.
-HUB_DL_LIVE = False
+# The hub counts a download per page and then sends the file, as on the other Kerr sites. Its
+# /dl/bookbreaker route went live 2026-10-07 (hub 3fd9e70c): a .dmg under bookbreaker.bet/releases/ gets a
+# 302 to the file, anything else goes to /download/.
+HUB_DL_LIVE = True
 
 
 def dl_href(m: dict, src: str) -> str:
