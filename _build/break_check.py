@@ -23,6 +23,11 @@ import sys
 from pathlib import Path
 
 SITE = Path(__file__).resolve().parents[1]
+# The homepage's own heading, read off the build, so the case cannot go stale when the headline is rewritten
+# (it was a typed literal, and the 2026-10-07 headline left it colliding with nothing).
+_home = (SITE / "index.html").read_text() if (SITE / "index.html").exists() else ""
+_h1 = re.search(r"<h1>.*?</h1>", _home, re.S)
+HOME_H1 = _h1.group(0) if _h1 else "<h1>Bookbreaker</h1>"
 
 def announced_version() -> str:
     """Whatever the site currently says is out, read from the build's own
@@ -136,7 +141,7 @@ CASES = [
         "check_not_machine_made",
         "vs/index.html",
         "<h1>Compared</h1>",
-        "<h1>Find your edge,<br>with the error bar.</h1>",
+        HOME_H1,
     ),
     (
         "a class with no rule behind it",

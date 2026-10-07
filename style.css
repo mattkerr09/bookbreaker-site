@@ -238,6 +238,11 @@ h2{font-family:var(--serif);font-size:var(--t-7);font-weight:600;
   padding-top:var(--s-5);border-top:1px solid var(--rule);
   text-wrap:balance}
 p{margin:var(--s-3) 0;color:var(--ink-2)}
+.free-line{font-size:.875rem;line-height:1.45;color:var(--ink-2);margin:.6rem 0 0;max-width:34rem}
+.phone-link{display:none;font-size:.875rem;color:var(--ink-2);margin:.35rem 0 0}
+.phone-link button{font:inherit;color:var(--ink);background:none;border:0;padding:0;
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:44px}
+@media (max-width:820px), (pointer:coarse){.phone-link{display:block}}
 .lede{font-size:var(--t-6);line-height:1.5;color:var(--ink-2);
   max-width:var(--measure-prose)}
 strong{color:var(--ink);font-weight:600}
@@ -669,8 +674,7 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
 
 }
 /* Two buttons that stack are two decisions; side by side they are one. */
-.hero .cta{flex-wrap:nowrap}
-@media (max-width:30rem){.hero .cta{flex-wrap:wrap}}
+.hero .cta{flex-wrap:wrap}
 .hero .btn{white-space:nowrap}
 body.home main>.hero{max-width:none}
 .hero-copy>h1{max-width:none}

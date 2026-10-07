@@ -1778,8 +1778,8 @@ def page(title: str, description: str, body: str, path: str,
     nav = (
         '<div class="banner"><div class="banner-in">'
         '<span class="tag">New</span>'
-        f'<span>Bookbreaker {RELEASE_VERSION} is out &mdash; free, runs on your machine, '
-        'nothing leaves it.</span>'
+        f'<span>Bookbreaker {RELEASE_VERSION} is out. Free, runs on your Mac, '
+        'and nothing leaves it.</span>'
         '<a href="/download/">Download it &rarr;</a>'
         '</div></div>'
         '<nav>'
@@ -1855,6 +1855,7 @@ def page(title: str, description: str, body: str, path: str,
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css?v={STYLE_HASH}">
+<script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 {site_schema(path, body)}
 </head>
 <body class="{body_class}">
@@ -1910,11 +1911,10 @@ def page(title: str, description: str, body: str, path: str,
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
 ever requested. Every figure on this site is computed by running the engine at
-build time &mdash; none is typed in. Generated {e(TODAY)}.</p>
+build time. None is typed in. Generated {e(TODAY)}.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
-will win. If it stops being fun, it is not fun &mdash;
-call or text <a href="tel:+18006973738">1-800-MY-RESET</a>, the national
+will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a>, the national
 helpline, or call <a href="tel:+18004262537">1-800-GAMBLER</a>, or visit
 <a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>. More on
 <a href="/responsible-gambling/">responsible gambling</a>.</p>
@@ -1949,7 +1949,28 @@ helpline, or call <a href="tel:+18004262537">1-800-GAMBLER</a>, or visit
   }}, {{ rootMargin: '0px 0px -8% 0px', threshold: 0.08 }});
   for (var j = 0; j < els.length; j++) io.observe(els[j]);
 }})();
+/* Carry the visitor's source and any affiliate id into the link they send to their Mac, as on outlier.host. */
+function kcCarry(url){{try{{var s=JSON.parse(localStorage.getItem('kc_aff')||'null');var v=(s&&s.exp>Date.now()&&s.v)||{{}};var q=[];var r=v.ref||v.landing_source;if(r)q.push('ref='+encodeURIComponent(r));['via','rekomi_ref','affonso_referral','awc','cjevent','irclickid'].forEach(function(k){{if(v[k])q.push(k+'='+encodeURIComponent(v[k]));}});return q.length?url+'&'+q.join('&'):url;}}catch(e){{return url;}}}}
+document.querySelectorAll('[data-send-mac-link]').forEach(function (b) {{
+  b.addEventListener('click', function () {{
+    var url = kcCarry('https://bookbreaker.bet/download/?utm_source=phone-share&utm_medium=share');
+    var text = 'Bookbreaker is a free Mac app for sports bettors. Open this on your Mac to download it.';
+    if (window.plausible) {{ try {{ window.plausible('Send Mac Link'); }} catch (e) {{}} }}
+    if (navigator.share) {{
+      navigator.share({{ title: 'Bookbreaker for Mac', text: text, url: url }}).catch(function () {{}});
+    }} else {{
+      location.href = 'mailto:?subject=' + encodeURIComponent('Bookbreaker for Mac: download link') +
+        '&body=' + encodeURIComponent(text + '\n\n' + url);
+    }}
+  }});
+}});
+document.querySelectorAll('[data-download]').forEach(function (a) {{
+  a.addEventListener('click', function () {{
+    if (window.plausible) {{ try {{ window.plausible('Download'); }} catch (e) {{}} }}
+  }});
+}});
 </script>
+<script src="https://kerr-affiliate-hub.kerrco.workers.dev/snippet.js" defer></script>
 </body>
 </html>
 """
@@ -1998,6 +2019,30 @@ DEMO_SCRIPT = """
 """
 
 
+HUB = "https://kerr-affiliate-hub.kerrco.workers.dev"
+# The hub counts a download per page and then sends the file, as on the other Kerr sites. Off until its
+# /dl/bookbreaker route is live: a link to a route that does not exist would break the download.
+HUB_DL_LIVE = False
+
+
+def dl_href(m: dict, src: str) -> str:
+    """The Mac app's download link for one page (src names the page and the button)."""
+    file = f"/releases/{m['release']['app']['name']}"
+    if not HUB_DL_LIVE:
+        return file
+    return f"{HUB}/dl/bookbreaker?src={src}&amp;to=https://bookbreaker.bet{file}"
+
+
+def free_line(m: dict) -> str:
+    """What a person decides on at the button: the cost, the account, the Mac it needs."""
+    return (f'<p class="free-line">Free. No account and no subscription. Needs a Mac with Apple silicon '
+            f'(M1 or later). {m["release"]["app"]["mb"]} MB, notarised by Apple.</p>')
+
+
+PHONE_LINE = ('<p class="phone-link">On your phone? <button type="button" data-send-mac-link>'
+              'Send the Mac link to yourself</button></p>')
+
+
 def render_download(m: dict) -> str:
     """The download page, generated entirely from the built artifacts.
 
@@ -2013,16 +2058,15 @@ def render_download(m: dict) -> str:
     # which is a real answer to "where do I get it" and the wrong one for
     # most of the people asking.
     if app:
-        primary = (f'<a class="btn primary" href="/releases/{app["name"]}">'
+        primary = (f'<a class="btn primary" href="{dl_href(m, "download-page")}" data-download>'
                    f'Download for Mac<span class="sub">'
                    f'Apple Silicon &middot; {app["mb"]} MB &middot; notarised</span></a>')
         app_note = (
-            "<p>The macOS app is signed with a Developer ID and notarised by "
-            "Apple, so it opens without a warning and without you having to "
-            "right-click your way past Gatekeeper. It carries the same engine "
-            "the command line runs &mdash; the window does no arithmetic of "
-            "its own, it asks the engine and shows the answer. It needs a Mac "
-            "with Apple Silicon (M1 or later).</p>")
+            "<p>The Mac app is signed with a Developer ID and notarised by "
+            "Apple, so it opens without a warning and without a right-click "
+            "past Gatekeeper. It runs the same engine as the command line. The "
+            "window does no arithmetic of its own: it asks the engine and shows "
+            "the answer.</p>")
     else:
         primary = (f'<a class="btn primary" href="/releases/{w["name"]}">'
                    f'Download the wheel<span class="sub">{w["kb"]} KB</span></a>'
@@ -2033,11 +2077,12 @@ def render_download(m: dict) -> str:
     return f"""
 <h1>Download Bookbreaker</h1>
 <p class="lede">Version {r['version']}. Free, no account, and it never sends
-your record anywhere &mdash; the ledger is a SQLite file on your own disk.
-Run it as the Mac app, or run the same engine from the command line.</p>
+your record anywhere. Your ledger is a SQLite file on your own disk. Run it as
+the Mac app, or run the same engine from the command line.</p>
 
 {'<h2>The Mac app</h2>' if app else ''}
 <div class="cta">{primary}</div>
+{free_line(m) + PHONE_LINE if app else ''}
 {app_note}
 
 <h2>The command line</h2>
@@ -2048,8 +2093,8 @@ install it straight from here:</p>
 <pre><code>pip install https://bookbreaker.bet/releases/{w['name']}
 overlay --help</code></pre>
 <p>That is the whole installation. There is no installer, no signing prompt and
-no launch agent, because there is no background process &mdash; nothing runs
-unless you type a command.</p>
+no launch agent, because there is no background process. Nothing runs unless you
+type a command.</p>
 
 <h2>Check what you downloaded</h2>
 <p>The wheel's SHA-256 is worth checking against: the build pins its
@@ -2127,8 +2172,8 @@ def own_devig_widget(m: dict) -> str:
     return f"""<section class="own reveal">
   <h2>Try it on your own price</h2>
   <p class="own-lede">Type the two sides of any market. You get the consensus
-  fair probability and how far the four methods disagree about it &mdash; the
-  number a one-figure no-vig calculator leaves out.</p>
+  fair probability and how far the four methods disagree about it. A one-figure
+  no-vig calculator leaves that number out.</p>
   <div class="own-in">
     <label>Price one <input id="own-a" inputmode="text" value="-145"
       autocomplete="off" spellcheck="false"></label>
@@ -2313,18 +2358,20 @@ def render_index(m: dict) -> str:
     return f"""
 <div class="hero hero-glow">
 <div class="hero-copy">
-<p class="eyebrow accent">Free &middot; Runs on your machine</p>
-<h1>Find your edge,
-<em>with the error bar.</em></h1>
+<p class="eyebrow accent">Free Mac app for sports bettors</p>
+<h1>Find arbitrage and +EV bets,
+<em>and see how sure each one is.</em></h1>
 <div class="hero-aside">
-<p class="lede">Type any price, or pull live Kalshi and Polymarket markets with the
-command-line tool. Knows which of {m['catalog']['venues']} books take bets in
-your state, devigs every price four ways, and every number carries what it
-might be wrong by. Built to find bets and keep the account that places them.</p>
+<p class="lede">Type in any price, or pull live Kalshi and Polymarket markets.
+Bookbreaker knows which of {m['catalog']['venues']} sportsbooks take bets in
+your state. It removes the vig four ways and shows how far each number could
+be off. It never asks for a sportsbook login.</p>
 <div class="cta">
-<a class="btn primary" href="/download/">Download free<span class="sub">Mac &middot; Apple Silicon &middot; {m['release']['app']['mb']} MB</span></a>
+<a class="btn primary" href="{dl_href(m, 'home-hero')}" data-download>Download free<span class="sub">Mac &middot; Apple Silicon &middot; {m['release']['app']['mb']} MB</span></a>
 <a class="btn ghost" href="/how-it-works/">See how it prices a market</a>
 </div>
+{free_line(m)}
+{PHONE_LINE}
 </div>
 <ul class="quals">
   <li>No account, ever</li>
@@ -2349,7 +2396,7 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
       <source src="/media/app.webm" type="video/webm">
     </video>
   </div>
-  <p class="hero-app-cap">The window as it ships, recorded &mdash; not a
+  <p class="hero-app-cap">The window as it ships, recorded. Not a
   mockup. Every number on screen is the engine's own answer to what is being
   typed: the de-vig is a real {m['devig']['spread']:.2f}% disagreement between
   four methods, and the quote is aged from 4s to 100s so the fill falls with
@@ -2376,11 +2423,11 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
 </section>
 
 <section class="demo" aria-labelledby="demo-h">
-  <p class="eyebrow">Try it &mdash; nothing to install, nothing to sign up for</p>
+  <p class="eyebrow">Try it here. Nothing to install, nothing to sign up for</p>
   <h2 id="demo-h">Drag the price older. Watch the edge go.</h2>
   <p>A {dm['edge']:.1f}% edge on the screen is not a {dm['edge']:.1f}% edge in
   your account. It is that number multiplied by the chance the price is still
-  there when your bet lands &mdash; and no competitor's marketing mentions the
+  there when your bet lands. No competitor's marketing mentions that
   second half.</p>
 
   <div class="demo-box">
@@ -2415,7 +2462,7 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
 
     <p class="caveat">Survival is modelled as exponential with a
     {dm['tau']:.0f}-second mean lifetime and a {dm['floor']:.0f}-second floor
-    under the age &mdash; both stated priors until your own accept-and-reject
+    under the age. Both are stated priors until your own accept-and-reject
     record replaces them. Every figure above is computed by the engine when
     this page is built; the slider looks them up rather than recomputing
     them.</p>
@@ -2460,7 +2507,7 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
         loading="lazy" alt="The arbitrage tab: two prices, the stake split
         across both, and the return locked if both bets stand.">
       <figcaption><b>Arbitrage</b><span>{m['showcase']['arb_a']:.2f} against
-      {m['showcase']['arb_b']:.2f} &mdash; {m['showcase']['arb_margin_pct']:.2f}%
+      {m['showcase']['arb_b']:.2f}: {m['showcase']['arb_margin_pct']:.2f}%
       either way, with the stake on each leg already rounded to something a
       book will actually accept.</span></figcaption>
     </figure>
@@ -2471,9 +2518,8 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
       <figcaption><b>Stake</b><span>Full Kelly says
       {m['showcase']['kelly_full_pct']:.2f}% of the bankroll. The
       {m['showcase']['kelly_fraction_pct']:.0f}% fraction it recommends says
-      {m['showcase']['kelly_used_pct']:.2f}% &mdash; and it names the
-      constraint that bound it rather than printing a number and leaving you
-      to trust it.</span></figcaption>
+      {m['showcase']['kelly_used_pct']:.2f}%. It names the constraint that
+      bound it, so you are not left trusting a bare number.</span></figcaption>
     </figure>
     <figure class="reveal d2">
       <img src="/media/panel-parlay.jpg" width="1280" height="720"
@@ -2482,8 +2528,8 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
       <figcaption><b>Parlay</b><span>{m['showcase']['parlay_legs']} legs at
       &minus;110 pay {m['showcase']['parlay_pays']:.2f} to 1 where fair is
       {m['showcase']['parlay_fair']:.2f} to 1, against
-      {m['showcase']['parlay_hold_pct']:.2f}% hold on a single leg &mdash; the
-      number the bet slip never shows you.</span></figcaption>
+      {m['showcase']['parlay_hold_pct']:.2f}% hold on a single leg. The bet
+      slip never shows you that number.</span></figcaption>
     </figure>
   </div>
 </section>
@@ -2491,9 +2537,8 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
   <h2>You do not have to take our word for any of it</h2>
   <p class="verify-lede">Bookbreaker is new and has no customers to quote at
   you, so this page has no testimonials. What it has instead is a list of
-  claims a stranger can check without trusting us at all &mdash; which is the
-  stronger thing to offer about software you are going to place money
-  alongside.</p>
+  claims a stranger can check without trusting us at all. For software you
+  put money behind, that is worth more.</p>
 
   <ol class="verify-list">
     <li class="reveal">
@@ -2514,7 +2559,7 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
     </li>
     <li class="reveal">
       <b>No network calls unless you turn on the live board. Your record never leaves your Mac.</b>
-      <span>The app has no updater, no telemetry, no account and no sync &mdash;
+      <span>The app has no updater, no telemetry, no account and no sync.
       {m['verify']['network_calls']} bytes leave your machine, and
       {m['verify']['accounts']} accounts exist to create. Point Little Snitch
       or <code>lsof -i -p $(pgrep Bookbreaker)</code> at it and watch nothing
@@ -2522,9 +2567,9 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
     </li>
     <li class="reveal">
       <b>Every figure on this site was computed by the app you download.</b>
-      <span>Not typed. The build runs the same engine &mdash;
-      {m['verify']['engine_modules']} modules, {m['verify']['test_files']} test
-      files &mdash; and refuses to publish a number that engine did not
+      <span>Not typed. The build runs the same engine
+      ({m['verify']['engine_modules']} modules, {m['verify']['test_files']} test
+      files) and refuses to publish a number that engine did not
       produce. That is why the fill figure here and the one in a fresh install
       differ, and why the page says which is which.</span>
     </li>
@@ -2547,7 +2592,7 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
       accounts with your credentials. We import a CSV or read a pasted
       betslip. Same ledger, and your passwords stay yours.</span></div>
     <div class="reveal d1"><b>Never touches identity, KYC, device or location.</b><span>The
-      account-longevity model reads stake, timing, market and velocity &mdash;
+      account-longevity model reads stake, timing, market and velocity:
       bet shape, nothing else. It has no access to who you are and never
       will.</span></div>
     <div class="reveal d2"><b>Never places a bet for you.</b><span>Automated placement needs your
@@ -2672,7 +2717,7 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
     <li>
       <b>Check it is still there</b>
       <p>The fifth tab prices the quote's age against the book's own latency
-      and tells you the chance it fills &mdash; {m['fill']['honest']}% on a
+      and tells you the chance it fills: {m['fill']['honest']}% on a
       {m['fill']['age']:.0f}s quote, against the {m['fill']['naive']}% a
       screen that ignores its own lag would show you.</p>
     </li>
@@ -2689,8 +2734,8 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
     soften it.</p>
     <p class="heat-line"><strong>What it will never do:</strong> no
     multi-accounting, no identity or KYC workarounds, no device or location
-    spoofing. The model reads bet attributes only &mdash; stake, timing,
-    market, velocity &mdash; and has no access to identity or network state.
+    spoofing. The model reads bet attributes only (stake, timing, market,
+    velocity) and has no access to identity or network state.
     That line is drawn in the code, not in a policy page.</p>
     <p><a class="more" href="/account-longevity/">The whole model, with its
     numbers &rarr;</a></p>
@@ -2736,12 +2781,12 @@ might be wrong by. Built to find bets and keep the account that places them.</p>
   us. If the first market you run through it does not tell you something your
   current tool did not, you have lost ninety seconds.</p>
   <div class="cta">
-    <a class="btn primary" href="/download/">Download free<span class="sub">Mac &middot; Apple Silicon &middot; {m['release']['app']['mb']} MB</span></a>
+    <a class="btn primary" href="{dl_href(m, 'home-foot')}" data-download>Download free<span class="sub">Mac &middot; Apple Silicon &middot; {m['release']['app']['mb']} MB</span></a>
     <a class="btn ghost" href="/how-it-works/">Read how it prices first</a>
   </div>
   <p class="close-note">Checksums are published for every release, and the
-  window makes no network calls of any kind &mdash; that is enforced by a test,
-  not a promise.</p>
+  window makes no network calls of any kind. A test enforces that; it is not
+  a promise.</p>
 </section>
 """ + DEMO_SCRIPT.replace("__DEMO_DATA__",
                           json.dumps(m["demo"], separators=(",", ":")))
@@ -5392,6 +5437,11 @@ h2{font-family:var(--serif);font-size:var(--t-7);font-weight:600;
   padding-top:var(--s-5);border-top:1px solid var(--rule);
   text-wrap:balance}
 p{margin:var(--s-3) 0;color:var(--ink-2)}
+.free-line{font-size:.875rem;line-height:1.45;color:var(--ink-2);margin:.6rem 0 0;max-width:34rem}
+.phone-link{display:none;font-size:.875rem;color:var(--ink-2);margin:.35rem 0 0}
+.phone-link button{font:inherit;color:var(--ink);background:none;border:0;padding:0;
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:44px}
+@media (max-width:820px), (pointer:coarse){.phone-link{display:block}}
 .lede{font-size:var(--t-6);line-height:1.5;color:var(--ink-2);
   max-width:var(--measure-prose)}
 strong{color:var(--ink);font-weight:600}
@@ -5823,8 +5873,7 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
 
 }
 /* Two buttons that stack are two decisions; side by side they are one. */
-.hero .cta{flex-wrap:nowrap}
-@media (max-width:30rem){.hero .cta{flex-wrap:wrap}}
+.hero .cta{flex-wrap:wrap}
 .hero .btn{white-space:nowrap}
 body.home main>.hero{max-width:none}
 .hero-copy>h1{max-width:none}
@@ -7747,11 +7796,11 @@ link and none pays us.</p>
 
 
 PAGES = [
-    ("/", "index.html", "Bookbreaker — the edge is an interval",
-     "An arbitrage and +EV engine that reports how wrong it might be: the devig "
-     "spread, the chance of getting on, and what your record can support.",
+    ("/", "index.html", "Bookbreaker: free arbitrage and +EV betting app for Mac",
+     "A free Mac app that finds sports betting arbitrage and +EV bets, shows how "
+     "far each edge could be off, and tracks your record. No account, no login.",
      render_index),
-    ("/download/", "download/index.html", "Download Bookbreaker — free arbitrage and +EV app for Mac",
+    ("/download/", "download/index.html", "Download Bookbreaker: free arbitrage and +EV app for Mac",
      "A free command-line arbitrage and +EV engine that runs on your own "
      "machine. No account, no upload, checksums published for every build.",
      render_download),
