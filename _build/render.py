@@ -4086,8 +4086,8 @@ def render_calculator(m: dict, row: dict) -> str:
 {body}
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the
-moment this page was built &mdash; not typed into a template. The build fails
-if a figure appears here and not in the engine's own output.</p>
+moment this page was built. None of it was typed in. The build fails if a
+figure appears here and not in the engine's own output.</p>
 <p><a href="/how-it-works/">How a price is formed &rarr;</a>
 &nbsp;&middot;&nbsp;
 <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
@@ -8001,7 +8001,7 @@ def main() -> int:
         out = SITE / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(
-            f"{row['name']} — worked, not just a form",
+            f"{row['name']}: free, worked on real prices",
             f"{row['question']} Worked through on real prices by the engine "
             f"that prices bets, with the range the answer sits in.",
             render_calculator(measured, row), url))
