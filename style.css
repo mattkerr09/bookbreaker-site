@@ -1191,8 +1191,6 @@ a.book-link{color:var(--ink);font-weight:600;text-decoration:none;
 a.book-link:hover{border-bottom-color:var(--accent);color:var(--accent)}
 
 /* The column no competing page prints. */
-main table td.good{color:var(--good);font-weight:650;white-space:normal}
-main table td.warn{color:var(--ink-2);white-space:normal}
 
 /* The state index: 51 links that need to be scannable, not a wall. */
 ul.states{list-style:none;padding:0;margin:1.25rem 0 2rem;display:grid;

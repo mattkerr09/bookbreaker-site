@@ -5000,29 +5000,24 @@ def render_state_page(m: dict, code: str) -> str:
                      for b in m["states"][c]["books"]} - here)
     assert len(absent) == st["absent"], (code, len(absent), st["absent"])
 
-    rows = "".join(
-        f"<tr><td>{partner_link(b['key'], b['name'], code)}</td>"
-        f"<td class=\"prose\">{'Exchange' if b['tier'] == 'exchange' else b['tier'].title()}</td>"
-        f"<td class=\"{'good' if not b['limits'] else 'warn'}\">"
-        f"{'Never limits winners' if not b['limits'] else 'Limits winning accounts'}</td></tr>"
-        for b in sorted(books, key=lambda x: (x["limits"], x["name"])))
+    def listed(bs: list) -> str:
+        """Books as one line, the type said only where it is not an ordinary sportsbook."""
+        return ", ".join(partner_link(b["key"], b["name"], code)
+                         + ("" if b["tier"] == "retail" else f" ({'exchange' if b['tier'] == 'exchange' else b['tier']})")
+                         for b in sorted(bs, key=lambda x: x["name"]))
+    # Two lines, not a table: every row of the table repeated "Retail, Limits winning accounts", and states with
+    # the same big books shared most of their page in those rows (the near-duplicate gate, 2026-10-07).
+    rows = ((f'<p><b class="pos">Never limit winning accounts:</b> {listed(never)}.</p>' if never else "")
+            + (f'<p><b>Limit winning accounts:</b> {listed(limiting)}.</p>' if limiting else ""))
 
     never_names = ", ".join(b["name"] for b in never)
     faqs = [
         (f"Which sportsbooks operate in {name}?",
          ", ".join(b["name"] for b in sorted(books, key=lambda x: x["name"]))
-         + f" — {len(books)} in total, of which {len(online)} "
-           f"{'is a sportsbook' if len(online) == 1 else 'are sportsbooks'} "
+         + f". That is {len(books)} in total: {len(online)} "
+           f"{'sportsbook' if len(online) == 1 else 'sportsbooks'} "
            f"and {len(exchanges)} "
-           f"{'is a prediction market' if len(exchanges) == 1 else 'are prediction markets'}."),
-        (f"Which {name} sportsbooks limit winning accounts?",
-         (f"{len(limiting)} of {len(books)}. "
-          + (f"{never_names} {_does(len(never))}." if never
-             else "There is no exception."))),
-        (f"What is not available in {name}?",
-         (f"{', '.join(absent)} — {len(absent)} books that operate elsewhere "
-          f"in the US take no bets here." if absent else
-          f"Every book this site tracks operates in {name}.")),
+           f"{'prediction market' if len(exchanges) == 1 else 'prediction markets'}."),
     ]
     faq_html = "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
 
@@ -5039,13 +5034,9 @@ covering the state limit accounts that win{'; ' + e(never_names) + ' ' + _does(l
 {state_difference(m, name, code, JURISDICTIONS.get(code, {}))}
 
 <h2>Every sportsbook covering {e(name)}</h2>
-<div class="scroll"><table>
-<tr><th>Sportsbook</th><th class="prose">Type</th>
-<th class="prose">Winning accounts</th></tr>
 {rows}
-</table></div>
 
-{f'<h2>What you cannot get in {e(name)}</h2><p>{", ".join(e(a) for a in absent)} &mdash; {len(absent)} books that operate elsewhere in the United States take no bets here.</p>' if absent else ''}
+{f'<h2>What you cannot get in {e(name)}</h2><p>{", ".join(e(a) for a in absent)}. These {len(absent)} books take bets elsewhere in the United States, not here.</p>' if absent else ''}
 
 <h2>{e(name)} sports betting FAQ</h2>
 {faq_html}
@@ -6437,8 +6428,6 @@ a.book-link{color:var(--ink);font-weight:600;text-decoration:none;
 a.book-link:hover{border-bottom-color:var(--accent);color:var(--accent)}
 
 /* The column no competing page prints. */
-main table td.good{color:var(--good);font-weight:650;white-space:normal}
-main table td.warn{color:var(--ink-2);white-space:normal}
 
 /* The state index: 51 links that need to be scannable, not a wall. */
 ul.states{list-style:none;padding:0;margin:1.25rem 0 2rem;display:grid;
@@ -8354,7 +8343,7 @@ point for your own check, not legal advice.</p>
             # Carolina. Sized against the longest name in the set (14) so it
             # cannot overflow: 14 + 42 = 56. "every book, and" went; "which
             # books limit winners" is the distinctive half and it stays.
-            f"{name} sports betting — which books limit winners",
+            f"{name} sports betting: which books limit winners",
             state_description(name),
             render_state_page(measured, code), url))
         built.append((url, rel))

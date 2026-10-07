@@ -129,11 +129,14 @@ CASES = [
         #
         # This turns one state page into a copy of another, which is the
         # actual failure mode: programmatic pages that differ only by name.
+        # Kansas and North Carolina license the same eight books (the engine's re-checked table, 2026-09-24),
+        # so renaming one makes a real near-copy. Missouri and Kentucky no longer share a book list, and the
+        # rename that used to copy one into the other now leaves the two 47% alike, which no check should flag.
         "a state page rewritten as a copy of another state's",
         "check_shingle_duplication",
-        "sportsbooks/mo/index.html",
-        "Missouri",
-        "Kentucky",
+        "sportsbooks/ks/index.html",
+        "Kansas",
+        "North Carolina",
         -1,
     ),
     (
