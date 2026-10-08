@@ -128,18 +128,29 @@ def read_app_window(app_repo: Path) -> dict:
         raise SystemExit(f"cannot depict the app: no window source at {src}")
     text = src.read_text()
 
-    tabs = re.findall(r'<button class="tab[^"]*"[^>]*>([^<]+)</button>', text)
-    panels = re.findall(r'data-panel="([a-z]+)"', text)
-    heads = re.findall(r"<h1>([^<]+)", text)
-    if not tabs or len(tabs) != len(heads):
-        raise SystemExit(
-            f"window source parsed to {len(tabs)} tabs and {len(heads)} "
-            f"headlines; the hero would depict something that is not the app"
-        )
+    # Read by panel, not by tab strip: the 2026-10-07 window moved from one
+    # strip of thirteen tabs to a rail of six places with tabs inside them, so
+    # tabs and headlines no longer pair one to one. Every panel still carries
+    # exactly one headline, in both layouts, and that is what is checked.
+    tabs = re.findall(r'<button class="(?:tab|rail-btn)[^"]*"[^>]*>([^<]+)</button>', text)
+    starts = [(m.start(), m.group(1)) for m in re.finditer(r'id="panel-([a-z]+)"', text)]
+    heads, panels = [], []
+    for i, (at, name) in enumerate(starts):
+        chunk = text[at:starts[i + 1][0] if i + 1 < len(starts) else len(text)]
+        found = re.findall(r"<h1>([^<]+)", chunk)
+        if len(found) != 1:
+            raise SystemExit(
+                f"window panel {name!r} has {len(found)} headlines; the hero "
+                f"would depict something that is not the app")
+        heads.append(found[0].strip())
+        panels.append(name)
+    if not panels:
+        raise SystemExit("window source has no panels; the hero would depict "
+                         "something that is not the app")
     return {
         "tabs": [t.strip() for t in tabs],
-        "panels": sorted(set(panels)),
-        "heads": [h.strip() for h in heads],
+        "panels": sorted(panels),
+        "heads": heads,
     }
 
 
@@ -1585,8 +1596,9 @@ def measure(engine) -> dict:
         "assumptions_bonus_decimal": _welcome.PRIOR_BONUS_DECIMAL,
         "assumptions_hold_pct": _welcome.PRIOR_TWO_BOOK_HOLD * 100,
         "max_age_days": _welcome.MAX_AGE_DAYS,
+        # No total across offers: once the feed carries one row per state's
+        # variant, a sum would count the same book's offer several times.
         "offers": [pp.as_dict() for pp in _priced],
-        "total_guaranteed": round(sum(pp.guaranteed for pp in _priced), 2),
     }
     return out
 
@@ -1597,8 +1609,8 @@ def measure(engine) -> dict:
 MARK = (
     '<svg class="mark" viewBox="0 0 64 64" aria-hidden="true">'
     '<defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1">'
-    '<stop offset="0" stop-color="#3ba3ff"/>'
-    '<stop offset="1" stop-color="#0057b8"/>'
+    '<stop offset="0" stop-color="#8b89ff"/>'
+    '<stop offset="1" stop-color="#4341e6"/>'
     '</linearGradient></defs>'
     '<rect width="64" height="64" rx="14" fill="url(#bbTile)"/>'
     '<path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/>'
@@ -5351,6 +5363,21 @@ def render_offers(m: dict) -> str:
     app's Offers tab, from the same engine output."""
     w = m["welcome"]
     cards = []
+    every_state = sorted({st for o in w["offers"] for st in (o.get("states") or [])})
+    # A picker only once the feed says where each offer applies. It filters in
+    # the page: nothing is sent anywhere, and with no choice every card shows.
+    state_picker = (
+        '<p class="offer-pick"><label>Your state <select id="offer-state">'
+        '<option value="">All states</option>'
+        + "".join(f'<option value="{e(st)}">{e(STATE_NAMES.get(st, st))}</option>'
+                  for st in every_state)
+        + '</select></label></p>'
+        '<script>(function(){var s=document.getElementById("offer-state");if(!s)return;'
+        's.addEventListener("change",function(){var v=s.value;'
+        'document.querySelectorAll(".offer-card").forEach(function(c){'
+        'var st=(c.getAttribute("data-states")||"").split(" ");'
+        'c.hidden=!!v&&st.indexOf(v)<0;});});})();</script>'
+    ) if every_state else ""
     for o in w["offers"]:
         if o["stale"]:
             cards.append(f"""<article class="offer-card" data-stale><h3>{e(o['name'])}</h3>
@@ -5362,9 +5389,14 @@ monthly, so this one is not priced until it is read again.</p></article>""")
                  f'<b class="worth">${o["expected"]:,.2f}</b><span>expected. A '
                  f'profit boost cannot be hedged to a fixed amount.</span>')
         steps = "".join(f"<li>{e(_offer_step_wording(st))}</li>" for st in o["steps"])
-        cards.append(f"""<article class="offer-card reveal">
+        states = sorted(o.get("states") or [])
+        where = (f'<p class="offer-states">Valid in {len(states)} '
+                 f'{"state" if len(states) == 1 else "states"}: {e(", ".join(states))}</p>'
+                 if states else "")
+        cards.append(f"""<article class="offer-card reveal" data-states="{e(' '.join(states))}">
 <div class="offer-top">{worth}</div>
 <h3>{e(o['name'])} <small>{e(o['headline'])}</small></h3>
+{where}
 <ol>{steps}</ol>
 <p class="caveat">{e(o['note'])} <a href="{e(o['source'])}" rel="nofollow">source</a>,
 read {e(o['read'])}.</p>
@@ -5378,6 +5410,7 @@ accepted and stand. Ranked that way, the order changes.</p>
 bets placed at decimal {w['assumptions_bonus_decimal']:.1f}, and a
 {w['assumptions_hold_pct']:.1f}% combined hold across the best two books. The app
 lets you change both.</p>
+{state_picker}
 <div class="offer-grid">{''.join(cards)}</div>
 <p class="caveat">Offers change monthly and differ by state; check the source for
 your state before you sign up. Every row cites where it was read and when, and

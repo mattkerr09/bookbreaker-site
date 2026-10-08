@@ -4560,7 +4560,6 @@
           "Expected value about $17.89 a token, $178.92 across all 10. Not guaranteed: a boost cannot be hedged to a fixed floor in general."
         ]
       }
-    ],
-    "total_guaranteed": 751.73
+    ]
   }
 }
