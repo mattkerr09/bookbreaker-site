@@ -46,7 +46,7 @@
 <meta name="theme-color" content="#1493FF">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=dc6e236848">
+<link rel="stylesheet" href="/style.css?v=721260c86b">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "Effective Bets", "item": "https://bookbreaker.bet/calculators/effective-bets/"}]}</script>
 </head>
@@ -64,6 +64,7 @@
 </div>
 
 <p>Stake spread across correlated bets is not spread. Effective bets is the count a book is really holding: n divided by one plus n minus one times rho, where rho is the average pairwise correlation between positions. Independent bets give n_eff equal to n. Everything else gives less.</p><p>The correlation used as a starting point here is a prior, not a measurement: rho of 0.15. The measured figure on this book is 0.45. Same bet counts, two columns.</p><div class="scroll"><table><tr><th>Bets</th><th>Effective at prior rho 0.15</th><th>Effective at measured rho 0.45</th></tr><tr><td>2</td><td>1.7</td><td>1.4</td></tr><tr><td>4</td><td>2.8</td><td>1.7</td></tr><tr><td>8</td><td>3.9</td><td>1.9</td></tr><tr><td>12</td><td>4.5</td><td>2.0</td></tr><tr><td>20</td><td>5.2</td><td>2.1</td></tr></table></div><p>Read the measured column down. From 2 bets to 20 bets, the effective count crawls from 1.4 to 2.1. Past a handful of correlated positions, adding another buys no diversification. It only adds stake.</p><p>That is what a staking rule has to see. A max single of 5% on a bankroll of 20000 caps a lone bet at 1000. The same rule, applied to a book already loaded with correlated exposure, caps it at 409.96. Competitors print the first figure and call the portfolio diversified. They are counting tickets, and tickets are not independent.</p>
+
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the
 moment this page was built. None of it was typed in. The build fails if a

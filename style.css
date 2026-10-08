@@ -599,6 +599,7 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
   .hero .lede{font-size:var(--t-4)}
   h2{margin-top:var(--s-6)}
   .foot-grid{grid-template-columns:1fr;padding:var(--s-6) 1.15rem .6rem}
+  .get-app{padding-inline:1.15rem}
 
 
 
@@ -937,7 +938,7 @@ html,body{max-width:100%;overflow-x:clip}
    leaf main at 46rem, so the wordmark shared a vertical edge with nothing on
    any page — 24px out on the home page and 192px out on a leaf. */
 :root{}
-nav,.banner-in,.foot-grid,.foot-fine{max-width:var(--shell);
+nav,.banner-in,.foot-grid,.foot-fine,.get-app{max-width:var(--shell);
   padding-inline:var(--s-5)}
 body.home main,body.hub main{max-width:var(--shell)}
 main{padding-inline:var(--s-5)}

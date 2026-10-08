@@ -4102,6 +4102,44 @@ def versus_description(row: dict) -> str:
             "getting the bet down, and when a record proves nothing.")
 
 
+def app_shot(m: dict, slug: str) -> str:
+    """The app's own tab for this calculator, where it has one (content standard 4).
+
+    The shots are the homepage's, captured from the shipped app on the showcase
+    prices, so the caption names those prices rather than this page's example.
+    """
+    sc = m["showcase"]
+    shots = {
+        "arbitrage": (
+            "panel-arbitrage.jpg",
+            "The app's Arbitrage tab with two prices entered and the stake "
+            "split across them.",
+            f"The Arbitrage tab, on {sc['arb_a']:.2f} against {sc['arb_b']:.2f}. "
+            f"It returns {sc['arb_margin_pct']:.2f}% whichever side wins, and "
+            "both stakes come out as amounts a book will take."),
+        "kelly": (
+            "panel-stake.jpg",
+            "The app's Stake tab showing a Kelly fraction and the bet it sizes.",
+            f"The Stake tab. Full Kelly here is {sc['kelly_full_pct']:.2f}% of "
+            f"the bankroll. At the {sc['kelly_fraction_pct']:.0f}% fraction it "
+            f"stakes {sc['kelly_used_pct']:.2f}%, and the tab says which limit "
+            "set the size."),
+        "parlay": (
+            "panel-parlay.jpg",
+            "The app's Parlay tab comparing a four-leg ticket's hold with one "
+            "leg's.",
+            f"The Parlay tab, on {sc['parlay_legs']} legs at &minus;110. It "
+            f"pays {sc['parlay_pays']:.2f} to 1 where fair is "
+            f"{sc['parlay_fair']:.2f} to 1."),
+    }
+    if slug not in shots:
+        return ""
+    img, alt, caption = shots[slug]
+    return (f'<div class="shots"><figure><img src="/media/{img}" width="1280" '
+            f'height="720" loading="lazy" alt="{alt}"><figcaption><b>In the '
+            f'app</b><span>{caption}</span></figcaption></figure></div>')
+
+
 def render_calculator(m: dict, row: dict) -> str:
     """One calculator page, with a worked example the engine produced.
 
@@ -4121,6 +4159,7 @@ def render_calculator(m: dict, row: dict) -> str:
 </div>
 {own_devig_widget(m) if slug == "no-vig-odds" else ""}
 {body}
+{app_shot(m, slug)}
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the
 moment this page was built. None of it was typed in. The build fails if a
@@ -5827,6 +5866,7 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
   .hero .lede{font-size:var(--t-4)}
   h2{margin-top:var(--s-6)}
   .foot-grid{grid-template-columns:1fr;padding:var(--s-6) 1.15rem .6rem}
+  .get-app{padding-inline:1.15rem}
 
 
 
@@ -6165,7 +6205,7 @@ html,body{max-width:100%;overflow-x:clip}
    leaf main at 46rem, so the wordmark shared a vertical edge with nothing on
    any page — 24px out on the home page and 192px out on a leaf. */
 :root{--shell:76rem}
-nav,.banner-in,.foot-grid,.foot-fine{max-width:var(--shell);
+nav,.banner-in,.foot-grid,.foot-fine,.get-app{max-width:var(--shell);
   padding-inline:var(--s-5)}
 body.home main,body.hub main{max-width:var(--shell)}
 main{padding-inline:var(--s-5)}
