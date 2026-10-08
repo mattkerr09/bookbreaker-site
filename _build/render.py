@@ -1456,7 +1456,7 @@ def measure(engine) -> dict:
         "negative here, and it is supposed to be: the prices imply "
         f"{du['implied']:.2f}% of probability between them, and everything "
         "above a hundred is the book's margin. Dutching is the same solver as "
-        "an arbitrage with the guarantee removed.</p>"
+        "an arbitrage without the locked floor.</p>"
         + "<p>So it earns nothing on its own. It is a way of expressing a view "
         "you already hold (that the winner is somewhere inside this set) "
         "at a known cost. It is not a way of manufacturing an edge. "
@@ -2177,8 +2177,8 @@ def render_download(m: dict) -> str:
 <section class="dl-hero">
 <p class="eyebrow">Free &middot; Version {r['version']}</p>
 <h1>Download Bookbreaker</h1>
-<p class="lede">The free Mac app that finds bets that pay either way. No account,
-no subscription, and your betting record never leaves your Mac.</p>
+<p class="lede">The free Mac app that finds price gaps between books and works out
+both stakes. No account, no subscription, and your betting record never leaves your Mac.</p>
 <div class="cta">{primary}</div>
 {free_line(m) + PHONE_LINE if app else ''}
 </section>
@@ -2417,11 +2417,12 @@ def render_index(m: dict) -> str:
     return f"""
 <section class="hero">
   <p class="eyebrow">Free Mac app for sports bettors</p>
-  <h1>Bets that pay<br><span class="grad">either way.</span></h1>
-  <p class="lede">When two markets price the same game differently, you can bet
-  both sides and come out ahead whatever happens. Bookbreaker watches live Kalshi
-  and Polymarket prices for those gaps, works out the stakes for any sportsbook
-  price you enter, and shows your profit before you bet.</p>
+  <h1>Profit either way,<br><span class="grad">when both bets stand.</span></h1>
+  <p class="lede">When two books disagree on a game, backing both sides at the right
+  stakes locks in a profit, as long as both bets are accepted at the prices shown and
+  both stand. Real gaps are rare and usually small. Bookbreaker looks for them in live
+  Kalshi and Polymarket prices, works out the stakes for any sportsbook price you
+  enter, and warns you when a price is likely gone.</p>
   <div class="cta">
     <a class="btn primary" href="{dl_hero}" data-download>Download free for Mac</a>
     <a class="btn ghost" href="#how">See how it works</a>
@@ -2459,7 +2460,7 @@ def render_index(m: dict) -> str:
     <span class="kicker">How it works</span>
     <h2>Win without picking winners</h2>
     <p>Sportsbooks are built to profit whoever wins. Every so often two of them
-    disagree enough that you can't lose.</p>
+    disagree enough that both sides can pay, if you get both bets on.</p>
   </div>
   <div class="explain">
     <div class="ex reveal">
@@ -2474,7 +2475,8 @@ def render_index(m: dict) -> str:
     <div class="ex reveal">
       <h3>Unless the prices disagree</h3>
       <p>Find {a_odds} at one book and {b_odds} at another. Bet ${a_stake} and
-      ${b_stake}, and you win whichever side comes in.</p>
+      ${b_stake}, and if both bets are accepted at those prices, you win whichever
+      side comes in.</p>
       <div class="ex-pair">
         <div><small>Side one wins</small><b class="win">+${a_win:.2f}</b></div>
         <div><small>Side two wins</small><b class="win">+${b_win:.2f}</b></div>
@@ -2485,7 +2487,7 @@ def render_index(m: dict) -> str:
       <p>Finding those pairs by hand means watching prices all day. The app does
       it, then hands you the bet.</p>
       <ul class="ex-list">
-        <li>Spots prices that pay either way</li>
+        <li>Spots prices that would pay either way</li>
         <li>Tells you exactly what to bet at each book</li>
         <li>Rounds stakes so they don't look like software</li>
         <li>Warns you when a price is likely gone</li>
@@ -2497,8 +2499,8 @@ def render_index(m: dict) -> str:
 <section class="sec">
   <div class="sec-head">
     <span class="kicker">The math, done for you</span>
-    <h2>One game. Two books. Profit either way.</h2>
-    <p>This is what the app hands you for every bet it finds.</p>
+    <h2>One game. Two books. The profit if both stand.</h2>
+    <p>This is what the app hands you for every gap it finds.</p>
   </div>
   <div class="console reveal">
     <div class="console-top">
@@ -2512,7 +2514,7 @@ def render_index(m: dict) -> str:
         <span class="leg-lab">Bet</span><span class="leg-stake">${a_stake}</span>
         <span class="leg-wins">If this wins <b>+${a_win:.2f}</b></span>
       </div>
-      <div class="dial"><div><b>{sc["arb_margin_pct"]:.2f}%</b><span>Locked in</span></div></div>
+      <div class="dial"><div><b>{sc["arb_margin_pct"]:.2f}%</b><span>If both stand</span></div></div>
       <div class="leg">
         <span class="leg-book">Book B</span><span class="leg-side">Team two to win</span>
         <span class="leg-odds">{b_odds}</span>
@@ -2520,10 +2522,11 @@ def render_index(m: dict) -> str:
         <span class="leg-wins">If this wins <b>+${b_win:.2f}</b></span>
       </div>
     </div>
-    <div class="console-profit"><span>Profit whichever side wins, on ${c["staked"]}</span><b>+${min(a_win, b_win):.2f}</b></div>
+    <div class="console-profit"><span>Locked if both bets are accepted and stand, on ${c["staked"]}</span><b>+${min(a_win, b_win):.2f}</b></div>
   </div>
   <p class="console-note">An example market. The stakes are rounded to amounts a book
-  will take, which is why the two sides pay slightly differently.</p>
+  will take, which is why the two sides pay slightly differently. Prices move and books
+  can cap or void a bet, so check both are still there before you place either.</p>
 </section>
 
 <section class="sec">
@@ -2533,8 +2536,8 @@ def render_index(m: dict) -> str:
   </div>
   <ol class="steps3">
     <li class="reveal"><b>Download the app</b><span>Free, {app["mb"]} MB, for Macs with Apple silicon.</span></li>
-    <li class="reveal"><b>Open the board</b><span>It lists the bets that pay either way right now, best first.</span></li>
-    <li class="reveal"><b>Place both bets</b><span>Bet the stakes shown at each book. One side wins, one loses, and you keep the difference.</span></li>
+    <li class="reveal"><b>Open the board</b><span>It lists the price gaps it can see right now, biggest first.</span></li>
+    <li class="reveal"><b>Place both bets, fast</b><span>Bet the stakes shown at each book. If both are accepted at those prices, one side wins, one loses, and you keep the difference.</span></li>
   </ol>
 </section>
 
@@ -2560,6 +2563,15 @@ def render_index(m: dict) -> str:
 <section class="sec">
   <div class="sec-head"><span class="kicker">Questions</span><h2>Before you download</h2></div>
   <div class="faq">
+    <details><summary>Is the profit guaranteed?</summary><p>No. It is locked only if
+    both bets are accepted at the prices shown and both stand. A price can move before
+    your second bet lands, a book can cap your stake or void a bet, and an exchange may
+    have only a little on offer at the price you see. The board shows the best price,
+    not how much is available at it, so check the size before you bet. When we priced
+    the Kalshi and Polymarket gaps our own scanner found against what was really on
+    offer, nearly all of them disappeared, and the one left was worth about a cent.
+    Real gaps are rare and small. That is why the app tells you how likely each price
+    is to still be there.</p></details>
     <details><summary>Is it really free?</summary><p>Yes. There is no subscription, no
     account and no card. Download it and use it.</p></details>
     <details><summary>What is arbitrage betting?</summary><p>Betting every side of a game
@@ -2579,7 +2591,7 @@ def render_index(m: dict) -> str:
 </section>
 
 <section class="close reveal">
-  <h2>Find your first bet that pays either way</h2>
+  <h2>See the gaps for yourself</h2>
   <p>Free for Mac. It takes a minute to set up.</p>
   <div class="cta"><a class="btn primary" href="{dl_foot}" data-download>Download free for Mac</a></div>
   {free_line(m)}
@@ -2603,9 +2615,88 @@ def render_how(m: dict) -> str:
         for r in mid["cases"]
     )
     cat = m["catalog"]
+    f, pa, sc, r, cn = m["fill"], m["parlay"], m["showcase"], m["rounding"], m["console"]
+
+    def feat(kicker, title, text, shot=None, stat=None):
+        visual = (f'<figure class="feat-shot"><img src="/media/{shot[0]}" width="1280" height="720" '
+                  f'loading="lazy" alt="{e(shot[1])}"></figure>' if shot else
+                  f'<div class="feat-stat"><b>{stat[0]}</b><span>{stat[1]}</span></div>')
+        return (f'<section class="feat reveal"><div class="feat-copy"><span class="kicker">{kicker}</span>'
+                f'<h2>{title}</h2>{text}</div>{visual}</section>')
+
+    feats = "".join((
+        feat("The board", "Find price gaps between books",
+             "<p>Open the app and the board lists every pair of prices that would pay "
+             "whichever side wins if both bets go through, biggest first. Live Kalshi and Polymarket prices are built in, and "
+             "each play shows its profit, how old the price is and how likely it is to "
+             "still be there.</p>",
+             shot=("app-poster.jpg", "The app's board listing plays best first")),
+        feat("Arbitrage", "Know exactly what to bet at each book",
+             f"<p>Enter two prices and how much you want to put in. You get the stake for each "
+             f"book, rounded to amounts a book will take, and the profit locked if both bets "
+             f"are accepted and stand.</p>"
+             f"<p>{cn['american'][0]:+d} and {cn['american'][1]:+d} on ${r['total']:,}: bet "
+             f"${cn['stakes'][0]} and ${cn['stakes'][1]}, and keep at least "
+             f"${r['round_profit']:.2f} if both stand.</p>",
+             shot=("panel-arbitrage.jpg", "The app's arbitrage tab splitting a stake across two books")),
+        feat("Will it land?", "Check a price is still there",
+             f"<p>The price on your screen is already a few seconds old. Bookbreaker adds the "
+             f"feed's own delay and tells you the chance the price is still open when your "
+             f"bet lands, so you stop chasing prices that are gone.</p>",
+             stat=(f"{f['honest']}%", f"chance a price that looks {f['age']:.0f} seconds old is "
+                   f"still there, once the feed's {f['latency']} second delay is counted")),
+        feat("Stake", "Bet the right amount",
+             f"<p>Tell it your bankroll and your edge. It gives a bet size that grows your "
+             f"bankroll without betting it all, and says what capped it.</p>"
+             f"<p>Full Kelly says {sc['kelly_full_pct']:.2f}% of the bankroll. The app stakes "
+             f"{sc['kelly_used_pct']:.2f}%, because a small error in your edge costs far more "
+             f"when you bet big.</p>",
+             shot=("panel-stake.jpg", "The app's stake tab sizing a bet")),
+        feat("Parlay", "See what a parlay really pays",
+             f"<p>Type the legs and it shows what the parlay pays against what it should. "
+             f"A {pa['legs']}-leg parlay at &minus;110 pays {pa['pays']:.2f} to 1 when a fair "
+             f"price would be {pa['fair']:.2f} to 1.</p>",
+             shot=("panel-parlay.jpg", "The app's parlay tab comparing the payout with a fair one")),
+        feat("Offers", "Turn sign-up bonuses into cash",
+             "<p>Bonus bets do not pay back their stake, so most people get half their value. "
+             "Bookbreaker ranks welcome offers by what you keep after hedging, and walks you "
+             "through each bet. <a href=\"/offers/\">See this week's offers</a>.</p>",
+             stat=(f"{c['ladder'][-1]['rate']:.1f}%", "of a bonus bet's face value kept by "
+                   "hedging it at the longest price in the table below")),
+        feat("Results", "Know if you are actually winning",
+             f"<p>Import your sportsbook's export or paste a betslip. It shows your return and "
+             f"whether your record proves anything yet. A {m['performance']['n']}-bet record "
+             f"up {m['performance']['roi']:.2f}% can still be luck, and the app says so.</p>",
+             stat=(f"{m['performance']['n']}", "bets in the example record, and still too few "
+                   "to tell skill from luck")),
+    ))
 
     return f"""
-<h1>How it works</h1>
+<div class="phead">
+<h1>How Bookbreaker works</h1>
+<p class="lede">One app with a handful of jobs. Each one answers a question bettors
+actually ask, with the math already done.</p>
+</div>
+<div class="feats" data-hub>
+{feats}
+</div>
+
+<h2>Where the prices come from</h2>
+<p>Live Kalshi and Polymarket prices are built in. For a sportsbook, you type the
+price you see and the app does the rest. It knows {cat['venues']} sportsbooks,
+exchanges and prediction markets, and which of them take bets in each state:
+{cat['nj']} in New Jersey, {cat['fl']} in Florida. <a href="/sportsbooks/">Check your
+state</a>.</p>
+
+<h2>What it never does</h2>
+<p>It never asks for a sportsbook login and never places a bet for you. Your record
+comes from the export your book already gives you. It does nothing about identity,
+location or device: keeping an account healthy is done with the shape of the bet,
+nothing else. <a href="/account-longevity/">How it keeps accounts open</a>.</p>
+
+<h2>The math behind it</h2>
+<p>For anyone who wants to check the working. Everything below is computed by the
+engine when this page is built.</p>
 {render_plates(m)}
 
 <h2>Welcome offers, after every cost</h2>
@@ -2635,23 +2726,9 @@ its sample size, so Bookbreaker counts the games you record rather than
 shipping a distribution, and refuses to give a counted answer below 200
 games.</p>
 
-<h2>Which books you can use</h2>
-<p>{cat['venues']} venues, filtered to the ones you can actually hold: an
-arbitrage between two books you cannot both open is noise with a number
-attached. {cat['nj']} in New Jersey, {cat['fl']} in Florida. Table read
-{e(cat['as_of'])}, and the site shows its own age because a jurisdiction table
-without a date asserts &ldquo;true now&rdquo; forever.</p>
-<p class="caveat">A dated starting point for your own check, not advice. The
-book's own site decides whether it will accept you.</p>
-
-<h2>What stays out of the product</h2>
-<p>It does not link sportsbook accounts. Trackers that sync automatically do it
-by holding your sportsbook credentials; Bookbreaker imports the CSV your book
-already exports and never asks for a login.</p>
-<p>Nor does it do multi-accounting, identity or KYC workarounds, or device and
-location spoofing. See
-<a href="/account-longevity/">account longevity</a> for where that line is
-drawn and why it is drawn in code rather than in a policy document.</p>
+<p class="caveat">The state table was read {e(cat['as_of'])}. It is a dated
+starting point for your own check, not advice: the book's own site decides whether
+it will accept you.</p>
 """
 
 
@@ -2967,8 +3044,8 @@ price you can actually hedge&rdquo;.
 "what-is-arbitrage-betting": f"""
 <p>When two books disagree enough, backing both sides returns more than it
 costs. At {e(a['legs'][0])} and {e(a['legs'][1])} the implied probabilities sum
-to less than one, which is a {a['margin']:.2f}% return on turnover whatever
-happens.</p>
+to less than one, which is a {a['margin']:.2f}% return on turnover whichever
+side wins, provided both bets are accepted at those prices and both stand.</p>
 <p>The maths is one line. The hard parts are the two nobody writes about.</p>
 <p><strong>The price may already be gone.</strong> Between the screen showing a
 quote and your bet landing sit the poll interval, the network and you. A quote
@@ -3862,7 +3939,8 @@ def app_shot(m: dict, slug: str) -> str:
             "The app's Arbitrage tab with two prices entered and the stake "
             "split across them.",
             f"The Arbitrage tab, on {sc['arb_a']:.2f} against {sc['arb_b']:.2f}. "
-            f"It returns {sc['arb_margin_pct']:.2f}% whichever side wins, and "
+            f"It returns {sc['arb_margin_pct']:.2f}% whichever side wins if both bets "
+            f"are accepted and stand, and "
             "both stakes come out as amounts a book will take."),
         "kelly": (
             "panel-stake.jpg",

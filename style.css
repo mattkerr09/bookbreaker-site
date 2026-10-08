@@ -246,6 +246,22 @@ td:first-child{color:var(--ink)}
 .worth{font:600 1.9rem/1.1 var(--mono);color:var(--good);letter-spacing:-.03em}
 .src-line{font-size:.82rem;color:var(--ink-3)}
 
+/* ---------- how it works: one section per job ---------- */
+.feats{display:flex;flex-direction:column;gap:5rem;margin:2.5rem 0 4rem}
+.feat{display:grid;gap:2.5rem;align-items:center;grid-template-columns:1fr 1.25fr}
+.feat:nth-child(even) .feat-copy{order:2}
+.feat-copy h2{margin:0 0 .8rem;font-size:clamp(1.6rem,3vw,2.3rem);letter-spacing:-.03em}
+.feat-shot{margin:0;border-radius:var(--r);overflow:hidden;border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 0 0 1px rgba(91,91,255,.12),0 30px 80px -30px rgba(91,91,255,.45)}
+.feat-shot img{display:block;width:100%;height:auto}
+.feat-stat{display:flex;flex-direction:column;justify-content:center;gap:.6rem;min-height:15rem;
+  padding:2rem;border-radius:var(--r);text-align:center;
+  background:radial-gradient(70% 80% at 50% 0%,rgba(46,229,157,.12),transparent 70%),var(--card);
+  border:1px solid var(--rule)}
+.feat-stat b{font:600 clamp(3rem,7vw,4.5rem)/1 var(--mono);color:var(--good);letter-spacing:-.04em}
+.feat-stat span{max-width:22rem;margin:0 auto;color:var(--ink-2);font-size:.95rem}
+@media (max-width:820px){.feat{grid-template-columns:1fr;gap:1.5rem}.feat:nth-child(even) .feat-copy{order:0}}
+
 /* ---------- download page ---------- */
 .dl-hero{text-align:center;padding:2.5rem 1.5rem 2.25rem;margin-bottom:1rem;border-radius:24px;
   background:radial-gradient(60% 90% at 50% 0%,rgba(91,91,255,.24),transparent 70%),var(--card);

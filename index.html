@@ -45,7 +45,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#5b5bff">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=8b4630e365">
+<link rel="stylesheet" href="/style.css?v=355c3f736f">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://bookbreaker.bet/#org", "name": "Bookbreaker", "url": "https://bookbreaker.bet/"}, {"@type": "WebSite", "@id": "https://bookbreaker.bet/#site", "name": "Bookbreaker", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}, {"@type": "SoftwareApplication", "name": "Bookbreaker", "applicationCategory": "FinanceApplication", "operatingSystem": "macOS", "softwareVersion": "0.1.6", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}]}</script>
 </head>
@@ -55,11 +55,12 @@
 
 <section class="hero">
   <p class="eyebrow">Free Mac app for sports bettors</p>
-  <h1>Bets that pay<br><span class="grad">either way.</span></h1>
-  <p class="lede">When two markets price the same game differently, you can bet
-  both sides and come out ahead whatever happens. Bookbreaker watches live Kalshi
-  and Polymarket prices for those gaps, works out the stakes for any sportsbook
-  price you enter, and shows your profit before you bet.</p>
+  <h1>Profit either way,<br><span class="grad">when both bets stand.</span></h1>
+  <p class="lede">When two books disagree on a game, backing both sides at the right
+  stakes locks in a profit, as long as both bets are accepted at the prices shown and
+  both stand. Real gaps are rare and usually small. Bookbreaker looks for them in live
+  Kalshi and Polymarket prices, works out the stakes for any sportsbook price you
+  enter, and warns you when a price is likely gone.</p>
   <div class="cta">
     <a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=home-hero&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.6.dmg" data-download>Download free for Mac</a>
     <a class="btn ghost" href="#how">See how it works</a>
@@ -97,7 +98,7 @@
     <span class="kicker">How it works</span>
     <h2>Win without picking winners</h2>
     <p>Sportsbooks are built to profit whoever wins. Every so often two of them
-    disagree enough that you can't lose.</p>
+    disagree enough that both sides can pay, if you get both bets on.</p>
   </div>
   <div class="explain">
     <div class="ex reveal">
@@ -112,7 +113,8 @@
     <div class="ex reveal">
       <h3>Unless the prices disagree</h3>
       <p>Find +110 at one book and +105 at another. Bet $490 and
-      $500, and you win whichever side comes in.</p>
+      $500, and if both bets are accepted at those prices, you win whichever
+      side comes in.</p>
       <div class="ex-pair">
         <div><small>Side one wins</small><b class="win">+$39.00</b></div>
         <div><small>Side two wins</small><b class="win">+$35.00</b></div>
@@ -123,7 +125,7 @@
       <p>Finding those pairs by hand means watching prices all day. The app does
       it, then hands you the bet.</p>
       <ul class="ex-list">
-        <li>Spots prices that pay either way</li>
+        <li>Spots prices that would pay either way</li>
         <li>Tells you exactly what to bet at each book</li>
         <li>Rounds stakes so they don't look like software</li>
         <li>Warns you when a price is likely gone</li>
@@ -135,8 +137,8 @@
 <section class="sec">
   <div class="sec-head">
     <span class="kicker">The math, done for you</span>
-    <h2>One game. Two books. Profit either way.</h2>
-    <p>This is what the app hands you for every bet it finds.</p>
+    <h2>One game. Two books. The profit if both stand.</h2>
+    <p>This is what the app hands you for every gap it finds.</p>
   </div>
   <div class="console reveal">
     <div class="console-top">
@@ -150,7 +152,7 @@
         <span class="leg-lab">Bet</span><span class="leg-stake">$490</span>
         <span class="leg-wins">If this wins <b>+$39.00</b></span>
       </div>
-      <div class="dial"><div><b>3.54%</b><span>Locked in</span></div></div>
+      <div class="dial"><div><b>3.54%</b><span>If both stand</span></div></div>
       <div class="leg">
         <span class="leg-book">Book B</span><span class="leg-side">Team two to win</span>
         <span class="leg-odds">+105</span>
@@ -158,10 +160,11 @@
         <span class="leg-wins">If this wins <b>+$35.00</b></span>
       </div>
     </div>
-    <div class="console-profit"><span>Profit whichever side wins, on $990</span><b>+$35.00</b></div>
+    <div class="console-profit"><span>Locked if both bets are accepted and stand, on $990</span><b>+$35.00</b></div>
   </div>
   <p class="console-note">An example market. The stakes are rounded to amounts a book
-  will take, which is why the two sides pay slightly differently.</p>
+  will take, which is why the two sides pay slightly differently. Prices move and books
+  can cap or void a bet, so check both are still there before you place either.</p>
 </section>
 
 <section class="sec">
@@ -171,8 +174,8 @@
   </div>
   <ol class="steps3">
     <li class="reveal"><b>Download the app</b><span>Free, 8.2 MB, for Macs with Apple silicon.</span></li>
-    <li class="reveal"><b>Open the board</b><span>It lists the bets that pay either way right now, best first.</span></li>
-    <li class="reveal"><b>Place both bets</b><span>Bet the stakes shown at each book. One side wins, one loses, and you keep the difference.</span></li>
+    <li class="reveal"><b>Open the board</b><span>It lists the price gaps it can see right now, biggest first.</span></li>
+    <li class="reveal"><b>Place both bets, fast</b><span>Bet the stakes shown at each book. If both are accepted at those prices, one side wins, one loses, and you keep the difference.</span></li>
   </ol>
 </section>
 
@@ -198,6 +201,15 @@
 <section class="sec">
   <div class="sec-head"><span class="kicker">Questions</span><h2>Before you download</h2></div>
   <div class="faq">
+    <details><summary>Is the profit guaranteed?</summary><p>No. It is locked only if
+    both bets are accepted at the prices shown and both stand. A price can move before
+    your second bet lands, a book can cap your stake or void a bet, and an exchange may
+    have only a little on offer at the price you see. The board shows the best price,
+    not how much is available at it, so check the size before you bet. When we priced
+    the Kalshi and Polymarket gaps our own scanner found against what was really on
+    offer, nearly all of them disappeared, and the one left was worth about a cent.
+    Real gaps are rare and small. That is why the app tells you how likely each price
+    is to still be there.</p></details>
     <details><summary>Is it really free?</summary><p>Yes. There is no subscription, no
     account and no card. Download it and use it.</p></details>
     <details><summary>What is arbitrage betting?</summary><p>Betting every side of a game
@@ -217,7 +229,7 @@
 </section>
 
 <section class="close reveal">
-  <h2>Find your first bet that pays either way</h2>
+  <h2>See the gaps for yourself</h2>
   <p>Free for Mac. It takes a minute to set up.</p>
   <div class="cta"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=home-foot&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.6.dmg" data-download>Download free for Mac</a></div>
   <p class="free-line">Free. No account and no subscription. Needs a Mac with Apple silicon (M1 or later). 8.2 MB, notarised by Apple.</p>
