@@ -5723,11 +5723,9 @@ def main() -> int:
         for r in load_data("calculators")
     )
     hub = f"""
-<h1>Betting calculators, worked rather than blank</h1>
-<p class="lede">Every calculator page on the internet shows you a form and a
-formula. These show the arithmetic already done on real prices, and the range
-the answer sits in, because the range is what decides whether a bet is
-worth taking.</p>
+<h1>Free betting calculators</h1>
+<p class="lede">Each one comes with the answer already worked out on real prices,
+so you see what it tells you before you type a thing. Pick the question you have.</p>
 <ul class="cards" data-hub>{rows}</ul>
 <p>All of them are the engine that prices bets, not a separate implementation.
 A calculator that disagrees with the product it advertises is worse than no
