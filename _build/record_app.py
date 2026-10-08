@@ -89,37 +89,61 @@ async def main(out: pathlib.Path) -> None:
         await send("Page.navigate", {"url": URL})
         await asyncio.sleep(3.0)
 
-        if not await value("!!document.querySelector('.tab')"):
+        if not await value("!!document.querySelector('[data-panel]')"):
             raise SystemExit(f"nothing at {URL} — is preview_live.py running?")
 
-        GO = ("(()=>{const b=document.querySelector('.panel.is-on .go');"
-              "if(b)b.click();})()")
+        # 2026-10-07: the window moved from a tab strip to a rail of places
+        # with tabs inside. Every step is addressed by what it is (the panel
+        # it opens, the verb it runs, the box its answer lands in), not by
+        # where it sits, so a later layout change cannot leave the take
+        # clicking at nothing.
+        def nav(panel):
+            return ("(()=>{const b=document.querySelector('[data-panel=\"%s\"]');"
+                    "if(b)b.click();})()" % panel)
 
-        # The board first: it is the product. Scan, wait for a real row
-        # rather than a fixed delay, then let it sit long enough to read.
-        await hold(1.1)
-        await js(GO)
-        for _ in range(40):
-            await shot()
-            await asyncio.sleep(1.0 / FPS)
-            if await value("(()=>{const o=document.querySelector('#out-board');"
-                           "return o?o.querySelectorAll('.play').length:0;})()"):
-                break
-        else:
-            raise SystemExit("the board never rendered a play")
+        def run(verb):
+            return ("(()=>{const b=document.querySelector('.panel.is-on "
+                    ".go[data-run=\"%s\"]');if(b)b.click();})()" % verb)
+
+        def landed(box):
+            return ("(()=>{const o=document.querySelector('#%s');if(!o)return false;"
+                    "const t=o.textContent.trim();return t.length>40&&!/Working/.test(t);})()" % box)
+
+        async def until(expr, what, tries=80):
+            for _ in range(tries):
+                await shot()
+                await asyncio.sleep(1.0 / FPS)
+                if await value(expr):
+                    return
+            raise SystemExit(f"{what} never appeared")
+
+        # 1. Arbitrage, the home page: find a pair, let the console fill.
+        await js(nav("board"))
+        await hold(1.0)
+        await js(run("board"))
+        await until(landed("out-board"), "the arbitrage console")
+        await hold(3.2)
+
+        # 2. Promos for one state: what each offer locks in, and where.
+        await js(nav("welcome"))
+        await hold(0.8)
+        await js("(()=>{const s=document.querySelector('#w-state');if(s){s.value='MI';"
+                 "s.dispatchEvent(new Event('change',{bubbles:true}));}})()")
+        await hold(0.6)
+        await js(run("welcome"))
+        await until(landed("out-welcome"), "the offers")
+        await hold(2.8)
+
+        # 3. Tools: the parlay, answered in dollars.
+        await js(nav("parlay"))
+        await hold(0.8)
+        await js(run("parlay"))
+        await until(landed("out-parlay"), "the parlay answer")
         await hold(2.6)
 
-        await js("(()=>{const i=document.querySelector('#b-bank');"
-                 "if(i){i.value='5000';i.dispatchEvent(new Event('input',{bubbles:true}));}"
-                 "const b=document.querySelector('.panel.is-on .go');if(b)b.click();})()")
-        await hold(2.4)
-
-        # Then the working behind the answer.
-        await js('(()=>{const t=document.querySelector(\'.tab[data-panel="devig"]\');'
-                 "if(t)t.click();})()")
-        await hold(1.2)
-        await js(GO)
-        await hold(2.6)
+        # Back to the console to close the loop.
+        await js(nav("board"))
+        await hold(1.6)
 
     print(f"{frame[0]} frames -> {out}")
 

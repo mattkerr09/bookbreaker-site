@@ -2,7 +2,7 @@
 
 > A free sports-betting analysis app for Mac (Apple Silicon) and a command-line tool: it devigs every price four ways, stakes an arbitrage in round numbers, and shows what each number might be wrong by. No account, and your betting record never leaves your machine.
 
-Bookbreaker is an analysis tool for adults 21 and over in states where sports betting is legal. It tells you what the numbers say; you place your own bets. It does not take bets, hold money or connect to any sportsbook account, never asks for a sportsbook login, and is not affiliated with any sportsbook. The Mac app makes no network calls: you type prices, paste a betslip or import your book's CSV. Live prices (public Kalshi and Polymarket markets) come only through the command-line tool. An arbitrage profit is locked only if both bets are accepted and stand. Built by Matthew Kerr in Grand Rapids, Michigan.
+Bookbreaker is an analysis tool for adults 21 and over in states where sports betting is legal. It tells you what the numbers say; you place your own bets. It does not take bets, hold money or connect to any sportsbook account, never asks for a sportsbook login, and is not affiliated with any sportsbook. The Mac app makes no network calls except when you press Check for updates, which asks bookbreaker.bet for the latest version: you type prices, paste a betslip or import your book's CSV. Live prices (public Kalshi and Polymarket markets) come only through the command-line tool. An arbitrage profit is locked only if both bets are accepted and stand. Built by Matthew Kerr in Grand Rapids, Michigan.
 
 ## The app
 

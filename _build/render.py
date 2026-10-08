@@ -2437,9 +2437,9 @@ def render_index(m: dict) -> str:
   <h1>Profit either way,<br><span class="grad">when both bets stand.</span></h1>
   <p class="lede">When two books disagree on a game, backing both sides at the right
   stakes locks in a profit, as long as both bets are accepted at the prices shown and
-  both stand. Real gaps are rare and usually small. Bookbreaker looks for them in live
-  Kalshi and Polymarket prices, works out the stakes for any sportsbook price you
-  enter, and warns you when a price is likely gone.</p>
+  both stand. Real gaps are rare and usually small. Type in the prices you see and
+  Bookbreaker works out what to bet at each book, rounds the stakes so they look
+  human, and shows the profit before you bet.</p>
   <div class="cta">
     <a class="btn primary" href="{dl_hero}" data-download>Download free for Mac</a>
     <a class="btn ghost" href="#how">See how it works</a>
@@ -2504,7 +2504,7 @@ def render_index(m: dict) -> str:
       <p>Finding those pairs by hand means watching prices all day. The app does
       it, then hands you the bet.</p>
       <ul class="ex-list">
-        <li>Spots prices that would pay either way</li>
+        <li>Checks any two prices for a locked profit</li>
         <li>Tells you exactly what to bet at each book</li>
         <li>Rounds stakes so they don't look like software</li>
         <li>Warns you when a price is likely gone</li>
@@ -2553,7 +2553,7 @@ def render_index(m: dict) -> str:
   </div>
   <ol class="steps3">
     <li class="reveal"><b>Download the app</b><span>Free, {app["mb"]} MB, for Macs with Apple silicon.</span></li>
-    <li class="reveal"><b>Open the board</b><span>It lists the price gaps it can see right now, biggest first.</span></li>
+    <li class="reveal"><b>Type in two prices</b><span>The prices you see for both sides at two books. The app works out both stakes and the profit.</span></li>
     <li class="reveal"><b>Place both bets, fast</b><span>Bet the stakes shown at each book. If both are accepted at those prices, one side wins, one loses, and you keep the difference.</span></li>
   </ol>
 </section>
@@ -2594,9 +2594,9 @@ def render_index(m: dict) -> str:
     <details><summary>What is arbitrage betting?</summary><p>Betting every side of a game
     at books whose prices disagree, so the winning bet pays more than the losing one
     costs. <a href="/guides/what-is-arbitrage-betting/">The full guide</a>.</p></details>
-    <details><summary>Where do the prices come from?</summary><p>Live Kalshi and Polymarket
-    prices are built in. For a sportsbook, type in the price you see and the app works
-    out the rest.</p></details>
+    <details><summary>Where do the prices come from?</summary><p>You type in the prices
+    you see at your books, and the app works out the rest. The command-line version of
+    the engine can also read live Kalshi and Polymarket prices.</p></details>
     <details><summary>Will betting like this get me limited?</summary><p>Some books limit
     accounts that win. Bookbreaker rounds your stakes and shows
     <a href="/sportsbooks/">which books in your state limit winners</a>.</p></details>
@@ -2642,13 +2642,13 @@ def render_how(m: dict) -> str:
                 f'<h2>{title}</h2>{text}</div>{visual}</section>')
 
     feats = "".join((
-        feat("The board", "Find price gaps between books",
-             "<p>Open the app and the board lists every pair of prices that would pay "
-             "whichever side wins if both bets go through, biggest first. Live Kalshi and Polymarket prices are built in, and "
-             "each play shows its profit, how old the price is and how likely it is to "
-             "still be there.</p>",
-             shot=("app-poster.jpg", "The app's board listing plays best first")),
-        feat("Arbitrage", "Know exactly what to bet at each book",
+        feat("Arbitrage", "See a pair the way you will bet it",
+             "<p>The Arbitrage page shows both books side by side: the price at each, what "
+             "to bet at each, and what you make if each side wins. The profit is locked only "
+             "if both bets are accepted and stand. Until live prices come to the app, it "
+             "shows one demonstration market so you can see how it works.</p>",
+             shot=("app-poster.jpg", "The app's Arbitrage page with both bets side by side")),
+        feat("Arb calculator", "Know exactly what to bet at each book",
              f"<p>Enter two prices and how much you want to put in. You get the stake for each "
              f"book, rounded to amounts a book will take, and the profit locked if both bets "
              f"are accepted and stand.</p>"
@@ -2656,13 +2656,13 @@ def render_how(m: dict) -> str:
              f"${cn['stakes'][0]} and ${cn['stakes'][1]}, and keep at least "
              f"${r['round_profit']:.2f} if both stand.</p>",
              shot=("panel-arbitrage.jpg", "The app's arbitrage tab splitting a stake across two books")),
-        feat("Will it land?", "Check a price is still there",
+        feat("Will it fill?", "Check a price is still there",
              f"<p>The price on your screen is already a few seconds old. Bookbreaker adds the "
              f"feed's own delay and tells you the chance the price is still open when your "
              f"bet lands, so you stop chasing prices that are gone.</p>",
              stat=(f"{f['honest']}%", f"chance a price that looks {f['age']:.0f} seconds old is "
                    f"still there, once the feed's {f['latency']} second delay is counted")),
-        feat("Stake", "Bet the right amount",
+        feat("Bet size", "Bet the right amount",
              f"<p>Tell it your bankroll and your edge. It gives a bet size that grows your "
              f"bankroll without betting it all, and says what capped it.</p>"
              f"<p>Full Kelly says {sc['kelly_full_pct']:.2f}% of the bankroll. The app stakes "
@@ -2674,13 +2674,13 @@ def render_how(m: dict) -> str:
              f"A {pa['legs']}-leg parlay at &minus;110 pays {pa['pays']:.2f} to 1 when a fair "
              f"price would be {pa['fair']:.2f} to 1.</p>",
              shot=("panel-parlay.jpg", "The app's parlay tab comparing the payout with a fair one")),
-        feat("Offers", "Turn sign-up bonuses into cash",
+        feat("Promos", "Turn sign-up bonuses into cash",
              "<p>Bonus bets do not pay back their stake, so most people get half their value. "
              "Bookbreaker ranks welcome offers by what you keep after hedging, and walks you "
              "through each bet. <a href=\"/offers/\">See this week's offers</a>.</p>",
              stat=(f"{c['ladder'][-1]['rate']:.1f}%", "of a bonus bet's face value kept by "
                    "hedging it at the longest price in the table below")),
-        feat("Results", "Know if you are actually winning",
+        feat("My bets", "Know if you are actually winning",
              f"<p>Import your sportsbook's export or paste a betslip. It shows your return and "
              f"whether your record proves anything yet. A {m['performance']['n']}-bet record "
              f"up {m['performance']['roi']:.2f}% can still be luck, and the app says so.</p>",
@@ -2699,8 +2699,8 @@ actually ask, with the math already done.</p>
 </div>
 
 <h2>Where the prices come from</h2>
-<p>Live Kalshi and Polymarket prices are built in. For a sportsbook, you type the
-price you see and the app does the rest. It knows {cat['venues']} sportsbooks,
+<p>You type in the prices you see at your books and the app does the rest. The
+command-line version of the engine can also read live Kalshi and Polymarket prices. It knows {cat['venues']} sportsbooks,
 exchanges and prediction markets, and which of them take bets in each state:
 {cat['nj']} in New Jersey, {cat['fl']} in Florida. <a href="/sportsbooks/">Check your
 state</a>.</p>
@@ -3948,31 +3948,30 @@ def app_shot(m: dict, slug: str) -> str:
     shots = {
         "board": (
             "app-poster.jpg",
-            "The app's Board tab on its demonstration market, with the margin, "
-            "the fill chance and the age on each play.",
-            "The Board tab, here on its one demonstration market. Every play is "
-            "ranked best first, with its margin, the chance the price is still "
-            "there, and how old it is."),
+            "The app's Arbitrage page on its demonstration market, with both "
+            "bets side by side.",
+            "The Arbitrage page, here on its one demonstration market: both books "
+            "side by side, what to bet at each, and what you make if each side wins."),
         "arbitrage": (
             "panel-arbitrage.jpg",
-            "The app's Arbitrage tab with two prices entered and the stake "
+            "The app's arb calculator with two prices entered and the stake "
             "split across them.",
-            f"The Arbitrage tab, on {sc['arb_a']:.2f} against {sc['arb_b']:.2f}. "
+            f"The arb calculator, on {sc['arb_a']:.2f} against {sc['arb_b']:.2f}. "
             f"It returns {sc['arb_margin_pct']:.2f}% whichever side wins if both bets "
             f"are accepted and stand, and "
             "both stakes come out as amounts a book will take."),
         "kelly": (
             "panel-stake.jpg",
-            "The app's Stake tab showing a Kelly fraction and the bet it sizes.",
-            f"The Stake tab. Full Kelly here is {sc['kelly_full_pct']:.2f}% of "
+            "The app's bet size tool showing a Kelly fraction and the bet it sizes.",
+            f"The bet size tool. Full Kelly here is {sc['kelly_full_pct']:.2f}% of "
             f"the bankroll. At the {sc['kelly_fraction_pct']:.0f}% fraction it "
             f"stakes {sc['kelly_used_pct']:.2f}%, and the tab says which limit "
             "set the size."),
         "parlay": (
             "panel-parlay.jpg",
-            "The app's Parlay tab comparing a four-leg ticket's hold with one "
-            "leg's.",
-            f"The Parlay tab, on {sc['parlay_legs']} legs at &minus;110. It "
+            "The app's parlay check comparing what a four-leg ticket pays with "
+            "a fair price.",
+            f"The parlay check, on {sc['parlay_legs']} legs at &minus;110. It "
             f"pays {sc['parlay_pays']:.2f} to 1 where fair is "
             f"{sc['parlay_fair']:.2f} to 1."),
     }
@@ -5513,9 +5512,9 @@ stay in a file on your machine. There is no account, no sync and no upload, and
 the window itself cannot make a network request: it links no HTTP client and
 its content security policy permits no external address. A test in the source
 fails the build if either ever changes.</p>
-<p>__REACH_COUNT__ things can reach the internet, and only when you ask. The live board,
-when you turn it on, requests public prices from Kalshi and Polymarket. It is
-the same request a browser makes, carrying nothing about you.__UPDATE_SENTENCE__
+<p>__REACH_COUNT__ things can reach the internet, and only when you ask. The command-line
+tool's live board, when you turn it on, requests public prices from Kalshi and
+Polymarket. It is the same request a browser makes, carrying nothing about you.__UPDATE_SENTENCE__
 And if the app
 crashes it writes a report to your own disk, with passwords and keys stripped
 out; it never sends it. You can attach it to an email yourself if you want to.</p>

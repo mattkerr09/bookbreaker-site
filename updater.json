@@ -1,0 +1,11 @@
+{
+  "version": "0.1.7",
+  "notes": "A new look, and offers for your state.\n\n- Four places on a rail instead of eight tabs: Arbitrage, Promos, My bets and Tools.\n- Arbitrage shows both bets side by side: the price at each book, what to bet at each, and what you make if each side wins. The profit is locked only if both bets are accepted and stand.\n- Promos lists every sign-up offer we could confirm, for the state you pick, with where each one is valid and the steps to collect it.\n- The parlay check answers in dollars: what your book pays, what a fair price would pay, and what the book keeps.\n- Check for updates: press it to see whether a newer Bookbreaker is out. It only checks when you press it.",
+  "pub_date": "2026-10-08T04:34:50Z",
+  "platforms": {
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHovZVpNVmFSYkJZNWovZUhRemtNRmpyTHhodnRybEpNWnkzcXZIRGNuUUtxVUdPcFkvMTZaanF2STFJZ3FhUHRmQit3UDlxYUU2cGpDYjdvY2ZnNVFvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNDM0MDY2CWZpbGU6Qm9va2JyZWFrZXItMC4xLjcuYXBwLnRhci5negpTSldxTmNuSGZKYzQ2RGhIenphZG9tdjBoQytBN0t1dUpPeTBiVFMxNDVCdkVGalMycFY2M2U2NVB4NEt6WDU4S0tQWmtBNmZFbjhpb25WOVRHVnlDdz09Cg==",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.7.app.tar.gz"
+    }
+  }
+}

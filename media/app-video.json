@@ -8,14 +8,14 @@
     "panel-parlay.jpg"
   ],
   "heads": [
-    "Every play, best first",
-    "What is this price really worth?",
-    "Does this pair cross?",
-    "How much should this be?",
+    "Arbitrage",
+    "Sign-up bonuses, turned into cash",
+    "Your record",
+    "Do these two prices lock in a profit?",
+    "What are the fair odds?",
+    "How much should I bet?",
     "What is this parlay really worth?",
-    "Every sign-up bonus, and what it is really worth",
-    "What your record actually says",
-    "Will you actually get this bet on?"
+    "Will the price still be there?"
   ],
   "note": "The window these show. If the app's tabs or panel questions change, every file listed in `covers` depicts a product that no longer exists. Re-record with the recorder, re-shoot the stills with _build/shoot_panels.py, then update this file.",
   "recorded_from": "ui/src/index.html",
@@ -24,13 +24,16 @@
     "_build/shoot_panels.py"
   ],
   "tabs": [
-    "Board",
-    "De-vig",
-    "Arbitrage",
-    "Stake",
+    "Arb calculator",
+    "Fair odds",
+    "Bet size",
     "Parlay",
-    "Offers",
-    "Results",
-    "Will it land?"
+    "Will it fill?"
+  ],
+  "recorded_version": "0.1.7",
+  "encoded_with": [
+    "ffmpeg -framerate 12 -i f%05d.png -vf scale=1280:800:flags=lanczos,format=yuv420p -c:v libx264 -preset slow -crf 22 -movflags +faststart -an app.mp4",
+    "ffmpeg -framerate 12 -i f%05d.png -vf scale=1280:800:flags=lanczos -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 -an app.webm",
+    "ffmpeg -i f00050.png -vf scale=1280:800:flags=lanczos -q:v 3 app-poster.jpg"
   ]
 }

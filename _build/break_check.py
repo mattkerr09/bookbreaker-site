@@ -38,6 +38,14 @@ def announced_version() -> str:
 
 ANNOUNCED = announced_version()
 
+# The download's size and the video's first tab, read off the build for the
+# same reason: 0.1.7 made both cases stale by moving 8.2 MB to 9.4 and
+# renaming "De-vig".
+_measured = json.loads((SITE / "_build" / "measured.json").read_text())
+APP_MB = _measured["release"]["app"]["mb"]
+_video = json.loads((SITE / "media" / "app-video.json").read_text())
+VIDEO_TAB = _video["tabs"][0]
+
 
 
 # (label, check that MUST catch it, file, find, replace)
@@ -219,8 +227,8 @@ CASES = [
         "the hero video showing a window that no longer exists",
         "check_hero_video_matches_the_app",
         "media/app-video.json",
-        '"De-vig"',
-        '"De-vig (renamed since the take)"',
+        f'"{VIDEO_TAB}"',
+        f'"{VIDEO_TAB} (renamed since the take)"',
     ),
     (
         "a runtime-class exemption left behind after its script went",
@@ -237,8 +245,17 @@ CASES = [
         "the download button advertising the wrong artefact's size",
         "check_announced_version_is_downloadable",
         "_build/measured.json",
-        '"mb": 8.2',
+        f'"mb": {APP_MB}',
         '"mb": 0.2',
+    ),
+    (
+        # Written as a file-creating case before 0.1.7 shipped; now the real
+        # manifest exists, so the case edits it instead.
+        "an update manifest offering a version the site does not hold",
+        "check_updater_manifest_matches_the_release",
+        "updater.json",
+        f'"version": "{ANNOUNCED}"',
+        '"version": "9.9.9"',
     ),
     (
         "a superseded palette left in the stylesheet",
@@ -252,14 +269,6 @@ CASES = [
 
 # (label, check, path to create, contents)
 CREATE_CASES = [
-    (
-        "an update manifest offering a version the site does not hold",
-        "check_updater_manifest_matches_the_release",
-        "updater.json",
-        '{"version": "9.9.9", "notes": "", "pub_date": "2026-10-08T00:00:00Z", '
-        '"platforms": {"darwin-aarch64": {"signature": "x", '
-        '"url": "https://bookbreaker.bet/releases/Bookbreaker-9.9.9.app.tar.gz"}}}\n',
-    ),
     (
         "an internal document tracked in the public site repo",
         "check_no_internal_docs_are_served",
