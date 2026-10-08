@@ -253,6 +253,14 @@ CASES = [
 # (label, check, path to create, contents)
 CREATE_CASES = [
     (
+        "an update manifest offering a version the site does not hold",
+        "check_updater_manifest_matches_the_release",
+        "updater.json",
+        '{"version": "9.9.9", "notes": "", "pub_date": "2026-10-08T00:00:00Z", '
+        '"platforms": {"darwin-aarch64": {"signature": "x", '
+        '"url": "https://bookbreaker.bet/releases/Bookbreaker-9.9.9.app.tar.gz"}}}\n',
+    ),
+    (
         "an internal document tracked in the public site repo",
         "check_no_internal_docs_are_served",
         "DEPLOY.md",

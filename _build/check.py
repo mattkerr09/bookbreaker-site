@@ -663,6 +663,39 @@ def check_every_download_is_counted(pages, fails):
                 fails.append(f"{path}: {h} downloads the app without counting it")
 
 
+def check_updater_manifest_matches_the_release(fails, measured):
+    """updater.json tells every installed copy what to install, so it has to
+    name the version on the download page, a download that is really in
+    releases/, and that download's own signature.
+
+    From 0.1.7 the app's Check for updates fetches this file. A manifest that
+    names a version the site does not hold, or points at a file that is not
+    there, or carries a signature from a different build, breaks the update for
+    everyone who presses the button, and nothing on the site would look wrong.
+    """
+    f = SITE / "updater.json"
+    if not f.exists():
+        return
+    try:
+        u = json.loads(f.read_text())
+    except ValueError:
+        fails.append("updater.json is not valid JSON")
+        return
+    want = (measured.get("release") or {}).get("version")
+    if u.get("version") != want:
+        fails.append(f"updater.json offers {u.get('version')!r}, but the release on "
+                     f"the download page is {want!r}")
+    plat = (u.get("platforms") or {}).get("darwin-aarch64") or {}
+    name = f"Bookbreaker-{u.get('version')}.app.tar.gz"
+    if plat.get("url") != f"https://bookbreaker.bet/releases/{name}":
+        fails.append(f"updater.json points at {plat.get('url')!r}, not releases/{name}")
+    if not (SITE / "releases" / name).exists():
+        fails.append(f"updater.json offers releases/{name}, which is not in the repo")
+    sig = SITE / "releases" / (name + ".sig")
+    if not sig.exists() or sig.read_text().strip() != str(plat.get("signature", "")).strip():
+        fails.append(f"updater.json's signature is not the one in releases/{name}.sig")
+
+
 def self_test() -> int:
     """Plant a duplicate page and confirm the similarity check fires.
 
@@ -1093,6 +1126,8 @@ def main() -> int:
             lambda: check_responsible_gambling(pages, fails),
         "check_every_download_is_counted":
             lambda: check_every_download_is_counted(pages, fails),
+        "check_updater_manifest_matches_the_release":
+            lambda: check_updater_manifest_matches_the_release(fails, measured),
         "check_media_exists": lambda: check_media_exists(pages, fails),
         "check_no_internal_docs_are_served":
             lambda: check_no_internal_docs_are_served(fails),

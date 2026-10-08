@@ -1686,6 +1686,11 @@ RELEASE_VERSION = None
 #: has shipped, and then every Download link falls back to /download/.
 RELEASE_APP = None
 
+#: Whether a build with Check for updates has shipped: true once the release
+#: puts updater.json at the site root. The privacy page and llms.txt describe
+#: the build people can download, so they change with the file, not the code.
+UPDATER_SHIPPED = (Path(__file__).resolve().parents[1] / "updater.json").exists()
+
 TABLE = re.compile(r"(?s)<table>.*?</table>")
 
 
@@ -5508,9 +5513,10 @@ stay in a file on your machine. There is no account, no sync and no upload, and
 the window itself cannot make a network request: it links no HTTP client and
 its content security policy permits no external address. A test in the source
 fails the build if either ever changes.</p>
-<p>Two things can reach the internet, and only when you ask. The live board,
+<p>__REACH_COUNT__ things can reach the internet, and only when you ask. The live board,
 when you turn it on, requests public prices from Kalshi and Polymarket. It is
-the same request a browser makes, carrying nothing about you. And if the app
+the same request a browser makes, carrying nothing about you.__UPDATE_SENTENCE__
+And if the app
 crashes it writes a report to your own disk, with passwords and keys stripped
 out; it never sends it. You can attach it to an email yourself if you want to.</p>
 <h2>Sportsbook accounts</h2>
@@ -5520,7 +5526,12 @@ pasting a betslip.</p>
 <h2>Links to sportsbooks</h2>
 <p>Links on this site to sportsbooks are ordinary links. None is an affiliate
 link and none pays us.</p>
-"""
+""".replace("__REACH_COUNT__", "Three" if UPDATER_SHIPPED else "Two").replace(
+        "__UPDATE_SENTENCE__",
+        " When you press Check for updates, the app asks bookbreaker.bet for the latest "
+        "version. The request carries no app ID and nothing about you, nothing installs "
+        "unless you say yes, and only an update signed with our key will install."
+        if UPDATER_SHIPPED else "")
 
 
 PAGES = [
@@ -5627,7 +5638,9 @@ def render_llms(built_urls: set[str]) -> str:
         "betting is legal. It tells you what the numbers say; you place your own bets. It "
         "does not take bets, hold money or connect to any sportsbook account, never asks "
         "for a sportsbook login, and is not affiliated with any sportsbook. The Mac app "
-        "makes no network calls: you type prices, paste a betslip or import your book's "
+        + ("makes no network calls except when you press Check for updates, which asks "
+           "bookbreaker.bet for the latest version" if UPDATER_SHIPPED else "makes no network calls")
+        + ": you type prices, paste a betslip or import your book's "
         "CSV. Live prices (public Kalshi and Polymarket markets) come only through the "
         "command-line tool. An arbitrage profit is locked only if both bets are accepted "
         "and stand. Built by Matthew Kerr in Grand Rapids, Michigan.",
