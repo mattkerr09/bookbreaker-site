@@ -158,7 +158,7 @@ CASES = [
         "two pages sharing a heading",
         "check_not_machine_made",
         "vs/index.html",
-        "<h1>Compared</h1>",
+        "<h1>Bookbreaker vs other betting tools</h1>",
         HOME_H1,
     ),
     (

@@ -167,6 +167,8 @@ td{color:var(--ink-2)}
 td:first-child{color:var(--ink)}
 .prose{min-width:11rem}
 .screen td:nth-child(2){color:var(--ink)}
+tr.ours td{background:rgba(46,229,157,.07);color:var(--ink)}
+tr.ours td:nth-child(2) strong{color:var(--good)}
 .num{text-align:right;font-family:var(--mono)}
 .dim{color:var(--ink-3)}
 

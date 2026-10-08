@@ -2740,13 +2740,15 @@ def render_vs(m: dict) -> str:
         for c in COMPETITORS
     )
     return f"""
-<h1>Compared</h1>
-<p>Prices change. Every claim below carries the date it was read and a link to
-where it was read, and the build fails if either is missing. An undated
-claim about someone else's product does not stay neutral, it asserts
-&ldquo;true now&rdquo; forever.</p>
+<h1>Bookbreaker vs other betting tools</h1>
+<p class="lede">What the popular arbitrage and +EV tools cost and what they
+offer, next to Bookbreaker, which is free. Every price is dated and linked to
+where we read it.</p>
 <table>
 <tr><th>Tool</th><th>Price</th><th>Notes</th><th>Checked</th></tr>
+<tr class="ours"><td><strong>Bookbreaker</strong></td><td><strong>Free</strong></td>
+<td>Arbitrage, +EV, bet sizing, bonus conversion and your betting record, on your Mac</td>
+<td>This site</td></tr>
 {rows}
 </table>
 <h2>The gap</h2>
@@ -5369,10 +5371,9 @@ read {e(o['read'])}.</p>
 </article>""")
     return f"""
 <h1>Every sign-up bonus, and what it is really worth</h1>
-<p class="lede">An affiliate table sorts by the headline. The headline is the one
-number on it you do not keep. What you keep from a bonus bet is its value once
-it is hedged at a second book, so the result is the same whichever way the game
-goes. Ranked by that, the order changes.</p>
+<p class="lede">Ranked by the cash you keep, not the headline amount. A bonus bet is
+worth what you can lock in by hedging it at a second book, if both bets are
+accepted and stand. Ranked that way, the order changes.</p>
 <p class="src-line">Priced by the engine at build time, on two stated priors: bonus
 bets placed at decimal {w['assumptions_bonus_decimal']:.1f}, and a
 {w['assumptions_hold_pct']:.1f}% combined hold across the best two books. The app
@@ -5838,11 +5839,9 @@ calculator.</p>
         "Devigging, closing line value, bonus conversion, arbitrage, middles, "
         "limits and bankroll — each answered with the arithmetic done.",
         f"""
-<h1>Guides</h1>
-<p class="lede">Every one of these is answered somewhere else on the internet.
-The difference here is that the numbers are worked, and the parts that are
-usually left out (how uncertain the answer is, and whether you could
-actually have placed the bet) are the parts these lead with.</p>
+<h1>Betting guides</h1>
+<p class="lede">Plain answers to the questions bettors ask, each worked through
+on real prices. New to this? Start with the first group.</p>
 {links}
 """, "/guides/"))
     built.append(("/guides/", "guides/index.html"))
