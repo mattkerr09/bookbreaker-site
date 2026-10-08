@@ -4530,8 +4530,16 @@ def render_versus(m: dict, row: dict) -> str:
     # CNO is free; its $5/mo is optional support, so there is no plan cost to
     # work out and no price row. Its section says what it does and what we add.
     cno = row["slug"] == "crazy-ninja-odds"
-    lede = (f"{e(row['note'])}, free to use ({cite})." if cno else
-            f"{e(row['note'])}, at {e(row['price'])} ({cite}).")
+    # Answer first (content standard 1): someone searching for an alternative
+    # wants to know what this one costs and where it runs before anything else.
+    note = row["note"]
+    first = note.split()[0]
+    if not (len(first) > 1 and first.isupper()):
+        note = note[0].lower() + note[1:]
+    lede = ("Bookbreaker is free and runs on your Mac, with no account. "
+            + (f"{e(row['name'])} is a {e(note)} ({cite})." if cno else
+               f"{e(row['name'])} offers {e(note)}. Its price: "
+               f"{e(row['price'])} ({cite})."))
     gap_head = (f"What {e(row['name'])} does, and what Bookbreaker adds" if cno
                 else f"What {e(row['name'])} does not tell you")
     gap_text = (f"Crazy Ninja Odds is free, and its devigger can show all four "
@@ -4582,18 +4590,14 @@ def render_versus(m: dict, row: dict) -> str:
 <td class="prose">{e(row['gap'])} ({cite})</td>
 <td class="prose">{answer}</td></tr>
 </table></div>
-<p class="caveat">Every cell in the middle column carries the date it was read
-and a link to where. Some gaps are something we looked for and did not find;
-others are something the tool states plainly about how it works. Neither is a
-claim about what it could do, only about what it published on that date. The
-right column is computed by running this engine when the page was built.</p>
+<p class="caveat">Each {e(row['name'])} cell is what {e(row['name'])} published on
+the date beside it, linked to where it was read.</p>
 
 <h2>{stats_head}</h2>
 <div class="sf-grid">{stats}</div>
 <p>{closer}</p>
 
 <p><a href="/vs/">Why every tool in this list has the same blind spot
-&rarr;</a> &nbsp;&middot;&nbsp; <a href="/download/">Bookbreaker is free
 &rarr;</a></p>
 <p class="caveat">Prices change. This one carries the date it was read.</p>
 """

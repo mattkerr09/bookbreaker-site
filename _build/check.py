@@ -83,8 +83,9 @@ MAX_PAIR_SIMILARITY = 0.52
 # an arbitrary line rewards pushing pairs across it.
 # 2026-10-07: each state page now names its neighbours, which only that page
 # says. 259 zone pairs became 145, eleven over 0.5 became two, and the worst
-# pair fell from 0.565 to 0.518. All three limits followed them down.
-MAX_ZONE_PAIRS = 145
+# pair fell from 0.565 to 0.518. All three limits followed them down. The
+# comparison pages then lost a 60-word note they all repeated: 145 became 132.
+MAX_ZONE_PAIRS = 132
 
 # Words that turn naming a competitor into asserting something about them.
 ASSERTIVE = re.compile(
