@@ -3244,7 +3244,7 @@ one. Comparing two vigged prices understates your edge by the closing margin.
 <p>A bonus bet does not return its stake. Win a {conv['bonus']:,} bonus at even
 money and you collect {conv['bonus']:,}, not {conv['doubled']:,}. Bet
 naively, it is worth about half its face value.</p>
-<p>Converting means hedging: put the bonus on one side and cash on the other,
+<p>Converting means hedging. Put the bonus on one side and cash on the other,
 so you keep a set amount whichever way it lands, if both bets are accepted and stand. Longer odds convert
 better, because you are not risking the stake:</p>
 <table>
@@ -3394,15 +3394,9 @@ most common way to invent an edge that is not there.
 <p>Hedging means backing the other side of a position you already hold, so the
 result matters less. It is the same arithmetic as an arbitrage, applied after
 the fact rather than looked for.</p>
-<p>The question is always what each result pays. Stake the second leg so both
-outcomes return the same and you have converted an open position into a
-certain one; stake it lighter and you have reduced variance while keeping some
-upside.</p>
+<p>The question is always what each result pays. Stake the second leg so both outcomes return the same, and you have turned an open position into a certain one. Stake it lighter, and you have cut the variance while keeping some upside.</p>
 <p>Two things people get wrong. A market's worst case is <em>not</em> the sum
-of its stakes. Bet both sides and one leg always returns. And the
-outcome you did not bet is invisible in a list built from your own slips: a
-three-way market where you hold two sides looks fully covered until you count
-the third result.</p>
+of its stakes. Bet both sides and one leg always returns. And the outcome you did not bet is invisible in a list built from your own slips. A three-way market where you hold two sides looks fully covered until you count the third result.</p>
 <p><a href="/calculators/arbitrage/">Stake a hedge &rarr;</a></p>
 """,
 
@@ -3531,10 +3525,7 @@ you take it at are the same decision.</p>
 <p>Sizing is not a smaller version of picking. It is the thing that decides
 whether a real edge survives a bad run.</p>
 <h2>Fractional, always</h2>
-<p>Kelly gives the growth-maximising stake given the true probability. You have
-an estimate with an error bar, and the penalty is asymmetric: betting twice the
-correct fraction has negative growth, betting half has about three-quarters of
-the growth at a quarter of the variance. Overestimating costs far more than
+<p>Kelly gives the growth-maximising stake given the true probability. You have an estimate with an error bar, and the penalty is asymmetric. Betting twice the correct fraction has negative growth. Betting half keeps about three-quarters of the growth at a quarter of the variance. Overestimating costs far more than
 underestimating, and devigged estimates are exactly the kind that get
 overestimated.</p>
 <h2>Cap every bet regardless</h2>
@@ -3622,10 +3613,7 @@ one: <strong>{bo['multiple']:.0f}x</strong> the value from the identical
 token. "Use it on something safe" is the most expensive habit in promotional
 betting.</p>
 <h2>Why books hand them out anyway</h2>
-<p>A boost is cheap to give and it moves behaviour. It pulls people toward
-bigger stakes and longer prices than they would otherwise take, and the
-account that suddenly bets its boost at +500 is an account whose ordinary
-staking now has a very visible exception in it.</p>
+<p>A boost is cheap to give and it moves behaviour. It pulls people toward bigger stakes and longer prices than they would otherwise take. An account that suddenly bets its boost at +500 now has a very visible exception in its ordinary staking.</p>
 <p>Which is the part nobody costs in: a boost spent optimally is also a boost
 spent conspicuously.</p>
 <p><a href="/account-longevity/">What bet shape gives away &rarr;</a></p>
@@ -4028,7 +4016,7 @@ refuses to publish a figure that is not.</p>
 </table>
 <p class="caveat">{e(m['scoring']['note'])}</p>
 <h2>The floor is a prior</h2>
-<p>Named as a prior, because that is what it is: the {m['scoring']['floor']}% floor asserts, ahead of any evidence, that no method is worthless. Measured error moves everything above it. Each error in the table is a multiple of the one above it, yet the weights do not fall in that proportion. The gaps compress toward the bottom, which is the floor doing its work. {e(m['scoring']['best'])} leads at {m['scoring']['best_weight']:.1f}%: the same floor as every other method, plus the largest share of the remainder.</p>
+<p>Named as a prior, because that is what it is: the {m['scoring']['floor']}% floor asserts, ahead of any evidence, that no method is worthless. Measured error moves everything above it. Each error in the table is a multiple of the one above it, yet the weights do not fall in that proportion. The gaps compress toward the bottom, which is the floor doing its work. The {e(m['scoring']['best'])} method leads at {m['scoring']['best_weight']:.1f}%: the same floor as every other method, plus the largest share of the remainder.</p>
 <p><a href="/guides/how-to-tell-if-your-model-actually-works/">How to tell if your model actually works &rarr;</a></p>
 """,
 
@@ -4042,7 +4030,7 @@ refuses to publish a figure that is not.</p>
 {"".join(f"<tr><td>{r['days']}</td><td>{r['value']:.2f}</td><td>{'yes' if r['urgent'] else 'no'}</td></tr>" for r in m['holdings']['rows'])}
 </table>
 <h2>Urgent is a flag, not a discount</h2>
-<p>At or inside {m['holdings']['urgent_days']:.0f} days, while it is still live, the holding is flagged urgent. The flag changes no value in the table. It changes the ordering of your week. A bonus converted at a poor rate today beats the same bonus converted at a good rate tomorrow whenever tomorrow falls past the deadline, because the alternative is {m['holdings']['lapsed']:.2f} and any conversion clears that bar. Note that the expired row carries no flag. Urgency is for things that can still be saved.</p>
+<p>At or inside {m['holdings']['urgent_days']:.0f} days, while it is still live, the holding is flagged urgent. The flag changes no value in the table. It changes the ordering of your week. A bonus converted at a poor rate today beats one converted at a good rate after the deadline. The alternative is {m['holdings']['lapsed']:.2f}, and any conversion clears that bar. Note that the expired row carries no flag. Urgency is for things that can still be saved.</p>
 <h2>The face amount is never true</h2>
 <p>The headline face amount is the one number about a promotion that is never true. A balance that reads {m['holdings']['face']:,} is worth {m['holdings']['worth']:.2f} while it is live and {m['holdings']['lapsed']:.2f} once it lapses. At no point in its life is it worth {m['holdings']['face']:,}. That is the number in the advertisement and it is the number to leave out of your bankroll. Book the converted figure on the day the credit lands, and put the deadline next to it.</p>
 <p><a href="/guides/how-to-convert-a-bonus-bet/">How to convert a bonus bet &rarr;</a></p>
@@ -4050,7 +4038,7 @@ refuses to publish a figure that is not.</p>
 
 "why-a-model-should-forget-old-data": f"""
 <p>A pricing weight has an expiry date. The overlay fits a weight per book: how much that book's price should count when the fair line is estimated. Once the calibration behind it is more than {m['weights']['max_age_days']:,} days old, every price built on it is labelled stale, in the same line as the number. Not down-weighted, and not quietly dropped: named, where the price is read. The label is on or off, because there is nothing to taper along.</p>
-<p>Books change. A book revises its margin, tightens or loosens its risk appetite, drops a market, adds another, hands pricing to someone else. A weight fitted before any of that describes a book that no longer exists: a precise measurement of a vanished thing. The cutoff is a prior, not a measurement: nothing in the settled record announces the day a trading desk changed its policy, so the engine picks a round age, roughly one off-season, and stops vouching for anything older.</p>
+<p>Books change. A book revises its margin, tightens or loosens its risk appetite, drops a market, adds another, hands pricing to someone else. A weight fitted before any of that describes a book that no longer exists: a precise measurement of a vanished thing. The cutoff is a prior, not a measurement. Nothing in the settled record announces the day a trading desk changed its policy. So the engine picks a round age, roughly one off-season, and stops vouching for anything older.</p>
 <h2>The bars that pull the other way</h2>
 <p>The other bars in the fit ask for evidence, not freshness. No weight is fitted at all until {m['holdout']['min_graded']:,} graded bets exist. Of those, {m['holdout']['holdout_pct']:,}% is held back in time order: the newest slice, never a random sample, because a random split leaks the future into the fit. At that minimum it comes to {m['holdout']['train']:,} graded bets to fit on and {m['holdout']['test']:,} to score against. A book also has to clear {m['holdout']['min_coverage']:,} graded bets of its own before it earns a fitted weight instead of falling back to the default its tier carries. That per-book bar sits below the global one, because a book only has to describe itself.</p>
 <table>
@@ -4088,7 +4076,7 @@ refuses to publish a figure that is not.</p>
 """,
 
 "what-a-clock-you-cannot-trust-does-to-a-price": f"""
-<p>Every freshness claim rests on two clocks agreeing. The feed stamps a quote with its clock. You judge that quote against yours. When the clocks disagree, a stale price reads as fresh and a fresh one reads as stale, and nothing about the number on screen reveals which case you are in.</p>
+<p>Every freshness claim rests on two clocks agreeing. The feed stamps a quote with its clock. You judge that quote against yours. When the clocks disagree, a stale price reads as fresh and a fresh one reads as stale. Nothing about the number on screen says which case you are in.</p>
 <p>The usual arithmetic hides this. Subtract the vendor timestamp from local time, print the difference as age, and the answer inherits the error of whichever clock is worse, with nothing in the output to say which one supplied it. The error does not surface as noise. It surfaces as confidence.</p>
 <h2>Why a bad timestamp is worse than none</h2>
 <p>A quote stamped more than {m['replay']['max_skew']:,} seconds ahead of our own clock is dropped from the snapshot rather than scored, and the count of what was dropped is reported alongside what survived. That ceiling is a stated prior, chosen and not measured. The rule is one-sided on purpose. A feed clock running ahead makes a stale price read as fresher than live, and ranks it above every honestly dated quote on the screen. A feed clock running behind only makes a price look older than it is. A missing timestamp makes you cautious. A wrong one makes you confident, and confidence is the expensive failure. The ceiling is also wider than the whole table below, whose oldest row is {m['quote_age']['rows'][4]['age']:,} seconds. A clock error this engine still tolerates can exceed every age it scores.</p>
@@ -4116,10 +4104,7 @@ available is {f['honest']}%, where a screen ignoring the feed's own lag would
 say {f['naive']}%. On a {f['edge']:.0f}% edge that is the difference between
 {f['edge_honest']:.2f}% and
 {f['edge_naive']:.2f}% actually realised.</p>
-<p>It also explains why the biggest numbers reject most often. A screen sorted
-by raw expected value is sorted partly by staleness: the largest edges cluster
-on books that moved most recently, which are the books most likely to have
-moved again.</p>
+<p>It also explains why the biggest numbers reject most often. A screen sorted by raw expected value is sorted partly by staleness. The largest edges cluster on the books that moved most recently, and those are the books most likely to move again.</p>
 """,
     }
 
@@ -4684,8 +4669,7 @@ common way these tactics are applied wrongly, and there is a test for it.</p>
 
 <h2>What it will not do</h2>
 <p>No multi-accounting. No identity or KYC workarounds. No device or location
-spoofing. That line is drawn in the code rather than in a policy document: the
-model reads bet attributes only (stake sizes, timing, market mix,
+spoofing. That line is drawn in the code, not in a policy document. The model reads bet attributes only (stake sizes, timing, market mix,
 velocity) and has no access to identity or network state. Everything it
 adjusts is a choice you were already making about your own betting.</p>
 <p>It is also advisory. It tells you what to bet; you place it. Automated
@@ -8422,9 +8406,7 @@ a name.</p>
 federally rather than by any state:</p>
 <ul>{"".join(f'<li>{e(b["name"])}: never limits winning accounts</li>'
              for b in nationwide)}</ul>
-<p>That matters more than a consolation prize. An exchange has no bookmaker to
-limit you, so it is structurally the best place for a consistent winner, and it
-can anchor a fair price where no sharp sportsbook operates.</p>
+<p>That matters more than a consolation prize. An exchange has no bookmaker to limit you, so it is the best place for a consistent winner. It can also anchor a fair price where no sharp sportsbook operates.</p>
 <p class="caveat">Read {e(measured['catalog']['as_of'])}. A starting point for
 your own check, not advice.</p>
 """
