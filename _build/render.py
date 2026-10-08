@@ -2489,12 +2489,12 @@ be off. It never asks for a sportsbook login.</p>
   </div>
   <p class="hero-app-cap">The window as it ships, recorded. Not a
   mockup. Every number on screen is the engine's own answer to what is being
-  typed: the de-vig is a real {m['devig']['spread']:.2f}% disagreement between
-  four methods, and the quote is aged from 4s to 100s so the fill falls with
+  typed. The de-vig is a real {m['devig']['spread']:.2f}% disagreement between
+  four methods. The quote is aged from 4s to 100s, so the fill falls with
   it. The {m['fill']['latency']}s of lag is fitted to
-  {m['fill']['latency_observations']} recorded observations; a fresh install
-  has none of your own yet and says so, starting from a stated prior and a
-  slightly kinder number until it does.</p>
+  {m['fill']['latency_observations']} recorded observations. A fresh install
+  has none of your own yet and says so. It starts from a stated prior, and a
+  slightly kinder number, until it does.</p>
 </div>
 </div>
 
@@ -2969,11 +2969,10 @@ claim about someone else's product does not stay neutral, it asserts
 </table>
 <h2>The gap</h2>
 <p>None of them publishes a fill rate, a rejection rate, or any measure of how
-often a surfaced line is still available when you tap it. That absence is what
-Bookbreaker is built into: a screen sorted by raw expected value is sorted
-partly by how stale its own data is, because the biggest numbers cluster on the
-books that moved most recently, which are the books most likely to have
-moved again.</p>
+often a surfaced line is still available when you tap it. Bookbreaker is built
+around that gap. A screen sorted by raw expected value is partly sorted by how
+stale its data is. The biggest numbers cluster on the books that moved most
+recently, and those are the books most likely to move again.</p>
 """
 
 
@@ -3032,10 +3031,9 @@ friendliest one is a modelling artefact, and the screen filters those out by
 default rather than showing them and hoping you notice.</p>
 <h2>Which devig is right for your markets</h2>
 <p>Nobody knows in advance, and the answer differs between an NBA total and a
-tennis outright. So it is measured: every graded bet feeds a comparison of
-which method predicted the closing line, and the weights update, but
-only if the new ones beat the old ones on a slice of your record they were not
-fitted on.</p>
+tennis outright. So it is measured. Every graded bet feeds a comparison of
+which method predicted the closing line. The weights update only if the new
+ones beat the old ones on a slice of your record they were not fitted on.</p>
 <p><a href="/guides/what-does-plus-ev-mean/">What +EV means &rarr;</a>
 &nbsp;&middot;&nbsp;<a href="/guides/how-to-devig-odds/">How devigging works &rarr;</a></p>
 """,
@@ -3052,8 +3050,8 @@ hedge column is what every guide omits:</p>
 {"".join(f"<tr><td>{e(r['free'])}</td><td>{e(r['hedge'])}</td><td>{r['hedge_stake']:,}</td><td>{r['guaranteed']:,}</td><td>{r['rate']:.1f}%</td></tr>" for r in conv['ladder'])}
 </table>
 <p>A deposit match is different arithmetic again. Rollover is a price, not a
-condition: a matched bonus at 10x is worth exactly zero at a 5% hold, which is
-barely above a standard market and below the hold of the restricted markets
+condition. A matched bonus at 10x is worth exactly zero at a 5% hold. That is
+barely above a standard market, and below the hold on the restricted markets
 many books allow for playthrough.</p>
 <h2>The money most people actually lose</h2>
 <p>Bonus bets expire. An expired one is worth nothing, and no tool tells you
@@ -3497,9 +3495,9 @@ moneyline the four devig methods span {min(d['methods'].values()):.2f}% to
 {max(d['methods'].values()):.2f}%, and that is the spread on a
 <em>sharp</em> price. Anchor the same calculation on a soft book and you are
 polling the people you intend to beat.</p>
-<p>So a soft book contributes very little weight to a fair value here, and is
-never priced against a consensus it helped set: even a small contribution pulls
-the number toward that book's own price, shrinking the very edge being
+<p>So a soft book adds very little weight to a fair value here. It is also
+never priced against a consensus it helped set. Even a small contribution pulls
+the number toward that book's own price, which shrinks the very edge being
 detected. It bites hardest where that book is the lone outlier and the edge is
 largest.</p>
 <p>Where they never limit winners, no anti-limiting effort is spent at all.
@@ -3758,10 +3756,10 @@ engine will not price a quote as fresher than
 stamp it. That is a stated prior, not a measurement of any feed. It is never
 zero, because zero is the one value that is certainly wrong.</p>
 <h2>How fast a quote dies</h2>
-<p>Modelling survival as exponential with a mean lifetime of
-{qa['tau']:.0f} seconds on a main moneyline (again a stated prior until your
-own accept and reject record replaces it), the chance a quote is still there
-when your bet lands:</p>
+<p>Model survival as exponential, with a mean lifetime of
+{qa['tau']:.0f} seconds on a main moneyline. That is again a stated prior, until
+your own accept and reject record replaces it. Here is the chance a quote is
+still there when your bet lands:</p>
 <table>
 <tr><th>Quote age</th><th>Still there</th></tr>
 {"".join(f"<tr><td>{r['age']}s</td><td>{r['survives']:.1f}%</td></tr>" for r in qa['rows'])}
@@ -3800,9 +3798,8 @@ fails it is refused rather than blended in at a small weight.</p>
 <h2>Per-book, or not at all</h2>
 <p>Books are not interchangeable. A weight fitted across all of them describes
 none of them. Below {ho['min_coverage']} graded bets at a book, this engine
-declines to fit that book's weight rather than fitting a bad one,
-because a weight with no evidence behind it and a weight with evidence behind
-it look identical downstream.</p>
+declines to fit that book's weight rather than fit a bad one. Downstream, a
+weight with no evidence behind it looks identical to one with evidence.</p>
 <h2>The signal to fit against</h2>
 <p>Closing line value, not profit. Profit over a few hundred bets is mostly
 variance; CLV resolves on every bet and correlates with the thing you are
@@ -3896,9 +3893,9 @@ often, and no smooth curve reproduces a lump. A window sitting on a cluster is
 worth more than the curve says; one sitting in a gap is worth less. The curve
 cannot tell you which you have.</p>
 <p>Counting recorded finals can. It needs {tm['min_total_games']} games for
-totals against {tm['min_games']} for margins, and the reason is structural: a
+totals against {tm['min_games']} for margins. The reason is structural. A
 margin is folded (it is the absolute difference), so it piles onto a few
-small integers, while combined scores spread across a far wider range. The same
+small integers. Combined scores spread across a far wider range. The same
 game count buys much thinner evidence per number, so a second rule applies:
 at least {tm['min_per_cell']} games on each distinct total actually observed,
 measured rather than assumed.</p>
@@ -4052,7 +4049,7 @@ refuses to publish a figure that is not.</p>
 """,
 
 "why-a-model-should-forget-old-data": f"""
-<p>A pricing weight has an expiry date. The overlay fits a weight per book (how much that book's price should count when the fair line is estimated), and once the calibration behind it has aged past {m['weights']['max_age_days']:,} days, every price built on it is labelled stale in the same line as the number. Not down-weighted, and not quietly dropped: named, where the price is read. The label is on or off, because there is nothing to taper along.</p>
+<p>A pricing weight has an expiry date. The overlay fits a weight per book: how much that book's price should count when the fair line is estimated. Once the calibration behind it is more than {m['weights']['max_age_days']:,} days old, every price built on it is labelled stale, in the same line as the number. Not down-weighted, and not quietly dropped: named, where the price is read. The label is on or off, because there is nothing to taper along.</p>
 <p>Books change. A book revises its margin, tightens or loosens its risk appetite, drops a market, adds another, hands pricing to someone else. A weight fitted before any of that describes a book that no longer exists: a precise measurement of a vanished thing. The cutoff is a prior, not a measurement: nothing in the settled record announces the day a trading desk changed its policy, so the engine picks a round age, roughly one off-season, and stops vouching for anything older.</p>
 <h2>The bars that pull the other way</h2>
 <p>The other bars in the fit ask for evidence, not freshness. No weight is fitted at all until {m['holdout']['min_graded']:,} graded bets exist. Of those, {m['holdout']['holdout_pct']:,}% is held back in time order: the newest slice, never a random sample, because a random split leaks the future into the fit. At that minimum it comes to {m['holdout']['train']:,} graded bets to fit on and {m['holdout']['test']:,} to score against. A book also has to clear {m['holdout']['min_coverage']:,} graded bets of its own before it earns a fitted weight instead of falling back to the default its tier carries. That per-book bar sits below the global one, because a book only has to describe itself.</p>
@@ -4094,7 +4091,7 @@ refuses to publish a figure that is not.</p>
 <p>Every freshness claim rests on two clocks agreeing. The feed stamps a quote with its clock. You judge that quote against yours. When the clocks disagree, a stale price reads as fresh and a fresh one reads as stale, and nothing about the number on screen reveals which case you are in.</p>
 <p>The usual arithmetic hides this. Subtract the vendor timestamp from local time, print the difference as age, and the answer inherits the error of whichever clock is worse, with nothing in the output to say which one supplied it. The error does not surface as noise. It surfaces as confidence.</p>
 <h2>Why a bad timestamp is worse than none</h2>
-<p>A quote stamped more than {m['replay']['max_skew']:,} seconds ahead of our own clock is dropped from the snapshot rather than scored, and the count of what was dropped is reported alongside what survived. That ceiling is a stated prior, chosen and not measured. The rule is one-sided on purpose. A feed clock running ahead makes a stale price read as fresher than live and ranks it above every honestly dated quote on the screen; a feed clock running behind only makes a price look older than it is. A missing timestamp makes you cautious. A wrong one makes you confident, and confidence is the expensive failure. The ceiling is also wider than the whole table below, whose oldest row is {m['quote_age']['rows'][4]['age']:,} seconds. A clock error this engine still tolerates can exceed every age it scores.</p>
+<p>A quote stamped more than {m['replay']['max_skew']:,} seconds ahead of our own clock is dropped from the snapshot rather than scored, and the count of what was dropped is reported alongside what survived. That ceiling is a stated prior, chosen and not measured. The rule is one-sided on purpose. A feed clock running ahead makes a stale price read as fresher than live, and ranks it above every honestly dated quote on the screen. A feed clock running behind only makes a price look older than it is. A missing timestamp makes you cautious. A wrong one makes you confident, and confidence is the expensive failure. The ceiling is also wider than the whole table below, whose oldest row is {m['quote_age']['rows'][4]['age']:,} seconds. A clock error this engine still tolerates can exceed every age it scores.</p>
 <h2>The floor under an undated quote</h2>
 <p>Under the ceiling sits a floor. When the feed gives no timestamp of its own, age is never priced below {m['replay']['latency_floor']:.1f} seconds. That is a stated prior, not a measurement of any feed. It is not zero, because zero is the one value certainly wrong: the price left the book, crossed a network, and rendered before you read it. A quote the feed did date needs no such addition: that delay already sits inside the age you compute, and adding the floor on top would count it twice. The youngest row below is that floor, and survival there is already short of certain.</p>
 <h2>What a mis-estimated age costs</h2>
