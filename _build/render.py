@@ -7803,7 +7803,7 @@ PAGES = [
      "and limits — every claim dated and linked to its source.",
      render_vs),
     ("/account-longevity/", "account-longevity/index.html",
-     "Account longevity — why limits matter more than edge",
+     "Account longevity: why limits matter more than edge",
      "An account that gets limited stops earning, so lifetime is what expected "
      "value gets divided by. What bet shape gives away, and what this tool "
      "refuses to do.",
@@ -7819,16 +7819,16 @@ PAGES = [
      "Every welcome offer priced after hedging: what each bonus converts to in "
      "cash locked if both bets stand, the steps to collect it, and where each was read.",
      render_offers),
-    ("/privacy/", "privacy/index.html", "Privacy — what Bookbreaker collects",
+    ("/privacy/", "privacy/index.html", "Privacy: what Bookbreaker collects",
      "This site runs no analytics, no pixels and no cookies, and the app sends "
      "nothing about you anywhere. What GitHub Pages logs, and what the app can reach.",
      render_privacy),
     ("/responsible-gambling/", "responsible-gambling/index.html",
-     "Responsible gambling — Bookbreaker",
+     "Responsible gambling at Bookbreaker",
      "Bookbreaker is for adults 21+ where betting is legal. Help any time: "
      "1-800-MY-RESET or 1-800-GAMBLER, plus limits and self-exclusion.",
      render_responsible),
-    ("/terms/", "terms/index.html", "Terms of use — Bookbreaker",
+    ("/terms/", "terms/index.html", "Bookbreaker terms of use",
      "Bookbreaker is a free analysis tool, not a sportsbook and not advice. "
      "Not affiliated with any sportsbook. 21+ where sports betting is legal.",
      render_terms),
@@ -8030,7 +8030,7 @@ calculator.</p>
     out = SITE / "calculators/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page(
-        "Betting calculators — worked, not blank",
+        "Free betting calculators, worked on real prices",
         "No-vig odds, expected value, arbitrage staking, Kelly, hold, bonus "
         "conversion, middles and closing line value — each worked through on "
         "real prices.",
@@ -8130,7 +8130,7 @@ calculator.</p>
     out = SITE / "guides/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page(
-        "Betting guides — the parts other guides skip",
+        "Betting guides: the parts other guides skip",
         "Devigging, closing line value, bonus conversion, arbitrage, middles, "
         "limits and bankroll — each answered with the arithmetic done.",
         f"""
@@ -8183,9 +8183,11 @@ actually have placed the bet &mdash; are the parts these lead with.</p>
         # argument (the H1's angle). Only the measured page changes: the other eight have no reading yet, and a
         # lever the numbers do not support is not carried. FALSIFIER: if clicks are still 0 on ≥300 impressions in
         # the 28 days to 2026-09-22, the title was not the problem — revert this line and say so in SEO-LOOP.md.
-        measured_title = {"crazy-ninja-odds": "Crazy Ninja Odds alternative: all four devig methods at once"}
+        measured_title = {"crazy-ninja-odds": "Crazy Ninja Odds alternative: all four devig methods at once",
+                          # Pikkit is a bet tracker, so the alternative a Pikkit user wants is the tracker
+                          "pikkit": "Free Pikkit alternative for Mac: bet tracking with CLV"}
         out.write_text(page(
-            measured_title.get(row["slug"], f"{row['name']} alternative — the edge as a range"),
+            measured_title.get(row["slug"], f"Free {row['name']} alternative for Mac: arbitrage and +EV"),
             versus_description(row),
             render_versus(measured, row), url))
         built.append((url, rel))
@@ -8267,7 +8269,7 @@ your own check, not advice.</p>
     out = SITE / "sportsbooks/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page(
-        "Sports betting by state — which books limit winners",
+        "Sports betting by state: which books limit winners",
         "Every US state, the licensed sportsbooks covering it, and which of "
         "them limit accounts that win. Dated, and computed rather than "
         "supplied by a sportsbook.",
