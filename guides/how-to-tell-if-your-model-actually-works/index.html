@@ -46,14 +46,14 @@
 <meta name="theme-color" content="#1493FF">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=a50e4d52a9">
+<link rel="stylesheet" href="/style.css?v=dc6e236848">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Guides", "item": "https://bookbreaker.bet/guides/"}, {"@type": "ListItem", "position": 2, "name": "How To Tell If Your Model Actually Works", "item": "https://bookbreaker.bet/guides/how-to-tell-if-your-model-actually-works/"}]}</script>
 </head>
 <body class="">
 <div class="mesh" aria-hidden="true"><b class="m1"></b><b class="m2"></b><b class="m3"></b></div>
 <div class="grid-ovl" aria-hidden="true"></div>
-<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.6 is out. Free, runs on your Mac, and nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ba3ff"/><stop offset="1" stop-color="#0057b8"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.6 is out. Free, runs on your Mac, and nothing leaves it.</span><a href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=guides-how-to-tell-if-your-model-actually-works-banner&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.6.dmg" data-download>Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ba3ff"/><stop offset="1" stop-color="#0057b8"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=guides-how-to-tell-if-your-model-actually-works-nav&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.6.dmg" data-download>Download</a></span></nav></header>
 <main>
 <div class="phead"><p class="crumb"><a href="/">Home</a><span>/</span><a href="/guides/">Guides</a></p><h1>How to tell if your model actually works</h1><p class="lede">How do you know a betting model is not just fitted to the past?</p></div>
 
@@ -65,8 +65,8 @@ whether it beats the thing it is replacing on data it has never seen.</p>
 Random splits leak: markets move together within a day, so a random holdout
 shares information with its training set and flatters everything.</p>
 <p>At the 30-bet minimum this engine will fit on, that is
-21 bets to fit and 9 to judge &mdash; thin, which is the
-point of the minimum. Below it, nothing is fitted at all.</p>
+21 bets to fit and 9 to judge. That is thin, which is
+the point of the minimum. Below it, nothing is fitted at all.</p>
 <h2>Beat the incumbent, not zero</h2>
 <p>A candidate that scores well out of sample but no better than the weights
 already in use is not an improvement, and adopting it is churn dressed as
@@ -75,7 +75,7 @@ fails it is refused rather than blended in at a small weight.</p>
 <h2>Per-book, or not at all</h2>
 <p>Books are not interchangeable. A weight fitted across all of them describes
 none of them. Below 20 graded bets at a book, this engine
-declines to fit that book's weight rather than fitting a bad one &mdash;
+declines to fit that book's weight rather than fitting a bad one,
 because a weight with no evidence behind it and a weight with evidence behind
 it look identical downstream.</p>
 <h2>The signal to fit against</h2>
@@ -86,6 +86,7 @@ trying to have. It is a supervision signal, not a scoreboard.</p>
 <nav class="onward" aria-label="More guides"><p class="onward-cap">Keep reading</p><ul class="cards cards--onward"><li class="card"><a href="/guides/how-to-grade-your-own-bets/"><span class="card-t">How to grade your own bets</span><span class="card-q">What are the rules for settling your own betting record?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li><li class="card"><a href="/guides/how-many-bets-are-you-actually-making/"><span class="card-t">How many bets are you actually making</span><span class="card-q">Are twelve simultaneous bets really twelve bets?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li><li class="card"><a href="/guides/what-is-a-totals-middle-worth/"><span class="card-t">What is a totals middle worth</span><span class="card-q">How do you price an over/under middle without guessing?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li></ul></nav>
 </main>
 <footer>
+<div class="get-app"><p class="get-app-line">Bookbreaker finds arbitrage and +EV bets on your Mac, and shows how sure each one is.</p><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=guides-how-to-tell-if-your-model-actually-works-foot&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.6.dmg" data-download>Download free</a><p class="free-line">Free. No account and no subscription. Needs a Mac with Apple silicon (M1 or later). 8.2 MB, notarised by Apple.</p><p class="phone-link">On your phone? <button type="button" data-send-mac-link>Send the Mac link to yourself</button></p></div>
 <div class="foot-grid">
   <div>
     <p class="foot-brand">Bookbreaker</p>

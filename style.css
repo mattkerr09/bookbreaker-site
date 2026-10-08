@@ -576,6 +576,10 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
   padding:0 var(--s-5);color:var(--ink-2);
   font-size:var(--t-2);line-height:1.55}
 .foot-fine:last-child{padding-bottom:var(--s-6)}
+.get-app{max-width:var(--measure-page);margin:0 auto;
+  padding:var(--s-6) var(--s-5) var(--s-5);border-bottom:1px solid var(--rule)}
+.get-app-line{font-family:var(--serif);font-size:var(--t-6);line-height:1.3;
+  color:var(--ink);margin:0 0 var(--s-4);max-width:34ch}
 
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}

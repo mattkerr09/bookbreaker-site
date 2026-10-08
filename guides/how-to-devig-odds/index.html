@@ -46,35 +46,36 @@
 <meta name="theme-color" content="#1493FF">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=a50e4d52a9">
+<link rel="stylesheet" href="/style.css?v=dc6e236848">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Guides", "item": "https://bookbreaker.bet/guides/"}, {"@type": "ListItem", "position": 2, "name": "How To Devig Odds", "item": "https://bookbreaker.bet/guides/how-to-devig-odds/"}]}</script>
 </head>
 <body class="">
 <div class="mesh" aria-hidden="true"><b class="m1"></b><b class="m2"></b><b class="m3"></b></div>
 <div class="grid-ovl" aria-hidden="true"></div>
-<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.6 is out. Free, runs on your Mac, and nothing leaves it.</span><a href="/download/">Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ba3ff"/><stop offset="1" stop-color="#0057b8"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="/download/">Download</a></span></nav></header>
+<header><div class="banner"><div class="banner-in"><span class="tag">New</span><span>Bookbreaker 0.1.6 is out. Free, runs on your Mac, and nothing leaves it.</span><a href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=guides-how-to-devig-odds-banner&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.6.dmg" data-download>Download it &rarr;</a></div></div><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ba3ff"/><stop offset="1" stop-color="#0057b8"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/sportsbooks/">By state</a><a href="/guides/">Guides</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/for/arbitrage-bettors/">For arbers</a><a href="/vs/">Compared</a></span><span class="cta-nav"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=guides-how-to-devig-odds-nav&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.6.dmg" data-download>Download</a></span></nav></header>
 <main>
 <div class="phead"><p class="crumb"><a href="/">Home</a><span>/</span><a href="/guides/">Guides</a></p><h1>How to devig odds</h1><p class="lede">How do you find the true probability behind a sportsbook&#x27;s price?</p></div>
 
 <p>A sportsbook's prices imply probabilities that add to more than 100%. The
 surplus is the margin. Devigging redistributes it to recover what the book
-actually believes &mdash; and <em>how</em> you redistribute it is a modelling
-choice, not arithmetic.</p>
+actually believes. <em>How</em> you redistribute it is a modelling choice,
+not arithmetic.</p>
 <p>On a -145 / +125 moneyline, the four standard methods give the
 favourite anywhere from 57.11% to 57.50%:</p>
-<p><strong>additive</strong> &mdash; 57.37%</p><p><strong>multiplicative</strong> &mdash; 57.11%</p><p><strong>power</strong> &mdash; 57.50%</p><p><strong>shin</strong> &mdash; 57.37%</p>
+<p><strong>additive</strong>: 57.37%</p><p><strong>multiplicative</strong>: 57.11%</p><p><strong>power</strong>: 57.50%</p><p><strong>shin</strong>: 57.37%</p>
 <p>That spread is 0.39 points of probability on a market where a
 2% edge is a good day. Multiplicative is the usual default because it is one
-division, but it distributes the margin in proportion to implied probability
-&mdash; the opposite of the favourite-longshot bias real markets show, which
-makes it the method most likely to overstate a longshot.</p>
+division, but it spreads the margin in proportion to implied probability. Real
+markets show the opposite pattern (the favourite-longshot bias), so this method
+is the one most likely to overstate a longshot.</p>
 <p>The practical answer: do not pick one. An edge that exists under one method
 and vanishes under another is a modelling artefact.
 <a href="/calculators/no-vig-odds/">Work it through &rarr;</a></p>
 <nav class="onward" aria-label="More guides"><p class="onward-cap">Keep reading</p><ul class="cards cards--onward"><li class="card"><a href="/guides/what-is-closing-line-value/"><span class="card-t">What is closing line value</span><span class="card-q">Why do sharp bettors care more about CLV than profit?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li><li class="card"><a href="/guides/how-to-convert-a-bonus-bet/"><span class="card-t">How to convert a bonus bet to cash</span><span class="card-q">What is a free bet actually worth and how do you cash it?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li><li class="card"><a href="/guides/what-is-arbitrage-betting/"><span class="card-t">What is arbitrage betting</span><span class="card-q">How do you bet both sides and still win?</span><span class="card-go" aria-hidden="true">Read &rarr;</span></a></li></ul></nav>
 </main>
 <footer>
+<div class="get-app"><p class="get-app-line">Bookbreaker finds arbitrage and +EV bets on your Mac, and shows how sure each one is.</p><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=guides-how-to-devig-odds-foot&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.6.dmg" data-download>Download free</a><p class="free-line">Free. No account and no subscription. Needs a Mac with Apple silicon (M1 or later). 8.2 MB, notarised by Apple.</p><p class="phone-link">On your phone? <button type="button" data-send-mac-link>Send the Mac link to yourself</button></p></div>
 <div class="foot-grid">
   <div>
     <p class="foot-brand">Bookbreaker</p>

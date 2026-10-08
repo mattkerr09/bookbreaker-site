@@ -639,6 +639,26 @@ def check_responsible_gambling(pages, fails):
             fails.append(f"{path}: missing the problem-gambling helpline")
 
 
+HUB_DL = "https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src="
+
+
+def check_every_download_is_counted(pages, fails):
+    """Every page has a counted download, and no download skips the count.
+
+    Until 2026-10-07 only the home and download pages sent their button through
+    the hub; the other 121 sent it to /download/, so a click from a guide or a
+    calculator never reached funnel.py and no page but two could be judged on
+    what it sold. A raw link to the .dmg is the same blind spot by another route.
+    """
+    for path, markup in pages:
+        hrefs = re.findall(r'href="([^"]+)"', markup)
+        if not any(h.startswith(HUB_DL) for h in hrefs):
+            fails.append(f"{path}: no download button counted through the hub")
+        for h in hrefs:
+            if h.endswith(".dmg") and not h.startswith(HUB_DL):
+                fails.append(f"{path}: {h} downloads the app without counting it")
+
+
 def self_test() -> int:
     """Plant a duplicate page and confirm the similarity check fires.
 
@@ -1093,6 +1113,8 @@ def main() -> int:
             lambda: check_shingle_duplication(pages, fails),
         "check_responsible_gambling":
             lambda: check_responsible_gambling(pages, fails),
+        "check_every_download_is_counted":
+            lambda: check_every_download_is_counted(pages, fails),
         "check_media_exists": lambda: check_media_exists(pages, fails),
         "check_no_internal_docs_are_served":
             lambda: check_no_internal_docs_are_served(fails),

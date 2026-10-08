@@ -984,7 +984,7 @@ def measure(engine) -> dict:
             "so the ranking was known in advance and the error column is those "
             "offsets squared and rescaled. It shows the mechanism turning "
             "error into weight, not which devig method wins on any real "
-            "market \u2014 your own graded bets are what put real standings "
+            "market. Your own graded bets are what put real standings "
             "in it."),
         "bets": n_graded,
         "floor": round(floor * 100),
@@ -1240,7 +1240,7 @@ def measure(engine) -> dict:
     rr_ = out["roundrobin"]
     calc["round-robin"] = {"body": (
         f"<p>Three legs at &minus;110, taken two at a time, is "
-        f"{rr_['tickets']} tickets at {rr_['stake_each']:,.0f} each &mdash; "
+        f"{rr_['tickets']} tickets at {rr_['stake_each']:,.0f} each: "
         f"{rr_['total_stake']:,.0f} at risk, not {rr_['stake_each']:,.0f}. "
         f"That is the first thing the format hides.</p>"
         + table([("Two legs land",
@@ -1252,7 +1252,7 @@ def measure(engine) -> dict:
                  ("Same money on singles",
                   f"{rr_['singles_instead']:+,.2f}")])
         + "<p>Both those last two are computed with every leg at a true 50%, "
-        "so the difference is not luck &mdash; it is the margin, charged once "
+        "so the difference is not luck. It is the margin, charged once "
         "per ticket instead of once per bet. A round robin buys a different "
         "shape of outcome, not a better expectation.</p>")}
 
@@ -1280,10 +1280,10 @@ def measure(engine) -> dict:
         f"across {lh_['books']} of them against covering them at the cheapest "
         f"single book, on {lh_['turnover']:,} of turnover:</p>"
         + table([("Split across books",
-                  f"{lh_['best_hold']:+.3f}% &mdash; costs "
+                  f"{lh_['best_hold']:+.3f}%, costs "
                   f"{lh_['best_cost']:,.2f}"),
                  ("Cheapest single book",
-                  f"{lh_['baseline_hold']:+.3f}% &mdash; costs "
+                  f"{lh_['baseline_hold']:+.3f}%, costs "
                   f"{lh_['baseline_cost']:,.2f}"),
                  ("Difference", f"{lh_['saved']:,.2f}")])
         + "<p>This is a cost calculator, not an opportunity finder. A positive "
@@ -1365,7 +1365,7 @@ def measure(engine) -> dict:
                   for r in mid["cases"])
         + f"</table><p>Break-even is arithmetic on the two prices and depends "
         "on no distribution at all, which makes it the honest anchor. The hit "
-        f"rate comes from counting {mid['games']} recorded games &mdash; a "
+        f"rate comes from counting {mid['games']} recorded games, a "
         f"{e(mid['sample'])} sample shown as an illustration of the mechanism, "
         "not a claim about any league.</p>")}
 
@@ -1398,7 +1398,7 @@ def measure(engine) -> dict:
                  ("CLV against the raw close",
                   f"{implied_clv(american_to_decimal(110), american_to_decimal(-105)):+.2%}")])
         + "<p>That figure compares two vigged prices and so understates the "
-        "real edge by the closing margin &mdash; usable for ranking bets "
+        "real edge by the closing margin. Use it to rank bets "
         "against each other, not for claiming an edge size. Devigging the "
         "closing market first is what the engine does, and it is why closing "
         "line value converges far faster than profit.</p>")}
@@ -1418,7 +1418,7 @@ def measure(engine) -> dict:
         "needs a smaller lay stake, so it keeps more. Laying at "
         f"{e(hg['best']['american'])} locks {hg['best']['locked']:+,.2f}, while "
         f"laying at {e(hg['worst']['american'])} locks "
-        f"{hg['worst']['locked']:+,.2f} &mdash; a loss taken deliberately "
+        f"{hg['worst']['locked']:+,.2f}: a loss taken deliberately "
         "rather than a profit secured, because covering the position costs "
         "more than the open bet stands to make. "
         "Hedging does not create value. It converts a variable outcome into a "
@@ -1437,20 +1437,20 @@ def measure(engine) -> dict:
                   f"<td>{r['returns']:,.2f}</td></tr>" for r in du["rows"])
         + "</table>"
         + f"<p>Every branch returns {du['returns']:,.2f} on {du['total']:,} "
-        f"staked &mdash; {du['profit']:+,.2f}, or {du['pct']:+.2f}%. That is "
+        f"staked: {du['profit']:+,.2f}, or {du['pct']:+.2f}%. That is "
         "negative here, and it is supposed to be: the prices imply "
         f"{du['implied']:.2f}% of probability between them, and everything "
         "above a hundred is the book's margin. Dutching is the same solver as "
         "an arbitrage with the guarantee removed.</p>"
         + "<p>So it earns nothing on its own. It is a way of expressing a view "
-        "you already hold &mdash; that the winner is somewhere inside this set "
-        "&mdash; at a known cost, rather than a way of manufacturing an edge. "
+        "you already hold (that the winner is somewhere inside this set) "
+        "at a known cost. It is not a way of manufacturing an edge. "
         "A dutch across outcomes you have no opinion about is a slow donation "
         "at a rate you can compute in advance.</p>")}
 
     calc["parlay"] = {"body": (
     "<p>A parlay pays the product of its legs. It compounds the margin on each of them too.</p>"
-    + f"<p>A {m['parlay']['legs']}-leg ticket, every leg held at {m['parlay']['leg_hold']:.2f}%, pays {m['parlay']['pays']:.2f} in profit per unit staked. Strip the margin out of each leg and the fair price pays {m['parlay']['fair']:.2f}. Add the stake back to each and the gap between them is a hold of {m['parlay']['hold']:.1f}% on the ticket &mdash; {m['parlay']['multiple']:.1f} times the hold on a single leg.</p>"
+    + f"<p>A {m['parlay']['legs']}-leg ticket, every leg held at {m['parlay']['leg_hold']:.2f}%, pays {m['parlay']['pays']:.2f} in profit per unit staked. Strip the margin out of each leg and the fair price pays {m['parlay']['fair']:.2f}. Add the stake back to each and the gap between them is a hold of {m['parlay']['hold']:.1f}% on the ticket: {m['parlay']['multiple']:.1f} times the hold on a single leg.</p>"
     + f"<p>Holding the per-leg figure of {m['parlay']['leg_hold']:.2f}% fixed as a prior, the hold climbs with the leg count:</p>"
     + "<table><tr><th>Legs</th><th>Hold on the ticket</th></tr>"
     + "".join(f"<tr><td>{r['legs']}</td><td>{r['hold']:.1f}%</td></tr>" for r in m['parlay']['ladder'])
@@ -1468,7 +1468,7 @@ def measure(engine) -> dict:
     + f"<tr><td>Moneylines</td><td>{m['match']['open_hold']:.2f}%</td><td>${m['match']['open_net']:.2f}</td><td>{m['match']['open_margin']:.2f}%</td></tr>"
     + f"<tr><td>Props only</td><td>{m['match']['shut_hold']:.2f}%</td><td>${m['match']['shut_net']:.2f}</td><td>{m['match']['shut_margin']:.2f}%</td></tr>"
     + "</table>"
-    + f"<p>Same headline, same deposit, same rollover &mdash; and a swing of ${m['match']['swing']:.2f} between them. The market restriction is the offer. The bonus figure is packaging.</p>"
+    + f"<p>Same headline, same deposit, same rollover, and a swing of ${m['match']['swing']:.2f} between them. The market restriction is the offer. The bonus figure is packaging.</p>"
     + f"<p>Competitors print one number to two decimals as though it were measured, then bury the eligible-markets line. Where terms push churn into parlays the cost climbs again; our parlay hold prior of {m['match']['prior_parlay']:.1f}% is a prior, not a measurement, and it is deliberately excluded from the table above.</p>")}
 
     calc["effective-bets"] = {"body": (
@@ -1478,11 +1478,11 @@ def measure(engine) -> dict:
     + "".join(f"<tr><td>{r['n']}</td><td>{r['at_prior']:.1f}</td><td>{r['at_rho']:.1f}</td></tr>" for r in m['portfolio']['rows'])
     + "</table>"
     + f"<p>Read the measured column down. From {m['portfolio']['rows'][0]['n']} bets to {m['portfolio']['rows'][-1]['n']} bets, the effective count crawls from {m['portfolio']['rows'][0]['at_rho']:.1f} to {m['portfolio']['rows'][-1]['at_rho']:.1f}. Past a handful of correlated positions, adding another buys no diversification. It only adds stake.</p>"
-    + f"<p>That is what a staking rule has to see. A max single of {m['portfolio']['max_single']}% on a bankroll of {m['portfolio']['bankroll']:.0f} caps a lone bet at {m['portfolio']['cap_alone']:.0f}. The same rule, applied to a book already loaded with correlated exposure, caps it at {m['portfolio']['cap_loaded']:.2f}. Competitors print the first figure and call the portfolio diversified. They are counting tickets &mdash; and tickets are not independent.</p>")}
+    + f"<p>That is what a staking rule has to see. A max single of {m['portfolio']['max_single']}% on a bankroll of {m['portfolio']['bankroll']:.0f} caps a lone bet at {m['portfolio']['cap_alone']:.0f}. The same rule, applied to a book already loaded with correlated exposure, caps it at {m['portfolio']['cap_loaded']:.2f}. Competitors print the first figure and call the portfolio diversified. They are counting tickets, and tickets are not independent.</p>")}
 
     calc["totals-middle"] = {"body": (
     "<p>A middle is a pair of bets on one game: the over at the lower line, the under at the higher one. Both win when the final total lands inside the window between them. Outside it, one side pays, the other loses, and the miss costs the vig.</p>"
-    + f"<p>The lines priced here are {m['totals_middle']['low']} and {m['totals_middle']['high']}, a window {m['totals_middle']['window']} points wide. Break-even is {m['totals_middle']['breakeven']:.2f}% &mdash; the rate the window must hit for the pair to be worth holding. That is arithmetic on both prices and nothing else: no distribution, no sample, no view on the sport. It is the honest anchor.</p>"
+    + f"<p>The lines priced here are {m['totals_middle']['low']} and {m['totals_middle']['high']}, a window {m['totals_middle']['window']} points wide. Break-even is {m['totals_middle']['breakeven']:.2f}%: the rate the window must hit for the pair to be worth holding. That is arithmetic on both prices and nothing else: no distribution, no sample, no view on the sport. It is the honest anchor.</p>"
     + f"<p>The window probability is {m['totals_middle']['approx']:.2f}%. That one is a normal approximation, and its spread of {m['totals_middle']['sigma']:.1f} points is a stated prior, not a measurement. Competitors print a figure like it out to the decimal as though it had been observed.</p>"
     + "<p>Counting beats a smooth curve. Real scores cluster on the totals a sport actually produces. A curve cannot reproduce a lump, so it moves mass into gaps where finals never land. Count finals, and hold the sample to a threshold first.</p>"
     + "<table><tr><th>Threshold</th><th>Minimum</th></tr>"
@@ -1493,7 +1493,7 @@ def measure(engine) -> dict:
     + "<p>Totals carry the higher bar: wider support, more distinct finals, each seen less often. Below any of these minimums the counted estimate is noise wearing a decimal point.</p>")}
 
     calc["no-sweat-bet"] = {"body": (
-    "<p>A no-sweat bet refunds the first bet if it loses. Its value is the refund multiplied by how often the refund actually arrives &mdash; and it arrives only in the branch where the qualifying bet loses. So the qualifying bet should be a longshot. That is the opposite of most instincts, and the opposite of the right play on a bet-and-get, where the bonus lands whatever happens.</p>"
+    "<p>A no-sweat bet refunds the first bet if it loses. Its value is the refund multiplied by how often the refund actually arrives, and it arrives only in the branch where the qualifying bet loses. So the qualifying bet should be a longshot. That is the opposite of most instincts, and the opposite of the right play on a bet-and-get, where the bonus lands whatever happens.</p>"
     + f"<p>Figures below assume a qualifying stake of {m['safety_net']['stake']} and a bonus-bet conversion rate of {m['safety_net']['conversion']}%. The conversion rate is a prior, not a measurement.</p>"
     + "<table><tr><th>Qualifying price</th><th>Refund value</th><th>EV</th></tr>"
     + "".join(f"<tr><td>{r['american']}</td><td>{r['premium']:.2f}</td><td>{r['ev']:.2f}</td></tr>" for r in m['safety_net']['rows'])
@@ -1503,12 +1503,12 @@ def measure(engine) -> dict:
 
     calc["profit-boost"] = {"body": (
     "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p>"
-    + f"<p>Below, the boost and the stake are fixed &mdash; {m['boost']['pct']}% on a stake of ${m['boost']['stake']:.0f} &mdash; and only the price moves.</p>"
+    + f"<p>Below, the boost and the stake are fixed ({m['boost']['pct']}% on a stake of ${m['boost']['stake']:.0f}), and only the price moves.</p>"
     + "<table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr>"
     + "".join(f"<tr><td>{r['american']}</td><td>${r['added']:.2f}</td><td>${r['ev']:.2f}</td></tr>" for r in m['boost']['rows'])
     + "</table>"
-    + f"<p>The shortest price, {m['boost']['rows'][0]['american']}, adds ${m['boost']['worst']:.0f}. The longest, {m['boost']['rows'][-1]['american']}, adds ${m['boost']['best']:.0f} &mdash; a multiple of {m['boost']['multiple']:.0f} on the same token. Spend a boost on a favourite and most of it is given away.</p>"
-    + f"<p>Competitors print the headline rate and stop, as though {m['boost']['pct']}% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior &mdash; that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p>"
+    + f"<p>The shortest price, {m['boost']['rows'][0]['american']}, adds ${m['boost']['worst']:.0f}. The longest, {m['boost']['rows'][-1]['american']}, adds ${m['boost']['best']:.0f}: a multiple of {m['boost']['multiple']:.0f} on the same token. Spend a boost on a favourite and most of it is given away.</p>"
+    + f"<p>Competitors print the headline rate and stop, as though {m['boost']['pct']}% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p>"
     + "<p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>")}
 
     out["calculators"] = calc
@@ -1655,6 +1655,10 @@ def shared_domain(rows, pad=0.5):
 #: which is the point.
 RELEASE_VERSION = None
 
+#: The notarised app as measure() found it, set in main(). None when no app
+#: has shipped, and then every Download link falls back to /download/.
+RELEASE_APP = None
+
 TABLE = re.compile(r"(?s)<table>.*?</table>")
 
 
@@ -1780,7 +1784,7 @@ def page(title: str, description: str, body: str, path: str,
         '<span class="tag">New</span>'
         f'<span>Bookbreaker {RELEASE_VERSION} is out. Free, runs on your Mac, '
         'and nothing leaves it.</span>'
-        '<a href="/download/">Download it &rarr;</a>'
+        f'<a href="{nav_dl(path, "banner")}" data-download>Download it &rarr;</a>'
         '</div></div>'
         '<nav>'
         '<a class="brand" href="/">' + MARK + 'Bookbreaker</a>'
@@ -1794,7 +1798,7 @@ def page(title: str, description: str, body: str, path: str,
         '<a href="/vs/">Compared</a>'
         '</span>'
         '<span class="cta-nav">'
-        '<a class="btn primary" href="/download/">Download</a>'
+        f'<a class="btn primary" href="{nav_dl(path, "nav")}" data-download>Download</a>'
         '</span></nav>'
     )
     # msvalidate.01 is the Bing Webmaster verification code of the account that
@@ -1866,6 +1870,7 @@ def page(title: str, description: str, body: str, path: str,
 {body}
 </main>
 <footer>
+{get_app(path)}
 <div class="foot-grid">
   <div>
     <p class="foot-brand">Bookbreaker</p>
@@ -2043,6 +2048,38 @@ def free_line(m: dict) -> str:
 PHONE_LINE = ('<p class="phone-link">On your phone? <button type="button" data-send-mac-link>'
               'Send the Mac link to yourself</button></p>')
 
+#: Pages with no download strip at the foot: the two that carry their own
+#: button, and the three a person reads for the rules rather than for the app.
+NO_GET_APP = {"/", "/download/", "/privacy/", "/terms/", "/responsible-gambling/"}
+
+
+def page_src(path: str, where: str) -> str:
+    """The hub's src tag for one button: the page's path as a slug, then which button.
+
+    The hub keeps [a-z0-9_.-] and cuts at 60 characters, so the page part is
+    trimmed here and the button's name always survives."""
+    slug = path.strip("/").replace("/", "-") or "home"
+    return f"{slug[:59 - len(where)]}-{where}"
+
+
+def nav_dl(path: str, where: str) -> str:
+    """The banner's and the nav's Download link: the file itself, counted per page."""
+    if RELEASE_APP is None:
+        return "/download/"
+    return dl_href({"release": {"app": RELEASE_APP}}, page_src(path, where))
+
+
+def get_app(path: str) -> str:
+    """The one next step at the foot of a page that has no button of its own."""
+    if RELEASE_APP is None or path in NO_GET_APP:
+        return ""
+    m = {"release": {"app": RELEASE_APP}}
+    return ('<div class="get-app">'
+            '<p class="get-app-line">Bookbreaker finds arbitrage and +EV bets on your '
+            'Mac, and shows how sure each one is.</p>'
+            f'<a class="btn primary" href="{dl_href(m, page_src(path, "foot"))}" '
+            'data-download>Download free</a>' + free_line(m) + PHONE_LINE + '</div>')
+
 
 def render_download(m: dict) -> str:
     """The download page, generated entirely from the built artifacts.
@@ -2141,11 +2178,11 @@ around it, and whether it proves anything</td></tr>
 
 <h2>The licence</h2>
 <p>Free to download and run on as many machines as you control, and free to
-use to make money &mdash; placing bets, sizing them and keeping the proceeds
+use to make money. Placing bets, sizing them and keeping the proceeds
 are what it is for, and the licence says so explicitly.</p>
 <p>What it does not grant is redistribution: you may not pass it on, sell it,
 bundle it, or run it as a service for other people. One clause is unusual and
-deliberate &mdash; you may not strip the provenance labelling from its output.
+deliberate: you may not strip the provenance labelling from its output.
 A build that removes the <em>measured</em> and <em>prior</em> tags prints the
 same digits while destroying the only thing that makes them worth reading.</p>
 <p>The terms are narrow on purpose, because narrow terms can be widened later
@@ -2155,7 +2192,7 @@ under the terms it shipped with.</p>
 
 <h2>What it refuses to do</h2>
 <p>It will not log into a sportsbook for you. Account linking means handing a
-third party your credentials, and no feature is worth that &mdash; CSV import
+third party your credentials, and no feature is worth that. CSV import
 and the betslip parser do the same job without asking. It also does nothing
 about identity, location or device: the anti-limiting work is entirely about
 the shape of the bet, because everything else is fraud rather than strategy.</p>
@@ -2246,7 +2283,7 @@ def own_devig_widget(m: dict) -> str:
     }}
     if (found < 0) {{
       say('<p class="own-no">Those two prices do not make a two-way market ' +
-          '&mdash; together they imply a total outside the 0&ndash;12% ' +
+          '. Together they imply a total outside the 0&ndash;12% ' +
           'margin a real one carries. Rounding them into range would be ' +
           'inventing an answer, so there is not one.</p>');
       return;
@@ -2815,7 +2852,7 @@ def render_how(m: dict) -> str:
 
 <h2>Welcome offers, after every cost</h2>
 <p>A bonus bet does not return its stake, so it is worth about half its face
-value if bet naively. Converting means hedging &mdash; and every guide says
+value if bet naively. Converting means hedging, and every guide says
 &ldquo;convert on a longshot&rdquo; without mentioning what that costs at the
 second book. On a {c['bonus']:,} bonus:</p>
 <table>
@@ -2834,7 +2871,7 @@ exactly the place the whole bet lives. Same prices, one point apart:</p>
 {mid_rows}
 </table>
 <p class="caveat">Computed from a {mid['games']}-game sample whose shape is
-{e(mid['sample'])} &mdash; an illustration of the mechanism, not a claim about
+{e(mid['sample'])}: an illustration of the mechanism, not a claim about
 any league. No published margin table we could verify covers every margin with
 its sample size, so Bookbreaker counts the games you record rather than
 shipping a distribution, and refuses to give a counted answer below 200
@@ -2854,7 +2891,7 @@ book's own site decides whether it will accept you.</p>
 by holding your sportsbook credentials; Bookbreaker imports the CSV your book
 already exports and never asks for a login.</p>
 <p>Nor does it do multi-accounting, identity or KYC workarounds, or device and
-location spoofing &mdash; see
+location spoofing. See
 <a href="/account-longevity/">account longevity</a> for where that line is
 drawn and why it is drawn in code rather than in a policy document.</p>
 """
@@ -2870,7 +2907,7 @@ def render_vs(m: dict) -> str:
     return f"""
 <h1>Compared</h1>
 <p>Prices change. Every claim below carries the date it was read and a link to
-where it was read, and the build fails if either is missing &mdash; an undated
+where it was read, and the build fails if either is missing. An undated
 claim about someone else's product does not stay neutral, it asserts
 &ldquo;true now&rdquo; forever.</p>
 <table>
@@ -2882,7 +2919,7 @@ claim about someone else's product does not stay neutral, it asserts
 often a surfaced line is still available when you tap it. That absence is what
 Bookbreaker is built into: a screen sorted by raw expected value is sorted
 partly by how stale its own data is, because the biggest numbers cluster on the
-books that moved most recently &mdash; which are the books most likely to have
+books that moved most recently, which are the books most likely to have
 moved again.</p>
 """
 
@@ -2909,7 +2946,7 @@ margin. That reorders the screen, and the reorder is the point.</p>
 <p>The exact stakes for a {a['margin']:.2f}% arb are
 {a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. That precision is
 the clearest signal a risk desk reads. Rounding afterwards breaks the lock
-because the legs are not symmetric &mdash; solving over round stakes gives
+because the legs are not symmetric. Solving over round stakes gives
 {a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still locked if both bets are accepted and stand, for
 {a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}.</p>
 <p>Commission is netted before anything is called an arb, which matters more
@@ -2925,7 +2962,7 @@ every time, and it costs money on every one.</p>
 "ev-bettors": f"""
 <p>A +EV number is a model output, and the model is a devig you did not choose.
 On a {e(d['market'])} moneyline the four standard methods give the favourite
-{min(d['methods'].values()):.2f}% to {max(d['methods'].values()):.2f}% &mdash;
+{min(d['methods'].values()):.2f}% to {max(d['methods'].values()):.2f}%:
 {d['spread']:.2f} points apart on a market where 2% is a good edge.</p>
 <h2>What the screen shows instead of one number</h2>
 <div class="screen">
@@ -2943,7 +2980,7 @@ default rather than showing them and hoping you notice.</p>
 <h2>Which devig is right for your markets</h2>
 <p>Nobody knows in advance, and the answer differs between an NBA total and a
 tennis outright. So it is measured: every graded bet feeds a comparison of
-which method predicted the closing line, and the weights update &mdash; but
+which method predicted the closing line, and the weights update, but
 only if the new ones beat the old ones on a slice of your record they were not
 fitted on.</p>
 <p><a href="/guides/what-does-plus-ev-mean/">What +EV means &rarr;</a>
@@ -2967,7 +3004,7 @@ barely above a standard market and below the hold of the restricted markets
 many books allow for playthrough.</p>
 <h2>The money most people actually lose</h2>
 <p>Bonus bets expire. An expired one is worth nothing, and no tool tells you
-before it happens &mdash; so this one tracks what you hold, what it converts
+before it happens. So this one tracks what you hold, what it converts
 to, what is expiring, and how much face value has already lapsed unused. That
 last figure is the only one that already happened rather than being a
 forecast.</p>
@@ -2986,8 +3023,8 @@ you to be wrong.</p>
 success. Here is what it actually supports:</p>
 <p class="figure">{e(p['verdict'])}</p>
 <p>The interval spans zero. Below {ev['floor']} settled bets nothing is worth
-characterising at all &mdash; and slicing a record until something looks good
-makes it worse, not better.</p>
+describing at all. Slicing a record until something looks good makes it
+worse, not better.</p>
 <h2>The account is a resource</h2>
 <p>Books limit consistent winners, so an edge you cannot place is worth
 nothing. That makes stake shape, timing and market mix part of the arithmetic
@@ -3012,9 +3049,9 @@ def best_bodies(m: dict) -> dict[str, str]:
 instead of who to buy.</p>
 <p><strong>Does it publish a fill rate?</strong> None of the {n} tools
 catalogued here does. An arb you cannot get both legs on is not an arb, and a
-screen ranked on raw margin is ranked partly by how stale its own data is
-&mdash; the biggest numbers cluster on the books that moved most recently,
-which are the books most likely to have moved again.</p>
+screen ranked on raw margin is ranked partly by how stale its own data is.
+The biggest numbers cluster on the books that moved most recently, which
+are the books most likely to have moved again.</p>
 <p><strong>Does it net commission before calling something an arb?</strong>
 {e(m['commission']['price'])} both ways reads as a
 {m['commission']['gross']:.2f}% arb and is {m['commission']['net']:.2f}% once
@@ -3032,16 +3069,16 @@ this category run from single figures to several hundred a month.
 <p><strong>How old is the quote, measured from the book?</strong> Not from when
 the feed reached the screen. On a feed running {f['latency']:.1f} seconds
 behind, a quote displayed as {f['age']:.0f} seconds old is really
-{f['effective']:.1f} &mdash; and measuring from receipt understates age by
-exactly the lag, which overstates the chance of getting on.</p>
+{f['effective']:.1f}. Measuring from receipt understates age by exactly
+the lag, which overstates the chance of getting on.</p>
 <p><strong>Does it say which devig produced the number?</strong> The same
 market reads {min(d['methods'].values()):.2f}% to
 {max(d['methods'].values()):.2f}% depending on method. A screen printing one
 figure to two decimals is showing you a modelling choice.</p>
 <p><strong>Does it hold books out of their own fair value?</strong> A soft book
 that contributes to the consensus pulls it toward its own price, shrinking
-exactly the edge being detected &mdash; hardest on the markets where that book
-is the lone outlier and the edge is largest.</p>
+the very edge being detected. It bites hardest where that book is the lone
+outlier and the edge is largest.</p>
 <p><a href="/">What this one shows &rarr;</a></p>
 """,
 
@@ -3076,7 +3113,7 @@ measurement.</p>
 worth zero, and it is the largest edges that reject most often.</p>
 <p><strong>Calibration against something.</strong> A devig method should be
 chosen by which one predicted closing lines in your markets, not by which one
-the author preferred &mdash; and the new weights should have to beat the old
+the author preferred. The new weights should have to beat the old
 ones on a slice of the record they were not fitted on.</p>
 <p><strong>A refusal.</strong> Under {ev['floor']} graded bets, the honest
 answer is that nothing can be said. A tool that always has a verdict is not
@@ -3119,16 +3156,16 @@ def guide_bodies(m: dict) -> dict[str, str]:
 "how-to-devig-odds": f"""
 <p>A sportsbook's prices imply probabilities that add to more than 100%. The
 surplus is the margin. Devigging redistributes it to recover what the book
-actually believes &mdash; and <em>how</em> you redistribute it is a modelling
-choice, not arithmetic.</p>
+actually believes. <em>How</em> you redistribute it is a modelling choice,
+not arithmetic.</p>
 <p>On a {e(d['market'])} moneyline, the four standard methods give the
 favourite anywhere from {lo:.2f}% to {hi:.2f}%:</p>
-{"".join(f"<p><strong>{e(k)}</strong> &mdash; {v:.2f}%</p>" for k, v in sorted(d['methods'].items()))}
+{"".join(f"<p><strong>{e(k)}</strong>: {v:.2f}%</p>" for k, v in sorted(d['methods'].items()))}
 <p>That spread is {d['spread']:.2f} points of probability on a market where a
 2% edge is a good day. Multiplicative is the usual default because it is one
-division, but it distributes the margin in proportion to implied probability
-&mdash; the opposite of the favourite-longshot bias real markets show, which
-makes it the method most likely to overstate a longshot.</p>
+division, but it spreads the margin in proportion to implied probability. Real
+markets show the opposite pattern (the favourite-longshot bias), so this method
+is the one most likely to overstate a longshot.</p>
 <p>The practical answer: do not pick one. An edge that exists under one method
 and vanishes under another is a modelling artefact.
 <a href="/calculators/no-vig-odds/">Work it through &rarr;</a></p>
@@ -3154,8 +3191,8 @@ one. Comparing two vigged prices understates your edge by the closing margin.
 
 "how-to-convert-a-bonus-bet": f"""
 <p>A bonus bet does not return its stake. Win a {conv['bonus']:,} bonus at even
-money and you collect {conv['bonus']:,}, not {conv['doubled']:,} &mdash; so
-bet naively it is worth about half its face value.</p>
+money and you collect {conv['bonus']:,}, not {conv['doubled']:,}. Bet
+naively, it is worth about half its face value.</p>
 <p>Converting means hedging: put the bonus on one side and cash on the other,
 so you keep a set amount whichever way it lands, if both bets are accepted and stand. Longer odds convert
 better, because you are not risking the stake:</p>
@@ -3186,7 +3223,7 @@ arbing, you are betting.</p>
 <p><strong>The stake gives you away.</strong> The exact solution here is
 {a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. Nobody types that,
 and risk desks know it. Rounding afterwards breaks the lock because the legs
-are not symmetric &mdash; solving for round stakes directly gives
+are not symmetric. Solving for round stakes directly gives
 {a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still locked if both bets are accepted and stand, for
 {a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}.
 <a href="/calculators/arbitrage/">Stake one &rarr;</a></p>
@@ -3203,8 +3240,8 @@ things decide whether a printed +EV number is real:</p>
 friendliest one, it is not an edge.</p>
 <p><strong>Whether you can get on.</strong> Expected value you cannot place is
 worth zero. A 6% edge at a book that pulls its price in four seconds is worth
-less than a 3% edge still there when you tap it &mdash; which is why a screen
-ranked on raw EV is ranked partly by how stale its own data is.</p>
+less than a 3% edge still there when you tap it. So a screen ranked on raw EV
+is ranked partly by how stale its own data is.</p>
 <p><a href="/calculators/expected-value/">Check a price &rarr;</a></p>
 """,
 
@@ -3212,7 +3249,7 @@ ranked on raw EV is ranked partly by how stale its own data is.</p>
 <p>Bet over {mid['cases'][0]['window'].split(' / ')[0]} at one book and under
 {mid['cases'][0]['window'].split(' / ')[1]} at another. If the result lands
 between them, both bets win. Outside, one wins and one loses, so the position
-costs a little &mdash; and the middle is the payoff.</p>
+costs a little. The middle is the payoff.</p>
 <p>Everything hinges on how often the result lands in the window, and this is
 where nearly every tool is casually wrong. Results are not smoothly
 distributed: football margins pile up on 3 and 7 because of how the sport
@@ -3222,7 +3259,7 @@ scores. Same prices, one point apart:</p>
 {"".join(f"<tr><td>{e(r['window'])}</td><td>{r['probability']:.2f}%</td><td>{r['breakeven']:.2f}%</td><td>{r['ev']:+.2f}%</td></tr>" for r in mid['cases'])}
 </table>
 <p>A normal curve prices those identically. The break-even column is the honest
-anchor &mdash; arithmetic on the two prices, depending on no distribution at
+anchor: arithmetic on the two prices, with no distribution assumed at
 all. The hit rate above comes from counting {mid['games']} games in a
 {e(mid['sample'])} sample, shown as an illustration of the mechanism rather
 than a claim about any league.
@@ -3248,7 +3285,7 @@ concentrates where pricing gets less attention, which is exactly why a profile
 made of it reads as sharp.</p>
 <p>What none of this involves: multi-accounting, identity or KYC workarounds,
 device or location spoofing. Those are fraud, not staking discipline. And none
-of it applies at a book that never limits winners &mdash; spending edge to hide
+of it applies at a book that never limits winners. Spending edge to hide
 from a risk desk that does not exist is the most common way the advice is
 misapplied. <a href="/account-longevity/">The full model &rarr;</a></p>
 """,
@@ -3259,7 +3296,7 @@ prices imply probabilities summing above 100%, and the surplus is what the book
 keeps.</p>
 <p>Hold is what that surplus is worth as a fraction of the money bet, and it is
 not the same number. A market whose implied probabilities sum to 1.0476 holds
-4.55%, not 4.76% &mdash; the book's take is measured against the pool, not
+4.55%, not 4.76%. The book's take is measured against the pool, not
 against the excess. Plenty of calculators report the excess and overstate every
 book's margin.</p>
 <p>Why it matters: hold is the cost of doing business at that book, and it
@@ -3270,7 +3307,7 @@ most people's claimed edge.
 
 "how-to-use-the-kelly-criterion": f"""
 <p>Kelly gives the stake that maximises long-run growth <em>given the true
-probability</em>. You do not have the true probability &mdash; you have a
+probability</em>. You do not have the true probability. You have a
 devigged estimate with an error bar.</p>
 <p>That asymmetry decides everything. Betting twice the correct fraction has
 negative growth; betting half has about three-quarters of the growth at a
@@ -3278,9 +3315,9 @@ quarter of the variance. Overestimating an edge costs far more than
 underestimating it, and devigged estimates are exactly the kind that get
 overestimated.</p>
 <p>So: fractional Kelly, and size on the <em>least</em> favourable devig rather
-than the friendliest. Cap any single bet regardless of what the formula says
-&mdash; Kelly on a genuine 30% edge and on a stale line ask for the same
-number, and the cap is what makes the difference survivable.</p>
+than the friendliest. Cap any single bet, whatever the formula says. Kelly
+asks for the same stake on a genuine 30% edge and on a stale line, and the
+cap is what makes the difference survivable.</p>
 <p>One more trap: Kelly assumes bets resolve one at a time. Twelve overs on one
 game script is one undiversified position wearing twelve hats.
 <a href="/calculators/kelly/">Size a bet &rarr;</a></p>
@@ -3293,8 +3330,8 @@ win 100.</p>
 <p>Converting to decimal makes them comparable, and converting to implied
 probability makes them meaningful:</p>
 <p>+150 is decimal 2.500 and implies 40.00%. -200 is decimal 1.500 and implies
-66.67%. -110, the standard price, is decimal 1.909 and implies 52.38% &mdash;
-which is why a coin-flip bettor at -110 loses steadily.</p>
+66.67%. -110, the standard price, is decimal 1.909 and implies 52.38%.
+That is why a coin-flip bettor at -110 loses steadily.</p>
 <p>The trap is calling that implied number a probability. It is vig-inclusive:
 it is what the price asserts, and across a market those assertions add to more
 than 100%. Treating it as a fair probability without devigging first is the
@@ -3311,7 +3348,7 @@ outcomes return the same and you have converted an open position into a
 certain one; stake it lighter and you have reduced variance while keeping some
 upside.</p>
 <p>Two things people get wrong. A market's worst case is <em>not</em> the sum
-of its stakes &mdash; bet both sides and one leg always returns. And the
+of its stakes. Bet both sides and one leg always returns. And the
 outcome you did not bet is invisible in a list built from your own slips: a
 three-way market where you hold two sides looks fully covered until you count
 the third result.</p>
@@ -3321,14 +3358,14 @@ the third result.</p>
 "what-is-a-low-hold-bet": f"""
 <p>A low hold bet is the same idea as an arbitrage, one step short of it. Two
 books disagree enough that backing both sides costs you far less than betting
-either alone &mdash; not free, but close.</p>
+either alone. Not free, but close.</p>
 <p>Why bother with a position that loses a little by design? Two reasons.
 Turnover at near-zero cost is how you clear a deposit-match rollover without
 handing back the bonus. And a profile made of two-sided bets at ordinary prices
 looks nothing like a profile made of longshot alternate lines.</p>
 <p>The arithmetic is the hold calculation applied across books instead of
 within one. Where a single book holds 4.55% on a standard market, the best
-prices across two might hold 0.5% &mdash; and occasionally cross into an
+prices across two might hold 0.5%, and now and then they cross into an
 arbitrage.
 <a href="/calculators/hold/">Measure a pair &rarr;</a></p>
 """,
@@ -3354,7 +3391,7 @@ a test. <a href="/what-your-record-proves/">What a record can prove &rarr;</a></
 "what-is-a-parlay-really-worth": f"""
 <p>A parlay pays the product of its legs. Four legs at -110 pay
 {par['pays']:.2f} to 1. Four fair coin flips should pay {par['fair']:.2f} to 1.
-The gap is a {par['hold']:.1f}% hold &mdash; {par['multiple']:.1f} times the
+The gap is a {par['hold']:.1f}% hold: {par['multiple']:.1f} times the
 {par['leg_hold']:.2f}% you pay on a single.</p>
 <p>Nothing about a parlay creates value. It multiplies the margin, and the
 payout number grows while the value shrinks, which is exactly why it is the
@@ -3365,8 +3402,8 @@ most heavily promoted bet in the market.</p>
 </table>
 <p>By {par['lottery_legs']} legs the book is holding more than a quarter of
 every dollar staked. That is roughly where a parlay stops being a bet and
-becomes a lottery ticket &mdash; which is a fine thing to buy knowingly, and a
-poor thing to buy while believing you are betting.</p>
+becomes a lottery ticket. That is a fine thing to buy knowingly, and a poor
+thing to buy while believing you are betting.</p>
 <p>The honest exception: if every leg is genuinely +EV, the parlay of them can
 be too. That is rare and it is not what the promoted parlays are made of.</p>
 <p><a href="/calculators/hold/">How hold works &rarr;</a></p>
@@ -3377,8 +3414,8 @@ be too. That is rare and it is not what the promoted parlays are made of.</p>
 Same-game legs are not.</p>
 <p>A team covering the spread makes the over more likely, not less. A quarterback
 having a big passing day makes his receiver's yardage prop more likely. Multiply those together as though they were coin flips and you get a
-probability that is too low, which makes the fair price look higher than it is
-&mdash; and makes the parlay look better than it is.</p>
+probability that is too low. That makes the fair price look higher than it
+is, and the parlay look better than it is.</p>
 <p>{e(par['sgp_note'])}</p>
 <p>Books price same-game parlays with a correlation adjustment for exactly this
 reason. That adjustment is theirs and it is not published, which means the
@@ -3404,14 +3441,14 @@ and gets cut.</p>
 <h2>Why it changes the arithmetic</h2>
 <p>A fair value is only as good as what anchors it. On the {e(d['market'])}
 moneyline the four devig methods span {min(d['methods'].values()):.2f}% to
-{max(d['methods'].values()):.2f}% &mdash; and that is the spread on a
+{max(d['methods'].values()):.2f}%, and that is the spread on a
 <em>sharp</em> price. Anchor the same calculation on a soft book and you are
 polling the people you intend to beat.</p>
 <p>So a soft book contributes very little weight to a fair value here, and is
 never priced against a consensus it helped set: even a small contribution pulls
-the number toward that book's own price, shrinking exactly the edge being
-detected &mdash; hardest on the markets where it is the lone outlier and the
-edge is largest.</p>
+the number toward that book's own price, shrinking the very edge being
+detected. It bites hardest where that book is the lone outlier and the edge is
+largest.</p>
 <p>Where they never limit winners, no anti-limiting effort is spent at all.
 Spending edge to hide from a risk desk that does not exist is the most common
 way that advice is misapplied.</p>
@@ -3423,14 +3460,14 @@ way that advice is misapplied.</p>
 make. It is the least glamorous edge in betting and close to the largest.</p>
 <p>The arithmetic: at -110 both ways a book holds {par['leg_hold']:.2f}%. Beat
 that price by half a point on every bet and you have handed back a meaningful
-share of the margin &mdash; without predicting anything, without a model, and
-without any risk you were not already taking.</p>
+share of the margin. No prediction, no model, and no risk you were not already
+taking.</p>
 <h2>What it is worth over a season</h2>
 <p>A {p['n']}-bet record at {p['roi']:.2f}% return has an interval running
 {p['low']:.1f}% to {p['high']:.1f}%. Against that noise, a systematic
 half-point improvement on every bet is one of the few things large enough to
-show through &mdash; and unlike a model edge, it does not need to be right
-about anything.</p>
+show through. Unlike a model edge, it does not need to be right about
+anything.</p>
 <h2>The catch nobody mentions</h2>
 <p>Consistently capturing the best number is itself a signal. Risk desks
 profile on it, because a customer who always beats the market is a customer
@@ -3484,7 +3521,7 @@ in.</p>
 markets the terms let you use. Both holds above are measured off real two-way
 prices, not assumed.</p>
 <p>Books restrict the cheap markets, and they restrict them for exactly this
-reason. A playthrough confined to parlays is worse still &mdash; those run
+reason. A playthrough confined to parlays is worse still: those run
 nearer {mt['prior_parlay']:.0f}% (a stated prior here, not a measurement), and
 nothing at that hold clears a {mt['rollover']}x rollover at any headline.</p>
 <p>So the question is never "how big is the bonus". It is "how cheap is the
@@ -3499,13 +3536,13 @@ The offer's value is not in the bet. It is in the refund, and you only collect
 the refund when the bet <em>loses</em>.</p>
 <p>That inverts the usual instinct. The worth of the offer on its own is the
 refund, times how often you collect it, times what a bonus bet is really worth
-&mdash; here {sn['conversion']}% after hedging:</p>
+(here {sn['conversion']}% after hedging):</p>
 <table>
 <tr><th>Qualifying price</th><th>Offer premium</th><th>Total EV</th></tr>
 {"".join(f"<tr><td>{r['american']}</td><td>{r['premium']:,.2f}</td><td>{r['ev']:,.2f}</td></tr>" for r in sn['rows'])}
 </table>
 <p>The premium runs from {sn['short_premium']:,.2f} at a coin flip to
-{sn['long_premium']:,.2f} at a longshot &mdash; <strong>{sn['ratio']:.2f}x
+{sn['long_premium']:,.2f} at a longshot: <strong>{sn['ratio']:.2f}x
 more</strong> for taking the longer price. Bet the favourite and you win the
 bet most of the time, which is precisely how you fail to collect the thing you
 signed up for.</p>
@@ -3530,7 +3567,7 @@ probability you actually trust.</p>
 {"".join(f"<tr><td>{r['american']}</td><td>{r['added']:,.2f}</td><td>{r['ev']:,.2f}</td></tr>" for r in bo['rows'])}
 </table>
 <p>{bo['worst']:,.2f} at the short price against {bo['best']:,.2f} at the long
-one &mdash; <strong>{bo['multiple']:.0f}x</strong> the value from the identical
+one: <strong>{bo['multiple']:.0f}x</strong> the value from the identical
 token. "Use it on something safe" is the most expensive habit in promotional
 betting.</p>
 <h2>Why books hand them out anyway</h2>
@@ -3545,8 +3582,8 @@ spent conspicuously.</p>
 
 "how-to-read-a-betslip-into-your-record": f"""
 <p>A tracker is only worth what its worst row is worth. One misread slip does
-not stay in its row &mdash; it moves your return, your win rate, and every
-model weight computed from your history afterwards.</p>
+not stay in its row. It moves your return, your win rate, and every model
+weight computed from your history afterwards.</p>
 <h2>The trap that catches everybody</h2>
 <p>An open betslip shows a payout. <code>To Win $45.45</code> sits on the slip
 from the moment you place the bet, long before it settles. Read that as a
@@ -3556,15 +3593,15 @@ everything downstream.</p>
 <p>The fix is a rule, not care: a payout label is never a result. Only settle a
 bet from a word that can only mean settlement.</p>
 <h2>The second trap</h2>
-<p>"Payout" and "profit" are different numbers &mdash; payout includes your
-stake back. Copy a payout column into a profit column and every winning bet is
+<p>"Payout" and "profit" are different numbers. Payout includes your stake
+back. Copy a payout column into a profit column and every winning bet is
 overstated by its own stake. On a {p['n']}-bet record that is not a rounding
 error; it is the difference between a real edge and an imagined one.</p>
 <h2>What good logging looks like</h2>
 <p>Record the price and stake as the slip states them. Derive profit from
 price, stake and result rather than reading it across. Leave unknown fields
-blank instead of defaulting them &mdash; an unknown book is not
-"DraftKings", and a bet with no event cannot ever be graded.</p>
+blank instead of defaulting them. An unknown book is not
+"DraftKings", and a bet with no event can never be graded.</p>
 <p>And check the reading before it is written. A slip you half-understood is
 not a bet with some missing details; it is text that did not parse.</p>
 <p><a href="/guides/how-to-track-your-betting-results/">What a record can
@@ -3574,7 +3611,7 @@ actually prove &rarr;</a></p>
 "which-welcome-offer-to-do-first": f"""
 <p>Order matters, for a reason that has nothing to do with which bonus is
 biggest.</p>
-<p>Converting a bonus bet means hedging it &mdash; betting the other side at a
+<p>Converting a bonus bet means hedging it: betting the other side at a
 second book. So your <em>first</em> account is worth very little on its own:
 you can claim the offer and then have nowhere to lay it off. Open two
 bet-and-get books before touching anything else and every bonus after that has
@@ -3584,8 +3621,8 @@ somewhere to go.</p>
 produces are the cheapest possible practice at conversion before any real money
 is at risk.</p>
 <p><strong>Safety nets second.</strong> Real money is exposed here, and the
-qualifying price wants to be long &mdash; the opposite of the bet-and-get play,
-which is why doing them in the wrong order teaches the wrong habit.</p>
+qualifying price wants to be long. That is the opposite of the bet-and-get
+play, so doing them in the wrong order teaches the wrong habit.</p>
 <p><strong>Deposit matches last, and often not at all.</strong> They are the
 only shape that can be worth <em>less than nothing</em>: at
 {mt['rollover']}x the break-even hold is {mt['breakeven']:.2f}%, and a
@@ -3614,13 +3651,13 @@ looks good by luck stops being small:</p>
 <p>By <strong>{mu['coinflip_at']} slices</strong> it is a coin flip that
 something in your record looks significant when nothing is. A bettor who
 invents tags until one of them looks profitable is not running a test. They are
-running a search, and a search needs a higher bar than z = {mu['plain_z']:.2f}
-&mdash; up to z = {mu['rows'][-1]['z']:.2f} at {mu['rows'][-1]['tests']}
+running a search, and a search needs a higher bar than z = {mu['plain_z']:.2f}:
+up to z = {mu['rows'][-1]['z']:.2f} at {mu['rows'][-1]['tests']}
 slices.</p>
 <h2>What to do instead</h2>
 <p>Decide which slices matter <em>before</em> looking, and count every slice you
 tested, including the ones you abandoned. A slice under {mu['min_bets']} settled
-bets should not be characterised at all &mdash; not "slightly negative", not
+bets should not be described at all. Not "slightly negative", not
 "promising", nothing.</p>
 <p>This is the correction essentially nobody in this category applies, and tag
 breakdowns are exactly where it is needed. A tool that shows you twenty
@@ -3640,7 +3677,7 @@ precision is one of the cheapest signals a risk desk has, and it costs nothing
 to read.</p>
 <h2>What rounding costs</h2>
 <p>Round to {rd['round_legs'][0]:,.0f} and {rd['round_legs'][1]:,.0f} and the
-locked profit (if both bets are accepted and stand) becomes {rd['round_profit']:,.2f} &mdash; a cost of
+locked profit (if both bets are accepted and stand) becomes {rd['round_profit']:,.2f}, a cost of
 <strong>{rd['cost']:,.2f}</strong>, or {rd['cost_bps']:.1f} basis points of
 turnover.</p>
 <p>That is the whole trade, stated. It is a real cost and it is named rather
@@ -3649,9 +3686,9 @@ advice is not one you can check.</p>
 <h2>Search, don't round</h2>
 <p>Straight rounding is one point in a small neighbourhood of round-stake
 combinations, and often not the best one. Pin the leg at the softest book to a
-clean number &mdash; that is the account whose survival the shape protects
-&mdash; then walk the other leg a few steps either way and score each
-combination by its <em>worst</em> outcome.</p>
+clean number, because that is the account whose survival the shape protects.
+Then walk the other leg a few steps either way and score each combination by
+its <em>worst</em> outcome.</p>
 <p>Worst outcome, not average. Once stakes are rounded the legs pay
 differently, and quoting the average would describe a position you do not
 hold. The locked number is the small one.</p>
@@ -3665,13 +3702,13 @@ how far past, and no screen tells you.</p>
 connection: the feed itself takes time to see a change and hand it on. This
 engine will not price a quote as fresher than
 <strong>{qa['latency_floor']:.0f} seconds</strong> when the provider did not
-stamp it &mdash; a stated prior, not a measurement of any feed, and it is never
+stamp it. That is a stated prior, not a measurement of any feed. It is never
 zero, because zero is the one value that is certainly wrong.</p>
 <h2>How fast a quote dies</h2>
 <p>Modelling survival as exponential with a mean lifetime of
-{qa['tau']:.0f} seconds on a main moneyline &mdash; again a stated prior until
-your own accept and reject record replaces it &mdash; the chance a quote is
-still there when your bet lands:</p>
+{qa['tau']:.0f} seconds on a main moneyline (again a stated prior until your
+own accept and reject record replaces it), the chance a quote is still there
+when your bet lands:</p>
 <table>
 <tr><th>Quote age</th><th>Still there</th></tr>
 {"".join(f"<tr><td>{r['age']}s</td><td>{r['survives']:.1f}%</td></tr>" for r in qa['rows'])}
@@ -3685,7 +3722,7 @@ chance the price survives to your bet. Those two numbers should never be shown
 without each other. Most screens show the first and let you discover the second
 by losing to it.</p>
 <p>It also explains the rejections. A bet declined at the moment of placement
-is usually not a limit &mdash; it is a price that had already moved before you
+is usually not a limit. It is a price that had already moved before you
 clicked, on a market where the survival curve is steep.</p>
 <p><a href="/guides/why-your-bets-get-rejected/">Why bets get rejected
 &rarr;</a></p>
@@ -3700,8 +3737,8 @@ whether it beats the thing it is replacing on data it has never seen.</p>
 Random splits leak: markets move together within a day, so a random holdout
 shares information with its training set and flatters everything.</p>
 <p>At the {ho['min_graded']}-bet minimum this engine will fit on, that is
-{ho['train']} bets to fit and {ho['test']} to judge &mdash; thin, which is the
-point of the minimum. Below it, nothing is fitted at all.</p>
+{ho['train']} bets to fit and {ho['test']} to judge. That is thin, which is
+the point of the minimum. Below it, nothing is fitted at all.</p>
 <h2>Beat the incumbent, not zero</h2>
 <p>A candidate that scores well out of sample but no better than the weights
 already in use is not an improvement, and adopting it is churn dressed as
@@ -3710,7 +3747,7 @@ fails it is refused rather than blended in at a small weight.</p>
 <h2>Per-book, or not at all</h2>
 <p>Books are not interchangeable. A weight fitted across all of them describes
 none of them. Below {ho['min_coverage']} graded bets at a book, this engine
-declines to fit that book's weight rather than fitting a bad one &mdash;
+declines to fit that book's weight rather than fitting a bad one,
 because a weight with no evidence behind it and a weight with evidence behind
 it look identical downstream.</p>
 <h2>The signal to fit against</h2>
@@ -3773,7 +3810,7 @@ entirely, and only adds stake.</p>
 <p>A single-bet cap of {pf['max_single']}% of bankroll is right for someone
 holding nothing. On a {pf['bankroll']:,} bankroll that is
 {pf['cap_alone']:,.2f}. Holding eleven correlated bets already, the same cap
-should be <strong>{pf['cap_loaded']:,.2f}</strong> &mdash; the difference is
+should be <strong>{pf['cap_loaded']:,.2f}</strong>. The difference is
 the shrink factor the correlation implies, and it is not a rounding
 adjustment.</p>
 <h2>Measure it, do not assume it</h2>
@@ -3788,14 +3825,14 @@ the honest answer is a labelled prior rather than a number.</p>
 
 "what-is-a-totals-middle-worth": f"""
 <p>A totals middle is over {tm['low']:g} at one book and under {tm['high']:g}
-at another. Both bets win if the combined score lands strictly inside &mdash;
+at another. Both bets win if the combined score lands strictly inside:
 {tm['window']} numbers here. One always wins, so the position costs the hold on
 one leg and pays the window.</p>
 <h2>The two numbers</h2>
 <p><strong>Break-even is arithmetic.</strong> At -110 both ways the pair needs
 the window to hit {tm['breakeven']:.2f}% of the time to be worth taking. That
-figure comes from the two prices and nothing else &mdash; no distribution, no
-model, no assumption you can get wrong.</p>
+figure comes from the two prices and nothing else. No distribution, no model,
+no assumption you can get wrong.</p>
 <p><strong>The window probability is not.</strong> A normal curve with a
 {tm['sigma']:.0f}-point spread puts this window at {tm['approx']:.2f}%, which
 clears the bar comfortably. That number is an <em>approximation</em>, and the
@@ -3807,7 +3844,7 @@ worth more than the curve says; one sitting in a gap is worth less. The curve
 cannot tell you which you have.</p>
 <p>Counting recorded finals can. It needs {tm['min_total_games']} games for
 totals against {tm['min_games']} for margins, and the reason is structural: a
-margin is folded &mdash; the absolute difference &mdash; so it piles onto a few
+margin is folded (it is the absolute difference), so it piles onto a few
 small integers, while combined scores spread across a far wider range. The same
 game count buys much thinner evidence per number, so a second rule applies:
 at least {tm['min_per_cell']} games on each distinct total actually observed,
@@ -3823,7 +3860,7 @@ estimate, because it does not announce itself.</p>
 That total is your floor, and it is correct at any correlation.</p>
 <p>What correlation changes is how often you get near it. A book of independent
 bets almost never resolves all-worst at once. A book riding one game script
-does it routinely &mdash; and at &rho; = {pf['rho']:.2f}, twelve positions are
+does it routinely. At &rho; = {pf['rho']:.2f}, twelve positions are
 {pf['rows'][3]['at_rho']:.1f} independent bets, which means "all of them going
 wrong together" is roughly as likely as two bets going wrong together.</p>
 <p>The bettor who sized for twelve independent positions and is holding
@@ -3836,7 +3873,7 @@ that event wearing a portfolio's clothes. Worth a flag on its own, separately
 from the correlation.</p>
 <p><strong>Unknown outcome sets.</strong> This is the subtle one. If nothing
 recorded what results a market can produce, the only outcomes visible are the
-ones you bet on &mdash; so every result the model can see is one you backed,
+ones you bet on. So every result the model can see is one you backed,
 and the "worst case" comes out <em>positive</em>. A one-sided book looks
 risk-free to any tool that infers the outcome set from the bets in it. The
 honest response is to say the floor is optimistic and why, not to print it.</p>
@@ -3862,7 +3899,7 @@ correlated bets, the {pf['cap_alone']:,.2f} that was right on an empty book
 becomes <strong>{pf['cap_loaded']:,.2f}</strong>.</p>
 <h2>Why this is not conservatism</h2>
 <p>For genuinely independent simultaneous bets, the individual optima are still
-right and shrinking them would be superstition &mdash; the easy way to look
+right, and shrinking them would be superstition: the easy way to look
 prudent while being wrong. The shrink is a response to measured correlation and
 nothing else. At &rho; = 0 the factor is exactly 1.0 and every bet stays full
 size.</p>
@@ -3876,7 +3913,7 @@ constant. The difference decides what a number is worth, and it is invisible
 unless the tool says so on purpose.</p>
 <h2>Three kinds of number</h2>
 <p><strong>Arithmetic.</strong> Break-even on a pair of prices. A parlay's
-payout. These cannot be wrong, only misread &mdash; the totals middle above
+payout. These cannot be wrong, only misread. The totals middle above
 breaks even at {tm['breakeven']:.2f}% and no data would change it.</p>
 <p><strong>Measured.</strong> Counted from a record: how often a window hits,
 what a book's margin actually is, how much your simultaneous bets co-move.
@@ -3898,8 +3935,8 @@ announcing itself.</p>
 <tr><td>Per-book weights</td><td>{ho['min_coverage']} graded bets at that
 book</td></tr>
 </table>
-<p>Under any of these, the number does not become uncertain &mdash; it becomes
-a prior, and it says so. An unmeasured cell is not a zero, and a stale quote is
+<p>Under any of these, the number does not become uncertain. It becomes a
+prior, and it says so. An unmeasured cell is not a zero, and a stale quote is
 not a fresh one.</p>
 <h2>The test</h2>
 <p>Ask any tool where a number came from. If it cannot answer, it is not that
@@ -3913,15 +3950,15 @@ refuses to publish a figure that is not.</p>
 <p>Any tool that prices a market has to strip the bookmaker's margin out of the odds first. That step is called devigging, and there is more than one way to do it. Picking one method and naming it in a footnote settles the question by assertion. This tool scores the methods against each other instead, and lets the scores set the blend.</p>
 <p>The target is the closing line. When a market closes, the closing price is the sharpest estimate available of the true probability. Each devig method makes its prediction hours before that. Once the market closes, the engine measures how far the prediction missed, squares the miss, and folds it into that method's mean squared error. Mean squared error is a proper scoring rule: the score is minimised by reporting what you actually believe. A method cannot climb the table by shading every number toward the middle, and it cannot climb by exaggerating. Timid and bold both cost.</p>
 <h2>What the scorer does with a log</h2>
-<p>The scorer run over a {m['scoring']['bets']}-bet log. The error column is scaled mean squared error &mdash; relative error, comparable across these rows and to nothing outside them. Lower is better.</p>
+<p>The scorer run over a {m['scoring']['bets']}-bet log. The error column is scaled mean squared error: relative error, comparable across these rows and to nothing outside them. Lower is better.</p>
 <table>
 <tr><th>Method</th><th>Relative error</th><th>Blend weight</th></tr>
 {"".join(f"<tr><td>{e(r['method'])}</td><td>{r['error']:.2f}</td><td>{r['weight']:.1f}%</td></tr>" for r in m['scoring']['rows'])}
 </table>
 <p class="caveat">{e(m['scoring']['note'])}</p>
-<p>The ranking is monotone: every step up in relative error buys a smaller share of the blend. The leader here, {e(m['scoring']['best'])}, carries {m['scoring']['best_weight']:.1f}% on its own &mdash; more than everything below it combined.</p>
+<p>The ranking is monotone: every step up in relative error buys a smaller share of the blend. The leader here, {e(m['scoring']['best'])}, carries {m['scoring']['best_weight']:.1f}% on its own, more than everything below it combined.</p>
 <h2>Why the losers stay in</h2>
-<p>The worst method on the table, {e(m['scoring']['worst'])}, still receives {m['scoring']['worst_weight']:.1f}%. That is deliberate. Weights are held above a floor of {m['scoring']['floor']}%, and that floor is a prior &mdash; the standing assumption that no method is worthless and that {m['scoring']['bets']} graded bets is not enough evidence to retire one. Nothing sits at the floor in this run. If the standings shift, the weights shift with them, and a method that is down today can come back.</p>
+<p>The worst method on the table, {e(m['scoring']['worst'])}, still receives {m['scoring']['worst_weight']:.1f}%. That is deliberate. Weights are held above a floor of {m['scoring']['floor']}%, and that floor is a prior: the standing assumption that no method is worthless and that {m['scoring']['bets']} graded bets is not enough evidence to retire one. Nothing sits at the floor in this run. If the standings shift, the weights shift with them, and a method that is down today can come back.</p>
 <h2>Where the choice lives</h2>
 <p>The devig choice can be an input: made once, before there was any evidence, and never revisited by anything the product observes. Here it is an output. Every graded bet re-scores all {m['scoring']['methods']} methods and re-cuts the blend, so the model pricing today's markets is not quite the model that priced the ones before it.</p>
 <p><a href="/guides/what-is-closing-line-value/">Why the closing line is the thing worth scoring against &rarr;</a></p>
@@ -3941,13 +3978,13 @@ refuses to publish a figure that is not.</p>
 </table>
 <p class="caveat">{e(m['scoring']['note'])}</p>
 <h2>The floor is a prior</h2>
-<p>Named as a prior, because that is what it is: the {m['scoring']['floor']}% floor asserts, ahead of any evidence, that no method is worthless. Measured error moves everything above it. Each error in the table is a multiple of the one above it, yet the weights do not fall in that proportion &mdash; the gaps compress toward the bottom, which is the floor doing its work. {e(m['scoring']['best'])} leads at {m['scoring']['best_weight']:.1f}%: the same floor as every other method, plus the largest share of the remainder.</p>
+<p>Named as a prior, because that is what it is: the {m['scoring']['floor']}% floor asserts, ahead of any evidence, that no method is worthless. Measured error moves everything above it. Each error in the table is a multiple of the one above it, yet the weights do not fall in that proportion. The gaps compress toward the bottom, which is the floor doing its work. {e(m['scoring']['best'])} leads at {m['scoring']['best_weight']:.1f}%: the same floor as every other method, plus the largest share of the remainder.</p>
 <p><a href="/guides/how-to-tell-if-your-model-actually-works/">How to tell if your model actually works &rarr;</a></p>
 """,
 
 "when-do-bonus-bets-expire": f"""
 <p>A promotion is held like a decaying asset and it is not one. The decay is a cliff. A face amount of {m['holdings']['face']:,} is worth {m['holdings']['worth']:.2f} for every day the offer is live, and {m['holdings']['lapsed']:.2f} from the deadline onward. There is no slope in between.</p>
-<p>The figure behind that conversion is a prior &mdash; an assumed rate, here {m['holdings']['conversion']}%, at which a bonus bet is turned into withdrawable cash. It is an input to the valuation, not a measurement of your account. Move the prior and the cliff gets taller or shorter. It never becomes a slope.</p>
+<p>The figure behind that conversion is a prior: an assumed rate, here {m['holdings']['conversion']}%, at which a bonus bet is turned into withdrawable cash. It is an input to the valuation, not a measurement of your account. Move the prior and the cliff gets taller or shorter. It never becomes a slope.</p>
 <h2>The value does not slide</h2>
 <p>Read the table downward. The holding is worth the same at {m['holdings']['rows'][0]['days']} days out as at {m['holdings']['rows'][2]['days']} day out. Then it is worth {m['holdings']['lapsed']:.2f}. Most write-ups describe a promotion as though time value bleeds out of it, so an old bonus is worth less than a fresh one. That is wrong in both directions. Nothing bleeds, and then everything goes at once.</p>
 <table>
@@ -3962,10 +3999,10 @@ refuses to publish a figure that is not.</p>
 """,
 
 "why-a-model-should-forget-old-data": f"""
-<p>A pricing weight has an expiry date. The overlay fits a weight per book&mdash;how much that book's price should count when the fair line is estimated&mdash;and once the calibration behind it has aged past {m['weights']['max_age_days']:,} days, every price built on it is labelled stale in the same line as the number. Not down-weighted, and not quietly dropped: named, where the price is read. The label is on or off, because there is nothing to taper along.</p>
-<p>Books change. A book revises its margin, tightens or loosens its risk appetite, drops a market, adds another, hands pricing to someone else. A weight fitted before any of that describes a book that no longer exists&mdash;a precise measurement of a vanished thing. The cutoff is a prior, not a measurement: nothing in the settled record announces the day a trading desk changed its policy, so the engine picks a round age, roughly one off-season, and stops vouching for anything older.</p>
+<p>A pricing weight has an expiry date. The overlay fits a weight per book (how much that book's price should count when the fair line is estimated), and once the calibration behind it has aged past {m['weights']['max_age_days']:,} days, every price built on it is labelled stale in the same line as the number. Not down-weighted, and not quietly dropped: named, where the price is read. The label is on or off, because there is nothing to taper along.</p>
+<p>Books change. A book revises its margin, tightens or loosens its risk appetite, drops a market, adds another, hands pricing to someone else. A weight fitted before any of that describes a book that no longer exists: a precise measurement of a vanished thing. The cutoff is a prior, not a measurement: nothing in the settled record announces the day a trading desk changed its policy, so the engine picks a round age, roughly one off-season, and stops vouching for anything older.</p>
 <h2>The bars that pull the other way</h2>
-<p>The other bars in the fit ask for evidence, not freshness. No weight is fitted at all until {m['holdout']['min_graded']:,} graded bets exist. Of those, {m['holdout']['holdout_pct']:,}% is held back in time order&mdash;the newest slice, never a random sample, because a random split leaks the future into the fit. At that minimum it comes to {m['holdout']['train']:,} graded bets to fit on and {m['holdout']['test']:,} to score against. A book also has to clear {m['holdout']['min_coverage']:,} graded bets of its own before it earns a fitted weight instead of falling back to the default its tier carries. That per-book bar sits below the global one, because a book only has to describe itself.</p>
+<p>The other bars in the fit ask for evidence, not freshness. No weight is fitted at all until {m['holdout']['min_graded']:,} graded bets exist. Of those, {m['holdout']['holdout_pct']:,}% is held back in time order: the newest slice, never a random sample, because a random split leaks the future into the fit. At that minimum it comes to {m['holdout']['train']:,} graded bets to fit on and {m['holdout']['test']:,} to score against. A book also has to clear {m['holdout']['min_coverage']:,} graded bets of its own before it earns a fitted weight instead of falling back to the default its tier carries. That per-book bar sits below the global one, because a book only has to describe itself.</p>
 <table>
 <tr><th>Bar</th><th>Value</th></tr>
 <tr><td>Graded bets before anything is fitted</td><td>{m['holdout']['min_graded']:,}</td></tr>
@@ -3976,25 +4013,25 @@ refuses to publish a figure that is not.</p>
 <tr><td>Calibration labelled stale past this age (days)</td><td>{m['weights']['max_age_days']:,}</td></tr>
 </table>
 <h2>A window, not an archive</h2>
-<p>The forces point in opposite directions. More data makes an estimate tighter. Older data makes it wrong. Together they give a window rather than an archive: the sample has to be large enough to fit and young enough to be true, and both conditions bind at once. A book that goes quiet never clears its coverage bar in the first place, and a fit that outlives the window stops being presented as current&mdash;not because the book became untrustworthy, but because nothing recent enough remains to say.</p>
+<p>The forces point in opposite directions. More data makes an estimate tighter. Older data makes it wrong. Together they give a window rather than an archive: the sample has to be large enough to fit and young enough to be true, and both conditions bind at once. A book that goes quiet never clears its coverage bar in the first place, and a fit that outlives the window stops being presented as current. Not because the book became untrustworthy, but because nothing recent enough remains to say.</p>
 <p>This is where the rest of the market goes wrong. Depth of history is sold as an unqualified virtue: seasons of backfill, years of closing lines, the biggest database wins. History is treated as monotonically valuable, as though a price from a book's retired pricing regime were weak evidence. It is not weak evidence. It is wrong evidence, and more of it adds bias rather than noise. Bias does not average out with volume.</p>
 <p>The held-back slice is what turns any of this into a claim you can check. <a href="/guides/how-to-tell-if-your-model-actually-works/">How to tell if your model actually works &rarr;</a></p>
 """,
 
 "how-to-choose-an-odds-feed": f"""
 <p>Feeds are sold on a published latency figure. Several publish none at all. Neither case tells you what the feed does on your markets, in your sports, at the minutes you actually bet.</p>
-<p>The honest way to choose is to record a trial window from every candidate and replay those recordings through the same engine. Same markets, same clock, same decision rules &mdash; only the feed changes. A quoted latency is a claim about the vendor. A replay is a measurement of your book.</p>
+<p>The honest way to choose is to record a trial window from every candidate and replay those recordings through the same engine. Same markets, same clock, same decision rules. Only the feed changes. A quoted latency is a claim about the vendor. A replay is a measurement of your book.</p>
 <h2>Replay, not datasheets</h2>
 <p>Replay only works if the recordings line up in time. Ours refuses to compare captures whose clocks disagree by more than {m['replay']['max_skew']} seconds, because past that you are measuring clock drift and calling it latency. It also applies a stated prior: a latency floor of {m['replay']['latency_floor']:.1f} seconds, below which no feed is credited with being faster. That floor is a prior, not a measurement.</p>
 <h2>Why latency decides more than it looks</h2>
 <p>A quote arrives stamped at {m['fill']['age']:.1f} seconds old. The feed carrying it took {m['fill']['latency']:.1f} seconds, above the stated floor. So the price you are pricing against is really {m['fill']['effective']:.1f} seconds old. Everything downstream moves with that.</p>
-<p>Fill probability splits the same way. Read at stamped age, the fill looks like {m['fill']['naive']}%. Read at effective age, it is {m['fill']['honest']}%. On a nominal edge of {m['fill']['edge']:.1f}%, the naive read books {m['fill']['edge_naive']:.2f}% and the honest read books {m['fill']['edge_honest']:.2f}%. The smaller figure is the one that settles. Both fills come off a stated prior survival curve for this market class, not off a measurement of any feed &mdash; your own accept and reject record replaces it.</p>
+<p>Fill probability splits the same way. Read at stamped age, the fill looks like {m['fill']['naive']}%. Read at effective age, it is {m['fill']['honest']}%. On a nominal edge of {m['fill']['edge']:.1f}%, the naive read books {m['fill']['edge_naive']:.2f}% and the honest read books {m['fill']['edge_honest']:.2f}%. The smaller figure is the one that settles. Both fills come off a stated prior survival curve for this market class, not off a measurement of any feed. Your own accept and reject record replaces it.</p>
 <p>The table below shows the same mechanism on a different stated prior: survival modelled as exponential decay with a tau of {m['quote_age']['tau']:.1f} seconds, tabulated from the latency floor prior of {m['quote_age']['latency_floor']:.1f} seconds upward. The half-life that follows from that tau is {m['quote_age']['half_life']:.1f} seconds. Modelled, not measured, and it falls at every step.</p>
 <table>
 <tr><th>Quote age (s)</th><th>Edge surviving</th></tr>
 {"".join(f"<tr><td>{r['age']}</td><td>{r['survives']:.1f}%</td></tr>" for r in m['quote_age']['rows'])}
 </table>
-<p>Read any such curve against effective age, never against stamped age. An effective age of {m['fill']['effective']:.1f} seconds still sits inside the half-life; a stamped age of {m['fill']['age']:.1f} seconds flatters the feed by exactly the latency you failed to subtract. Do not expect this table to reproduce the fill figures above &mdash; different tau, different curve. What carries across is the direction.</p>
+<p>Read any such curve against effective age, never against stamped age. An effective age of {m['fill']['effective']:.1f} seconds still sits inside the half-life; a stamped age of {m['fill']['age']:.1f} seconds flatters the feed by exactly the latency you failed to subtract. Do not expect this table to reproduce the fill figures above: different tau, different curve. What carries across is the direction.</p>
 <h2>The thing nobody sells on</h2>
 <p>A feed that stamps its own observation time is worth more than a faster feed that does not. Without a stamp you cannot recover effective age, so you cannot compute the honest fill, so the {m['fill']['edge_naive']:.2f}% figure is the only one available to you and it overstates. Speed you cannot check is a marketing claim. A timestamp is evidence. Buy the evidence.</p>
 <p><a href="/guides/how-old-is-the-price-on-your-screen/">How old is the price on your screen &rarr;</a></p>
@@ -4002,13 +4039,13 @@ refuses to publish a figure that is not.</p>
 
 "what-a-clock-you-cannot-trust-does-to-a-price": f"""
 <p>Every freshness claim rests on two clocks agreeing. The feed stamps a quote with its clock. You judge that quote against yours. When the clocks disagree, a stale price reads as fresh and a fresh one reads as stale, and nothing about the number on screen reveals which case you are in.</p>
-<p>The usual arithmetic hides this. Subtract the vendor timestamp from local time, print the difference as age, and the answer inherits the error of whichever clock is worse &mdash; with nothing in the output to say which one supplied it. The error does not surface as noise. It surfaces as confidence.</p>
+<p>The usual arithmetic hides this. Subtract the vendor timestamp from local time, print the difference as age, and the answer inherits the error of whichever clock is worse, with nothing in the output to say which one supplied it. The error does not surface as noise. It surfaces as confidence.</p>
 <h2>Why a bad timestamp is worse than none</h2>
-<p>A quote stamped more than {m['replay']['max_skew']:,} seconds ahead of our own clock is dropped from the snapshot rather than scored, and the count of what was dropped is reported alongside what survived. That ceiling is a stated prior &mdash; chosen, not measured. The rule is one-sided on purpose. A feed clock running ahead makes a stale price read as fresher than live and ranks it above every honestly dated quote on the screen; a feed clock running behind only makes a price look older than it is. A missing timestamp makes you cautious. A wrong one makes you confident, and confidence is the expensive failure. The ceiling is also wider than the whole table below, whose oldest row is {m['quote_age']['rows'][4]['age']:,} seconds &mdash; a clock error this engine still tolerates can exceed every age it scores.</p>
+<p>A quote stamped more than {m['replay']['max_skew']:,} seconds ahead of our own clock is dropped from the snapshot rather than scored, and the count of what was dropped is reported alongside what survived. That ceiling is a stated prior, chosen and not measured. The rule is one-sided on purpose. A feed clock running ahead makes a stale price read as fresher than live and ranks it above every honestly dated quote on the screen; a feed clock running behind only makes a price look older than it is. A missing timestamp makes you cautious. A wrong one makes you confident, and confidence is the expensive failure. The ceiling is also wider than the whole table below, whose oldest row is {m['quote_age']['rows'][4]['age']:,} seconds. A clock error this engine still tolerates can exceed every age it scores.</p>
 <h2>The floor under an undated quote</h2>
-<p>Under the ceiling sits a floor. When the feed gives no timestamp of its own, age is never priced below {m['replay']['latency_floor']:.1f} seconds &mdash; a stated prior, not a measurement of any feed. It is not zero, because zero is the one value certainly wrong: the price left the book, crossed a network, and rendered before you read it. A quote the feed did date needs no such addition &mdash; that delay already sits inside the age you compute, and adding the floor on top would count it twice. The youngest row below is that floor, and survival there is already short of certain.</p>
+<p>Under the ceiling sits a floor. When the feed gives no timestamp of its own, age is never priced below {m['replay']['latency_floor']:.1f} seconds. That is a stated prior, not a measurement of any feed. It is not zero, because zero is the one value certainly wrong: the price left the book, crossed a network, and rendered before you read it. A quote the feed did date needs no such addition: that delay already sits inside the age you compute, and adding the floor on top would count it twice. The youngest row below is that floor, and survival there is already short of certain.</p>
 <h2>What a mis-estimated age costs</h2>
-<p>Survival is modelled as exponential decay on a mean lifetime of {m['quote_age']['tau']:.1f} seconds &mdash; again a stated prior, standing until your own accept and reject record replaces it. On that assumption the half-life is {m['quote_age']['half_life']:.1f} seconds, and the rows below are what the assumption implies rather than what any feed has been observed to do.</p>
+<p>Survival is modelled as exponential decay on a mean lifetime of {m['quote_age']['tau']:.1f} seconds, again a stated prior, standing until your own accept and reject record replaces it. On that assumption the half-life is {m['quote_age']['half_life']:.1f} seconds, and the rows below are what the assumption implies rather than what any feed has been observed to do.</p>
 <table>
 <tr><th>Quote age (seconds)</th><th>Edge surviving</th></tr>
 {"".join(f"<tr><td>{r['age']:,}</td><td>{r['survives']:.1f}%</td></tr>" for r in m['quote_age']['rows'])}
@@ -4019,7 +4056,7 @@ refuses to publish a figure that is not.</p>
 
 "why-your-bets-get-rejected": f"""
 <p>You tap a price and the book says it has changed. Usually nothing is wrong
-with the book &mdash; the price you saw was already old.</p>
+with the book. The price you saw was already old.</p>
 <p>Every screen shows a quote captured at some past instant. Between then and
 your bet landing sit the feed's own delay, the poll interval, the render and
 you. On a feed running {f['latency']:.1f} seconds behind, a quote displayed as
@@ -4122,7 +4159,7 @@ def render_plates(m: dict) -> str:
     return f"""
 <h2>What the four methods actually say</h2>
 <p>Stripping a book's margin is a modelling choice, not arithmetic. On the
-{e(d['market'])} market the four standard methods land here &mdash; and two of
+{e(d['market'])} market the four standard methods land here, and two of
 them, additive and shin, land on the same number, which is the sort of thing a
 table of four decimals hides.</p>
 <figure class="plate">
@@ -4160,7 +4197,7 @@ the cheapest signals a risk desk has. The round pair sits underneath:</p>
     <span>{pl['stake_hi']:,}</span></figcaption>
 </figure>
 <p>Rounding costs {r['cost']:,.2f} of the
-{r['exact_profit']:,.2f} locked if both bets are accepted and stand &mdash; the notch below:</p>
+{r['exact_profit']:,.2f} locked if both bets are accepted and stand. The notch below:</p>
 <figure class="plate">
   <div class="rf-frame">{rf(0, r['cost'], r['cost'], (0, pl['profit_hi']),
                             cls="rf--notch",
@@ -4367,35 +4404,35 @@ def render_versus(m: dict, row: dict) -> str:
     # CNO is free; its $5/mo is optional support, so there is no plan cost to
     # work out and no price row. Its section says what it does and what we add.
     cno = row["slug"] == "crazy-ninja-odds"
-    lede = (f"{e(row['note'])}, free to use &mdash; {cite}." if cno else
-            f"{e(row['note'])}, at {e(row['price'])} &mdash; {cite}.")
+    lede = (f"{e(row['note'])}, free to use ({cite})." if cno else
+            f"{e(row['note'])}, at {e(row['price'])} ({cite}).")
     gap_head = (f"What {e(row['name'])} does, and what Bookbreaker adds" if cno
                 else f"What {e(row['name'])} does not tell you")
     gap_text = (f"Crazy Ninja Odds is free, and its devigger can show all four "
                 f"methods and a worst case ({cite}). Bookbreaker adds the spread between "
                 "methods as one number, the chance the price is still there when "
-                "your bet lands, and arb stakes in round numbers &mdash; offline "
+                "your bet lands, and arb stakes in round numbers, offline "
                 "on your Mac." if cno else f"{e(row['gap'])}.")
     price_row = ("" if cno else
                  f"<tr><td class=\"prose\">Price</td>\n"
-                 f"<td class=\"prose\">{e(row['price'])} &mdash; {cite}</td>\n"
-                 f"<td class=\"prose\">Free &mdash; {m['release']['app']['mb']} MB, "
+                 f"<td class=\"prose\">{e(row['price'])} ({cite})</td>\n"
+                 f"<td class=\"prose\">Free. {m['release']['app']['mb']} MB, "
                  f"no account</td></tr>\n")
     if cno:
         cost = ""
     elif sub:
         cost = (f"<p>{e(row['name'])} lists {e(row['price'])}. The cheapest "
                 f"monthly plan is {sub['sym']}{sub['yearly_whole']:,} a year you "
-                f"clear before any profit is yours &mdash; "
+                f"clear before any profit is yours. That is "
                 f"{sub['rows'][1]['bets']} winning bets a month at a "
                 f"{sub['sym']}{sub['stake']} stake and a two percent edge, "
                 f"every month, to reach zero ({cite}).</p>")
     else:
         cost = (f"<p>{e(row['name'])} lists {e(row['price'])} and published no "
                 f"monthly figure to work from when this was {cite}. So the one "
-                f"thing you could otherwise measure before subscribing &mdash; "
-                f"how much you clear before any profit is yours &mdash; cannot "
-                f"be worked out from what is published.</p>")
+                f"thing you could otherwise measure before subscribing (how much "
+                f"you clear before any profit is yours) cannot be worked out "
+                f"from what is published.</p>")
 
     return f"""
 <h1>{headline}</h1>
@@ -4412,11 +4449,11 @@ def render_versus(m: dict, row: dict) -> str:
 <th class="prose">{e(row['name'])}, as published</th>
 <th class="prose">Bookbreaker, as computed</th></tr>
 {price_row}<tr><td class="prose">What it advertises</td>
-<td class="prose">{e(row['note'])} &mdash; {cite}</td>
+<td class="prose">{e(row['note'])} ({cite})</td>
 <td class="prose">{m['catalog']['venues']} venues catalogued across
 {m['catalog']['states']} states</td></tr>
 <tr><td class="prose">The gap we recorded</td>
-<td class="prose">{e(row['gap'])} &mdash; {cite}</td>
+<td class="prose">{e(row['gap'])} ({cite})</td>
 <td class="prose">{answer}</td></tr>
 </table></div>
 <p class="caveat">Every cell in the middle column carries the date it was read
@@ -4477,8 +4514,8 @@ def render_longevity(m: dict) -> str:
 <p class="lede">Every tool in this category optimises expected value and leaves
 account lifetime to your judgement. That is why the usual experience is three
 excellent weeks followed by a five-dollar maximum stake. Edge you cannot place
-is worth nothing, so lifetime is not a footnote beside expected value &mdash;
-it is what expected value gets divided by.</p>
+is worth nothing, so lifetime is not a footnote beside expected value.
+It is what expected value gets divided by.</p>
 
 <h2>What a stake gives away</h2>
 <p>A precise figure to the cent is the most-cited fingerprint risk desks use to
@@ -4488,7 +4525,7 @@ identify arbitrage. Nobody types {e(h['stakes'][0]['stake'])}:</p>
 {stake_rows}
 </table>
 <p>So the arbitrage solver optimises over <em>round</em> stakes directly rather
-than rounding afterwards, because rounding a lock naively breaks it &mdash; the
+than rounding afterwards, because rounding a lock naively breaks it: the
 legs are not symmetric. At {e(a['legs'][0])} and {e(a['legs'][1])} that means
 {a['round_stakes'][0]:,} and {a['round_stakes'][1]:,} instead of
 {a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}, giving up
@@ -4518,8 +4555,8 @@ common way these tactics are applied wrongly, and there is a test for it.</p>
 <h2>What it will not do</h2>
 <p>No multi-accounting. No identity or KYC workarounds. No device or location
 spoofing. That line is drawn in the code rather than in a policy document: the
-model reads bet attributes only &mdash; stake sizes, timing, market mix,
-velocity &mdash; and has no access to identity or network state. Everything it
+model reads bet attributes only (stake sizes, timing, market mix,
+velocity) and has no access to identity or network state. Everything it
 adjusts is a choice you were already making about your own betting.</p>
 <p>It is also advisory. It tells you what to bet; you place it. Automated
 placement against a book's own interface is a different product with a
@@ -4563,7 +4600,7 @@ is running a search, not a test.</p>
 
 <h2>Why closing line value instead</h2>
 <p>Profit takes years to say anything. The closing line is the market's best
-public estimate, and beating it consistently converges far faster &mdash; which
+public estimate, and beating it consistently converges far faster. That
 is why it is the signal the engine calibrates on rather than merely displays.
 It also refuses to overclaim: under {ev['floor']} graded bets it declines to
 give a verdict at all.</p>
@@ -5098,14 +5135,14 @@ betting advice is written without saying which one it assumes.</p>
 <p>So each page below leads with the count, with which of those books limit
 accounts that win, and with which books operate elsewhere but not there.</p>
 
-<h2>Online betting is live &mdash; {m["markets"]["online"]} states</h2>
+<h2>Online betting is live in {m["markets"]["online"]} states</h2>
 <ul class="states">{cells(live)}</ul>
 
-<h2>In person only &mdash; {m["markets"]["retail"]} states</h2>
+<h2>In person only: {m["markets"]["retail"]} states</h2>
 <p>Licensed sportsbooks exist, but no app takes a bet from inside the state.</p>
 <ul class="states">{cells(retail)}</ul>
 
-<h2>No legal sportsbook &mdash; {m["markets"]["none"]} states</h2>
+<h2>No legal sportsbook: {m["markets"]["none"]} states</h2>
 <p>Federally regulated prediction markets still reach these, and they are the
 venues that never limit a winner.</p>
 <ul class="states">{cells(none)}</ul>
@@ -5166,7 +5203,7 @@ def render_market(m: dict, codes: list[str]) -> str:
         f"<td>{e(b['tier'])}</td>"
         + ("<td>yes</td>" if b["limits"]
            else '<td><span class="pos">never</span></td>')
-        + f"<td>{(str(b['commission']) + '%') if b['commission'] else '&mdash;'}</td>"
+        + f"<td>{(str(b['commission']) + '%') if b['commission'] else 'none'}</td>"
         "</tr>"
         for b in st["books"]
     ) or "<tr><td colspan=\"4\">none</td></tr>"
@@ -5183,7 +5220,7 @@ def render_market(m: dict, codes: list[str]) -> str:
     else:
         longevity = (
             "<p>Every venue here limits winning accounts, so bet shape carries "
-            "the whole weight &mdash; stake sizes, timing and market mix "
+            "the whole weight: stake sizes, timing and market mix "
             "decide how long an account lasts.</p>"
         )
 
@@ -5198,7 +5235,7 @@ def render_market(m: dict, codes: list[str]) -> str:
 
     retail_names = [b["name"] for b in st["books"] if b["tier"] == "retail"]
     if st["retail"] == 1:
-        why = (f" &mdash; {e(st['single_operator'])}"
+        why = (f": {e(st['single_operator'])}"
                if st.get("single_operator") else "")
         distinctive = (
             f"<p>{e(name)} is a single-operator market{why}. "
@@ -5224,7 +5261,7 @@ def render_market(m: dict, codes: list[str]) -> str:
 
     shared = "" if len(codes) == 1 else (
         f"<p>These {len(codes)} states are on one page because they license "
-        "exactly the same set of venues &mdash; separate pages would have said "
+        "exactly the same set of venues. Separate pages would have said "
         "the same thing twice.</p>"
     )
 
@@ -5242,7 +5279,7 @@ def render_market(m: dict, codes: list[str]) -> str:
 <p class="caveat">Table read {e(st['as_of'])}, {st['stale_days']} days ago. A
 jurisdiction list shown without its date asserts &ldquo;true now&rdquo;
 forever, so this one carries its own age. It is a starting point for your own
-check, not advice &mdash; the book's own site decides whether it will accept
+check, not advice. The book's own site decides whether it will accept
 you.</p>
 <p><a href="/how-it-works/">How Bookbreaker prices a market &rarr;</a></p>
 """
@@ -5767,6 +5804,10 @@ footer{border-top:1px solid var(--rule);background:var(--sink);
   padding:0 var(--s-5);color:var(--ink-2);
   font-size:var(--t-2);line-height:1.55}
 .foot-fine:last-child{padding-bottom:var(--s-6)}
+.get-app{max-width:var(--measure-page);margin:0 auto;
+  padding:var(--s-6) var(--s-5) var(--s-5);border-bottom:1px solid var(--rule)}
+.get-app-line{font-family:var(--serif);font-size:var(--t-6);line-height:1.3;
+  color:var(--ink);margin:0 0 var(--s-4);max-width:34ch}
 
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
@@ -7653,8 +7694,8 @@ monthly, so this one is not priced until it is read again.</p></article>""")
             continue
         worth = (f'<b class="worth">${o["guaranteed"]:,.2f}</b><span>locked from '
                  f'${o["face"]:,.0f} face, if both bets are accepted and stand</span>' if o["guaranteed"] else
-                 f'<b class="worth">${o["expected"]:,.2f}</b><span>expected &mdash; a '
-                 f'profit boost cannot be hedged to a fixed amount</span>')
+                 f'<b class="worth">${o["expected"]:,.2f}</b><span>expected. A '
+                 f'profit boost cannot be hedged to a fixed amount.</span>')
         steps = "".join(f"<li>{e(_offer_step_wording(st))}</li>" for st in o["steps"])
         cards.append(f"""<article class="offer-card reveal">
 <div class="offer-top">{worth}</div>
@@ -7668,7 +7709,7 @@ read {e(o['read'])}.</p>
 <p class="lede">An affiliate table sorts by the headline. The headline is the one
 number on it you do not keep. What you keep from a bonus bet is its value once
 it is hedged at a second book, so the result is the same whichever way the game
-goes &mdash; and ranked by that, the order changes.</p>
+goes. Ranked by that, the order changes.</p>
 <p class="src-line">Priced by the engine at build time, on two stated priors: bonus
 bets placed at decimal {w['assumptions_bonus_decimal']:.1f}, and a
 {w['assumptions_hold_pct']:.1f}% combined hold across the best two books. The app
@@ -7771,7 +7812,7 @@ the window itself cannot make a network request: it links no HTTP client and
 its content security policy permits no external address. A test in the source
 fails the build if either ever changes.</p>
 <p>Two things can reach the internet, and only when you ask. The live board,
-when you turn it on, requests public prices from Kalshi and Polymarket &mdash;
+when you turn it on, requests public prices from Kalshi and Polymarket. It is
 the same request a browser makes, carrying nothing about you. And if the app
 crashes it writes a report to your own disk, with passwords and keys stripped
 out; it never sends it. You can attach it to an email yourself if you want to.</p>
@@ -7960,9 +8001,11 @@ def main() -> int:
     parser.add_argument("--app-repo", default="../arb betting aqpp")
     args = parser.parse_args()
 
+    global RELEASE_APP
     app_repo = Path(args.app_repo).expanduser().resolve()
     engine = load_engine(app_repo)
     measured = measure(engine)
+    RELEASE_APP = measured["release"]["app"]
     measured["engine_fingerprint"] = engine_fingerprint(app_repo)
     measured["app"] = read_app_window(app_repo)
     measured["state_standings"] = state_standings()
@@ -8020,8 +8063,8 @@ def main() -> int:
 <h1>Betting calculators, worked rather than blank</h1>
 <p class="lede">Every calculator page on the internet shows you a form and a
 formula. These show the arithmetic already done on real prices, and the range
-the answer sits in &mdash; because the range is the part that decides whether a
-bet is worth taking.</p>
+the answer sits in, because the range is what decides whether a bet is
+worth taking.</p>
 <ul class="cards" data-hub>{rows}</ul>
 <p>All of them are the engine that prices bets, not a separate implementation.
 A calculator that disagrees with the product it advertises is worse than no
@@ -8137,8 +8180,8 @@ calculator.</p>
 <h1>Guides</h1>
 <p class="lede">Every one of these is answered somewhere else on the internet.
 The difference here is that the numbers are worked, and the parts that are
-usually left out &mdash; how uncertain the answer is, and whether you could
-actually have placed the bet &mdash; are the parts these lead with.</p>
+usually left out (how uncertain the answer is, and whether you could
+actually have placed the bet) are the parts these lead with.</p>
 {links}
 """, "/guides/"))
     built.append(("/guides/", "guides/index.html"))
@@ -8209,12 +8252,12 @@ actually have placed the bet &mdash; are the parts these lead with.</p>
 <h1>States with no legal sportsbook</h1>
 <p class="lede">{len(dark)} states had no legal online sportsbook as of
 {e(measured['catalog']['as_of'])}. They share a page because they share an
-answer &mdash; generating one each would have produced pages differing only in
+answer. Generating one each would have produced pages that differ only in
 a name.</p>
 <ul>{rows}</ul>
 <p>What is still reachable is the nationwide prediction markets, regulated
 federally rather than by any state:</p>
-<ul>{"".join(f'<li>{e(b["name"])} &mdash; never limits winning accounts</li>'
+<ul>{"".join(f'<li>{e(b["name"])}: never limits winning accounts</li>'
              for b in nationwide)}</ul>
 <p>That matters more than a consolation prize. An exchange has no bookmaker to
 limit you, so it is structurally the best place for a consistent winner, and it
@@ -8238,7 +8281,7 @@ your own check, not advice.</p>
                   and not measured["states"][c]["online"])
     if gaps:
         rows = "".join(
-            f"<li><strong>{e(STATE_NAMES.get(c, c))}</strong> &mdash; "
+            f"<li><strong>{e(STATE_NAMES.get(c, c))}</strong>: "
             f"{e(measured['states'][c]['retail_only'])}</li>" for c in gaps)
         body = f"""
 <h1>States where betting is legal but not online</h1>
@@ -8309,8 +8352,8 @@ your own check, not advice.</p>
 <p>Every edge this site measures comes from a disagreement between prices.
 Arbitrage needs two books to disagree enough to cover the margin; +EV betting
 needs a price that is better than the consensus. With one operator there is no
-second price, so there is no disagreement to find and no best price to take
-&mdash; you get the number you are given.</p>
+second price, so there is no disagreement to find and no best price to take.
+You get the number you are given.</p>
 <h2>What is still worth doing</h2>
 <p>Prediction markets are regulated federally rather than by any state, so they
 reach these markets too, and they never limit a winning account. They are also
