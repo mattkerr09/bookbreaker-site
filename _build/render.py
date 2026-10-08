@@ -4163,6 +4163,13 @@ def app_shot(m: dict, slug: str) -> str:
     """
     sc = m["showcase"]
     shots = {
+        "board": (
+            "app-poster.jpg",
+            "The app's Board tab on its demonstration market, with the margin, "
+            "the fill chance and the age on each play.",
+            "The Board tab, here on its one demonstration market. Every play is "
+            "ranked best first, with its margin, the chance the price is still "
+            "there, and how old it is."),
         "arbitrage": (
             "panel-arbitrage.jpg",
             "The app's Arbitrage tab with two prices entered and the stake "
@@ -4191,6 +4198,36 @@ def app_shot(m: dict, slug: str) -> str:
     return (f'<div class="shots"><figure><img src="/media/{img}" width="1280" '
             f'height="720" loading="lazy" alt="{alt}"><figcaption><b>In the '
             f'app</b><span>{caption}</span></figcaption></figure></div>')
+
+
+#: Guides and audience pages whose subject is one of the app's tabs.
+PAGE_SHOTS = {
+    "/guides/what-is-arbitrage-betting/": "arbitrage",
+    "/guides/how-to-stake-an-arbitrage-in-round-numbers/": "arbitrage",
+    "/guides/how-to-use-the-kelly-criterion/": "kelly",
+    "/guides/what-is-bankroll-management/": "kelly",
+    "/guides/what-is-a-parlay-really-worth/": "parlay",
+    "/guides/what-is-a-same-game-parlay-worth/": "parlay",
+    "/guides/what-does-plus-ev-mean/": "board",
+    "/guides/how-to-line-shop/": "board",
+    "/for/arbitrage-bettors/": "arbitrage",
+    "/for/ev-bettors/": "board",
+    "/best/best-arbitrage-betting-software/": "board",
+    "/best/best-ev-betting-software/": "board",
+    "/best/best-odds-screen/": "board",
+}
+
+
+def with_shot(m: dict, url: str, body: str) -> str:
+    """The page's app shot after its first answering paragraph: answer first, then the app."""
+    key = PAGE_SHOTS.get(url)
+    if not key:
+        return body
+    cut = body.find("</p>")
+    if cut < 0:
+        raise SystemExit(f"{url}: no paragraph to put the app shot after")
+    cut += len("</p>")
+    return body[:cut] + "\n" + app_shot(m, key) + body[cut:]
 
 
 def render_calculator(m: dict, row: dict) -> str:
@@ -8244,7 +8281,7 @@ calculator.</p>
             f"<h1>{e(row['title'])}</h1>"
             f'<p class="lede">{e(row["question"])}</p>'
             '</div>\n'
-            + bodies[row["slug"]]
+            + with_shot(measured, url, bodies[row["slug"]])
             + related(i),
             url))
         built.append((url, rel))
@@ -8333,7 +8370,8 @@ actually have placed the bet) are the parts these lead with.</p>
             out.write_text(page(
                 row[title_key], desc(row),
                 f"<h1>{e(row[title_key])}</h1>\n"
-                f"<p class=\"lede\">{e(lead)}</p>\n" + bodies[row["slug"]],
+                f"<p class=\"lede\">{e(lead)}</p>\n"
+                + with_shot(measured, url, bodies[row["slug"]]),
                 url))
             built.append((url, rel))
         print(f"  /{prefix}/{' ' * (21 - len(prefix))}{len(rows_)} pages")
