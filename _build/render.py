@@ -4851,7 +4851,7 @@ def state_difference(m: dict, name: str, code: str, row: dict) -> str:
                     reverse=True)
     mine_books = len(st["books"])
     never = [b for b in st["books"] if not b["limits"]]
-    cells.append((oddness(counts, mine_books), "Books here",
+    cells.append((oddness(counts, mine_books), f"Books in {name}",
                   f"<b>{mine_books}</b> of {m['catalog']['venues']}"
                   f"<i>{_ord(st['books_rank'])} of "
                   f"{len(counts)} states</i>"))
@@ -4861,7 +4861,7 @@ def state_difference(m: dict, name: str, code: str, row: dict) -> str:
     if "tax_rank" in stand:
         cells.append((oddness([r["tax_rate"] for r in state_standings().values()
                                if "tax_rate" in r], stand["tax_rate"]),
-                      "Tax on operator revenue",
+                      f"{name} tax on sportsbook revenue",
                       f"<b>{stand['tax_rate']:g}%</b>"
                       f"<i>{_ord(stand['tax_rank'])} of {stand['tax_of']}</i>"))
     if "age_rank" in stand:
@@ -4869,7 +4869,7 @@ def state_difference(m: dict, name: str, code: str, row: dict) -> str:
                else f"{stand['age_months']} mo")
         cells.append((oddness([r["age_days"] for r in state_standings().values()
                                if "age_days" in r], stand["age_days"]),
-                      "Market age",
+                      f"Age of {name}'s market",
                       f"<b>{age}</b><i>{_ord(stand['age_rank'])} of "
                       f"{stand['age_of']}</i>"))
     if row.get("retail_venues"):

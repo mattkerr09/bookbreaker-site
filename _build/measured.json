@@ -379,7 +379,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "46814dab9fb2ea06",
+  "engine_fingerprint": "decd42991971e88c",
   "evidence": {
     "bars": [
       {
@@ -1277,7 +1277,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 26,
+      "books_rank": 25,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -1633,7 +1633,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 21,
+      "books_rank": 20,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -2347,7 +2347,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 15,
+      "books_rank": 14,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -2364,17 +2364,10 @@
       "venues": 9
     },
     "MA": {
-      "absent": 9,
-      "anchors": 1,
+      "absent": 10,
+      "anchors": 0,
       "as_of": "2026-09-24",
       "books": [
-        {
-          "commission": 0,
-          "key": "kalshi",
-          "limits": false,
-          "name": "Kalshi",
-          "tier": "exchange"
-        },
         {
           "commission": 0,
           "key": "bally",
@@ -2425,21 +2418,19 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 18,
+      "books_rank": 20,
       "covered": true,
       "gap_reason": "",
-      "has_anchor": true,
+      "has_anchor": false,
       "legal": true,
-      "never_limit": [
-        "kalshi"
-      ],
+      "never_limit": [],
       "online": true,
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
       "stale_days": 14,
       "state": "MA",
-      "venues": 8
+      "venues": 7
     },
     "MD": {
       "absent": 6,
@@ -2567,7 +2558,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 26,
+      "books_rank": 25,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -2584,17 +2575,10 @@
       "venues": 3
     },
     "MI": {
-      "absent": 7,
-      "anchors": 1,
+      "absent": 8,
+      "anchors": 0,
       "as_of": "2026-09-24",
       "books": [
-        {
-          "commission": 0,
-          "key": "kalshi",
-          "limits": false,
-          "name": "Kalshi",
-          "tier": "exchange"
-        },
         {
           "commission": 0,
           "key": "bet365",
@@ -2659,21 +2643,19 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 10,
+      "books_rank": 14,
       "covered": true,
       "gap_reason": "",
-      "has_anchor": true,
+      "has_anchor": false,
       "legal": true,
-      "never_limit": [
-        "kalshi"
-      ],
+      "never_limit": [],
       "online": true,
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
       "stale_days": 14,
       "state": "MI",
-      "venues": 10
+      "venues": 9
     },
     "MN": {
       "absent": 16,
@@ -2773,7 +2755,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 15,
+      "books_rank": 14,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -3170,8 +3152,8 @@
       "venues": 1
     },
     "NV": {
-      "absent": 13,
-      "anchors": 2,
+      "absent": 14,
+      "anchors": 1,
       "as_of": "2026-09-24",
       "books": [
         {
@@ -3180,13 +3162,6 @@
           "limits": false,
           "name": "Circa Sports",
           "tier": "sharp"
-        },
-        {
-          "commission": 0,
-          "key": "kalshi",
-          "limits": false,
-          "name": "Kalshi",
-          "tier": "exchange"
         },
         {
           "commission": 0,
@@ -3203,14 +3178,13 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 23,
+      "books_rank": 25,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
       "legal": true,
       "never_limit": [
-        "circa",
-        "kalshi"
+        "circa"
       ],
       "online": true,
       "retail": 2,
@@ -3218,7 +3192,7 @@
       "single_operator": "",
       "stale_days": 14,
       "state": "NV",
-      "venues": 4
+      "venues": 3
     },
     "NY": {
       "absent": 8,
@@ -3289,7 +3263,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 15,
+      "books_rank": 14,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -3969,33 +3943,23 @@
       "venues": 4
     },
     "WA": {
-      "absent": 16,
-      "anchors": 1,
+      "absent": 17,
+      "anchors": 0,
       "as_of": "2026-09-24",
-      "books": [
-        {
-          "commission": 0,
-          "key": "kalshi",
-          "limits": false,
-          "name": "Kalshi",
-          "tier": "exchange"
-        }
-      ],
-      "books_rank": 34,
+      "books": [],
+      "books_rank": 51,
       "covered": true,
       "gap_reason": "",
-      "has_anchor": true,
+      "has_anchor": false,
       "legal": true,
-      "never_limit": [
-        "kalshi"
-      ],
+      "never_limit": [],
       "online": false,
       "retail": 0,
       "retail_only": "tribal casinos only, including on-premises mobile, no statewide online betting",
       "single_operator": "",
       "stale_days": 14,
       "state": "WA",
-      "venues": 1
+      "venues": 0
     },
     "WI": {
       "absent": 16,
@@ -4395,7 +4359,7 @@
     "sha256": "ca56d69e1e235b9316c91aa9a8c299562ff8b3201b07659f0d3218e5576257c7",
     "sha256_short": "ca56d69e1e235b93",
     "sources": 29,
-    "test_files": 46
+    "test_files": 47
   },
   "version": "0.1.6",
   "weights": {
