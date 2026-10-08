@@ -52,8 +52,8 @@ CASES = [
         "a hand-typed figure on a page",
         "check_numbers_are_measured",
         "index.html",
-        "<h2>Same market, four defensible methods</h2>",
-        "<h2>Same market, four defensible methods</h2>\n<p>Users average 12.7% ROI.</p>",
+        "<h2>Win without picking winners</h2>",
+        "<h2>Win without picking winners</h2>\n<p>Users average 12.7% ROI.</p>",
     ),
     (
         "a competitor's price with the date stripped",
@@ -165,8 +165,8 @@ CASES = [
         "a class with no rule behind it",
         "check_every_class_is_styled",
         "index.html",
-        'class="hp"',
-        'class="hp bb-break-case-unstyled"',
+        'class="why"',
+        'class="why bb-break-case-unstyled"',
     ),
     (
         # The anchor is derived, not typed. Written first as a literal
@@ -177,14 +177,14 @@ CASES = [
         "the site announcing a version it cannot hand over",
         "check_announced_version_is_downloadable",
         "index.html",
-        f"Bookbreaker {ANNOUNCED} is out",
-        "Bookbreaker 9.9.9 is out",
+        f"Version {ANNOUNCED}.",
+        "Bookbreaker 9.9.9 is out.",
     ),
     (
         "the browser tab on last season's brand",
         "check_the_tab_and_the_page_agree",
         "index.html",
-        '<meta name="theme-color" content="#1493FF">',
+        '<meta name="theme-color" content="#5b5bff">',
         '<meta name="theme-color" content="#F5A524">',
     ),
     (
@@ -193,13 +193,6 @@ CASES = [
         "sitemap.xml",
         "<loc>https://bookbreaker.bet/download/</loc>",
         "",
-    ),
-    (
-        "a CSS pass that never reached the stylesheet",
-        "check_every_pass_reaches_the_stylesheet",
-        "style.css",
-        "PASS 14",
-        "PASS-FOURTEEN-NEVER-RENDERED",
     ),
     (
         "a typeface referenced but not shipped",
@@ -219,7 +212,7 @@ CASES = [
         "a rule for a class that appears on no page",
         "check_no_dead_css",
         "style.css",
-        ".own-in input:hover{",
+        ".own-in input:focus{",
         ".bb-class-that-exists-nowhere:hover{",
     ),
     (

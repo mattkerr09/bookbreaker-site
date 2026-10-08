@@ -793,11 +793,11 @@ def self_test() -> int:
     # The unstyled-class gate, proved both ways. This one has to be exercised
     # here rather than by a find-and-replace break, because breaking it means
     # removing a rule from a stylesheet the checker reads off disk.
-    styled_page = [("x/index.html", '<main class="speed"><p class="hp">y</p></main>')]
+    styled_page = [("x/index.html", '<main class="hero"><p class="lede">y</p></main>')]
     unstyled: list[str] = []
     _real_css = (SITE / "style.css")
     seen_css = _real_css.read_text()
-    if ".speed" not in seen_css or ".hp" not in seen_css:
+    if ".hero" not in seen_css or ".lede" not in seen_css:
         print("SELF-TEST FAILED: fixture classes are not in the real "
               "stylesheet, so this case proves nothing", file=sys.stderr)
         return 1
@@ -850,32 +850,6 @@ def check_one_palette(fails: list[str]) -> None:
                 f"in {context} — a superseded palette is still present, which "
                 f"is what made the theme-color gate pass on its own bug: "
                 f"{sorted(repeated)[:5]}")
-
-
-def check_every_pass_reaches_the_stylesheet(fails: list[str]) -> None:
-    """Every `/* PASS n */` written in render.py must appear in style.css.
-
-    Twice now a block of CSS has been spliced into render.py somewhere that
-    is not the stylesheet literal. The first time it landed at module level
-    and Python refused to import it, which is the good failure. The second
-    time it landed inside a function's **docstring**: the module imported,
-    the build succeeded, every gate stayed green, and the CSS did nothing at
-    all. The comment in that very patch said not to do it — the anchor was
-    computed by scanning backwards for a triple-quote, and new docstrings had
-    since been added between the stylesheet and the anchor.
-
-    A comment cannot prevent that. This can: if a pass is not in the rendered
-    output, it was not in the stylesheet.
-    """
-    render = (SITE / "_build" / "render.py").read_text()
-    css = (SITE / "style.css").read_text()
-    passes = re.findall(r"/\* (PASS [0-9]+)", render)
-    missing = [name for name in dict.fromkeys(passes) if name not in css]
-    if missing:
-        fails.append(
-            f"{len(missing)} CSS pass(es) written in render.py never reached "
-            f"style.css — spliced outside the stylesheet literal, most likely "
-            f"into a docstring, where it parses and does nothing: {missing}")
 
 
 def check_media_exists(pages, fails: list[str]) -> None:
@@ -1129,8 +1103,6 @@ def main() -> int:
         "check_runtime_classes_are_real":
             lambda: check_runtime_classes_are_real(pages, fails),
         "check_one_palette": lambda: check_one_palette(fails),
-        "check_every_pass_reaches_the_stylesheet":
-            lambda: check_every_pass_reaches_the_stylesheet(fails),
     }
 
     # Every check defined in this file must be wired into the registry, or

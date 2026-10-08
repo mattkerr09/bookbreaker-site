@@ -191,6 +191,26 @@
     "net": -0.01,
     "price": "+101"
   },
+  "console": {
+    "american": [
+      110,
+      105
+    ],
+    "if_wins": [
+      39.0,
+      35.0
+    ],
+    "staked": 990,
+    "stakes": [
+      490,
+      500
+    ],
+    "vig": {
+      "american": -110,
+      "if_wins": -9.09,
+      "stake": 100
+    }
+  },
   "conversion": {
     "bonus": 1000,
     "doubled": 2000,
