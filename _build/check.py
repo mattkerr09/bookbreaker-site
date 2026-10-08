@@ -61,7 +61,7 @@ MAX_FAMILY_SIMILARITY = 0.97
 # genuinely different — never raised to accommodate one that got worse.
 SHINGLE_SIMILARITY = 0.5
 WATCH_SIMILARITY = 0.35
-MAX_SHINGLE_PAIRS = 11
+MAX_SHINGLE_PAIRS = 2
 
 #: A ceiling on how alike the *worst* pair may be, not just how many pairs
 #: there are. Both are ratchets and both may only fall.
@@ -71,7 +71,7 @@ MAX_SHINGLE_PAIRS = 11
 #: identical — without changing the count, so the gate stays green while the
 #: pages converge. The break case that renames one state page after another
 #: takes ky x mo from 0.565 to 0.677 and the count never moves.
-MAX_PAIR_SIMILARITY = 0.57
+MAX_PAIR_SIMILARITY = 0.52
 
 # The whole similarity zone, not just the headline above it.
 #
@@ -81,7 +81,10 @@ MAX_PAIR_SIMILARITY = 0.57
 # Google has no 0.5 cliff — a pair at 0.47 is not meaningfully less
 # collapsible than the same pair at 0.52 — so a gate that watches one side of
 # an arbitrary line rewards pushing pairs across it.
-MAX_ZONE_PAIRS = 259
+# 2026-10-07: each state page now names its neighbours, which only that page
+# says. 259 zone pairs became 145, eleven over 0.5 became two, and the worst
+# pair fell from 0.565 to 0.518. All three limits followed them down.
+MAX_ZONE_PAIRS = 145
 
 # Words that turn naming a competitor into asserting something about them.
 ASSERTIVE = re.compile(

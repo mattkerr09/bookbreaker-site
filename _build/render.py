@@ -1755,8 +1755,61 @@ def site_schema(path: str, body: str) -> str:
     return "".join(f'<script type="application/ld+json">{b}</script>' for b in blocks)
 
 
+#: Where a reader goes next from a page whose body linked nowhere useful
+#: (content standard 5). Two each, chosen for the page's own subject.
+ONWARD = {
+    "/account-longevity/": [
+        ("/sportsbooks/", "Which books limit winners, state by state"),
+        ("/guides/how-to-avoid-getting-limited/", "How to avoid getting limited")],
+    "/best/best-arbitrage-betting-software/": [
+        ("/calculators/arbitrage/", "The arbitrage calculator"),
+        ("/for/arbitrage-bettors/", "Bookbreaker for arbitrage bettors")],
+    "/best/best-bet-tracker/": [
+        ("/guides/how-to-grade-your-own-bets/", "How to grade your own bets"),
+        ("/calculators/closing-line-value/", "The closing line value calculator")],
+    "/best/best-ev-betting-software/": [
+        ("/calculators/expected-value/", "The expected value calculator"),
+        ("/for/ev-bettors/", "Bookbreaker for +EV bettors")],
+    "/best/best-odds-screen/": [
+        ("/guides/how-old-is-the-price-on-your-screen/", "How old is the price on your screen?"),
+        ("/guides/how-to-choose-an-odds-feed/", "How to choose an odds feed")],
+    "/for/bonus-hunters/": [
+        ("/calculators/bonus-bet-conversion/", "The bonus bet conversion calculator"),
+        ("/offers/", "Sign-up offers, ranked by what they are worth")],
+    "/for/new-bettors/": [
+        ("/guides/how-to-read-american-odds/", "How to read American odds"),
+        ("/guides/what-does-plus-ev-mean/", "What +EV means")],
+    "/how-it-works/": [
+        ("/what-your-record-proves/", "What your record proves"),
+        ("/calculators/", "Every calculator, worked on real prices")],
+    "/offers/": [
+        ("/guides/how-to-convert-a-bonus-bet/", "How to convert a bonus bet"),
+        ("/guides/which-welcome-offer-to-do-first/", "Which welcome offer to do first")],
+    "/vs/": [
+        ("/best/best-ev-betting-software/", "What to look for in +EV software"),
+        ("/best/best-arbitrage-betting-software/", "What to look for in arbitrage software")],
+    "/what-your-record-proves/": [
+        ("/guides/how-to-grade-your-own-bets/", "How to grade your own bets"),
+        ("/guides/why-your-best-sport-is-probably-noise/", "Why your best sport is probably noise")],
+    "/sportsbooks/in-person-only/": [
+        ("/sportsbooks/", "Every state's books"),
+        ("/guides/how-to-line-shop/", "How to line shop")],
+    "/sportsbooks/no-legal-sportsbook/": [
+        ("/sportsbooks/", "Where betting is legal, state by state")],
+}
+
+
+def onward(path: str) -> str:
+    links = ONWARD.get(path)
+    if not links:
+        return ""
+    return ("<p>" + " &nbsp;&middot;&nbsp; ".join(
+        f'<a href="{h}">{e(t)} &rarr;</a>' for h, t in links) + "</p>")
+
+
 def page(title: str, description: str, body: str, path: str,
          body_class: str = "") -> str:
+    body += onward(path)
     body = TABLE.sub(lambda m: f'<div class="scroll">{m.group(0)}</div>', body)
     # A card grid needs more width than a reading measure. Marked on the grid
     # itself rather than passed in at each hub, because a body class that has
@@ -5041,6 +5094,35 @@ def _ord(n: int) -> str:
     return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
 
 
+#: Land borders only; the Four Corners touch at a point and are left out.
+#: Written once per pair and mirrored below, so a border cannot be one-sided.
+_BORDERS = """
+AL FL GA MS TN|AZ CA NM NV UT|AR LA MO MS OK TN TX|CA NV OR|CO KS NE NM OK UT WY
+CT MA NY RI|DE MD NJ PA|DC MD VA|FL GA|GA NC SC TN|ID MT NV OR UT WA WY
+IL IA IN KY MO WI|IN KY MI OH|IA MN MO NE SD WI|KS MO NE OK|KY MO OH TN VA WV
+LA MS TX|ME NH|MD PA VA WV|MA NH NY RI VT|MI OH WI|MN ND SD WI|MS TN
+MO NE OK TN|MT ND SD WY|NE SD WY|NV OR UT|NH VT|NJ NY PA|NM OK TX|NY PA VT
+NC SC TN VA|ND SD|OH PA WV|OK TX|OR WA|PA WV|SD WY|TN VA|UT WY|VA WV
+"""
+NEIGHBOURS: dict[str, set[str]] = {}
+for _group in _BORDERS.replace("\n", "|").split("|"):
+    _codes = _group.split()
+    for _other in _codes[1:]:
+        NEIGHBOURS.setdefault(_codes[0], set()).add(_other)
+        NEIGHBOURS.setdefault(_other, set()).add(_codes[0])
+
+
+def across_the_border(m: dict, code: str) -> str:
+    """The states next door, each linked to wherever its answer lives."""
+    near = sorted((STATE_NAMES.get(c, c), c) for c in NEIGHBOURS.get(code, ())
+                  if c in m["states"])
+    if not near:
+        return ""
+    return ("<h2>Across the border</h2><p>"
+            + ", ".join(f'<a href="{state_url(m, c)}">{e(n)}</a>' for n, c in near)
+            + ".</p>")
+
+
 def render_state_page(m: dict, code: str) -> str:
     """One state, carrying almost nothing that another state also carries.
 
@@ -5117,6 +5199,8 @@ covering the state limit accounts that win{'; ' + e(never_names) + ' ' + _does(l
 
 <h2>{e(name)} sports betting FAQ</h2>
 {faq_html}
+
+{across_the_border(m, code)}
 
 <p><a href="/sportsbooks/">Why the state you are in decides your edge
 &rarr;</a></p>
@@ -8178,7 +8262,7 @@ calculator.</p>
         ("staking-and-bankroll", "Staking",
          "How much to bet, and why correlated bets are one bet."),
         ("bonuses-and-offers", "Bonuses",
-         "What a promotion is worth after everything it costs to unlock."),
+         "What a promotion is worth after the playthrough and everything else it costs."),
         ("parlays", "Parlays",
          "The most popular bet in the market and the worst priced."),
         ("keeping-the-account", "Keeping the account",
