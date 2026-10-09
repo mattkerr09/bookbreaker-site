@@ -1252,6 +1252,19 @@ def check_no_dead_css(pages, fails: list[str]) -> None:
             f"never written: {dead[:12]}")
 
 
+def check_video_caption_names_the_recorded_version(pages, fails):
+    """The caption under the hero video names the version the video was
+    recorded from. On 0.1.9 it printed the release version under a 0.1.8
+    recording: a small false claim on the most-seen line of the site."""
+    manifest = SITE / "media" / "app-video.json"
+    recorded = json.loads(manifest.read_text()).get("recorded_version") if manifest.exists() else None
+    for path, markup in pages:
+        for cap in re.findall(r'<p class="stage-cap">(.*?)</p>', markup, re.S):
+            if not recorded or f"version {recorded}" not in cap:
+                fails.append(f"{path}: the video caption ({cap.strip()[:60]!r}) does not name "
+                             f"the version the video was recorded from ({recorded})")
+
+
 def check_hero_video_matches_the_app(fails: list[str], app_repo: Path) -> None:
     """The hero video shows the window that ships today, not one that used to.
 
@@ -1561,6 +1574,8 @@ def main() -> int:
         "check_updater_manifest_matches_the_release":
             lambda: check_updater_manifest_matches_the_release(fails, measured),
         "check_inline_scripts_parse": lambda: check_inline_scripts_parse(pages, fails),
+        "check_video_caption_names_the_recorded_version":
+            lambda: check_video_caption_names_the_recorded_version(pages, fails),
         "check_pages_run_without_console_errors":
             lambda: check_pages_run_without_console_errors(pages, fails),
         "check_privacy_names_every_tracker":

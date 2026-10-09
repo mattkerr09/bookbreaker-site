@@ -108,6 +108,13 @@ CASES = [
         "see the FAQ",
     ),
     (
+        "the video caption claims a version the video was not recorded from",
+        "check_video_caption_names_the_recorded_version",
+        "index.html",
+        '<p class="stage-cap">The app recorded on a Mac, version 0.1.8.</p>',
+        '<p class="stage-cap">The app recorded on a Mac, version 0.1.9.</p>',
+    ),
+    (
         "a calculator page that throws when it loads",
         "check_pages_run_without_console_errors",
         "calculators/kelly/index.html",
@@ -220,8 +227,8 @@ CASES = [
         "the site announcing a version it cannot hand over",
         "check_announced_version_is_downloadable",
         "index.html",
-        f"Version {ANNOUNCED}.",
-        "Bookbreaker 9.9.9 is out.",
+        '<p class="stage-cap">',
+        '<p class="stage-cap">Bookbreaker 9.9.9 is out. ',
     ),
     (
         "the browser tab on last season's brand",

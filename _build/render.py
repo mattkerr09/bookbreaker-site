@@ -1758,6 +1758,12 @@ RELEASE_APP = None
 #: the build people can download, so they change with the file, not the code.
 UPDATER_SHIPPED = (Path(__file__).resolve().parents[1] / "updater.json").exists()
 
+#: The version the hero video was recorded from, as media/app-video.json records
+#: it. The caption used to print the release version, so on 0.1.9 it called a
+#: 0.1.8 recording 0.1.9. check_video_caption_names_the_recorded_version holds it.
+VIDEO_VERSION = json.loads((Path(__file__).resolve().parents[1] / "media" / "app-video.json")
+                           .read_text()).get("recorded_version", "")
+
 TABLE = re.compile(r"(?s)<table>.*?</table>")
 
 
@@ -2505,7 +2511,7 @@ def render_index(m: dict) -> str:
   <p class="lede">When two books disagree on a game, backing both sides at the right
   stakes locks in a profit, as long as both bets are accepted at the prices shown and
   both stand. Real gaps are rare and usually small. Switch on live Kalshi and
-  Polymarket prices, or type in the prices you see at your books, and Bookbreaker
+  Polymarket US prices, or type in the prices you see at your books, and Bookbreaker
   works out what to bet at each, rounds the stakes so they look human, and shows
   the profit before you bet.</p>
   <div class="cta">
@@ -2532,7 +2538,7 @@ def render_index(m: dict) -> str:
       <source src="/media/app.webm" type="video/webm">
     </video>
   </div>
-  <p class="stage-cap">The app as it ships, recorded on a Mac. Version {e(m["release"]["version"])}.</p>
+  <p class="stage-cap">The app recorded on a Mac, version {e(VIDEO_VERSION)}.</p>
 </div>
 
 <section class="books">
@@ -2621,7 +2627,7 @@ def render_index(m: dict) -> str:
   </div>
   <ol class="steps3">
     <li class="reveal"><b>Download the app</b><span>Free, {app["mb"]} MB, for Macs with Apple silicon.</span></li>
-    <li class="reveal"><b>Find a pair</b><span>Switch on Live prices to see Kalshi and Polymarket pairs, or type the prices you see at two books. The app works out both stakes and the profit.</span></li>
+    <li class="reveal"><b>Find a pair</b><span>Switch on Live prices to see Kalshi and Polymarket US pairs open in your state, or type the prices you see at two books. The app works out both stakes and the profit.</span></li>
     <li class="reveal"><b>Place both bets, fast</b><span>Bet the stakes shown at each book. If both are accepted at those prices, one side wins, one loses, and you keep the difference.</span></li>
   </ol>
 </section>
@@ -2664,8 +2670,8 @@ def render_index(m: dict) -> str:
     at books whose prices disagree, so the winning bet pays more than the losing one
     costs. <a href="/guides/what-is-arbitrage-betting/">The full guide</a>.</p></details>
     <details><summary>Where do the prices come from?</summary><p>Switch on Live prices
-    and the app reads Kalshi's and Polymarket's public prices for NFL, MLB, NBA and NHL
-    games. For a sportsbook, type in the price you see and the app works out the
+    and the app reads Kalshi's and Polymarket US's public prices for NFL, MLB, NBA and NHL
+    games, and shows a pair only in states where both are open. For a sportsbook, type in the price you see and the app works out the
     rest.</p></details>
     <details><summary>Will betting like this get me limited?</summary><p>Some books limit
     accounts that win. Bookbreaker rounds your stakes and shows
@@ -2716,7 +2722,7 @@ def render_how(m: dict) -> str:
              "<p>The Arbitrage page shows both books side by side: the price at each, what "
              "to bet at each, and what you make if each side wins. The profit is locked only "
              "if both bets are accepted and stand. Switch on Live prices and it fills with "
-             "real Kalshi and Polymarket pairs, sized to what is on offer; with it off, "
+             "real Kalshi and Polymarket US pairs, sized to what is on offer; with it off, "
              "it shows one demonstration market.</p>",
              shot=("app-poster.jpg", "The app's Arbitrage page with both bets side by side")),
         feat("Arb calculator", "Know exactly what to bet at each book",
@@ -2770,7 +2776,7 @@ actually ask, with the math already done.</p>
 </div>
 
 <h2>Where the prices come from</h2>
-<p>Switch on Live prices and the app reads Kalshi's and Polymarket's public prices.
+<p>Switch on Live prices and the app reads Kalshi's and Polymarket US's public prices.
 For a sportsbook, you type the price you see and the app does the rest. It knows {cat['venues']} sportsbooks,
 exchanges and prediction markets, and which of them take bets in each state:
 {cat['nj']} in New Jersey, {cat['fl']} in Florida. <a href="/sportsbooks/">Check your
@@ -5823,7 +5829,7 @@ its content security policy permits no external address. A test in the source
 fails the build if either ever changes.</p>
 <p>__REACH_COUNT__ things can reach the internet, and only when you ask. The Live prices
 switch on the Arbitrage page, when you turn it on, requests public prices from Kalshi
-and Polymarket. It is the same request a browser makes, carrying nothing about you.__UPDATE_SENTENCE__
+and Polymarket US. It is the same request a browser makes, carrying nothing about you.__UPDATE_SENTENCE__
 And if the app
 crashes it writes a report to your own disk, with passwords and keys stripped
 out; it never sends it. You can attach it to an email yourself if you want to.</p>
@@ -5948,7 +5954,7 @@ def render_llms(built_urls: set[str]) -> str:
         "for a sportsbook login, and is not affiliated with any sportsbook. The Mac app "
         + ("makes two network calls, both started by you: Check for updates, which asks "
            "bookbreaker.bet for the latest version, and the Live prices switch, which reads "
-           "Kalshi's and Polymarket's public prices" if UPDATER_SHIPPED else "makes no network calls")
+           "Kalshi's and Polymarket US's public prices" if UPDATER_SHIPPED else "makes no network calls")
         + ". Otherwise you type prices, paste a betslip or import your book's "
         "CSV. An arbitrage profit is locked only if both bets are accepted "
         "and stand. Built by Matthew Kerr in Grand Rapids, Michigan.",

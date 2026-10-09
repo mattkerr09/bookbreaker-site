@@ -1,11 +1,11 @@
 {
-  "version": "0.1.8",
-  "notes": "Live prices on the Arbitrage page.\n\n- Turn on Live prices and Bookbreaker reads Kalshi's and Polymarket's public prices for NFL, MLB, NBA and NHL games, then lists any pair that pays whichever side wins.\n- Every pair is priced from the order book, after both venues' fees, and sized to the amount actually on offer. The profit is locked only if both bets are accepted and stand.\n- Most of the time no pair pays. When that happens the page says so, rather than showing near misses.\n- The switch starts off. While it is off, nothing is read.",
-  "pub_date": "2026-10-09T13:48:17Z",
+  "version": "0.1.9",
+  "notes": "Arb stakes stay inside your budget, and live prices come from Polymarket US.\n\n- The arb calculator never bets more than the total you set. Pick how to round each bet: to the cent, $1, $5, $10, $25, or a round number that suits the size.\n- Live prices pair Kalshi with Polymarket US, the exchange US customers can use, priced from its order book after its fees.\n- Pick your state and pairs that need a venue not open there are hidden, with the source and its date. States where prediction markets are being challenged in court get a one-line note.\n- A typo in a price gets a plain sentence back instead of an error.",
+  "pub_date": "2026-10-09T15:17:51Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHpNWU9hb2lmWndKQ0dMaWM0YnlneEN2QVZaWlF6RVBiTUMwSGhmM0k1TkNrc3c0NE5Cd1VxZksrYVVHZ1FJdTNrRmxFb0pkS2VWeVJDZ0dwcmQ3OHdnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNTUzNjcyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjguYXBwLnRhci5negoyUjdIMG9tREVETDkzdXV6VXNua3J2OWlQMnpxNnRnWmtWYzZnVGlXdXozdFVsY05iM2YxZVM2RFVVcXFuY3VLbkd5YVQ4QzdqYUpoR0o2RnBnQVZEdz09Cg==",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.8.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDYwSmxZOXY2b0RzU0ZxT2R2UlhkWTdLRGZFemtuME14MnJSZDM1Y3FTR3FQWFBHS0RlaXQxQW0xUnRXa1lTbzJvVEIxL2NiMERab2lIVU9ZVzVoNVFvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNTU5MDQ0CWZpbGU6Qm9va2JyZWFrZXItMC4xLjkuYXBwLnRhci5negorb21Ta1dkaVd0cWJiZDRaUW4zVlc3RUUyRW9iL09WWXhEeFRnUExaVmcxYlF3a24wam5nRGF1NllRUEJPYTErckNQVTJEMmMvQUcwNlE2aG1HQUxBQT09Cg==",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.9.app.tar.gz"
     }
   }
 }
