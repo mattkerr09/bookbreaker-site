@@ -697,6 +697,172 @@ def check_inline_scripts_parse(pages, fails):
                 fails.append(f"{path}: an inline script does not parse ({why})")
 
 
+CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+
+def _console_errors(paths: list[str]) -> dict[str, list[str]]:
+    """Load each built page in headless Chrome from a local server; return the
+    uncaught exceptions and console errors each one raised.
+
+    Served over http from 127.0.0.1, not file://, so absolute paths (/calc.js)
+    resolve as they do on the domain. Plausible ignores 127.0.0.1, so a gate run
+    never counts as a visit.
+    """
+    import asyncio
+    import functools
+    import http.server
+    import json as _json
+    import shutil
+    import socket
+    import tempfile
+    import threading
+    import time
+    import urllib.request
+
+    import websockets
+
+    def free_port() -> int:
+        sock = socket.socket()
+        sock.bind(("127.0.0.1", 0))
+        port = sock.getsockname()[1]
+        sock.close()
+        return port
+
+    class Quiet(http.server.SimpleHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+    site_port = free_port()
+    server = http.server.ThreadingHTTPServer(
+        ("127.0.0.1", site_port), functools.partial(Quiet, directory=str(SITE)))
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    cdp_port = free_port()
+    profile = tempfile.mkdtemp(prefix="bb-console-")
+    chrome = subprocess.Popen(
+        [CHROME, "--headless=new", f"--remote-debugging-port={cdp_port}",
+         f"--user-data-dir={profile}", "--no-first-run", "--no-default-browser-check",
+         "about:blank"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    found: dict[str, list[str]] = {}
+
+    async def drive():
+        tabs = []
+        for _ in range(150):
+            try:
+                tabs = _json.load(urllib.request.urlopen(f"http://127.0.0.1:{cdp_port}/json", timeout=1))
+                if any(t.get("type") == "page" for t in tabs):
+                    break
+            except Exception:
+                pass
+            time.sleep(0.1)
+        ws_url = next(t for t in tabs if t.get("type") == "page")["webSocketDebuggerUrl"]
+        async with websockets.connect(ws_url, max_size=2 ** 26) as ws:
+            pending: dict = {}
+            loaded = asyncio.Event()
+            current = {"page": None}
+            counter = [0]
+
+            async def reader():
+                while True:
+                    msg = _json.loads(await ws.recv())
+                    if "id" in msg and msg["id"] in pending:
+                        pending.pop(msg["id"]).set_result(msg)
+                    elif msg.get("method") == "Page.loadEventFired":
+                        loaded.set()
+                    elif msg.get("method") == "Runtime.exceptionThrown" and current["page"]:
+                        d = msg["params"]["exceptionDetails"]
+                        text = (d.get("exception", {}).get("description") or d.get("text", ""))
+                        found.setdefault(current["page"], []).append(text.splitlines()[0][:200])
+                    elif msg.get("method") == "Runtime.consoleAPICalled" and current["page"]:
+                        prm = msg["params"]
+                        if prm.get("type") in ("error", "assert"):
+                            text = " ".join(str(x.get("value", x.get("description", "")))
+                                            for x in prm.get("args", []))
+                            found.setdefault(current["page"], []).append("console.error: " + text[:200])
+
+            task = asyncio.create_task(reader())
+
+            async def call(method, **params):
+                counter[0] += 1
+                fut = asyncio.get_event_loop().create_future()
+                pending[counter[0]] = fut
+                await ws.send(_json.dumps({"id": counter[0], "method": method, "params": params}))
+                return await asyncio.wait_for(fut, 30)
+
+            await call("Runtime.enable")
+            await call("Page.enable")
+            for path in paths:
+                url_path = "/" + path[: -len("index.html")] if path.endswith("index.html") else "/" + path
+                current["page"] = path
+                loaded.clear()
+                await call("Page.navigate", url=f"http://127.0.0.1:{site_port}{url_path}")
+                try:
+                    await asyncio.wait_for(loaded.wait(), 15)
+                except asyncio.TimeoutError:
+                    found.setdefault(path, []).append("the page never finished loading")
+                await asyncio.sleep(0.4)       # let deferred scripts run
+            current["page"] = None
+            task.cancel()
+
+    try:
+        asyncio.run(drive())
+    finally:
+        chrome.terminate()
+        try:
+            chrome.wait(5)
+        except Exception:
+            chrome.kill()
+        server.shutdown()
+        shutil.rmtree(profile, ignore_errors=True)
+    return found
+
+
+def check_pages_run_without_console_errors(pages, fails):
+    """Every page loads in a real browser with no uncaught exception and no
+    console error.
+
+    The parse check reads inline scripts; this runs them, with calc.js, the
+    affiliate snippet and everything else a page loads, the way a visitor's
+    browser does. Asked for by the CEO's QC on 2026-10-09 after a footer that did
+    not parse had silently disabled the Download event on every page.
+    """
+    import os
+    import tempfile
+    if not os.path.exists(CHROME):
+        fails.append("Google Chrome is not installed, so pages cannot be run in a browser")
+        return
+
+    # A page that ran clean is not run again until it, or a local script it
+    # loads, changes. The break harness runs the whole gate once per case, and
+    # 122 pages in Chrome every time made the harness take forty minutes; now a
+    # case re-runs only the page it broke. Failures are never cached.
+    cache_file = Path(tempfile.gettempdir()) / "bookbreaker-console-clean.json"
+    try:
+        clean = set(json.loads(cache_file.read_text()))
+    except (OSError, ValueError):
+        clean = set()
+
+    def key(markup: str) -> str:
+        h = hashlib.sha256(markup.encode())
+        for src in sorted(set(re.findall(r'<script[^>]*\bsrc="(/[^"?]+)', markup))):
+            local = SITE / src.lstrip("/")
+            h.update(local.read_bytes() if local.exists() else b"missing")
+        return h.hexdigest()
+
+    keys = {path: key(markup) for path, markup in pages}
+    todo = [path for path, _ in pages if keys[path] not in clean]
+    found = _console_errors(todo) if todo else {}
+    for path in todo:
+        if not found.get(path):
+            clean.add(keys[path])
+    try:
+        cache_file.write_text(json.dumps(sorted(clean)[-5000:]))
+    except OSError:
+        pass
+    for path, errors in sorted(found.items()):
+        for error in errors[:3]:
+            fails.append(f"{path}: {error}")
+
+
 def check_privacy_names_every_tracker(pages, fails):
     """The privacy page names every third-party script the pages load, and no
     page denies the analytics they run.
@@ -1395,6 +1561,8 @@ def main() -> int:
         "check_updater_manifest_matches_the_release":
             lambda: check_updater_manifest_matches_the_release(fails, measured),
         "check_inline_scripts_parse": lambda: check_inline_scripts_parse(pages, fails),
+        "check_pages_run_without_console_errors":
+            lambda: check_pages_run_without_console_errors(pages, fails),
         "check_privacy_names_every_tracker":
             lambda: check_privacy_names_every_tracker(pages, fails),
         "check_media_exists": lambda: check_media_exists(pages, fails),

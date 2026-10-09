@@ -108,6 +108,13 @@ CASES = [
         "see the FAQ",
     ),
     (
+        "a calculator page that throws when it loads",
+        "check_pages_run_without_console_errors",
+        "calculators/kelly/index.html",
+        "</body>",
+        '<script>throw new Error("kelly page broke on load")</script></body>',
+    ),
+    (
         "a footer script that does not parse",
         "check_inline_scripts_parse",
         "index.html",
