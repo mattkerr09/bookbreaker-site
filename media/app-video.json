@@ -30,7 +30,7 @@
     "Parlay",
     "Will it fill?"
   ],
-  "recorded_version": "0.1.7",
+  "recorded_version": "0.1.8",
   "encoded_with": [
     "ffmpeg -framerate 12 -i f%05d.png -vf scale=1280:800:flags=lanczos,format=yuv420p -c:v libx264 -preset slow -crf 22 -movflags +faststart -an app.mp4",
     "ffmpeg -framerate 12 -i f%05d.png -vf scale=1280:800:flags=lanczos -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 -an app.webm",

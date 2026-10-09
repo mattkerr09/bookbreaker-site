@@ -2437,9 +2437,10 @@ def render_index(m: dict) -> str:
   <h1>Profit either way,<br><span class="grad">when both bets stand.</span></h1>
   <p class="lede">When two books disagree on a game, backing both sides at the right
   stakes locks in a profit, as long as both bets are accepted at the prices shown and
-  both stand. Real gaps are rare and usually small. Type in the prices you see and
-  Bookbreaker works out what to bet at each book, rounds the stakes so they look
-  human, and shows the profit before you bet.</p>
+  both stand. Real gaps are rare and usually small. Switch on live Kalshi and
+  Polymarket prices, or type in the prices you see at your books, and Bookbreaker
+  works out what to bet at each, rounds the stakes so they look human, and shows
+  the profit before you bet.</p>
   <div class="cta">
     <a class="btn primary" href="{dl_hero}" data-download>Download free for Mac</a>
     <a class="btn ghost" href="#how">See how it works</a>
@@ -2553,7 +2554,7 @@ def render_index(m: dict) -> str:
   </div>
   <ol class="steps3">
     <li class="reveal"><b>Download the app</b><span>Free, {app["mb"]} MB, for Macs with Apple silicon.</span></li>
-    <li class="reveal"><b>Type in two prices</b><span>The prices you see for both sides at two books. The app works out both stakes and the profit.</span></li>
+    <li class="reveal"><b>Find a pair</b><span>Switch on Live prices to see Kalshi and Polymarket pairs, or type the prices you see at two books. The app works out both stakes and the profit.</span></li>
     <li class="reveal"><b>Place both bets, fast</b><span>Bet the stakes shown at each book. If both are accepted at those prices, one side wins, one loses, and you keep the difference.</span></li>
   </ol>
 </section>
@@ -2583,8 +2584,9 @@ def render_index(m: dict) -> str:
     <details><summary>Is the profit guaranteed?</summary><p>No. It is locked only if
     both bets are accepted at the prices shown and both stand. A price can move before
     your second bet lands, a book can cap your stake or void a bet, and an exchange may
-    have only a little on offer at the price you see. The board shows the best price,
-    not how much is available at it, so check the size before you bet. When we priced
+    have only a little on offer at the price you see. Live pairs are sized to the
+    amount on offer when the prices were read, but that can change in seconds, so check
+    before you bet. When we priced
     the Kalshi and Polymarket gaps our own scanner found against what was really on
     offer, nearly all of them disappeared, and the one left was worth about a cent.
     Real gaps are rare and small. That is why the app tells you how likely each price
@@ -2594,9 +2596,10 @@ def render_index(m: dict) -> str:
     <details><summary>What is arbitrage betting?</summary><p>Betting every side of a game
     at books whose prices disagree, so the winning bet pays more than the losing one
     costs. <a href="/guides/what-is-arbitrage-betting/">The full guide</a>.</p></details>
-    <details><summary>Where do the prices come from?</summary><p>You type in the prices
-    you see at your books, and the app works out the rest. The command-line version of
-    the engine can also read live Kalshi and Polymarket prices.</p></details>
+    <details><summary>Where do the prices come from?</summary><p>Switch on Live prices
+    and the app reads Kalshi's and Polymarket's public prices for NFL, MLB, NBA and NHL
+    games. For a sportsbook, type in the price you see and the app works out the
+    rest.</p></details>
     <details><summary>Will betting like this get me limited?</summary><p>Some books limit
     accounts that win. Bookbreaker rounds your stakes and shows
     <a href="/sportsbooks/">which books in your state limit winners</a>.</p></details>
@@ -2645,8 +2648,9 @@ def render_how(m: dict) -> str:
         feat("Arbitrage", "See a pair the way you will bet it",
              "<p>The Arbitrage page shows both books side by side: the price at each, what "
              "to bet at each, and what you make if each side wins. The profit is locked only "
-             "if both bets are accepted and stand. Until live prices come to the app, it "
-             "shows one demonstration market so you can see how it works.</p>",
+             "if both bets are accepted and stand. Switch on Live prices and it fills with "
+             "real Kalshi and Polymarket pairs, sized to what is on offer; with it off, "
+             "it shows one demonstration market.</p>",
              shot=("app-poster.jpg", "The app's Arbitrage page with both bets side by side")),
         feat("Arb calculator", "Know exactly what to bet at each book",
              f"<p>Enter two prices and how much you want to put in. You get the stake for each "
@@ -2699,8 +2703,8 @@ actually ask, with the math already done.</p>
 </div>
 
 <h2>Where the prices come from</h2>
-<p>You type in the prices you see at your books and the app does the rest. The
-command-line version of the engine can also read live Kalshi and Polymarket prices. It knows {cat['venues']} sportsbooks,
+<p>Switch on Live prices and the app reads Kalshi's and Polymarket's public prices.
+For a sportsbook, you type the price you see and the app does the rest. It knows {cat['venues']} sportsbooks,
 exchanges and prediction markets, and which of them take bets in each state:
 {cat['nj']} in New Jersey, {cat['fl']} in Florida. <a href="/sportsbooks/">Check your
 state</a>.</p>
@@ -5512,9 +5516,9 @@ stay in a file on your machine. There is no account, no sync and no upload, and
 the window itself cannot make a network request: it links no HTTP client and
 its content security policy permits no external address. A test in the source
 fails the build if either ever changes.</p>
-<p>__REACH_COUNT__ things can reach the internet, and only when you ask. The command-line
-tool's live board, when you turn it on, requests public prices from Kalshi and
-Polymarket. It is the same request a browser makes, carrying nothing about you.__UPDATE_SENTENCE__
+<p>__REACH_COUNT__ things can reach the internet, and only when you ask. The Live prices
+switch on the Arbitrage page, when you turn it on, requests public prices from Kalshi
+and Polymarket. It is the same request a browser makes, carrying nothing about you.__UPDATE_SENTENCE__
 And if the app
 crashes it writes a report to your own disk, with passwords and keys stripped
 out; it never sends it. You can attach it to an email yourself if you want to.</p>
@@ -5637,11 +5641,11 @@ def render_llms(built_urls: set[str]) -> str:
         "betting is legal. It tells you what the numbers say; you place your own bets. It "
         "does not take bets, hold money or connect to any sportsbook account, never asks "
         "for a sportsbook login, and is not affiliated with any sportsbook. The Mac app "
-        + ("makes no network calls except when you press Check for updates, which asks "
-           "bookbreaker.bet for the latest version" if UPDATER_SHIPPED else "makes no network calls")
-        + ": you type prices, paste a betslip or import your book's "
-        "CSV. Live prices (public Kalshi and Polymarket markets) come only through the "
-        "command-line tool. An arbitrage profit is locked only if both bets are accepted "
+        + ("makes two network calls, both started by you: Check for updates, which asks "
+           "bookbreaker.bet for the latest version, and the Live prices switch, which reads "
+           "Kalshi's and Polymarket's public prices" if UPDATER_SHIPPED else "makes no network calls")
+        + ". Otherwise you type prices, paste a betslip or import your book's "
+        "CSV. An arbitrage profit is locked only if both bets are accepted "
         "and stand. Built by Matthew Kerr in Grand Rapids, Michigan.",
         "",
         "## The app",
