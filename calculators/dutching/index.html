@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
 <title>Dutching calculator: free, worked on real prices</title>
-<meta name="description" content="How do I split a stake across several outcomes? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="description" content="How do I split a stake across several outcomes? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/dutching/">
 <!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE — no og:title, no
      og:description, no twitter:card — so every shared link unfurled as a bare
@@ -30,7 +30,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bookbreaker">
 <meta property="og:title" content="Dutching calculator: free, worked on real prices">
-<meta property="og:description" content="How do I split a stake across several outcomes? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta property="og:description" content="How do I split a stake across several outcomes? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <meta property="og:url" content="https://bookbreaker.bet/calculators/dutching/">
 <meta property="og:image" content="https://bookbreaker.bet/og.png">
 <meta property="og:image:width" content="1200">
@@ -39,13 +39,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bookbreaker.bet/og.png">
 <meta name="twitter:title" content="Dutching calculator: free, worked on real prices">
-<meta name="twitter:description" content="How do I split a stake across several outcomes? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="twitter:description" content="How do I split a stake across several outcomes? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#5b5bff">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=1bea0a78ac">
+<link rel="stylesheet" href="/style.css?v=fb47f0b5e1">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "Dutching", "item": "https://bookbreaker.bet/calculators/dutching/"}]}</script>
 </head>
@@ -60,12 +60,21 @@
 <p class="lede">How do I split a stake across several outcomes?</p>
 </div>
 
+<section class="own calc">
+  <h2>Dutch your own outcomes</h2>
+  <p class="own-lede">Type the total you want to stake and the price of every outcome you are covering. The stakes below make each one pay the same.</p>
+  <form data-calc="dutching" novalidate>
+    <div class="own-in"><label>Total to stake <input name="total" inputmode="decimal" value="300" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label class="calc-wide">Price of each outcome <input name="prices" inputmode="text" value="+120, +240, +250" autocomplete="off" autocapitalize="off" spellcheck="false"></label></div>
+    
+    <div class="calc-go"><button class="btn primary" type="submit" disabled>Calculate</button></div>
+  </form>
+  <div class="own-out" aria-live="polite"></div>
+</section>
+<script src="/calc.js?v=3531e5dc28" defer></script>
 <p>300 spread across 3 outcomes so that every result pays the same:</p><div class="scroll"><table><tr><th>Price</th><th>Stake</th><th>Returns</th></tr><tr><td>+120</td><td>131.83</td><td>290.03</td></tr><tr><td>+240</td><td>85.30</td><td>290.03</td></tr><tr><td>+250</td><td>82.87</td><td>290.03</td></tr></table></div><p>Every branch returns 290.03 on 300 staked: -9.97, or -3.32%. That is negative here, and it is supposed to be: the prices imply 103.44% of probability between them, and everything above a hundred is the book's margin. Dutching is the same solver as an arbitrage without the locked floor.</p><p>So it earns nothing on its own. It is a way of expressing a view you already hold (that the winner is somewhere inside this set) at a known cost. It is not a way of manufacturing an edge. A dutch across outcomes you have no opinion about is a slow donation at a rate you can compute in advance.</p>
 
 <h2>Where the number comes from</h2>
-<p>Everything above was computed by the same engine that prices bets, at the
-moment this page was built. None of it was typed in. The build fails if a
-figure appears here and not in the engine's own output.</p>
+<p>The worked example was computed by the same engine that prices bets, at the moment this page was built. None of it was typed in. The build fails if a figure appears here and not in the engine's own output. The calculator runs that engine, release 0.1.8, in your browser, and the build checks that it returns this example&rsquo;s answers for this example&rsquo;s inputs.</p>
 <p><a href="/how-it-works/">How a price is formed &rarr;</a>
 &nbsp;&middot;&nbsp;
 <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>

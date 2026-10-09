@@ -46,6 +46,13 @@ APP_MB = _measured["release"]["app"]["mb"]
 _video = json.loads((SITE / "media" / "app-video.json").read_text())
 VIDEO_TAB = _video["tabs"][0]
 
+# The calculators' wheel, an older one to pin it to, and the recorded download
+# size, all read off the build for the same reason.
+WHEEL = _measured["release"]["wheel"]["name"]
+OLDER_WHEEL = sorted(p.name for p in (SITE / "releases").glob("overlay-*-py3-none-any.whl")
+                     if p.name != WHEEL)[0]
+_load = json.loads((SITE / "_data" / "engine_load.json").read_text())
+
 
 
 # (label, check that MUST catch it, file, find, replace)
@@ -263,6 +270,93 @@ CASES = [
         "style.css",
         ":root{",
         ":root{--accent:#f5a524;",
+    ),
+    # The calculators. One check, seven things it has to notice, because each is
+    # a way the browser could quietly stop running the engine the site names.
+    (
+        "arithmetic written into the calculator script",
+        "check_calculators_run_the_engine",
+        "calc.js",
+        "'use strict';",
+        "'use strict'; var drift = Math.round(1.5);",
+    ),
+    (
+        "a class the calculator script draws that has no rule behind it",
+        "check_calculators_run_the_engine",
+        "calc.js",
+        "'own-big'",
+        "'own-bigg'",
+    ),
+    (
+        "the engine loaded before anyone presses Calculate",
+        "check_calculators_run_the_engine",
+        "calc.js",
+        "  var loading = null;\n",
+        "  var loading = null;\n  window.setTimeout(function () { engine(); }, 0);\n",
+    ),
+    (
+        "the calculators installing an older wheel than the one announced",
+        "check_calculators_run_the_engine",
+        "calc.js",
+        f"/releases/{WHEEL}",
+        f"/releases/{OLDER_WHEEL}",
+    ),
+    (
+        "the pinned Pyodide drifting from the version whose size was measured",
+        "check_calculators_run_the_engine",
+        "_data/engine_load.json",
+        f'"pyodide": "{_load["pyodide"]}"',
+        '"pyodide": "0.0.1"',
+    ),
+    (
+        "the recorded download size no longer adding up",
+        "check_calculators_run_the_engine",
+        "_data/engine_load.json",
+        f'"bytes": {_load["bytes"]}\n',
+        '"bytes": 1\n',
+    ),
+    (
+        "a calculator page that never loads the script",
+        "check_calculators_run_the_engine",
+        "calculators/dutching/index.html",
+        '<script src="/calc.js?v=',
+        '<script data-was="/calc.js?v=',
+    ),
+    (
+        "a form input renamed so it no longer reaches the engine",
+        "check_calculators_run_the_engine",
+        "calculators/dutching/index.html",
+        'name="total"',
+        'name="totl"',
+    ),
+    (
+        "a worked example that stops agreeing with the calculator on its own inputs",
+        "check_calculators_run_the_engine",
+        "calculators/dutching/index.html",
+        "<td>131.83</td>",
+        "<td>131.84</td>",
+    ),
+    (
+        "the calculator's formula drifting from the worked example",
+        "check_calculators_run_the_engine",
+        "calc.py",
+        'f"{leg.payout:,.2f}"]',
+        'f"{leg.payout * 1.01:,.2f}"]',
+    ),
+    (
+        "a locked profit described as guaranteed",
+        "check_calculators_run_the_engine",
+        "calc.py",
+        '"Locked is what you keep whichever side wins, if the second "',
+        '"Guaranteed is what you keep whichever side wins, if the second "',
+    ),
+    (
+        "the privacy page not naming the CDN the calculators call",
+        "check_calculators_run_the_engine",
+        "privacy/index.html",
+        "jsDelivr",
+        "the CDN",
+        -1,
     ),
 ]
 

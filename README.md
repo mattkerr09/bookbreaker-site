@@ -13,7 +13,11 @@ python3 _build/render.py --app-repo "../arb betting aqpp"
 | `_build/check.py` | the publish gate — figures traceable, competitor claims dated and sourced, links real, pages distinct |
 | `_build/break_check.py` | breaks the site seven ways and confirms `check.py` catches each |
 | `_build/gates.sh` | both, in one command |
+| `_build/calc.py`, `_build/calc.js` | the calculators: `calc.py` calls the engine and formats each answer, `calc.js` loads it in the browser and does no arithmetic. `render.py` writes both to the site root |
+| `_build/measure_engine_load.py` | measures what the first press of Calculate downloads from jsDelivr and records it in `_data/engine_load.json`, with the pinned Pyodide version and its hash |
 | `DEPLOY.md` | live state, and what still needs a decision |
 
-No framework, no build step beyond Python, no runtime dependencies. Static
-HTML and one stylesheet.
+No framework, no build step beyond Python. Static HTML, one stylesheet and one
+script. The script loads nothing until someone presses Calculate on a calculator;
+then it fetches a pinned Pyodide from jsDelivr, installs the same engine wheel
+the download page offers, and runs `calc.py` in the visitor's browser.

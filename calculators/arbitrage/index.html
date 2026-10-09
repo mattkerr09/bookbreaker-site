@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
 <title>Arbitrage calculator: free, worked on real prices</title>
-<meta name="description" content="How much do I stake on each side? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="description" content="How much do I stake on each side? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/arbitrage/">
 <!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE — no og:title, no
      og:description, no twitter:card — so every shared link unfurled as a bare
@@ -30,7 +30,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bookbreaker">
 <meta property="og:title" content="Arbitrage calculator: free, worked on real prices">
-<meta property="og:description" content="How much do I stake on each side? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta property="og:description" content="How much do I stake on each side? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <meta property="og:url" content="https://bookbreaker.bet/calculators/arbitrage/">
 <meta property="og:image" content="https://bookbreaker.bet/og.png">
 <meta property="og:image:width" content="1200">
@@ -39,13 +39,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bookbreaker.bet/og.png">
 <meta name="twitter:title" content="Arbitrage calculator: free, worked on real prices">
-<meta name="twitter:description" content="How much do I stake on each side? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="twitter:description" content="How much do I stake on each side? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#5b5bff">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=1bea0a78ac">
+<link rel="stylesheet" href="/style.css?v=fb47f0b5e1">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "Arbitrage", "item": "https://bookbreaker.bet/calculators/arbitrage/"}]}</script>
 </head>
@@ -60,12 +60,21 @@
 <p class="lede">How much do I stake on each side?</p>
 </div>
 
+<section class="own calc">
+  <h2>Stake your own arbitrage</h2>
+  <p class="own-lede">Enter the best price on each side and the total you want to put up. You get exact stakes, round ones, and what rounding costs.</p>
+  <form data-calc="arbitrage" novalidate>
+    <div class="own-in"><label class="calc-wide">Best price on each side <input name="prices" inputmode="text" value="+110, +105" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label>Total to stake <input name="total" inputmode="decimal" value="1000" autocomplete="off" autocapitalize="off" spellcheck="false"></label></div>
+    
+    <div class="calc-go"><button class="btn primary" type="submit" disabled>Calculate</button></div>
+  </form>
+  <div class="own-out" aria-live="polite"></div>
+</section>
+<script src="/calc.js?v=3531e5dc28" defer></script>
 <p>+110 at one book and +105 at another is a 3.73% arbitrage on 1,000 staked:</p><div class="scroll"><table><tr><td>Exact stakes</td><td>493.98 / 506.02</td></tr><tr><td>Locked if both stand, exact</td><td>37.35</td></tr><tr><td>Round stakes</td><td>490 / 500</td></tr><tr><td>Locked if both stand, rounded</td><td>35.00</td></tr><tr><td>Cost of rounding</td><td>2.35</td></tr></table></div><p>A stake to the cent is the loudest fingerprint a risk desk reads. This solves for round stakes directly, because rounding a lock afterwards breaks it.</p>
 <div class="shots"><figure><img src="/media/panel-arbitrage.jpg" width="1280" height="720" loading="lazy" alt="The app's arb calculator with two prices entered and the stake split across them."><figcaption><b>In the app</b><span>The arb calculator, on 2.10 against 2.05. It returns 3.54% whichever side wins if both bets are accepted and stand, and both stakes come out as amounts a book will take.</span></figcaption></figure></div>
 <h2>Where the number comes from</h2>
-<p>Everything above was computed by the same engine that prices bets, at the
-moment this page was built. None of it was typed in. The build fails if a
-figure appears here and not in the engine's own output.</p>
+<p>The worked example was computed by the same engine that prices bets, at the moment this page was built. None of it was typed in. The build fails if a figure appears here and not in the engine's own output. The calculator runs that engine, release 0.1.8, in your browser, and the build checks that it returns this example&rsquo;s answers for this example&rsquo;s inputs.</p>
 <p><a href="/how-it-works/">How a price is formed &rarr;</a>
 &nbsp;&middot;&nbsp;
 <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>

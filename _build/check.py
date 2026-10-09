@@ -31,6 +31,7 @@ import hashlib
 import html
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -947,6 +948,7 @@ def check_no_internal_docs_are_served(fails: list[str]) -> None:
 #: rendered HTML and are not dead. Listed by name rather than detected,
 #: because "does any script mention this string" matches far too much.
 RUNTIME_CLASSES = {
+    # Drawn by the devig widget's inline script and by calc.js.
     "own-big", "own-cap", "own-spread", "own-hint", "own-no",
     "reveal",
     # `js` goes on <html> the moment the script runs and `in` is toggled by
@@ -973,6 +975,10 @@ def check_runtime_classes_are_real(pages, fails: list[str]) -> None:
     scripts = "\n".join(
         m for _, markup in pages
         for m in re.findall(r"<script[^>]*>(.*?)</script>", markup, re.S))
+    # The calculators' script is a file, not an inline block, and draws the
+    # same classes.
+    if (SITE / "calc.js").exists():
+        scripts += "\n" + (SITE / "calc.js").read_text()
     stale = sorted(
         name for name in RUNTIME_CLASSES
         if not re.search(r"(?<![\w-])" + re.escape(name) + r"(?![\w-])", scripts))
@@ -1065,6 +1071,210 @@ def check_hero_video_matches_the_app(fails: list[str], app_repo: Path) -> None:
                 f"media/app-video.json.")
 
 
+#: What would mean arithmetic had crept into calc.js. The calculators' rule is
+#: that the browser does none: it passes strings to the engine and draws what
+#: comes back, so these have no business being in the file.
+JS_ARITHMETIC = re.compile(
+    r"\bMath\s*\.|\bparse(?:Int|Float)\b|\bNumber\s*\(|\.toFixed\b"
+    r"|\.toPrecision\b|\.toLocale\w*|\bIntl\s*\.")
+
+PYODIDE_PIN = re.compile(
+    r"https://cdn\.jsdelivr\.net/pyodide/v(\d+\.\d+\.\d+)/full/")
+
+
+def _calculator_inputs(markup: str) -> dict[str, str]:
+    """name -> prefilled value for every field in a page's calculator form."""
+    found: dict[str, str] = {}
+    for tag in re.findall(r"<input [^>]*>", markup):
+        name = re.search(r'name="([^"]+)"', tag)
+        if not name:
+            continue
+        value = re.search(r'value="([^"]*)"', tag)
+        found[name.group(1)] = html.unescape(value.group(1)) if value else ""
+    return found
+
+
+_RUN_CALCULATORS = """
+import importlib.util, json, sys
+sys.dont_write_bytecode = True
+sys.path.insert(0, sys.argv[1])
+spec = importlib.util.spec_from_file_location("calc", sys.argv[2])
+calc = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(calc)
+cases = json.loads(sys.argv[3])
+print(json.dumps({"inputs": {s: list(calc.INPUTS[s]) for s in cases},
+                  "results": {s: calc.run(s, v) for s, v in cases.items()}}))
+"""
+
+
+def check_calculators_run_the_engine(pages, fails, measured):
+    """The calculators on the page are the engine, and say so truthfully.
+
+    The calculators run the engine wheel this site publishes, in the visitor's
+    browser, through a script that does no arithmetic of its own. Each of those
+    claims can rot without any page looking different, so each is checked:
+
+    - the script is the build's: Pyodide pinned to the version that was
+      measured (and to its hash), the wheel the site announces, no arithmetic
+      calls, and nothing loaded before someone presses Calculate;
+    - every page with a form loads it, and the form asks for exactly the
+      fields the Python runner reads, because a renamed input would reach the
+      engine as an empty string and nothing would error;
+    - the runner is exercised for real. It is run against the *published
+      wheel*, not the engine source, on each page's own prefilled inputs. What
+      it returns must be figures the build measured, and the answer itself
+      (the headline and the table) must be figures the page's worked example
+      already prints. A formula that drifts, in the runner or in the wheel,
+      changes a number and fails here;
+    - nothing it says is "guaranteed": an arbitrage or a hedge is locked if
+      the bets are accepted and stand, and the script and the runner are
+      scanned for the other word;
+    - the privacy page names jsDelivr, because the first press of Calculate
+      sends the visitor's browser to it.
+    """
+    defaults = measured.get("calc_defaults", {})
+    forms = {}
+    for path, markup in pages:
+        for slug in re.findall(r'<form data-calc="([a-z-]+)"', markup):
+            forms[slug] = (path, markup)
+    for slug in sorted(set(defaults) - set(forms)):
+        fails.append(f"the build prefills a {slug} calculator but its page has no form")
+    for slug in sorted(set(forms) - set(defaults)):
+        fails.append(f"{forms[slug][0]} has a calculator form with no recorded inputs")
+    if not forms:
+        return
+
+    js_file, py_file = SITE / "calc.js", SITE / "calc.py"
+    for f in (js_file, py_file):
+        if not f.exists():
+            fails.append(f"{f.name} is missing, so every calculator form is inert")
+    if not (js_file.exists() and py_file.exists()):
+        return
+    js, py = js_file.read_text(), py_file.read_text()
+    source = SITE / "_build" / "calc.py"
+    if source.exists() and source.read_text() != py:
+        fails.append("calc.py is not the copy of _build/calc.py that render.py "
+                     "writes — re-run render.py instead of editing the copy")
+
+    # Every page loads the script the build wrote, by its hash.
+    js_hash = hashlib.sha256(js.encode()).hexdigest()[:10]
+    for slug, (path, markup) in sorted(forms.items()):
+        tag = re.search(r'<script src="/calc\.js\?v=([0-9a-f]+)" defer>', markup)
+        if not tag:
+            fails.append(f"{path}: has a calculator form but never loads /calc.js")
+        elif tag.group(1) != js_hash:
+            fails.append(f"{path}: loads calc.js version {tag.group(1)}, the file "
+                         f"is {js_hash} — a visitor would run a cached older script")
+
+    # The script: filled in, pinned, measured, and arithmetic-free.
+    if re.search(r"__[A-Z_]+__", js):
+        fails.append("calc.js still has an unfilled constant — render.py did not run")
+    pin = PYODIDE_PIN.search(js)
+    record_path = SITE / "_data" / "engine_load.json"
+    record = json.loads(record_path.read_text()) if record_path.exists() else {}
+    if not pin:
+        fails.append("calc.js does not load a pinned Pyodide from "
+                     "cdn.jsdelivr.net/pyodide/vX.Y.Z/full/ — a floating version "
+                     "changes what visitors run without this site changing")
+    elif pin.group(1) != record.get("pyodide"):
+        fails.append(
+            f"calc.js loads Pyodide {pin.group(1)} but _data/engine_load.json "
+            f"measured {record.get('pyodide')} — the size shown to a visitor "
+            "belongs to a different download. Re-run measure_engine_load.py")
+    sri = re.search(r"SRI = '([^']+)'", js)
+    if not sri or sri.group(1) != record.get("sri"):
+        fails.append("calc.js does not pin pyodide.js to the hash that was "
+                     "measured")
+    if record and sum(f["bytes"] for f in record.get("files", [])) != record.get("bytes"):
+        fails.append("_data/engine_load.json: the files do not add up to the "
+                     "recorded size")
+    wheel = re.search(r"WHEEL = '/releases/([^']+)'", js)
+    announced = measured["release"]["wheel"]["name"]
+    if not wheel or wheel.group(1) != announced:
+        fails.append(
+            f"calc.js installs {wheel.group(1) if wheel else 'no wheel'} but the "
+            f"site announces {announced}: the calculators would run an engine "
+            "other than the one on the download page")
+    elif not (SITE / "releases" / announced).exists():
+        fails.append(f"calc.js installs releases/{announced}, which is not there")
+    code = re.sub(r"/\*.*?\*/", " ", js, flags=re.S)
+    for hit in sorted(set(JS_ARITHMETIC.findall(code))):
+        fails.append(f"calc.js contains {hit!r}: the browser does no arithmetic. "
+                     "A second implementation drifts from the engine")
+    # Every class the script puts on an element has a rule. A class that only
+    # a script adds never appears in a page's markup, so the markup check
+    # cannot see it: an unstyled one would draw as bare text.
+    styled = set(re.findall(r"\.(-?[_a-zA-Z][\w-]*)", (SITE / "style.css").read_text()))
+    drawn = set()
+    for hit in re.findall(
+            r"\b(?:add\(\s*[\w.]+\s*,\s*'[a-z]+'\s*,|say\(\s*[\w.]+\s*,)\s*'([^']+)'", code):
+        drawn.update(hit.split())
+    if not drawn:
+        fails.append("calc.js draws no classes at all, so its output is unstyled "
+                     "or this check has stopped reading it")
+    for name in sorted(drawn - styled):
+        fails.append(f"calc.js draws .{name}, which style.css has no rule for — "
+                     "the answer would render as bare text")
+    handler = code.find("addEventListener('submit'")
+    early = [c.start() for c in re.finditer(r"(?<!function )\bengine\(\)", code)
+             if handler < 0 or c.start() < handler]
+    if early:
+        fails.append("calc.js loads the engine before anyone presses Calculate")
+    # The site's word for a result that depends on both bets standing is
+    # "locked", with the condition beside it. "Guaranteed" is the word every
+    # competitor uses, and it is false the moment a book voids one leg.
+    for name, source_text in (("calc.py", py), ("calc.js", js)):
+        for literal in re.findall(r'"[^"\n]*"|\'[^\'\n]*\'', source_text):
+            if re.search(r"guarante", literal, re.I):
+                fails.append(f"{name} tells a visitor something is guaranteed "
+                             f"({literal[:60]}): say locked, if the bets are "
+                             "accepted and stand")
+    privacy = next((m for p, m in pages if p == "privacy/index.html"), "")
+    if "cdn.jsdelivr.net" in js and "jsDelivr" not in privacy:
+        fails.append("calc.js fetches from jsDelivr, and /privacy/ does not say so")
+
+    # The runner, on the page's own inputs, against the published wheel.
+    wheel_path = SITE / "releases" / announced
+    if not wheel_path.exists():
+        return
+    cases = {slug: _calculator_inputs(markup) for slug, (_, markup) in forms.items()}
+    ran = subprocess.run(
+        [sys.executable, "-c", _RUN_CALCULATORS, str(wheel_path), str(py_file),
+         json.dumps(cases)], capture_output=True, text=True, timeout=120)
+    if ran.returncode != 0:
+        fails.append("calc.py would not run against the published wheel: "
+                     + (ran.stderr.strip().splitlines() or ["no output"])[-1])
+        return
+    got = json.loads(ran.stdout)
+    allowed = measured_numbers(measured) | STRUCTURAL
+    for slug, (path, markup) in sorted(forms.items()):
+        names = list(cases[slug])
+        if names != got["inputs"][slug]:
+            fails.append(f"{path}: the form has fields {names} but calc.py reads "
+                         f"{got['inputs'][slug]}")
+            continue
+        result = got["results"][slug]
+        if not result.get("ok"):
+            fails.append(f"{path}: the prefilled inputs give an error: "
+                         f"{result.get('error')}")
+            continue
+        typed = numbers_in(" ".join(cases[slug].values()))
+        answer = [result.get("headline") or ""]
+        for row in (result.get("table") or {}).get("rows", []):
+            answer += row
+        everything = answer + [result.get("caption") or ""] + result.get("notes", [])
+        stray = numbers_in(" ".join(everything)) - allowed - typed
+        if stray:
+            fails.append(f"{path}: the calculator returns {sorted(stray)} on the "
+                         "page's own inputs, figures the build never measured")
+        shown = numbers_in(visible(markup))
+        unshown = numbers_in(" ".join(answer)) - shown - STRUCTURAL - typed
+        if unshown:
+            fails.append(f"{path}: on the worked example's own inputs the "
+                         f"calculator answers {sorted(unshown)}, which the "
+                         "worked example does not show — they disagree")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
@@ -1138,6 +1348,8 @@ def main() -> int:
         "check_runtime_classes_are_real":
             lambda: check_runtime_classes_are_real(pages, fails),
         "check_one_palette": lambda: check_one_palette(fails),
+        "check_calculators_run_the_engine":
+            lambda: check_calculators_run_the_engine(pages, fails, measured),
     }
 
     # Every check defined in this file must be wired into the registry, or

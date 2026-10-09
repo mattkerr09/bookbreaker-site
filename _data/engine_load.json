@@ -1,0 +1,41 @@
+{
+  "pyodide": "0.29.5",
+  "sri": "sha384-VR47TfKeAmT7vMej7bwOVg0tHTQLLGMSIpsXtFMCZG5OpKZSIXoSLtGY//qHcxc6",
+  "packages": [
+    "micropip",
+    "sqlite3"
+  ],
+  "measured": "2026-10-09",
+  "how": "Content-Length of each file as jsDelivr sends it to a browser that accepts Brotli, summed. The wheel and calc.py are added from this site's own files.",
+  "files": [
+    {
+      "name": "pyodide.js",
+      "bytes": 7491
+    },
+    {
+      "name": "pyodide-lock.json",
+      "bytes": 26288
+    },
+    {
+      "name": "pyodide.asm.js",
+      "bytes": 226427
+    },
+    {
+      "name": "pyodide.asm.wasm",
+      "bytes": 2672398
+    },
+    {
+      "name": "python_stdlib.zip",
+      "bytes": 2386522
+    },
+    {
+      "name": "micropip-0.11.1-py3-none-any.whl",
+      "bytes": 111109
+    },
+    {
+      "name": "sqlite3-1.0.0-cp313-cp313-pyemscripten_2025_0_wasm32.whl",
+      "bytes": 560808
+    }
+  ],
+  "bytes": 5991043
+}

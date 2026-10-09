@@ -215,6 +215,18 @@ tr.ours td:nth-child(2) strong{color:var(--good)}
 .own-no{color:var(--oxblood)}
 .own-note{margin:.9rem 0 0;font-size:.8rem;color:var(--ink-3)}
 
+/* ---------- the calculators (a form in the .own frame, answered by the engine) ---------- */
+.calc .own-in input{font-size:1.1rem}
+.calc-wide{grid-column:1/-1}
+.calc-check{display:flex;align-items:center;gap:.6rem;margin:0 0 1rem;font-size:.92rem;color:var(--ink-2)}
+.calc-check input{width:1.1rem;height:1.1rem;accent-color:var(--accent)}
+.calc-go{margin:0 0 1rem}
+.btn[disabled]{opacity:.55;cursor:progress;transform:none;filter:none}
+.own-out .scroll{margin:.9rem 0 0;background:none}
+.own-out th,.own-out td{padding:.6rem .8rem}
+.own-out > :last-child{margin-bottom:0}
+.own-out:empty{min-height:0;padding:0;border:0}
+
 /* ---------- offers ---------- */
 .offer-grid{display:grid;gap:14px;margin:1.5rem 0;grid-template-columns:repeat(auto-fill,minmax(20rem,1fr))}
 .offer-card{padding:1.25rem 1.3rem;background:linear-gradient(180deg,var(--card-2),var(--card));

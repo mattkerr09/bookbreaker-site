@@ -44,7 +44,8 @@
       490,
       500
     ],
-    "rounding_cost": 2.35
+    "rounding_cost": 2.35,
+    "total": 1000
   },
   "books": [
     "Bally Bet",
@@ -106,6 +107,68 @@
     "stake": 100,
     "worst": 25.0
   },
+  "calc_defaults": {
+    "arbitrage": {
+      "prices": "+110, +105",
+      "total": "1000"
+    },
+    "bonus-bet-conversion": {
+      "bonus": "1000",
+      "free": "+200",
+      "hedge": "-230"
+    },
+    "breakeven": {
+      "prices": "-200, -110, +100, +150, +400"
+    },
+    "closing-line-value": {
+      "bet": "+110",
+      "close": "-105",
+      "other": ""
+    },
+    "dutching": {
+      "prices": "+120, +240, +250",
+      "total": "300"
+    },
+    "expected-value": {
+      "other": "+125",
+      "own": "",
+      "price": "+120",
+      "side": "-145"
+    },
+    "hedge": {
+      "lay": "-400, -250, -140, +180",
+      "open": "+250",
+      "stake": "100"
+    },
+    "hold": {
+      "prices": "-110, -110"
+    },
+    "kelly": {
+      "bankroll": "10000",
+      "fraction": "25",
+      "price": "+120",
+      "prob": "57.34"
+    },
+    "no-sweat-bet": {
+      "conversion": "75",
+      "price": "-110",
+      "prob": "50",
+      "stake": "1000"
+    },
+    "odds-converter": {
+      "prices": "-200, -110, +100, +150, +400"
+    },
+    "parlay": {
+      "legs": "-110, -110, -110, -110",
+      "same_game": ""
+    },
+    "profit-boost": {
+      "boost": "50",
+      "price": "-110",
+      "prob": "50",
+      "stake": "100"
+    }
+  },
   "calculator": {
     "high": 600,
     "low": -600,
@@ -135,7 +198,7 @@
       "body": "<p>Stake spread across correlated bets is not spread. Effective bets is the count a book is really holding: n divided by one plus n minus one times rho, where rho is the average pairwise correlation between positions. Independent bets give n_eff equal to n. Everything else gives less.</p><p>The correlation used as a starting point here is a prior, not a measurement: rho of 0.15. The measured figure on this book is 0.45. Same bet counts, two columns.</p><table><tr><th>Bets</th><th>Effective at prior rho 0.15</th><th>Effective at measured rho 0.45</th></tr><tr><td>2</td><td>1.7</td><td>1.4</td></tr><tr><td>4</td><td>2.8</td><td>1.7</td></tr><tr><td>8</td><td>3.9</td><td>1.9</td></tr><tr><td>12</td><td>4.5</td><td>2.0</td></tr><tr><td>20</td><td>5.2</td><td>2.1</td></tr></table><p>Read the measured column down. From 2 bets to 20 bets, the effective count crawls from 1.4 to 2.1. Past a handful of correlated positions, adding another buys no diversification. It only adds stake.</p><p>That is what a staking rule has to see. A max single of 5% on a bankroll of 20000 caps a lone bet at 1000. The same rule, applied to a book already loaded with correlated exposure, caps it at 409.96. Competitors print the first figure and call the portfolio diversified. They are counting tickets, and tickets are not independent.</p>"
     },
     "expected-value": {
-      "body": "<p>Offered +120 on a side whose fair probability is 57.34%:</p><table><tr><td>Expected value per unit</td><td>+26.15%</td></tr><tr><td>Break-even win rate</td><td>45.45%</td></tr><tr><td>Worst method's answer</td><td>+25.64%</td></tr></table><p>The last row is the one that decides. An edge that exists under one devig method and vanishes under another is a modelling artefact, not an opportunity.</p>"
+      "body": "<p>Offered +120 on a side whose fair probability is 57.34%:</p><table><tr><td>Expected value per unit</td><td>+26.14%</td></tr><tr><td>Break-even win rate</td><td>45.45%</td></tr><tr><td>Worst method's answer</td><td>+25.65%</td></tr></table><p>The last row is the one that decides. An edge that exists under one devig method and vanishes under another is a modelling artefact, not an opportunity.</p>"
     },
     "hedge": {
       "body": "<p>A 100 stake at +250 that has since moved. Laying the other side locks a result now, and what it locks depends entirely on the price you can lay at:</p><table><tr><th>Lay at</th><th>Lay stake</th><th>Locked</th><th>Return on total staked</th></tr><tr><td>-400</td><td>280.00</td><td>-30.00</td><td>-7.89%</td></tr><tr><td>-250</td><td>250.00</td><td>-0.00</td><td>-0.00%</td></tr><tr><td>-140</td><td>204.17</td><td>+45.83</td><td>+15.07%</td></tr><tr><td>+180</td><td>125.00</td><td>+125.00</td><td>+55.56%</td></tr></table><p>The direction surprises people: a <em>longer</em> lay price needs a smaller lay stake, so it keeps more. Laying at +180 locks +125.00, while laying at -400 locks -30.00: a loss taken deliberately rather than a profit secured, because covering the position costs more than the open bet stands to make. Hedging does not create value. It converts a variable outcome into a fixed one, and the price of that conversion is whatever the market charges at the moment you ask.</p><p>The reason to do it anyway is rarely the money. A position that is too large for the bankroll behind it is worth closing at a cost, and so is one whose remaining upside no longer justifies the account attention it is drawing.</p>"
@@ -379,6 +442,11 @@
     "total": 300
   },
   "engine_fingerprint": "222a371c0bfafffb",
+  "engine_load": {
+    "bytes": 6240937,
+    "mb": 6,
+    "pyodide": "0.29.5"
+  },
   "evidence": {
     "bars": [
       {

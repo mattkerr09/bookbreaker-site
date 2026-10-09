@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
 <title>Expected value calculator: free, worked on real prices</title>
-<meta name="description" content="Is this bet +EV? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="description" content="Is this bet +EV? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/expected-value/">
 <!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE — no og:title, no
      og:description, no twitter:card — so every shared link unfurled as a bare
@@ -30,7 +30,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bookbreaker">
 <meta property="og:title" content="Expected value calculator: free, worked on real prices">
-<meta property="og:description" content="Is this bet +EV? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta property="og:description" content="Is this bet +EV? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <meta property="og:url" content="https://bookbreaker.bet/calculators/expected-value/">
 <meta property="og:image" content="https://bookbreaker.bet/og.png">
 <meta property="og:image:width" content="1200">
@@ -39,13 +39,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bookbreaker.bet/og.png">
 <meta name="twitter:title" content="Expected value calculator: free, worked on real prices">
-<meta name="twitter:description" content="Is this bet +EV? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="twitter:description" content="Is this bet +EV? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#5b5bff">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=1bea0a78ac">
+<link rel="stylesheet" href="/style.css?v=fb47f0b5e1">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "Expected Value", "item": "https://bookbreaker.bet/calculators/expected-value/"}]}</script>
 </head>
@@ -60,12 +60,21 @@
 <p class="lede">Is this bet +EV?</p>
 </div>
 
-<p>Offered +120 on a side whose fair probability is 57.34%:</p><div class="scroll"><table><tr><td>Expected value per unit</td><td>+26.15%</td></tr><tr><td>Break-even win rate</td><td>45.45%</td></tr><tr><td>Worst method's answer</td><td>+25.64%</td></tr></table></div><p>The last row is the one that decides. An edge that exists under one devig method and vanishes under another is a modelling artefact, not an opportunity.</p>
+<section class="own calc">
+  <h2>Check your own edge</h2>
+  <p class="own-lede">Enter the price you are offered and where the market has both sides. Or skip the market and type your own fair probability.</p>
+  <form data-calc="expected-value" novalidate>
+    <div class="own-in"><label>Price offered <input name="price" inputmode="text" value="+120" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label>Market price, this side <input name="side" inputmode="text" value="-145" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label>Market price, other side <input name="other" inputmode="text" value="+125" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label>Or your own fair probability (%) <input name="own" inputmode="decimal" value="" autocomplete="off" autocapitalize="off" spellcheck="false"></label></div>
+    
+    <div class="calc-go"><button class="btn primary" type="submit" disabled>Calculate</button></div>
+  </form>
+  <div class="own-out" aria-live="polite"></div>
+</section>
+<script src="/calc.js?v=3531e5dc28" defer></script>
+<p>Offered +120 on a side whose fair probability is 57.34%:</p><div class="scroll"><table><tr><td>Expected value per unit</td><td>+26.14%</td></tr><tr><td>Break-even win rate</td><td>45.45%</td></tr><tr><td>Worst method's answer</td><td>+25.65%</td></tr></table></div><p>The last row is the one that decides. An edge that exists under one devig method and vanishes under another is a modelling artefact, not an opportunity.</p>
 
 <h2>Where the number comes from</h2>
-<p>Everything above was computed by the same engine that prices bets, at the
-moment this page was built. None of it was typed in. The build fails if a
-figure appears here and not in the engine's own output.</p>
+<p>The worked example was computed by the same engine that prices bets, at the moment this page was built. None of it was typed in. The build fails if a figure appears here and not in the engine's own output. The calculator runs that engine, release 0.1.8, in your browser, and the build checks that it returns this example&rsquo;s answers for this example&rsquo;s inputs.</p>
 <p><a href="/how-it-works/">How a price is formed &rarr;</a>
 &nbsp;&middot;&nbsp;
 <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>

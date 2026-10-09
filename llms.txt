@@ -14,7 +14,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 
 ## Free calculators
 
-- [All calculators](https://bookbreaker.bet/calculators/): each worked through on real prices, with the range the answer sits in
+- [All calculators](https://bookbreaker.bet/calculators/): each worked through on real prices, with the range the answer sits in; most take your own numbers and run the same engine in your browser
 - [No-vig odds calculator](https://bookbreaker.bet/calculators/no-vig-odds/): What are the true odds behind a sportsbook's price?
 - [Expected value calculator](https://bookbreaker.bet/calculators/expected-value/): Is this bet +EV?
 - [Arbitrage calculator](https://bookbreaker.bet/calculators/arbitrage/): How much do I stake on each side?

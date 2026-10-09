@@ -24,6 +24,7 @@ passes when the network is down reads exactly like one that compared bytes.
 from __future__ import annotations
 
 import hashlib
+import json
 import sys
 import urllib.error
 import urllib.request
@@ -44,6 +45,12 @@ SAMPLE = [
     "sportsbooks/ky/index.html",
     "vs/oddsjam-alternative/index.html",
     "calculators/index.html",
+    # The calculators: a page with a form, the script and the Python it runs,
+    # and the wheel it installs. Any of them missing on the domain leaves a
+    # form on the page that cannot answer, and nothing else here would notice.
+    "calculators/dutching/index.html",
+    "calc.js",
+    "calc.py",
 ]
 
 
@@ -63,7 +70,12 @@ def fetch(url: str) -> bytes:
 
 
 def main() -> int:
-    missing = [rel for rel in SAMPLE if not (SITE / rel).exists()]
+    sample = list(SAMPLE)
+    measured = SITE / "_build" / "measured.json"
+    if measured.exists():
+        wheel = json.loads(measured.read_text())["release"]["wheel"]["name"]
+        sample.append(f"releases/{wheel}")
+    missing = [rel for rel in sample if not (SITE / rel).exists()]
     if missing:
         print(f"cannot compare: not built locally — {', '.join(missing)}",
               file=sys.stderr)
@@ -72,7 +84,7 @@ def main() -> int:
     # The stylesheet is served with a cache-busting query in the markup, so
     # compare on the path the file actually lives at.
     differ, checked, unreachable = [], 0, []
-    for rel in SAMPLE:
+    for rel in sample:
         local = (SITE / rel).read_bytes()
         try:
             served = fetch(url_for(rel))
@@ -105,7 +117,7 @@ def main() -> int:
         print("finished rebuilding. Re-run in a minute before assuming worse.")
         return 1
 
-    print(f"  compared {checked} of {len(SAMPLE)}: every byte matches")
+    print(f"  compared {checked} of {len(sample)}: every byte matches")
     print("\nDEPLOY OK — the domain serves exactly this build.")
     return 0
 

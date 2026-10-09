@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
 <title>CLV calculator: free, worked on real prices</title>
-<meta name="description" content="Did I beat the closing line? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="description" content="Did I beat the closing line? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/closing-line-value/">
 <!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE — no og:title, no
      og:description, no twitter:card — so every shared link unfurled as a bare
@@ -30,7 +30,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bookbreaker">
 <meta property="og:title" content="CLV calculator: free, worked on real prices">
-<meta property="og:description" content="Did I beat the closing line? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta property="og:description" content="Did I beat the closing line? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <meta property="og:url" content="https://bookbreaker.bet/calculators/closing-line-value/">
 <meta property="og:image" content="https://bookbreaker.bet/og.png">
 <meta property="og:image:width" content="1200">
@@ -39,13 +39,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bookbreaker.bet/og.png">
 <meta name="twitter:title" content="CLV calculator: free, worked on real prices">
-<meta name="twitter:description" content="Did I beat the closing line? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="twitter:description" content="Did I beat the closing line? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#5b5bff">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=1bea0a78ac">
+<link rel="stylesheet" href="/style.css?v=fb47f0b5e1">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "Closing Line Value", "item": "https://bookbreaker.bet/calculators/closing-line-value/"}]}</script>
 </head>
@@ -60,12 +60,21 @@
 <p class="lede">Did I beat the closing line?</p>
 </div>
 
+<section class="own calc">
+  <h2>Grade your own bet against the close</h2>
+  <p class="own-lede">Enter the price you took and the price the market closed at. Add the other side&rsquo;s close and the engine devigs it first.</p>
+  <form data-calc="closing-line-value" novalidate>
+    <div class="own-in"><label>Price you took <input name="bet" inputmode="text" value="+110" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label>Closing price <input name="close" inputmode="text" value="-105" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label>Other side&rsquo;s closing price (optional) <input name="other" inputmode="text" value="" autocomplete="off" autocapitalize="off" spellcheck="false"></label></div>
+    
+    <div class="calc-go"><button class="btn primary" type="submit" disabled>Calculate</button></div>
+  </form>
+  <div class="own-out" aria-live="polite"></div>
+</section>
+<script src="/calc.js?v=3531e5dc28" defer></script>
 <p>A bet taken at +110 against a market that closed at -105:</p><div class="scroll"><table><tr><td>Your price</td><td>+110</td></tr><tr><td>Closing price</td><td>-105</td></tr><tr><td>CLV against the raw close</td><td>+7.56%</td></tr></table></div><p>That figure compares two vigged prices and so understates the real edge by the closing margin. Use it to rank bets against each other, not for claiming an edge size. Devigging the closing market first is what the engine does, and it is why closing line value converges far faster than profit.</p>
 
 <h2>Where the number comes from</h2>
-<p>Everything above was computed by the same engine that prices bets, at the
-moment this page was built. None of it was typed in. The build fails if a
-figure appears here and not in the engine's own output.</p>
+<p>The worked example was computed by the same engine that prices bets, at the moment this page was built. None of it was typed in. The build fails if a figure appears here and not in the engine's own output. The calculator runs that engine, release 0.1.8, in your browser, and the build checks that it returns this example&rsquo;s answers for this example&rsquo;s inputs.</p>
 <p><a href="/how-it-works/">How a price is formed &rarr;</a>
 &nbsp;&middot;&nbsp;
 <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>

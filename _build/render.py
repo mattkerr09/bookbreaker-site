@@ -244,10 +244,12 @@ def measure(engine) -> dict:
 
     # 2. The round-stake arbitrage. Exact stakes versus stakes a human places.
     legs = [2.10, 2.05]
-    exact = engine.stake_arb(legs, total=1000.0, round_stakes=False)
-    rounded = engine.stake_arb(legs, total=1000.0)
+    arb_total = 1000.0
+    exact = engine.stake_arb(legs, total=arb_total, round_stakes=False)
+    rounded = engine.stake_arb(legs, total=arb_total)
     out["arb"] = {
         "legs": [f"{decimal_to_american(d):+.0f}" for d in legs],
+        "total": int(arb_total),
         "margin": round(engine.arb_margin(legs) * 100, 2),
         "exact_stakes": [round(l.stake, 2) for l in exact.legs],
         "exact_profit": round(exact.profit, 2),
@@ -610,8 +612,9 @@ def measure(engine) -> dict:
     # which is why the qualifying bet should be a longshot — the opposite of
     # the instinct, and the opposite of the right play on a bet-and-get.
     net_stake, conv_rate = 1000.0, 0.75
+    net_cases = ((-110, 0.5), (150, 0.4), (300, 0.25), (600, 1 / 7))
     net_rows = []
-    for american, prob in ((-110, 0.5), (150, 0.4), (300, 0.25), (600, 1 / 7)):
+    for american, prob in net_cases:
         d = american_to_decimal(american)
         net_rows.append({
             "american": f"{american:+d}",
@@ -630,8 +633,9 @@ def measure(engine) -> dict:
     # A profit boost. It multiplies profit, and profit grows with the price,
     # so spending it on a favourite gives most of it away.
     boost_stake, boost_pct = 100.0, 0.5
+    boost_cases = ((-200, 2 / 3), (-110, 0.5), (200, 1 / 3), (500, 1 / 6))
     boost_rows = []
-    for american, prob in ((-200, 2 / 3), (-110, 0.5), (200, 1 / 3), (500, 1 / 6)):
+    for american, prob in boost_cases:
         d = american_to_decimal(american)
         boost_rows.append({
             "american": f"{american:+d}",
@@ -874,6 +878,19 @@ def measure(engine) -> dict:
         "app": app,
         "python": "3.9",
         "hash_bits": len(wheel["sha256"]) * 4,
+    }
+
+    # What a visitor downloads the first time they press Calculate. Pyodide's
+    # share was measured by measure_engine_load.py and recorded in _data; the
+    # wheel and the runner are this site's own files, so their sizes are read
+    # off the files rather than recorded twice.
+    load = json.loads((SITE / "_data" / "engine_load.json").read_text())
+    load_bytes = (load["bytes"] + wheel["bytes"]
+                  + (Path(__file__).resolve().parent / "calc.py").stat().st_size)
+    out["engine_load"] = {
+        "pyodide": load["pyodide"],
+        "bytes": load_bytes,
+        "mb": round(load_bytes / 1_000_000),
     }
 
     # 7g. The interactive demo's ladder.
@@ -1318,15 +1335,21 @@ def measure(engine) -> dict:
         "account longevity to be worth the cost is your judgement, and a tool "
         "that answers that for you is selling something.</p>")}
 
+    # The EV worked here is the one the calculator above it returns for the same
+    # market, so it comes from the unrounded devig: pricing +120 off the
+    # consensus already rounded to two decimals, as this once did, moves the
+    # last digit of the answer.
+    ev_offer = 120
     fair = d["consensus"] / 100.0
-    price = american_to_decimal(120)
+    price = american_to_decimal(ev_offer)
     calc["expected-value"] = {"body": (
-        f"<p>Offered +120 on a side whose fair probability is "
+        f"<p>Offered {ev_offer:+d} on a side whose fair probability is "
         f"{fair * 100:.2f}%:</p>"
-        + table([("Expected value per unit", f"{ev_per_unit(price, fair):+.2%}"),
+        + table([("Expected value per unit",
+                  f"{ev_per_unit(price, spread.consensus(0)):+.2%}"),
                  ("Break-even win rate", f"{breakeven_prob(price):.2%}"),
                  ("Worst method's answer",
-                  f"{ev_per_unit(price, min(d['methods'].values()) / 100):+.2%}")])
+                  f"{ev_per_unit(price, spread.low(0)):+.2%}")])
         + "<p>The last row is the one that decides. An edge that exists under "
         "one devig method and vanishes under another is a modelling artefact, "
         "not an opportunity.</p>")}
@@ -1334,7 +1357,7 @@ def measure(engine) -> dict:
     a = out["arb"]
     calc["arbitrage"] = {"body": (
         f"<p>{e(a['legs'][0])} at one book and {e(a['legs'][1])} at another is "
-        f"a {a['margin']:.2f}% arbitrage on {1000:,} staked:</p>"
+        f"a {a['margin']:.2f}% arbitrage on {a['total']:,} staked:</p>"
         + table([("Exact stakes",
                   f"{a['exact_stakes'][0]:,.2f} / {a['exact_stakes'][1]:,.2f}"),
                  # Two rows both labelled "Guaranteed" with different
@@ -1349,9 +1372,11 @@ def measure(engine) -> dict:
         "reads. This solves for round stakes directly, because rounding a "
         "lock afterwards breaks it.</p>")}
 
-    sizing = size_bet(price, fair, bankroll=10_000.0)
+    kelly_bankroll = 10_000.0
+    sizing = size_bet(price, fair, bankroll=kelly_bankroll)
     calc["kelly"] = {"body": (
-        f"<p>A {fair * 100:.2f}% shot offered at +120, on a 10,000 bankroll:</p>"
+        f"<p>A {fair * 100:.2f}% shot offered at {ev_offer:+d}, on a "
+        f"{kelly_bankroll:,.0f} bankroll:</p>"
         + table([("Full Kelly", f"{sizing.full_kelly:.2%} of bankroll"),
                  ("At quarter Kelly", f"{sizing.stake:,.2f}"),
                  ("Share of bankroll", f"{sizing.bankroll_share:.2%}"),
@@ -1360,7 +1385,8 @@ def measure(engine) -> dict:
         "than the friendliest. Overestimating an edge costs far more than "
         "underestimating it.</p>")}
 
-    juiced = [american_to_decimal(-110), american_to_decimal(-110)]
+    juiced_american = (-110, -110)
+    juiced = [american_to_decimal(a) for a in juiced_american]
     calc["hold"] = {"body": (
         "<p>The standard -110 / -110 market:</p>"
         + table([("Implied total", f"{overround(juiced):.4f}"),
@@ -1395,6 +1421,7 @@ def measure(engine) -> dict:
         f"{e(mid['sample'])} sample shown as an illustration of the mechanism, "
         "not a claim about any league.</p>")}
 
+    price_ladder = (-200, -110, 100, 150, 400)
     calc["odds-converter"] = {"body": (
         "<p>The same price in every form:</p>"
         + "<table><tr><th>American</th><th>Decimal</th><th>Implied</th></tr>"
@@ -1402,7 +1429,7 @@ def measure(engine) -> dict:
             f"<tr><td>{v:+d}</td>"
             f"<td>{american_to_decimal(v):.3f}</td>"
             f"<td>{decimal_to_prob(american_to_decimal(v)):.2%}</td></tr>"
-            for v in (-200, -110, 100, 150, 400))
+            for v in price_ladder)
         + "</table><p>The implied column is vig-inclusive: it is what the "
         "price asserts, not a fair probability. Calling it one without "
         "devigging first is the most common way to invent an edge that is not "
@@ -1413,16 +1440,18 @@ def measure(engine) -> dict:
         + "<table><tr><th>Price</th><th>Break-even win rate</th></tr>"
         + "".join(f"<tr><td>{v:+d}</td>"
                   f"<td>{breakeven_prob(american_to_decimal(v)):.2%}</td></tr>"
-                  for v in (-200, -110, 100, 150, 400))
+                  for v in price_ladder)
         + "</table><p>-110 both ways needs 52.38%, which is why a 50% bettor "
         "loses steadily and a 53% one does not.</p>")}
 
+    clv_bet, clv_close = 110, -105
     calc["closing-line-value"] = {"body": (
-        "<p>A bet taken at +110 against a market that closed at -105:</p>"
-        + table([("Your price", "+110"),
-                 ("Closing price", "-105"),
+        f"<p>A bet taken at {clv_bet:+d} against a market that closed at "
+        f"{clv_close:+d}:</p>"
+        + table([("Your price", f"{clv_bet:+d}"),
+                 ("Closing price", f"{clv_close:+d}"),
                  ("CLV against the raw close",
-                  f"{implied_clv(american_to_decimal(110), american_to_decimal(-105)):+.2%}")])
+                  f"{implied_clv(american_to_decimal(clv_bet), american_to_decimal(clv_close)):+.2%}")])
         + "<p>That figure compares two vigged prices and so understates the "
         "real edge by the closing margin. Use it to rank bets "
         "against each other, not for claiming an edge size. Devigging the "
@@ -1538,6 +1567,44 @@ def measure(engine) -> dict:
     + "<p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>")}
 
     out["calculators"] = calc
+
+    # What each calculator's form is prefilled with: the inputs of the worked
+    # example above it, taken from the same variables, so that pressing
+    # Calculate on an untouched form returns the page's own answer. Recorded in
+    # measured.json, which is where check.py reads to confirm that it does.
+    def _am(american):
+        return f"{american:+d}"
+
+    mkt_side, mkt_other = re.findall(r"[-+]\d+", out["devig"]["market"])
+    ladder_one = out["conversion"]["ladder"][1]
+    out["calc_defaults"] = {
+        "dutching": {"total": f"{du['total']}",
+                     "prices": ", ".join(r["american"] for r in du["rows"])},
+        "kelly": {"price": _am(ev_offer), "prob": f"{fair * 100:.2f}",
+                  "bankroll": f"{kelly_bankroll:.0f}", "fraction": f"{DEFAULT_FRACTION * 100:.0f}"},
+        "hedge": {"stake": f"{hg['stake']}", "open": hg["open"],
+                  "lay": ", ".join(r["american"] for r in hg["rows"])},
+        "arbitrage": {"prices": ", ".join(out["arb"]["legs"]),
+                      "total": f"{out['arb']['total']}"},
+        "closing-line-value": {"bet": _am(clv_bet), "close": _am(clv_close),
+                               "other": ""},
+        "expected-value": {"price": _am(ev_offer), "side": mkt_side,
+                           "other": mkt_other, "own": ""},
+        "parlay": {"legs": ", ".join(
+            ["-110"] * out["parlay"]["legs"]), "same_game": ""},
+        "odds-converter": {"prices": ", ".join(_am(v) for v in price_ladder)},
+        "breakeven": {"prices": ", ".join(_am(v) for v in price_ladder)},
+        "hold": {"prices": ", ".join(_am(a) for a in juiced_american)},
+        "bonus-bet-conversion": {
+            "bonus": f"{out['conversion']['bonus']}",
+            "free": ladder_one["free"], "hedge": ladder_one["hedge"]},
+        "no-sweat-bet": {
+            "stake": f"{net_stake:.0f}", "conversion": f"{conv_rate * 100:.0f}",
+            "price": _am(net_cases[0][0]), "prob": f"{net_cases[0][1] * 100:g}"},
+        "profit-boost": {
+            "stake": f"{boost_stake:.0f}", "boost": f"{boost_pct * 100:.0f}",
+            "price": _am(boost_cases[1][0]), "prob": f"{boost_cases[1][1] * 100:g}"},
+    }
 
     # 10. Jurisdiction coverage, and a page per state.
     from overlay_engine.catalog import (
@@ -4017,6 +4084,202 @@ def with_shot(m: dict, url: str, body: str) -> str:
     return body[:cut] + "\n" + app_shot(m, key) + body[cut:]
 
 
+#: What each calculator asks for. The names must be the ones calc.py reads
+#: (render refuses to build otherwise, and check.py checks the same), the
+#: defaults come from measured.json's calc_defaults, and the copy is written
+#: for the page it sits on: a heading, the one thing to do, and a label per
+#: input. Kinds: "num" is an amount or a percentage, "odds" one price, "list"
+#: several prices in a row, "check" a box.
+CALC_FORMS = {
+    "dutching": (
+        "Dutch your own outcomes",
+        "Type the total you want to stake and the price of every outcome you "
+        "are covering. The stakes below make each one pay the same.",
+        [("total", "Total to stake", "num"),
+         ("prices", "Price of each outcome", "list")]),
+    "kelly": (
+        "Size your own bet",
+        "Give the price, the chance you think it wins and your bankroll. You "
+        "get the Kelly stake, and which limit set it.",
+        [("price", "Price offered", "odds"),
+         ("prob", "Your win probability (%)", "num"),
+         ("bankroll", "Bankroll", "num"),
+         ("fraction", "Kelly fraction (%)", "num")]),
+    "hedge": (
+        "Price your own hedge",
+        "Enter the bet you already hold and the prices you could take on the "
+        "other side now. Each price shows what it would lock.",
+        [("stake", "Your stake", "num"),
+         ("open", "Price you took", "odds"),
+         ("lay", "Prices you can bet the other side at", "list")]),
+    "arbitrage": (
+        "Stake your own arbitrage",
+        "Enter the best price on each side and the total you want to put up. "
+        "You get exact stakes, round ones, and what rounding costs.",
+        [("prices", "Best price on each side", "list"),
+         ("total", "Total to stake", "num")]),
+    "closing-line-value": (
+        "Grade your own bet against the close",
+        "Enter the price you took and the price the market closed at. Add the "
+        "other side&rsquo;s close and the engine devigs it first.",
+        [("bet", "Price you took", "odds"),
+         ("close", "Closing price", "odds"),
+         ("other", "Other side&rsquo;s closing price (optional)", "odds")]),
+    "expected-value": (
+        "Check your own edge",
+        "Enter the price you are offered and where the market has both sides. "
+        "Or skip the market and type your own fair probability.",
+        [("price", "Price offered", "odds"),
+         ("side", "Market price, this side", "odds"),
+         ("other", "Market price, other side", "odds"),
+         ("own", "Or your own fair probability (%)", "num")]),
+    "parlay": (
+        "Price your own parlay",
+        "Enter the price of every leg. You get what it pays, what it should "
+        "pay and the hold the ticket carries.",
+        [("legs", "Price of each leg", "list"),
+         ("same_game", "These legs are all in the same game", "check")]),
+    "odds-converter": (
+        "Convert your own prices",
+        "Enter any prices, American or decimal. Each comes back in every form.",
+        [("prices", "Prices", "list")]),
+    "breakeven": (
+        "Find your own break-even",
+        "Enter the prices you are looking at. Each shows the win rate it needs "
+        "before it earns anything.",
+        [("prices", "Prices", "list")]),
+    "hold": (
+        "Measure your own market",
+        "Enter every side of a market from one book. You get the total it "
+        "implies and the share the book keeps.",
+        [("prices", "Price of each side", "list")]),
+    "bonus-bet-conversion": (
+        "Convert your own bonus bet",
+        "Enter the bonus, the price you will bet it at and the price you can "
+        "cover with at the other book.",
+        [("bonus", "Bonus bet", "num"),
+         ("free", "Price for the bonus bet", "odds"),
+         ("hedge", "Price for the cover bet", "odds")]),
+    "no-sweat-bet": (
+        "Value your own no-sweat bet",
+        "Enter the stake, the price you would qualify at and the chance it "
+        "wins. The refund is worth more the more often the bet loses.",
+        [("stake", "Qualifying stake", "num"),
+         ("conversion", "Bonus-bet conversion (%)", "num"),
+         ("price", "Qualifying price", "odds"),
+         ("prob", "Chance it wins (%)", "num")]),
+    "profit-boost": (
+        "Value your own boost",
+        "Enter the stake, the boost, the price it applies to and the chance "
+        "that bet wins.",
+        [("stake", "Stake", "num"),
+         ("boost", "Boost (%)", "num"),
+         ("price", "Price", "odds"),
+         ("prob", "Chance it wins (%)", "num")]),
+}
+
+
+def calc_inputs() -> dict:
+    """The field names calc.py reads, straight from calc.py."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "bb_calc", Path(__file__).resolve().parent / "calc.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.INPUTS
+
+
+_CALC_ASSETS: dict = {}
+
+
+def calc_assets(m: dict) -> dict:
+    """calc.js with its constants filled in, and calc.py as it is published.
+
+    Every constant comes from something measured: the pinned Pyodide and its
+    hash from _data/engine_load.json, the wheel from the release the site
+    announces, the size from measure(). Nothing is typed into the script by
+    hand, so it cannot name a wheel the site no longer serves.
+    """
+    if _CALC_ASSETS:
+        return _CALC_ASSETS
+    here = Path(__file__).resolve().parent
+    py = (here / "calc.py").read_text()
+    py_hash = hashlib.sha256(py.encode()).hexdigest()[:10]
+    load = json.loads((SITE / "_data" / "engine_load.json").read_text())
+    release = m["release"]
+    js = (here / "calc.js").read_text()
+    for token, value in {
+        "__PYODIDE_BASE__": f"https://cdn.jsdelivr.net/pyodide/v{load['pyodide']}/full/",
+        "__PYODIDE_SRI__": load["sri"],
+        "__PACKAGES__": json.dumps(load["packages"]),
+        "__WHEEL__": release["wheel"]["name"],
+        "__RUNNER_HASH__": py_hash,
+        "__LOAD_MB__": str(m["engine_load"]["mb"]),
+        "__ENGINE_VERSION__": release["version"],
+    }.items():
+        js = js.replace(token, value)
+    left = sorted(set(re.findall(r"__[A-Z_]+__", js)))
+    if left:
+        raise SystemExit(f"calc.js still has unfilled constants: {left}")
+    _CALC_ASSETS.update(js=js, py=py, js_hash=hashlib.sha256(js.encode()).hexdigest()[:10])
+    return _CALC_ASSETS
+
+
+def calc_form(m: dict, slug: str) -> str:
+    """The "try your own numbers" form for one calculator, prefilled with the
+    inputs of the worked example below it. Shown from the first paint, so the
+    page does not jump when the script arrives, with its button disabled until
+    calc.js runs: a form whose script never loaded then reads as inert, not
+    as a broken one."""
+    heading, lede, fields = CALC_FORMS[slug]
+    names = tuple(name for name, _, _ in fields)
+    if names != tuple(calc_inputs()[slug]):
+        raise SystemExit(
+            f"{slug}: the form asks for {names} but calc.py reads "
+            f"{calc_inputs()[slug]} — a renamed input would reach the engine "
+            "as an empty string")
+    defaults = m["calc_defaults"][slug]
+    if set(defaults) != set(names):
+        raise SystemExit(f"{slug}: calc_defaults has {sorted(defaults)}, "
+                         f"the form has {sorted(names)}")
+    boxes, checks = [], []
+    for name, label, kind in fields:
+        if kind == "check":
+            checks.append(
+                f'<label class="calc-check"><input type="checkbox" name="{name}"> '
+                f'{label}</label>')
+            continue
+        wide = ' class="calc-wide"' if kind == "list" else ""
+        mode = "decimal" if kind == "num" else "text"
+        boxes.append(
+            f'<label{wide}>{label} '
+            f'<input name="{name}" inputmode="{mode}" value="{e(defaults[name])}" '
+            f'autocomplete="off" autocapitalize="off" spellcheck="false"></label>')
+    return f"""<section class="own calc">
+  <h2>{heading}</h2>
+  <p class="own-lede">{lede}</p>
+  <form data-calc="{slug}" novalidate>
+    <div class="own-in">{''.join(boxes)}</div>
+    {''.join(checks)}
+    <div class="calc-go"><button class="btn primary" type="submit" disabled>Calculate</button></div>
+  </form>
+  <div class="own-out" aria-live="polite"></div>
+</section>
+<script src="/calc.js?v={calc_assets(m)['js_hash']}" defer></script>"""
+
+
+def calc_description(m: dict, row: dict) -> str:
+    """Meta description: what the page does now, which is take your numbers."""
+    if row["slug"] not in m["calc_defaults"]:
+        return (f"{row['question']} Worked through on real prices by the "
+                "engine that prices bets, with the range the answer sits in.")
+    text = (f"{row['question']} Type your own numbers: the real engine runs "
+            "in your browser, with a worked example on real prices.")
+    if len(text) > 160:
+        raise SystemExit(f"{row['slug']}: description is {len(text)} characters")
+    return text
+
+
 def render_calculator(m: dict, row: dict) -> str:
     """One calculator page, with a worked example the engine produced.
 
@@ -4027,6 +4290,20 @@ def render_calculator(m: dict, row: dict) -> str:
     slug = row["slug"]
     c = m["calculators"][slug]
     body = c["body"]
+    live = slug in m["calc_defaults"]
+    # With a form on the page "everything above" is no longer all build-time,
+    # so the provenance line says which part is which.
+    provenance = (
+        f"The worked example was computed by the same engine that prices bets, "
+        f"at the moment this page was built. None of it was typed in. The "
+        f"build fails if a figure appears here and not in the engine's own "
+        f"output. The calculator runs that engine, release "
+        f"{m['release']['version']}, in your browser, and the build checks "
+        f"that it returns this example&rsquo;s answers for this example&rsquo;s "
+        f"inputs." if live else
+        "Everything above was computed by the same engine that prices bets, at "
+        "the moment this page was built. None of it was typed in. The build "
+        "fails if a figure appears here and not in the engine's own output.")
     return f"""
 <div class="phead">
 <p class="crumb"><a href="/">Home</a><span>/</span>
@@ -4035,12 +4312,11 @@ def render_calculator(m: dict, row: dict) -> str:
 <p class="lede">{e(row['question'])}</p>
 </div>
 {own_devig_widget(m) if slug == "no-vig-odds" else ""}
+{calc_form(m, slug) if live else ""}
 {body}
 {app_shot(m, slug)}
 <h2>Where the number comes from</h2>
-<p>Everything above was computed by the same engine that prices bets, at the
-moment this page was built. None of it was typed in. The build fails if a
-figure appears here and not in the engine's own output.</p>
+<p>{provenance}</p>
 <p><a href="/how-it-works/">How a price is formed &rarr;</a>
 &nbsp;&middot;&nbsp;
 <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
@@ -5504,12 +5780,22 @@ def render_privacy(m: dict) -> str:
 <p class="lede">The short version: this site collects nothing, and the app sends
 nothing about you anywhere.</p>
 <h2>This website</h2>
-<p>No analytics, no advertising pixels, no cookies, no forms and no accounts.
-Nothing on these pages runs a tracker, and there is nothing to sign up for.</p>
+<p>No analytics, no advertising pixels, no cookies, no sign-up or contact forms
+and no accounts. Nothing on these pages runs a tracker, and there is nothing to
+sign up for.</p>
 <p>The site is hosted on GitHub Pages. GitHub may record the IP address of
 anyone who requests a page, for security and abuse prevention, under
 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub&rsquo;s own privacy statement</a>.
-That is the only record of your visit that exists, and we cannot see it.</p>
+Apart from the calculator download described next, that is the only record of
+your visit that exists, and we cannot see it.</p>
+<h2>The calculators</h2>
+<p>Most calculators work out your answer in your own browser. The first time you
+press Calculate, your browser downloads a Python runtime from the jsDelivr
+content delivery network (cdn.jsdelivr.net) and the engine itself from this
+site, and does the arithmetic on your machine. jsDelivr, like any content
+delivery network, may record the IP address of that request, under
+<a href="https://www.jsdelivr.com/terms/privacy-policy">its own privacy policy</a>.
+The numbers you type are never sent to jsDelivr or to us.</p>
 <h2>The app</h2>
 <p>Bookbreaker runs on your Mac. Your bets, stakes, results and account notes
 stay in a file on your machine. There is no account, no sync and no upload, and
@@ -5670,7 +5956,8 @@ def render_llms(built_urls: set[str]) -> str:
         "## Free calculators",
         "",
         link("/calculators/", "All calculators", "each worked through on real prices, "
-             "with the range the answer sits in"),
+             "with the range the answer sits in; most take your own numbers and run "
+             "the same engine in your browser"),
         *(link(f"/calculators/{r['slug']}/", r["name"], sentence(r["question"]))
           for r in calcs),
         "",
@@ -5758,8 +6045,7 @@ def main() -> int:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(
             f"{row['name']}: free, worked on real prices",
-            f"{row['question']} Worked through on real prices by the engine "
-            f"that prices bets, with the range the answer sits in.",
+            calc_description(measured, row),
             render_calculator(measured, row), url))
         built.append((url, rel))
     print(f"  /calculators/          {len(load_data('calculators'))} pages")
@@ -5775,11 +6061,13 @@ def main() -> int:
     hub = f"""
 <h1>Free betting calculators</h1>
 <p class="lede">Each one comes with the answer already worked out on real prices,
-so you see what it tells you before you type a thing. Pick the question you have.</p>
+so you see what it tells you before you type a thing. Most then take your own
+numbers and run the real engine in your browser. Pick the question you have.</p>
 <ul class="cards" data-hub>{rows}</ul>
 <p>All of them are the engine that prices bets, not a separate implementation.
 A calculator that disagrees with the product it advertises is worse than no
-calculator.</p>
+calculator, so the ones that take your numbers install the very wheel you can
+download, and do no arithmetic of their own.</p>
 """
     out = SITE / "calculators/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -6151,6 +6439,13 @@ point for your own check, not legal advice.</p>
         (SITE / f"{key}.txt").write_text(key + "\n")
 
     (SITE / "style.css").write_text(STYLE)
+
+    # The calculators: one script for every page, and the Python it runs. Both
+    # are generated from _build so that the wheel, the Pyodide pin and the
+    # measured size in the script are the build's, not a copy someone edits.
+    assets = calc_assets(measured)
+    (SITE / "calc.js").write_text(assets["js"])
+    (SITE / "calc.py").write_text(assets["py"])
 
     # Lazily fetched by the homepage calculator on first use, so 95KB never
     # touches the initial render.
