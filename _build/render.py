@@ -154,6 +154,17 @@ def read_app_window(app_repo: Path) -> dict:
     }
 
 
+def version_key(path) -> tuple:
+    """(major, minor, patch) read from a release file's name, for sorting."""
+    got = re.search(r"(\d+)\.(\d+)\.(\d+)", Path(path).name)
+    return tuple(int(n) for n in got.groups()) if got else (-1, -1, -1)
+
+
+def by_version(paths) -> list:
+    """Release files, oldest first by version number (0.1.9 before 0.1.10)."""
+    return sorted(paths, key=version_key)
+
+
 def released_version(engine_version: str) -> str:
     """The version of the newest artefact actually published in releases/.
 
@@ -821,8 +832,12 @@ def measure(engine) -> dict:
     # product repo cannot race this render into publishing a digest for a file
     # nobody can download.
     dist = SITE / "releases"
-    wheels = sorted(dist.glob("*.whl")) if dist.exists() else []
-    sdists = sorted(dist.glob("*.tar.gz")) if dist.exists() else []
+    # Newest LAST by version number, never by name: sorted by name,
+    # "Bookbreaker-0.1.10.dmg" comes before "Bookbreaker-0.1.9.dmg", and on
+    # 0.1.10 every Download button kept handing out 0.1.9 (CEO QC, 2026-10-09).
+    # The sdist glob also skips the app's update bundle (Bookbreaker-*.app.tar.gz).
+    wheels = by_version(dist.glob("overlay-*.whl")) if dist.exists() else []
+    sdists = by_version(dist.glob("overlay-*.tar.gz")) if dist.exists() else []
     if not wheels or not sdists:
         raise SystemExit(
             "no release artifacts in " + str(dist) + " — build them with "
@@ -857,7 +872,7 @@ def measure(engine) -> dict:
     # DMG IS present its digest is read off the served file, exactly like the
     # wheel's — the page never publishes a checksum for a file nobody can
     # download.
-    dmgs = sorted(dist.glob("*.dmg")) if dist.exists() else []
+    dmgs = by_version(dist.glob("Bookbreaker-*.dmg")) if dist.exists() else []
     app = _art(dmgs[-1]) if dmgs else None
 
     wheel, sdist = _art(wheels[-1]), _art(sdists[-1])

@@ -886,6 +886,38 @@ def check_privacy_names_every_tracker(pages, fails):
                 fails.append(f"{path}: says there are no analytics, but the pages load plausible.io")
 
 
+def check_downloads_match_the_update_manifest(pages, fails, measured):
+    """Every download on every page is the version updater.json offers.
+
+    On 0.1.10 updater.json offered 0.1.10 while every Download button handed new
+    visitors 0.1.9: the renderer picked the newest file by NAME, and
+    "Bookbreaker-0.1.10.dmg" sorts before "Bookbreaker-0.1.9.dmg". New people
+    started on an old build, and updating is a button they have to press. (CEO
+    QC, 2026-10-09.) The wheel the calculators load is held to the same version.
+    """
+    manifest = SITE / "updater.json"
+    if not manifest.exists():
+        return
+    offered = json.loads(manifest.read_text()).get("version")
+    for path, markup in pages:
+        for got in set(re.findall(r"Bookbreaker-(\d+\.\d+\.\d+)\.dmg", markup)):
+            if got != offered:
+                fails.append(f"{path}: a download hands out Bookbreaker {got}, "
+                             f"but updater.json offers {offered}")
+    release = measured.get("release", {})
+    app = (release.get("app") or {}).get("name", "")
+    if app and app != f"Bookbreaker-{offered}.dmg":
+        fails.append(f"measured.json picks {app} for downloads, but updater.json offers {offered}")
+    wheel = (release.get("wheel") or {}).get("name", "")
+    if wheel and not wheel.startswith(f"overlay-{offered}-"):
+        fails.append(f"the calculators load {wheel}, but updater.json offers {offered}")
+    calc = SITE / "calc.js"
+    if calc.exists():
+        for got in set(re.findall(r"overlay-(\d+\.\d+\.\d+)-py3-none-any\.whl", calc.read_text())):
+            if got != offered:
+                fails.append(f"calc.js loads the {got} wheel, but updater.json offers {offered}")
+
+
 def check_updater_manifest_matches_the_release(fails, measured):
     """updater.json tells every installed copy what to install, so it has to
     name the version on the download page, a download that is really in
@@ -1573,6 +1605,8 @@ def main() -> int:
             lambda: check_every_download_is_counted(pages, fails),
         "check_updater_manifest_matches_the_release":
             lambda: check_updater_manifest_matches_the_release(fails, measured),
+        "check_downloads_match_the_update_manifest":
+            lambda: check_downloads_match_the_update_manifest(pages, fails, measured),
         "check_inline_scripts_parse": lambda: check_inline_scripts_parse(pages, fails),
         "check_video_caption_names_the_recorded_version":
             lambda: check_video_caption_names_the_recorded_version(pages, fails),

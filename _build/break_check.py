@@ -108,6 +108,20 @@ CASES = [
         "see the FAQ",
     ),
     (
+        "a download button that hands out an older build than the updater offers",
+        "check_downloads_match_the_update_manifest",
+        "download/index.html",
+        f"Bookbreaker-{ANNOUNCED}.dmg",
+        "Bookbreaker-0.1.9.dmg",
+    ),
+    (
+        "the calculators load an older wheel than the updater offers",
+        "check_downloads_match_the_update_manifest",
+        "calc.js",
+        WHEEL,
+        OLDER_WHEEL,
+    ),
+    (
         "the video caption claims a version the video was not recorded from",
         "check_video_caption_names_the_recorded_version",
         "index.html",

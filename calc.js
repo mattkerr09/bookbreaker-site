@@ -23,7 +23,7 @@
   var BASE = 'https://cdn.jsdelivr.net/pyodide/v0.29.5/full/';
   var SRI = 'sha384-VR47TfKeAmT7vMej7bwOVg0tHTQLLGMSIpsXtFMCZG5OpKZSIXoSLtGY//qHcxc6';
   var PACKAGES = ["micropip", "sqlite3"];
-  var WHEEL = '/releases/overlay-0.1.9-py3-none-any.whl';
+  var WHEEL = '/releases/overlay-0.1.10-py3-none-any.whl';
   var RUNNER = '/calc.py?v=5b45fa39fe';
   var SIZE = '6';
   var VERSION = '0.1.10';
