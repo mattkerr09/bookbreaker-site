@@ -664,6 +664,62 @@ def check_every_download_is_counted(pages, fails):
                 fails.append(f"{path}: {h} downloads the app without counting it")
 
 
+def check_inline_scripts_parse(pages, fails):
+    """Every inline script on every page is valid JavaScript.
+
+    Until 2026-10-09 the shared footer script did not parse: a '\\n\\n' in the
+    Python template came out as two real line breaks inside a JS string, so the
+    reveal animation, the send-to-your-Mac button and the Download event never
+    ran on any page, and nothing in the gates looked. One syntax error kills the
+    whole script block, not just its line.
+    """
+    import shutil
+    import tempfile
+    node = shutil.which("node")
+    if node is None:
+        fails.append("node is not installed, so the inline scripts cannot be checked")
+        return
+    seen: dict[str, str] = {}
+    for path, markup in pages:
+        for attrs, body in re.findall(r"<script([^>]*)>(.*?)</script>", markup, re.S):
+            if "src=" in attrs or "ld+json" in attrs or not body.strip():
+                continue
+            key = hashlib.sha256(body.encode()).hexdigest()
+            seen.setdefault(key, path)
+            if seen[key] != path:
+                continue
+            with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as f:
+                f.write(body)
+            got = subprocess.run([node, "--check", f.name], capture_output=True, text=True)
+            Path(f.name).unlink(missing_ok=True)
+            if got.returncode != 0:
+                why = (got.stderr.strip().splitlines() or ["?"])[-1]
+                fails.append(f"{path}: an inline script does not parse ({why})")
+
+
+def check_privacy_names_every_tracker(pages, fails):
+    """The privacy page names every third-party script the pages load, and no
+    page denies the analytics they run.
+
+    The privacy page said "No analytics ... Nothing on these pages runs a
+    tracker" while every page loaded plausible.io and the affiliate snippet. A
+    policy that denies a tracker the site runs is a false statement in a legal
+    document, so it is a gate, not a style note.
+    """
+    privacy = dict(pages).get("privacy/index.html", "")
+    hosts: dict[str, str] = {}
+    for path, markup in pages:
+        for host in re.findall(r'<script[^>]*\bsrc="https?://([^/"]+)', markup):
+            hosts.setdefault(host, path)
+    for host, path in sorted(hosts.items()):
+        if host not in privacy:
+            fails.append(f"privacy/index.html never names {host}, which {path} loads")
+    if "plausible.io" in hosts:
+        for path, markup in pages:
+            if re.search(r"\bno analytics\b", html.unescape(markup), re.I):
+                fails.append(f"{path}: says there are no analytics, but the pages load plausible.io")
+
+
 def check_updater_manifest_matches_the_release(fails, measured):
     """updater.json tells every installed copy what to install, so it has to
     name the version on the download page, a download that is really in
@@ -1338,6 +1394,9 @@ def main() -> int:
             lambda: check_every_download_is_counted(pages, fails),
         "check_updater_manifest_matches_the_release":
             lambda: check_updater_manifest_matches_the_release(fails, measured),
+        "check_inline_scripts_parse": lambda: check_inline_scripts_parse(pages, fails),
+        "check_privacy_names_every_tracker":
+            lambda: check_privacy_names_every_tracker(pages, fails),
         "check_media_exists": lambda: check_media_exists(pages, fails),
         "check_no_internal_docs_are_served":
             lambda: check_no_internal_docs_are_served(fails),

@@ -108,6 +108,27 @@ CASES = [
         "see the FAQ",
     ),
     (
+        "a footer script that does not parse",
+        "check_inline_scripts_parse",
+        "index.html",
+        "encodeURIComponent(text + '\\n\\n' + url)",
+        "encodeURIComponent(text + '\n\n' + url)",
+    ),
+    (
+        "a privacy page that denies the analytics every page loads",
+        "check_privacy_names_every_tracker",
+        "privacy/index.html",
+        "<h2>This website</h2>",
+        "<h2>This website</h2><p>No analytics.</p>",
+    ),
+    (
+        "a third-party script the privacy page never names",
+        "check_privacy_names_every_tracker",
+        "index.html",
+        "</body>",
+        '<script src="https://tracker.example.net/t.js" defer></script></body>',
+    ),
+    (
         "a download that skips the count",
         "check_every_download_is_counted",
         "guides/how-to-devig-odds/index.html",

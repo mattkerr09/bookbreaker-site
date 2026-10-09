@@ -174,9 +174,7 @@ document.querySelectorAll('[data-send-mac-link]').forEach(function (b) {
       navigator.share({ title: 'Bookbreaker for Mac', text: text, url: url }).catch(function () {});
     } else {
       location.href = 'mailto:?subject=' + encodeURIComponent('Bookbreaker for Mac: download link') +
-        '&body=' + encodeURIComponent(text + '
-
-' + url);
+        '&body=' + encodeURIComponent(text + '\n\n' + url);
     }
   });
 });

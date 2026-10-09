@@ -2108,7 +2108,7 @@ document.querySelectorAll('[data-send-mac-link]').forEach(function (b) {{
       navigator.share({{ title: 'Bookbreaker for Mac', text: text, url: url }}).catch(function () {{}});
     }} else {{
       location.href = 'mailto:?subject=' + encodeURIComponent('Bookbreaker for Mac: download link') +
-        '&body=' + encodeURIComponent(text + '\n\n' + url);
+        '&body=' + encodeURIComponent(text + '\\n\\n' + url);
     }}
   }});
 }});
@@ -5777,17 +5777,36 @@ error, tell us and we will correct it.</p>
 def render_privacy(m: dict) -> str:
     return """
 <h1>Privacy</h1>
-<p class="lede">The short version: this site collects nothing, and the app sends
-nothing about you anywhere.</p>
+<p class="lede">The short version: this site counts visits without cookies and
+never learns who you are, and the app sends nothing about you anywhere.</p>
 <h2>This website</h2>
-<p>No analytics, no advertising pixels, no cookies, no sign-up or contact forms
-and no accounts. Nothing on these pages runs a tracker, and there is nothing to
-sign up for.</p>
+<p>No advertising pixels, no cookies, no sign-up or contact forms and no
+accounts. Three things on these pages do record something, and this is each of
+them:</p>
+<ul>
+<li><b>Visit counts.</b> Every page loads Plausible Analytics from plausible.io.
+It counts page views, the page that sent you here, your country and the kind of
+device, and two button presses: Download and the button that sends the link to
+your Mac. Plausible sets no cookies and, by its own account, does not store your
+IP address (<a href="https://plausible.io/data-policy">Plausible&rsquo;s data policy</a>).</li>
+<li><b>Download counts.</b> Each Download button passes through a counter we run
+on Cloudflare (kerr-affiliate-hub.kerrco.workers.dev) on its way to the file. It
+adds one to a daily tally of which page and which button, with your country and
+whether the request looked like a person or a robot. It keeps no IP address and
+no browser identifier. Cloudflare sees the request as any host would, under
+<a href="https://www.cloudflare.com/privacypolicy/">its own privacy policy</a>.</li>
+<li><b>Referral codes.</b> If you arrive from an affiliate or partner link, the
+link&rsquo;s referral code is kept in your browser&rsquo;s local storage on this
+site (key <code>kc_aff</code>) for 30 days and added to the link you send to your
+Mac, so the partner who referred you is credited. It is stored only by this site,
+is not a cookie, is not sent to any third party by this site, and is not read by
+any other site. Clearing your browser&rsquo;s site data removes it. The script
+that does this loads from the same Cloudflare counter.</li>
+</ul>
 <p>The site is hosted on GitHub Pages. GitHub may record the IP address of
 anyone who requests a page, for security and abuse prevention, under
 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub&rsquo;s own privacy statement</a>.
-Apart from the calculator download described next, that is the only record of
-your visit that exists, and we cannot see it.</p>
+We cannot see those records.</p>
 <h2>The calculators</h2>
 <p>Most calculators work out your answer in your own browser. The first time you
 press Calculate, your browser downloads a Python runtime from the jsDelivr
@@ -5858,8 +5877,8 @@ PAGES = [
      "cash locked if both bets stand, the steps to collect it, and where each was read.",
      render_offers),
     ("/privacy/", "privacy/index.html", "Privacy: what Bookbreaker collects",
-     "This site runs no analytics, no pixels and no cookies, and the app sends "
-     "nothing about you anywhere. What GitHub Pages logs, and what the app can reach.",
+     "What this site counts without cookies, what it keeps in your browser, and "
+     "what the app sends about you, which is nothing.",
      render_privacy),
     ("/responsible-gambling/", "responsible-gambling/index.html",
      "Responsible gambling at Bookbreaker",
@@ -5981,7 +6000,7 @@ def render_llms(built_urls: set[str]) -> str:
              "(1-800-697-3738), or call 1-800-GAMBLER"),
         link("/terms/", "Terms of use", "a free analysis tool, not a sportsbook and "
              "not advice"),
-        link("/privacy/", "Privacy", "the site runs no analytics, pixels or cookies, "
+        link("/privacy/", "Privacy", "the site counts visits without cookies, "
              "and the app sends nothing about you anywhere"),
         "",
         "## More from Kerr & Company",
