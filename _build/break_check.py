@@ -111,8 +111,8 @@ CASES = [
         "the video caption claims a version the video was not recorded from",
         "check_video_caption_names_the_recorded_version",
         "index.html",
-        '<p class="stage-cap">The app recorded on a Mac, version 0.1.8.</p>',
-        '<p class="stage-cap">The app recorded on a Mac, version 0.1.9.</p>',
+        f'<p class="stage-cap">The app recorded on a Mac, version {_video["recorded_version"]}.</p>',
+        '<p class="stage-cap">The app recorded on a Mac, version 9.9.9.</p>',
     ),
     (
         "a calculator page that throws when it loads",

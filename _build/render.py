@@ -2671,8 +2671,10 @@ def render_index(m: dict) -> str:
     costs. <a href="/guides/what-is-arbitrage-betting/">The full guide</a>.</p></details>
     <details><summary>Where do the prices come from?</summary><p>Switch on Live prices
     and the app reads Kalshi's and Polymarket US's public prices for NFL, MLB, NBA and NHL
-    games, and shows a pair only in states where both are open. For a sportsbook, type in the price you see and the app works out the
-    rest.</p></details>
+    games, and shows a pair only in states where both are open. For the sportsbooks, add a free
+    key from The Odds API (500 credits a month) and the app reads live odds from the major US
+    books, saying what each refresh costs before it runs. Or type in the price you see and the
+    app works out the rest.</p></details>
     <details><summary>Will betting like this get me limited?</summary><p>Some books limit
     accounts that win. Bookbreaker rounds your stakes and shows
     <a href="/sportsbooks/">which books in your state limit winners</a>.</p></details>
@@ -5827,10 +5829,17 @@ stay in a file on your machine. There is no account, no sync and no upload, and
 the window itself cannot make a network request: it links no HTTP client and
 its content security policy permits no external address. A test in the source
 fails the build if either ever changes.</p>
-<p>__REACH_COUNT__ things can reach the internet, and only when you ask. The Live prices
-switch on the Arbitrage page, when you turn it on, requests public prices from Kalshi
-and Polymarket US. It is the same request a browser makes, carrying nothing about you.__UPDATE_SENTENCE__
-And if the app
+<p>Only these reach the internet, and only when you ask:</p>
+<ul>
+<li><b>Live prices.</b> The switch on the Arbitrage page, when you turn it on, requests
+public prices from Kalshi and Polymarket US. It is the same request a browser makes,
+carrying nothing about you.</li>
+<li><b>Live sportsbook odds.</b> If you add your own Odds API key on the Odds source page,
+pressing its button sends that key and the sports, regions and bet types you picked
+to api.the-odds-api.com, and nothing else. The key is kept in your Mac&rsquo;s Keychain.</li>
+<li><b>Check for updates.</b>__UPDATE_SENTENCE__</li>
+</ul>
+<p>And if the app
 crashes it writes a report to your own disk, with passwords and keys stripped
 out; it never sends it. You can attach it to an email yourself if you want to.</p>
 <h2>Sportsbook accounts</h2>
@@ -5840,7 +5849,7 @@ pasting a betslip.</p>
 <h2>Links to sportsbooks</h2>
 <p>Links on this site to sportsbooks are ordinary links. None is an affiliate
 link and none pays us.</p>
-""".replace("__REACH_COUNT__", "Three" if UPDATER_SHIPPED else "Two").replace(
+""".replace(
         "__UPDATE_SENTENCE__",
         " When you press Check for updates, the app asks bookbreaker.bet for the latest "
         "version. The request carries no app ID and nothing about you, nothing installs "
@@ -5952,9 +5961,10 @@ def render_llms(built_urls: set[str]) -> str:
         "betting is legal. It tells you what the numbers say; you place your own bets. It "
         "does not take bets, hold money or connect to any sportsbook account, never asks "
         "for a sportsbook login, and is not affiliated with any sportsbook. The Mac app "
-        + ("makes two network calls, both started by you: Check for updates, which asks "
-           "bookbreaker.bet for the latest version, and the Live prices switch, which reads "
-           "Kalshi's and Polymarket US's public prices" if UPDATER_SHIPPED else "makes no network calls")
+        + ("makes three kinds of network call, all started by you: Check for updates, which asks "
+           "bookbreaker.bet for the latest version; the Live prices switch, which reads "
+           "Kalshi's and Polymarket US's public prices; and, with your own Odds API key, live "
+           "sportsbook odds from api.the-odds-api.com" if UPDATER_SHIPPED else "makes no network calls")
         + ". Otherwise you type prices, paste a betslip or import your book's "
         "CSV. An arbitrage profit is locked only if both bets are accepted "
         "and stand. Built by Matthew Kerr in Grand Rapids, Michigan.",

@@ -26,7 +26,7 @@
   var WHEEL = '/releases/overlay-0.1.9-py3-none-any.whl';
   var RUNNER = '/calc.py?v=5b45fa39fe';
   var SIZE = '6';
-  var VERSION = '0.1.9';
+  var VERSION = '0.1.10';
 
   var boxes = document.querySelectorAll('form[data-calc]');
   if (!boxes.length) return;

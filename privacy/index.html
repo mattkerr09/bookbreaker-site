@@ -98,10 +98,17 @@ stay in a file on your machine. There is no account, no sync and no upload, and
 the window itself cannot make a network request: it links no HTTP client and
 its content security policy permits no external address. A test in the source
 fails the build if either ever changes.</p>
-<p>Three things can reach the internet, and only when you ask. The Live prices
-switch on the Arbitrage page, when you turn it on, requests public prices from Kalshi
-and Polymarket US. It is the same request a browser makes, carrying nothing about you. When you press Check for updates, the app asks bookbreaker.bet for the latest version. The request carries no app ID and nothing about you, nothing installs unless you say yes, and only an update signed with our key will install.
-And if the app
+<p>Only these reach the internet, and only when you ask:</p>
+<ul>
+<li><b>Live prices.</b> The switch on the Arbitrage page, when you turn it on, requests
+public prices from Kalshi and Polymarket US. It is the same request a browser makes,
+carrying nothing about you.</li>
+<li><b>Live sportsbook odds.</b> If you add your own Odds API key on the Odds source page,
+pressing its button sends that key and the sports, regions and bet types you picked
+to api.the-odds-api.com, and nothing else. The key is kept in your Mac&rsquo;s Keychain.</li>
+<li><b>Check for updates.</b> When you press Check for updates, the app asks bookbreaker.bet for the latest version. The request carries no app ID and nothing about you, nothing installs unless you say yes, and only an update signed with our key will install.</li>
+</ul>
+<p>And if the app
 crashes it writes a report to your own disk, with passwords and keys stripped
 out; it never sends it. You can attach it to an email yourself if you want to.</p>
 <h2>Sportsbook accounts</h2>

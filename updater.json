@@ -1,11 +1,11 @@
 {
-  "version": "0.1.9",
-  "notes": "Arb stakes stay inside your budget, and live prices come from Polymarket US.\n\n- The arb calculator never bets more than the total you set. Pick how to round each bet: to the cent, $1, $5, $10, $25, or a round number that suits the size.\n- Live prices pair Kalshi with Polymarket US, the exchange US customers can use, priced from its order book after its fees.\n- Pick your state and pairs that need a venue not open there are hidden, with the source and its date. States where prediction markets are being challenged in court get a one-line note.\n- A typo in a price gets a plain sentence back instead of an error.",
-  "pub_date": "2026-10-09T15:17:51Z",
+  "version": "0.1.10",
+  "notes": "Live odds from the sportsbooks, with your own free key.\n\n- New Odds source page: paste a free key from The Odds API (500 credits a month). It is kept in your Mac's Keychain and only ever sent to The Odds API.\n- The Arbitrage page can then read live odds from the major US sportsbooks and find arbs, +EV bets and middles across them. Each refresh says what it will cost in credits before it runs, and how many you have left after.\n- Only regulated US sportsbooks are suggested as bets; Pinnacle and the exchanges are used to price the fair odds.",
+  "pub_date": "2026-10-09T15:31:33Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDYwSmxZOXY2b0RzU0ZxT2R2UlhkWTdLRGZFemtuME14MnJSZDM1Y3FTR3FQWFBHS0RlaXQxQW0xUnRXa1lTbzJvVEIxL2NiMERab2lIVU9ZVzVoNVFvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNTU5MDQ0CWZpbGU6Qm9va2JyZWFrZXItMC4xLjkuYXBwLnRhci5negorb21Ta1dkaVd0cWJiZDRaUW4zVlc3RUUyRW9iL09WWXhEeFRnUExaVmcxYlF3a24wam5nRGF1NllRUEJPYTErckNQVTJEMmMvQUcwNlE2aG1HQUxBQT09Cg==",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.9.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDlEUkJrT1N1enRIVXI4QTRNSkNOUU5zRzlTTkV4Qkhub05BR2pmUy85QmdjdU5paTBkZ2gwWW52NWx6Y1JrQ3JXMm9BRXJ6RzhBRkQ2b0VveDVVMHdZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNTU5ODY0CWZpbGU6Qm9va2JyZWFrZXItMC4xLjEwLmFwcC50YXIuZ3oKdTY4UkRnaTNFRFBUOSt0Smo5UzJZVkJwaU9XVENZRkRwMStiNlJrajB1ZE1OZ0pOeXhmdDI1aHViaGlKKy81Wi9aYlQ0S2ZjNFBDemZITmhhUUZxRGc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.10.app.tar.gz"
     }
   }
 }

@@ -2,6 +2,7 @@
   "app": {
     "heads": [
       "Arbitrage",
+      "Live odds from your own key",
       "Sign-up bonuses, turned into cash",
       "Your record",
       "Do these two prices lock in a profit?",
@@ -16,6 +17,7 @@
       "devig",
       "fill",
       "kelly",
+      "odds",
       "parlay",
       "results",
       "welcome"
@@ -441,7 +443,7 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "a43e7dc56038aef0",
+  "engine_fingerprint": "bbb66311d2beffb6",
   "engine_load": {
     "bytes": 6247844,
     "mb": 6,
@@ -859,7 +861,7 @@
       "name": "overlay-0.1.9.tar.gz",
       "sha256": "158c8eb78429a9e7a754b056453bf0cf475d2d39669eb03ed23b2b6c768f29cc"
     },
-    "version": "0.1.9",
+    "version": "0.1.10",
     "wheel": {
       "bytes": 234851,
       "kb": 229,
@@ -4811,14 +4813,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 41,
+    "engine_modules": 43,
     "network_calls": 0,
-    "sha256": "91b79e1209451896547447d993d070991778479c3a4f3fee79ede36a5cd3942d",
-    "sha256_short": "91b79e1209451896",
+    "sha256": "fb1e9d2cab98b4c0e5ba3c7c09c672ff966ecc78d1beae424b1a4bebdce88514",
+    "sha256_short": "fb1e9d2cab98b4c0",
     "sources": 29,
-    "test_files": 53
+    "test_files": 56
   },
-  "version": "0.1.9",
+  "version": "0.1.10",
   "weights": {
     "max_age_days": 90
   },
