@@ -1114,11 +1114,10 @@ def check_house_wording(pages, fails):
 
 
 def check_no_em_dashes(pages, fails):
-    """No em-dash anywhere a page can show one: text, attributes, comments (house style, Matthew 2026-10-10).
+    """No em-dash anywhere in a page, scripts and comments included (house style, Matthew 2026-10-10).
     Text inside <q> is a quotation and exempt."""
     for path, markup in pages:
         stripped = re.sub(r"(?s)<q>.*?</q>", " ", markup)
-        stripped = re.sub(r"(?s)<(script|style)[^>]*>.*?</\1>", " ", stripped)
         for m in re.finditer(r".{0,30}(?:\u2014|&mdash;|&#8212;|&#x2014;).{0,20}", stripped):
             fails.append(f"{path}: an em-dash in {m.group(0)!r}")
             break
