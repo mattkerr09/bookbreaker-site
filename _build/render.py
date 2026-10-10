@@ -1987,8 +1987,8 @@ def page(title: str, description: str, body: str, path: str,
 <title>{e(title)}</title>
 <meta name="description" content="{e(description)}">
 <link rel="canonical" href="https://bookbreaker.bet{path}">
-<!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE — no og:title, no
-     og:description, no twitter:card — so every shared link unfurled as a bare
+<!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE: no og:title, no
+     og:description, no twitter:card, so every shared link unfurled as a bare
      URL. It was the only site in the portfolio without any, on the one whose
      subject people actually paste into group chats.
 
@@ -2015,7 +2015,7 @@ def page(title: str, description: str, body: str, path: str,
 <meta property="og:image" content="https://bookbreaker.bet/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Bookbreaker — find your edge, with the error bar.">
+<meta property="og:image:alt" content="Bookbreaker: find your edge, with the error bar.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bookbreaker.bet/og.png">
 <meta name="twitter:title" content="{e(title)}">
@@ -6119,7 +6119,7 @@ PAGES = [
      render_how),
     ("/vs/", "vs/index.html", "Bookbreaker vs OddsJam, AVO, Pikkit and every arb tool",
      "OddsJam, AVO, Betstamp, Pikkit and the rest compared on price, features "
-     "and limits — every claim dated and linked to its source.",
+     "and limits. Every claim is dated and linked to its source.",
      render_vs),
     ("/account-longevity/", "account-longevity/index.html",
      "Account longevity: why limits matter more than edge",
@@ -6363,7 +6363,7 @@ download, and do no arithmetic of their own.</p>
     out.write_text(page(
         "Free betting calculators, worked on real prices",
         "No-vig odds, expected value, arbitrage staking, Kelly, hold, bonus "
-        "conversion, middles and closing line value — each worked through on "
+        "conversion, middles and closing line value, each worked through on "
         "real prices.",
         hub, "/calculators/"))
     built.append(("/calculators/", "calculators/index.html"))
@@ -6463,7 +6463,7 @@ download, and do no arithmetic of their own.</p>
     out.write_text(page(
         "Betting guides: the parts other guides skip",
         "Devigging, closing line value, bonus conversion, arbitrage, middles, "
-        "limits and bankroll — each answered with the arithmetic done.",
+        "limits and bankroll, each answered with the arithmetic done.",
         f"""
 <h1>Betting guides</h1>
 <p class="lede">Plain answers to the questions bettors ask, each worked through

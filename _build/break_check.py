@@ -225,6 +225,13 @@ CASES = [
         "User-agent: ClaudeBot\nAllow: /\n",
     ),
     (
+        "an em-dash on a page",
+        "check_no_em_dashes",
+        "offers/index.html",
+        "<h1>",
+        "<h1>Offers \u2014 ",
+    ),
+    (
         "a page that calls an offer risk-free",
         "check_house_wording",
         "offers/index.html",
