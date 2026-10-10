@@ -2735,6 +2735,16 @@ def render_how(m: dict) -> str:
                 f'<h2>{title}</h2>{text}</div>{visual}</section>')
 
     feats = "".join((
+        feat("Ask", "Ask in plain English",
+             "<p>Type a question the way you would say it: who is most likely to pass for 300 yards "
+             "this week, or what the best ten parlays are if you have ten $1 bets and want $200. "
+             "Every number in the answer comes from the engine, not from the AI's memory: passing-yard "
+             "chances from a projection whose stated chances were checked against what really happened in "
+             "seasons it was not tuned on, the plain arithmetic of a split bet, fair odds, and arbs and +EV bets from your "
+             "own odds feed. With no AI key it still answers questions like these. Add your own Anthropic "
+             "key, or run a model on your Mac with Ollama, and it understands any question. It never "
+             "places a bet.</p>",
+             shot=("panel-ask.jpg", "Ask answering how to split ten $1 bets toward $200, with the ten parlays in a table")),
         feat("Arbitrage", "See a pair the way you will bet it",
              "<p>The Arbitrage page shows both books side by side: the price at each, what "
              "to bet at each, and what you make if each side wins. The profit is locked only "
@@ -5249,6 +5259,28 @@ def across_the_border(m: dict, code: str) -> str:
             + ".</p>")
 
 
+def cannot_get(m: dict, code: str, name: str, absent: list) -> str:
+    """The books not licensed in this state, named only where the name is useful here.
+
+    Every state used to print the whole list of absent books, and as the table grew
+    (Michigan alone gained four) that one long sentence became the largest block of
+    text most state pages shared. Now the books that are a state line away are named:
+    the ones a person in this state may really be looking for. The rest are counted.
+    """
+    if not absent:
+        return ""
+    next_door = {b["name"] for c in NEIGHBOURS.get(code, ()) if c in m["states"] for b in m["states"][c]["books"]}
+    near = [a for a in absent if a in next_door]
+    far = len(absent) - len(near)
+    if near:
+        said = (f"{len(near)} of the {len(absent)} books that are not licensed here are licensed in a neighbouring state: "
+                f"{', '.join(e(a) for a in near)}. The other {far} take bets elsewhere in the United States.")
+    else:
+        said = (f"None of the {len(absent)} books that are not licensed here is licensed in a neighbouring state; "
+                "they take bets elsewhere in the United States.")
+    return f"<h2>What you cannot get in {e(name)}</h2><p>{said}</p>"
+
+
 def render_state_page(m: dict, code: str) -> str:
     """One state, carrying almost nothing that another state also carries.
 
@@ -5321,7 +5353,7 @@ covering the state limit accounts that win{'; ' + e(never_names) + ' ' + _does(l
 <h2>Every sportsbook covering {e(name)}</h2>
 {rows}
 
-{f'<h2>What you cannot get in {e(name)}</h2><p>{", ".join(e(a) for a in absent)}. These {len(absent)} books take bets elsewhere in the United States, not here.</p>' if absent else ''}
+{cannot_get(m, code, name, absent)}
 
 <h2>{e(name)} sports betting FAQ</h2>
 {faq_html}
@@ -5852,6 +5884,10 @@ carrying nothing about you.</li>
 <li><b>Live sportsbook odds.</b> If you add your own Odds API key on the Odds source page,
 pressing its button sends that key and the sports, regions and bet types you picked
 to api.the-odds-api.com, and nothing else. The key is kept in your Mac&rsquo;s Keychain.</li>
+<li><b>Ask.</b> If you add your own Anthropic key, your question and the numbers the engine
+looked up to answer it go to Anthropic when you press Ask, and nothing else does. The key is kept in
+your Mac&rsquo;s Keychain. With a model running on your own Mac through Ollama, nothing leaves it.
+Downloading the NFL player data, which you start yourself, fetches public files from GitHub.</li>
 <li><b>Check for updates.</b>__UPDATE_SENTENCE__</li>
 </ul>
 <p>And if the app
@@ -5976,10 +6012,11 @@ def render_llms(built_urls: set[str]) -> str:
         "betting is legal. It tells you what the numbers say; you place your own bets. It "
         "does not take bets, hold money or connect to any sportsbook account, never asks "
         "for a sportsbook login, and is not affiliated with any sportsbook. The Mac app "
-        + ("makes three kinds of network call, all started by you: Check for updates, which asks "
+        + ("makes network calls only when you start them: Check for updates, which asks "
            "bookbreaker.bet for the latest version; the Live prices switch, which reads "
            "Kalshi's and Polymarket US's public prices; and, with your own Odds API key, live "
-           "sportsbook odds from api.the-odds-api.com" if UPDATER_SHIPPED else "makes no network calls")
+           "sportsbook odds from api.the-odds-api.com; and Ask, which sends your question to "
+           "Anthropic only if you add your own key" if UPDATER_SHIPPED else "makes no network calls")
         + ". Otherwise you type prices, paste a betslip or import your book's "
         "CSV. An arbitrage profit is locked only if both bets are accepted "
         "and stand. Built by Matthew Kerr in Grand Rapids, Michigan.",

@@ -1,11 +1,11 @@
 {
-  "version": "0.1.10",
-  "notes": "Live odds from the sportsbooks, with your own free key.\n\n- New Odds source page: paste a free key from The Odds API (500 credits a month). It is kept in your Mac's Keychain and only ever sent to The Odds API.\n- The Arbitrage page can then read live odds from the major US sportsbooks and find arbs, +EV bets and middles across them. Each refresh says what it will cost in credits before it runs, and how many you have left after.\n- Only regulated US sportsbooks are suggested as bets; Pinnacle and the exchanges are used to price the fair odds.",
-  "pub_date": "2026-10-09T15:31:33Z",
+  "version": "0.1.11",
+  "notes": "Ask, and every sportsbook in Michigan.\n\n- New Ask page, first in the sidebar: type a question in plain English. Passing-yard chances for NFL quarterbacks, the best way to split a few small bets toward a target, fair odds, and arbs and +EV bets from your own odds feed. Every number comes from the engine.\n- With no AI key it still answers questions like these. Add your own Anthropic key (kept in your Mac's Keychain), or run a model on your Mac with Ollama, and it understands any question. Ask recommends from live arbs and +EV prices only.\n- Michigan now lists all 13 sportsbooks its regulator shows live, each with its current welcome offer or the reason it has none.",
+  "pub_date": "2026-10-10T05:05:09Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDlEUkJrT1N1enRIVXI4QTRNSkNOUU5zRzlTTkV4Qkhub05BR2pmUy85QmdjdU5paTBkZ2gwWW52NWx6Y1JrQ3JXMm9BRXJ6RzhBRkQ2b0VveDVVMHdZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNTU5ODY0CWZpbGU6Qm9va2JyZWFrZXItMC4xLjEwLmFwcC50YXIuZ3oKdTY4UkRnaTNFRFBUOSt0Smo5UzJZVkJwaU9XVENZRkRwMStiNlJrajB1ZE1OZ0pOeXhmdDI1aHViaGlKKy81Wi9aYlQ0S2ZjNFBDemZITmhhUUZxRGc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.10.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHdMWTRDWDZIdy93OUR4YStPTmFvTURrcUZybEJIY1hDcXd5L3Uvc1ArSWJEK0VFcjFBSGsrYlBJM0cwUVRRVW1xTWF4Ry82YjdmYzJtbEE2RFRqUVF3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNjA4Njg2CWZpbGU6Qm9va2JyZWFrZXItMC4xLjExLmFwcC50YXIuZ3oKTHVZWFNvWkF0Q2RnVkNsMGxGV2tzL1JlODVyQUFRektLVHVJNGNxVzRjaGorTDl2UGdldHNobEJTZURXbUNYby9RVmRtdDFndzNvUkE5L2dVUzQ1Q3c9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.11.app.tar.gz"
     }
   }
 }

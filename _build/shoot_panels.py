@@ -48,5 +48,23 @@ async def main():
             (OUT / name).write_bytes(base64.b64decode(shot["data"]))
             print(f"  {name}")
 
+        # Ask is a rail page, not a tab: open it, press the ten-$1-bets chip (its answer needs no
+        # downloaded data and no AI key), and wait for the answer to land in the log.
+        await ev("(()=>{const b=document.querySelector('[data-panel=\"ask\"]');if(b)b.click();})()")
+        await asyncio.sleep(0.7)
+        await ev("(()=>{const c=[...document.querySelectorAll('#ask-chips .chip')].find(x=>/Ten \\$1/.test(x.textContent));"
+                 "if(c)c.click();})()")
+        for _ in range(80):
+            await asyncio.sleep(0.25)
+            if await ev("(()=>{const l=document.querySelector('#ask-log');"
+                        "return !!(l&&/parlay/i.test(l.textContent)&&!/Working|Looking/.test(l.textContent));})()"):
+                break
+        else:
+            raise SystemExit("ask never rendered an answer")
+        await asyncio.sleep(0.5)
+        shot = await send("Page.captureScreenshot", {"format": "jpeg", "quality": 88})
+        (OUT / "panel-ask.jpg").write_bytes(base64.b64decode(shot["data"]))
+        print("  panel-ask.jpg")
+
 
 asyncio.run(main())

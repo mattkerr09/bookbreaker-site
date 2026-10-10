@@ -1,6 +1,7 @@
 {
   "app": {
     "heads": [
+      "Ask",
       "Arbitrage",
       "Live odds from your own key",
       "Sign-up bonuses, turned into cash",
@@ -13,6 +14,7 @@
     ],
     "panels": [
       "arb",
+      "ask",
       "board",
       "devig",
       "fill",
@@ -61,15 +63,19 @@
     "Caesars",
     "Circa Sports",
     "DraftKings",
+    "Eagle Casino & Sports",
     "Ember Sportsbook",
     "FanDuel",
     "Fanatics",
+    "FireKeepers Sportsbook",
+    "Four Winds Sportsbook",
     "Hard Rock Bet",
     "Kalshi",
     "Pinnacle",
     "Polymarket US",
     "Prime Sportsbook",
     "ProphetX",
+    "SI Sportsbook",
     "Sports Bet Montana",
     "Sportsbook Rhode Island",
     "Sporttrade",
@@ -247,7 +253,7 @@
     "fl": 3,
     "nj": 15,
     "states": 51,
-    "venues": 29
+    "venues": 33
   },
   "commission": {
     "commission": 2,
@@ -443,9 +449,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "bbb66311d2beffb6",
+  "engine_fingerprint": "c78c78a64ca8f509",
   "engine_load": {
-    "bytes": 6264377,
+    "bytes": 6368959,
     "mb": 6,
     "pyodide": "0.29.5"
   },
@@ -485,7 +491,7 @@
     "latency_observations": 30,
     "naive": 89
   },
-  "generated": "2026-10-09",
+  "generated": "2026-10-10",
   "grading": {
     "gap": 2.16,
     "p110": 52.38,
@@ -846,28 +852,28 @@
   },
   "release": {
     "app": {
-      "bytes": 10167137,
-      "kb": 9929,
-      "mb": 10.2,
-      "name": "Bookbreaker-0.1.10.dmg",
-      "sha256": "fb1e9d2cab98b4c0e5ba3c7c09c672ff966ecc78d1beae424b1a4bebdce88514"
+      "bytes": 35060561,
+      "kb": 34239,
+      "mb": 35.1,
+      "name": "Bookbreaker-0.1.11.dmg",
+      "sha256": "86d8eaf54f6de8e6a5417189844592d4ad676350703283bb9c68feec3df0349c"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 478267,
-      "kb": 467,
-      "mb": 0.5,
-      "name": "overlay-0.1.10.tar.gz",
-      "sha256": "0573e13a4fecd9cd8b828c6d71fb3ddc6c61761b8b7be341299486b068a0d5a4"
+      "bytes": 622774,
+      "kb": 608,
+      "mb": 0.6,
+      "name": "overlay-0.1.11.tar.gz",
+      "sha256": "0c0e74e19ae8fa015ae48fbbc879858b8924b38990478be7c5301ae0adef81c5"
     },
-    "version": "0.1.10",
+    "version": "0.1.11",
     "wheel": {
-      "bytes": 251384,
-      "kb": 245,
-      "mb": 0.3,
-      "name": "overlay-0.1.10-py3-none-any.whl",
-      "sha256": "ff6114949f15d617e417c4782ae4c2082d6abfb03fa4f1957312762b9b79fa51"
+      "bytes": 355966,
+      "kb": 348,
+      "mb": 0.4,
+      "name": "overlay-0.1.11-py3-none-any.whl",
+      "sha256": "4d88b59ca3a1d1b78cca7ef9e99846ca279dd0a0c32334ea6f579638691ba865"
     }
   },
   "replay": {
@@ -1064,7 +1070,7 @@
       "tax_rate": 13.0
     },
     "AZ": {
-      "age_days": 1856,
+      "age_days": 1857,
       "age_months": 61,
       "age_of": 16,
       "age_rank": 8,
@@ -1074,7 +1080,7 @@
       "tax_rate": 10.0
     },
     "CO": {
-      "age_days": 2352,
+      "age_days": 2353,
       "age_months": 77,
       "age_of": 16,
       "age_rank": 1,
@@ -1084,7 +1090,7 @@
       "tax_rate": 10.0
     },
     "CT": {
-      "age_days": 1816,
+      "age_days": 1817,
       "age_months": 60,
       "age_of": 16,
       "age_rank": 9,
@@ -1094,7 +1100,7 @@
       "tax_rate": 13.75
     },
     "DC": {
-      "age_days": 2325,
+      "age_days": 2326,
       "age_months": 76,
       "age_of": 16,
       "age_rank": 2,
@@ -1104,7 +1110,7 @@
       "tax_rate": 20.0
     },
     "DE": {
-      "age_days": 1010,
+      "age_days": 1011,
       "age_months": 33,
       "age_of": 16,
       "age_rank": 14,
@@ -1119,7 +1125,7 @@
       "tax_rate": 6.75
     },
     "IL": {
-      "age_days": 2304,
+      "age_days": 2305,
       "age_months": 76,
       "age_of": 16,
       "age_rank": 3,
@@ -1136,7 +1142,7 @@
       "tax_rate": 10.0
     },
     "KY": {
-      "age_days": 1107,
+      "age_days": 1108,
       "age_months": 36,
       "age_of": 16,
       "age_rank": 13,
@@ -1156,7 +1162,7 @@
       "tax_rate": 20.0
     },
     "MD": {
-      "age_days": 1416,
+      "age_days": 1417,
       "age_months": 47,
       "age_of": 16,
       "age_rank": 11,
@@ -1171,7 +1177,7 @@
       "tax_rate": 10.0
     },
     "MI": {
-      "age_days": 2086,
+      "age_days": 2087,
       "age_months": 69,
       "age_of": 16,
       "age_rank": 6,
@@ -1181,7 +1187,7 @@
       "tax_rate": 8.4
     },
     "MO": {
-      "age_days": 312,
+      "age_days": 313,
       "age_months": 10,
       "age_of": 16,
       "age_rank": 16,
@@ -1191,7 +1197,7 @@
       "tax_rate": 10.0
     },
     "NC": {
-      "age_days": 942,
+      "age_days": 943,
       "age_months": 31,
       "age_of": 16,
       "age_rank": 15,
@@ -1211,7 +1217,7 @@
       "tax_rate": 6.75
     },
     "NY": {
-      "age_days": 1735,
+      "age_days": 1736,
       "age_months": 57,
       "age_of": 16,
       "age_rank": 10,
@@ -1221,7 +1227,7 @@
       "tax_rate": 51.0
     },
     "OH": {
-      "age_days": 1377,
+      "age_days": 1378,
       "age_months": 45,
       "age_of": 16,
       "age_rank": 12,
@@ -1231,14 +1237,14 @@
       "tax_rate": 20.0
     },
     "TN": {
-      "age_days": 2168,
+      "age_days": 2169,
       "age_months": 71,
       "age_of": 16,
       "age_rank": 4,
       "age_years": 5.9
     },
     "VA": {
-      "age_days": 2087,
+      "age_days": 2088,
       "age_months": 69,
       "age_of": 16,
       "age_rank": 5,
@@ -1253,7 +1259,7 @@
       "tax_rate": 10.0
     },
     "WY": {
-      "age_days": 1864,
+      "age_days": 1865,
       "age_months": 61,
       "age_of": 16,
       "age_rank": 7,
@@ -1262,7 +1268,7 @@
   },
   "states": {
     "AK": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1291,15 +1297,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "AK",
       "venues": 2
     },
     "AL": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1328,15 +1335,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "AL",
       "venues": 2
     },
     "AR": {
-      "absent": 16,
+      "absent": 19,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1379,15 +1387,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "AR",
       "venues": 4
     },
     "AZ": {
-      "absent": 7,
+      "absent": 10,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1493,15 +1502,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 11,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "AZ",
       "venues": 13
     },
     "CA": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1530,15 +1540,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "CA",
       "venues": 2
     },
     "CO": {
-      "absent": 7,
+      "absent": 10,
       "anchors": 3,
       "as_of": "2026-09-24",
       "books": [
@@ -1645,15 +1656,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "CO",
       "venues": 13
     },
     "CT": {
-      "absent": 15,
+      "absent": 18,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1703,15 +1715,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 3,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "CT",
       "venues": 5
     },
     "DC": {
-      "absent": 12,
+      "absent": 15,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1782,15 +1795,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 6,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "DC",
       "venues": 8
     },
     "DE": {
-      "absent": 17,
+      "absent": 20,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1826,15 +1840,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run by BetRivers",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "DE",
       "venues": 3
     },
     "FL": {
-      "absent": 17,
+      "absent": 20,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1870,15 +1885,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 1,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "FL",
       "venues": 3
     },
     "GA": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1907,15 +1923,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "GA",
       "venues": 2
     },
     "HI": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -1944,15 +1961,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "HI",
       "venues": 2
     },
     "IA": {
-      "absent": 8,
+      "absent": 11,
       "anchors": 3,
       "as_of": "2026-09-24",
       "books": [
@@ -2041,7 +2059,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 5,
+      "books_rank": 6,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -2052,15 +2070,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "IA",
       "venues": 12
     },
     "ID": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -2089,15 +2108,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "ID",
       "venues": 2
     },
     "IL": {
-      "absent": 8,
+      "absent": 11,
       "anchors": 3,
       "as_of": "2026-09-24",
       "books": [
@@ -2186,7 +2206,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 5,
+      "books_rank": 6,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -2197,121 +2217,15 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "IL",
       "venues": 12
     },
     "IN": {
-      "absent": 8,
-      "anchors": 2,
-      "as_of": "2026-09-24",
-      "books": [
-        {
-          "commission": 0,
-          "key": "kalshi",
-          "limits": false,
-          "name": "Kalshi",
-          "tier": "exchange"
-        },
-        {
-          "commission": 0,
-          "key": "polymarket_us",
-          "limits": false,
-          "name": "Polymarket US",
-          "tier": "exchange"
-        },
-        {
-          "commission": 0,
-          "key": "bally",
-          "limits": true,
-          "name": "Bally Bet",
-          "tier": "retail"
-        },
-        {
-          "commission": 0,
-          "key": "bet365",
-          "limits": true,
-          "name": "bet365",
-          "tier": "retail"
-        },
-        {
-          "commission": 0,
-          "key": "mgm",
-          "limits": true,
-          "name": "BetMGM",
-          "tier": "retail"
-        },
-        {
-          "commission": 0,
-          "key": "betrivers",
-          "limits": true,
-          "name": "BetRivers",
-          "tier": "retail"
-        },
-        {
-          "commission": 0,
-          "key": "caesars",
-          "limits": true,
-          "name": "Caesars",
-          "tier": "retail"
-        },
-        {
-          "commission": 0,
-          "key": "dk",
-          "limits": true,
-          "name": "DraftKings",
-          "tier": "retail"
-        },
-        {
-          "commission": 0,
-          "key": "fanatics",
-          "limits": true,
-          "name": "Fanatics",
-          "tier": "retail"
-        },
-        {
-          "commission": 0,
-          "key": "fd",
-          "limits": true,
-          "name": "FanDuel",
-          "tier": "retail"
-        },
-        {
-          "commission": 0,
-          "key": "hardrock",
-          "limits": true,
-          "name": "Hard Rock Bet",
-          "tier": "retail"
-        },
-        {
-          "commission": 0,
-          "key": "thescore",
-          "limits": true,
-          "name": "theScore Bet",
-          "tier": "retail"
-        }
-      ],
-      "books_rank": 5,
-      "covered": true,
-      "gap_reason": "",
-      "has_anchor": true,
-      "legal": true,
-      "never_limit": [
-        "kalshi",
-        "polymarket_us"
-      ],
-      "online": true,
-      "retail": 10,
-      "retail_only": "",
-      "single_operator": "",
-      "stale_days": 15,
-      "state": "IN",
-      "venues": 12
-    },
-    "KS": {
       "absent": 11,
       "anchors": 2,
       "as_of": "2026-09-24",
@@ -2332,6 +2246,114 @@
         },
         {
           "commission": 0,
+          "key": "bally",
+          "limits": true,
+          "name": "Bally Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "bet365",
+          "limits": true,
+          "name": "bet365",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "mgm",
+          "limits": true,
+          "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "betrivers",
+          "limits": true,
+          "name": "BetRivers",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "caesars",
+          "limits": true,
+          "name": "Caesars",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "dk",
+          "limits": true,
+          "name": "DraftKings",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "fanatics",
+          "limits": true,
+          "name": "Fanatics",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "fd",
+          "limits": true,
+          "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "hardrock",
+          "limits": true,
+          "name": "Hard Rock Bet",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "thescore",
+          "limits": true,
+          "name": "theScore Bet",
+          "tier": "retail"
+        }
+      ],
+      "books_rank": 6,
+      "covered": true,
+      "gap_reason": "",
+      "has_anchor": true,
+      "legal": true,
+      "never_limit": [
+        "kalshi",
+        "polymarket_us"
+      ],
+      "online": true,
+      "regulator": null,
+      "retail": 10,
+      "retail_only": "",
+      "single_operator": "",
+      "stale_days": 16,
+      "state": "IN",
+      "venues": 12
+    },
+    "KS": {
+      "absent": 14,
+      "anchors": 2,
+      "as_of": "2026-09-24",
+      "books": [
+        {
+          "commission": 0,
+          "key": "kalshi",
+          "limits": false,
+          "name": "Kalshi",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
+          "key": "polymarket_us",
+          "limits": false,
+          "name": "Polymarket US",
+          "tier": "exchange"
+        },
+        {
+          "commission": 0,
           "key": "bet365",
           "limits": true,
           "name": "bet365",
@@ -2380,7 +2402,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 17,
+      "books_rank": 18,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -2390,15 +2412,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "KS",
       "venues": 9
     },
     "KY": {
-      "absent": 9,
+      "absent": 12,
       "anchors": 3,
       "as_of": "2026-09-24",
       "books": [
@@ -2480,7 +2503,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 10,
+      "books_rank": 11,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -2491,15 +2514,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "KY",
       "venues": 11
     },
     "LA": {
-      "absent": 10,
+      "absent": 13,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -2574,7 +2598,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 14,
+      "books_rank": 15,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -2584,15 +2608,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "LA",
       "venues": 10
     },
     "MA": {
-      "absent": 13,
+      "absent": 16,
       "anchors": 0,
       "as_of": "2026-09-24",
       "books": [
@@ -2653,15 +2678,16 @@
       "legal": true,
       "never_limit": [],
       "online": true,
+      "regulator": null,
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "MA",
       "venues": 7
     },
     "MD": {
-      "absent": 8,
+      "absent": 11,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -2750,7 +2776,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 5,
+      "books_rank": 6,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -2760,15 +2786,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "MD",
       "venues": 12
     },
     "ME": {
-      "absent": 16,
+      "absent": 19,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -2811,15 +2838,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "ME",
       "venues": 4
     },
     "MI": {
-      "absent": 11,
+      "absent": 10,
       "anchors": 0,
       "as_of": "2026-09-24",
       "books": [
@@ -2835,6 +2863,13 @@
           "key": "mgm",
           "limits": true,
           "name": "BetMGM",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "betparx",
+          "limits": true,
+          "name": "betPARX",
           "tier": "retail"
         },
         {
@@ -2860,6 +2895,13 @@
         },
         {
           "commission": 0,
+          "key": "eagle",
+          "limits": true,
+          "name": "Eagle Casino & Sports",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
           "key": "fanatics",
           "limits": true,
           "name": "Fanatics",
@@ -2870,6 +2912,20 @@
           "key": "fd",
           "limits": true,
           "name": "FanDuel",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "firekeepers",
+          "limits": true,
+          "name": "FireKeepers Sportsbook",
+          "tier": "retail"
+        },
+        {
+          "commission": 0,
+          "key": "fourwinds",
+          "limits": true,
+          "name": "Four Winds Sportsbook",
           "tier": "retail"
         },
         {
@@ -2887,22 +2943,28 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 17,
+      "books_rank": 3,
       "covered": true,
       "gap_reason": "",
       "has_anchor": false,
       "legal": true,
       "never_limit": [],
       "online": true,
-      "retail": 9,
+      "regulator": {
+        "days": 1,
+        "name": "Michigan Gaming Control Board",
+        "read": "2026-10-09",
+        "sports_operators": 13
+      },
+      "retail": 13,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "MI",
-      "venues": 9
+      "venues": 13
     },
     "MN": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -2931,15 +2993,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "MN",
       "venues": 2
     },
     "MO": {
-      "absent": 10,
+      "absent": 13,
       "anchors": 3,
       "as_of": "2026-09-24",
       "books": [
@@ -3014,7 +3077,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 14,
+      "books_rank": 15,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -3025,15 +3088,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "MO",
       "venues": 10
     },
     "MS": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3062,15 +3126,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "retail sportsbooks only, no online betting",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "MS",
       "venues": 2
     },
     "MT": {
-      "absent": 17,
+      "absent": 20,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3106,15 +3171,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run by Intralot, where the app only works inside authorised Sports Bet Montana locations",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "MT",
       "venues": 3
     },
     "NC": {
-      "absent": 11,
+      "absent": 14,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3182,7 +3248,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 17,
+      "books_rank": 18,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -3192,15 +3258,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "NC",
       "venues": 9
     },
     "ND": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3229,15 +3296,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "ND",
       "venues": 2
     },
     "NE": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3266,15 +3334,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "licensed casinos only; online betting is on the 2026-11-03 ballot",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "NE",
       "venues": 2
     },
     "NH": {
-      "absent": 17,
+      "absent": 20,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3310,15 +3379,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 1,
       "retail_only": "",
       "single_operator": "an exclusive lottery contract with DraftKings",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "NH",
       "venues": 3
     },
     "NJ": {
-      "absent": 5,
+      "absent": 8,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3438,15 +3508,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 13,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "NJ",
       "venues": 15
     },
     "NM": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3475,15 +3546,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "NM",
       "venues": 2
     },
     "NV": {
-      "absent": 17,
+      "absent": 20,
       "anchors": 1,
       "as_of": "2026-09-24",
       "books": [
@@ -3518,15 +3590,16 @@
         "circa"
       ],
       "online": true,
+      "regulator": null,
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "NV",
       "venues": 3
     },
     "NY": {
-      "absent": 10,
+      "absent": 13,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3601,7 +3674,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 14,
+      "books_rank": 15,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -3611,15 +3684,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "NY",
       "venues": 10
     },
     "OH": {
-      "absent": 6,
+      "absent": 9,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3732,15 +3806,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 12,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "OH",
       "venues": 14
     },
     "OK": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3769,15 +3844,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "OK",
       "venues": 2
     },
     "OR": {
-      "absent": 17,
+      "absent": 20,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3813,15 +3889,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 1,
       "retail_only": "",
       "single_operator": "an exclusive lottery partnership with DraftKings",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "OR",
       "venues": 3
     },
     "PA": {
-      "absent": 9,
+      "absent": 12,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3903,7 +3980,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 10,
+      "books_rank": 11,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -3913,15 +3990,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "PA",
       "venues": 11
     },
     "RI": {
-      "absent": 17,
+      "absent": 20,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3957,15 +4035,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run on the IGT platform",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "RI",
       "venues": 3
     },
     "SC": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -3994,15 +4073,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "SC",
       "venues": 2
     },
     "SD": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -4031,15 +4111,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "Deadwood and tribal casinos only, no online betting",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "SD",
       "venues": 2
     },
     "TN": {
-      "absent": 9,
+      "absent": 12,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -4121,7 +4202,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 10,
+      "books_rank": 11,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -4131,15 +4212,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "TN",
       "venues": 11
     },
     "TX": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -4168,15 +4250,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "TX",
       "venues": 2
     },
     "UT": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -4205,15 +4288,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "UT",
       "venues": 2
     },
     "VA": {
-      "absent": 8,
+      "absent": 11,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -4302,7 +4386,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 5,
+      "books_rank": 6,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -4312,15 +4396,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "VA",
       "venues": 12
     },
     "VT": {
-      "absent": 15,
+      "absent": 18,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -4370,15 +4455,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 3,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "VT",
       "venues": 5
     },
     "WA": {
-      "absent": 20,
+      "absent": 23,
       "anchors": 0,
       "as_of": "2026-09-24",
       "books": [],
@@ -4389,15 +4475,16 @@
       "legal": true,
       "never_limit": [],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "tribal casinos only, including on-premises mobile, no statewide online betting",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "WA",
       "venues": 0
     },
     "WI": {
-      "absent": 18,
+      "absent": 21,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -4426,15 +4513,16 @@
         "polymarket_us"
       ],
       "online": false,
+      "regulator": null,
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "WI",
       "venues": 2
     },
     "WV": {
-      "absent": 9,
+      "absent": 12,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -4516,7 +4604,7 @@
           "tier": "retail"
         }
       ],
-      "books_rank": 10,
+      "books_rank": 11,
       "covered": true,
       "gap_reason": "",
       "has_anchor": true,
@@ -4526,15 +4614,16 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "WV",
       "venues": 11
     },
     "WY": {
-      "absent": 13,
+      "absent": 16,
       "anchors": 2,
       "as_of": "2026-09-24",
       "books": [
@@ -4598,10 +4687,11 @@
         "polymarket_us"
       ],
       "online": true,
+      "regulator": null,
       "retail": 5,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 15,
+      "stale_days": 16,
       "state": "WY",
       "venues": 7
     }
@@ -4813,14 +4903,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 43,
+    "engine_modules": 54,
     "network_calls": 0,
-    "sha256": "fb1e9d2cab98b4c0e5ba3c7c09c672ff966ecc78d1beae424b1a4bebdce88514",
-    "sha256_short": "fb1e9d2cab98b4c0",
+    "sha256": "86d8eaf54f6de8e6a5417189844592d4ad676350703283bb9c68feec3df0349c",
+    "sha256_short": "86d8eaf54f6de8e6",
     "sources": 29,
-    "test_files": 56
+    "test_files": 64
   },
-  "version": "0.1.10",
+  "version": "0.1.11",
   "weights": {
     "max_age_days": 90
   },
@@ -4830,7 +4920,7 @@
     "max_age_days": 21,
     "offers": [
       {
-        "age_days": 2,
+        "age_days": 3,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 20.0,
@@ -4864,7 +4954,6 @@
           "LA",
           "MA",
           "MD",
-          "MI",
           "MO",
           "NC",
           "NJ",
@@ -4885,7 +4974,39 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "fanatics",
+        "conversion": 0.69,
+        "cost": 20.0,
+        "ended": false,
+        "ends": "2026-12-02",
+        "expected": 667.012987012987,
+        "expires_days": "7",
+        "face": 1000.0,
+        "guaranteed": 667.012987012987,
+        "headline": "Get Up To $1000 Matched in FanCash",
+        "hedge_heat": 0.2,
+        "hedge_stake": 230.0,
+        "ineligible": "",
+        "installments": 10,
+        "name": "Fanatics",
+        "note": "Fanatics' own page, which lists Michigan. Opt in on the bet slip each day for your first 10 days; your first cash bet of the day, $1 or more at -200 or longer, is matched 100% in FanCash up to $100, paid win or lose once the bet settles (Sportsbook Review's Michigan page, 2026-10-05, which also asks a $10 deposit; Rotowire's 2026-10-05 Michigan article says only if it loses, which Fanatics' own terms, read in an earlier pass of this feed, contradict). A missed day: Fanatics' own page, read in that earlier pass, says it ends the offer; Sportsbook Review's Michigan page says only that day is forfeited. FanCash expires 7 days after issue and its stake is not returned. The page ends the offer at 2:00 a.m. ET on December 2, 2026. The alternative to the $350 FanCash offer; a new account takes one.",
+        "offer_type": "bet_and_get",
+        "read": "2026-10-09",
+        "source": "https://betfanatics.com/sportsbook/promo-code/1000-fancash",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $1,000 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $20.00. It is a fee, not a bet.",
+          "Convert: place each $100 bonus bet at +300 and hedge $230 cash on the other side at another book. If both bets are accepted and stand, you keep at least $68.70 whichever side wins. Repeat for all 10 installments.",
+          "Collect: $667.01 locked from $1,000 face if both bets are accepted and stand, before the bonus expires (7 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -4917,7 +5038,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 3,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.4,
@@ -4950,7 +5071,6 @@
           "LA",
           "MA",
           "MD",
-          "MI",
           "MO",
           "NC",
           "NJ",
@@ -4970,7 +5090,39 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "fanatics",
+        "conversion": 0.69,
+        "cost": 0.4,
+        "ended": false,
+        "ends": "2026-12-01",
+        "expected": 240.05454545454543,
+        "expires_days": "1",
+        "face": 350.0,
+        "guaranteed": 240.05454545454543,
+        "headline": "Bet $20, Get $350 in FanCash!",
+        "hedge_heat": 0.3,
+        "hedge_stake": 115.0,
+        "ineligible": "",
+        "installments": 7,
+        "name": "Fanatics",
+        "note": "Secondary source: Covers' Michigan page (updated 2026-10-07, verified 2026-10-09), printing Fanatics' terms for a list of states that includes Michigan. A $20+ cash bet at -500 or longer within 7 days of opening the account, then $50 in FanCash each day for your first 7 days, opted into daily; each day's FanCash expires 24 hours after issue. Covers gives the end as 2026-12-01; Sportsbook Review's Michigan page (2026-10-05) lists the offer as the alternative. The alternative to the FanCash match; a new account takes one.",
+        "offer_type": "bet_and_get",
+        "read": "2026-10-09",
+        "source": "https://www.covers.com/betting/usa/michigan",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $20 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.40. It is a fee, not a bet.",
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 7 installments.",
+          "Collect: $240.05 locked from $350 face if both bets are accepted and stand, before the bonus expires (1 day).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "fd",
         "conversion": 0.69,
         "cost": 0.5,
@@ -5005,7 +5157,6 @@
           "LA",
           "MA",
           "MD",
-          "MI",
           "MO",
           "NC",
           "NJ",
@@ -5026,7 +5177,39 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "fd",
+        "conversion": 0.69,
+        "cost": 0.5,
+        "ended": false,
+        "ends": "2026-10-12",
+        "expected": 171.25324675324674,
+        "expires_days": "5",
+        "face": 250.0,
+        "guaranteed": 171.25324675324674,
+        "headline": "Get $250 in Bonus Bets!",
+        "hedge_heat": 0.3,
+        "hedge_stake": 115.0,
+        "ineligible": "",
+        "installments": 5,
+        "name": "FanDuel",
+        "note": "Secondary source: FanDuel's own pages load as a script shell with no readable terms. A $5 first deposit, then a $5+ bet each day for five consecutive days; each day pays $50 in bonus bets, win or lose. Expiry is disputed: Action Network (updated 2026-10-07), quoting FanDuel's own terms, says the bonus bets expire 5 days after receipt, while Sportsbook Review's Michigan page (2026-10-05) says 7. The shorter is recorded. Covers' Michigan page (verified 2026-10-09) gives the offer's end as 2026-10-12; Sportsbook Review's Massachusetts page, read in an earlier pass of this feed, gave 2026-10-11.",
+        "offer_type": "bet_and_get",
+        "read": "2026-10-09",
+        "source": "https://www.actionnetwork.com/online-sports-betting/reviews/fanduel",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $25 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.50. It is a fee, not a bet.",
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 5 installments.",
+          "Collect: $171.25 locked from $250 face if both bets are accepted and stand, before the bonus expires (5 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5042,7 +5225,7 @@
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
-        "note": "Secondary source; Action Network (read 2026-10-07) gives the same offer and states. A $10+ qualifying bet at -500 or longer within 30 days of registering. Bonus bets are paid win or lose, are non-withdrawable, expire 7 days after issue, and the bonus bet stake is not returned. MI, NJ and PA add 50 casino spins, which are not priced here.",
+        "note": "Secondary source; Action Network (read 2026-10-07) gives the same offer and states. A $10+ qualifying bet at -500 or longer within 30 days of registering. Bonus bets are paid win or lose, are non-withdrawable, expire 7 days after issue, and the bonus bet stake is not returned. NJ and PA add 50 casino spins, which are not priced here.",
         "offer_type": "bet_and_get",
         "read": "2026-10-07",
         "source": "https://www.rotowire.com/betting/bet365/bonus-code",
@@ -5055,7 +5238,6 @@
           "KY",
           "LA",
           "MD",
-          "MI",
           "MO",
           "NC",
           "NJ",
@@ -5071,7 +5253,39 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "bet365",
+        "conversion": 0.69,
+        "cost": 0.2,
+        "ended": false,
+        "ends": "",
+        "expected": 137.2025974025974,
+        "expires_days": "7",
+        "face": 200.0,
+        "guaranteed": 137.2025974025974,
+        "headline": "Bet $10, Get $200 in Bonus Bets Win or Lose",
+        "hedge_heat": 0.2,
+        "hedge_stake": 460.0,
+        "ineligible": "",
+        "installments": 1,
+        "name": "bet365",
+        "note": "Secondary source. Rotowire (promo last verified 2026-10-09) lists Michigan, which also gets 50 casino spins that are not priced here. A $10+ qualifying bet at -500 or longer within 30 days of registering. Bonus bets are paid win or lose, are non-withdrawable, expire 7 days after receipt, and the bonus bet stake is not returned. Sportsbook Review's Michigan page (2026-10-05) and Covers' Michigan page (verified 2026-10-09) give the same offer. bet365 began taking Michigan bets on 2026-04-17 (MGCB release).",
+        "offer_type": "bet_and_get",
+        "read": "2026-10-09",
+        "source": "https://www.rotowire.com/betting/bet365/bonus-code",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $10 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
+          "Convert: place each $200 bonus bet at +300 and hedge $460 cash on the other side at another book. If both bets are accepted and stand, you keep at least $137.40 whichever side wins.",
+          "Collect: $137.20 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "dk",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5107,7 +5321,6 @@
           "MA",
           "MD",
           "ME",
-          "MI",
           "MO",
           "NC",
           "NH",
@@ -5130,7 +5343,39 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "dk",
+        "conversion": 0.69,
+        "cost": 0.1,
+        "ended": false,
+        "ends": "2026-10-18",
+        "expected": 102.95194805194805,
+        "expires_days": "7",
+        "face": 150.0,
+        "guaranteed": 102.95194805194805,
+        "headline": "Bet $5, Get $150 in Bonus Bets",
+        "hedge_heat": 0.3,
+        "hedge_stake": 115.0,
+        "ineligible": "",
+        "installments": 3,
+        "name": "DraftKings",
+        "note": "Secondary source: DraftKings' own pages refused the read (403). Action Network, updated 2026-10-09, quotes DraftKings' terms. A $5+ first deposit and bet at -500 or longer. Paid as $50 when that bet settles (two $25 bonus bets), then $50 on day 7 and $50 on day 14, each claimed in the app; each bonus bet expires 7 days after issue and has a 1x playthrough (Rotowire, promo last verified 2026-10-09). Those terms end the offer 10/18/26 at 11:59 PM ET, as Sportsbook Review's Michigan page (2026-10-05) and Covers' Michigan page (verified 2026-10-09) also print them. Sportsbook Review lists a separate 20% deposit bonus up to $1,000 on an opt-in; that is a deposit match, which this screen does not price.",
+        "offer_type": "bet_and_get",
+        "read": "2026-10-09",
+        "source": "https://www.actionnetwork.com/online-sports-betting/reviews/draftkings",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $5 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.10. It is a fee, not a bet.",
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 3 installments.",
+          "Collect: $102.95 locked from $150 face if both bets are accepted and stand, before the bonus expires (7 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5164,7 +5409,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 3,
         "book": "borgata",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5196,7 +5441,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 3,
         "book": "desertdiamond",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5228,7 +5473,71 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "firekeepers",
+        "conversion": 0.69,
+        "cost": 0.2,
+        "ended": false,
+        "ends": "",
+        "expected": 34.150649350649346,
+        "expires_days": "",
+        "face": 50.0,
+        "guaranteed": 34.150649350649346,
+        "headline": "Bet $10, Get $50 in Free Bets",
+        "hedge_heat": 0.3,
+        "hedge_stake": 115.0,
+        "ineligible": "",
+        "installments": 1,
+        "name": "FireKeepers Sportsbook",
+        "note": "FireKeepers' own promotions page ('Your first bet is a game changer! Wager $10 and unlock $50 in Free Bets!'). First sports wager only, at minimum odds of +100. The page does not say how the $50 is split, when it is paid, whether it is paid on a loss, or when it expires, so none of that is recorded: it is priced as one $50 bonus bet paid win or lose, which its wording suggests and does not state. Sportsbook Review's Michigan page (2026-10-05) says FireKeepers has no welcome bonus and Covers' (verified 2026-10-09) lists an 'up to $500' bonus bet; FireKeepers' own page is the one recorded.",
+        "offer_type": "bet_and_get",
+        "read": "2026-10-09",
+        "source": "https://www.igaming.firekeeperscasino.com/promotions",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $10 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins.",
+          "Collect: $34.15 locked from $50 face if both bets are accepted and stand, before the bonus expires.",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
+        "age_days": 1,
+        "book": "betparx",
+        "conversion": 0.69,
+        "cost": 0.5,
+        "ended": false,
+        "ends": "2027-01-31",
+        "expected": 33.85064935064935,
+        "expires_days": "7",
+        "face": 50.0,
+        "guaranteed": 33.85064935064935,
+        "headline": "Choose Your Reward: $50 Bonus Bet",
+        "hedge_heat": 0.3,
+        "hedge_stake": 115.0,
+        "ineligible": "",
+        "installments": 1,
+        "name": "betPARX",
+        "note": "Play Gun Lake's own terms (Play Gun Lake is Gun Lake Casino's betPARX sportsbook). A first sports bet of $25 in cash on any available market, then choose a reward: a $50 Bonus Bet, valid 7 days from issuance, wagered once, its stake not included in returns, or the 200% Profit Boost in the next row. The promotion runs from Sunday, September 27 at 1:00 PM to Sunday, January 31 at 11:59 PM ET; the page gives no year, and 2026-09-27 and 2027-01-31 are both Sundays. A new account takes one reward. Sportsbook Review's Michigan page (2026-10-05) lists the $50 bonus bet.",
+        "offer_type": "bet_and_get",
+        "read": "2026-10-09",
+        "source": "https://www.playgunlake.com/promotion-info/choose-your-reward",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $25 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.50. It is a fee, not a bet.",
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins.",
+          "Collect: $33.85 locked from $50 face if both bets are accepted and stand, before the bonus expires (7 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "bally",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5270,7 +5579,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 3,
         "book": "mgm",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5315,7 +5624,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 3,
         "book": "thescore",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5331,7 +5640,7 @@
         "ineligible": "",
         "installments": 1,
         "name": "theScore Bet",
-        "note": "Secondary source. A $10 minimum deposit and a first bet of $10 or more. If it loses, the stake comes back in bonus bets, up to $1,000, as five tokens of 20% each. Action Network (2026-10-07) lists the same offer for these states except New York, which Sportsbook Review's New York page (2026-10-07) confirms. The 7-day expiry is from Sportsbook Review's Massachusetts page alone. MI, NJ, PA and WV get a different offer that pays only if the first bet wins, which is not listed.",
+        "note": "Secondary source. A $10 minimum deposit and a first bet of $10 or more. If it loses, the stake comes back in bonus bets, up to $1,000, as five tokens of 20% each. Action Network (2026-10-07) lists the same offer for these states except New York, which Sportsbook Review's New York page (2026-10-07) confirms. The 7-day expiry is from Sportsbook Review's Massachusetts page alone. NJ, PA and WV get a different offer that pays only if the first bet wins, which is not listed here. Michigan's is its own row.",
         "offer_type": "safety_net",
         "read": "2026-10-07",
         "source": "https://www.rotowire.com/betting/thescore-bet",
@@ -5361,7 +5670,38 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "eagle",
+        "conversion": 0.69,
+        "cost": 0.0,
+        "ended": false,
+        "ends": "",
+        "expected": 501.27450980392155,
+        "expires_days": "14",
+        "face": 1000.0,
+        "guaranteed": 0.0,
+        "headline": "Up to $1,000 in Free Bets",
+        "hedge_heat": 0.0,
+        "hedge_stake": 0.0,
+        "ineligible": "",
+        "installments": 10,
+        "name": "Eagle Casino & Sports",
+        "note": "Eagle Casino & Sports' own terms, the offer on its home page. A first deposit of $10 or more starts a 10-day window; each day, if the first real-money wager of the day, at -250 or longer, settles as a loss, a Free Bet equal to the stake, up to $100, is awarded. A Free Bet must be used in full on one wager at -250 or longer within 14 days, only its winnings are paid, and it cannot be used on round robins; a tie earns nothing and an account with earlier deposits is not eligible. The terms print 'Promotion Start: 08.01.2024, Promotion End: Ongoing'. Sportsbook Review's Michigan page (2026-10-05) says Eagle has no welcome bonus and Covers' (verified 2026-10-09) lists a $1,000 first bet offer; Eagle's own page is the one recorded.",
+        "offer_type": "safety_net",
+        "read": "2026-10-09",
+        "source": "https://playeagle.com/promotion.shtml?promoid=upto-1000-inbets-wo",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Each of 10 tokens: bet up to the $100 cap in cash at +300 or longer. If it loses, the book refunds the stake in bonus bets. The refund is the value, and a longer price collects it more often.",
+          "Convert any refund like a bonus bet: placed at +300 and hedged at another book, about 69% of it is kept if both bets are accepted and stand.",
+          "Expected value about $50.13 a token, $501.27 across all 10. Not a locked amount: about 75% of the time the cash stake loses and you hold bonus bets instead, so size it against losing the stake, not against the average."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5387,7 +5727,6 @@
           "IN",
           "LA",
           "MD",
-          "MI",
           "PA",
           "VA"
         ],
@@ -5398,7 +5737,38 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "betrivers",
+        "conversion": 0.69,
+        "cost": 0.0,
+        "ended": false,
+        "ends": "",
+        "expected": 250.63725490196077,
+        "expires_days": "7",
+        "face": 500.0,
+        "guaranteed": 0.0,
+        "headline": "If it loses, receive a Bonus Bet equal to your stake up to $500!",
+        "hedge_heat": 0.0,
+        "hedge_stake": 0.0,
+        "ineligible": "",
+        "installments": 1,
+        "name": "BetRivers",
+        "note": "BetRivers' own wording on mi.betrivers.com: claim code SPORTS on a first deposit; your next real money sports wager is eligible, and if it loses, a bonus bet equal to your stake, up to $500, is loaded when it settles. Rotowire (promo last verified 2026-10-09) adds a $10 minimum deposit, minimum odds of -200 on the first wager, and a single bonus bet. Expiry is disputed: Rotowire says 30 days; Sportsbook Review's New York page, read in an earlier pass of this feed, says 7. The shorter is recorded.",
+        "offer_type": "safety_net",
+        "read": "2026-10-09",
+        "source": "https://mi.betrivers.com/conf/translations-ENG.js",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Bet up to the $500 cap in cash at +300 or longer. If it loses, the book refunds the stake in bonus bets. The refund is the value, and a longer price collects it more often.",
+          "Convert any refund like a bonus bet: placed at +300 and hedged at another book, about 69% of it is kept if both bets are accepted and stand.",
+          "Expected value about $250.64. Not a locked amount: about 75% of the time the cash stake loses and you hold bonus bets instead, so size it against losing the stake, not against the average."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "hardrock",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5425,7 +5795,6 @@
           "FL",
           "IL",
           "IN",
-          "MI",
           "NJ",
           "OH",
           "TN",
@@ -5439,7 +5808,39 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "hardrock",
+        "conversion": 0.69,
+        "cost": 0.1,
+        "ended": false,
+        "ends": "2026-12-31",
+        "expected": 250.53725490196078,
+        "expires_days": "7",
+        "face": 500.0,
+        "guaranteed": 0.0,
+        "headline": "Bet $5, Get $500 in No Sweat Bets",
+        "hedge_heat": 0.0,
+        "hedge_stake": 0.0,
+        "ineligible": "",
+        "installments": 10,
+        "name": "Hard Rock Bet",
+        "note": "Hard Rock Bet's own Michigan page ('MI Sportsbook Bonus: Bet $5, Get up to $500 in No Sweat Bets!'). A $5+ cash bet on any market at -500 or longer unlocks ten No Sweat Bet tokens, one a day for ten consecutive days. Each covers one cash bet up to $50; if it loses, a bonus bet equal to the stake is paid. A token expires at 11:59 p.m. on its day of issue; bonus bets expire 7 days after issue. Bets made with bonus bets, on boosts or round robins, or settled with early cash out do not qualify. Runs 2026-10-05 to 2026-12-31. Hard Rock Bet uses no promo code. It has run Island Resort & Casino's sportsbook since 2025-12-02.",
+        "offer_type": "safety_net",
+        "read": "2026-10-09",
+        "source": "https://www.hardrock.bet/sportsbook/michigan/",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $5 at this book on the lowest-hold market you can find, and hedge the other side at a second book. That unlocks the tokens, for about $0.10.",
+          "Each of 10 tokens: bet up to the $50 cap in cash at +300 or longer. If it loses, the book refunds the stake in bonus bets. The refund is the value, and a longer price collects it more often.",
+          "Convert any refund like a bonus bet: placed at +300 and hedged at another book, about 69% of it is kept if both bets are accepted and stand.",
+          "Expected value about $25.06 a token, $250.54 across all 10. Not a locked amount: about 75% of the time the cash stake loses and you hold bonus bets instead, so size it against losing the stake, not against the average."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5473,7 +5874,6 @@
           "MA",
           "MD",
           "ME",
-          "MI",
           "MO",
           "NC",
           "NJ",
@@ -5491,7 +5891,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 3,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5521,7 +5921,37 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "caesars",
+        "conversion": 0.69,
+        "cost": 0.0,
+        "ended": false,
+        "ends": "2027-03-02",
+        "expected": 178.921568627451,
+        "expires_days": "14",
+        "face": 750.0,
+        "guaranteed": 0.0,
+        "headline": "Bet $1+, Double Your Winnings Your Next 10 Wagers!",
+        "hedge_heat": 0.0,
+        "hedge_stake": 0.0,
+        "ineligible": "",
+        "installments": 10,
+        "name": "Caesars",
+        "note": "Secondary source: Caesars' own pages load as a script shell with no readable terms. Action Network (updated 2026-10-01) quoting Caesars' terms: ten 100% profit boost tokens, a $1+ first bet at -10,000 or longer within 30 days of signing up, $25 maximum stake and $2,500 maximum additional winnings per token, each token expiring 14 days after receipt. Covers' Michigan page (verified 2026-10-09) gives the same tokens under another code, a $10 minimum deposit where Action Network says $1, and the offer's end as 2027-03-02. Caesars runs a second welcome offer, the Bet Reset row; a new account takes one.",
+        "offer_type": "profit_boost",
+        "read": "2026-10-09",
+        "source": "https://www.actionnetwork.com/online-sports-betting/reviews/caesars-sportsbook",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Each of 10 tokens: bet the $25 maximum at +300 or longer. The boost multiplies profit, so it is worth most on a longshot.",
+          "Expected value about $17.89 a token, $178.92 across all 10. Not a locked amount: a boost cannot be hedged to a fixed floor in general."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5555,7 +5985,6 @@
           "MA",
           "MD",
           "ME",
-          "MI",
           "MO",
           "NC",
           "NJ",
@@ -5574,7 +6003,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 3,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5606,7 +6035,68 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
+        "book": "caesars",
+        "conversion": 0.69,
+        "cost": 0.0,
+        "ended": false,
+        "ends": "",
+        "expected": 125.31862745098039,
+        "expires_days": "14",
+        "face": 250.0,
+        "guaranteed": 0.0,
+        "headline": "Get Up To $250 in Bonus Bets",
+        "hedge_heat": 0.0,
+        "hedge_stake": 0.0,
+        "ineligible": "",
+        "installments": 5,
+        "name": "Caesars",
+        "note": "Secondary source. Rotowire (updated 2026-10-08, promo last verified 2026-10-09) lists Michigan: five Bet Reset tokens, one a day for five days, each to be used within 14 days at -1000 or longer. A token bet that loses is refunded as a single bonus bet of up to $50; bonus bets expire after 14 days. Round robins, flex parlays and early cash outs do not qualify. The alternative to Caesars' ten profit boosts; a new account takes one.",
+        "offer_type": "safety_net",
+        "read": "2026-10-09",
+        "source": "https://www.rotowire.com/betting/caesars/promo-code",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Each of 5 tokens: bet up to the $50 cap in cash at +300 or longer. If it loses, the book refunds the stake in bonus bets. The refund is the value, and a longer price collects it more often.",
+          "Convert any refund like a bonus bet: placed at +300 and hedged at another book, about 69% of it is kept if both bets are accepted and stand.",
+          "Expected value about $25.06 a token, $125.32 across all 5. Not a locked amount: about 75% of the time the cash stake loses and you hold bonus bets instead, so size it against losing the stake, not against the average."
+        ]
+      },
+      {
+        "age_days": 1,
+        "book": "betparx",
+        "conversion": 0.69,
+        "cost": 0.0,
+        "ended": false,
+        "ends": "2027-01-31",
+        "expected": 72.54901960784312,
+        "expires_days": "",
+        "face": 300.0,
+        "guaranteed": 0.0,
+        "headline": "Choose Your Reward: 200% Profit Boost",
+        "hedge_heat": 0.0,
+        "hedge_stake": 0.0,
+        "ineligible": "",
+        "installments": 1,
+        "name": "betPARX",
+        "note": "Play Gun Lake's own terms, the other reward. After the $25 cash first bet: a 200% Profit Boost with a $50 maximum wager and $5,000 maximum extra winnings, on pre-match, live, same game parlay and parlay bets whose total odds are -200 or longer; bets placed with bonus bets and bets settled by cash out are ineligible. The page does not say when the boost expires. Same promotion period as the $50 bonus bet. The alternative to the bonus bet; a new account takes one.",
+        "offer_type": "profit_boost",
+        "read": "2026-10-09",
+        "source": "https://www.playgunlake.com/promotion-info/choose-your-reward",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Each of 1 tokens: bet the $50 maximum at +300 or longer. The boost multiplies profit, so it is worth most on a longshot.",
+          "Expected value about $72.55 a token, $72.55 across all 1. Not a locked amount: a boost cannot be hedged to a fixed floor in general."
+        ]
+      },
+      {
+        "age_days": 3,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5638,6 +6128,70 @@
           "Bet up to the $100 cap in cash at +300 or longer. If it loses, the book refunds the stake in bonus bets. The refund is the value, and a longer price collects it more often.",
           "Convert any refund like a bonus bet: placed at +300 and hedged at another book, about 69% of it is kept if both bets are accepted and stand.",
           "Expected value about $50.13. Not a locked amount: about 75% of the time the cash stake loses and you hold bonus bets instead, so size it against losing the stake, not against the average."
+        ]
+      },
+      {
+        "age_days": 1,
+        "book": "mgm",
+        "conversion": 0.69,
+        "cost": 0.2,
+        "ended": false,
+        "ends": "",
+        "expected": 44.8,
+        "expires_days": "7",
+        "face": 150.0,
+        "guaranteed": 0.0,
+        "headline": "Bet $10, Get $150 in Bonus Bets if You Win!",
+        "hedge_heat": 0.2,
+        "hedge_stake": 60.0,
+        "ineligible": "",
+        "installments": 6,
+        "name": "BetMGM",
+        "note": "Secondary source: BetMGM's own Michigan promotions page loads as a script shell with no readable terms. Paid only if the first bet, $10 or more, WINS; nothing is paid if it loses. Rotowire (promo last verified 2026-10-09), Action Network (updated 2026-10-06), Sportsbook Review's Michigan page (2026-10-05) and Covers' Michigan page (verified 2026-10-09) agree, and name Michigan, New Jersey, Pennsylvania and West Virginia as the states for it; Covers' prose once describes an 'unsuccessful wager', against its own headline and the other four. Bonus bets expire 7 days after issue (Sportsbook Review). The split into six $25 bonus bets is from Covers alone. Rotowire's 2026-10-05 Michigan article says a first bet of $5+; the others say $10. No minimum odds were read.",
+        "offer_type": "bet_and_get_on_win",
+        "read": "2026-10-09",
+        "source": "https://www.rotowire.com/betting/betmgm/bonus-code",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $10 at this book on a market near even money, and hedge the other side at a second book. It costs about $0.20. The bonus is paid only if this bet WINS, and the hedge cannot change that: at even money that is about 50% of the time (a prior).",
+          "If it wins, convert: place each $25 bonus bet at +300 and hedge $60 cash on the other side at another book. If both bets are accepted and stand, you keep at least $15.00 whichever side wins. Repeat for all 6 bonus bets.",
+          "Expected value about $44.80: 50% of $90.00 kept, less $0.20. Not a locked amount: the other 50% of the time you hold no bonus, and a bonus bet not used within 7 days is lost.",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
+        "age_days": 1,
+        "book": "thescore",
+        "conversion": 0.69,
+        "cost": 0.2,
+        "ended": false,
+        "ends": "",
+        "expected": 33.4038961038961,
+        "expires_days": "7",
+        "face": 100.0,
+        "guaranteed": 0.0,
+        "headline": "Bet $10, Get $100 in Bonus Bets If You Win!",
+        "hedge_heat": 0.3,
+        "hedge_stake": 45.0,
+        "ineligible": "",
+        "installments": 5,
+        "name": "theScore Bet",
+        "note": "Secondary source: theScore Bet's own site sits behind a Cloudflare check, which was not bypassed. Action Network (updated and verified 2026-10-09) lists this offer for Michigan, New Jersey, Pennsylvania and West Virginia, where the other states get a $1,000 Bet Reset: a first bet of $10 or more must win for the bonus to be credited. WTOP's theScore pages (February 2026, read 2026-10-09) give the same offer for those four states, paid as five $20 bonus bets within 72 hours of the bet settling and used within seven days. The sources disagree about Michigan: Covers' Michigan page (verified 2026-10-09), Sportsbook Review's (2026-10-05) and Rotowire's (promo last verified 2026-10-09) show the $1,000 Bet Reset for it, and Action Network says the offer shown 'can depend on your state and when you log in'. This one is recorded because Action Network and WTOP set Michigan apart by name. No minimum odds were read.",
+        "offer_type": "bet_and_get_on_win",
+        "read": "2026-10-09",
+        "source": "https://www.actionnetwork.com/online-sports-betting/reviews/thescore-bet",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $10 at this book on a market near even money, and hedge the other side at a second book. It costs about $0.20. The bonus is paid only if this bet WINS, and the hedge cannot change that: at even money that is about 50% of the time (a prior).",
+          "If it wins, convert: place each $20 bonus bet at +300 and hedge $45 cash on the other side at another book. If both bets are accepted and stand, you keep at least $13.44 whichever side wins. Repeat for all 5 bonus bets.",
+          "Expected value about $33.40: 50% of $67.21 kept, less $0.20. Not a locked amount: the other 50% of the time you hold no bonus, and a bonus bet not used within 7 days is lost.",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
         ]
       }
     ]
