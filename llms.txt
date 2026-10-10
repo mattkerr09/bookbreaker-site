@@ -67,6 +67,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 ## Responsible gambling and terms
 
 - [Responsible gambling](https://bookbreaker.bet/responsible-gambling/): for adults 21 and over where betting is legal. Help any time: call or text 1-800-MY-RESET (1-800-697-3738)
+- [How Bookbreaker is paid](https://bookbreaker.bet/how-we-are-paid/): the app is free; whether any link can pay, how one is marked, and what payment never changes
 - [Terms of use](https://bookbreaker.bet/terms/): a free analysis tool, not a sportsbook and not advice
 - [Privacy](https://bookbreaker.bet/privacy/): the site counts visits without cookies, and the app sends nothing about you anywhere
 

@@ -155,6 +155,20 @@ CASES = [
         '<script>throw new Error("kelly page broke on load")</script></body>',
     ),
     (
+        "the pay page saying links can pay us while no partner row is live",
+        "check_the_pay_page_tells_the_truth",
+        "how-we-are-paid/index.html",
+        "No sportsbook, exchange or fantasy site pays Bookbreaker today.",
+        "Some links can pay Bookbreaker a fee on this site.",
+    ),
+    (
+        "the terms claiming no sportsbook pays us",
+        "check_the_pay_page_tells_the_truth",
+        "terms/index.html",
+        "It is not affiliated with or endorsed by",
+        "It is not affiliated with, endorsed by or paid by",
+    ),
+    (
         "a sportsbook link that bypasses the referral router",
         "check_every_book_link_goes_through_the_router",
         "sportsbooks/mi/index.html",

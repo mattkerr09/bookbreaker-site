@@ -1059,6 +1059,28 @@ def check_a_paid_link_carries_the_disclosure(pages, fails):
             fails.append(f"{path}: says its links earn nothing while a partner row is live")
 
 
+def check_the_pay_page_tells_the_truth(pages, fails):
+    """/how-we-are-paid/ says nothing pays us only while no partner row is live, and says links can pay once one is.
+    The terms page may not claim independence from payment either. Both sentences are chosen from partners.csv."""
+    live = any((r.get("approved") or "").strip().lower() == "yes" and (r.get("affiliate_url") or "").strip()
+               for r in _partner_rows())
+    pages_by_path = dict(pages)
+    page = pages_by_path.get("how-we-are-paid/index.html")
+    if page is None:
+        fails.append("how-we-are-paid/index.html is missing")
+        return
+    text = visible(page)
+    says_none = "pays Bookbreaker today" in text
+    says_some = "can pay Bookbreaker a fee" in text
+    if live and (says_none or not says_some):
+        fails.append("how-we-are-paid/: says nothing pays us (or omits that links can pay) while a partner row is live")
+    if not live and (says_some or not says_none):
+        fails.append("how-we-are-paid/: says links can pay us while no partner row is live")
+    terms = visible(pages_by_path.get("terms/index.html", ""))
+    if "paid by any sportsbook" in terms or "paid by any" in terms:
+        fails.append("terms/: claims no sportsbook pays us, which stops being true when a partner row goes live")
+
+
 def check_robots_keeps_crawlers_out_of_the_router(fails):
     robots = (SITE / "robots.txt").read_text()
     blocks = [b for b in robots.split("\n\n") if b.strip().startswith("User-agent")]
@@ -1782,6 +1804,7 @@ def main() -> int:
             lambda: check_downloads_match_the_update_manifest(pages, fails, measured),
         "check_inline_scripts_parse": lambda: check_inline_scripts_parse(pages, fails),
         "check_house_wording": lambda: check_house_wording(pages, fails),
+        "check_the_pay_page_tells_the_truth": lambda: check_the_pay_page_tells_the_truth(pages, fails),
         "check_every_book_link_goes_through_the_router":
             lambda: check_every_book_link_goes_through_the_router(pages, fails),
         "check_router_pages_match_the_table_and_behave":

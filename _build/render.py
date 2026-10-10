@@ -2087,7 +2087,7 @@ Gambling carries a risk of financial loss, and nothing here predicts that you
 will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the
 National Problem Gambling Helpline, or visit
 <a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>. More on
-<a href="/responsible-gambling/">responsible gambling</a>.</p>
+<a href="/responsible-gambling/">responsible gambling</a> and <a href="/how-we-are-paid/">how Bookbreaker is paid</a>.</p>
 </footer>
 <script>
 /* Scroll reveal, taken from the Outlier site because Matthew asked for
@@ -5954,9 +5954,42 @@ afford to lose.</p>
 """
 
 
+def render_paid(m: dict) -> str:
+    """How Bookbreaker is paid. The sentences that depend on whether any link can pay are chosen
+    from _data/partners.csv, so this page cannot say "nothing pays us" while a row is live."""
+    live = any_paid_links()
+    today = ("Some links to sportsbooks, exchanges and fantasy sites on this site can pay Bookbreaker a fee when "
+             "someone signs up through them. Each one is marked <b>Ad</b> beside the button, and the page says so "
+             "above the offer." if live else
+             "No sportsbook, exchange or fantasy site pays Bookbreaker today. Links to books go through our own "
+             "router so that clicks can be counted, and they open the book&rsquo;s ordinary public page. If that "
+             "changes, this page changes first.")
+    return f"""
+<h1>How Bookbreaker is paid</h1>
+<p class="lede">The Mac app is free and always has been. This page says how the business is paid, and what that
+means for the links on this site.</p>
+<h2>Today</h2>
+<p>{today}</p>
+<h2>What a paid link looks like</h2>
+<p>A link that can pay is marked <b>Ad</b> beside the button, carries the <code>sponsored</code> link attribute
+that search engines ask for, and sits under a disclosure on the page. We name the books we have an arrangement
+with, and we say that a fee is paid when someone signs up.</p>
+<h2>What payment does not change</h2>
+<p>The order of offers is by what you keep after hedging, worked out by the same engine the app uses, and it
+ignores who pays us. A book that is not licensed in your state is never linked for your state. Paid buttons
+stay away from the step-by-step hedge instructions, and the arithmetic is the same whether a book pays or not.</p>
+<h2>Questions</h2>
+<p>Email <a href="mailto:matthew@kerrandcompanyholdings.com">matthew@kerrandcompanyholdings.com</a>. More on
+<a href="/terms/">terms</a>, <a href="/privacy/">privacy</a> and
+<a href="/responsible-gambling/">responsible gambling</a>.</p>
+{responsible()}
+"""
+
+
 def render_terms(m: dict) -> str:
-    paid = ("Where a link on this site pays us, it says so beside the link."
-            if any_paid_links() else "No link on this site is an affiliate link.")
+    paid = ('Where a link on this site can pay us, it says so beside the link, and <a href="/how-we-are-paid/">how '
+            'Bookbreaker is paid</a> says more.' if any_paid_links()
+            else 'No link on this site pays us today; <a href="/how-we-are-paid/">how Bookbreaker is paid</a> says what happens if that changes.')
     return f"""
 <h1>Terms of use</h1>
 <p class="lede">Bookbreaker is a free analysis tool: a calculator for prices,
@@ -5973,7 +6006,7 @@ figure holds only if both bets are accepted and stand; books can void, limit
 or refuse bets, and prices move. Nothing here is financial, legal or betting
 advice.</p>
 <h2>Not affiliated with any sportsbook</h2>
-<p>Bookbreaker is independent. It is not affiliated with, endorsed by or paid by
+<p>Bookbreaker is independent. It is not affiliated with or endorsed by
 any sportsbook, exchange or prediction market. Their names are trademarks of
 their owners and appear here only to identify them. {paid}</p>
 <h2>The app&rsquo;s licence</h2>
@@ -6118,6 +6151,10 @@ PAGES = [
      "Bookbreaker is a free analysis tool, not a sportsbook and not advice. "
      "Not affiliated with any sportsbook. 21+ where sports betting is legal.",
      render_terms),
+    ("/how-we-are-paid/", "how-we-are-paid/index.html", "How Bookbreaker is paid",
+     "The Mac app is free. How the business is paid, how a link that can pay is marked, "
+     "and what payment never changes.",
+     render_paid),
 ]
 
 
@@ -6229,6 +6266,8 @@ def render_llms(built_urls: set[str]) -> str:
         link("/responsible-gambling/", "Responsible gambling", "for adults 21 and over "
              "where betting is legal. Help any time: call or text 1-800-MY-RESET "
              "(1-800-697-3738)"),
+        link("/how-we-are-paid/", "How Bookbreaker is paid", "the app is free; whether any link can pay, "
+             "how one is marked, and what payment never changes"),
         link("/terms/", "Terms of use", "a free analysis tool, not a sportsbook and "
              "not advice"),
         link("/privacy/", "Privacy", "the site counts visits without cookies, "
