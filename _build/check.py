@@ -103,6 +103,10 @@ def visible(markup: str) -> str:
 def numbers_in(text: str) -> set[str]:
     """Every numeric token on a page, normalised for comparison."""
     found = set()
+    # A helpline is a telephone number, not a measurement: 1-800-697-3738, 800-327-5050, a
+    # short code ("text HOPENY to 467369") and "dial 211" are dialled, not computed.
+    text = re.sub(r"\b(?:1-)?\d{3}-\d{3}-\d{4}\b|\bto \d{5,6}\b|\bdial 211\b"
+                  r"|\b(?:1-)?\d{3}-(?:\d{1,3}-)?(?:[A-Z0-9]+-?)*[A-Z]{3,}[A-Z-]*\b", " ", text)
     for raw in re.findall(r"[-+]?\d[\d,]*\.?\d*", text):
         token = raw.replace(",", "").lstrip("+")
         token = token.rstrip(".") or "0"
@@ -629,19 +633,35 @@ def check_not_machine_made(pages, fails):
 
 
 def check_responsible_gambling(pages, fails):
-    """The age notice, the help link, and the number.
+    """The age notice, the help link, and the right numbers.
 
-    The helpline was added to the footer and nothing checked it, so a break
-    case that deleted it passed — the notice could keep its wording and lose
-    the one line a reader in trouble actually needs. On a site that sends
-    people to sportsbooks, that is the check least worth being lax about.
+    Every page carries the National Problem Gambling Helpline, 1-800-MY-RESET. 1-800-GAMBLER
+    stopped being the national line on 2025-09-29 (the National Council on Problem Gambling
+    stopped operating it; a New Jersey council controls it), so it may appear only where a
+    state's own rule names it, in that rule's wording: the New Jersey, Pennsylvania, Colorado,
+    Maine, Maryland and West Virginia pages, and the responsible-gambling page that explains the
+    change. Every state page prints that state's own line, from _data/helplines.csv.
     """
+    import csv
+    with (SITE / "_data" / "helplines.csv").open() as handle:
+        lines = {r["state"].lower(): r for r in csv.DictReader(handle)}
     for path, markup in pages:
         text = visible(markup)
         if "21+" not in text or "ncpgambling.org" not in markup:
             fails.append(f"{path}: missing the 21+ notice or the help link")
-        if "1-800-GAMBLER" not in markup:
-            fails.append(f"{path}: missing the problem-gambling helpline")
+        if "1-800-MY-RESET" not in markup:
+            fails.append(f"{path}: missing the National Problem Gambling Helpline (1-800-MY-RESET)")
+        got = re.match(r"sportsbooks/([a-z]{2})/index\.html$", path)
+        row = lines.get(got.group(1)) if got else None
+        allowed = bool(row and row["gambler_rule"] == "yes") or path.startswith("responsible-gambling/")
+        if "1-800-GAMBLER" in markup and not allowed:
+            fails.append(f"{path}: prints 1-800-GAMBLER, which no longer belongs to the national helpline and is not "
+                         "required by this page's state")
+        if row:
+            if row["gambler_rule"] == "yes" and row["gambler_wording"] not in text:
+                fails.append(f"{path}: the state's rule requires the wording {row['gambler_wording']!r}")
+            if row["line"] and html.unescape(row["line"]) not in text:
+                fails.append(f"{path}: does not print the state's own helpline ({row['line']})")
 
 
 HUB_DL = "https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src="
@@ -916,6 +936,159 @@ def check_downloads_match_the_update_manifest(pages, fails, measured):
         for got in set(re.findall(r"overlay-(\d+\.\d+\.\d+)-py3-none-any\.whl", calc.read_text())):
             if got != offered:
                 fails.append(f"calc.js loads the {got} wheel, but updater.json offers {offered}")
+
+
+def _partner_rows() -> list[dict]:
+    import csv
+    with (SITE / "_data" / "partners.csv").open() as handle:
+        return list(csv.DictReader(handle))
+
+
+def _base_domain(host: str) -> str:
+    return ".".join(host.lower().split(".")[-2:])
+
+
+def check_every_book_link_goes_through_the_router(pages, fails):
+    """No page links to a sportsbook, exchange or fantasy site except through /go/<book>/.
+
+    A raw link earns nothing the day an approval arrives and cannot be counted. The only
+    exception is a citation of where a fact was read (`data-cite`), which is a source, not
+    a place to bet. The books are the ones in _data/partners.csv, by registrable domain.
+    """
+    from urllib.parse import urlparse
+    domains = set()
+    for row in _partner_rows():
+        for col in ("site_url", "affiliate_url"):
+            host = urlparse(row.get(col) or "").netloc
+            if host:
+                domains.add(_base_domain(host))
+    for path, markup in pages:
+        for tag in re.findall(r"<a\s[^>]*>", markup):
+            m = re.search(r'href="(https?://[^"]+)"', tag)
+            if not m or "data-cite" in tag:
+                continue
+            if _base_domain(urlparse(html.unescape(m.group(1))).netloc) in domains:
+                fails.append(f"{path}: a link to {m.group(1)} bypasses the router (use /go/<book>/, or data-cite for a source)")
+
+
+def check_router_pages_match_the_table_and_behave(fails, measured):
+    """Each /go/<book>/ page carries exactly the rows of _data/partners.csv, and the shipped
+    router script, run in node, picks the right URL.
+
+    Proved here: an unapproved book sends the person to its public URL; a state's own row
+    beats the all-states row; an approved row's tracking URL has the state and src filled in;
+    a non-https tracking URL is refused; src and state are cleaned.
+    """
+    import json as _json
+    import shutil
+    import subprocess as sp
+    import tempfile
+    rows_by_book: dict = {}
+    for row in _partner_rows():
+        rows_by_book.setdefault(row["book"].strip(), []).append(row)
+    go = SITE / "go"
+    if not (go / "router.js").exists():
+        fails.append("go/router.js is missing")
+        return
+    for book, rows in sorted(rows_by_book.items()):
+        page = go / book / "index.html"
+        if not page.exists():
+            fails.append(f"go/{book}/index.html is missing")
+            continue
+        markup = page.read_text()
+        if 'name="robots" content="noindex,nofollow"' not in markup:
+            fails.append(f"go/{book}/: not marked noindex,nofollow")
+        got = re.search(r"var D=(\{.*?\});\nvar q=", markup, re.S)
+        if not got:
+            fails.append(f"go/{book}/: no router data found")
+            continue
+        data = _json.loads(got.group(1))
+        want_states = sorted(code for code, st in measured["states"].items() if any(b["key"] == book for b in st["books"]))
+        if sorted(data.get("l", [])) != want_states:
+            fails.append(f"go/{book}/: licensed states {data.get('l')} differ from the catalog's {want_states}")
+        live_csv = sorted(bool((r.get("approved") or "").strip().lower() == "yes" and (r.get("affiliate_url") or "").strip()) for r in rows)
+        live_page = sorted(bool(r["k"]) for r in data["r"])
+        if live_csv != live_page or len(rows) != len(data["r"]):
+            fails.append(f"go/{book}/: the page's rows do not match _data/partners.csv")
+    node = shutil.which("node")
+    if node is None:
+        fails.append("node is not installed, so the router cannot be tested")
+        return
+    probe = """
+const fs = require('fs'); const vm = require('vm');
+vm.runInThisContext(fs.readFileSync(process.argv[2], 'utf8'));
+const R = globalThis.BBGO.route, out = [];
+const plain = {p: 'https://pub.example/', r: [{s: null, k: false, u: '', p: 'https://pub.example/'}]};
+out.push(['unapproved goes public', R(plain, 'MI', 'x').url === 'https://pub.example/' && !R(plain, 'MI', 'x').live]);
+const paid = {p: 'https://pub.example/', r: [
+  {s: null, k: true, u: 'https://t.example/a?c={SRC}', p: 'https://pub.example/'},
+  {s: ['MI'], k: true, u: 'https://t.example/mi?s={STATE}&c={SRC}', p: 'https://pub.example/'}]};
+const mi = R(paid, 'mi', 'offers hero!');
+out.push(['state row beats all-states row, tokens filled, src cleaned', mi.url === 'https://t.example/mi?s=mi&c=offershero' && mi.live === true]);
+out.push(['other state uses the all-states row', R(paid, 'PA', 'z').url === 'https://t.example/a?c=z']);
+const evil = {p: 'https://pub.example/', r: [{s: null, k: true, u: 'javascript:alert(1)', p: 'https://pub.example/'}]};
+out.push(['a non-https tracking URL is refused', R(evil, 'MI', 'x').url === 'https://pub.example/' && !R(evil, 'MI', 'x').live]);
+const lic = {p: 'https://pub.example/', l: ['MI'], a: ['MI', 'NY'], r: [{s: null, k: true, u: 'https://t.example/z', p: 'https://pub.example/'}]};
+out.push(['a book not licensed in the state is never opened', R(lic, 'NY', 'x').url === '/sportsbooks/ny/' && R(lic, 'NY', 'x').licensed === false && !R(lic, 'NY', 'x').live]);
+out.push(['a licensed state still goes to the book', R(lic, 'MI', 'x').url === 'https://t.example/z' && R(lic, 'MI', 'x').licensed === true]);
+const half = {p: 'https://pub.example/', r: [{s: null, k: false, u: 'https://t.example/', p: 'https://pub.example/'}]};
+out.push(['an unapproved row with a URL stays public', R(half, 'MI', 'x').url === 'https://pub.example/']);
+console.log(JSON.stringify(out));
+"""
+    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as handle:
+        handle.write(probe)
+    done = sp.run([node, handle.name, str(go / "router.js")], capture_output=True, text=True)
+    Path(handle.name).unlink(missing_ok=True)
+    try:
+        for label, ok in _json.loads(done.stdout.strip().splitlines()[-1]):
+            if not ok:
+                fails.append(f"go/router.js: {label} failed")
+    except (ValueError, IndexError):
+        fails.append(f"go/router.js could not be run: {(done.stderr or done.stdout).strip()[-200:]}")
+
+
+def check_a_paid_link_carries_the_disclosure(pages, fails):
+    """A page with a link that can pay says so before the reader leaves, and no page says
+    its links earn nothing while any row is live."""
+    live = any((r.get("approved") or "").strip().lower() == "yes" and (r.get("affiliate_url") or "").strip()
+               for r in _partner_rows())
+    for path, markup in pages:
+        if 'rel="sponsored' in markup and "Advertising disclosure." not in markup:
+            fails.append(f"{path}: has a sponsored link and no advertising disclosure")
+        if live and "earn us nothing" in markup:
+            fails.append(f"{path}: says its links earn nothing while a partner row is live")
+
+
+def check_robots_keeps_crawlers_out_of_the_router(fails):
+    robots = (SITE / "robots.txt").read_text()
+    blocks = [b for b in robots.split("\n\n") if b.strip().startswith("User-agent")]
+    for block in blocks:
+        if "Disallow: /go/" not in block:
+            fails.append(f"robots.txt: {block.splitlines()[0]} is not told to stay out of /go/")
+    if "/go/" in (SITE / "sitemap.xml").read_text():
+        fails.append("sitemap.xml lists a /go/ URL")
+
+
+#: Words that regulators have fined or banned in betting promotions, and that the American Gaming Association's
+#: code bars from affiliates: "risk-free" and "can't lose" claims, and "free" for anything that needs a deposit or
+#: a bet. Massachusetts fined operators $25,000 for "Can't Lose" and $15,000 for "risk free". This site says
+#: "bonus bets", and for a hedge "locked in whichever side wins, if both bets are accepted and stand".
+BANNED_WORDING = re.compile(
+    r"free bets?\b|free play|risk[- ]free|can['\u2019]?t lose|cannot lose|no-brainer|free money|guaranteed|money-back guarantee",
+    re.I)
+
+
+def check_house_wording(pages, fails):
+    """No page says "free bet", "risk-free", "guaranteed" and the rest of the banned list.
+
+    Text inside <q> (a book's own words, quoted as evidence) is exempt. Source:
+    ~/ops/research/bookbreaker-affiliate-2026-10-10.md, section 3.2.
+    """
+    for path, markup in pages:
+        text = visible(re.sub(r"(?s)<q>.*?</q>", " ", markup))
+        text = re.sub(r"Free betting calculators", " ", text)        # the site's own calculators are free to use
+        for hit in sorted({m.group(0).lower() for m in BANNED_WORDING.finditer(text)}):
+            fails.append(f"{path}: says {hit!r}; use bonus bets, and 'locked if both bets are accepted and stand'")
 
 
 def check_updater_manifest_matches_the_release(fails, measured):
@@ -1562,7 +1735,7 @@ def main() -> int:
     everything = [
         (str(p.relative_to(SITE)), p.read_text())
         for p in sorted(SITE.rglob("*.html"))
-        if "_build" not in p.parts
+        if "_build" not in p.parts and p.relative_to(SITE).parts[0] != "go"
     ]
     redirects = [(p, m) for p, m in everything if is_redirect(m)]
     pages = [(p, m) for p, m in everything if not is_redirect(m)]
@@ -1608,6 +1781,15 @@ def main() -> int:
         "check_downloads_match_the_update_manifest":
             lambda: check_downloads_match_the_update_manifest(pages, fails, measured),
         "check_inline_scripts_parse": lambda: check_inline_scripts_parse(pages, fails),
+        "check_house_wording": lambda: check_house_wording(pages, fails),
+        "check_every_book_link_goes_through_the_router":
+            lambda: check_every_book_link_goes_through_the_router(pages, fails),
+        "check_router_pages_match_the_table_and_behave":
+            lambda: check_router_pages_match_the_table_and_behave(fails, measured),
+        "check_a_paid_link_carries_the_disclosure":
+            lambda: check_a_paid_link_carries_the_disclosure(pages, fails),
+        "check_robots_keeps_crawlers_out_of_the_router":
+            lambda: check_robots_keeps_crawlers_out_of_the_router(fails),
         "check_video_caption_names_the_recorded_version":
             lambda: check_video_caption_names_the_recorded_version(pages, fails),
         "check_pages_run_without_console_errors":

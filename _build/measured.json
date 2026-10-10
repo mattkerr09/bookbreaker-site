@@ -197,7 +197,7 @@
       "body": "<p>A bet taken at +110 against a market that closed at -105:</p><table><tr><td>Your price</td><td>+110</td></tr><tr><td>Closing price</td><td>-105</td></tr><tr><td>CLV against the raw close</td><td>+7.56%</td></tr></table><p>That figure compares two vigged prices and so understates the real edge by the closing margin. Use it to rank bets against each other, not for claiming an edge size. Devigging the closing market first is what the engine does, and it is why closing line value converges far faster than profit.</p>"
     },
     "deposit-match": {
-      "body": "<p>A deposit match is not free money. It is a loan of turnover, and the interest is the hold on whatever markets the terms let you churn through.</p><p>The offer: deposit $1000, receive $1000 in bonus funds, clear 10x rollover before anything can be withdrawn.</p><p>Break-even hold is the number that decides it. It sits at 5.0%. Churn below that and the bonus survives to the cashier. Churn above it and the bonus was spent before the terms released it.</p><p>So the clause that matters is the one listing eligible markets. Both holds below are measured off real two-way prices, not assumed.</p><table><tr><th>What the rollover allows</th><th>Churn hold</th><th>Net</th><th>Margin</th></tr><tr><td>Moneylines</td><td>4.55%</td><td>$90.91</td><td>0.45%</td></tr><tr><td>Props only</td><td>12.41%</td><td>$-1481.20</td><td>-7.41%</td></tr></table><p>Same headline, same deposit, same rollover, and a swing of $1572.11 between them. The market restriction is the offer. The bonus figure is packaging.</p><p>Competitors print one number to two decimals as though it were measured, then bury the eligible-markets line. Where terms push churn into parlays the cost climbs again; our parlay hold prior of 15.0% is a prior, not a measurement, and it is deliberately excluded from the table above.</p>"
+      "body": "<p>A deposit match is a loan of turnover, not a gift, and the interest is the hold on whatever markets the terms let you churn through.</p><p>The offer: deposit $1000, receive $1000 in bonus funds, clear 10x rollover before anything can be withdrawn.</p><p>Break-even hold is the number that decides it. It sits at 5.0%. Churn below that and the bonus survives to the cashier. Churn above it and the bonus was spent before the terms released it.</p><p>So the clause that matters is the one listing eligible markets. Both holds below are measured off real two-way prices, not assumed.</p><table><tr><th>What the rollover allows</th><th>Churn hold</th><th>Net</th><th>Margin</th></tr><tr><td>Moneylines</td><td>4.55%</td><td>$90.91</td><td>0.45%</td></tr><tr><td>Props only</td><td>12.41%</td><td>$-1481.20</td><td>-7.41%</td></tr></table><p>Same headline, same deposit, same rollover, and a swing of $1572.11 between them. The market restriction is the offer. The bonus figure is packaging.</p><p>Competitors print one number to two decimals as though it were measured, then bury the eligible-markets line. Where terms push churn into parlays the cost climbs again; our parlay hold prior of 15.0% is a prior, not a measurement, and it is deliberately excluded from the table above.</p>"
     },
     "dutching": {
       "body": "<p>300 spread across 3 outcomes so that every result pays the same:</p><table><tr><th>Price</th><th>Stake</th><th>Returns</th></tr><tr><td>+120</td><td>131.83</td><td>290.03</td></tr><tr><td>+240</td><td>85.30</td><td>290.03</td></tr><tr><td>+250</td><td>82.87</td><td>290.03</td></tr></table><p>Every branch returns 290.03 on 300 staked: -9.97, or -3.32%. That is negative here, and it is supposed to be: the prices imply 103.44% of probability between them, and everything above a hundred is the book's margin. Dutching is the same solver as an arbitrage without the locked floor.</p><p>So it earns nothing on its own. It is a way of expressing a view you already hold (that the winner is somewhere inside this set) at a known cost. It is not a way of manufacturing an edge. A dutch across outcomes you have no opinion about is a slow donation at a rate you can compute in advance.</p>"
@@ -5483,13 +5483,13 @@
         "expires_days": "",
         "face": 50.0,
         "guaranteed": 34.150649350649346,
-        "headline": "Bet $10, Get $50 in Free Bets",
+        "headline": "Bet $10, Get $50 in bonus bets",
         "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
         "installments": 1,
         "name": "FireKeepers Sportsbook",
-        "note": "FireKeepers' own promotions page ('Your first bet is a game changer! Wager $10 and unlock $50 in Free Bets!'). First sports wager only, at minimum odds of +100. The page does not say how the $50 is split, when it is paid, whether it is paid on a loss, or when it expires, so none of that is recorded: it is priced as one $50 bonus bet paid win or lose, which its wording suggests and does not state. Sportsbook Review's Michigan page (2026-10-05) says FireKeepers has no welcome bonus and Covers' (verified 2026-10-09) lists an 'up to $500' bonus bet; FireKeepers' own page is the one recorded.",
+        "note": "FireKeepers' own promotions page ('Your first bet is a game changer! Wager $10 and unlock $50 in bonus bets!'). First sports wager only, at minimum odds of +100. The page does not say how the $50 is split, when it is paid, whether it is paid on a loss, or when it expires, so none of that is recorded: it is priced as one $50 bonus bet paid win or lose, which its wording suggests and does not state. Sportsbook Review's Michigan page (2026-10-05) says FireKeepers has no welcome bonus and Covers' (verified 2026-10-09) lists an 'up to $500' bonus bet; FireKeepers' own page is the one recorded.",
         "offer_type": "bet_and_get",
         "read": "2026-10-09",
         "source": "https://www.igaming.firekeeperscasino.com/promotions",
@@ -5680,13 +5680,13 @@
         "expires_days": "14",
         "face": 1000.0,
         "guaranteed": 0.0,
-        "headline": "Up to $1,000 in Free Bets",
+        "headline": "Up to $1,000 in bonus bets",
         "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 10,
         "name": "Eagle Casino & Sports",
-        "note": "Eagle Casino & Sports' own terms, the offer on its home page. A first deposit of $10 or more starts a 10-day window; each day, if the first real-money wager of the day, at -250 or longer, settles as a loss, a Free Bet equal to the stake, up to $100, is awarded. A Free Bet must be used in full on one wager at -250 or longer within 14 days, only its winnings are paid, and it cannot be used on round robins; a tie earns nothing and an account with earlier deposits is not eligible. The terms print 'Promotion Start: 08.01.2024, Promotion End: Ongoing'. Sportsbook Review's Michigan page (2026-10-05) says Eagle has no welcome bonus and Covers' (verified 2026-10-09) lists a $1,000 first bet offer; Eagle's own page is the one recorded.",
+        "note": "Eagle Casino & Sports' own terms, the offer on its home page. A first deposit of $10 or more starts a 10-day window; each day, if the first real-money wager of the day, at -250 or longer, settles as a loss, a bonus bet equal to the stake, up to $100, is awarded. A bonus bet must be used in full on one wager at -250 or longer within 14 days, only its winnings are paid, and it cannot be used on round robins; a tie earns nothing and an account with earlier deposits is not eligible. The terms print 'Promotion Start: 08.01.2024, Promotion End: Ongoing'. Sportsbook Review's Michigan page (2026-10-05) says Eagle has no welcome bonus and Covers' (verified 2026-10-09) lists a $1,000 first bet offer; Eagle's own page is the one recorded.",
         "offer_type": "safety_net",
         "read": "2026-10-09",
         "source": "https://playeagle.com/promotion.shtml?promoid=upto-1000-inbets-wo",

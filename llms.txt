@@ -20,7 +20,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [Arbitrage calculator](https://bookbreaker.bet/calculators/arbitrage/): How much do I stake on each side?
 - [Kelly criterion calculator](https://bookbreaker.bet/calculators/kelly/): How much should I bet?
 - [Hold and vig calculator](https://bookbreaker.bet/calculators/hold/): How much is this book charging me?
-- [Bonus bet conversion calculator](https://bookbreaker.bet/calculators/bonus-bet-conversion/): What is my free bet actually worth?
+- [Bonus bet conversion calculator](https://bookbreaker.bet/calculators/bonus-bet-conversion/): What is my bonus bet actually worth?
 - [Middle calculator](https://bookbreaker.bet/calculators/middle/): What does this middle need to hit to be worth it?
 - [Odds converter](https://bookbreaker.bet/calculators/odds-converter/): American to decimal to implied probability
 - [Break-even calculator](https://bookbreaker.bet/calculators/breakeven/): What win rate does this price need?
@@ -60,13 +60,13 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [How to stake an arbitrage in round numbers](https://bookbreaker.bet/guides/how-to-stake-an-arbitrage-in-round-numbers/): What does betting $490 instead of $493.98 actually cost you?
 - [How to use the Kelly criterion](https://bookbreaker.bet/guides/how-to-use-the-kelly-criterion/): How much of your bankroll should one bet be?
 - [What is a middle bet](https://bookbreaker.bet/guides/what-is-a-middle-bet/): How can two bets both win?
-- [How to convert a bonus bet to cash](https://bookbreaker.bet/guides/how-to-convert-a-bonus-bet/): What is a free bet actually worth and how do you cash it?
+- [How to convert a bonus bet to cash](https://bookbreaker.bet/guides/how-to-convert-a-bonus-bet/): What is a bonus bet actually worth and how do you cash it?
 - [How old is the price on your screen](https://bookbreaker.bet/guides/how-old-is-the-price-on-your-screen/): Why does the line move between clicking and confirming?
 - [How to avoid getting limited](https://bookbreaker.bet/guides/how-to-avoid-getting-limited/): Why do sportsbooks limit winners and what actually extends an account?
 
 ## Responsible gambling and terms
 
-- [Responsible gambling](https://bookbreaker.bet/responsible-gambling/): for adults 21 and over where betting is legal. Help any time: call or text 1-800-MY-RESET (1-800-697-3738), or call 1-800-GAMBLER
+- [Responsible gambling](https://bookbreaker.bet/responsible-gambling/): for adults 21 and over where betting is legal. Help any time: call or text 1-800-MY-RESET (1-800-697-3738)
 - [Terms of use](https://bookbreaker.bet/terms/): a free analysis tool, not a sportsbook and not advice
 - [Privacy](https://bookbreaker.bet/privacy/): the site counts visits without cookies, and the app sends nothing about you anywhere
 

@@ -1530,7 +1530,7 @@ def measure(engine) -> dict:
     + "<p>Every other parlay calculator prints the payout to the cent and stops there. The payout is the book's number. The fair price is the number that says what the ticket costs.</p>")}
 
     calc["deposit-match"] = {"body": (
-    "<p>A deposit match is not free money. It is a loan of turnover, and the interest is the hold on whatever markets the terms let you churn through.</p>"
+    "<p>A deposit match is a loan of turnover, not a gift, and the interest is the hold on whatever markets the terms let you churn through.</p>"
     + f"<p>The offer: deposit ${m['match']['deposit']}, receive ${m['match']['bonus']} in bonus funds, clear {m['match']['rollover']}x rollover before anything can be withdrawn.</p>"
     + f"<p>Break-even hold is the number that decides it. It sits at {m['match']['breakeven']:.1f}%. Churn below that and the bonus survives to the cashier. Churn above it and the bonus was spent before the terms released it.</p>"
     + "<p>So the clause that matters is the one listing eligible markets. Both holds below are measured off real two-way prices, not assumed.</p>"
@@ -1930,6 +1930,7 @@ def onward(path: str) -> str:
 def page(title: str, description: str, body: str, path: str,
          body_class: str = "") -> str:
     body += onward(path)
+    body = re.sub(r"__SRC_([a-z0-9]+)__", lambda m: page_src(path, m.group(1)), body)
     body = TABLE.sub(lambda m: f'<div class="scroll">{m.group(0)}</div>', body)
     # A card grid needs more width than a reading measure. Marked on the grid
     # itself rather than passed in at each hub, because a body class that has
@@ -2083,8 +2084,8 @@ ever requested. Every figure on this site is computed by running the engine at
 build time. None is typed in. Generated {e(TODAY)}.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
-will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a>, the national
-helpline, or call <a href="tel:+18004262537">1-800-GAMBLER</a>, or visit
+will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the
+National Problem Gambling Helpline, or visit
 <a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>. More on
 <a href="/responsible-gambling/">responsible gambling</a>.</p>
 </footer>
@@ -2669,7 +2670,7 @@ def render_index(m: dict) -> str:
 <section class="sec">
   <div class="sec-head"><span class="kicker">Questions</span><h2>Before you download</h2></div>
   <div class="faq">
-    <details><summary>Is the profit guaranteed?</summary><p>No. It is locked only if
+    <details><summary>Is the profit locked in no matter what?</summary><p>No. It is locked only if
     both bets are accepted at the prices shown and both stand. A price can move before
     your second bet lands, a book can cap your stake or void a bet, and an exchange may
     have only a little on offer at the price you see. Live pairs are sized to the
@@ -3450,7 +3451,7 @@ separates them.</p>
 
 "what-is-a-deposit-match-worth": f"""
 <p>A 100% match on {mt['deposit']:,} dollars looks like {mt['bonus']:,} dollars
-of free money. It is not free and it is not always money. The rollover is a
+of extra money. It is not extra and it is not always money you can withdraw. The rollover is a
 price, and you pay it in hold.</p>
 <p>At {mt['rollover']}x on deposit plus bonus, the offer is worth exactly zero
 at a hold of <strong>{mt['breakeven']:.2f}%</strong>. That is the whole
@@ -3496,7 +3497,7 @@ signed up for.</p>
 <h2>Two things this does not mean</h2>
 <p><strong>It is not hedgeable.</strong> There is no second bet that locks a
 safety net, because the refund only exists in the branch where you lose. Any
-tool reporting this EV as guaranteed is reporting the wrong field.</p>
+tool reporting this EV as certain is reporting the wrong field.</p>
 <p><strong>Longer is not unboundedly better.</strong> Real longshots carry the
 heaviest margin, and past some point the extra vig costs more than the extra
 refund frequency earns. The right price is the longest one whose <em>fair</em>
@@ -3818,7 +3819,7 @@ from the correlation.</p>
 recorded what results a market can produce, the only outcomes visible are the
 ones you bet on. So every result the model can see is one you backed,
 and the "worst case" comes out <em>positive</em>. A one-sided book looks
-risk-free to any tool that infers the outcome set from the bets in it. The
+as if it has no downside to any tool that infers the outcome set from the bets in it. The
 honest response is to say the floor is optimistic and why, not to print it.</p>
 <p><a href="/guides/how-many-bets-are-you-actually-making/">What twelve
 positions really are &rarr;</a></p>
@@ -4874,45 +4875,178 @@ STATE_NAMES = {
 #      earned something, and quietly rot the moment a real one arrived.
 
 def load_partners() -> dict:
-    """Partner rows keyed by book. `affiliate_url` empty means not signed up."""
-    out = {}
+    """Partner rows grouped by book. One row per (book, states).
+
+    `states` blank means every state; otherwise space-separated codes. A row is LIVE only
+    when `approved` is "yes" AND it has an `affiliate_url`: a tracking URL typed in before
+    the network approves us would send people through a link that earns nothing, so
+    approval is a separate, deliberate field. `site_url` is where the person goes while
+    nothing is live.
+    """
+    out: dict = {}
     for row in load_data("partners"):
-        out[row["book"].strip()] = {
-            "affiliate": (row.get("affiliate_url") or "").strip(),
+        book = row["book"].strip()
+        entry = out.setdefault(book, {"name": (row.get("name") or book).strip(), "rows": []})
+        states = (row.get("states") or "").split()
+        entry["rows"].append({
+            "states": [x.upper() for x in states] or None,
             "site": (row.get("site_url") or "").strip(),
+            "affiliate": (row.get("affiliate_url") or "").strip(),
+            "approved": (row.get("approved") or "").strip().lower() == "yes",
+            "promo": (row.get("promo_code") or "").strip(),
+            "terms": (row.get("terms_url") or "").strip(),
             "program": (row.get("program") or "").strip(),
             "source": (row.get("source") or "").strip(),
-        }
+        })
+    for entry in out.values():
+        default = next((r["site"] for r in entry["rows"] if r["states"] is None and r["site"]), "")
+        entry["site"] = default or next((r["site"] for r in entry["rows"] if r["site"]), "")
     return out
 
 
 PARTNERS = load_partners()
 
 
-def partner_link(book_key: str, label: str, state: str = "") -> str:
-    """A link to a sportsbook, paid or not, marked honestly either way.
+def pick_row(book_key: str, state: str):
+    """The row that answers (book, state): a state's own row beats the all-states row.
+    The same rule is written in JavaScript in /go/router.js, and check.py runs the shipped
+    script to prove the two agree."""
+    entry = PARTNERS.get(book_key)
+    if not entry:
+        return None
+    best = None
+    for r in entry["rows"]:
+        if r["states"] is not None and state.upper() not in r["states"]:
+            continue
+        if best is None or (r["states"] is not None and best["states"] is None):
+            best = r
+    return best
 
-    `{SUBID}` in an affiliate URL is replaced with the state code so revenue
-    can be attributed to the page that earned it. Without that every state
-    page reports the same nothing and there is no way to learn which ones
-    work.
+
+def is_live(book_key: str, state: str = "") -> bool:
+    r = pick_row(book_key, state)
+    return bool(r and r["approved"] and r["affiliate"])
+
+
+def partner_link(book_key: str, label: str, state: str = "", slot: str = "books") -> str:
+    """A link to a sportsbook: always the router, marked honestly either way.
+
+    Every outbound book link on the site goes to /go/<book>/?state=XX&src=<page>-<slot>.
+    The router sends the person to the state's approved tracking URL if there is one and
+    to the book's ordinary public page if not, so nothing breaks and nothing pretends. A
+    link that can pay is `sponsored`; the page carries the disclosure only then.
+    `__SRC_<slot>__` is replaced with the page's own path and the slot by page(), so no caller has to know it.
     """
-    row = PARTNERS.get(book_key)
-    if not row or not row["site"]:
+    if book_key not in PARTNERS or not PARTNERS[book_key]["site"]:
         return e(label)
-    if row["affiliate"]:
-        href = row["affiliate"].replace("{SUBID}", state.lower())
-        return (f'<a class="book-cta" href="{e(href)}" '
-                f'rel="sponsored nofollow noopener" target="_blank">'
-                f'{e(label)}</a>')
-    # No programme yet: an ordinary outbound link, and nothing claims otherwise.
-    return (f'<a class="book-link" href="{e(row["site"])}" '
-            f'rel="nofollow noopener" target="_blank">{e(label)}</a>')
+    slot = re.sub(r"[^a-z0-9]", "", slot.lower()) or "books"
+    qs = (f"?state={state.upper()}&amp;" if state else "?") + f"src=__SRC_{slot}__"
+    rel = "sponsored nofollow noopener" if is_live(book_key, state) else "nofollow noopener"
+    cls = "book-cta" if is_live(book_key, state) else "book-link"
+    return f'<a class="{cls}" href="/go/{e(book_key)}/{qs}" rel="{rel}" target="_blank">{e(label)}</a>'
 
 
 def any_paid_links() -> bool:
-    """Whether any partner is actually live. Drives the disclosure."""
-    return any(r["affiliate"] for r in PARTNERS.values())
+    """Whether any partner row is live. Drives the disclosure."""
+    return any(r["approved"] and r["affiliate"] for en in PARTNERS.values() for r in en["rows"])
+
+
+# ------------------------------------------------------------------- the router
+
+ROUTER_JS = """/* The referral router's brain: which URL a person is sent to for a book in a state.
+   Generated by _build/render.py from _data/partners.csv's rules; check.py runs THIS file
+   in node and proves it agrees with the Python (render.pick_row). A row is live only when
+   its approved flag is set and it has a tracking URL; otherwise the book's public URL. */
+(function (g) {
+  function pick(rows, state) {
+    var best = null;
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i], s = r.s;
+      if (s && s.indexOf(state) === -1) continue;
+      if (!best || (s && !best.s)) best = r;
+    }
+    return best;
+  }
+  function clean(v, re, n) { return String(v || "").replace(re, "").slice(0, n); }
+  function route(d, state, src) {
+    state = clean(state, /[^A-Za-z]/g, 2).toUpperCase();
+    src = clean(src, /[^A-Za-z0-9_.~-]/g, 80);
+    var r = pick(d.r, state);
+    var live = !!(r && r.k && r.u);
+    var url = live ? r.u.split("{STATE}").join(state.toLowerCase()).split("{SRC}").join(encodeURIComponent(src))
+                    : ((r && r.p) || d.p);
+    if (url.indexOf("https://") !== 0) { url = d.p; live = false; }
+    var licensed = true;
+    if (state && d.l && d.l.indexOf(state) === -1 && d.a && d.a.indexOf(state) !== -1) {
+      // Not licensed where this person is: never send them to the book. Our own page for their state says what is.
+      url = "/sportsbooks/" + state.toLowerCase() + "/"; live = false; licensed = false;
+    }
+    return { url: url, live: live, state: state, src: src, licensed: licensed };
+  }
+  g.BBGO = { route: route, pick: pick };
+})(typeof window !== "undefined" ? window : globalThis);
+"""
+
+
+def licensed_states(measured: dict) -> dict:
+    """book key -> the states where the catalog says it takes bets (from the same table as the state pages)."""
+    out: dict = {}
+    for code, st in measured["states"].items():
+        for b in st["books"]:
+            out.setdefault(b["key"], set()).add(code)
+    return {k: sorted(v) for k, v in out.items()}
+
+
+def router_data(book: str, measured: dict) -> dict:
+    en = PARTNERS[book]
+    return {"k": book, "n": en["name"], "p": en["site"],
+            "l": licensed_states(measured).get(book, []), "a": sorted(measured["states"]),
+            "r": [{"s": r["states"], "k": bool(r["approved"] and r["affiliate"]), "u": r["affiliate"], "p": r["site"]}
+                  for r in en["rows"]]}
+
+
+def router_page(book: str, measured: dict) -> str:
+    d = router_data(book, measured)
+    name = e(d["n"])
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Opening {name} | Bookbreaker</title>
+<noscript><meta http-equiv="refresh" content="0;url={e(d['p'])}"></noscript>
+<script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
+<style>body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#050507;color:#e8e8f0;font:16px/1.5 system-ui,sans-serif}}
+a{{color:#8b89ff}}main{{max-width:30rem;padding:1rem;text-align:center}}</style></head>
+<body><main><p>Taking you to <b>{name}</b>.</p>
+<p><a id="go" rel="nofollow noopener" href="{e(d['p'])}">Go now</a></p>
+<p><small>21+. Gambling problem? Call or text 1-800-MY-RESET (1-800-697-3738).</small></p></main>
+<script src="/go/router.js"></script>
+<script>(function(){{
+var D={json.dumps(d, separators=(',', ':'))};
+var q=new URLSearchParams(location.search), st=q.get("state"), src=q.get("src");
+if(!st){{try{{st=localStorage.getItem("bb.state")||""}}catch(e){{}}}}
+var r=BBGO.route(D,st,src), done=false, a=document.getElementById("go"); a.href=r.url;
+function leave(){{if(done)return;done=true;location.replace(r.url)}}
+window.plausible=window.plausible||function(){{(window.plausible.q=window.plausible.q||[]).push(arguments)}};
+try{{plausible("Go",{{props:{{book:D.k,state:r.state||"none",src:r.src||"none",paid:r.live?"yes":"no"}},callback:leave}})}}catch(e){{leave()}}
+setTimeout(leave,700);
+}})();</script></body></html>
+"""
+
+
+def write_router(measured: dict) -> list:
+    """/go/<book>/ for every book in the table, and the shared script. Rewritten from
+    scratch each build so a book removed from the table cannot keep a live redirect."""
+    import shutil
+    root = SITE / "go"
+    if root.exists():
+        shutil.rmtree(root)
+    root.mkdir()
+    (root / "router.js").write_text(ROUTER_JS)
+    for book in sorted(PARTNERS):
+        if PARTNERS[book]["site"]:
+            (root / book).mkdir()
+            (root / book / "index.html").write_text(router_page(book, measured))
+    return sorted(b for b in PARTNERS if PARTNERS[b]["site"])
+
 
 
 def disclosure() -> str:
@@ -4925,21 +5059,47 @@ def disclosure() -> str:
             'The sportsbook links below earn us nothing.</p>')
 
 
+def load_helplines() -> dict:
+    """Each state's own problem-gambling line, from _data/helplines.csv (read from the state's pages)."""
+    return {r["state"]: r for r in load_data("helplines")}
+
+
+HELPLINES = load_helplines()
+NATIONAL_LINE = ('<a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the National Problem '
+                 'Gambling Helpline, call or text')
+
+
+def helpline_block(code: str = "") -> str:
+    """21+, the national line, and the state's own line.
+
+    1-800-GAMBLER is no longer the national line: the National Council on Problem Gambling
+    stopped operating it on 2025-09-29 and announced 1-800-MY-RESET on 2026-01-29, and the
+    Council on Compulsive Gambling of New Jersey now controls the old number. It is printed
+    only where a state's own rule names it (NJ, PA, CO, ME, MD, WV), in that rule's wording.
+    """
+    row = HELPLINES.get((code or "").upper())
+    name = STATE_NAMES.get(code.upper(), code) if code else ""
+    parts = [f"<strong>{'18+' if row and row['min_age'] == '18' else '21+'}"
+             f"{f' in {e(name)}' if row and row['min_age'] == '18' else ''}.</strong>"]
+    if row and row["gambler_rule"] == "yes":
+        parts.append(e(row["gambler_wording"]).replace("1-800-GAMBLER", '<a href="tel:+18004262537">1-800-GAMBLER</a>') + ".")
+    if row and row["line"]:
+        parts.append(f"Help in {e(name)}: {e(row['line'])}.")
+    parts.append(f"National line: {NATIONAL_LINE}.")
+    return '<p class="rg">' + " ".join(parts) + "</p>"
+
+
 def responsible() -> str:
     """21+, the helpline, and no claim anybody is going to win.
 
-    The national line is used rather than a per-state one: publishing 34
-    state helpline numbers from memory is exactly the kind of unsourced
-    detail this build refuses everywhere else, and 1-800-GAMBLER is correct
-    in every state that has legal betting.
+    The national line only; state pages add their own with helpline_block().
     """
     return ('<aside class="rg">'
             '<p><strong>21+ and present in a state where betting is legal.</strong> '
             'Betting carries a risk of financial loss, and nothing on this site '
             'is a prediction that you will win. The engine measures how uncertain '
             'a price is; it does not remove the uncertainty.</p>'
-            '<p>If gambling stops being fun, it is not fun. '
-            '<a href="tel:+18004262537">Call 1-800-GAMBLER</a> or visit '
+            f'<p>If gambling stops being fun, it is not fun. {NATIONAL_LINE}, or visit '
             '<a href="https://www.ncpgambling.org/help-treatment/" '
             'rel="noopener" target="_blank">ncpgambling.org</a>.</p>'
             '</aside>')
@@ -5347,6 +5507,7 @@ def render_state_page(m: dict, code: str) -> str:
 {e(name)} as of {e(st['as_of'])}. {len(limiting)} of the {len(books)} {_n(len(books), 'venue')}
 covering the state limit accounts that win{'; ' + e(never_names) + ' ' + _does(len(never)) if never else ''}.</p>
 {disclosure()}
+{helpline_block(code)}
 {jurisdiction_facts(code, name)}
 {state_difference(m, name, code, JURISDICTIONS.get(code, {}))}
 
@@ -5737,7 +5898,7 @@ monthly, so this one is not priced until it is read again.</p></article>""")
 <h3>{e(o['name'])} <small>{e(o['headline'])}</small></h3>
 {where}
 <ol>{steps}</ol>
-<p class="caveat">{e(o['note'])} <a href="{e(o['source'])}" rel="nofollow">source</a>,
+<p class="caveat">{e(o['note'])} <a href="{e(o['source'])}" rel="nofollow" data-cite="1">source</a>,
 read {e(o['read'])}.</p>
 </article>""")
     return f"""
@@ -5773,10 +5934,12 @@ any sportsbook account, and it is not affiliated with any sportsbook.</p>
 It is run by the <a href="https://www.ncpgambling.org/help-treatment/">National
 Council on Problem Gambling</a>, and its older number, 1-800-522-4700, still works
 (read 2026-09-24, <a href="https://www.ncpgambling.org/news/1-800-my-reset-announcement/">source</a>).</p>
-<p><a href="tel:+18004262537">1-800-GAMBLER</a> (1-800-426-2537) is the helpline
-of the Council on Compulsive Gambling of New Jersey. Many states still print it
-in their required messages, and it still answers (read 2026-09-24,
-<a href="https://www.legalsportsreport.com/252681/ncpg-launches-1-800-my-reset-as-new-problem-gambling-helpline/">source</a>).</p>
+<p>The older number, 1-800-GAMBLER, is no longer run by the National Council on
+Problem Gambling: since 2025-09-29 the Council on Compulsive Gambling of New Jersey
+controls it (<a href="https://www.ncpgambling.org/helpline-stakeholder-faq">source</a>,
+read 2026-10-10). A few states still name it in their required messages, and we print it
+only on those states' pages and in their wording. Every state page shows that
+state's own line, taken from the state's pages.</p>
 <h2>Limits and self-exclusion</h2>
 <p>Licensed sportsbooks offer deposit, wager and time limits, a cooling-off
 break and account closure; look under responsible gaming in your account
@@ -5949,7 +6112,7 @@ PAGES = [
     ("/responsible-gambling/", "responsible-gambling/index.html",
      "Responsible gambling at Bookbreaker",
      "Bookbreaker is for adults 21+ where betting is legal. Help any time: "
-     "1-800-MY-RESET or 1-800-GAMBLER, plus limits and self-exclusion.",
+     "1-800-MY-RESET, plus your state's own line, limits and self-exclusion.",
      render_responsible),
     ("/terms/", "terms/index.html", "Bookbreaker terms of use",
      "Bookbreaker is a free analysis tool, not a sportsbook and not advice. "
@@ -6065,7 +6228,7 @@ def render_llms(built_urls: set[str]) -> str:
         "",
         link("/responsible-gambling/", "Responsible gambling", "for adults 21 and over "
              "where betting is legal. Help any time: call or text 1-800-MY-RESET "
-             "(1-800-697-3738), or call 1-800-GAMBLER"),
+             "(1-800-697-3738)"),
         link("/terms/", "Terms of use", "a free analysis tool, not a sportsbook and "
              "not advice"),
         link("/privacy/", "Privacy", "the site counts visits without cookies, "
@@ -6510,12 +6673,15 @@ point for your own check, not legal advice.</p>
     # change, and only a similarity measurement noticed.
     wanted = {SITE / rel for _, rel in built + redirects}
     for stale in sorted(SITE.rglob("*.html")):
-        if "_build" in stale.parts or stale in wanted:
+        if "_build" in stale.parts or stale in wanted or stale.relative_to(SITE).parts[0] == "go":
             continue
         stale.unlink()
         if not any(stale.parent.iterdir()):
             stale.parent.rmdir()
         print(f"  removed stale {stale.relative_to(SITE)}")
+
+    routed = write_router(measured)
+    print(f"  /go/                   {len(routed)} book routers (noindex)")
 
     # IndexNow verifies ownership by fetching this from the site root, so it
     # is content that must ship with the pages — not a build artefact. Written
@@ -6554,15 +6720,15 @@ point for your own check, not legal advice.</p>
     # It changes no access: `User-agent: * / Allow: /` already permits all
     # of them. It states the intent so it survives a later tightening.
     (SITE / "robots.txt").write_text(
-        "User-agent: *\nAllow: /\n"
-        "\nUser-agent: GPTBot\nAllow: /\n"
-        "\nUser-agent: OAI-SearchBot\nAllow: /\n"
-        "\nUser-agent: ChatGPT-User\nAllow: /\n"
-        "\nUser-agent: ClaudeBot\nAllow: /\n"
-        "\nUser-agent: Claude-SearchBot\nAllow: /\n"
-        "\nUser-agent: PerplexityBot\nAllow: /\n"
-        "\nUser-agent: Google-Extended\nAllow: /\n"
-        "\nUser-agent: Applebot-Extended\nAllow: /\n"
+        "User-agent: *\nAllow: /\nDisallow: /go/\n"
+        "\nUser-agent: GPTBot\nAllow: /\nDisallow: /go/\n"
+        "\nUser-agent: OAI-SearchBot\nAllow: /\nDisallow: /go/\n"
+        "\nUser-agent: ChatGPT-User\nAllow: /\nDisallow: /go/\n"
+        "\nUser-agent: ClaudeBot\nAllow: /\nDisallow: /go/\n"
+        "\nUser-agent: Claude-SearchBot\nAllow: /\nDisallow: /go/\n"
+        "\nUser-agent: PerplexityBot\nAllow: /\nDisallow: /go/\n"
+        "\nUser-agent: Google-Extended\nAllow: /\nDisallow: /go/\n"
+        "\nUser-agent: Applebot-Extended\nAllow: /\nDisallow: /go/\n"
         "\nSitemap: https://bookbreaker.bet/sitemap.xml\n"
     )
     (SITE / "llms.txt").write_text(render_llms({u for u, _ in built}))

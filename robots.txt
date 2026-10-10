@@ -1,28 +1,37 @@
 User-agent: *
 Allow: /
+Disallow: /go/
 
 User-agent: GPTBot
 Allow: /
+Disallow: /go/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /go/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /go/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /go/
 
 User-agent: Claude-SearchBot
 Allow: /
+Disallow: /go/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /go/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /go/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /go/
 
 Sitemap: https://bookbreaker.bet/sitemap.xml
