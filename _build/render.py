@@ -5934,11 +5934,15 @@ def promo_slug(code: str) -> str:
     return STATE_NAMES.get(code, code).lower().replace(" ", "-")
 
 
-def promo_offers(m: dict, code: str = PROMO_STATE) -> dict:
-    """The priced, in-date welcome offers valid in one state, by book key."""
+def promo_offers(m: dict, code: str = PROMO_STATE, stale: bool = False) -> dict:
+    """The priced, in-date welcome offers valid in one state, by book key.
+
+    stale=True also returns offers past the age limit, for a page that is already indexed: it keeps
+    its URL and says the offer is no longer priced, instead of turning into a 404.
+    """
     out: dict = {}
     for o in m["welcome"]["offers"]:
-        if o["stale"] or code not in (o.get("states") or []):
+        if (o["stale"] and not stale) or code not in (o.get("states") or []):
             continue
         out.setdefault(o["book"], []).append(o)
     return out
@@ -5959,12 +5963,19 @@ def render_promo_page(m: dict, key: str, code: str = PROMO_STATE) -> str:
     terms as read with the sources that disagree. The hedge method is linked, not repeated.
     """
     name_state = STATE_NAMES.get(code, code)
-    offers = sorted(promo_offers(m, code)[key], key=lambda x: -(x["guaranteed"] or x["expected"]))
+    offers = sorted(promo_offers(m, code, stale=True)[key],
+                    key=lambda x: (x["stale"], -(x["guaranteed"] or x["expected"] or 0)))
     book = offers[0]["name"]
     st_book = next(b for b in m["states"][code]["books"] if b["key"] == key)
     rival = [o for k, os_ in promo_offers(m, code).items() if k != key for o in os_ if o["guaranteed"]]
     cards = []
     for o in offers:
+        if o["stale"]:
+            cards.append(f"""<article class="offer-card" data-stale><h3>{e(o['headline'])}</h3>
+<p class="caveat">Read {e(o['read'])}. {e(book)} changes its offers monthly, so this one is not priced until it
+is read again. Check {e(book)}'s own page for what it offers {e(name_state)} customers today.
+<a href="{e(o['source'])}" rel="nofollow" data-cite="1">Where it was read</a>.</p></article>""")
+            continue
         link = partner_link(key, "Open this offer", code, "promo")
         open_offer = f'<p class="offer-states">{link}</p>' if link.startswith("<a ") else ""
         first = o["face"] / o["installments"] if o["installments"] else o["face"]
@@ -5983,6 +5994,8 @@ def render_promo_page(m: dict, key: str, code: str = PROMO_STATE) -> str:
 read {e(o['read'])}.</p>
 </article>""")
     best = offers[0]
+    if best["stale"]:
+        best = dict(best, guaranteed=0, expected=0)
     ahead = sorted((o for o in rival if o["guaranteed"] > (best["guaranteed"] or 0)), key=lambda o: -o["guaranteed"])
     behind = [o for o in rival if o["guaranteed"] <= (best["guaranteed"] or 0)]
     standing = (f"In {e(name_state)} the engine prices {e(book)} at ${best['guaranteed']:,.2f} locked, "
@@ -5991,6 +6004,8 @@ read {e(o['read'])}.</p>
                 if best["guaranteed"] and ahead else
                 f"{e(book)} is the largest locked offer in {e(name_state)} at ${best['guaranteed']:,.2f}."
                 if best["guaranteed"] else
+                f"{e(book)}'s offer is not priced right now, so it is not ranked."
+                if offers[0]["stale"] else
                 f"{e(book)}'s offer cannot be locked, so it is priced as an expectation and not ranked against the locks.")
     limits = ("limits accounts that win, so treat the offer as a one-time collection and read the "
               "account-longevity page first" if st_book["limits"] else
@@ -5999,10 +6014,12 @@ read {e(o['read'])}.</p>
         (f"Do I need a promo code for {book} in {name_state}?",
          "None of the sources read on " + offers[0]["read"] + " mentions one for this offer. "
          "If the sign-up screen asks for one, use what that screen shows."),
-        (f"When does the {book} offer in {name_state} end?",
-         (f"The terms print {offers[0]['ends']}." if offers[0]["ends"] else
-          "The terms read do not print an end date.") +
-         " Books re-price offers monthly; the date this page was read is on the card above."),
+        (f"When does the {book} offer in {name_state} end?" if not offers[0]["stale"] else
+         f"Is the {book} offer in {name_state} still running?",
+         ("This page has not been re-read in time to say; check the book's own page." if offers[0]["stale"] else
+          (f"The terms print {offers[0]['ends']}." if offers[0]["ends"] else
+           "The terms read do not print an end date.") +
+          " Books re-price offers monthly; the date this page was read is on the card above.")),
     ]
     faq_html = "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
     return f"""
@@ -6058,6 +6075,13 @@ read {e(o['read'])}.{own}</p>
     missing = (f"<p>Not listed above: {e(', '.join(unpriced))}. No new-customer sports offer from "
                f"{'it' if len(unpriced) == 1 else 'them'} has been priced.</p>"
                if unpriced else "")
+    # A book's own page outlives its priced offer (it says the offer is not priced), so the hub still links it.
+    lapsed = [o for k, os_ in promo_offers(m, code, stale=True).items() if k in PROMO_PAGES_READY and k not in priced
+              for o in os_[:1]]
+    if lapsed:
+        missing += ("<p>Offers waiting to be read again: "
+                    + ", ".join(f'<a href="/promo-codes/{promo_slug(code)}/{e(o["book"])}/">{e(o["name"])}</a>'
+                                for o in lapsed) + ".</p>")
     return f"""
 {breadcrumb_schema([("Promo codes", f"/promo-codes/{promo_slug(code)}/")])}
 <h1>{e(name_state)} sportsbook promo codes, ranked by what they are worth</h1>
@@ -6855,7 +6879,7 @@ point for your own check, not legal advice.</p>
             f"with the terms as read and the date.",
             render_promo_hub(measured, pcode), f"/promo-codes/{promo_slug(pcode)}/"))
         built.append((f"/promo-codes/{promo_slug(pcode)}/", rel)); promo_urls += 1
-        for pkey, poffers in pbooks.items():
+        for pkey, poffers in promo_offers(measured, pcode, stale=True).items():
             if pkey not in PROMO_PAGES_READY:
                 continue
             url = f"/promo-codes/{promo_slug(pcode)}/{pkey}/"
