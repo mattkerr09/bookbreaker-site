@@ -5927,7 +5927,7 @@ No link here pays us anything.</p>
 # ------------------------------------------------------------------- promo pages
 
 PROMO_STATE = "MI"
-PROMO_PAGES_READY: set = {"dk"}   # book keys whose own page has enough unique, sourced text
+PROMO_PAGES_READY: set = {"dk", "mgm"}   # book keys whose own page has enough unique, sourced text
 
 
 def promo_slug(code: str) -> str:
@@ -5979,11 +5979,20 @@ is read again. Check {e(book)}'s own page for what it offers {e(name_state)} cus
         link = partner_link(key, "Open this offer", code, "promo")
         open_offer = f'<p class="offer-states">{link}</p>' if link.startswith("<a ") else ""
         first = o["face"] / o["installments"] if o["installments"] else o["face"]
-        schedule = (f"<p>Paid in {o['installments']} installments, about ${first:,.0f} each, "
-                    f"each expiring {e(o['expires_days'])} days after it is issued"
-                    f"{', and the whole offer ends ' + e(o['ends']) if o['ends'] else ''}. "
-                    + ("The engine's hedge stakes for each bonus bet are in the steps below.</p>" if o["guaranteed"] else
-                       "A refund or boost has no stake to hedge against, so there is no locked floor.</p>"))
+        n, per = o["installments"], o["face"] / (o["installments"] or 1)
+        expiry = (f"each expiring {e(o['expires_days'])} days after it is issued"
+                  if o["expires_days"] else "with no expiry read")
+        end = f", and the whole offer ends {e(o['ends'])}" if o["ends"] else ""
+        if o["offer_type"] == "bet_and_get_on_win":
+            schedule = (f"<p>Paid only if the qualifying bet wins, as {n} bonus bets of about ${per:,.0f} "
+                        f"each, {expiry}{end}. Nothing is paid if that bet loses, and a hedge cannot change "
+                        f"that.</p>")
+        elif o["offer_type"] == "bet_and_get":
+            schedule = (f"<p>Paid in {n} installments, about ${per:,.0f} each, {expiry}{end}. "
+                        "The engine's hedge stakes for each bonus bet are in the steps below.</p>")
+        else:
+            schedule = (f"<p>{n} parts of about ${per:,.0f} each, {expiry}{end}. A refund or boost has no "
+                        "stake to hedge against, so there is no locked floor.</p>")
         cards.append(f"""<article class="offer-card">
 <div class="offer-top">{_worth(o)}</div>
 <h3>{e(o['headline'])}</h3>
