@@ -5927,7 +5927,7 @@ No link here pays us anything.</p>
 # ------------------------------------------------------------------- promo pages
 
 PROMO_STATE = "MI"
-PROMO_PAGES_READY: set = set()   # book keys whose own page has enough unique, sourced text
+PROMO_PAGES_READY: set = {"dk"}   # book keys whose own page has enough unique, sourced text
 
 
 def promo_slug(code: str) -> str:
@@ -5952,61 +5952,73 @@ def _worth(o: dict) -> str:
 
 
 def render_promo_page(m: dict, key: str, code: str = PROMO_STATE) -> str:
-    """"<book> promo code <state>": this book's own offers in this state, as read and priced.
+    """"<book> promo code <state>": this book's offer in this state, from the engine's own record.
 
-    Only what is specific to the book is long: its terms as read, its engine-priced value, whether
-    it limits winners here. The method is linked, not repeated.
+    Built only for books in PROMO_PAGES_READY. What makes the page this book's: the schedule its terms
+    set, what each installment locks, how that compares with the other offers in the state, and the
+    terms as read with the sources that disagree. The hedge method is linked, not repeated.
     """
     name_state = STATE_NAMES.get(code, code)
-    offers = promo_offers(m, code)[key]
+    offers = sorted(promo_offers(m, code)[key], key=lambda x: -(x["guaranteed"] or x["expected"]))
     book = offers[0]["name"]
-    row = PARTNERS.get(key, {})
     st_book = next(b for b in m["states"][code]["books"] if b["key"] == key)
+    rival = [o for k, os_ in promo_offers(m, code).items() if k != key for o in os_ if o["guaranteed"]]
     cards = []
     for o in offers:
         link = partner_link(key, "Open this offer", code, "promo")
         open_offer = f'<p class="offer-states">{link}</p>' if link.startswith("<a ") else ""
-        # The hedge steps live once, on /offers/. Repeating them on every book's page made the pages
-        # near-duplicates of each other; what is this book's own is the headline, the priced figure and the note.
+        first = o["face"] / o["installments"] if o["installments"] else o["face"]
+        schedule = (f"<p>Paid in {o['installments']} installments, about ${first:,.0f} each, "
+                    f"each expiring {e(o['expires_days'])} days after it is issued"
+                    f"{', and the whole offer ends ' + e(o['ends']) if o['ends'] else ''}. "
+                    + ("The engine's hedge stakes for each bonus bet are in the steps below.</p>" if o["guaranteed"] else
+                       "A refund or boost has no stake to hedge against, so there is no locked floor.</p>"))
         cards.append(f"""<article class="offer-card">
 <div class="offer-top">{_worth(o)}</div>
 <h3>{e(o['headline'])}</h3>
 {open_offer}
+{schedule}
+<ol>{''.join(f"<li>{e(_offer_step_wording(x))}</li>" for x in o['steps'] if not x.startswith("Keep the account"))}</ol>
 <p class="caveat">{e(o['note'])} <a href="{e(o['source'])}" rel="nofollow" data-cite="1">source</a>,
 read {e(o['read'])}.</p>
 </article>""")
-    promo = ((row.get("rows") or [{}])[0].get("promo_code") or "").strip() if row else ""
-    code_line = (f"Promo code: {e(promo)}." if promo else
-                 f"No promo code is listed in the terms read for this offer on {e(offers[0]['read'])}. "
-                 f"If the sign-up screen asks for one, use what that screen shows.")
-    limits = ("limits accounts that win, so plan to use it once and keep the stakes round"
-              if st_book["limits"] else "is not known to limit accounts that win")
-    others = [k for k in promo_offers(m, code) if k != key]
-    near = sorted(others, key=lambda k: -max(x["guaranteed"] or x["expected"] for x in promo_offers(m, code)[k]))[:3]
-    near_links = ", ".join(
-        f'<a href="/promo-codes/{promo_slug(code)}/{e(k)}/">{e(promo_offers(m, code)[k][0]["name"])}</a>' for k in near)
+    best = offers[0]
+    ahead = sorted((o for o in rival if o["guaranteed"] > (best["guaranteed"] or 0)), key=lambda o: -o["guaranteed"])
+    behind = [o for o in rival if o["guaranteed"] <= (best["guaranteed"] or 0)]
+    standing = (f"In {e(name_state)} the engine prices {e(book)} at ${best['guaranteed']:,.2f} locked, "
+                f"which puts it behind {len(ahead)} other locked offers and ahead of {len(behind)}. "
+                f"The largest is {e(ahead[0]['name'])} at ${ahead[0]['guaranteed']:,.2f} locked."
+                if best["guaranteed"] and ahead else
+                f"{e(book)} is the largest locked offer in {e(name_state)} at ${best['guaranteed']:,.2f}."
+                if best["guaranteed"] else
+                f"{e(book)}'s offer cannot be locked, so it is priced as an expectation and not ranked against the locks.")
+    limits = ("limits accounts that win, so treat the offer as a one-time collection and read the "
+              "account-longevity page first" if st_book["limits"] else
+              "is not known to limit accounts that win")
     faqs = [
-        (f"Do I need a promo code for {book} in {name_state}?", code_line.replace("<", "").replace(">", "")),
-        (f"Can I turn the {book} bonus into cash?",
-         "Only the part you lock by hedging at a second book, if both bets are accepted and stand. "
-         "The figure above is that locked amount, priced by the same engine as the bonus-bet "
-         "conversion calculator." if offers[0]["guaranteed"] else
-         "Not to a fixed amount: a profit boost has no stake to hedge against, so the figure above is "
-         "an expectation, not a lock."),
+        (f"Do I need a promo code for {book} in {name_state}?",
+         "None of the sources read on " + offers[0]["read"] + " mentions one for this offer. "
+         "If the sign-up screen asks for one, use what that screen shows."),
+        (f"When does the {book} offer in {name_state} end?",
+         (f"The terms print {offers[0]['ends']}." if offers[0]["ends"] else
+          "The terms read do not print an end date.") +
+         " Books re-price offers monthly; the date this page was read is on the card above."),
     ]
     faq_html = "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
     return f"""
 {breadcrumb_schema([("Promo codes", f"/promo-codes/{promo_slug(code)}/"), (book, f"/promo-codes/{promo_slug(code)}/{key}/")])}
 {faq_schema(faqs)}
 <h1>{e(book)} promo code in {e(name_state)}</h1>
-<p class="lede">{code_line} Below is what {e(book)} offers new customers in {e(name_state)}, what each
-offer is worth after hedging, and the terms as they were read.</p>
+<p class="lede">What {e(book)} gives new {e(name_state)} customers, what that is worth after hedging, and the
+terms as they were read, including where the sources disagree.</p>
 {disclosure()}
 {helpline_block(code)}
 <div class="offer-grid">{''.join(cards)}</div>
-<p>{e(book)} {limits}. Step by step, with the hedge stakes, on <a href="/offers/">the offers page</a>.
-Also in {e(name_state)}: {near_links}.</p>
+<h2>Where it stands in {e(name_state)}</h2>
+<p>{standing} {e(book)} {limits}. The full ranking is on <a href="/promo-codes/{promo_slug(code)}/">the {e(name_state)} promo hub</a>.</p>
 {faq_html}
+<p><a href="/guides/how-to-convert-a-bonus-bet/">How to convert a bonus bet &rarr;</a> &nbsp;&middot;&nbsp;
+<a href="/calculators/bonus-bet-conversion/">Try your own odds &rarr;</a></p>
 <p class="caveat">Offers change often and differ by state. Read {e(offers[0]['read'])}. Not legal or financial advice.</p>
 """
 
