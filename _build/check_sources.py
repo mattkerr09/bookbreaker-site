@@ -58,7 +58,7 @@ def sources() -> list[tuple[str, str, str]]:
             continue
         for row in csv.DictReader(path.open()):
             url = (row.get("source") or "").strip()
-            if url:
+            if url.startswith(("http://", "https://")):      # a label like "brand homepage" is not a citation
                 out.append((name, (row.get(key) or "?").strip(), url))
     return out
 

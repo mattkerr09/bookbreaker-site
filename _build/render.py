@@ -5873,7 +5873,7 @@ def render_offers(m: dict) -> str:
                   for st in every_state)
         + '</select></label></p>'
         '<script>(function(){var s=document.getElementById("offer-state");if(!s)return;'
-        's.addEventListener("change",function(){var v=s.value;'
+        's.addEventListener("change",function(){var v=s.value;try{localStorage.setItem("bb.state",v)}catch(e){}'
         'document.querySelectorAll(".offer-card").forEach(function(c){'
         'var st=(c.getAttribute("data-states")||"").split(" ");'
         'c.hidden=!!v&&st.indexOf(v)<0;});});})();</script>'
@@ -5893,10 +5893,15 @@ monthly, so this one is not priced until it is read again.</p></article>""")
         where = (f'<p class="offer-states">Valid in {len(states)} '
                  f'{"state" if len(states) == 1 else "states"}: {e(", ".join(states))}</p>'
                  if states else "")
+        # Above the steps, never inside them: no referral button sits next to hedge or conversion
+        # instructions until an operator approves that in writing (CEO, 2026-10-10).
+        link = partner_link(o.get("book", ""), "Open this offer", "", "offer")
+        open_offer = f'<p class="offer-states">{link}</p>' if link.startswith("<a ") else ""
         cards.append(f"""<article class="offer-card reveal" data-states="{e(' '.join(states))}">
 <div class="offer-top">{worth}</div>
 <h3>{e(o['name'])} <small>{e(o['headline'])}</small></h3>
 {where}
+{open_offer}
 <ol>{steps}</ol>
 <p class="caveat">{e(o['note'])} <a href="{e(o['source'])}" rel="nofollow" data-cite="1">source</a>,
 read {e(o['read'])}.</p>

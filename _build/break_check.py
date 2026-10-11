@@ -218,6 +218,13 @@ CASES = [
         'rel="sponsored nofollow noopener" target="_blank">BetMGM</a>',
     ),
     (
+        "a referral button inside the hedge steps",
+        "check_no_referral_button_beside_hedge_steps",
+        "offers/index.html",
+        "<ol>",
+        '<ol><li><a href="/go/dk/?src=x">Open</a></li>',
+    ),
+    (
         "robots.txt that lets a crawler into the referral router",
         "check_robots_keeps_crawlers_out_of_the_router",
         "robots.txt",

@@ -1059,6 +1059,15 @@ def check_a_paid_link_carries_the_disclosure(pages, fails):
             fails.append(f"{path}: says its links earn nothing while a partner row is live")
 
 
+def check_no_referral_button_beside_hedge_steps(pages, fails):
+    """No /go/ link sits inside a numbered step list. Conversion and hedge instructions stay
+    free of referral buttons until an operator approves that placement in writing."""
+    for path, markup in pages:
+        for ol in re.findall(r"<ol\b.*?</ol>", markup, flags=re.S):
+            if "/go/" in ol:
+                fails.append(f"{path}: a referral link sits inside a step list (move it above the steps)")
+
+
 def check_the_pay_page_tells_the_truth(pages, fails):
     """/how-we-are-paid/ says nothing pays us only while no partner row is live, and says links can pay once one is.
     The terms page may not claim independence from payment either. Both sentences are chosen from partners.csv."""
@@ -1822,6 +1831,8 @@ def main() -> int:
             lambda: check_router_pages_match_the_table_and_behave(fails, measured),
         "check_a_paid_link_carries_the_disclosure":
             lambda: check_a_paid_link_carries_the_disclosure(pages, fails),
+        "check_no_referral_button_beside_hedge_steps":
+            lambda: check_no_referral_button_beside_hedge_steps(pages, fails),
         "check_robots_keeps_crawlers_out_of_the_router":
             lambda: check_robots_keeps_crawlers_out_of_the_router(fails),
         "check_video_caption_names_the_recorded_version":
