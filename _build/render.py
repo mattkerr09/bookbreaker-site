@@ -5927,7 +5927,7 @@ No link here pays us anything.</p>
 # ------------------------------------------------------------------- promo pages
 
 PROMO_STATE = "MI"
-PROMO_PAGES_READY: set = {"dk", "mgm"}   # book keys whose own page has enough unique, sourced text
+PROMO_PAGES_READY: set = {"dk", "mgm", "caesars"}   # book keys whose own page has enough unique, sourced text
 
 
 def promo_slug(code: str) -> str:
@@ -6021,13 +6021,16 @@ read {e(o['read'])}.</p>
               "is not known to limit accounts that win")
     faqs = [
         (f"Do I need a promo code for {book} in {name_state}?",
-         "None of the sources read on " + offers[0]["read"] + " mentions one for this offer. "
-         "If the sign-up screen asks for one, use what that screen shows."),
+         ("A source read on " + offers[0]["read"] + " mentions a promo code for this offer; the terms above say "
+          "where. Use whatever the sign-up screen asks for, and compare it with the source." if
+          any(re.search(r"\bcode\b", o["note"], re.I) for o in offers) else
+          "None of the sources read on " + offers[0]["read"] + " mentions one for this offer. "
+          "If the sign-up screen asks for one, use what that screen shows.")),
         (f"When does the {book} offer in {name_state} end?" if not offers[0]["stale"] else
          f"Is the {book} offer in {name_state} still running?",
          ("This page has not been re-read in time to say; check the book's own page." if offers[0]["stale"] else
-          (f"The terms print {offers[0]['ends']}." if offers[0]["ends"] else
-           "The terms read do not print an end date.") +
+          (f"For \"{offers[0]['headline']}\" the terms print {offers[0]['ends']}." if offers[0]["ends"] else
+           f"For \"{offers[0]['headline']}\" the terms read do not print an end date.") +
           " Books re-price offers monthly; the date this page was read is on the card above.")),
     ]
     faq_html = "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
