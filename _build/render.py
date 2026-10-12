@@ -2363,6 +2363,10 @@ worst outcome</td></tr>
 counted finals</td></tr>
 <tr><td><code>overlay offers</code></td><td class="prose">Whether a deposit match clears,
 given what its rollover allows</td></tr>
+<tr><td><code>overlay promo</code></td><td class="prose">What a promo you hold is worth, and
+what you keep if each side wins</td></tr>
+<tr><td><code>overlay deposit</code></td><td class="prose">Which books to fund in your state,
+in what order, and how much</td></tr>
 <tr><td><code>overlay paste</code></td><td class="prose">A betslip read into your record,
 shown before it is written</td></tr>
 <tr><td><code>overlay portfolio</code></td><td class="prose">Exposure, measured correlation,
