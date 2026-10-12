@@ -4,7 +4,9 @@
       "Ask",
       "Arbitrage",
       "Live odds from your own key",
+      "Every book&rsquo;s price, side by side",
       "Sign-up bonuses, turned into cash",
+      "Convert a promo you already have",
       "Your record",
       "Do these two prices lock in a profit?",
       "What are the fair odds?",
@@ -16,12 +18,14 @@
       "arb",
       "ask",
       "board",
+      "convert",
       "devig",
       "fill",
       "kelly",
       "odds",
       "parlay",
       "results",
+      "screen",
       "welcome"
     ],
     "tabs": [
@@ -29,7 +33,11 @@
       "Fair odds",
       "Bet size",
       "Parlay",
-      "Will it fill?"
+      "Will it fill?",
+      "Welcome offers",
+      "Convert my own promo",
+      "Odds screen",
+      "Your key"
     ]
   },
   "arb": {
@@ -449,9 +457,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "53913f5699339018",
+  "engine_fingerprint": "64444e0367a40aa5",
   "engine_load": {
-    "bytes": 6369305,
+    "bytes": 6406239,
     "mb": 6,
     "pyodide": "0.29.5"
   },
@@ -865,28 +873,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35061019,
-      "kb": 34239,
+      "bytes": 35077271,
+      "kb": 34255,
       "mb": 35.1,
-      "name": "Bookbreaker-0.1.12.dmg",
-      "sha256": "f29f7107aee074c776a7616a23c2a1797427b9495cb479d623a41a21cfe43b9e"
+      "name": "Bookbreaker-0.1.14.dmg",
+      "sha256": "1ef4847d23ee52a65d167d1050d73c81bf9807a5dbe476c5ca04998c53f3a09b"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 623156,
-      "kb": 609,
-      "mb": 0.6,
-      "name": "overlay-0.1.12.tar.gz",
-      "sha256": "82c120839cd11d9dd79246a29cff0bb6f7665d8a5c72ea39b0945f81e2755810"
+      "bytes": 708665,
+      "kb": 692,
+      "mb": 0.7,
+      "name": "overlay-0.1.14.tar.gz",
+      "sha256": "d13591d7ed9d0a9e66741bf1af952ce55244aa938564b4e0eb4b114f9f8d2a9e"
     },
-    "version": "0.1.12",
+    "version": "0.1.14",
     "wheel": {
-      "bytes": 356312,
-      "kb": 348,
+      "bytes": 393246,
+      "kb": 384,
       "mb": 0.4,
-      "name": "overlay-0.1.12-py3-none-any.whl",
-      "sha256": "3415f9c84db5924c9c6309097e8590ae2f667dbf9859b4b50746ee7bcaf5973d"
+      "name": "overlay-0.1.14-py3-none-any.whl",
+      "sha256": "036bcc3b97c3672b2c148e6ed78d1a10ff85f3b924a96ad9b969f0eff7b0cc9a"
     }
   },
   "replay": {
@@ -4927,14 +4935,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 54,
+    "engine_modules": 59,
     "network_calls": 0,
-    "sha256": "f29f7107aee074c776a7616a23c2a1797427b9495cb479d623a41a21cfe43b9e",
-    "sha256_short": "f29f7107aee074c7",
+    "sha256": "1ef4847d23ee52a65d167d1050d73c81bf9807a5dbe476c5ca04998c53f3a09b",
+    "sha256_short": "1ef4847d23ee52a6",
     "sources": 29,
-    "test_files": 64
+    "test_files": 71
   },
-  "version": "0.1.12",
+  "version": "0.1.14",
   "weights": {
     "max_age_days": 90
   },

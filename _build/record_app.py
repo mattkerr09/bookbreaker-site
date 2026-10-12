@@ -117,33 +117,55 @@ async def main(out: pathlib.Path) -> None:
                     return
             raise SystemExit(f"{what} never appeared")
 
+        def tab(panel):
+            return ("(()=>{const b=document.querySelector('.tab[data-panel=\"%s\"]');"
+                    "if(b)b.click();})()" % panel)
+
+        def setv(sel, v):
+            return ("(()=>{const s=document.querySelector('%s');if(s){s.value='%s';"
+                    "s.dispatchEvent(new Event('input',{bubbles:true}));"
+                    "s.dispatchEvent(new Event('change',{bubbles:true}));}})()" % (sel, v))
+
         # 1. Arbitrage, the home page: find a pair, let the console fill.
         await js(nav("board"))
         await hold(1.0)
         await js(run("board"))
         await until(landed("out-board"), "the arbitrage console")
-        await hold(3.2)
+        await hold(3.0)
 
-        # 2. Promos for one state: what each offer locks in, and where.
+        # 2. Promos: Welcome offers for one state, then Convert my own promo.
         await js(nav("welcome"))
         await hold(0.8)
-        await js("(()=>{const s=document.querySelector('#w-state');if(s){s.value='MI';"
-                 "s.dispatchEvent(new Event('change',{bubbles:true}));}})()")
+        await js(setv('#w-state', 'MI'))
         await hold(0.6)
         await js(run("welcome"))
         await until(landed("out-welcome"), "the offers")
-        await hold(2.8)
+        await hold(2.4)
+        await js(tab("convert"))
+        await hold(1.0)
+        await js(setv('#pc-book', 'dk'))
+        await hold(0.8)
+        await js(run("promo"))
+        await until(landed("out-promo"), "the converted promo")
+        await hold(3.0)
 
-        # 3. Tools: the parlay, answered in dollars.
+        # 3. Odds source: the Odds screen, laid out from this Mac.
+        await js(nav("odds"))
+        await hold(0.6)
+        await js(tab("screen"))
+        await until(landed("out-screen"), "the odds screen")
+        await hold(1.8)
+
+        # 4. Tools: the parlay, answered in dollars.
         await js(nav("parlay"))
         await hold(0.8)
         await js(run("parlay"))
         await until(landed("out-parlay"), "the parlay answer")
-        await hold(2.6)
+        await hold(2.4)
 
         # Back to the console to close the loop.
         await js(nav("board"))
-        await hold(1.6)
+        await hold(1.4)
 
     print(f"{frame[0]} frames -> {out}")
 

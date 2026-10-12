@@ -12,7 +12,9 @@
     "Ask",
     "Arbitrage",
     "Live odds from your own key",
+    "Every book&rsquo;s price, side by side",
     "Sign-up bonuses, turned into cash",
+    "Convert a promo you already have",
     "Your record",
     "Do these two prices lock in a profit?",
     "What are the fair odds?",
@@ -31,12 +33,16 @@
     "Fair odds",
     "Bet size",
     "Parlay",
-    "Will it fill?"
+    "Will it fill?",
+    "Welcome offers",
+    "Convert my own promo",
+    "Odds screen",
+    "Your key"
   ],
-  "recorded_version": "0.1.11",
+  "recorded_version": "0.1.14",
   "encoded_with": [
     "ffmpeg -framerate 12 -i f%05d.png -vf scale=1280:800:flags=lanczos,format=yuv420p -c:v libx264 -preset slow -crf 22 -movflags +faststart -an app.mp4",
     "ffmpeg -framerate 12 -i f%05d.png -vf scale=1280:800:flags=lanczos -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 -an app.webm",
-    "ffmpeg -i f00050.png -vf scale=1280:800:flags=lanczos -q:v 3 app-poster.jpg"
+    "ffmpeg -i f00030.png -vf scale=1280:800:flags=lanczos -q:v 3 app-poster.jpg"
   ]
 }

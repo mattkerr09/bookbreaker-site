@@ -1,11 +1,11 @@
 {
-  "version": "0.1.12",
-  "notes": "The national helpline is now 1-800-MY-RESET (call or text) in Ask and the window footer, replacing 1-800-GAMBLER, which stopped being the national line on 2025-09-29. Michigan offers for FanDuel and DraftKings were re-read.",
-  "pub_date": "2026-10-12T18:32:36Z",
+  "version": "0.1.14",
+  "notes": "The odds screen, convert your own promo, and player props.\n\n- Odds source has an Odds screen: every book's price for the games your own key read, side by side, with the best price marked and when it was read. Pick a play to see its fair odds, its value at each book and the full price table; arbs and middles show what each result pays and which bet to place first.\n- Promos has a new tab, Convert my own promo: pick a bonus bet, refund, profit boost or deposit match, the book and the amount, and see what it is worth, what you keep if each side wins, and the best pair from odds already read on this Mac.\n- Live sportsbook odds can also read player props. It is off unless you tick it, and the cost in credits is shown before you press refresh, because props are read one game at a time.\n- Live prices says what it compared when nothing pays, and how to compare more books.",
+  "pub_date": "2026-10-12T21:28:28Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDJocC9ZcnIvNlpReTg3WUVheWxmOHF5dmZ5c01zaS9scDlqVEU2U01UZ1BRcVJRSUtyc2ZySEJLSTAyMDM4VFdqYkdoVkVUWHg4amRUcE5VNFkzdVFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODI5OTIwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjEyLmFwcC50YXIuZ3oKbExxdjhDV2RjRkVtcUpncnMyUUJJclZVTElOUXV3RGlnQjZQbnVEaFlJbVp0Vzd0U29vZk53RFB4cWQ5UHM0dlRHMVRoRDJvaU1XODhVWDRSVGZiQ2c9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.12.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHpzOXEyeWpWdFY2ekNMNmVmOEN2WTRLZkV3bjFJYW9EK3p1VzVPaXlDb3ZyaUpkekpXVmdBY0xWb2tvb1ArbFl5d3hsdllkMG14dGJtNFl6blRCWXdjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODQwNDgzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjE0LmFwcC50YXIuZ3oKdTh0c3lzREwzTUtGMVFBUkhkSEs5Y2hsK1U5Y2NUNG4vcGpQbXlmWm5RWi9hckNEKytoSXBaUjJmUTdSanlLcEt5MC84UE5HeG1TMFpiZStpUHVlQ1E9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.14.app.tar.gz"
     }
   }
 }

@@ -6410,6 +6410,7 @@ public prices from Kalshi and Polymarket US. It is the same request a browser ma
 carrying nothing about you.</li>
 <li><b>Live sportsbook odds.</b> If you add your own Odds API key on the Odds source page,
 pressing its button sends that key and the sports, regions and bet types you picked
+(and, if you switched on player props, the games and prop markets it reads, one game at a time)
 to api.the-odds-api.com, and nothing else. The key is kept in your Mac&rsquo;s Keychain.</li>
 <li><b>Ask.</b> If you add your own Anthropic key, your question and the numbers the engine
 looked up to answer it go to Anthropic when you press Ask, and nothing else does. The key is kept in
