@@ -2297,8 +2297,9 @@ def render_download(m: dict) -> str:
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
             'a security warning.</span></li></ol>'
-            '<p>New in this version: an Odds screen with every book&rsquo;s price side by side, a page that '
-            'prices a promo you already hold, and player props when you switch them on. '
+            '<p>New in this version: your record against what it should have been, how old every price is, a '
+            'safer default view, and one state picker for the whole app. Also recent: an Odds screen with every '
+            'book&rsquo;s price side by side, and a page that prices a promo you already hold. '
             '<a href="/how-it-works/">How it works</a>.</p>')
     else:
         primary = (f'<a class="btn primary" href="/releases/{w["name"]}">'

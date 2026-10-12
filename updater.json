@@ -1,11 +1,11 @@
 {
-  "version": "0.1.14",
-  "notes": "The odds screen, convert your own promo, and player props.\n\n- Odds source has an Odds screen: every book's price for the games your own key read, side by side, with the best price marked and when it was read. Pick a play to see its fair odds, its value at each book and the full price table; arbs and middles show what each result pays and which bet to place first.\n- Promos has a new tab, Convert my own promo: pick a bonus bet, refund, profit boost or deposit match, the book and the amount, and see what it is worth, what you keep if each side wins, and the best pair from odds already read on this Mac.\n- Live sportsbook odds can also read player props. It is off unless you tick it, and the cost in credits is shown before you press refresh, because props are read one game at a time.\n- Live prices says what it compared when nothing pays, and how to compare more books.",
-  "pub_date": "2026-10-12T21:28:28Z",
+  "version": "0.1.15",
+  "notes": "Your record against what it should have been, price ages, and one state.\n\n- My bets opens on one sentence about your bets and your profit, then actual against expected profit for the bets Bookbreaker priced, profit by book and by market, and a calendar of each day's result.\n- Pick a play and you see its price over the reads kept on this Mac, with the fair price beside it and your own bet marked.\n- Every price says how old it is, and an old one is greyed with the reason.\n- A Recommended preset is on by default: main markets, no long shots past +300, and no thin or wide markets where the app can tell. Turn it off to see everything.\n- One state picker in the top bar now drives Promos, live pairs and Ask. It stays on this Mac.",
+  "pub_date": "2026-10-12T23:10:24Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHpzOXEyeWpWdFY2ekNMNmVmOEN2WTRLZkV3bjFJYW9EK3p1VzVPaXlDb3ZyaUpkekpXVmdBY0xWb2tvb1ArbFl5d3hsdllkMG14dGJtNFl6blRCWXdjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODQwNDgzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjE0LmFwcC50YXIuZ3oKdTh0c3lzREwzTUtGMVFBUkhkSEs5Y2hsK1U5Y2NUNG4vcGpQbXlmWm5RWi9hckNEKytoSXBaUjJmUTdSanlLcEt5MC84UE5HeG1TMFpiZStpUHVlQ1E9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.14.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTCs0WStndWd0SFJnYUVBNkdaU3I3dXNPbU8rVkp4cnlPVDRnY2xmSjhYcEd0WiszT0wrYVkyamhNbERWWlhLUkp3dGlKNXUwY1I4dUNYR1ZtbFRQMlE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODQ2NTk2CWZpbGU6Qm9va2JyZWFrZXItMC4xLjE1LmFwcC50YXIuZ3oKWHpXRzduNHpmWjd0TnVyM2JhMXlJYkRWcFpsanl5K3NSS0Q4QTZyYTZCUU5URUc0OWNJZXhxc3lWbXN4d21FNDBHNDAySDVQSDFpTEFacU5ZSWNQQmc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.15.app.tar.gz"
     }
   }
 }
