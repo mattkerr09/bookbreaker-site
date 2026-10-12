@@ -2296,7 +2296,10 @@ def render_download(m: dict) -> str:
             '<li><b>Drag it to Applications</b><span>Drop the Bookbreaker icon on the '
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
-            'a security warning.</span></li></ol>')
+            'a security warning.</span></li></ol>'
+            '<p>New in this version: an Odds screen with every book&rsquo;s price side by side, a page that '
+            'prices a promo you already hold, and player props when you switch them on. '
+            '<a href="/how-it-works/">How it works</a>.</p>')
     else:
         primary = (f'<a class="btn primary" href="/releases/{w["name"]}">'
                    f'Download the wheel<span class="sub">{w["kb"]} KB</span></a>'
@@ -2693,6 +2696,21 @@ def render_index(m: dict) -> str:
 </section>
 
 <section class="sec">
+  <div class="sec-head">
+    <span class="kicker">With your own odds key</span>
+    <h2>Every book&rsquo;s price, and what your promo is worth</h2>
+  </div>
+  <div class="why">
+    <div class="reveal"><h3>Every book&rsquo;s price, side by side</h3><p>The Odds screen lays out each game&rsquo;s price at every sportsbook your free key reads, marks the best one, and says when it was read. Pick a bet to see its fair price and what it is worth at each book.</p></div>
+    <div class="reveal"><h3>Which bet to place first</h3><p>On an arb or a middle, the app shows what you make in each result and numbers the bets, so the price most likely to move goes in first.</p></div>
+    <div class="reveal"><h3>Convert a promo you already have</h3><p>Type in a bonus bet, refund, profit boost or deposit match, the book and the amount. You see what it is worth and what you keep if each side wins.</p></div>
+    <div class="reveal"><h3>Player props, when you want them</h3><p>Off until you switch them on. Then the app tells you how many credits a refresh will cost before it reads anything.</p></div>
+  </div>
+  <figure class="feat-shot reveal"><img src="/media/panel-convert.jpg" width="1600" height="900" loading="lazy" alt="The Convert my own promo page pricing a bonus bet at DraftKings"></figure>
+  <p><a href="/how-it-works/">How each page works &rarr;</a></p>
+</section>
+
+<section class="sec">
   <div class="sec-head"><span class="kicker">Questions</span><h2>Before you download</h2></div>
   <div class="faq">
     <details><summary>Is the profit locked in no matter what?</summary><p>No. It is locked only if
@@ -2778,6 +2796,12 @@ def render_how(m: dict) -> str:
              "real Kalshi and Polymarket US pairs, sized to what is on offer; with it off, "
              "it shows one demonstration market.</p>",
              shot=("app-poster.jpg", "The app's Arbitrage page with both bets side by side")),
+        feat("Promos", "Convert a promo you already have",
+             "<p>Pick the kind of promo, the book and the amount. Bookbreaker says what it is worth, what "
+             "you keep if each side wins, and the two bets to place. It pairs the promo with the best price "
+             "your own odds key already read on this Mac, and with no read yet it uses a stated example "
+             "price and says so. It never fetches odds on this page and never spends your credits.</p>",
+             shot=("panel-convert.jpg", "The Convert my own promo page pricing a bonus bet at DraftKings")),
         feat("Arb calculator", "Know exactly what to bet at each book",
              f"<p>Enter two prices and how much you want to put in. You get the stake for each "
              f"book, rounded to amounts a book will take, and the profit locked if both bets "
