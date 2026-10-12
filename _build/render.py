@@ -302,6 +302,19 @@ def measure(engine) -> dict:
     po_out = po.outcomes()
     po_half = po.total_over(2.5)
     po_whole = po.total_over(3.0)
+    # A push on a whole-number total, priced by the same model: what the half point (the hook) is worth.
+    from overlay_engine.odds import decimal_to_american as _d2a
+    ph, pw = po.total_over(2.5), po.total_over(3.0)
+    out["push"] = {
+        "home_lambda": 1.6, "away_lambda": 1.2,
+        "over_half": round(ph["over"] * 100, 2), "under_half": round(ph["under"] * 100, 2),
+        "over_whole": round(pw["over"] * 100, 2), "push_whole": round(pw["push"] * 100, 2),
+        "under_whole": round(pw["under"] * 100, 2),
+        "fair_over_half": f"{_d2a(1 / ph['over']):+.0f}", "fair_under_half": f"{_d2a(1 / ph['under']):+.0f}",
+        # a push returns the stake, so the fair price divides by the chance of a decided bet
+        "fair_over_whole": f"{_d2a((1 - pw['push']) / pw['over']):+.0f}",
+        "fair_under_whole": f"{_d2a((1 - pw['push']) / pw['under']):+.0f}",
+    }
     out["poisson"] = {
         "home_lambda": 1.6, "away_lambda": 1.2,
         "home": round(po_out["home"] * 100, 2),
@@ -3168,6 +3181,27 @@ last row: nearly half the time the whole stake is gone. That is a bankroll quest
 size it with <a href="/guides/how-to-use-the-kelly-criterion/">fractional Kelly</a>, and only when the edge on
 each leg is real rather than hoped for. These figures assume the legs are independent; legs from the same game
 are not, and books price that in.</p>
+""",
+
+"what-is-a-push-in-betting": f"""
+<p>A push is a bet that neither wins nor loses: the result lands exactly on the line, and the book returns the
+stake. It only happens on whole-number lines. A total of 3 can land on 3; a total of 2.5 cannot.</p>
+<p>That is why the half point matters. Take a match the model expects to finish with
+{m['push']['home_lambda']} and {m['push']['away_lambda']} goals for the two sides:</p>
+{table([("Over 2.5", f"{m['push']['over_half']:.2f}% win, fair {m['push']['fair_over_half']}"),
+        ("Under 2.5", f"{m['push']['under_half']:.2f}% win, fair {m['push']['fair_under_half']}"),
+        ("Over 3", f"{m['push']['over_whole']:.2f}% win, {m['push']['push_whole']:.2f}% push, fair {m['push']['fair_over_whole']}"),
+        ("Under 3", f"{m['push']['under_whole']:.2f}% win, {m['push']['push_whole']:.2f}% push, fair {m['push']['fair_under_whole']}")])}
+<p>Moving the line by half a point moves more than a fifth of the outcomes from "lose" or "win" to "money back",
+so the fair price moves a long way. That gap is what a hook is worth on this game, and it is why a whole-number
+line and a half-point line are different bets, not the same bet with a rounding difference.</p>
+<h2>Pushes in a record and a parlay</h2>
+<p>A push is not a win or a loss, so it leaves a win rate untouched; count it as stake returned. How a pushed parlay leg is
+settled is each book's own rule (often the leg is removed and the rest paid at the shorter price), so read it before
+building a parlay around a whole-number line. <a href="/guides/how-to-grade-your-own-bets/">How to grade your own
+bets</a> covers recording them.</p>
+<p>The figures come from a Poisson model, which treats the two sides' scoring as independent.
+<a href="/calculators/poisson/">Try your own expected goals</a>.</p>
 """,
 
 "what-is-closing-line-value": f"""

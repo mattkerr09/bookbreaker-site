@@ -820,6 +820,19 @@
     ],
     "utilisation_flag": 25
   },
+  "push": {
+    "away_lambda": 1.2,
+    "fair_over_half": "-113",
+    "fair_over_whole": "+152",
+    "fair_under_half": "+113",
+    "fair_under_whole": "-152",
+    "home_lambda": 1.6,
+    "over_half": 53.05,
+    "over_whole": 30.81,
+    "push_whole": 22.25,
+    "under_half": 46.95,
+    "under_whole": 46.95
+  },
   "quote_age": {
     "example_age": 30,
     "example_edge": 3.0,
