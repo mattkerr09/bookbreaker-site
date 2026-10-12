@@ -1068,6 +1068,24 @@ def check_no_referral_button_beside_hedge_steps(pages, fails):
                 fails.append(f"{path}: a referral link sits inside a step list (move it above the steps)")
 
 
+SHORT_PROMO_KEYS = {"dk", "fd", "mgm", "hardrock", "eagle"}
+
+
+def check_promo_urls_use_full_names(pages, fails):
+    """Public promo URLs carry the name a searcher types, never an internal short key.
+
+    /promo-codes/michigan/draftkings/ matches "draftkings promo code michigan"; /dk/ does not. The old
+    short URLs stay only as meta-refresh stubs, and nothing may link to them.
+    """
+    for path, markup in pages:
+        m = re.match(r"promo-codes/[a-z-]+/([a-z0-9-]+)/index\.html$", path)
+        if m and m.group(1) in SHORT_PROMO_KEYS and 'http-equiv="refresh"' not in markup:
+            fails.append(f"{path}: a promo page lives at an internal short key (use the full name)")
+        for href in re.findall(r'href="(/promo-codes/[a-z-]+/([a-z0-9-]+)/)"', markup):
+            if href[1] in SHORT_PROMO_KEYS:
+                fails.append(f"{path}: links to {href[0]}, a short promo URL (use the full name)")
+
+
 def check_the_pay_page_tells_the_truth(pages, fails):
     """/how-we-are-paid/ says nothing pays us only while no partner row is live, and says links can pay once one is.
     The terms page may not claim independence from payment either. Both sentences are chosen from partners.csv."""
@@ -1833,6 +1851,8 @@ def main() -> int:
             lambda: check_a_paid_link_carries_the_disclosure(pages, fails),
         "check_no_referral_button_beside_hedge_steps":
             lambda: check_no_referral_button_beside_hedge_steps(pages, fails),
+        "check_promo_urls_use_full_names":
+            lambda: check_promo_urls_use_full_names(pages, fails),
         "check_robots_keeps_crawlers_out_of_the_router":
             lambda: check_robots_keeps_crawlers_out_of_the_router(fails),
         "check_video_caption_names_the_recorded_version":

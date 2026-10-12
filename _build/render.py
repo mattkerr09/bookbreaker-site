@@ -5846,6 +5846,9 @@ STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
 # learned an address does not unlearn it because the file moved.
 REDIRECTS = [
     ("/sportsbooks/not-covered/", "/sportsbooks/in-person-only/"),
+    # The first per-book promo pages shipped on internal short keys (2026-10-11); renamed to the names people search.
+    ("/promo-codes/michigan/dk/", "/promo-codes/michigan/draftkings/"),
+    ("/promo-codes/michigan/mgm/", "/promo-codes/michigan/betmgm/"),
 ]
 
 def _offer_step_wording(st: str) -> str:
@@ -5932,6 +5935,20 @@ PROMO_PAGES_READY: set = {"dk", "mgm", "caesars", "fanatics"}   # book keys whos
 
 def promo_slug(code: str) -> str:
     return STATE_NAMES.get(code, code).lower().replace(" ", "-")
+
+
+# The public slug is the name a searcher types ("draftkings promo code michigan"), never the internal key.
+# /go/ keeps the short keys: it is noindex and internal.
+PROMO_SLUGS = {"dk": "draftkings", "fd": "fanduel", "mgm": "betmgm", "caesars": "caesars", "fanatics": "fanatics",
+               "bet365": "bet365", "betparx": "betparx", "betrivers": "betrivers", "hardrock": "hard-rock",
+               "thescore": "thescore", "eagle": "eagle-casino", "firekeepers": "firekeepers",
+               "fourwinds": "four-winds"}
+
+
+def promo_url(code: str, key: str = "") -> str:
+    """/promo-codes/<state>/ or /promo-codes/<state>/<full-name>/."""
+    base = f"/promo-codes/{promo_slug(code)}/"
+    return base + (PROMO_SLUGS[key] + "/" if key else "")
 
 
 def promo_offers(m: dict, code: str = PROMO_STATE, stale: bool = False) -> dict:
@@ -6035,7 +6052,7 @@ read {e(o['read'])}.</p>
     ]
     faq_html = "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
     return f"""
-{breadcrumb_schema([("Promo codes", f"/promo-codes/{promo_slug(code)}/"), (book, f"/promo-codes/{promo_slug(code)}/{key}/")])}
+{breadcrumb_schema([("Promo codes", f"/promo-codes/{promo_slug(code)}/"), (book, promo_url(code, key))])}
 {faq_schema(faqs)}
 <h1>{e(book)} promo code in {e(name_state)}</h1>
 <p class="lede">What {e(book)} gives new {e(name_state)} customers, what that is worth after hedging, and the
@@ -6069,7 +6086,7 @@ def render_promo_hub(m: dict, code: str = PROMO_STATE) -> str:
     def card(o: dict) -> str:
         link = partner_link(o["book"], "Open this offer", code, "promo")
         open_offer = f'<p class="offer-states">{link}</p>' if link.startswith("<a ") else ""
-        own = (f' <a href="/promo-codes/{promo_slug(code)}/{e(o["book"])}/">{e(o["name"])} in full &rarr;</a>'
+        own = (f' <a href="{promo_url(code, o["book"])}">{e(o["name"])} in full &rarr;</a>'
                if o["book"] in PROMO_PAGES_READY else "")
         return f"""<article class="offer-card">
 <div class="offer-top">{_worth(o)}</div>
@@ -6092,7 +6109,7 @@ read {e(o['read'])}.{own}</p>
               for o in os_[:1]]
     if lapsed:
         missing += ("<p>Offers waiting to be read again: "
-                    + ", ".join(f'<a href="/promo-codes/{promo_slug(code)}/{e(o["book"])}/">{e(o["name"])}</a>'
+                    + ", ".join(f'<a href="{promo_url(code, o["book"])}">{e(o["name"])}</a>'
                                 for o in lapsed) + ".</p>")
     return f"""
 {breadcrumb_schema([("Promo codes", f"/promo-codes/{promo_slug(code)}/")])}
@@ -6894,8 +6911,8 @@ point for your own check, not legal advice.</p>
         for pkey, poffers in promo_offers(measured, pcode, stale=True).items():
             if pkey not in PROMO_PAGES_READY:
                 continue
-            url = f"/promo-codes/{promo_slug(pcode)}/{pkey}/"
-            rel = f"promo-codes/{promo_slug(pcode)}/{pkey}/index.html"
+            url = promo_url(pcode, pkey)
+            rel = url.strip("/") + "/index.html"
             (SITE / rel).parent.mkdir(parents=True, exist_ok=True)
             (SITE / rel).write_text(page(
                 f"{poffers[0]['name']} promo code {pname}, priced",

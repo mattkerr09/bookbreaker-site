@@ -225,6 +225,13 @@ CASES = [
         '<ol><li><a href="/go/dk/?src=x">Open</a></li>',
     ),
     (
+        "a link to a promo page at an internal short key",
+        "check_promo_urls_use_full_names",
+        "promo-codes/michigan/index.html",
+        'href="/promo-codes/michigan/draftkings/"',
+        'href="/promo-codes/michigan/dk/"',
+    ),
+    (
         "robots.txt that lets a crawler into the referral router",
         "check_robots_keeps_crawlers_out_of_the_router",
         "robots.txt",
