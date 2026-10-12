@@ -5859,6 +5859,8 @@ def _offer_step_wording(st: str) -> str:
     release, not a site edit."""
     st = re.sub(r"\$([\d,]+\.\d\d) guaranteed from \$([\d,]+) face",
                 r"$\1 locked from $\2 face if both bets are accepted and stand", st)
+    st = st.replace("Each of 1 tokens:", "The token:")
+    st = re.sub(r"about (\$[\d,.]+) a token, \$[\d,.]+ across all 1\b", r"about \1", st)
     return st.replace("; and place some ordinary bets there too.", ".")
 
 
@@ -5930,7 +5932,7 @@ No link here pays us anything.</p>
 # ------------------------------------------------------------------- promo pages
 
 PROMO_STATE = "MI"
-PROMO_PAGES_READY: set = {"dk", "mgm", "caesars", "fanatics", "bet365"}   # book keys whose own page has enough unique, sourced text
+PROMO_PAGES_READY: set = {"dk", "mgm", "caesars", "fanatics", "bet365", "betparx"}   # book keys whose own page has enough unique, sourced text
 
 
 def promo_slug(code: str) -> str:
@@ -5981,7 +5983,7 @@ def render_promo_page(m: dict, key: str, code: str = PROMO_STATE) -> str:
     """
     name_state = STATE_NAMES.get(code, code)
     offers = sorted(promo_offers(m, code, stale=True)[key],
-                    key=lambda x: (x["stale"], -(x["guaranteed"] or x["expected"] or 0)))
+                    key=lambda x: (x["stale"], not x["guaranteed"], -(x["guaranteed"] or x["expected"] or 0)))
     book = offers[0]["name"]
     st_book = next(b for b in m["states"][code]["books"] if b["key"] == key)
     rival = [o for k, os_ in promo_offers(m, code).items() if k != key for o in os_ if o["guaranteed"]]
@@ -5997,19 +5999,24 @@ is read again. Check {e(book)}'s own page for what it offers {e(name_state)} cus
         open_offer = f'<p class="offer-states">{link}</p>' if link.startswith("<a ") else ""
         first = o["face"] / o["installments"] if o["installments"] else o["face"]
         n, per = o["installments"], o["face"] / (o["installments"] or 1)
-        expiry = (f"each expiring {e(o['expires_days'])} days after it is issued"
+        expiry = (f"{'each ' if n != 1 else ''}expiring {e(o['expires_days'])} days after it is issued"
                   if o["expires_days"] else "with no expiry read")
         end = f", and the whole offer ends {e(o['ends'])}" if o["ends"] else ""
         if o["offer_type"] == "bet_and_get_on_win":
-            schedule = (f"<p>Paid only if the qualifying bet wins, as {n} bonus bets of about ${per:,.0f} "
-                        f"each, {expiry}{end}. Nothing is paid if that bet loses, and a hedge cannot change "
-                        f"that.</p>")
+            paid = (f"a single bonus bet of about ${per:,.0f}" if n == 1 else
+                    f"{n} bonus bets of about ${per:,.0f} each")
+            schedule = (f"<p>Paid only if the qualifying bet wins, as {paid}, {expiry}{end}. Nothing is "
+                        f"paid if that bet loses, and a hedge cannot change that.</p>")
         elif o["offer_type"] == "bet_and_get":
-            schedule = (f"<p>Paid in {n} installments, about ${per:,.0f} each, {expiry}{end}. "
+            paid = (f"Paid as a single bonus bet of about ${per:,.0f}" if n == 1 else
+                    f"Paid in {n} installments, about ${per:,.0f} each")
+            schedule = (f"<p>{paid}, {expiry}{end}. "
                         "The engine's hedge stakes for each bonus bet are in the steps below.</p>")
         else:
-            schedule = (f"<p>{n} parts of about ${per:,.0f} each, {expiry}{end}. A refund or boost has no "
-                        "stake to hedge against, so there is no locked floor.</p>")
+            what = "boost" if o["offer_type"] == "profit_boost" else "refund"
+            count = f"A single {what}" if n == 1 else f"{n} {what}s, one per use"
+            schedule = (f"<p>{count}, {expiry}{end}. A refund or boost has no stake to hedge against, so "
+                        "there is no locked floor.</p>")
         cards.append(f"""<article class="offer-card">
 <div class="offer-top">{_worth(o)}</div>
 <h3>{e(o['headline'])}</h3>
