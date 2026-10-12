@@ -3212,9 +3212,11 @@ by exactly 3 points and {k['margin_7_pct']}% by exactly 7, against {k['margin_1_
 <p>Those are the key numbers. The next tier is far behind: {k['margin_6_pct']}% by 6, {k['margin_10_pct']}% by 10 and
 {k['margin_14_pct']}% by 14. {cite}</p>
 <h2>What a key number does to a spread</h2>
-<p>When the closing spread sits on a key number, the game often lands on it and the bet is a push. Of
-{k['line_3_games']} games that closed at exactly 3, {k['line_3_pushes']} landed on 3 ({k['line_3_push_pct']}%); of
-{k['line_7_games']} that closed at 7, {k['line_7_pushes']} landed on 7 ({k['line_7_push_pct']}%). {cite}</p>
+<p>When the closing spread sits on a key number, the favourite often wins by exactly that number and the spread bet
+is a push. Of {k['line_3_games']} games that closed with a 3-point spread, the favourite won by exactly 3 in
+{k['line_3_pushes']} ({k['line_3_push_pct']}%), a push on the spread; of {k['line_7_games']} that closed at 7, the
+favourite won by exactly 7 in {k['line_7_pushes']} ({k['line_7_push_pct']}%). An underdog winning by 3 is not a
+push, so those games are not in the count. {cite}</p>
 <p>So the half point either side of 3 is the most valuable half point in football: at &minus;2.5 a three-point
 win covers, at &minus;3 it is money back, at &minus;3.5 it loses. That is why books move the price on a 3 rather than
 the line, and why buying off 3 costs more than buying off 5. <a href="/guides/what-is-a-push-in-betting/">What a
