@@ -5947,6 +5947,16 @@ PROMO_SLUGS = {"dk": "draftkings", "fd": "fanduel", "mgm": "betmgm", "caesars": 
                "fourwinds": "four-winds"}
 
 
+def has_book_page(code: str, key: str) -> bool:
+    """A book's own page exists only for Michigan so far; other states get the hub."""
+    return code == PROMO_STATE and key in PROMO_PAGES_READY
+
+
+# Only Michigan so far. Six states were tried on 2026-10-12 and the hubs measured 0.71 to 0.90 alike (the same national
+# offers in every state); another state is added when its hub has a page's worth of text only that state can say.
+PROMO_HUB_STATES = ["MI"]
+
+
 def promo_url(code: str, key: str = "") -> str:
     """/promo-codes/<state>/ or /promo-codes/<state>/<full-name>/."""
     base = f"/promo-codes/{promo_slug(code)}/"
@@ -6116,7 +6126,7 @@ read {e(o['read'])}.{own}</p>
                f"{'it' if len(unpriced) == 1 else 'them'} has been priced.</p>"
                if unpriced else "")
     # A book's own page outlives its priced offer (it says the offer is not priced), so the hub still links it.
-    lapsed = [o for k, os_ in promo_offers(m, code, stale=True).items() if k in PROMO_PAGES_READY and k not in priced
+    lapsed = [o for k, os_ in promo_offers(m, code, stale=True).items() if has_book_page(code, k) and k not in priced
               for o in os_[:1]]
     if lapsed:
         missing += ("<p>Offers waiting to be read again: "
@@ -6906,7 +6916,7 @@ point for your own check, not legal advice.</p>
 
     # "<book> promo code <state>": one page per book with a priced, in-date offer, plus a state hub.
     promo_urls = 0
-    for pcode in (PROMO_STATE,):
+    for pcode in PROMO_HUB_STATES:
         pname = STATE_NAMES.get(pcode, pcode)
         pbooks = promo_offers(measured, pcode)
         if not pbooks:
@@ -6920,7 +6930,7 @@ point for your own check, not legal advice.</p>
             render_promo_hub(measured, pcode), f"/promo-codes/{promo_slug(pcode)}/"))
         built.append((f"/promo-codes/{promo_slug(pcode)}/", rel)); promo_urls += 1
         for pkey, poffers in promo_offers(measured, pcode, stale=True).items():
-            if pkey not in PROMO_PAGES_READY:
+            if not has_book_page(pcode, pkey):
                 continue
             url = promo_url(pcode, pkey)
             rel = url.strip("/") + "/index.html"
