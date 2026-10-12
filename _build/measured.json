@@ -908,6 +908,17 @@
     "two_low": 91.2,
     "two_profit": 16.2
   },
+  "roundrobin_edge": {
+    "expected_profit": 9.27,
+    "legs": 3,
+    "lose_all_pct": 45.5,
+    "p": 53,
+    "singles_instead": 4.5,
+    "stake_each": 25.0,
+    "sweep_profit": 225.0,
+    "total_stake": 75.0,
+    "two_profit": 25.0
+  },
   "safety_net": {
     "conversion": 75,
     "long_premium": 642.86,

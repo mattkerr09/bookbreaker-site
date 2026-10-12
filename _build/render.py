@@ -29,6 +29,7 @@ import functools
 import hashlib
 import math
 import re
+from math import comb
 import html
 import json
 import pathlib
@@ -285,6 +286,16 @@ def measure(engine) -> dict:
         "sweep": rr_rows[3]["returned_low"],
         "expected_profit": rr_ev["expected_profit"],
         "singles_instead": rr_ev["same_money_on_singles"],
+    }
+    # The same round robin when each leg has an edge: three even-money legs a 53% true chance each.
+    rre = _rr.build([2.0, 2.0, 2.0], [2], 25.0, probs=[0.53, 0.53, 0.53])
+    rre_ev, rre_rows = rre.expected_value(), rre.by_leg_count()
+    out["roundrobin_edge"] = {
+        "p": 53, "legs": 3, "stake_each": rre.stake_each, "total_stake": rre.total_stake,
+        "expected_profit": rre_ev["expected_profit"], "singles_instead": rre_ev["same_money_on_singles"],
+        "two_profit": rre_rows[2]["profit_low"], "sweep_profit": rre_rows[3]["profit_low"],
+        # zero or one leg wins: every two-leg ticket loses
+        "lose_all_pct": round(100 * (0.47 ** 3 + 3 * 0.53 * 0.47 ** 2), 1),
     }
 
     po = _po.build(1.6, 1.2)
@@ -3101,6 +3112,9 @@ def guide_bodies(m: dict) -> dict[str, str]:
     reads as generated, and the similarity gate would say so — these are the
     queries people actually type, and each deserves a real answer.
     """
+    def table(rows):
+        return ("<table>" + "".join(f"<tr><th>{e(k)}</th><td>{v}</td></tr>" for k, v in rows) + "</table>")
+
     d, a, f, p = m["devig"], m["arb"], m["fill"], m["performance"]
     conv, mid, h, ev = m["conversion"], m["middles"], m["heat"], m["evidence"]
     par = m["parlay"]
@@ -3127,6 +3141,33 @@ is the one most likely to overstate a longshot.</p>
 <p>The practical answer: do not pick one. An edge that exists under one method
 and vanishes under another is a modelling artefact.
 <a href="/calculators/no-vig-odds/">Work it through &rarr;</a></p>
+""",
+
+"what-is-a-round-robin-bet": f"""
+<p>A round robin turns a handful of picks into every parlay of a chosen size. Three picks "by 2s" is three
+two-leg parlays: A with B, A with C, B with C. You are not placing one bet, you are placing all of them, and
+the count grows fast:</p>
+{table([(f"{n} picks", ", ".join(f"by {k}s: {comb(n, k)} tickets" for k in range(2, min(n - 1, 4) + 1)))
+        for n in (3, 4, 5, 6)])}
+<p>Taking all the picks at once ("by {6}s" on six picks) is a single parlay, not a round robin.</p>
+<p>So the first thing to check is the total at risk. At {m['roundrobin_edge']['stake_each']:,.0f} a ticket,
+three picks by 2s is {m['roundrobin_edge']['total_stake']:,.0f}, not {m['roundrobin_edge']['stake_each']:,.0f}.</p>
+<h2>When it helps and when it does not</h2>
+<p>With fair legs a round robin cannot help: the book's margin is charged on every ticket, so it buys a
+different shape of result, not a better average. <a href="/calculators/round-robin/">The calculator</a> shows
+that case at &minus;110.</p>
+<p>With legs that each carry an edge, it is different. Three even-money legs that each win
+{m['roundrobin_edge']['p']}% of the time, by 2s at {m['roundrobin_edge']['stake_each']:,.0f} a ticket:</p>
+{table([("Expected profit, round robin", f"{m['roundrobin_edge']['expected_profit']:+,.2f}"),
+        ("Same money on singles", f"{m['roundrobin_edge']['singles_instead']:+,.2f}"),
+        ("Two legs land", f"{m['roundrobin_edge']['two_profit']:+,.2f}"),
+        ("All three land", f"{m['roundrobin_edge']['sweep_profit']:+,.2f}"),
+        ("Chance every ticket loses", f"{m['roundrobin_edge']['lose_all_pct']:.1f}%")])}
+<p>Parlaying edges multiplies them, which is why the round robin's expectation is higher. The price is the
+last row: nearly half the time the whole stake is gone. That is a bankroll question, not a betting one, so
+size it with <a href="/guides/how-to-use-the-kelly-criterion/">fractional Kelly</a>, and only when the edge on
+each leg is real rather than hoped for. These figures assume the legs are independent; legs from the same game
+are not, and books price that in.</p>
 """,
 
 "what-is-closing-line-value": f"""
