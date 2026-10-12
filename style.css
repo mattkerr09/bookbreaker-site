@@ -310,7 +310,7 @@ footer{margin-top:4rem;border-top:1px solid var(--rule);background:var(--sink)}
 
 /* ---------- home ---------- */
 .hero{position:relative;text-align:center;padding:3.5rem 0 1rem}
-.hero{isolation:isolate}
+.hero{isolation:isolate;overflow-x:clip}  /* the glow below is wider than the hero; clip it sideways, keep it vertically */
 .hero::before{content:"";position:absolute;z-index:-1;pointer-events:none;
   left:50%;top:-5rem;width:min(1400px,140vw);height:38rem;transform:translateX(-50%);
   background-image:
