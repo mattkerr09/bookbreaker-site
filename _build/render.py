@@ -5932,7 +5932,7 @@ No link here pays us anything.</p>
 # ------------------------------------------------------------------- promo pages
 
 PROMO_STATE = "MI"
-PROMO_PAGES_READY: set = {"dk", "mgm", "caesars", "fanatics", "bet365", "betparx", "betrivers", "hardrock", "eagle", "thescore", "firekeepers"}   # book keys whose own page has enough unique, sourced text
+PROMO_PAGES_READY: set = {"dk", "mgm", "caesars", "fanatics", "bet365", "betparx", "betrivers", "hardrock", "eagle", "thescore", "firekeepers", "fd"}   # book keys whose own page has enough unique, sourced text
 
 
 def promo_slug(code: str) -> str:
