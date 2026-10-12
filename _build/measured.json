@@ -449,9 +449,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "c78c78a64ca8f509",
+  "engine_fingerprint": "53913f5699339018",
   "engine_load": {
-    "bytes": 6368959,
+    "bytes": 6369305,
     "mb": 6,
     "pyodide": "0.29.5"
   },
@@ -852,28 +852,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35060561,
+      "bytes": 35061019,
       "kb": 34239,
       "mb": 35.1,
-      "name": "Bookbreaker-0.1.11.dmg",
-      "sha256": "86d8eaf54f6de8e6a5417189844592d4ad676350703283bb9c68feec3df0349c"
+      "name": "Bookbreaker-0.1.12.dmg",
+      "sha256": "f29f7107aee074c776a7616a23c2a1797427b9495cb479d623a41a21cfe43b9e"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 622774,
-      "kb": 608,
+      "bytes": 623156,
+      "kb": 609,
       "mb": 0.6,
-      "name": "overlay-0.1.11.tar.gz",
-      "sha256": "0c0e74e19ae8fa015ae48fbbc879858b8924b38990478be7c5301ae0adef81c5"
+      "name": "overlay-0.1.12.tar.gz",
+      "sha256": "82c120839cd11d9dd79246a29cff0bb6f7665d8a5c72ea39b0945f81e2755810"
     },
-    "version": "0.1.11",
+    "version": "0.1.12",
     "wheel": {
-      "bytes": 355966,
+      "bytes": 356312,
       "kb": 348,
       "mb": 0.4,
-      "name": "overlay-0.1.11-py3-none-any.whl",
-      "sha256": "4d88b59ca3a1d1b78cca7ef9e99846ca279dd0a0c32334ea6f579638691ba865"
+      "name": "overlay-0.1.12-py3-none-any.whl",
+      "sha256": "3415f9c84db5924c9c6309097e8590ae2f667dbf9859b4b50746ee7bcaf5973d"
     }
   },
   "replay": {
@@ -4905,12 +4905,12 @@
     "accounts": 0,
     "engine_modules": 54,
     "network_calls": 0,
-    "sha256": "86d8eaf54f6de8e6a5417189844592d4ad676350703283bb9c68feec3df0349c",
-    "sha256_short": "86d8eaf54f6de8e6",
+    "sha256": "f29f7107aee074c776a7616a23c2a1797427b9495cb479d623a41a21cfe43b9e",
+    "sha256_short": "f29f7107aee074c7",
     "sources": 29,
     "test_files": 64
   },
-  "version": "0.1.11",
+  "version": "0.1.12",
   "weights": {
     "max_age_days": 90
   },

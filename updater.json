@@ -1,11 +1,11 @@
 {
-  "version": "0.1.11",
-  "notes": "Ask, and every sportsbook in Michigan.\n\n- New Ask page, first in the sidebar: type a question in plain English. Passing-yard chances for NFL quarterbacks, the best way to split a few small bets toward a target, fair odds, and arbs and +EV bets from your own odds feed. Every number comes from the engine.\n- With no AI key it still answers questions like these. Add your own Anthropic key (kept in your Mac's Keychain), or run a model on your Mac with Ollama, and it understands any question. Ask recommends from live arbs and +EV prices only.\n- Michigan now lists all 13 sportsbooks its regulator shows live, each with its current welcome offer or the reason it has none.",
-  "pub_date": "2026-10-10T05:05:09Z",
+  "version": "0.1.12",
+  "notes": "The national helpline is now 1-800-MY-RESET (call or text) in Ask and the window footer, replacing 1-800-GAMBLER, which stopped being the national line on 2025-09-29. Michigan offers for FanDuel and DraftKings were re-read.",
+  "pub_date": "2026-10-12T18:32:36Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHdMWTRDWDZIdy93OUR4YStPTmFvTURrcUZybEJIY1hDcXd5L3Uvc1ArSWJEK0VFcjFBSGsrYlBJM0cwUVRRVW1xTWF4Ry82YjdmYzJtbEE2RFRqUVF3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxNjA4Njg2CWZpbGU6Qm9va2JyZWFrZXItMC4xLjExLmFwcC50YXIuZ3oKTHVZWFNvWkF0Q2RnVkNsMGxGV2tzL1JlODVyQUFRektLVHVJNGNxVzRjaGorTDl2UGdldHNobEJTZURXbUNYby9RVmRtdDFndzNvUkE5L2dVUzQ1Q3c9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.11.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDJocC9ZcnIvNlpReTg3WUVheWxmOHF5dmZ5c01zaS9scDlqVEU2U01UZ1BRcVJRSUtyc2ZySEJLSTAyMDM4VFdqYkdoVkVUWHg4amRUcE5VNFkzdVFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODI5OTIwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjEyLmFwcC50YXIuZ3oKbExxdjhDV2RjRkVtcUpncnMyUUJJclZVTElOUXV3RGlnQjZQbnVEaFlJbVp0Vzd0U29vZk53RFB4cWQ5UHM0dlRHMVRoRDJvaU1XODhVWDRSVGZiQ2c9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.12.app.tar.gz"
     }
   }
 }
