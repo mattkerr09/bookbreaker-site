@@ -5932,7 +5932,7 @@ No link here pays us anything.</p>
 # ------------------------------------------------------------------- promo pages
 
 PROMO_STATE = "MI"
-PROMO_PAGES_READY: set = {"dk", "mgm", "caesars", "fanatics", "bet365", "betparx", "betrivers", "hardrock", "eagle"}   # book keys whose own page has enough unique, sourced text
+PROMO_PAGES_READY: set = {"dk", "mgm", "caesars", "fanatics", "bet365", "betparx", "betrivers", "hardrock", "eagle", "thescore", "firekeepers"}   # book keys whose own page has enough unique, sourced text
 
 
 def promo_slug(code: str) -> str:
@@ -6058,6 +6058,9 @@ read {e(o['read'])}.</p>
           " Books re-price offers monthly; the date this page was read is on the card above.")),
     ]
     faq_html = "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faqs)
+    fact = next((r for r in load_data("promo_facts") if r["book"] == key), None)
+    background = (f'<h2>About {e(book)}</h2>\n<p>{e(fact["fact"])} <a href="{e(fact["source"])}" rel="nofollow" '
+                  f'data-cite="1">source</a>, read {e(fact["read"])}.</p>' if fact else "")
     return f"""
 {breadcrumb_schema([("Promo codes", f"/promo-codes/{promo_slug(code)}/"), (book, promo_url(code, key))])}
 {faq_schema(faqs)}
@@ -6067,6 +6070,7 @@ terms as they were read, including where the sources disagree.</p>
 {disclosure()}
 {helpline_block(code)}
 <div class="offer-grid">{''.join(cards)}</div>
+{background}
 <h2>Where it stands in {e(name_state)}</h2>
 <p>{standing} {e(book)} {limits}. The full ranking is on <a href="/promo-codes/{promo_slug(code)}/">the {e(name_state)} promo hub</a>.</p>
 {faq_html}
