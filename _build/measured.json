@@ -467,9 +467,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "e44ba9b81239d727",
+  "engine_fingerprint": "3def41e5fe4127a0",
   "engine_load": {
-    "bytes": 6454505,
+    "bytes": 6464262,
     "mb": 6,
     "pyodide": "0.29.5"
   },
@@ -883,28 +883,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35141093,
-      "kb": 34317,
+      "bytes": 35142391,
+      "kb": 34319,
       "mb": 35.1,
-      "name": "Bookbreaker-0.1.24.dmg",
-      "sha256": "3a65cf5be2bb77e013c48bb4e448018dfecfdee30d0addfd55edcdfa6b707172"
+      "name": "Bookbreaker-0.1.25.dmg",
+      "sha256": "69eaf547bd997740980d834c689111ebcbbe1fd1649a96a4b673e65693c3969b"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 866357,
-      "kb": 846,
+      "bytes": 894631,
+      "kb": 874,
       "mb": 0.9,
-      "name": "overlay-0.1.24.tar.gz",
-      "sha256": "67e355d096f4a8437fc5c3b14699ccd1aaaa245fae1d88724f8eb876addff5d7"
+      "name": "overlay-0.1.25.tar.gz",
+      "sha256": "426699eef9f1ff85498aa5521754693f8755ae621a7273c5a8e4dec3eaf30f2a"
     },
-    "version": "0.1.24",
+    "version": "0.1.25",
     "wheel": {
-      "bytes": 441512,
-      "kb": 431,
-      "mb": 0.4,
-      "name": "overlay-0.1.24-py3-none-any.whl",
-      "sha256": "1882dd172615f923cbffe6f4b9d05dee241e0e73b7f8953341f71a688b1a763a"
+      "bytes": 451269,
+      "kb": 441,
+      "mb": 0.5,
+      "name": "overlay-0.1.25-py3-none-any.whl",
+      "sha256": "f8f322e229a9ac9404f1956cdf0dcb05c22d686f97880eeaa1ca6dbaa7020177"
     }
   },
   "replay": {
@@ -4945,14 +4945,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 68,
+    "engine_modules": 69,
     "network_calls": 0,
-    "sha256": "3a65cf5be2bb77e013c48bb4e448018dfecfdee30d0addfd55edcdfa6b707172",
-    "sha256_short": "3a65cf5be2bb77e0",
+    "sha256": "69eaf547bd997740980d834c689111ebcbbe1fd1649a96a4b673e65693c3969b",
+    "sha256_short": "69eaf547bd997740",
     "sources": 29,
-    "test_files": 90
+    "test_files": 92
   },
-  "version": "0.1.24",
+  "version": "0.1.25",
   "weights": {
     "max_age_days": 90
   },

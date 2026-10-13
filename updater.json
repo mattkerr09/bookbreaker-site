@@ -1,11 +1,11 @@
 {
-  "version": "0.1.24",
-  "notes": "What's new, inside the app.\n\n- A What's new link beside the version line lists every release in plain words, newest first, each note tagged with the page it changed. It is part of the app, so opening it reads nothing from the internet.\n- The first time you open Bookbreaker after an update, a small note says which version you are on, once.",
-  "pub_date": "2026-10-13T13:31:34Z",
+  "version": "0.1.25",
+  "notes": "Your own EV formula.\n\n- Choose the books you trust to set the true price, Pinnacle and BetOnline to start, and weight each from 0 to 10. Every +EV bet is then judged against a blend of just those books.\n- A threshold hides a bet until enough of your formula's weight priced it, and a Requires line names the books that must be there. It spends no credits.",
+  "pub_date": "2026-10-13T16:51:27Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHpzdEd1R05sc3kzMzdVSFI5TjdGZjBPZGkvN3RwYTVvZGllZnhKZ3dwNHpXdi8vZTh5bWJRcEhBRWl0VGlsVmlXQjhBV0YrZVh4S0x5d2N4MzQxR2cwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODk4MjYzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjI0LmFwcC50YXIuZ3oKTDVBMDRyRlBhS3RBYUw0alZOVVRUQUFzNTBMTksrRjFnbzVwZnNRL0FsK1Y1bWpQN1l0dDRhdjBZSjY0dWMxVGI1MUpRMjdUOHExTWtCQThPNmM0Q1E9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.24.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTC9QcDJaZEdlVFdLMnc1UDU2SWJQYkpkZUFqUzlkeFFZMjVDRXJJcHMyTkN6dHhURGMvTkxtMWg0VFl4VkNXa2FQSzR1clY5cGNFNlVSSTRtOEZrMncwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTEwMjUwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjI1LmFwcC50YXIuZ3oKMkJnTVJMQzlyWVZGeFUzYnEyaEVocm94dkhwNEtYUlBCN3BwTnFDakhMMm1rNmVQd3MyQmVYbG9CYWdxZ1ZPdVgrTGkwU0xGQVArK0VHV0psaXFLQ1E9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.25.app.tar.gz"
     }
   }
 }
