@@ -1,11 +1,11 @@
 {
-  "version": "0.1.22",
-  "notes": "Alerts come from Bookbreaker itself.\n\n- A Mac notification for an alert now shows Bookbreaker's name and icon instead of Script Editor.\n- macOS asks once, the first time you turn on Mac notification. If you say no, the app says where to turn it on: System Settings, Notifications, Bookbreaker.",
-  "pub_date": "2026-10-13T09:01:22Z",
+  "version": "0.1.23",
+  "notes": "Every filter says how many plays it would leave.\n\n- Recommended, Hide under and the bet warning switches each say how many plays they would leave before you change them, counted from the plays already read.\n- If a filter empties the board, the page says which one and offers to undo it.\n- Changing a filter reads nothing and spends no credits.",
+  "pub_date": "2026-10-13T11:04:02Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTC9MSTFuamZ5cU5iZTBqOWh0NWlSVVcrL0ROYitiS3A5Q1BqckZwLzJJVTR5cFN0d21xR1NUK082VE9WZVJFc3JkNk16dmpVQWZyOG1NN1JlRm5KNFFFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODgyMDU3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjIyLmFwcC50YXIuZ3oKeERUbEVVNEdGalA4MXorYUIwTTQzRFA5T0xxZ09PdWFsVVNvczJ1L3BMSHI1NGtiUWxIQmt4ZWdOWCtFUW4vMVNwNXg3aWNVd0VmVEk3MnUwSTA3Qmc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.22.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHgyQXVUb3VzTEc3cHZlVW1vUlZnRnhHcURGbkNHSTU3clNiWW04MytSeHhSZlZxT09id1VLc0Q5ZkpaYXJjVGtDcWVGMnhsa0s5cG5veWtNZFJyOVFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODg5NDA0CWZpbGU6Qm9va2JyZWFrZXItMC4xLjIzLmFwcC50YXIuZ3oKVG5Sa3duQ2lrSGFVRFErNk9HOXo0eUxlTHExeWUrS01sM1I0UUJXTzdRMmtXT1o2K1hORjJxN21TM1YwY0dhZExCTWR6NE53QjRhS3RxUGM0QlNGQUE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.23.app.tar.gz"
     }
   }
 }
