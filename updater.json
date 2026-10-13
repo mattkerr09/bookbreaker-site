@@ -1,11 +1,11 @@
 {
-  "version": "0.1.19",
-  "notes": "Alerts after a read you start.\n\n- Arbitrage has an Alerts setting: a minimum edge for +EV bets, a minimum locked return for arbs, which kinds, and Recommended plays only or all. After a refresh you start, a play that is new since the last read and meets it is marked New and named in a banner.\n- Turn on Mac notification and the same line is posted as a notification. macOS lists it under Script Editor, so you may need to allow it in System Settings.\n- Alerts never read prices by themselves: nothing runs on a timer, and nothing is sent anywhere.",
-  "pub_date": "2026-10-13T03:29:50Z",
+  "version": "0.1.20",
+  "notes": "Bet warnings against your open bets.\n\n- Every play is checked against the bets you have open in your record on this Mac. It says when you already have that bet, when it is the other side of one you hold (fine if you meant to hedge), or when you have another bet on the same game.\n- A warned play stays on the board with its warning; it is never hidden. Three switches on the Arbitrage page choose which kinds are shown.\n- Live prediction-market pairs cannot be checked against your record, and the app says so.",
+  "pub_date": "2026-10-13T05:19:31Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDdMVnJDZFlpYkpvaUp0S01PWWl4ME5Nbkg4bUtFRXE3Mysvak9BMjlZRjg4L0xEQ08vT2NhMHFLNzZxQUhRd0txdXUwa3BYVHNxdVZZM0haS01rdVFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODYyMTYyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjE5LmFwcC50YXIuZ3oKTnhmSldnWURoblkySHpBM2NBZVV2aFp5d2ZqWTB5MXhMZGlXUGUzMGRLMnJYNUNJSzJLRnZOSWtOb01aYmRtNDFvcWZxUmFhMFJNRlBicENuQjM0Q1E9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.19.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDF6bk1MWERBNDRrNEgzbUFXWFltREZzd3JTaFZ3T3FYWGI2bDRJT3dScUdpMUhMRjBYQ1JPeDBRT0c5SFdkMWhXZ29EeVBNQ0FpZkhoTExaNVVITFE4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODY4NzIyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjIwLmFwcC50YXIuZ3oKRlhBZytFenJSWGkwcytOUXFqQ1RsUmI1b0RVU080SzJzR0VmeXd2NzUrWHc4bjQ1TDFGcTFhbExCOVhHMTFZZW03M2lvOW5nazhVKzZrQjF1S2Z2RFE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.20.app.tar.gz"
     }
   }
 }
