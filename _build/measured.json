@@ -103,6 +103,9 @@
   ],
   "boost": {
     "best": 250.0,
+    "ev_best": 41.67,
+    "ev_multiple": 2.5,
+    "ev_worst": 16.67,
     "multiple": 10.0,
     "pct": 50,
     "rows": [
@@ -114,7 +117,7 @@
       {
         "added": 45.45,
         "american": "-110",
-        "ev": 18.18
+        "ev": 23.81
       },
       {
         "added": 100.0,
@@ -188,7 +191,7 @@
     "profit-boost": {
       "boost": "50",
       "price": "-110",
-      "prob": "50",
+      "prob": "52.38",
       "stake": "100"
     }
   },
@@ -254,7 +257,7 @@
       "body": "<p>A match modelled at 1.6 and 1.2 expected goals:</p><table><tr><td>Home</td><td>46.66%</td></tr><tr><td>Draw</td><td>24.71%</td></tr><tr><td>Away</td><td>28.63%</td></tr><tr><td>Over 2.5</td><td>53.05%</td></tr><tr><td>Push on a 3.0 line</td><td>22.25%</td></tr><tr><td>Most likely score</td><td>1-1 at 11.68%</td></tr></table><p>The 22.25% push is why books quote halves, and it is the row most totals calculators leave out entirely.</p><p>Poisson assumes the two sides score independently. They do not: a team two goals down attacks, a team ahead defends, and real scorelines carry more draws and more blowouts than this model predicts. Treat it as one model's opinion, not a fair price.</p>"
     },
     "profit-boost": {
-      "body": "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p><p>Below, the boost and the stake are fixed (50% on a stake of $100), and only the price moves.</p><table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr><tr><td>-200</td><td>$25.00</td><td>$16.67</td></tr><tr><td>-110</td><td>$45.45</td><td>$18.18</td></tr><tr><td>+200</td><td>$100.00</td><td>$33.33</td></tr><tr><td>+500</td><td>$250.00</td><td>$41.67</td></tr></table><p>The shortest price, -200, adds $25. The longest, +500, adds $250: a multiple of 10 on the same token. Spend a boost on a favourite and most of it is given away.</p><p>Competitors print the headline rate and stop, as though 50% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p><p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>"
+      "body": "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p><p>Below, the boost and the stake are fixed (50% on a stake of $100), and only the price moves.</p><table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr><tr><td>-200</td><td>$25.00</td><td>$16.67</td></tr><tr><td>-110</td><td>$45.45</td><td>$23.81</td></tr><tr><td>+200</td><td>$100.00</td><td>$33.33</td></tr><tr><td>+500</td><td>$250.00</td><td>$41.67</td></tr></table><p>The shortest price, -200, adds $25. The longest, +500, adds $250: 10x the profit on the same token, and about 2.5x the expected value ($16.67 against $41.67), with every row taking the posted price as fair. Spend a boost on a favourite and most of it is given away.</p><p>Competitors print the headline rate and stop, as though 50% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p><p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>"
     },
     "round-robin": {
       "body": "<p>Three legs at &minus;110, taken two at a time, is 3 tickets at 25 each: 75 at risk, not 25. That is the first thing the format hides.</p><table><tr><td>Two legs land</td><td>91.20 back, +16.20</td></tr><tr><td>All three land</td><td>273.61 back</td></tr><tr><td>Legs needed to break even</td><td>2 of 3</td></tr><tr><td>Expected profit at fair 50% legs</td><td>-6.60</td></tr><tr><td>Same money on singles</td><td>-3.38</td></tr></table><p>Both those last two are computed with every leg at a true 50%, so the difference is not luck. It is the margin, charged once per ticket instead of once per bet. A round robin buys a different shape of outcome, not a better expectation.</p>"

@@ -668,10 +668,13 @@ def measure(engine) -> dict:
     # A profit boost. It multiplies profit, and profit grows with the price,
     # so spending it on a favourite gives most of it away.
     boost_stake, boost_pct = 100.0, 0.5
-    boost_cases = ((-200, 2 / 3), (-110, 0.5), (200, 1 / 3), (500, 1 / 6))
+    # One method on every row: the posted price is taken as fair, so the win
+    # probability is the price's own implied probability (-110 is 110/210, not
+    # a no-vig 50%), and the EV is the added profit times that probability.
     boost_rows = []
-    for american, prob in boost_cases:
+    for american in (-200, -110, 200, 500):
         d = american_to_decimal(american)
+        prob = 1.0 / d
         boost_rows.append({
             "american": f"{american:+d}",
             "added": round(boost_stake * (d - 1.0) * boost_pct, 2),
@@ -685,6 +688,9 @@ def measure(engine) -> dict:
         "worst": boost_rows[0]["added"],
         "best": boost_rows[-1]["added"],
         "multiple": round(boost_rows[-1]["added"] / boost_rows[0]["added"], 1),
+        "ev_worst": boost_rows[0]["ev"],
+        "ev_best": boost_rows[-1]["ev"],
+        "ev_multiple": round(boost_rows[-1]["ev"] / boost_rows[0]["ev"], 1),
     }
 
     # 7d. The rigour surface: the four places a betting tool quietly lies to
@@ -1601,7 +1607,7 @@ def measure(engine) -> dict:
     + "<table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr>"
     + "".join(f"<tr><td>{r['american']}</td><td>${r['added']:.2f}</td><td>${r['ev']:.2f}</td></tr>" for r in m['boost']['rows'])
     + "</table>"
-    + f"<p>The shortest price, {m['boost']['rows'][0]['american']}, adds ${m['boost']['worst']:.0f}. The longest, {m['boost']['rows'][-1]['american']}, adds ${m['boost']['best']:.0f}: a multiple of {m['boost']['multiple']:.0f} on the same token. Spend a boost on a favourite and most of it is given away.</p>"
+    + f"<p>The shortest price, {m['boost']['rows'][0]['american']}, adds ${m['boost']['worst']:.0f}. The longest, {m['boost']['rows'][-1]['american']}, adds ${m['boost']['best']:.0f}: {m['boost']['multiple']:.0f}x the profit on the same token, and about {m['boost']['ev_multiple']:.1f}x the expected value (${m['boost']['ev_worst']:.2f} against ${m['boost']['ev_best']:.2f}), with every row taking the posted price as fair. Spend a boost on a favourite and most of it is given away.</p>"
     + f"<p>Competitors print the headline rate and stop, as though {m['boost']['pct']}% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p>"
     + "<p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>")}
 
@@ -1642,7 +1648,7 @@ def measure(engine) -> dict:
             "price": _am(net_cases[0][0]), "prob": f"{net_cases[0][1] * 100:g}"},
         "profit-boost": {
             "stake": f"{boost_stake:.0f}", "boost": f"{boost_pct * 100:.0f}",
-            "price": _am(boost_cases[1][0]), "prob": f"{boost_cases[1][1] * 100:g}"},
+            "price": _am(-110), "prob": f"{100 / american_to_decimal(-110):.2f}"},
     }
 
     # 10. Jurisdiction coverage, and a page per state.
@@ -3640,10 +3646,15 @@ probability you actually trust.</p>
 <tr><th>Price</th><th>Profit the boost adds</th><th>EV of the boosted bet</th></tr>
 {"".join(f"<tr><td>{r['american']}</td><td>{r['added']:,.2f}</td><td>{r['ev']:,.2f}</td></tr>" for r in bo['rows'])}
 </table>
-<p>{bo['worst']:,.2f} at the short price against {bo['best']:,.2f} at the long
-one: <strong>{bo['multiple']:.0f}x</strong> the value from the identical
-token. "Use it on something safe" is the most expensive habit in promotional
-betting.</p>
+<p>Every row takes the posted price as fair: the chance of winning is the
+price's own implied probability, and the EV is the added profit times that
+chance.</p>
+<p>The boost adds {bo['worst']:,.2f} of profit at the short price against
+{bo['best']:,.2f} at the long one, <strong>{bo['multiple']:.0f}x the
+profit</strong>. In expected value it is {bo['ev_worst']:,.2f} against
+{bo['ev_best']:,.2f}, <strong>about {bo['ev_multiple']:.1f}x the EV</strong>
+from the identical token. "Use it on something safe" is the most expensive
+habit in promotional betting.</p>
 <h2>Why books hand them out anyway</h2>
 <p>A boost is cheap to give and it moves behaviour. It pulls people toward bigger stakes and longer prices than they would otherwise take. An account that suddenly bets its boost at +500 now has a very visible exception in its ordinary staking.</p>
 <p>Which is the part nobody costs in: a boost spent optimally is also a boost
