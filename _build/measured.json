@@ -5,6 +5,7 @@
       "Arbitrage",
       "Live odds from your own key",
       "Every book&rsquo;s price, side by side",
+      "Futures: who wins the title",
       "Low hold",
       "Sign-up bonuses, turned into cash",
       "Convert a promo you already have",
@@ -24,6 +25,7 @@
       "deposit",
       "devig",
       "fill",
+      "futures",
       "kelly",
       "lowhold",
       "odds",
@@ -44,6 +46,7 @@
       "Arbitrage",
       "Low hold",
       "Odds screen",
+      "Futures",
       "Your key"
     ]
   },
@@ -467,9 +470,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "e0062b2e42644771",
+  "engine_fingerprint": "246ecc1b93ad15ae",
   "engine_load": {
-    "bytes": 6465391,
+    "bytes": 6480517,
     "mb": 6,
     "pyodide": "0.29.5"
   },
@@ -883,28 +886,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35146004,
-      "kb": 34322,
-      "mb": 35.1,
-      "name": "Bookbreaker-0.1.26.dmg",
-      "sha256": "090337d03a6c7eb77edc4dbf604fa7eb2437cee3ed71f1c29a691175124e368b"
+      "bytes": 35271006,
+      "kb": 34444,
+      "mb": 35.3,
+      "name": "Bookbreaker-0.1.27.dmg",
+      "sha256": "9a7ed116a4505b899944f0d82b8211084b66b2f4d36d28f543d71d4d3303b828"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 898857,
-      "kb": 878,
+      "bytes": 933623,
+      "kb": 912,
       "mb": 0.9,
-      "name": "overlay-0.1.26.tar.gz",
-      "sha256": "72a395ca3d707d0268ea2b9bc84e3cefc2901702d6e6fd883ff8397020ad922a"
+      "name": "overlay-0.1.27.tar.gz",
+      "sha256": "a59634b4132b2cd097285dcf316e53888239daed571c9ece88a3c1306f73a5f3"
     },
-    "version": "0.1.26",
+    "version": "0.1.27",
     "wheel": {
-      "bytes": 452398,
-      "kb": 442,
+      "bytes": 467524,
+      "kb": 457,
       "mb": 0.5,
-      "name": "overlay-0.1.26-py3-none-any.whl",
-      "sha256": "d7c5d56dbc03440bec8c4513e7f808375ab1d05c8f21791238d3ff7a658d6781"
+      "name": "overlay-0.1.27-py3-none-any.whl",
+      "sha256": "c1bbedf4323ac37b41cccf264227258c09f488b29691747806afeffff55a722b"
     }
   },
   "replay": {
@@ -4945,14 +4948,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 69,
+    "engine_modules": 71,
     "network_calls": 0,
-    "sha256": "090337d03a6c7eb77edc4dbf604fa7eb2437cee3ed71f1c29a691175124e368b",
-    "sha256_short": "090337d03a6c7eb7",
+    "sha256": "9a7ed116a4505b899944f0d82b8211084b66b2f4d36d28f543d71d4d3303b828",
+    "sha256_short": "9a7ed116a4505b89",
     "sources": 29,
-    "test_files": 93
+    "test_files": 95
   },
-  "version": "0.1.26",
+  "version": "0.1.27",
   "weights": {
     "max_age_days": 90
   },
