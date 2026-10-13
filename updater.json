@@ -1,11 +1,11 @@
 {
-  "version": "0.1.17",
-  "notes": "Which books to fund, a low-hold view, and a layout fix.\n\n- Promos has a third page, Which books to fund: give your bankroll and the books you already have, and it lists which sportsbooks in your state to fund, in what order and how much, keeping locked and expected amounts apart and saying which books limit winners.\n- Arbitrage has a Low hold page: two-way markets from the odds your own key already read, cheapest first, with what it costs to put an amount through, and a pick for the book where you have bonus money to play through.\n- The deposit plan uses the one state picker in the top bar.\n- Fixed: in 0.1.15 the state picker, price ages and the Recommended preset were drawn unstyled in windows wider than 760 points.",
-  "pub_date": "2026-10-13T00:43:35Z",
+  "version": "0.1.18",
+  "notes": "Track a bet from the board, and settle it yourself.\n\n- Every leg of an arb, a middle or a +EV play has Track this bet: it opens a form filled from the play, you change the price you got and what you bet, and it saves the bet on this Mac with the fair price it was found against. Bookbreaker never places a bet.\n- My bets lists your open bets with Won, Lost, A push and Void, and a settled tracked bet counts in actual against expected profit.\n- Bets saved by this version use a newer record format that older versions of Bookbreaker cannot open.",
+  "pub_date": "2026-10-13T01:42:22Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHdOUXR0TDZXZzF6bExqTUtRY01IcHBtTUhQN2FPMFV0dUw1UlNvTm05ZlZUbi9TOXpxeHA5YVZ2RXRhOTZiZml4R2tmb3VtYWxSR2YvS2FTR2lXUndvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODUyMTgwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjE3LmFwcC50YXIuZ3oKbEw3dmNmNHkxdXI5R0hMUjYvUys4VE93KzNMUzExdCtnYXowNjR3cytJaDdxUUdEcDJ3OTBCMDZ2TUI4d1BlSnZCeEVIMmJlVUJReDNMUS9xOEpvQWc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.17.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDBNNFo5Y01KMHV2SzZKOTdUWHdUNGNGSlpzc0lScHZZd0c5ZDFXWWRqZVhkd1ZiTnpuN0s0UURBZHVQS2tESmdMZUFLTFBWL3p1QjJGMlRwbUljaFFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODU1NzIwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjE4LmFwcC50YXIuZ3oKb0oxeHFiV2FobVRoYUxNNGNYUkZ0MXMrU2pHYWxhaHNaNUtyTkFXTnNwMGhCbjUvb3Y2Q2o2Z3hULzVPcVVQV1hqM01QNjNWWU5mcUF4aSt4dWR6Q3c9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.18.app.tar.gz"
     }
   }
 }

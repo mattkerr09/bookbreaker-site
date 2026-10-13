@@ -2297,8 +2297,8 @@ def render_download(m: dict) -> str:
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
             'a security warning.</span></li></ol>'
-            '<p>New in this version: which books to fund in your state and how much, and a low-hold view for playing '
-            'through bonus money. Also recent: your record against what it should have been, how old every price is, '
+            '<p>New in this version: Track this bet, which saves a bet from the board with its fair price so your record '
+            'shows what it should have made. Also recent: which books to fund in your state, a low-hold view, your record against what it should have been, how old every price is, '
             'an Odds screen with every book&rsquo;s price side by side, and a page that prices a promo you already hold. '
             '<a href="/how-it-works/">How it works</a>.</p>')
     else:
