@@ -1,11 +1,11 @@
 {
-  "version": "0.1.25",
-  "notes": "Your own EV formula.\n\n- Choose the books you trust to set the true price, Pinnacle and BetOnline to start, and weight each from 0 to 10. Every +EV bet is then judged against a blend of just those books.\n- A threshold hides a bet until enough of your formula's weight priced it, and a Requires line names the books that must be there. It spends no credits.",
-  "pub_date": "2026-10-13T16:51:27Z",
+  "version": "0.1.26",
+  "notes": "Only sportsbooks licensed in your state.\n\n- Fixed: a best price, a play, a hedge or an alert could be at a sportsbook legal in some states but not licensed in yours. With your state picked in the top bar, every one of them is now at a book licensed there.\n- Until you pick a state, the app says in one sentence that a price may be at a book you cannot use where you are.",
+  "pub_date": "2026-10-13T18:35:58Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTC9QcDJaZEdlVFdLMnc1UDU2SWJQYkpkZUFqUzlkeFFZMjVDRXJJcHMyTkN6dHhURGMvTkxtMWg0VFl4VkNXa2FQSzR1clY5cGNFNlVSSTRtOEZrMncwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTEwMjUwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjI1LmFwcC50YXIuZ3oKMkJnTVJMQzlyWVZGeFUzYnEyaEVocm94dkhwNEtYUlBCN3BwTnFDakhMMm1rNmVQd3MyQmVYbG9CYWdxZ1ZPdVgrTGkwU0xGQVArK0VHV0psaXFLQ1E9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.25.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHlna1AyZVU3S3Q1YVg4MnNHRnFqUEdlNDhjbkhzem11Y3hOZHVQSHFEQmRMb1IwUU1lcHBCdks4YStXYkFZbzZRVHppbGZYN3pZSXlDWDZUemtKWlFRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTE2NTI2CWZpbGU6Qm9va2JyZWFrZXItMC4xLjI2LmFwcC50YXIuZ3oKV1Z1NFdQTi9sdHVHcWxkRHBTaWhtNUJ0eFdoek5pcnAvcithSStxQTRDQ3F0T2lYSnd3MWVDTzZBSmFzOUoyZHRWWTZtTzlKcStRajR2c0pkRnRKQ3c9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.26.app.tar.gz"
     }
   }
 }
