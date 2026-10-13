@@ -71,10 +71,6 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [Terms of use](https://bookbreaker.bet/terms/): a free analysis tool, not a sportsbook and not advice
 - [Privacy](https://bookbreaker.bet/privacy/): the site counts visits without cookies, and the app sends nothing about you anywhere
 
-## More from Kerr & Company
+## Company
 
-- [Outlier](https://outlier.host/): private, offline AI for your Mac
-- [Crisp Video](https://crispvideo.app/): restore and upscale video offline on your Mac
-- [Docket SEO](https://docketseo.app/): website audits that rank what to fix first
-- [AdPlaybook](https://adplaybook.app/): ad copy within every platform's limits
-- [Built by Kerr](https://builtbykerr.com/): websites and local SEO for Grand Rapids businesses
+- [Kerr & Company](https://kerrandcompanyholdings.com/): the company that makes Bookbreaker

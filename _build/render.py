@@ -2102,12 +2102,8 @@ def page(title: str, description: str, body: str, path: str,
     {foot_for}
   </div>
   <div>
-    <p class="foot-head">More from Kerr &amp; Company</p>
-    <p><a href="https://outlier.host/">Outlier: private, offline AI for your Mac</a></p>
-    <p><a href="https://crispvideo.app/">Crisp Video: restore and upscale video offline on your Mac</a></p>
-    <p><a href="https://docketseo.app/">Docket SEO: website audits that rank what to fix first</a></p>
-    <p><a href="https://adplaybook.app/">AdPlaybook: ad copy within every platform's limits</a></p>
-    <p><a href="https://builtbykerr.com/">Built by Kerr: websites and local SEO for Grand Rapids businesses</a></p>
+    <p class="foot-head">Company</p>
+    <p><a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a></p>
   </div>
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
@@ -2150,7 +2146,7 @@ National Problem Gambling Helpline, or visit
   }}, {{ rootMargin: '0px 0px -8% 0px', threshold: 0.08 }});
   for (var j = 0; j < els.length; j++) io.observe(els[j]);
 }})();
-/* Carry the visitor's source and any affiliate id into the link they send to their Mac, as on outlier.host. */
+/* Carry the visitor's source and any affiliate id into the link they send to their Mac. */
 function kcCarry(url){{try{{var s=JSON.parse(localStorage.getItem('kc_aff')||'null');var v=(s&&s.exp>Date.now()&&s.v)||{{}};var q=[];var r=v.ref||v.landing_source;if(r)q.push('ref='+encodeURIComponent(r));['via','rekomi_ref','affonso_referral','awc','cjevent','irclickid'].forEach(function(k){{if(v[k])q.push(k+'='+encodeURIComponent(v[k]));}});return q.length?url+'&'+q.join('&'):url;}}catch(e){{return url;}}}}
 document.querySelectorAll('[data-send-mac-link]').forEach(function (b) {{
   b.addEventListener('click', function () {{
@@ -6645,14 +6641,9 @@ def render_llms(built_urls: set[str]) -> str:
         link("/privacy/", "Privacy", "the site counts visits without cookies, "
              "and the app sends nothing about you anywhere"),
         "",
-        "## More from Kerr & Company",
+        "## Company",
         "",
-        "- [Outlier](https://outlier.host/): private, offline AI for your Mac",
-        "- [Crisp Video](https://crispvideo.app/): restore and upscale video offline on your Mac",
-        "- [Docket SEO](https://docketseo.app/): website audits that rank what to fix first",
-        "- [AdPlaybook](https://adplaybook.app/): ad copy within every platform's limits",
-        "- [Built by Kerr](https://builtbykerr.com/): websites and local SEO for Grand "
-        "Rapids businesses",
+        "- [Kerr & Company](https://kerrandcompanyholdings.com/): the company that makes Bookbreaker",
     ]
     return "\n".join(lines) + "\n"
 

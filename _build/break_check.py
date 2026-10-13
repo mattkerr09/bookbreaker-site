@@ -232,6 +232,22 @@ CASES = [
         'href="/promo-codes/michigan/dk/"',
     ),
     (
+        "a sitewide link to a sibling site in the footer",
+        "check_no_sibling_site_links",
+        "guides/index.html",
+        '<a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a>',
+        '<a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a>'
+        '<a href="https://outlier.host/">Outlier</a>',
+    ),
+    (
+        "the company linked twice in the footer",
+        "check_no_sibling_site_links",
+        "index.html",
+        '<a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a>',
+        '<a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a>'
+        '<a href="https://kerrandcompanyholdings.com/">Kerr</a>',
+    ),
+    (
         "robots.txt that lets a crawler into the referral router",
         "check_robots_keeps_crawlers_out_of_the_router",
         "robots.txt",

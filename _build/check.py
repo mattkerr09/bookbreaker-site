@@ -1086,6 +1086,36 @@ def check_promo_urls_use_full_names(pages, fails):
                 fails.append(f"{path}: links to {href[0]}, a short promo URL (use the full name)")
 
 
+SIBLING_DOMAINS = ("outlier.host", "crispvideo.app", "docketseo.app", "adplaybook.app", "builtbykerr.com",
+                   "matthewkerr.dev")
+SIBLING_OK_PAGES = {"about/index.html", "how-we-are-paid/index.html"}
+COMPANY_URL = "https://kerrandcompanyholdings.com/"
+
+
+def check_no_sibling_site_links(pages, fails, root: Path | None = None):
+    """No sitewide links between Kerr & Company's own sites.
+
+    outlier.host's Bing impressions fell from 45-89 a day to 0 within a day of a block of links to every sibling
+    domain going onto 171 of its pages (2026-09-15): Bing reads sitewide links between commonly owned sites as a
+    link scheme. A sibling domain may be linked only from /about/ or /how-we-are-paid/, the footer links the company
+    once (the download link and the helpline are not sites of ours), and /llms.txt names no sibling either.
+    """
+    pat = re.compile(r'href="https?://(?:www\.)?(' + "|".join(re.escape(d) for d in SIBLING_DOMAINS) + r')', re.I)
+    for path, markup in pages:
+        if path not in SIBLING_OK_PAGES:
+            for dom in sorted(set(m.lower() for m in pat.findall(markup))):
+                fails.append(f"{path}: links {dom}, a sibling site (only /about/ or /how-we-are-paid/ may)")
+        foot = re.search(r"<footer>(.*?)</footer>", markup, re.S)
+        if foot and foot.group(1).count(f'href="{COMPANY_URL}"') > 1:
+            fails.append(f"{path}: the footer links the company more than once")
+    llms = (root or SITE) / "llms.txt"
+    if llms.exists():
+        text = llms.read_text().lower()
+        for dom in SIBLING_DOMAINS:
+            if dom in text:
+                fails.append(f"llms.txt: names {dom}, a sibling site")
+
+
 def check_the_pay_page_tells_the_truth(pages, fails):
     """/how-we-are-paid/ says nothing pays us only while no partner row is live, and says links can pay once one is.
     The terms page may not claim independence from payment either. Both sentences are chosen from partners.csv."""
@@ -1853,6 +1883,8 @@ def main() -> int:
             lambda: check_no_referral_button_beside_hedge_steps(pages, fails),
         "check_promo_urls_use_full_names":
             lambda: check_promo_urls_use_full_names(pages, fails),
+        "check_no_sibling_site_links":
+            lambda: check_no_sibling_site_links(pages, fails),
         "check_robots_keeps_crawlers_out_of_the_router":
             lambda: check_robots_keeps_crawlers_out_of_the_router(fails),
         "check_video_caption_names_the_recorded_version":
