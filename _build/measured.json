@@ -467,9 +467,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "07fc186d61bf28e4",
+  "engine_fingerprint": "e44ba9b81239d727",
   "engine_load": {
-    "bytes": 6454506,
+    "bytes": 6454505,
     "mb": 6,
     "pyodide": "0.29.5"
   },
@@ -883,28 +883,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35184806,
-      "kb": 34360,
-      "mb": 35.2,
-      "name": "Bookbreaker-0.1.23.dmg",
-      "sha256": "a4d212070ca65d07146a76b67a463a114e4008f47c11958482b27d2330ec288f"
+      "bytes": 35141093,
+      "kb": 34317,
+      "mb": 35.1,
+      "name": "Bookbreaker-0.1.24.dmg",
+      "sha256": "3a65cf5be2bb77e013c48bb4e448018dfecfdee30d0addfd55edcdfa6b707172"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 859965,
-      "kb": 840,
+      "bytes": 866357,
+      "kb": 846,
       "mb": 0.9,
-      "name": "overlay-0.1.23.tar.gz",
-      "sha256": "9eee67300b2daf22f0015e7625ddf12d58c7a7b2f3a0434a3f450cd43f1129ea"
+      "name": "overlay-0.1.24.tar.gz",
+      "sha256": "67e355d096f4a8437fc5c3b14699ccd1aaaa245fae1d88724f8eb876addff5d7"
     },
-    "version": "0.1.23",
+    "version": "0.1.24",
     "wheel": {
-      "bytes": 441513,
+      "bytes": 441512,
       "kb": 431,
       "mb": 0.4,
-      "name": "overlay-0.1.23-py3-none-any.whl",
-      "sha256": "17b97ae6adf7a3768c2e454a4c7bcd8551e945e15d06582588d7e9f5a0ab2dea"
+      "name": "overlay-0.1.24-py3-none-any.whl",
+      "sha256": "1882dd172615f923cbffe6f4b9d05dee241e0e73b7f8953341f71a688b1a763a"
     }
   },
   "replay": {
@@ -4947,12 +4947,12 @@
     "accounts": 0,
     "engine_modules": 68,
     "network_calls": 0,
-    "sha256": "a4d212070ca65d07146a76b67a463a114e4008f47c11958482b27d2330ec288f",
-    "sha256_short": "a4d212070ca65d07",
+    "sha256": "3a65cf5be2bb77e013c48bb4e448018dfecfdee30d0addfd55edcdfa6b707172",
+    "sha256_short": "3a65cf5be2bb77e0",
     "sources": 29,
-    "test_files": 89
+    "test_files": 90
   },
-  "version": "0.1.23",
+  "version": "0.1.24",
   "weights": {
     "max_age_days": 90
   },

@@ -1,11 +1,11 @@
 {
-  "version": "0.1.23",
-  "notes": "Every filter says how many plays it would leave.\n\n- Recommended, Hide under and the bet warning switches each say how many plays they would leave before you change them, counted from the plays already read.\n- If a filter empties the board, the page says which one and offers to undo it.\n- Changing a filter reads nothing and spends no credits.",
-  "pub_date": "2026-10-13T11:04:02Z",
+  "version": "0.1.24",
+  "notes": "What's new, inside the app.\n\n- A What's new link beside the version line lists every release in plain words, newest first, each note tagged with the page it changed. It is part of the app, so opening it reads nothing from the internet.\n- The first time you open Bookbreaker after an update, a small note says which version you are on, once.",
+  "pub_date": "2026-10-13T13:31:34Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHgyQXVUb3VzTEc3cHZlVW1vUlZnRnhHcURGbkNHSTU3clNiWW04MytSeHhSZlZxT09id1VLc0Q5ZkpaYXJjVGtDcWVGMnhsa0s5cG5veWtNZFJyOVFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODg5NDA0CWZpbGU6Qm9va2JyZWFrZXItMC4xLjIzLmFwcC50YXIuZ3oKVG5Sa3duQ2lrSGFVRFErNk9HOXo0eUxlTHExeWUrS01sM1I0UUJXTzdRMmtXT1o2K1hORjJxN21TM1YwY0dhZExCTWR6NE53QjRhS3RxUGM0QlNGQUE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.23.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHpzdEd1R05sc3kzMzdVSFI5TjdGZjBPZGkvN3RwYTVvZGllZnhKZ3dwNHpXdi8vZTh5bWJRcEhBRWl0VGlsVmlXQjhBV0YrZVh4S0x5d2N4MzQxR2cwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODk4MjYzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjI0LmFwcC50YXIuZ3oKTDVBMDRyRlBhS3RBYUw0alZOVVRUQUFzNTBMTksrRjFnbzVwZnNRL0FsK1Y1bWpQN1l0dDRhdjBZSjY0dWMxVGI1MUpRMjdUOHExTWtCQThPNmM0Q1E9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.24.app.tar.gz"
     }
   }
 }
