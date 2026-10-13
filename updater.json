@@ -1,11 +1,11 @@
 {
-  "version": "0.1.20",
-  "notes": "Bet warnings against your open bets.\n\n- Every play is checked against the bets you have open in your record on this Mac. It says when you already have that bet, when it is the other side of one you hold (fine if you meant to hedge), or when you have another bet on the same game.\n- A warned play stays on the board with its warning; it is never hidden. Three switches on the Arbitrage page choose which kinds are shown.\n- Live prediction-market pairs cannot be checked against your record, and the app says so.",
-  "pub_date": "2026-10-13T05:19:31Z",
+  "version": "0.1.21",
+  "notes": "Hide a play, with undo.\n\n- Every play on the board has Hide. It leaves the board at once, with Undo in a one-line notice.\n- Hidden plays are listed under the board settings, with Show again and Clear all. A hidden play stays hidden when its price moves, and drops off the list once its game has started.\n- Hidden plays do not set off alerts.",
+  "pub_date": "2026-10-13T07:27:08Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDF6bk1MWERBNDRrNEgzbUFXWFltREZzd3JTaFZ3T3FYWGI2bDRJT3dScUdpMUhMRjBYQ1JPeDBRT0c5SFdkMWhXZ29EeVBNQ0FpZkhoTExaNVVITFE4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODY4NzIyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjIwLmFwcC50YXIuZ3oKRlhBZytFenJSWGkwcytOUXFqQ1RsUmI1b0RVU080SzJzR0VmeXd2NzUrWHc4bjQ1TDFGcTFhbExCOVhHMTFZZW03M2lvOW5nazhVKzZrQjF1S2Z2RFE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.20.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDVZSVBVSHgxMHorODZNSVVHb1hLTy9TVU1aM0tEditqQUk0OFFkVi9vT2d6L25EVFR3WnRpWDFqMC8vbVFZck9aT0JRWWtVV1UyY2szZDFCcmlPSHdVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODc2Mzg4CWZpbGU6Qm9va2JyZWFrZXItMC4xLjIxLmFwcC50YXIuZ3oKdGVlWkRkUHpTUEhqMkNST2lQT280bWdnWE1vQXVzYzdKd2lvUXdVYVJrbEhiRWl5eXVYbmpaNytybDhtZkcrTis5akg0UXdVbDJwazhiSGNwRjlYREE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.21.app.tar.gz"
     }
   }
 }
