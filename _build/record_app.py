@@ -133,35 +133,46 @@ async def main(out: pathlib.Path) -> None:
         await until(landed("out-board"), "the arbitrage console")
         await hold(3.0)
 
-        # 2. Promos: Welcome offers for one state, then Convert my own promo.
+        # 2. Promos: Welcome offers for one state, then Convert my own promo,
+        #    then Which books to fund.
         await js(nav("welcome"))
         await hold(0.8)
         await js(setv('#w-state', 'MI'))
         await hold(0.6)
         await js(run("welcome"))
         await until(landed("out-welcome"), "the offers")
-        await hold(2.4)
+        await hold(1.8)
         await js(tab("convert"))
         await hold(1.0)
         await js(setv('#pc-book', 'dk'))
         await hold(0.8)
         await js(run("promo"))
         await until(landed("out-promo"), "the converted promo")
-        await hold(3.0)
+        await hold(2.4)
+
+        # 2b. Promos: Which books to fund, for the same state (the one picker
+        # in the top bar, set to MI above) and a $1,000 bankroll.
+        await js(tab("deposit"))
+        await hold(0.6)
+        await js(setv('#d-bank', '1000'))
+        await hold(0.4)
+        await js(run("deposit"))
+        await until(landed("out-deposit"), "the deposit plan")
+        await hold(2.0)
 
         # 3. Odds source: the Odds screen, laid out from this Mac.
         await js(nav("odds"))
         await hold(0.6)
         await js(tab("screen"))
         await until(landed("out-screen"), "the odds screen")
-        await hold(1.8)
+        await hold(1.4)
 
         # 4. Tools: the parlay, answered in dollars.
         await js(nav("parlay"))
         await hold(0.8)
         await js(run("parlay"))
         await until(landed("out-parlay"), "the parlay answer")
-        await hold(2.4)
+        await hold(1.8)
 
         # Back to the console to close the loop.
         await js(nav("board"))
