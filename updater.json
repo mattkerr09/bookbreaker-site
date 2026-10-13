@@ -1,11 +1,11 @@
 {
-  "version": "0.1.18",
-  "notes": "Track a bet from the board, and settle it yourself.\n\n- Every leg of an arb, a middle or a +EV play has Track this bet: it opens a form filled from the play, you change the price you got and what you bet, and it saves the bet on this Mac with the fair price it was found against. Bookbreaker never places a bet.\n- My bets lists your open bets with Won, Lost, A push and Void, and a settled tracked bet counts in actual against expected profit.\n- Bets saved by this version use a newer record format that older versions of Bookbreaker cannot open.",
-  "pub_date": "2026-10-13T01:42:22Z",
+  "version": "0.1.19",
+  "notes": "Alerts after a read you start.\n\n- Arbitrage has an Alerts setting: a minimum edge for +EV bets, a minimum locked return for arbs, which kinds, and Recommended plays only or all. After a refresh you start, a play that is new since the last read and meets it is marked New and named in a banner.\n- Turn on Mac notification and the same line is posted as a notification. macOS lists it under Script Editor, so you may need to allow it in System Settings.\n- Alerts never read prices by themselves: nothing runs on a timer, and nothing is sent anywhere.",
+  "pub_date": "2026-10-13T03:29:50Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDBNNFo5Y01KMHV2SzZKOTdUWHdUNGNGSlpzc0lScHZZd0c5ZDFXWWRqZVhkd1ZiTnpuN0s0UURBZHVQS2tESmdMZUFLTFBWL3p1QjJGMlRwbUljaFFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODU1NzIwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjE4LmFwcC50YXIuZ3oKb0oxeHFiV2FobVRoYUxNNGNYUkZ0MXMrU2pHYWxhaHNaNUtyTkFXTnNwMGhCbjUvb3Y2Q2o2Z3hULzVPcVVQV1hqM01QNjNWWU5mcUF4aSt4dWR6Q3c9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.18.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDdMVnJDZFlpYkpvaUp0S01PWWl4ME5Nbkg4bUtFRXE3Mysvak9BMjlZRjg4L0xEQ08vT2NhMHFLNzZxQUhRd0txdXUwa3BYVHNxdVZZM0haS01rdVFjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxODYyMTYyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjE5LmFwcC50YXIuZ3oKTnhmSldnWURoblkySHpBM2NBZVV2aFp5d2ZqWTB5MXhMZGlXUGUzMGRLMnJYNUNJSzJLRnZOSWtOb01aYmRtNDFvcWZxUmFhMFJNRlBicENuQjM0Q1E9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.19.app.tar.gz"
     }
   }
 }
