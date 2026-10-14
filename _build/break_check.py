@@ -232,6 +232,20 @@ CASES = [
         'href="/promo-codes/michigan/dk/"',
     ),
     (
+        "a rival's price left unread for months",
+        "check_competitor_prices_are_recent",
+        "_data/competitors.csv",
+        ",2026-10-14,https://oddsjam.com/subscribe,",
+        ",2026-01-01,https://oddsjam.com/subscribe,",
+    ),
+    (
+        "How it works falls behind the app's newest release",
+        "check_site_names_the_newest_release",
+        "how-it-works/index.html",
+        'data-newest="',
+        'data-newest="0.0.',
+    ),
+    (
         "a download-counter link that passes link value",
         "check_audit_signals",
         "guides/index.html",

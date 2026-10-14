@@ -555,3 +555,7 @@ figure.plate figcaption span:nth-child(2){order:-1;flex:1 0 100%}
   -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 table,.rf,.own-big,.shots figcaption,.plate,code{font-variant-numeric:tabular-nums;
   font-feature-settings:"tnum" 1,"cv01" 1}
+
+/* How it works: Recently added, read from the app's own release notes. */
+.recent li{margin:0 0 10px}
+.recent .muted{opacity:.7;font-size:.9em}

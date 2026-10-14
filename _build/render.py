@@ -111,6 +111,15 @@ def load_engine(app_repo: Path):
     return overlay_engine
 
 
+def read_whats_new(app_repo: Path, n: int = 8) -> list:
+    """The app's own release notes (ui/src/whatsnew.js), newest first, so the site names what shipped in the words
+    the app uses and cannot fall behind it. Strict JSON between the array's brackets, as the app's check reads it."""
+    text = (app_repo / "ui" / "src" / "whatsnew.js").read_text()
+    start = text.index("window.WHATS_NEW =")
+    entries = json.loads(text[text.index("[", start):text.rindex("]") + 1])
+    return entries[:n]
+
+
 def read_app_window(app_repo: Path) -> dict:
     """What the shipped window actually contains, read from its own source.
 
@@ -2757,7 +2766,7 @@ def render_index(m: dict) -> str:
     <div class="reveal"><h3>Your login stays yours</h3><p>It never asks for a sportsbook password, and your betting record never leaves your Mac.</p></div>
   </div>
   <div class="price-row">
-    {price("oddsjam", "Cheapest plan", "$79.99/mo")}
+    {price("oddsjam", "Arbitrage and +EV plan", "$20/day")}
     {price("avo", "Pro plan", "$88/mo")}
     {price("smartstake", "One plan", "$99/mo")}
     <p class="price ours"><span class="price-name">Bookbreaker</span><span class="price-val">Free</span><span class="price-src">No plan, no card, no account</span></p>
@@ -2847,6 +2856,9 @@ def render_how(m: dict) -> str:
         return (f'<section class="feat reveal"><div class="feat-copy"><span class="kicker">{kicker}</span>'
                 f'<h2>{title}</h2>{text}</div>{visual}</section>')
 
+    recent = "".join(
+        f'<li><b>{e(r["title"])}</b> <span class="muted">{e(r["version"])}, {e(r["date"])}</span> {e(r["notes"][0]["text"])}</li>'
+        for r in m.get("whatsnew") or [])
     feats = "".join((
         feat("Ask", "Ask in plain English",
              "<p>Type a question the way you would say it: who is most likely to pass for 300 yards "
@@ -2920,6 +2932,10 @@ actually ask, with the math already done.</p>
 <div class="feats" data-hub>
 {feats}
 </div>
+
+<h2>Recently added</h2>
+<p>From the app&rsquo;s own release notes, newest first. The same list opens from What&rsquo;s new in the app.</p>
+<ul class="recent" data-newest="{e((m.get("whatsnew") or [{{}}])[0].get("version", ""))}">{recent}</ul>
 
 <h2>Where the prices come from</h2>
 <p>Switch on Live prices and the app reads Kalshi's and Polymarket US's public prices.
@@ -6726,6 +6742,7 @@ def main() -> int:
     RELEASE_APP = measured["release"]["app"]
     measured["engine_fingerprint"] = engine_fingerprint(app_repo)
     measured["app"] = read_app_window(app_repo)
+    measured["whatsnew"] = read_whats_new(app_repo)
     measured["state_standings"] = state_standings()
     # The "Books here" cell ranks each state by how many books take bets there.
     # A rank is a number on a page, so it is recorded here, where the figure gate

@@ -192,6 +192,27 @@ def check_numbers_are_measured(pages, measured, fails):
             )
 
 
+MAX_COMPETITOR_AGE_DAYS = 75
+
+
+def check_competitor_prices_are_recent(fails, today=None):
+    """A rival's price is a claim that rots: OddsJam's "$79.99/mo", read 2026-09-24, was gone by 2026-10-14 (the plan
+    with arbitrage and +EV was $20/day). Every competitor row must have been read within MAX_COMPETITOR_AGE_DAYS."""
+    import csv
+    from datetime import date
+    today = today or date.today()
+    with (SITE / "_data" / "competitors.csv").open(newline="") as f:
+        for r in csv.DictReader(f):
+            try:
+                age = (today - date.fromisoformat(r["read"])).days
+            except ValueError:
+                fails.append(f"competitors.csv: {r['slug']} has no read date")
+                continue
+            if age > MAX_COMPETITOR_AGE_DAYS:
+                fails.append(f"competitors.csv: {r['name']}'s price was read {r['read']}, {age} days ago "
+                             f"(limit {MAX_COMPETITOR_AGE_DAYS}); read it again from its source")
+
+
 def check_competitor_claims(pages, fails):
     """Naming a competitor is fine; asserting their price or policy is not,
     unless the claim carries a date and a source.
@@ -1581,6 +1602,25 @@ def check_video_caption_names_the_recorded_version(pages, fails):
                              f"the version the video was recorded from ({recorded})")
 
 
+def check_site_names_the_newest_release(pages, fails: list[str], app_repo: Path) -> None:
+    """The site says what the app does today: How it works names the app's newest release, read from the app's own
+    release notes (ui/src/whatsnew.js). Growth sprint 2026-10-14: a week of features had shipped and not one was on the
+    home page or How it works."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("_render", SITE / "_build" / "render.py")
+    render = sys.modules.get("_render")
+    if render is None:
+        render = importlib.util.module_from_spec(spec)
+        sys.modules["_render"] = render
+        spec.loader.exec_module(render)
+    newest = render.read_whats_new(app_repo, 1)[0]
+    how = dict(pages).get("how-it-works/index.html", "")
+    if (f'data-newest="{newest["version"]}"' not in how
+            or (html.escape(newest["title"], quote=False) not in how and newest["title"] not in how)):
+        fails.append(f"how-it-works/index.html: does not name the app's newest release, {newest['version']} "
+                     f"({newest['title']!r}); render again from the app repo")
+
+
 def check_hero_video_matches_the_app(fails: list[str], app_repo: Path) -> None:
     """The hero video shows the window that ships today, not one that used to.
 
@@ -1909,6 +1949,8 @@ def main() -> int:
             lambda: check_no_sibling_site_links(pages, fails),
         "check_audit_signals":
             lambda: check_audit_signals(pages, fails),
+        "check_competitor_prices_are_recent":
+            lambda: check_competitor_prices_are_recent(fails),
         "check_robots_keeps_crawlers_out_of_the_router":
             lambda: check_robots_keeps_crawlers_out_of_the_router(fails),
         "check_video_caption_names_the_recorded_version":
@@ -1920,6 +1962,8 @@ def main() -> int:
         "check_media_exists": lambda: check_media_exists(pages, fails),
         "check_no_internal_docs_are_served":
             lambda: check_no_internal_docs_are_served(fails),
+        "check_site_names_the_newest_release":
+            lambda: check_site_names_the_newest_release(pages, fails, Path(args.app_repo).expanduser().resolve()),
         "check_hero_video_matches_the_app":
             lambda: check_hero_video_matches_the_app(
                 fails, Path(args.app_repo).expanduser().resolve()),

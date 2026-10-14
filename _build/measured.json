@@ -4838,30 +4838,6 @@
       "yearly": 60.0,
       "yearly_whole": 60
     },
-    "oddsjam": {
-      "fee": 79.99,
-      "rows": [
-        {
-          "bets": 80,
-          "edge": 1,
-          "turnover": 7999
-        },
-        {
-          "bets": 40,
-          "edge": 2,
-          "turnover": 4000
-        },
-        {
-          "bets": 27,
-          "edge": 3,
-          "turnover": 2667
-        }
-      ],
-      "stake": 100,
-      "sym": "$",
-      "yearly": 959.88,
-      "yearly_whole": 960
-    },
     "rebelbetting": {
       "fee": 89.0,
       "rows": [
@@ -6240,5 +6216,123 @@
         ]
       }
     ]
-  }
+  },
+  "whatsnew": [
+    {
+      "date": "2026-10-14",
+      "notes": [
+        {
+          "text": "Beside the cost of a refresh, the Odds source page now says how many more like it your credits cover: from the credits left after your last refresh, or from the free plan's 500 a month if this Mac has not read any yet.",
+          "where": "Odds source"
+        }
+      ],
+      "title": "How many refreshes your credits cover",
+      "version": "0.1.32"
+    },
+    {
+      "date": "2026-10-14",
+      "notes": [
+        {
+          "text": "Each sign-up offer for a sportsbook licensed in your state has an Open this offer button, above the steps. It opens the book's page in your browser through bookbreaker.bet, and only for books licensed where you are.",
+          "where": "Promos"
+        },
+        {
+          "text": "Under the offers: 21+, your state's own problem gambling helpline, and where to read how Bookbreaker is paid.",
+          "where": "Promos"
+        }
+      ],
+      "title": "Open an offer from Promos",
+      "version": "0.1.31"
+    },
+    {
+      "date": "2026-10-14",
+      "notes": [
+        {
+          "text": "With no Odds API key saved, Ask opens on Start here: the sign-up offers in your state priced by what you keep, a converter for a promo you already hold, and the three steps to a free key. Each has a button that opens it.",
+          "where": "Ask"
+        },
+        {
+          "text": "The two sample questions that need live sportsbook odds now say they need a free Odds API key, before you press them.",
+          "where": "Ask"
+        }
+      ],
+      "title": "Start here, before you have a key",
+      "version": "0.1.30"
+    },
+    {
+      "date": "2026-10-14",
+      "notes": [
+        {
+          "text": "betPARX's Michigan offer was read again: a $25 first bet in cash, then your choice of a $50 bonus bet or a 200% profit boost, until 2027-01-31. Its source now links to Play Gun Lake's Promotions page, because the offer's own address opens the casino lobby when visited directly.",
+          "where": "Promos"
+        }
+      ],
+      "title": "betPARX in Michigan, read again",
+      "version": "0.1.29"
+    },
+    {
+      "date": "2026-10-14",
+      "notes": [
+        {
+          "text": "Every game on the Odds screen has an Alternate lines button. It opens a ladder of that game's other spreads and totals, every book's price side by side, a fair price for each line, and the best price you can bet marked.",
+          "where": "Odds source"
+        },
+        {
+          "text": "It reads one game at a time and says the cost before you press: up to 4 credits for both ladders in two regions. A game you read is kept on this Mac, so it reopens without spending anything.",
+          "where": "Odds source"
+        }
+      ],
+      "title": "Alternate lines",
+      "version": "0.1.28"
+    },
+    {
+      "date": "2026-10-13",
+      "notes": [
+        {
+          "text": "Futures, like who wins the Super Bowl, are a new page: every book's price for every team side by side, the best price you can bet marked, a fair price with the book's cut taken out, and the market's hold in one sentence.",
+          "where": "Odds source"
+        },
+        {
+          "text": "They start off. Each futures market costs one credit for every region you pick, and the cost is shown before you press. A season that is not open is skipped for free, and a read is kept on this Mac so the page reopens without spending anything.",
+          "where": "Odds source"
+        },
+        {
+          "text": "Futures tie your money up until the season ends, and a long shot's edge is the least certain, so the page says both.",
+          "where": "Odds source"
+        }
+      ],
+      "title": "Futures",
+      "version": "0.1.27"
+    },
+    {
+      "date": "2026-10-13",
+      "notes": [
+        {
+          "text": "Fixed: a best price, a play, a hedge or an alert could be at a sportsbook that is legal in some states but not licensed in yours. With your state picked in the top bar, every one of them is now at a book licensed there.",
+          "where": "Arbitrage"
+        },
+        {
+          "text": "Until you pick a state, the Arbitrage page, the Odds screen, Low hold and Convert my own promo say in one sentence that a price may be at a book you cannot use where you are.",
+          "where": "Window"
+        }
+      ],
+      "title": "Only sportsbooks licensed in your state",
+      "version": "0.1.26"
+    },
+    {
+      "date": "2026-10-13",
+      "notes": [
+        {
+          "text": "Choose the books you trust to set the true price, Pinnacle and BetOnline to start, and weight each from 0 to 10. Every +EV bet is then judged against a blend of just those books, and the book you would bet at never counts toward its own price.",
+          "where": "Arbitrage"
+        },
+        {
+          "text": "A threshold from Any book to All books hides a bet until enough of your formula's weight priced it, and a Requires line names the books that must be there. It works on prices already read and spends no credits. Circa and BookMaker are not offered because the odds feed does not carry them.",
+          "where": "Arbitrage"
+        }
+      ],
+      "title": "Your own EV formula",
+      "version": "0.1.25"
+    }
+  ]
 }
