@@ -4839,28 +4839,28 @@
       "yearly_whole": 60
     },
     "rebelbetting": {
-      "fee": 89.0,
+      "fee": 99.0,
       "rows": [
         {
-          "bets": 89,
+          "bets": 99,
           "edge": 1,
-          "turnover": 8900
+          "turnover": 9900
         },
         {
-          "bets": 45,
+          "bets": 50,
           "edge": 2,
-          "turnover": 4450
+          "turnover": 4950
         },
         {
-          "bets": 30,
+          "bets": 33,
           "edge": 3,
-          "turnover": 2967
+          "turnover": 3301
         }
       ],
       "stake": 100,
-      "sym": "\u00a3",
-      "yearly": 1068.0,
-      "yearly_whole": 1068
+      "sym": "$",
+      "yearly": 1188.0,
+      "yearly_whole": 1188
     },
     "smartstake": {
       "fee": 49.0,
