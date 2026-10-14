@@ -4863,28 +4863,28 @@
       "yearly_whole": 1068
     },
     "smartstake": {
-      "fee": 99.0,
+      "fee": 49.0,
       "rows": [
         {
-          "bets": 99,
+          "bets": 49,
           "edge": 1,
-          "turnover": 9900
+          "turnover": 4900
         },
         {
-          "bets": 50,
+          "bets": 25,
           "edge": 2,
-          "turnover": 4950
+          "turnover": 2450
         },
         {
-          "bets": 33,
+          "bets": 17,
           "edge": 3,
-          "turnover": 3301
+          "turnover": 1634
         }
       ],
       "stake": 100,
       "sym": "$",
-      "yearly": 1188.0,
-      "yearly_whole": 1188
+      "yearly": 588.0,
+      "yearly_whole": 588
     },
     "unabated": {
       "fee": 99.0,

@@ -2768,7 +2768,7 @@ def render_index(m: dict) -> str:
   <div class="price-row">
     {price("oddsjam", "Arbitrage and +EV plan", "$20/day")}
     {price("avo", "Pro plan", "$88/mo")}
-    {price("smartstake", "One plan", "$99/mo")}
+    {price("smartstake", "Premium plan", "$99/mo")}
     <p class="price ours"><span class="price-name">Bookbreaker</span><span class="price-val">Free</span><span class="price-src">No plan, no card, no account</span></p>
   </div>
 </section>
