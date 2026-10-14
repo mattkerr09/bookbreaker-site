@@ -1,11 +1,11 @@
 {
-  "version": "0.1.30",
-  "notes": "Start here, before you have a key.\n\n- With no Odds API key saved, Ask opens on Start here: the sign-up offers in your state, a converter for a promo you already hold, and the three steps to a free key.\n- The sample questions that need live odds say so before you press them.",
-  "pub_date": "2026-10-14T06:12:40Z",
+  "version": "0.1.31",
+  "notes": "Open an offer from Promos.\n\n- Each sign-up offer for a sportsbook licensed in your state has an Open this offer button, above the steps. It opens the book's page in your browser through bookbreaker.bet.\n- Under the offers: 21+, your state's own problem gambling helpline, and where to read how Bookbreaker is paid.",
+  "pub_date": "2026-10-14T08:20:39Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHpEQWxlT0RYeFFpSEc2emNXdnlRei9ibE1CalRjMUl4ajYvMVpOVjVDSlNuM1A1T1R2blBndC91ZDNZc0NndW42SkpxSzFhQUJpamkraWVieDl6dmdVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTU4MzMwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjMwLmFwcC50YXIuZ3oKUFRMNGMvUyt5ek96ZEhYbjhRWmNXdDYvSXhCMWlqdTUxKzBJcWU0Z1FKMnc0NGl2SCtuUUU4OXZub3ZQNFM0LythMUtPbUhVK1ZrTXZnTTU2Tkp0RGc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.30.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHp5OCtFVHBaUEtUNlRtU0VFSnI1TEJBMDBMR3JuR2gvcDBCYVU5eEZ6c2VLekFmK2Erd09GV2d6RFZsVW1lb0I1eEk0Y1dRYVUyWHdtTVdZTXBOaGdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTY2MDE2CWZpbGU6Qm9va2JyZWFrZXItMC4xLjMxLmFwcC50YXIuZ3oKOVpLVlhzcFJJMDFEbzFaOTk0cmQyWUZ4bFZmbkhQeHJyNlBXL1RML3VoUm42a3ZKMjBreGVTclNzMGhPc0R6eExINk1tMmtRczBDenZoSEhPMUYxQXc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.31.app.tar.gz"
     }
   }
 }

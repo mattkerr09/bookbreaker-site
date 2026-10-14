@@ -2361,7 +2361,7 @@ def render_download(m: dict) -> str:
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
             'a security warning.</span></li></ol>'
-            '<p>New in this version: a Start here page that shows what works before you add an Odds API key. Also recent: alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
+            '<p>New in this version: Open this offer on Promos, only for sportsbooks licensed in your state. Also recent: a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
             'that repeat or oppose a bet you have open, alerts after a refresh you start, Track this bet, which saves a bet with its fair price, which books to fund in your state, a low-hold view, your record against what it should have been, how old every price is, '
             'an Odds screen with every book&rsquo;s price side by side, and a page that prices a promo you already hold. '
             '<a href="/how-it-works/">How it works</a>.</p>')
@@ -6509,7 +6509,11 @@ carrying nothing about you.</li>
 <li><b>Live sportsbook odds.</b> If you add your own Odds API key on the Odds source page,
 pressing its button sends that key and the sports, regions and bet types you picked
 (and, if you switched on player props, the games and prop markets it reads, one game at a time)
-to api.the-odds-api.com, and nothing else. The key is kept in your Mac&rsquo;s Keychain.</li>
+to api.the-odds-api.com, and nothing else. Futures and alternate lines work the same way, each only
+when you press its own Read button. The key is kept in your Mac&rsquo;s Keychain.</li>
+<li><b>Open this offer.</b> On the app&rsquo;s Promos page, pressing it opens your browser at
+bookbreaker.bet&rsquo;s link for that sportsbook, carrying the book, your state and that it came
+from Promos, and this site sends you on to the sportsbook. Nothing else about you is sent.</li>
 <li><b>Ask.</b> If you add your own Anthropic key, your question and the numbers the engine
 looked up to answer it go to Anthropic when you press Ask, and nothing else does. The key is kept in
 your Mac&rsquo;s Keychain. With a model running on your own Mac through Ollama, nothing leaves it.
