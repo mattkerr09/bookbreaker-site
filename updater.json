@@ -1,11 +1,11 @@
 {
-  "version": "0.1.27",
-  "notes": "Futures.\n\n- A Futures page: every book's price for every team in title markets like the Super Bowl, the best price you can bet marked, a fair price with the cut taken out, and the market's hold.\n- Off until you pick a league. Each futures market costs one credit per region, shown before you press, and a read is kept on this Mac so the page reopens for free.",
-  "pub_date": "2026-10-13T20:25:56Z",
+  "version": "0.1.28",
+  "notes": "Alternate lines.\n\n- Every game on the Odds screen has an Alternate lines button: a ladder of that game's other spreads and totals, every book's price, a fair price for each line, and the best price you can bet marked.\n- One game at a time, the cost shown before you press (up to 4 credits for both ladders in two regions), and kept on this Mac so it reopens for free.",
+  "pub_date": "2026-10-14T02:12:08Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDNhL0JHZmh0S1NDZUYxRFVBZmh2TlVPbU94Q0NJN1pUQVlJdjg5WDdiOHdaOW1JY2dnNkpDOTNKdGlFRFdadjRodXpsdDRQTi9zd1dnM3dqUGduMmdzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTIzMTE3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjI3LmFwcC50YXIuZ3oKUXBWeWhuRVZVZ2lSSFErckhERndremJnUVVpT2NhSnN2eEJwWkJBYmZEYjdncGMyTzNLUzZLc2JNTFpjZVZvNXQvUnB4bkI0MnYvdDJTV2JZVXlHQVE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.27.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDR2MTQ4SkpCYlB3NjdGcTV6WURJMDNjRDQwRVlYa1dkTGUvTythaHR4N1g2Yk0zVEFUVEVYMVdrT1RYRTVnblN6U3pySU0yZWdQRXRvQXhsKzFxUmc4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTQzODk5CWZpbGU6Qm9va2JyZWFrZXItMC4xLjI4LmFwcC50YXIuZ3oKVU1QVkR6MGNHZWNGVXhZMFRaTHRyeUdZamdkTzgzM0FUSkNuL3ZCaWwyNk4yOStWOG5la29DNUpLWXdWUW1maFdyWThoN1N0NEVWV2lKcno5SXNwQVE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.28.app.tar.gz"
     }
   }
 }
