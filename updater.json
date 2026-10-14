@@ -1,11 +1,11 @@
 {
-  "version": "0.1.29",
-  "notes": "betPARX in Michigan, read again.\n\n- betPARX's Michigan offer was read again: a $25 first bet in cash, then a $50 bonus bet or a 200% profit boost, until 2027-01-31. Its source now links to Play Gun Lake's Promotions page.",
-  "pub_date": "2026-10-14T03:13:13Z",
+  "version": "0.1.30",
+  "notes": "Start here, before you have a key.\n\n- With no Odds API key saved, Ask opens on Start here: the sign-up offers in your state, a converter for a promo you already hold, and the three steps to a free key.\n- The sample questions that need live odds say so before you press them.",
+  "pub_date": "2026-10-14T06:12:40Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDl4bEt6OU1BbFZaN1FqQUcvNUNab21TN3FMQ00yTXREdUhYb2VsanNHK1FJU0ZZOUR1dnE3UG81MVovTFdCS3BCQ0ljZFNxSFUreVBFSnk0TWd2cmdvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTQ3NTY4CWZpbGU6Qm9va2JyZWFrZXItMC4xLjI5LmFwcC50YXIuZ3oKVWRnRlhkN096TzFwbXJyTFVSbUU1VG9JcXhKSTlXdFlRck1YVEdpNGFzZDZPN2ZyZmNxYnhZcmNIUU0yYk5kRkpOalVHb1Y5K0x4azdxdGRRNHlGQWc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.29.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHpEQWxlT0RYeFFpSEc2emNXdnlRei9ibE1CalRjMUl4ajYvMVpOVjVDSlNuM1A1T1R2blBndC91ZDNZc0NndW42SkpxSzFhQUJpamkraWVieDl6dmdVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTU4MzMwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjMwLmFwcC50YXIuZ3oKUFRMNGMvUyt5ek96ZEhYbjhRWmNXdDYvSXhCMWlqdTUxKzBJcWU0Z1FKMnc0NGl2SCtuUUU4OXZub3ZQNFM0LythMUtPbUhVK1ZrTXZnTTU2Tkp0RGc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.30.app.tar.gz"
     }
   }
 }
