@@ -32,6 +32,7 @@ import csv
 import socket
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -77,6 +78,13 @@ def probe(url: str) -> tuple[str, str]:
             return "dead", str(exc.code)
         if exc.code in BLOCKED:
             return "blocked", str(exc.code)
+        # A redirect that points nowhere, or back at the same page, is a firewall's challenge loop (DC Lottery's
+        # sports wagering FAQ, 2026-10-14: 307 to itself, while a browser gets the page). A redirect to a different
+        # address is a page that moved, and stays "odd" so the citation is updated (AVO, 2026-10-14: 308).
+        if exc.code in (301, 302, 303, 307, 308):
+            where = (exc.headers.get("Location") or "").strip() if exc.headers else ""
+            if not where or urllib.parse.urljoin(url, where).rstrip("/") == url.rstrip("/"):
+                return "blocked", f"{exc.code} to itself"
         return "odd", str(exc.code)
     except urllib.error.URLError as exc:
         reason = getattr(exc, "reason", exc)

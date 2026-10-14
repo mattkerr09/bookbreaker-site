@@ -4838,6 +4838,30 @@
       "yearly": 60.0,
       "yearly_whole": 60
     },
+    "pikkit": {
+      "fee": 29.99,
+      "rows": [
+        {
+          "bets": 30,
+          "edge": 1,
+          "turnover": 2999
+        },
+        {
+          "bets": 15,
+          "edge": 2,
+          "turnover": 1500
+        },
+        {
+          "bets": 10,
+          "edge": 3,
+          "turnover": 1000
+        }
+      ],
+      "stake": 100,
+      "sym": "$",
+      "yearly": 359.88,
+      "yearly_whole": 360
+    },
     "rebelbetting": {
       "fee": 99.0,
       "rows": [
