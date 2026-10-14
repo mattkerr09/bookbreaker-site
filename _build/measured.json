@@ -470,9 +470,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "a6a5fd9b8d04d35e",
+  "engine_fingerprint": "381148ab1a19b928",
   "engine_load": {
-    "bytes": 6487770,
+    "bytes": 6487825,
     "mb": 6,
     "pyodide": "0.29.5"
   },
@@ -886,28 +886,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35276468,
-      "kb": 34450,
+      "bytes": 35275914,
+      "kb": 34449,
       "mb": 35.3,
-      "name": "Bookbreaker-0.1.28.dmg",
-      "sha256": "e998778d36fd8992eb26fff81aef178db67a26a80b07fc2c9c5069886fc7d8a1"
+      "name": "Bookbreaker-0.1.29.dmg",
+      "sha256": "82b75102dfaf8937df862766108dcd6ac71bcbc5c65b046e1d8768d20c443a53"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 944358,
+      "bytes": 944413,
       "kb": 922,
       "mb": 0.9,
-      "name": "overlay-0.1.28.tar.gz",
-      "sha256": "88fd2379dfd9070b31314ef5b2e905391f66c533b70d8bb7bd10e2a167016a1e"
+      "name": "overlay-0.1.29.tar.gz",
+      "sha256": "1d90acf40434bfd0b39eebe174c1d6aecb2ef7ed1fbe11dbe92dda6fe68e0f92"
     },
-    "version": "0.1.28",
+    "version": "0.1.29",
     "wheel": {
-      "bytes": 474777,
+      "bytes": 474832,
       "kb": 464,
       "mb": 0.5,
-      "name": "overlay-0.1.28-py3-none-any.whl",
-      "sha256": "78d5691775f807b8890d781285bf26bdafa4413aecbbb8a49006dae02ec2d448"
+      "name": "overlay-0.1.29-py3-none-any.whl",
+      "sha256": "5312678fe296ae560a2938fa3e3dd91e3181647291a6e1f84005e9cef9118e45"
     }
   },
   "replay": {
@@ -4950,12 +4950,12 @@
     "accounts": 0,
     "engine_modules": 72,
     "network_calls": 0,
-    "sha256": "e998778d36fd8992eb26fff81aef178db67a26a80b07fc2c9c5069886fc7d8a1",
-    "sha256_short": "e998778d36fd8992",
+    "sha256": "82b75102dfaf8937df862766108dcd6ac71bcbc5c65b046e1d8768d20c443a53",
+    "sha256_short": "82b75102dfaf8937",
     "sources": 29,
     "test_files": 96
   },
-  "version": "0.1.28",
+  "version": "0.1.29",
   "weights": {
     "max_age_days": 90
   },
@@ -5550,7 +5550,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 0,
         "book": "betparx",
         "conversion": 0.69,
         "cost": 0.5,
@@ -5566,10 +5566,10 @@
         "ineligible": "",
         "installments": 1,
         "name": "betPARX",
-        "note": "Play Gun Lake's own terms (Play Gun Lake is Gun Lake Casino's betPARX sportsbook). A first sports bet of $25 in cash on any available market, then choose a reward: a $50 Bonus Bet, valid 7 days from issuance, wagered once, its stake not included in returns, or the 200% Profit Boost in the next row. The promotion runs from Sunday, September 27 at 1:00 PM to Sunday, January 31 at 11:59 PM ET; the page gives no year, and 2026-09-27 and 2027-01-31 are both Sundays. A new account takes one reward. Sportsbook Review's Michigan page (2026-10-05) lists the $50 bonus bet.",
+        "note": "Read on 2026-10-13 from Promotions, Choose Your Reward, Learn More (the offer's own address opens the casino lobby when visited directly). Play Gun Lake's own terms (Play Gun Lake is Gun Lake Casino's betPARX sportsbook). A first sports bet of $25 in cash on any available market, then choose a reward: a $50 Bonus Bet, valid 7 days from issuance, wagered once, its stake not included in returns, or the 200% Profit Boost in the next row. The promotion runs from Sunday, September 27 at 1:00 PM to Sunday, January 31 at 11:59 PM ET; the page gives no year, and 2026-09-27 and 2027-01-31 are both Sundays. A new account takes one reward. Sportsbook Review's Michigan page (2026-10-05) lists the $50 bonus bet.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-09",
-        "source": "https://www.playgunlake.com/promotion-info/choose-your-reward",
+        "read": "2026-10-13",
+        "source": "https://www.playgunlake.com/promotions",
         "stale": false,
         "states": [
           "MI"
@@ -6111,7 +6111,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 0,
         "book": "betparx",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6127,10 +6127,10 @@
         "ineligible": "",
         "installments": 1,
         "name": "betPARX",
-        "note": "Play Gun Lake's own terms, the other reward. After the $25 cash first bet: a 200% Profit Boost with a $50 maximum wager and $5,000 maximum extra winnings, on pre-match, live, same game parlay and parlay bets whose total odds are -200 or longer; bets placed with bonus bets and bets settled by cash out are ineligible. The page does not say when the boost expires. Same promotion period as the $50 bonus bet. The alternative to the bonus bet; a new account takes one.",
+        "note": "Read on 2026-10-13 from Promotions, Choose Your Reward, Learn More (the offer's own address opens the casino lobby when visited directly). Play Gun Lake's own terms, the other reward. After the $25 cash first bet: a 200% Profit Boost with a $50 maximum wager and $5,000 maximum extra winnings, on pre-match, live, same game parlay and parlay bets whose total odds are -200 or longer; bets placed with bonus bets and bets settled by cash out are ineligible. The page does not say when the boost expires. Same promotion period as the $50 bonus bet. The alternative to the bonus bet; a new account takes one.",
         "offer_type": "profit_boost",
-        "read": "2026-10-09",
-        "source": "https://www.playgunlake.com/promotion-info/choose-your-reward",
+        "read": "2026-10-13",
+        "source": "https://www.playgunlake.com/promotions",
         "stale": false,
         "states": [
           "MI"
