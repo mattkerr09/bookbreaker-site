@@ -2121,6 +2121,7 @@ def page(title: str, description: str, body: str, path: str,
   </div>
   <div>
     <p class="foot-head">Tools</p>
+    <p><a href="/download/">Download and install</a></p>
     <p><a href="/calculators/">Calculators</a></p>
     <p><a href="/guides/">Guides</a></p>
     <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
