@@ -1,11 +1,11 @@
 {
-  "version": "0.1.31",
-  "notes": "Open an offer from Promos.\n\n- Each sign-up offer for a sportsbook licensed in your state has an Open this offer button, above the steps. It opens the book's page in your browser through bookbreaker.bet.\n- Under the offers: 21+, your state's own problem gambling helpline, and where to read how Bookbreaker is paid.",
-  "pub_date": "2026-10-14T08:20:39Z",
+  "version": "0.1.32",
+  "notes": "How many refreshes your credits cover.\n\n- Beside the cost of a refresh, the Odds source page now says how many more like it your credits cover.",
+  "pub_date": "2026-10-14T10:02:34Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHp5OCtFVHBaUEtUNlRtU0VFSnI1TEJBMDBMR3JuR2gvcDBCYVU5eEZ6c2VLekFmK2Erd09GV2d6RFZsVW1lb0I1eEk0Y1dRYVUyWHdtTVdZTXBOaGdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTY2MDE2CWZpbGU6Qm9va2JyZWFrZXItMC4xLjMxLmFwcC50YXIuZ3oKOVpLVlhzcFJJMDFEbzFaOTk0cmQyWUZ4bFZmbkhQeHJyNlBXL1RML3VoUm42a3ZKMjBreGVTclNzMGhPc0R6eExINk1tMmtRczBDenZoSEhPMUYxQXc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.31.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDU3UnQ5OVB6cTJ4dlJhV1lhaDgzQTJhaTg3akgzOER0aFJmUmNOQWszNXlrWElNWGFDd1pLS1J2M2hkSzU0QXJRT3RlVytTVXN6WjlBamYwY1dtTUFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTcyMTI5CWZpbGU6Qm9va2JyZWFrZXItMC4xLjMyLmFwcC50YXIuZ3oKWWhQYVhtV01Rc1I0MHRZOFZ3MVprKzYzYXZIV2ZjSXpXTjMxQnZrTTZFSkw4b09sWEpHRFY4UHRSa2o0NDFaZldYWFI3YzlaanRhZFNhc3R4UzhhQWc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.32.app.tar.gz"
     }
   }
 }
