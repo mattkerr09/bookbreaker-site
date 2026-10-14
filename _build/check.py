@@ -1116,6 +1116,28 @@ def check_no_sibling_site_links(pages, fails, root: Path | None = None):
                 fails.append(f"llms.txt: names {dom}, a sibling site")
 
 
+MIN_TITLE = 30
+_HUB_LINK = re.compile(r'<a\b[^>]*href="https://kerr-affiliate-hub\.kerrco\.workers\.dev/(?:dl|buy)/[^"]*"[^>]*>')
+
+
+def check_audit_signals(pages, fails):
+    """What Docket's audit of 2026-10-13 asked for, held: every download-counter link is nofollow (a redirect to our
+    own file, not an endorsement of a workers.dev host), every page carries a machine-readable date (a WebPage
+    dateModified and a <time datetime>), and no title is under MIN_TITLE characters (cut short in results)."""
+    for path, markup in pages:
+        if 'http-equiv="refresh"' in markup or path.startswith("go/"):
+            continue
+        for tag in _HUB_LINK.findall(markup):
+            if not re.search(r'\brel="[^"]*\bnofollow\b', tag):
+                fails.append(f"{path}: a download-counter link without rel=nofollow")
+                break
+        if '"dateModified"' not in markup or '<time datetime="' not in markup:
+            fails.append(f"{path}: no machine-readable date (WebPage dateModified and <time datetime>)")
+        m = re.search(r"<title>(.*?)</title>", markup, re.S)
+        if m and len(html.unescape(m.group(1))) < MIN_TITLE:
+            fails.append(f"{path}: title under {MIN_TITLE} characters ({m.group(1)!r}); add it to LONGER_TITLES")
+
+
 def check_the_pay_page_tells_the_truth(pages, fails):
     """/how-we-are-paid/ says nothing pays us only while no partner row is live, and says links can pay once one is.
     The terms page may not claim independence from payment either. Both sentences are chosen from partners.csv."""
@@ -1885,6 +1907,8 @@ def main() -> int:
             lambda: check_promo_urls_use_full_names(pages, fails),
         "check_no_sibling_site_links":
             lambda: check_no_sibling_site_links(pages, fails),
+        "check_audit_signals":
+            lambda: check_audit_signals(pages, fails),
         "check_robots_keeps_crawlers_out_of_the_router":
             lambda: check_robots_keeps_crawlers_out_of_the_router(fails),
         "check_video_caption_names_the_recorded_version":

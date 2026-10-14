@@ -1849,7 +1849,13 @@ def site_schema(path: str, body: str) -> str:
     the /sportsbooks/ pages build their own, and two BreadcrumbLists on one page
     is a contradiction rather than a duplicate.
     """
-    blocks = []
+    # Every page says, in a form a machine reads, when it was last built and checked against the engine: the
+    # same date the footer prints. Docket (2026-10-13) found 79 of 79 pages with no machine-readable date, which
+    # answer engines weigh for recency.
+    blocks = [json.dumps({
+        "@context": "https://schema.org", "@type": "WebPage", "url": f"https://bookbreaker.bet{path}",
+        "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": TODAY,
+    }, ensure_ascii=False)]
 
     if path == "/":
         blocks.append(json.dumps({
@@ -1958,6 +1964,41 @@ def onward(path: str) -> str:
         f'<a href="{h}">{e(t)} &rarr;</a>' for h, t in links) + "</p>")
 
 
+LONGER_TITLES = {
+    "/guides/nfl-key-numbers/": "NFL key numbers: how often games land on 3 and 7",
+    "/best/best-bet-tracker/": "Best bet tracker: what to look for, compared",
+    "/guides/how-to-line-shop/": "How to line shop: find the best price for every bet",
+    "/guides/how-to-devig-odds/": "How to devig odds and find the fair price",
+    "/guides/how-to-hedge-a-bet/": "How to hedge a bet, with the stakes worked out",
+    "/guides/what-is-a-middle-bet/": "What is a middle bet, and how both sides can win",
+    "/guides/what-is-vig-and-hold/": "What is vig and hold, and what it costs you",
+    "/guides/what-is-a-low-hold-bet/": "What is a low hold bet, and when to use one",
+    "/how-we-are-paid/": "How Bookbreaker is paid, and what payment never changes",
+    "/terms/": "Bookbreaker terms of use: a free betting analysis tool",
+    "/best/best-ev-betting-software/": "Best +EV betting software: what to look for",
+    "/guides/how-to-read-american-odds/": "How to read American odds, with worked examples",
+    "/guides/what-is-a-push-in-betting/": "What is a push in betting, and what happens to your stake",
+    "/guides/what-is-a-round-robin-bet/": "What is a round robin bet, and what it costs",
+    "/guides/what-is-a-no-sweat-bet-worth/": "What is a no-sweat bet worth, with the numbers worked through",
+    "/guides/what-is-closing-line-value/": "What is closing line value, and why it beats profit as evidence",
+    "/guides/how-to-grade-your-own-bets/": "How to grade your own bets without inflating your record",
+    "/guides/what-is-a-sharp-sportsbook/": "What is a sharp sportsbook, and why its prices count as evidence",
+    "/guides/what-does-plus-ev-mean/": "What does +EV mean in betting, with the math shown",
+    "/guides/how-to-avoid-getting-limited/": "How to avoid getting limited by a sportsbook",
+    "/guides/what-is-a-deposit-match-worth/": "What is a deposit match worth after the rollover",
+    "/guides/what-is-arbitrage-betting/": "What is arbitrage betting, and when the profit is locked",
+    "/guides/what-is-a-totals-middle-worth/": "What is a totals middle worth, with the numbers worked through",
+    "/guides/when-do-bonus-bets-expire/": "When do bonus bets expire, and what they are worth until then",
+    "/guides/what-is-a-parlay-really-worth/": "What is a parlay really worth against its fair price",
+    "/guides/how-to-choose-an-odds-feed/": "How to choose an odds feed for betting tools",
+    "/guides/what-is-bankroll-management/": "What is bankroll management, and how to size a bet",
+    "/guides/why-your-bets-get-rejected/": "Why your bets get rejected: the price was already old",
+    "/guides/what-is-a-profit-boost-worth/": "What is a profit boost worth, with the numbers worked through",
+    "/for/ev-bettors/": "Bookbreaker for +EV bettors: fair prices from your own feed",
+    "/for/bonus-hunters/": "Bookbreaker for bonus hunters: offers priced by what you keep",
+}
+
+
 def page(title: str, description: str, body: str, path: str,
          body_class: str = "") -> str:
     body += onward(path)
@@ -2002,14 +2043,17 @@ def page(title: str, description: str, body: str, path: str,
     )
     # msvalidate.01 is the Bing Webmaster verification code of the account that
     # verifies all eight Kerr & Company sites; in the template so every page
-    # carries it. The last footer column is the "More from Kerr & Company" block,
-    # in the same words on every Kerr site (Matthew, 2026-09-26): plain followed
-    # links, and existing classes only, because check.py fails a class the
-    # stylesheet does not style. Each whole line is the link, like every other
+    # carries it. The last footer column links the company once and no sibling
+    # site (2026-10-13: sitewide links between our own sites cost outlier.host
+    # its Bing impressions; check_no_sibling_site_links holds it). Existing
+    # classes only, because check.py fails a class the stylesheet does not style. Each whole line is the link, like every other
     # column here: a name-only link inside a line read as the same colour as its
     # description, and the 44px coarse-pointer target made a wrapped line gap. Neither is content, so a render that adds them
     # is not a reason to move sitemap lastmod.
-    return f"""<!doctype html>
+    # A title under 30 characters is cut short of what the page is about in results (Docket, 2026-10-13: ten such
+    # pages). The page keeps its own headline; only the title gains the rest of the sentence.
+    title = LONGER_TITLES.get(path, title)
+    html = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -2108,7 +2152,7 @@ def page(title: str, description: str, body: str, path: str,
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
 ever requested. Every figure on this site is computed by running the engine at
-build time. None is typed in. Generated {e(TODAY)}.</p>
+build time. None is typed in. Generated <time datetime="{e(TODAY)}">{e(TODAY)}</time>.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
 will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the
@@ -2171,6 +2215,23 @@ document.querySelectorAll('[data-download]').forEach(function (a) {{
 </body>
 </html>
 """
+    return hub_nofollow(html)
+
+
+def hub_nofollow(html: str) -> str:
+    """Every link through our own download counter carries rel="nofollow".
+
+    They are redirects to our own file, not endorsements, and without nofollow they pass link value to a
+    workers.dev host (Docket's audit of 2026-10-13 found 3 of 3 on this site without it; outlier.host has it on
+    8 of 8). A link that already has a rel gains nofollow inside it; the rest gain the attribute."""
+    def fix(m):
+        tag = m.group(0)
+        if re.search(r'\brel="[^"]*\bnofollow\b', tag):
+            return tag
+        if ' rel="' in tag:
+            return tag.replace(' rel="', ' rel="nofollow ', 1)
+        return tag[:-1] + ' rel="nofollow">'
+    return re.sub(r'<a\b[^>]*href="' + re.escape(HUB) + r'/(?:dl|buy)/[^"]*"[^>]*>', fix, html)
 
 
 DEMO_SCRIPT = """

@@ -232,6 +232,27 @@ CASES = [
         'href="/promo-codes/michigan/dk/"',
     ),
     (
+        "a download-counter link that passes link value",
+        "check_audit_signals",
+        "guides/index.html",
+        'data-download rel="nofollow">',
+        "data-download>",
+    ),
+    (
+        "a page with no machine-readable date",
+        "check_audit_signals",
+        "terms/index.html",
+        '"dateModified"',
+        '"dateMod"',
+    ),
+    (
+        "a title cut short in results",
+        "check_audit_signals",
+        "terms/index.html",
+        "<title>Bookbreaker terms of use: a free betting analysis tool</title>",
+        "<title>Terms</title>",
+    ),
+    (
         "a sitewide link to a sibling site in the footer",
         "check_no_sibling_site_links",
         "guides/index.html",
