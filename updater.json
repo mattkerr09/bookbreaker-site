@@ -1,11 +1,11 @@
 {
-  "version": "0.1.32",
-  "notes": "How many refreshes your credits cover.\n\n- Beside the cost of a refresh, the Odds source page now says how many more like it your credits cover.",
-  "pub_date": "2026-10-14T10:02:34Z",
+  "version": "0.1.33",
+  "notes": "DraftKings' new offer, and sign-up offers read again.\n\n- DraftKings is now Bet $5, Get $200 in bonus bets (four $50 bonus bets over 21 days), replacing the $150 offer that ends 10-18.\n- theScore Bet, Hard Rock Bet, Fanatics, BetMGM Michigan and Bally Bet were read again from their terms, with new dates.",
+  "pub_date": "2026-10-15T20:52:34Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDU3UnQ5OVB6cTJ4dlJhV1lhaDgzQTJhaTg3akgzOER0aFJmUmNOQWszNXlrWElNWGFDd1pLS1J2M2hkSzU0QXJRT3RlVytTVXN6WjlBamYwY1dtTUFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxOTcyMTI5CWZpbGU6Qm9va2JyZWFrZXItMC4xLjMyLmFwcC50YXIuZ3oKWWhQYVhtV01Rc1I0MHRZOFZ3MVprKzYzYXZIV2ZjSXpXTjMxQnZrTTZFSkw4b09sWEpHRFY4UHRSa2o0NDFaZldYWFI3YzlaanRhZFNhc3R4UzhhQWc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.32.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDB0NWJlV3gzeVlMMmhyc1J2TDJNeVRBZ0ZGejJ0TzBRczNRRU5PUGFlYkp0WlFoZEQxN1RoeWNoM3paSW0ybHNCSE0wQStWWEVFS2luUlBOUFUrOEFJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMDk3NTE5CWZpbGU6Qm9va2JyZWFrZXItMC4xLjMzLmFwcC50YXIuZ3oKSGszR0k1c1E1VEtuZGo4Z0syWXduZzkrcm5DdzgrVExVMW5qeVJvaGhPckVDYXRMK0oxMWVtZlFMc0hFQUtFQ25mZHkwdXVOazdXd2tQdzNOZDFqRHc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.33.app.tar.gz"
     }
   }
 }

@@ -470,9 +470,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "dd5997534edfc528",
+  "engine_fingerprint": "ef05e01fea29fbbd",
   "engine_load": {
-    "bytes": 6492742,
+    "bytes": 6492701,
     "mb": 6,
     "pyodide": "0.29.5"
   },
@@ -886,28 +886,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35278473,
-      "kb": 34452,
+      "bytes": 35276218,
+      "kb": 34449,
       "mb": 35.3,
-      "name": "Bookbreaker-0.1.32.dmg",
-      "sha256": "c8e064a7c19e7848dc31f10a6c725263bfeb9d1c67fa70213d7bfa43f5b4ce7d"
+      "name": "Bookbreaker-0.1.33.dmg",
+      "sha256": "6bb216e7edf2d0ff3e4a5260570fe835b918863ea0a10399c0c21c7d814c127e"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 953251,
+      "bytes": 953171,
       "kb": 931,
       "mb": 1.0,
-      "name": "overlay-0.1.32.tar.gz",
-      "sha256": "eb0c81bc88c1208bf757b3859edad987b44602ff2dd22fff57cc6bd05a920704"
+      "name": "overlay-0.1.33.tar.gz",
+      "sha256": "1a0b6ace4e98332b9279509411b9c81ab0e194e26dd96d050c14b4df47d06381"
     },
-    "version": "0.1.32",
+    "version": "0.1.33",
     "wheel": {
-      "bytes": 479749,
-      "kb": 469,
+      "bytes": 479708,
+      "kb": 468,
       "mb": 0.5,
-      "name": "overlay-0.1.32-py3-none-any.whl",
-      "sha256": "fc5790432f4efe0f57dbea7ab46814728b16240802cb7174e815fd223c81709b"
+      "name": "overlay-0.1.33-py3-none-any.whl",
+      "sha256": "baba014118bb1bed1096c3f61870a10f81a71c0b543339a8131072a7041a1ca2"
     }
   },
   "replay": {
@@ -4926,12 +4926,12 @@
     "accounts": 0,
     "engine_modules": 74,
     "network_calls": 0,
-    "sha256": "c8e064a7c19e7848dc31f10a6c725263bfeb9d1c67fa70213d7bfa43f5b4ce7d",
-    "sha256_short": "c8e064a7c19e7848",
+    "sha256": "6bb216e7edf2d0ff3e4a5260570fe835b918863ea0a10399c0c21c7d814c127e",
+    "sha256_short": "6bb216e7edf2d0ff",
     "sources": 29,
     "test_files": 99
   },
-  "version": "0.1.32",
+  "version": "0.1.33",
   "weights": {
     "max_age_days": 90
   },
@@ -4941,7 +4941,7 @@
     "max_age_days": 21,
     "offers": [
       {
-        "age_days": 8,
+        "age_days": 0,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 20.0,
@@ -4959,7 +4959,7 @@
         "name": "Fanatics",
         "note": "Fanatics' own page. Opt in on the bet slip each day for your first 10 days; your first cash bet of the day at -200 or longer is matched 100% in FanCash up to $100, paid either way once the bet settles. Missing a day ends the offer. FanCash expires 7 days after issue and its stake is not returned. Rotowire (2026-10-07) says the match is paid only if the bet loses; Fanatics' own terms say either way, and those are recorded. Headline wording from Rotowire and Action Network.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://betfanatics.com/sportsbook/promo-code/1000-fancash",
         "stale": false,
         "states": [
@@ -4995,7 +4995,7 @@
         ]
       },
       {
-        "age_days": 6,
+        "age_days": 0,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 20.0,
@@ -5013,7 +5013,7 @@
         "name": "Fanatics",
         "note": "Fanatics' own page, which lists Michigan. Opt in on the bet slip each day for your first 10 days; your first cash bet of the day, $1 or more at -200 or longer, is matched 100% in FanCash up to $100, paid win or lose once the bet settles (Sportsbook Review's Michigan page, 2026-10-05, which also asks a $10 deposit; Rotowire's 2026-10-05 Michigan article says only if it loses, which Fanatics' own terms, read in an earlier pass of this feed, contradict). A missed day: Fanatics' own page, read in that earlier pass, says it ends the offer; Sportsbook Review's Michigan page says only that day is forfeited. FanCash expires 7 days after issue and its stake is not returned. The page ends the offer at 2:00 a.m. ET on December 2, 2026. The alternative to the $350 FanCash offer; a new account takes one.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-09",
+        "read": "2026-10-15",
         "source": "https://betfanatics.com/sportsbook/promo-code/1000-fancash",
         "stale": false,
         "states": [
@@ -5230,6 +5230,92 @@
         ]
       },
       {
+        "age_days": 0,
+        "book": "dk",
+        "conversion": 0.69,
+        "cost": 0.1,
+        "ended": false,
+        "ends": "2026-11-29",
+        "expected": 137.3025974025974,
+        "expires_days": "7",
+        "face": 200.0,
+        "guaranteed": 137.3025974025974,
+        "headline": "Bet $5, Get $200 in Bonus Bets",
+        "hedge_heat": 0.3,
+        "hedge_stake": 115.0,
+        "ineligible": "",
+        "installments": 4,
+        "name": "DraftKings",
+        "note": "Secondary source: DraftKings' own pages refuse automated reads (403). Action Network (updated 2026-10-13, promo verified 2026-10-14) prints DraftKings' terms: a first deposit, then a first bet of $5 or more at -500 or longer, win or lose. Bonus bets are paid as $50 when that bet settles and $50 every 7 days after, four times, $200 in all (the page's body says 2 x $25 per instalment; its terms say $50, and the terms are used). Bonus bets expire 7 days after issue. Ends 2026-11-29 11:59 PM ET. The offer also includes 3 months of NBA League Pass, which is not priced here: it is not a betting value and renews at $16.99 a month after the 3 months. It replaces Bet $5, Get $150 (ended 2026-10-18). Connecticut, Maine, New Hampshire and Oregon are not on the page's list, so they are left out until a source names them.",
+        "offer_type": "bet_and_get",
+        "read": "2026-10-15",
+        "source": "https://www.actionnetwork.com/online-sports-betting/reviews/draftkings",
+        "stale": false,
+        "states": [
+          "AR",
+          "AZ",
+          "CO",
+          "DC",
+          "IA",
+          "IL",
+          "IN",
+          "KS",
+          "KY",
+          "LA",
+          "MA",
+          "MD",
+          "MO",
+          "NC",
+          "NJ",
+          "NY",
+          "OH",
+          "PA",
+          "TN",
+          "VA",
+          "VT",
+          "WV",
+          "WY"
+        ],
+        "steps": [
+          "Qualify: bet $5 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.10. It is a fee, not a bet.",
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 4 installments.",
+          "Collect: $137.30 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
+        "age_days": 0,
+        "book": "dk",
+        "conversion": 0.69,
+        "cost": 0.1,
+        "ended": false,
+        "ends": "2026-11-29",
+        "expected": 137.3025974025974,
+        "expires_days": "7",
+        "face": 200.0,
+        "guaranteed": 137.3025974025974,
+        "headline": "Bet $5, Get $200 in Bonus Bets",
+        "hedge_heat": 0.3,
+        "hedge_stake": 115.0,
+        "ineligible": "",
+        "installments": 4,
+        "name": "DraftKings",
+        "note": "Secondary source: DraftKings' own pages refuse automated reads (403). Action Network (updated 2026-10-13, promo verified 2026-10-14) prints DraftKings' terms: a first deposit, then a first bet of $5 or more at -500 or longer, win or lose. Bonus bets are paid as $50 when that bet settles and $50 every 7 days after, four times, $200 in all (the page's body says 2 x $25 per instalment; its terms say $50, and the terms are used). Bonus bets expire 7 days after issue. Ends 2026-11-29 11:59 PM ET. The offer also includes 3 months of NBA League Pass, which is not priced here: it is not a betting value and renews at $16.99 a month after the 3 months. It replaces Bet $5, Get $150 (ended 2026-10-18). Action Network lists Michigan for this same offer.",
+        "offer_type": "bet_and_get",
+        "read": "2026-10-15",
+        "source": "https://www.actionnetwork.com/online-sports-betting/reviews/draftkings",
+        "stale": false,
+        "states": [
+          "MI"
+        ],
+        "steps": [
+          "Qualify: bet $5 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.10. It is a fee, not a bet.",
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 4 installments.",
+          "Collect: $137.30 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
+          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+        ]
+      },
+      {
         "age_days": 8,
         "book": "bet365",
         "conversion": 0.69,
@@ -5302,96 +5388,6 @@
           "Qualify: bet $10 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
           "Convert: place each $200 bonus bet at +300 and hedge $460 cash on the other side at another book. If both bets are accepted and stand, you keep at least $137.40 whichever side wins.",
           "Collect: $137.20 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
-        ]
-      },
-      {
-        "age_days": 8,
-        "book": "dk",
-        "conversion": 0.69,
-        "cost": 0.1,
-        "ended": false,
-        "ends": "2026-10-18",
-        "expected": 102.95194805194805,
-        "expires_days": "7",
-        "face": 150.0,
-        "guaranteed": 102.95194805194805,
-        "headline": "Bet $5, Get $150 in Bonus Bets",
-        "hedge_heat": 0.3,
-        "hedge_stake": 115.0,
-        "ineligible": "",
-        "installments": 3,
-        "name": "DraftKings",
-        "note": "Secondary source: DraftKings' own pages refused the read (403). A $5+ first bet at -500 or longer. Paid as $50 when that bet settles (two $25 bonus bets), then $50 on day 7 and $50 on day 14, each claimed in the app. Each bonus bet expires 7 days after issue. Louisiana is select parishes only. Action Network (read 2026-10-07) agrees but leaves out CT, ME, NH and OR; Sportsbook Review's pages for those four states (2026-08-25 to 2026-09-23) confirm the same offer and give its end as 2026-10-18.",
-        "offer_type": "bet_and_get",
-        "read": "2026-10-07",
-        "source": "https://www.rotowire.com/betting/draftkings",
-        "stale": false,
-        "states": [
-          "AR",
-          "AZ",
-          "CO",
-          "CT",
-          "DC",
-          "IA",
-          "IL",
-          "IN",
-          "KS",
-          "KY",
-          "LA",
-          "MA",
-          "MD",
-          "ME",
-          "MO",
-          "NC",
-          "NH",
-          "NJ",
-          "NY",
-          "OH",
-          "OR",
-          "PA",
-          "TN",
-          "VA",
-          "VT",
-          "WV",
-          "WY"
-        ],
-        "steps": [
-          "Qualify: bet $5 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.10. It is a fee, not a bet.",
-          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 3 installments.",
-          "Collect: $102.95 locked from $150 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
-        ]
-      },
-      {
-        "age_days": 6,
-        "book": "dk",
-        "conversion": 0.69,
-        "cost": 0.1,
-        "ended": false,
-        "ends": "2026-10-18",
-        "expected": 102.95194805194805,
-        "expires_days": "7",
-        "face": 150.0,
-        "guaranteed": 102.95194805194805,
-        "headline": "Bet $5, Get $150 in Bonus Bets",
-        "hedge_heat": 0.3,
-        "hedge_stake": 115.0,
-        "ineligible": "",
-        "installments": 3,
-        "name": "DraftKings",
-        "note": "Secondary source: DraftKings' own pages refused the read (403). Action Network, updated 2026-10-09, quotes DraftKings' terms. A $5+ first deposit and bet at -500 or longer. Paid as $50 when that bet settles (two $25 bonus bets), then $50 on day 7 and $50 on day 14, each claimed in the app; each bonus bet expires 7 days after issue and has a 1x playthrough (Rotowire, promo last verified 2026-10-09). Those terms end the offer 10/18/26 at 11:59 PM ET, as Sportsbook Review's Michigan page (2026-10-05) and Covers' Michigan page (verified 2026-10-09) also print them. Sportsbook Review lists a separate 20% deposit bonus up to $1,000 on an opt-in; that is a deposit match, which this screen does not price. On 2026-10-12 Action Network's page began printing a headline of $200 in Bonus Bets plus three months of NBA League Pass with an end of 11/29/26, while its own title and FAQ still say $150 and it does not reconcile the two; the three other sources above were read earlier and give $150 ending 10/18/26. The $150 offer is the one priced here, and the $200 version is not.",
-        "offer_type": "bet_and_get",
-        "read": "2026-10-09",
-        "source": "https://www.actionnetwork.com/online-sports-betting/reviews/draftkings",
-        "stale": false,
-        "states": [
-          "MI"
-        ],
-        "steps": [
-          "Qualify: bet $5 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.10. It is a fee, not a bet.",
-          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 3 installments.",
-          "Collect: $102.95 locked from $150 face if both bets are accepted and stand, before the bonus expires (7 days).",
           "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
         ]
       },
@@ -5558,12 +5554,12 @@
         ]
       },
       {
-        "age_days": 8,
+        "age_days": 0,
         "book": "bally",
         "conversion": 0.69,
         "cost": 0.2,
         "ended": false,
-        "ends": "",
+        "ends": "2026-12-31",
         "expected": 29.8,
         "expires_days": "7",
         "face": 50.0,
@@ -5574,9 +5570,9 @@
         "ineligible": "",
         "installments": 2,
         "name": "Bally Bet",
-        "note": "Bally Bet's own terms (Bet $10+, Get $50). A $10+ first bet at -250 or longer, settled within 28 days of registering. Bonus bet tokens arrive within 48 hours of it grading as a win or a loss and expire 7 days after issue. The split into two $25 bonus bets is from Top End Sports; Bally's own terms do not state it.",
+        "note": "Bally Bet's own terms (Bet $10+, Get $50), re-read 2026-10-15: the promotional period ends 2026-12-31, and Illinois is not on the eligible list though Bally takes bets there. A $10+ first bet at -250 or longer, settled within 28 days of registering. Bonus bet tokens arrive within 48 hours of it grading as a win or a loss and expire 7 days after issue. The split into two $25 bonus bets is from Top End Sports; Bally's own terms do not state it.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://www.ballybet.com/promotions",
         "stale": false,
         "states": [
@@ -5645,7 +5641,7 @@
         ]
       },
       {
-        "age_days": 8,
+        "age_days": 0,
         "book": "thescore",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5661,10 +5657,10 @@
         "ineligible": "",
         "installments": 1,
         "name": "theScore Bet",
-        "note": "Secondary source. A $10 minimum deposit and a first bet of $10 or more. If it loses, the stake comes back in bonus bets, up to $1,000, as five tokens of 20% each. Action Network (2026-10-07) lists the same offer for these states except New York, which Sportsbook Review's New York page (2026-10-07) confirms. The 7-day expiry is from Sportsbook Review's Massachusetts page alone. NJ, PA and WV get a different offer that pays only if the first bet wins, which is not listed here. Michigan's is its own row.",
+        "note": "Action Network's theScore Bet review (updated and verified 2026-10-14) lists Bet Reset up to $1,000 for these states, not New York: a $10 minimum deposit, then the first cash bet; if it loses, the stake comes back as five bonus bets of 20% each, up to $1,000. Secondary source. A $10 minimum deposit and a first bet of $10 or more. If it loses, the stake comes back in bonus bets, up to $1,000, as five tokens of 20% each. Action Network (2026-10-07) lists the same offer for these states except New York, which Sportsbook Review's New York page (2026-10-07) confirms. The 7-day expiry is from Sportsbook Review's Massachusetts page alone. NJ, PA and WV get a different offer that pays only if the first bet wins, which is not listed here. Michigan's is its own row.",
         "offer_type": "safety_net",
-        "read": "2026-10-07",
-        "source": "https://www.rotowire.com/betting/thescore-bet",
+        "read": "2026-10-15",
+        "source": "https://www.actionnetwork.com/online-sports-betting/reviews/thescore-bet",
         "stale": false,
         "states": [
           "AZ",
@@ -5679,7 +5675,6 @@
           "MD",
           "MO",
           "NC",
-          "NY",
           "OH",
           "TN",
           "VA"
@@ -5789,7 +5784,7 @@
         ]
       },
       {
-        "age_days": 8,
+        "age_days": 0,
         "book": "hardrock",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5807,7 +5802,7 @@
         "name": "Hard Rock Bet",
         "note": "Hard Rock Bet's own page. A $5+ cash bet on any market at -500 or longer unlocks ten No Sweat Bet tokens, one a day for ten consecutive days. Each covers one cash bet up to $50; if it loses, a bonus bet equal to the stake is paid. A token expires at 11:59pm on its day of issue; bonus bets expire 7 days after issue. Runs 2026-10-05 to 2026-12-31. Florida is run under the Seminole Tribe.",
         "offer_type": "safety_net",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://www.hardrock.bet/promo-code/",
         "stale": false,
         "states": [
@@ -5829,7 +5824,7 @@
         ]
       },
       {
-        "age_days": 6,
+        "age_days": 0,
         "book": "hardrock",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5847,8 +5842,8 @@
         "name": "Hard Rock Bet",
         "note": "Hard Rock Bet's own Michigan page ('MI Sportsbook Bonus: Bet $5, Get up to $500 in No Sweat Bets!'). A $5+ cash bet on any market at -500 or longer unlocks ten No Sweat Bet tokens, one a day for ten consecutive days. Each covers one cash bet up to $50; if it loses, a bonus bet equal to the stake is paid. A token expires at 11:59 p.m. on its day of issue; bonus bets expire 7 days after issue. Bets made with bonus bets, on boosts or round robins, or settled with early cash out do not qualify. Runs 2026-10-05 to 2026-12-31. Hard Rock Bet uses no promo code. It has run Island Resort & Casino's sportsbook since 2025-12-02.",
         "offer_type": "safety_net",
-        "read": "2026-10-09",
-        "source": "https://www.hardrock.bet/sportsbook/michigan/",
+        "read": "2026-10-15",
+        "source": "https://www.hardrock.bet/promo-code/",
         "stale": false,
         "states": [
           "MI"
@@ -5912,7 +5907,7 @@
         ]
       },
       {
-        "age_days": 8,
+        "age_days": 0,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5930,7 +5925,7 @@
         "name": "Fanatics",
         "note": "Secondary source. New York only. Ten 100% profit boost tokens on opening a verified account, $25 maximum stake each at -500 or longer, expiring at 11:59pm ET on the 7th day after issue. The alternative to the FanCash match in New York; a new account takes one.",
         "offer_type": "profit_boost",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/fanatics",
         "stale": false,
         "states": [
@@ -6152,7 +6147,7 @@
         ]
       },
       {
-        "age_days": 6,
+        "age_days": 0,
         "book": "mgm",
         "conversion": 0.69,
         "cost": 0.2,
@@ -6170,8 +6165,8 @@
         "name": "BetMGM",
         "note": "Secondary source: BetMGM's own Michigan promotions page loads as a script shell with no readable terms. Paid only if the first bet, $10 or more, WINS; nothing is paid if it loses. Rotowire (promo last verified 2026-10-09), Action Network (updated 2026-10-06), Sportsbook Review's Michigan page (2026-10-05) and Covers' Michigan page (verified 2026-10-09) agree, and name Michigan, New Jersey, Pennsylvania and West Virginia as the states for it; Covers' prose once describes an 'unsuccessful wager', against its own headline and the other four. Bonus bets expire 7 days after issue (Sportsbook Review). The split into six $25 bonus bets is from Covers alone. Rotowire's 2026-10-05 Michigan article says a first bet of $5+; the others say $10. No minimum odds were read.",
         "offer_type": "bet_and_get_on_win",
-        "read": "2026-10-09",
-        "source": "https://www.rotowire.com/betting/betmgm/bonus-code",
+        "read": "2026-10-15",
+        "source": "https://www.actionnetwork.com/online-sports-betting/reviews/betmgm",
         "stale": false,
         "states": [
           "MI"
@@ -6184,7 +6179,7 @@
         ]
       },
       {
-        "age_days": 6,
+        "age_days": 0,
         "book": "thescore",
         "conversion": 0.69,
         "cost": 0.2,
@@ -6202,7 +6197,7 @@
         "name": "theScore Bet",
         "note": "Secondary source: theScore Bet's own site sits behind a Cloudflare check, which was not bypassed. Action Network (updated and verified 2026-10-09) lists this offer for Michigan, New Jersey, Pennsylvania and West Virginia, where the other states get a $1,000 Bet Reset: a first bet of $10 or more must win for the bonus to be credited. WTOP's theScore pages (February 2026, read 2026-10-09) give the same offer for those four states, paid as five $20 bonus bets within 72 hours of the bet settling and used within seven days. The sources disagree about Michigan: Covers' Michigan page (verified 2026-10-09), Sportsbook Review's (2026-10-05) and Rotowire's (promo last verified 2026-10-09) show the $1,000 Bet Reset for it, and Action Network says the offer shown 'can depend on your state and when you log in'. This one is recorded because Action Network and WTOP set Michigan apart by name. No minimum odds were read.",
         "offer_type": "bet_and_get_on_win",
-        "read": "2026-10-09",
+        "read": "2026-10-15",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/thescore-bet",
         "stale": false,
         "states": [
@@ -6218,6 +6213,21 @@
     ]
   },
   "whatsnew": [
+    {
+      "date": "2026-10-15",
+      "notes": [
+        {
+          "text": "DraftKings' welcome offer is now Bet $5, Get $200 in Bonus Bets, paid as four $50 bonus bets over 21 days, win or lose, until 2026-11-29. It replaces the $150 offer that ended 2026-10-18.",
+          "where": "Promos"
+        },
+        {
+          "text": "theScore Bet, Hard Rock Bet, Fanatics and BetMGM's Michigan offer were read again and are unchanged. theScore's Bet Reset no longer lists New York, so New York is left off it.",
+          "where": "Promos"
+        }
+      ],
+      "title": "DraftKings' new offer, and sign-up offers read again",
+      "version": "0.1.33"
+    },
     {
       "date": "2026-10-14",
       "notes": [
@@ -6318,21 +6328,6 @@
       ],
       "title": "Only sportsbooks licensed in your state",
       "version": "0.1.26"
-    },
-    {
-      "date": "2026-10-13",
-      "notes": [
-        {
-          "text": "Choose the books you trust to set the true price, Pinnacle and BetOnline to start, and weight each from 0 to 10. Every +EV bet is then judged against a blend of just those books, and the book you would bet at never counts toward its own price.",
-          "where": "Arbitrage"
-        },
-        {
-          "text": "A threshold from Any book to All books hides a bet until enough of your formula's weight priced it, and a Requires line names the books that must be there. It works on prices already read and spends no credits. Circa and BookMaker are not offered because the odds feed does not carry them.",
-          "where": "Arbitrage"
-        }
-      ],
-      "title": "Your own EV formula",
-      "version": "0.1.25"
     }
   ]
 }

@@ -1616,7 +1616,8 @@ def check_site_names_the_newest_release(pages, fails: list[str], app_repo: Path)
     newest = render.read_whats_new(app_repo, 1)[0]
     how = dict(pages).get("how-it-works/index.html", "")
     if (f'data-newest="{newest["version"]}"' not in how
-            or (html.escape(newest["title"], quote=False) not in how and newest["title"] not in how)):
+            or not any(t in how for t in {newest["title"], html.escape(newest["title"]),
+                                          html.escape(newest["title"], quote=False)})):
         fails.append(f"how-it-works/index.html: does not name the app's newest release, {newest['version']} "
                      f"({newest['title']!r}); render again from the app repo")
 
