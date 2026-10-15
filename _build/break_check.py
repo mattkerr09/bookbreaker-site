@@ -74,8 +74,9 @@ CASES = [
         "a competitor's price with the date stripped",
         "check_competitor_claims",
         "vs/index.html",
-        "read 2026-08-17",
-        "read recently",
+        # AVO's row (a per-month price the claims check reads as one). Moves when AVO is re-read, every 75 days at most.
+        '<td>70+ sportsbooks</td><td>read 2026-10-14, ',
+        '<td>70+ sportsbooks</td><td>read recently, ',
     ),
     (
         "a competitor claim with no source link",
