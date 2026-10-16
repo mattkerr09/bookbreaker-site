@@ -1323,6 +1323,82 @@ def measure(engine) -> dict:
                 + "".join(f"<tr><td>{a}</td><td>{b}</td></tr>" for a, b in rows)
                 + "</table>")
 
+    def novig_worked(dv):
+        from overlay_engine.odds import decimal_to_american
+        fav, dog = (int(x) for x in dv["market"].replace("+", "").split(" / "))
+        df, dd = american_to_decimal(fav), american_to_decimal(dog)
+        pf, pd_ = decimal_to_prob(df), decimal_to_prob(dd)
+        total = pf + pd_
+        fair_dec = 100 / dv["consensus"]
+        return (
+            "<h2>Taking the margin out by hand</h2>"
+            f"<p>The favourite at {fav:+d} is {df:.4f} in decimal and implies {pf:.2%}. The other side at {dog:+d} "
+            f"is {dd:.4f} and implies {pd_:.2%}. Together that is {total:.2%}; the {total - 1:.2%} over a whole is "
+            "the margin.</p>"
+            f"<p>The multiplicative method scales each side down by the total: {pf:.2%} over {total:.4f} is "
+            f"{pf / total:.2%}. The additive method takes an equal share of the excess off each side instead: "
+            f"{pf:.2%} less half of {total - 1:.2%} is {pf - (total - 1) / 2:.2%}. Power and Shin lean the cut "
+            "toward the longshot, where books tend to take more.</p>"
+            f"<p>The consensus of the four, {dv['consensus']:.2f}%, is a fair decimal price of {fair_dec:.3f}, or "
+            f"{decimal_to_american(fair_dec):+.0f}. A book offering the favourite at better than that is paying "
+            "above fair; one offering worse is charging for it.</p>"
+            "<h2>When to devig</h2>"
+            "<p>Before judging any price as good or bad. Raw implied probabilities include the margin and make "
+            "every bet look worse, or a soft price look like an edge it is not.</p>"
+            "<p>On a sharp book's market, to get the fair probability that the <a "
+            "href=\"/calculators/expected-value/\">expected value</a> and <a href=\"/calculators/kelly/\">Kelly"
+            "</a> calculators need.</p>"
+            "<p>When the four methods disagree by more than the edge you think you have. Then the edge is a "
+            "matter of method, not of price.</p>")
+
+    def arb_worked(a):
+        d1 = american_to_decimal(int(a["legs"][0]))
+        d2 = american_to_decimal(int(a["legs"][1]))
+        p1, p2 = decimal_to_prob(d1), decimal_to_prob(d2)
+        s1, s2 = a["exact_stakes"]
+        r1, r2 = a["round_stakes"]
+        rt = r1 + r2
+        return (
+            "<h2>Finding and sizing it by hand</h2>"
+            f"<p>{e(a['legs'][0])} is {d1:.2f} in decimal and implies {p1:.2%}; {e(a['legs'][1])} is {d2:.2f} and "
+            f"implies {p2:.2%}. Together that is {p1 + p2:.2%}, under a whole, so the pair is an arbitrage: one "
+            f"over {p1 + p2:.4f}, less one, is the {a['margin']:.2f}% margin.</p>"
+            f"<p>Split the {a['total']:,} in proportion to those probabilities: {p1:.2%} over {p1 + p2:.2%} of it "
+            f"is {s1:,.2f} on the first leg and the rest, {s2:,.2f}, on the second. Either way the return is "
+            f"{a['total'] + a['exact_profit']:,.2f}, which is {a['exact_profit']:,.2f} over the stake.</p>"
+            f"<p>Rounded to {r1:,} and {r2:,}, {rt:,} goes down. The first leg would return {r1 * d1:,.2f} and the "
+            f"second {r2 * d2:,.2f}, so the worse of the two, {min(r1 * d1, r2 * d2) - rt:,.2f}, is what is "
+            "locked.</p>"
+            "<h2>When an arbitrage is worth taking</h2>"
+            "<p>Only when both bets can be placed at the prices shown. Prices move in seconds; if the second "
+            "leg is gone by the time you get to it, you hold one bet, not an arbitrage.</p>"
+            "<p>Only when both bets will stand. A book that voids one leg as a palpable error leaves the other "
+            "exposed, so check the rules on obvious mistakes before betting a price far from the market.</p>"
+            "<p>With round stakes. The <a href=\"/account-longevity/\">account longevity</a> page explains why "
+            "a stake to the cent draws attention.</p>")
+
+    def match_worked(mt):
+        turnover = mt["rollover"] * (mt["deposit"] + mt["bonus"])
+        open_cost = mt["bonus"] - mt["open_net"]
+        shut_cost = mt["bonus"] - mt["shut_net"]
+        return (
+            "<h2>The arithmetic behind both rows</h2>"
+            f"<p>In this offer the rollover is counted on the deposit and the bonus together: {mt['rollover']} times "
+            f"${mt['deposit'] + mt['bonus']:,} is ${turnover:,} that has to be bet before a withdrawal.</p>"
+            f"<p>Every dollar through costs the hold of the market it goes through. On moneylines at "
+            f"{mt['open_hold']:.2f}% that is ${open_cost:,.2f} of expected cost against a ${mt['bonus']:,} bonus, "
+            f"leaving ${mt['open_net']:,.2f}. On props at {mt['shut_hold']:.2f}% it is ${shut_cost:,.2f}, "
+            f"more than the bonus, a loss of ${-mt['shut_net']:,.2f}.</p>"
+            f"<p>Break-even is the bonus over the turnover: ${mt['bonus']:,} over ${turnover:,} is "
+            f"{mt['bonus'] / turnover:.1%}. Any market holding less than that leaves the bonus worth something.</p>"
+            "<h2>When to work a deposit match through</h2>"
+            "<p>Before you deposit, not after. The terms that decide it are the rollover multiple, what it is "
+            "counted on, and which markets count towards it.</p>"
+            "<p>When choosing between two offers. A smaller match with an easy rollover can be worth more than "
+            "a big one that forces you through props or parlays.</p>"
+            "<p>When you can bet both sides across books. A <a href=\"/calculators/low-hold/\">low-hold "
+            "pair</a> churns the rollover for less than any single book's hold.</p>")
+
     calc: dict[str, dict] = {}
     d = out["devig"]
     calc["no-vig-odds"] = {"body": (
@@ -1331,7 +1407,8 @@ def measure(engine) -> dict:
         + table([(m_, f"{v:.2f}%") for m_, v in sorted(d["methods"].items())])
         + f"<p>Consensus {d['consensus']:.2f}%, and the four methods disagree "
         f"by {d['spread']:.2f} points. Every other no-vig calculator returns "
-        "one number.</p>")}
+        "one number.</p>"
+        + novig_worked(d))}
 
 
     def roundrobin_worked(rr):
@@ -1575,7 +1652,8 @@ def measure(engine) -> dict:
                  ("Cost of rounding", f"{a['rounding_cost']:,.2f}")])
         + "<p>A stake to the cent is the loudest fingerprint a risk desk "
         "reads. This solves for round stakes directly, because rounding a "
-        "lock afterwards breaks it.</p>")}
+        "lock afterwards breaks it.</p>"
+        + arb_worked(a))}
 
     def clv_worked(bet, close, other):
         from overlay_engine.clv import closing_fair
@@ -1863,7 +1941,8 @@ def measure(engine) -> dict:
     + f"<tr><td>Props only</td><td>{m['match']['shut_hold']:.2f}%</td><td>${m['match']['shut_net']:.2f}</td><td>{m['match']['shut_margin']:.2f}%</td></tr>"
     + "</table>"
     + f"<p>Same headline, same deposit, same rollover, and a swing of ${m['match']['swing']:.2f} between them. The market restriction is the offer. The bonus figure is packaging.</p>"
-    + f"<p>Competitors print one number to two decimals as though it were measured, then bury the eligible-markets line. Where terms push churn into parlays the cost climbs again; our parlay hold prior of {m['match']['prior_parlay']:.1f}% is a prior, not a measurement, and it is deliberately excluded from the table above.</p>")}
+    + f"<p>Competitors print one number to two decimals as though it were measured, then bury the eligible-markets line. Where terms push churn into parlays the cost climbs again; our parlay hold prior of {m['match']['prior_parlay']:.1f}% is a prior, not a measurement, and it is deliberately excluded from the table above.</p>"
+    + match_worked(m['match']))}
 
     calc["effective-bets"] = {"body": (
     "<p>Stake spread across correlated bets is not spread. Effective bets is the count a book is really holding: n divided by one plus n minus one times rho, where rho is the average pairwise correlation between positions. Independent bets give n_eff equal to n. Everything else gives less.</p>"
