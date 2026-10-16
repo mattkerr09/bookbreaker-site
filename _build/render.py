@@ -1399,6 +1399,50 @@ def measure(engine) -> dict:
             "<p>When you can bet both sides across books. A <a href=\"/calculators/low-hold/\">low-hold "
             "pair</a> churns the rollover for less than any single book's hold.</p>")
 
+    def dutch_worked(du):
+        prices = [int(r["american"]) for r in du["rows"]]
+        decs = [american_to_decimal(a) for a in prices]
+        probs = [decimal_to_prob(x) for x in decs]
+        total_p = sum(probs)
+        step_rows = "".join(
+            f"<tr><td>{a:+d}</td><td>{x:.2f}</td><td>{q:.2%}</td><td>{q / total_p:.2%}</td></tr>"
+            for a, x, q in zip(prices, decs, probs))
+        sub = prices[1:]
+        sub_p = probs[1:]
+        sub_total = sum(sub_p)
+        pot = 100
+        sub_stakes = [pot * q / sub_total for q in sub_p]
+        sub_return = pot / sub_total
+        target = 50
+        target_pot = target * sub_total / (1 - sub_total)
+        return (
+            "<h2>How the stakes are found</h2>"
+            "<p>Each stake is the pot times that outcome's implied probability, divided by the implied "
+            "probabilities added together. Done by hand for the three prices above, the share column times "
+            f"the {du['total']:,} pot gives the stakes in the first table:</p>"
+            "<table><tr><th>Price</th><th>Decimal</th><th>Implied</th><th>Share of the pot</th></tr>"
+            + step_rows + "</table>"
+            f"<p>The implied column adds to {total_p:.2%}. Every outcome returns the pot over that total: "
+            f"{du['total']:,} over {total_p:.4f} is {du['returns']:,.2f}.</p>"
+            "<h2>Dutching some of the outcomes</h2>"
+            f"<p>Covering every outcome of a market only pays the margin. The use is in covering the ones you "
+            f"like and leaving the rest. Take just {sub[0]:+d} and {sub[1]:+d} with ${pot}: their implied "
+            f"probabilities add to {sub_total:.2%}, so the stakes are ${sub_stakes[0]:,.2f} and "
+            f"${sub_stakes[1]:,.2f}, and either one winning returns ${sub_return:,.2f}, "
+            f"{sub_return - pot:+,.2f}. If {prices[0]:+d} wins instead, the ${pot} is lost.</p>"
+            f"<p>The bet is worth making only if you think the two together win more often than "
+            f"{sub_total:.2%}. That figure is the whole decision, and it comes straight from the prices.</p>"
+            "<h2>Dutching to a target profit</h2>"
+            f"<p>To win ${target} whichever of the two lands, solve for the pot: the profit is the pot over "
+            f"{sub_total:.4f} less the pot, so the pot is {target} times {sub_total:.4f} over "
+            f"{1 - sub_total:.4f}, which is ${target_pot:,.2f}. Split it by the same shares.</p>"
+            "<h2>When dutching fits</h2>"
+            "<p>In markets with many runners, such as a horse race, a golf tournament or a correct score, where "
+            "you can narrow the winner to a few without knowing which.</p>"
+            "<p>When you want one result from several picks rather than a spread of results.</p>"
+            "<p>Against the best price on each outcome. Dutching across books at the best price on each lowers "
+            "the implied total, and if it ever falls below a whole across every outcome, the dutch is an "
+            "<a href=\"/calculators/arbitrage/\">arbitrage</a>.</p>")
     calc: dict[str, dict] = {}
     d = out["devig"]
     calc["no-vig-odds"] = {"body": (
@@ -1918,7 +1962,8 @@ def measure(engine) -> dict:
         "you already hold (that the winner is somewhere inside this set) "
         "at a known cost. It is not a way of manufacturing an edge. "
         "A dutch across outcomes you have no opinion about is a slow donation "
-        "at a rate you can compute in advance.</p>")}
+        "at a rate you can compute in advance.</p>"
+        + dutch_worked(du))}
 
     calc["parlay"] = {"body": (
     "<p>A parlay pays the product of its legs. It compounds the margin on each of them too.</p>"
