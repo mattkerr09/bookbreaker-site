@@ -1439,6 +1439,87 @@ def measure(engine) -> dict:
         "than the friendliest. Overestimating an edge costs far more than "
         "underestimating it.</p>")}
 
+    def hold_worked():
+        d = american_to_decimal(-110)
+        stake, win = 110, 100
+        keep = 2 * stake - (stake + win)
+        markets = [("-110 / -110", (-110, -110)), ("-105 / -115", (-105, -115)),
+                   ("-105 / -105", (-105, -105)), ("+100 / -120", (100, -120))]
+        rows = "".join(
+            f"<tr><td>{e(name)}</td><td>{overround([american_to_decimal(a) for a in pair]):.2%}</td>"
+            f"<td>{hold([american_to_decimal(a) for a in pair]):.2%}</td></tr>" for name, pair in markets)
+        return (
+            "<h2>Working it through</h2>"
+            f"<p>Take the -110 / -110 market one step at a time. Each -110 is a decimal price of {d:.4f}, so each "
+            f"side implies {decimal_to_prob(d):.2%}. Together they come to {overround([d, d]):.2%}, more than the "
+            "whole of what can happen, and the excess is the book's margin. Hold turns that into a share of the "
+            f"money bet: one minus one over the total, which is {hold([d, d]):.2%}.</p>"
+            f"<p>The same thing in dollars. Someone stakes ${stake} on each side to win ${win}. The book takes in "
+            f"${2 * stake} and pays back ${stake + win} whichever side wins, so it keeps ${keep}: "
+            f"{keep / (2 * stake):.2%} of the ${2 * stake} it took.</p>"
+            "<p>Four ways one game can be priced:</p>"
+            "<table><tr><th>Prices</th><th>Implied total</th><th>Hold</th></tr>" + rows + "</table>"
+            "<p>Shading one side, as in -105 / -115, barely moves the hold. Cutting the juice on both "
+            "sides is what lowers it.</p>"
+            "<h2>When the hold matters</h2>"
+            "<p>Before you bet a side, check what the market charges. The hold is what the price costs you on "
+            "average, and a pick has to beat it before it earns anything.</p>"
+            "<p>Across books on the same game, the one with the lower hold hands back more of each dollar, so "
+            "it is the first place to look for either side.</p>"
+            "<p>To find a pair worth acting on, take the best price on each side from different books and work "
+            "out the hold of that pair. Below zero is an arbitrage; just above zero is a low-hold pair, which "
+            "the <a href=\"/calculators/low-hold/\">low-hold calculator</a> works through.</p>")
+
+    def breakeven_worked():
+        short, long_ = -150, 150
+        ds, dl = american_to_decimal(short), american_to_decimal(long_)
+        risk, win, n = 150, 100, 100
+        need = breakeven_prob(ds) * n
+        under, over = 58, 62
+        net_under = under * win - (n - under) * risk
+        net_over = over * win - (n - over) * risk
+        return (
+            "<h2>A short price, step by step</h2>"
+            f"<p>At {short:+d} you risk ${risk} to win ${win}. The decimal price is {ds:.4f}, and the break-even "
+            f"win rate is one over that, {breakeven_prob(ds):.2%}. Over {n} bets of ${risk} that means "
+            f"{need:.0f} wins just to finish level.</p>"
+            f"<p>Miss by a little and it shows. With {under} wins the record reads {under / n:.0%}, which sounds "
+            f"good, and the account is down ${-net_under:,}. With {over} wins it is up ${net_over:,}.</p>"
+            f"<p>The long side runs the other way: {long_:+d} is {dl:.4f} in decimal and needs only "
+            f"{breakeven_prob(dl):.2%}, so a bettor can lose most of those bets and still come out ahead.</p>"
+            "<h2>When you need the number</h2>"
+            "<p>Before a heavy favourite or a short-priced prop, see how often it has to land. Short prices "
+            "feel safe, and the hit rate they need is easy to underestimate.</p>"
+            "<p>Against a record, a win rate on its own says nothing. Put it beside the break-even of the prices "
+            "actually taken: a tipster who hits most of their picks at short odds can still be losing.</p>"
+            "<p>With a fair price, a bet is worth taking when the fair probability from a devigged sharp market is "
+            "above the break-even of the price on offer. The <a href=\"/calculators/no-vig-odds/\">no-vig "
+            "calculator</a> gives the first number and this page gives the second.</p>")
+
+    def converter_worked():
+        from overlay_engine.odds import decimal_to_american
+        plus, minus, dec = 150, -200, 1.8
+        dp, dm = american_to_decimal(plus), american_to_decimal(minus)
+        d110 = american_to_decimal(-110)
+        return (
+            "<h2>Converting by hand</h2>"
+            f"<p>A plus price is what a $100 stake wins. {plus:+d} wins ${plus}, so the decimal price, which counts "
+            f"the stake coming back, is one plus {plus} over 100: {dp:.3f}. The implied probability is one over "
+            f"that, {decimal_to_prob(dp):.2%}.</p>"
+            f"<p>A minus price is what you stake to win $100. {minus:+d} means ${-minus} to win $100, so the "
+            f"decimal price is one plus 100 over {-minus}: {dm:.3f}, and the implied probability is "
+            f"{decimal_to_prob(dm):.2%}.</p>"
+            f"<p>Going back from decimal: below 2.0 the American price is minus 100 over the decimal less one, "
+            f"so {dec:.2f} becomes {decimal_to_american(dec):+.0f}. At 2.0 or above it is 100 times the decimal "
+            f"less one.</p>"
+            "<h2>When converting helps</h2>"
+            "<p>When an exchange or an overseas book quotes decimal and you think in American, or the reverse.</p>"
+            "<p>When comparing one line across books. Decimal prices compare in proportion, so the gap between "
+            "two quotes is plain to see in a way minus and plus signs hide.</p>"
+            "<p>Before devigging, convert both sides. Their implied numbers include the margin: -110 on both "
+            f"sides adds to {overround([d110, d110]):.2%}, and the <a href=\"/calculators/no-vig-odds/\">no-vig "
+            "calculator</a> takes the margin out.</p>")
+
     juiced_american = (-110, -110)
     juiced = [american_to_decimal(a) for a in juiced_american]
     calc["hold"] = {"body": (
@@ -1447,7 +1528,8 @@ def measure(engine) -> dict:
                  ("Hold", f"{hold(juiced):.2%}")])
         + f"<p>Hold is {hold(juiced):.2%}, not {overround(juiced) - 1:.2%}. "
         "The book's take is measured against the money bet, and reporting the "
-        "overround excess overstates every book's margin.</p>")}
+        "overround excess overstates every book's margin.</p>"
+        + hold_worked())}
 
     ladder = out["conversion"]["ladder"]
     calc["bonus-bet-conversion"] = {"body": (
@@ -1487,7 +1569,8 @@ def measure(engine) -> dict:
         + "</table><p>The implied column is vig-inclusive: it is what the "
         "price asserts, not a fair probability. Calling it one without "
         "devigging first is the most common way to invent an edge that is not "
-        "there.</p>")}
+        "there.</p>"
+        + converter_worked())}
 
     calc["breakeven"] = {"body": (
         "<p>What each price needs you to hit:</p>"
@@ -1496,7 +1579,8 @@ def measure(engine) -> dict:
                   f"<td>{breakeven_prob(american_to_decimal(v)):.2%}</td></tr>"
                   for v in price_ladder)
         + "</table><p>-110 both ways needs 52.38%, which is why a 50% bettor "
-        "loses steadily and a 53% one does not.</p>")}
+        "loses steadily and a 53% one does not.</p>"
+        + breakeven_worked())}
 
     clv_bet, clv_close = 110, -105
     calc["closing-line-value"] = {"body": (
