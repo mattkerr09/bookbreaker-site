@@ -2422,12 +2422,12 @@ ONWARD = {
         ("/offers/", "Sign-up offers, ranked by what they are worth")],
     "/for/new-bettors/": [
         ("/calculators/odds-converter/", "How to read American odds"),
-        ("/guides/what-does-plus-ev-mean/", "What +EV means")],
+        ("/calculators/expected-value/", "What +EV means")],
     "/how-it-works/": [
         ("/what-your-record-proves/", "What your record proves"),
         ("/calculators/", "Every calculator, worked on real prices")],
     "/offers/": [
-        ("/guides/how-to-convert-a-bonus-bet/", "How to convert a bonus bet"),
+        ("/calculators/bonus-bet-conversion/", "How to convert a bonus bet"),
         ("/guides/which-welcome-offer-to-do-first/", "Which welcome offer to do first"),
         ("/promo-codes/michigan/", "Michigan promo codes, priced")],
     "/vs/": [
@@ -2456,18 +2456,14 @@ LONGER_TITLES = {
     "/guides/nfl-key-numbers/": "NFL key numbers: how often games land on 3 and 7",
     "/best/best-bet-tracker/": "Best bet tracker: what to look for, compared",
     "/guides/how-to-line-shop/": "How to line shop: find the best price for every bet",
-    "/guides/how-to-hedge-a-bet/": "How to hedge a bet, with the stakes worked out",
-    "/guides/what-is-a-middle-bet/": "What is a middle bet, and how both sides can win",
     "/how-we-are-paid/": "How Bookbreaker is paid, and what payment never changes",
     "/terms/": "Bookbreaker terms of use: a free betting analysis tool",
     "/best/best-ev-betting-software/": "Best +EV betting software: what to look for",
     "/guides/what-is-a-push-in-betting/": "What is a push in betting, and what happens to your stake",
     "/guides/what-is-a-round-robin-bet/": "What is a round robin bet, and what it costs",
     "/guides/what-is-a-no-sweat-bet-worth/": "What is a no-sweat bet worth, with the numbers worked through",
-    "/guides/what-is-closing-line-value/": "What is closing line value, and why it beats profit as evidence",
     "/guides/how-to-grade-your-own-bets/": "How to grade your own bets without inflating your record",
     "/guides/what-is-a-sharp-sportsbook/": "What is a sharp sportsbook, and why its prices count as evidence",
-    "/guides/what-does-plus-ev-mean/": "What does +EV mean in betting, with the math shown",
     "/guides/how-to-avoid-getting-limited/": "How to avoid getting limited by a sportsbook",
     "/guides/what-is-a-deposit-match-worth/": "What is a deposit match worth after the rollover",
     "/guides/what-is-arbitrage-betting/": "What is arbitrage betting, and when the profit is locked",
@@ -3549,7 +3545,7 @@ default rather than showing them and hoping you notice.</p>
 tennis outright. So it is measured. Every graded bet feeds a comparison of
 which method predicted the closing line. The weights update only if the new
 ones beat the old ones on a slice of your record they were not fitted on.</p>
-<p><a href="/guides/what-does-plus-ev-mean/">What +EV means &rarr;</a>
+<p><a href="/calculators/expected-value/">What +EV means &rarr;</a>
 &nbsp;&middot;&nbsp;<a href="/calculators/no-vig-odds/">How devigging works &rarr;</a></p>
 """,
 
@@ -3574,7 +3570,7 @@ before it happens. So this one tracks what you hold, what it converts
 to, what is expiring, and how much face value has already lapsed unused. That
 last figure is the only one that already happened rather than being a
 forecast.</p>
-<p><a href="/guides/how-to-convert-a-bonus-bet/">How conversion works &rarr;</a></p>
+<p><a href="/calculators/bonus-bet-conversion/">How conversion works &rarr;</a></p>
 """,
 
 "new-bettors": f"""
@@ -3684,7 +3680,7 @@ ones on a slice of the record they were not fitted on.</p>
 <p><strong>A refusal.</strong> Under {ev['floor']} graded bets, the honest
 answer is that nothing can be said. A tool that always has a verdict is not
 measuring anything.</p>
-<p><a href="/guides/what-does-plus-ev-mean/">What +EV means &rarr;</a></p>
+<p><a href="/calculators/expected-value/">What +EV means &rarr;</a></p>
 """,
     }
 
@@ -3745,7 +3741,7 @@ that case at &minus;110.</p>
         ("Chance every ticket loses", f"{m['roundrobin_edge']['lose_all_pct']:.1f}%")])}
 <p>Parlaying edges multiplies them, which is why the round robin's expectation is higher. The price is the
 last row: nearly half the time the whole stake is gone. That is a bankroll question, not a betting one, so
-size it with <a href="/guides/how-to-use-the-kelly-criterion/">fractional Kelly</a>, and only when the edge on
+size it with <a href="/calculators/kelly/">fractional Kelly</a>, and only when the edge on
 each leg is real rather than hoped for. These figures assume the legs are independent; legs from the same game
 are not, and books price that in.</p>
 """,
@@ -3792,42 +3788,7 @@ push is worth</a> shows the same effect on a total.</p>
      f'From the nflverse games file: <a href="{e(load_data("nfl_key_numbers")[0]["source"])}" rel="nofollow" '
      f'data-cite="1">source</a>, read {e(load_data("nfl_key_numbers")[0]["read"])}.'),
 
-"what-is-closing-line-value": f"""
-<p>Closing line value is the difference between the price you took and the
-price the market settled at. Beating the close consistently is the standard
-evidence that an edge is real.</p>
-<p>The reason it matters more than profit is sample size. A 2% edge over 500
-even-money bets has a standard deviation of about 4.5% of turnover, so losing
-months are routine and winning months prove nothing. Here is a real
-{p['n']}-bet record:</p>
-<p class="figure">{e(p['verdict'])}</p>
-<p>That is {p['profit']:+,} in profit and it still cannot be distinguished from
-break-even. Waiting for profit to confirm a model means waiting years; adjusting
-on early profit means fitting noise. CLV converges far faster, which is why it
-is what this engine calibrates on rather than merely displays.</p>
-<p>One catch: grade against the <em>devigged</em> closing price, not the raw
-one. Comparing two vigged prices overstates your edge, by about the closing margin.
-<a href="/calculators/closing-line-value/">The arithmetic &rarr;</a></p>
-""",
 
-"how-to-convert-a-bonus-bet": f"""
-<p>A bonus bet does not return its stake. Win a {conv['bonus']:,} bonus at even
-money and you collect {conv['bonus']:,}, not {conv['doubled']:,}. Bet
-naively, it is worth about half its face value.</p>
-<p>Converting means hedging. Put the bonus on one side and cash on the other,
-so you keep a set amount whichever way it lands, if both bets are accepted and stand. Longer odds convert
-better, because you are not risking the stake:</p>
-<table>
-<tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Locked if both stand</th><th>Rate</th></tr>
-{"".join(f"<tr><td>{e(r['free'])}</td><td>{e(r['hedge'])}</td><td>{r['hedge_stake']:,}</td><td>{r['guaranteed']:,}</td><td>{r['rate']:.1f}%</td></tr>" for r in conv['ladder'])}
-</table>
-<p>Every guide stops at &ldquo;convert on a longshot&rdquo;. Look at the hedge
-column: the {conv['ladder'][-1]['rate']:.0f}% plan needs
-{conv['ladder'][-1]['hedge_stake']:,} sitting at a second book. Most people do
-not have that, which makes the honest advice &ldquo;convert at the longest
-price you can actually hedge&rdquo;.
-<a href="/calculators/bonus-bet-conversion/">Run your own number &rarr;</a></p>
-""",
 
 "what-is-arbitrage-betting": f"""
 <p>When two books disagree enough, backing both sides returns more than it
@@ -3850,42 +3811,7 @@ are not symmetric. Solving for round stakes directly gives
 <a href="/calculators/arbitrage/">Stake one &rarr;</a></p>
 """,
 
-"what-does-plus-ev-mean": f"""
-<p>A bet is +EV when the price pays more than the true probability warrants.
-Fair value {d['consensus']:.2f}% against a price implying less means the
-difference is yours, on average, over enough bets.</p>
-<p>&ldquo;On average, over enough bets&rdquo; is doing heavy lifting. Two
-things decide whether a printed +EV number is real:</p>
-<p><strong>Which devig produced it.</strong> The same market reads
-{lo:.2f}% to {hi:.2f}% depending on method. If the edge only survives the
-friendliest one, it is not an edge.</p>
-<p><strong>Whether you can get on.</strong> Expected value you cannot place is
-worth zero. A 6% edge at a book that pulls its price in four seconds is worth
-less than a 3% edge still there when you tap it. So a screen ranked on raw EV
-is ranked partly by how stale its own data is.</p>
-<p><a href="/calculators/expected-value/">Check a price &rarr;</a></p>
-""",
 
-"what-is-a-middle-bet": f"""
-<p>Bet over {mid['cases'][0]['window'].split(' / ')[0]} at one book and under
-{mid['cases'][0]['window'].split(' / ')[1]} at another. If the result lands
-between them, both bets win. Outside, one wins and one loses, so the position
-costs a little. The middle is the payoff.</p>
-<p>Everything hinges on how often the result lands in the window, and this is
-where nearly every tool is casually wrong. Results are not smoothly
-distributed: football margins pile up on 3 and 7 because of how the sport
-scores. Same prices, one point apart:</p>
-<table>
-<tr><th>Window</th><th>Hits</th><th>Break-even</th><th>Expected value</th></tr>
-{"".join(f"<tr><td>{e(r['window'])}</td><td>{r['probability']:.2f}%</td><td>{r['breakeven']:.2f}%</td><td>{r['ev']:+.2f}%</td></tr>" for r in mid['cases'])}
-</table>
-<p>A normal curve prices those identically. The break-even column is the honest
-anchor: arithmetic on the two prices, with no distribution assumed at
-all. The hit rate above comes from counting {mid['games']} games in a
-{e(mid['sample'])} sample, shown as an illustration of the mechanism rather
-than a claim about any league.
-<a href="/calculators/middle/">Price one &rarr;</a></p>
-""",
 
 "how-to-avoid-getting-limited": f"""
 <p>Soft books make money assuming the average customer loses. A consistent
@@ -3912,34 +3838,8 @@ misapplied. <a href="/account-longevity/">The full model &rarr;</a></p>
 """,
 
 
-"how-to-use-the-kelly-criterion": f"""
-<p>Kelly gives the stake that maximises long-run growth <em>given the true
-probability</em>. You do not have the true probability. You have a
-devigged estimate with an error bar.</p>
-<p>That asymmetry decides everything. Betting twice the correct fraction has
-negative growth; betting half has about three-quarters of the growth at a
-quarter of the variance. Overestimating an edge costs far more than
-underestimating it, and devigged estimates are exactly the kind that get
-overestimated.</p>
-<p>So: fractional Kelly, and size on the <em>least</em> favourable devig rather
-than the friendliest. Cap any single bet, whatever the formula says. Kelly
-asks for the same stake on a genuine 30% edge and on a stale line, and the
-cap is what makes the difference survivable.</p>
-<p>One more trap: Kelly assumes bets resolve one at a time. Twelve overs on one
-game script is one undiversified position wearing twelve hats.
-<a href="/calculators/kelly/">Size a bet &rarr;</a></p>
-""",
 
 
-"how-to-hedge-a-bet": f"""
-<p>Hedging means backing the other side of a position you already hold, so the
-result matters less. It is the same arithmetic as an arbitrage, applied after
-the fact rather than looked for.</p>
-<p>The question is always what each result pays. Stake the second leg so both outcomes return the same, and you have turned an open position into a certain one. Stake it lighter, and you have cut the variance while keeping some upside.</p>
-<p>Two things people get wrong. A market's worst case is <em>not</em> the sum
-of its stakes. Bet both sides and one leg always returns. And the outcome you did not bet is invisible in a list built from your own slips. A three-way market where you hold two sides looks fully covered until you count the third result.</p>
-<p><a href="/calculators/arbitrage/">Stake a hedge &rarr;</a></p>
-""",
 
 
 "how-to-track-your-betting-results": f"""
@@ -4123,7 +4023,7 @@ tool reporting this EV as certain is reporting the wrong field.</p>
 heaviest margin, and past some point the extra vig costs more than the extra
 refund frequency earns. The right price is the longest one whose <em>fair</em>
 probability you actually trust.</p>
-<p><a href="/guides/how-to-convert-a-bonus-bet/">What a bonus bet converts at
+<p><a href="/calculators/bonus-bet-conversion/">What a bonus bet converts at
 &rarr;</a></p>
 """,
 
@@ -4324,7 +4224,7 @@ weight with no evidence behind it looks identical to one with evidence.</p>
 <p>Closing line value, not profit. Profit over a few hundred bets is mostly
 variance; CLV resolves on every bet and correlates with the thing you are
 trying to have. It is a supervision signal, not a scoreboard.</p>
-<p><a href="/guides/what-is-closing-line-value/">What CLV is &rarr;</a></p>
+<p><a href="/calculators/closing-line-value/">What CLV is &rarr;</a></p>
 """,
 
 "how-to-grade-your-own-bets": f"""
@@ -4422,7 +4322,7 @@ measured rather than assumed.</p>
 <p>Below either bar the answer is the approximation, labelled as one. A counted
 probability backed by three games in the window is worse than an admitted
 estimate, because it does not announce itself.</p>
-<p><a href="/guides/what-is-a-middle-bet/">Middles in general &rarr;</a></p>
+<p><a href="/calculators/middle/">Middles in general &rarr;</a></p>
 """,
 
 "why-your-worst-case-is-worse-than-it-looks": f"""
@@ -4531,7 +4431,7 @@ refuses to publish a figure that is not.</p>
 <p>The worst method on the table, {e(m['scoring']['worst'])}, still receives {m['scoring']['worst_weight']:.1f}%. That is deliberate. Weights are held above a floor of {m['scoring']['floor']}%, and that floor is a prior: the standing assumption that no method is worthless and that {m['scoring']['bets']} graded bets is not enough evidence to retire one. Nothing sits at the floor in this run. If the standings shift, the weights shift with them, and a method that is down today can come back.</p>
 <h2>Where the choice lives</h2>
 <p>The devig choice can be an input: made once, before there was any evidence, and never revisited by anything the product observes. Here it is an output. Every graded bet re-scores all {m['scoring']['methods']} methods and re-cuts the blend, so the model pricing today's markets is not quite the model that priced the ones before it.</p>
-<p><a href="/guides/what-is-closing-line-value/">Why the closing line is the thing worth scoring against &rarr;</a></p>
+<p><a href="/calculators/closing-line-value/">Why the closing line is the thing worth scoring against &rarr;</a></p>
 """,
 
 "why-a-losing-method-is-demoted-not-deleted": f"""
@@ -4565,7 +4465,7 @@ refuses to publish a figure that is not.</p>
 <p>At or inside {m['holdings']['urgent_days']:.0f} days, while it is still live, the holding is flagged urgent. The flag changes no value in the table. It changes the ordering of your week. A bonus converted at a poor rate today beats one converted at a good rate after the deadline. The alternative is {m['holdings']['lapsed']:.2f}, and any conversion clears that bar. Note that the expired row carries no flag. Urgency is for things that can still be saved.</p>
 <h2>The face amount is never true</h2>
 <p>The headline face amount is the one number about a promotion that is never true. A balance that reads {m['holdings']['face']:,} is worth {m['holdings']['worth']:.2f} while it is live and {m['holdings']['lapsed']:.2f} once it lapses. At no point in its life is it worth {m['holdings']['face']:,}. That is the number in the advertisement and it is the number to leave out of your bankroll. Book the converted figure on the day the credit lands, and put the deadline next to it.</p>
-<p><a href="/guides/how-to-convert-a-bonus-bet/">How to convert a bonus bet &rarr;</a></p>
+<p><a href="/calculators/bonus-bet-conversion/">How to convert a bonus bet &rarr;</a></p>
 """,
 
 "why-a-model-should-forget-old-data": f"""
@@ -4734,11 +4634,9 @@ def app_shot(m: dict, slug: str) -> str:
 PAGE_SHOTS = {
     "/guides/what-is-arbitrage-betting/": "arbitrage",
     "/guides/how-to-stake-an-arbitrage-in-round-numbers/": "arbitrage",
-    "/guides/how-to-use-the-kelly-criterion/": "kelly",
     "/guides/what-is-bankroll-management/": "kelly",
     "/guides/what-is-a-parlay-really-worth/": "parlay",
     "/guides/what-is-a-same-game-parlay-worth/": "parlay",
-    "/guides/what-does-plus-ev-mean/": "board",
     "/guides/how-to-line-shop/": "board",
     "/for/arbitrage-bettors/": "arbitrage",
     "/for/ev-bettors/": "board",
@@ -6495,6 +6393,12 @@ REDIRECTS = [
     ("/guides/how-to-read-american-odds/", "/calculators/odds-converter/"),
     ("/guides/how-to-devig-odds/", "/calculators/no-vig-odds/"),
     ("/guides/what-is-a-low-hold-bet/", "/calculators/low-hold/"),
+    ("/guides/what-is-a-middle-bet/", "/calculators/middle/"),
+    ("/guides/how-to-hedge-a-bet/", "/calculators/hedge/"),
+    ("/guides/what-does-plus-ev-mean/", "/calculators/expected-value/"),
+    ("/guides/how-to-use-the-kelly-criterion/", "/calculators/kelly/"),
+    ("/guides/what-is-closing-line-value/", "/calculators/closing-line-value/"),
+    ("/guides/how-to-convert-a-bonus-bet/", "/calculators/bonus-bet-conversion/"),
 ]
 
 def _offer_step_wording(st: str) -> str:
@@ -6730,7 +6634,7 @@ terms as they were read, including where the sources disagree.</p>
 <h2>Where it stands in {e(name_state)}</h2>
 <p>{standing} {e(book)} {limits}. The full ranking is on <a href="/promo-codes/{promo_slug(code)}/">the {e(name_state)} promo hub</a>.</p>
 {faq_html}
-<p><a href="/guides/how-to-convert-a-bonus-bet/">How to convert a bonus bet &rarr;</a> &nbsp;&middot;&nbsp;
+<p><a href="/calculators/bonus-bet-conversion/">How to convert a bonus bet &rarr;</a> &nbsp;&middot;&nbsp;
 <a href="/calculators/bonus-bet-conversion/">Try your own odds &rarr;</a></p>
 <p class="caveat">Offers change often and differ by state. Read {e(offers[0]['read'])}. Not legal or financial advice.</p>
 """
@@ -6795,7 +6699,7 @@ hold across the best two books. Expectations also rest on those.</p>
 <div class="offer-grid">{''.join(card(o) for o in expected)}</div>
 {missing}
 <p><a href="/offers/">All states and every offer &rarr;</a> &nbsp;&middot;&nbsp;
-<a href="/guides/how-to-convert-a-bonus-bet/">How to convert a bonus bet &rarr;</a> &nbsp;&middot;&nbsp;
+<a href="/calculators/bonus-bet-conversion/">How to convert a bonus bet &rarr;</a> &nbsp;&middot;&nbsp;
 <a href="/sportsbooks/mi/">Which {e(name_state)} books limit winners &rarr;</a></p>
 <p class="caveat">Read from secondary sources because the books' own promotion pages refuse automated readers.
 Offers change often; check the terms for your state before you sign up. Not legal or financial advice.</p>
@@ -7052,10 +6956,7 @@ PAGES = [
 #: slug; titles and questions come from _data/guides.csv, so a renamed guide
 #: renames itself here and a deleted one stops the build.
 LLMS_GUIDES = (
-    "what-does-plus-ev-mean", "what-is-closing-line-value",
-    "what-is-arbitrage-betting", "how-to-stake-an-arbitrage-in-round-numbers",
-    "how-to-use-the-kelly-criterion", "what-is-a-middle-bet",
-    "how-to-convert-a-bonus-bet", "how-old-is-the-price-on-your-screen",
+    "what-is-arbitrage-betting", "how-to-stake-an-arbitrage-in-round-numbers", "how-old-is-the-price-on-your-screen",
     "how-to-avoid-getting-limited",
 )
 
