@@ -501,6 +501,20 @@
     ],
     "floor": 30
   },
+  "feed_budget": {
+    "every": 15,
+    "free": 500,
+    "hist": 60,
+    "hours": 4,
+    "markets": 3,
+    "n_both": 83,
+    "n_us": 166,
+    "one_both": 6,
+    "one_us": 3,
+    "refreshes": 16,
+    "sunday": 96,
+    "sundays": 5
+  },
   "fill": {
     "age": 10.0,
     "edge": 4.0,

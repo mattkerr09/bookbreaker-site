@@ -56,6 +56,22 @@
 
 <p>Feeds are sold on a published latency figure. Several publish none at all. Neither case tells you what the feed does on your markets, in your sports, at the minutes you actually bet.</p>
 <p>The honest way to choose is to record a trial window from every candidate and replay those recordings through the same engine. Same markets, same clock, same decision rules. Only the feed changes. A quoted latency is a claim about the vendor. A replay is a measurement of your book.</p>
+<h2>What to compare first</h2>
+<p>Start with what you can bet. A feed is worth paying for only if it carries the books licensed where you live, on the markets you bet: main lines, alternate lines, player props. Ask for the list by state, not the headline count of bookmakers.</p>
+<p>Then how it charges. Some feeds bill per request, some per object returned, some in credits that depend on what you ask for. The same refresh can cost very different amounts on each.</p>
+<p>Then how fresh it is, and whether it says so: the refresh interval, and a timestamp on each price saying when the feed saw it. The rest of this guide is about why the second matters more than the first.</p>
+<p>Last, history. A feed that sells historical odds lets you replay a trial window before you commit to it.</p>
+<h2>What two public feeds charge</h2>
+<p>Both of these publish their prices. Many odds feeds sell only through a sales call.</p>
+<div class="scroll"><table>
+<tr><th>Feed</th><th>Plans</th><th>How it charges</th><th>Read</th></tr>
+<tr><td>The Odds API</td><td>Free: 500 credits a month. Paid: $30 for 20,000, $59 for 100,000, $119 for 5 million, $249 for 15 million.</td><td>Live odds cost 1 credit per market per region; historical odds 10. Listing sports and events is free.</td><td>read 2026-10-16, <a href="https://the-odds-api.com/liveapi/guides/v4/" rel="nofollow">source</a></td></tr>
+<tr><td>SportsGameOdds</td><td>Free: 2.5k objects a month, 10-minute updates, 9 bookmakers. $99: 100k objects, 3-minute updates, 77 bookmakers. $299: no object cap, sub-minute updates, 82 bookmakers.</td><td>Objects returned per month, with a per-minute request limit.</td><td>read 2026-10-16, <a href="https://sportsgameodds.com/pricing/" rel="nofollow">source</a></td></tr>
+</table></div>
+<h2>A month of credits, worked</h2>
+<p>On a credit feed, one refresh costs the number of markets times the number of regions. Moneylines, spreads and totals for one NFL slate in the US region is 3 markets in one region: 3 credits. Add the EU region, which carries the sharp book a fair price is taken from, and it is 6.</p>
+<p>The free plan's 500 credits a month cover 166 refreshes of the first or 83 of the second. Refreshing every 15 minutes through a 4-hour Sunday window is 16 refreshes and 96 credits, so the free plan covers 5 Sundays like that and nothing else. One historical snapshot of the same request costs 60.</p>
+<p>Do that sum before you pick a plan. Bookbreaker does it beside its refresh button, before anything is fetched.</p>
 <h2>Replay, not datasheets</h2>
 <p>Replay only works if the recordings line up in time. Ours refuses to compare captures whose clocks disagree by more than 120 seconds, because past that you are measuring clock drift and calling it latency. It also applies a stated prior: a latency floor of 2.0 seconds, below which no feed is credited with being faster. That floor is a prior, not a measurement.</p>
 <h2>Why latency decides more than it looks</h2>

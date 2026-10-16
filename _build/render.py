@@ -755,6 +755,21 @@ def measure(engine) -> dict:
                 "if_wins": round(100 * vig_dec - 200, 2)},
     }
 
+    # What one live-odds refresh costs on a credit feed, priced by the app's own rule (markets x regions per league,
+    # the-odds-api.com/liveapi/guides/v4/, read 2026-10-16) before anything is fetched.
+    from overlay_engine import oddsapi as _oa
+    _main = ("h2h", "spreads", "totals")
+    _one = _oa.estimate(sports=["nfl"], regions=["us"], markets=list(_main)).main_total
+    _both = _oa.estimate(sports=["nfl"], regions=["us", "eu"], markets=list(_main)).main_total
+    _every, _hours = 15, 4
+    _refreshes = _hours * 60 // _every
+    out["feed_budget"] = {
+        "free": _oa.FREE_MONTHLY, "markets": len(_main), "one_us": _one, "one_both": _both,
+        "n_us": _oa.budget(_one, None)["refreshes"], "n_both": _oa.budget(_both, None)["refreshes"],
+        "every": _every, "hours": _hours, "refreshes": _refreshes, "sunday": _refreshes * _both,
+        "sundays": _oa.FREE_MONTHLY // (_refreshes * _both), "hist": 10 * _both,
+    }
+
     # Quote age. A screen showing a price is showing a claim about the past,
     # and the floor under that claim is the feed's own latency.
     tau = PRIOR_TAU.get("h2h", PRIOR_TAU["default"])
@@ -4640,6 +4655,22 @@ refuses to publish a figure that is not.</p>
 "how-to-choose-an-odds-feed": f"""
 <p>Feeds are sold on a published latency figure. Several publish none at all. Neither case tells you what the feed does on your markets, in your sports, at the minutes you actually bet.</p>
 <p>The honest way to choose is to record a trial window from every candidate and replay those recordings through the same engine. Same markets, same clock, same decision rules. Only the feed changes. A quoted latency is a claim about the vendor. A replay is a measurement of your book.</p>
+<h2>What to compare first</h2>
+<p>Start with what you can bet. A feed is worth paying for only if it carries the books licensed where you live, on the markets you bet: main lines, alternate lines, player props. Ask for the list by state, not the headline count of bookmakers.</p>
+<p>Then how it charges. Some feeds bill per request, some per object returned, some in credits that depend on what you ask for. The same refresh can cost very different amounts on each.</p>
+<p>Then how fresh it is, and whether it says so: the refresh interval, and a timestamp on each price saying when the feed saw it. The rest of this guide is about why the second matters more than the first.</p>
+<p>Last, history. A feed that sells historical odds lets you replay a trial window before you commit to it.</p>
+<h2>What two public feeds charge</h2>
+<p>Both of these publish their prices. Many odds feeds sell only through a sales call.</p>
+<table>
+<tr><th>Feed</th><th>Plans</th><th>How it charges</th><th>Read</th></tr>
+<tr><td>The Odds API</td><td>Free: 500 credits a month. Paid: $30 for 20,000, $59 for 100,000, $119 for 5 million, $249 for 15 million.</td><td>Live odds cost 1 credit per market per region; historical odds 10. Listing sports and events is free.</td><td>read 2026-10-16, <a href="https://the-odds-api.com/liveapi/guides/v4/" rel="nofollow">source</a></td></tr>
+<tr><td>SportsGameOdds</td><td>Free: 2.5k objects a month, 10-minute updates, 9 bookmakers. $99: 100k objects, 3-minute updates, 77 bookmakers. $299: no object cap, sub-minute updates, 82 bookmakers.</td><td>Objects returned per month, with a per-minute request limit.</td><td>read 2026-10-16, <a href="https://sportsgameodds.com/pricing/" rel="nofollow">source</a></td></tr>
+</table>
+<h2>A month of credits, worked</h2>
+<p>On a credit feed, one refresh costs the number of markets times the number of regions. Moneylines, spreads and totals for one NFL slate in the US region is {m['feed_budget']['markets']} markets in one region: {m['feed_budget']['one_us']} credits. Add the EU region, which carries the sharp book a fair price is taken from, and it is {m['feed_budget']['one_both']}.</p>
+<p>The free plan's {m['feed_budget']['free']} credits a month cover {m['feed_budget']['n_us']} refreshes of the first or {m['feed_budget']['n_both']} of the second. Refreshing every {m['feed_budget']['every']} minutes through a {m['feed_budget']['hours']}-hour Sunday window is {m['feed_budget']['refreshes']} refreshes and {m['feed_budget']['sunday']} credits, so the free plan covers {m['feed_budget']['sundays']} Sundays like that and nothing else. One historical snapshot of the same request costs {m['feed_budget']['hist']}.</p>
+<p>Do that sum before you pick a plan. Bookbreaker does it beside its refresh button, before anything is fetched.</p>
 <h2>Replay, not datasheets</h2>
 <p>Replay only works if the recordings line up in time. Ours refuses to compare captures whose clocks disagree by more than {m['replay']['max_skew']} seconds, because past that you are measuring clock drift and calling it latency. It also applies a stated prior: a latency floor of {m['replay']['latency_floor']:.1f} seconds, below which no feed is credited with being faster. That floor is a prior, not a measurement.</p>
 <h2>Why latency decides more than it looks</h2>
