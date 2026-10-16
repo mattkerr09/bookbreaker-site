@@ -1334,6 +1334,76 @@ def measure(engine) -> dict:
         "one number.</p>")}
 
 
+    def roundrobin_worked(rr):
+        net_sweep = rr["sweep"] - rr["total_stake"]
+        bigger = [(4, 2), (4, 3), (5, 2), (5, 3)]
+        rows = "".join(f"<tr><td>{n} legs by {k}s</td><td>{comb(n, k)}</td>"
+                       f"<td>{comb(n, k) * rr['stake_each']:,.0f}</td></tr>" for n, k in bigger)
+        return (
+            "<h2>Following each ticket</h2>"
+            f"<p>Call the legs A, B and C. Taken {rr['size']} at a time they make the tickets AB, AC and BC, "
+            f"{rr['stake_each']:,.0f} on each, {rr['total_stake']:,.0f} in all.</p>"
+            f"<p>If A and B win and C loses, only AB pays. It returns {rr['two_low']:,.2f}, so the round is "
+            f"{rr['two_profit']:+,.2f} on the {rr['total_stake']:,.0f} staked. If all three win, every ticket "
+            f"pays: {rr['sweep']:,.2f} back, {net_sweep:+,.2f}. If only one leg wins, or none, every ticket "
+            f"loses and the whole {rr['total_stake']:,.0f} is gone.</p>"
+            "<p>The ticket count grows fast. At the same stake each:</p>"
+            "<table><tr><th>Round robin</th><th>Tickets</th><th>At risk</th></tr>" + rows + "</table>"
+            "<h2>When a round robin makes sense</h2>"
+            "<p>When you like several picks and expect one of them to miss. A straight parlay dies with one "
+            "loss; a round robin by twos still pays when two of three land.</p>"
+            "<p>When you want a parlay's payout shape on part of the money and can live with the margin being "
+            "charged on every ticket.</p>"
+            "<p>Check it against singles first. With every leg a fair coin flip, the round robin above expects "
+            f"{rr['expected_profit']:+,.2f} and the same money on singles {rr['singles_instead']:+,.2f}. The "
+            "<a href=\"/calculators/parlay/\">parlay calculator</a> prices a single ticket.</p>")
+
+    def ev_worked(price, p_fair):
+        ev = ev_per_unit(price, p_fair)
+        win_part, lose_part = p_fair * (price - 1), 1 - p_fair
+        stake = 100
+        return (
+            "<h2>The sum, written out</h2>"
+            f"<p>Expected value is what a bet returns on average per unit staked. At {ev_offer:+d} the decimal "
+            f"price is {price:.2f}, so a win pays {price - 1:.2f} units of profit and a loss costs one unit.</p>"
+            f"<p>Weight each by its chance. The win side is {p_fair:.4f} times {price - 1:.2f}, which is "
+            f"{win_part:.4f}. The loss side is {lose_part:.4f} times one. The difference, {ev:+.4f}, is the "
+            f"{ev:+.2%} in the table: about ${ev * stake:,.2f} on every ${stake} staked, on average, over many "
+            "bets like it.</p>"
+            f"<p>The break-even column is the same sum set to zero. At {breakeven_prob(price):.2%} the two sides "
+            f"cancel, so any fair probability above that makes {ev_offer:+d} worth taking.</p>"
+            "<h2>When to work out EV</h2>"
+            "<p>After devigging a sharp book's market, to judge a softer book's price on the same side. The "
+            "<a href=\"/calculators/no-vig-odds/\">no-vig calculator</a> gives the fair probability this "
+            "needs.</p>"
+            "<p>To rank several plays. The one with the higher EV per unit is the better use of a dollar, before "
+            "you think about how much to stake.</p>"
+            "<p>Before sizing a bet. EV says whether to bet; the <a href=\"/calculators/kelly/\">Kelly "
+            "calculator</a> says how much, given the same fair probability.</p>")
+
+    def conversion_worked(conv):
+        r = conv["ladder"][0]
+        bonus = conv["bonus"]
+        hedge_profit = r["hedge_stake"] * (american_to_decimal(int(r["hedge"])) - 1)
+        long_ = conv["ladder"][-1]
+        return (
+            "<h2>The first row, step by step</h2>"
+            f"<p>A {bonus:,} bonus bet placed at {r['free']} wins {bonus:,} of profit if it lands, and the stake "
+            f"does not come back. Against it, {r['hedge_stake']:,} goes on the other side at {r['hedge']}.</p>"
+            f"<p>If the bonus bet wins: {bonus:,} won, the {r['hedge_stake']:,} hedge lost, "
+            f"{bonus - r['hedge_stake']:,} kept. If the hedge wins instead: it pays {hedge_profit:,.0f} of "
+            f"profit and the bonus bet costs nothing, so about {r['guaranteed']:,} either way. That is "
+            f"{r['guaranteed']:,} of cash from {bonus:,} of bonus, a rate of {r['rate']:.1f}%.</p>"
+            f"<p>Longer prices convert better and cost more to cover. At {long_['free']} the rate is "
+            f"{long_['rate']:.1f}%, and the hedge needs {long_['hedge_stake']:,} of your own money on the "
+            "table until the game ends.</p>"
+            "<h2>When to convert a bonus bet</h2>"
+            "<p>When a sign-up offer or a promotion pays you in bonus bets and you would rather have the cash. "
+            "Hedging turns a large share of the face value into money you keep whichever way the game goes, provided "
+            "both bets are accepted and stand.</p>"
+            "<p>When you can afford the hedge. Pick the longest price whose hedge stake you can cover.</p>"
+            "<p>Before the bonus expires. Many expire within a week, and an unused one is worth nothing.</p>")
+
     rr_ = out["roundrobin"]
     calc["round-robin"] = {"body": (
         f"<p>Three legs at &minus;110, taken two at a time, is "
@@ -1351,7 +1421,8 @@ def measure(engine) -> dict:
         + "<p>Both those last two are computed with every leg at a true 50%, "
         "so the difference is not luck. It is the margin, charged once "
         "per ticket instead of once per bet. A round robin buys a different "
-        "shape of outcome, not a better expectation.</p>")}
+        "shape of outcome, not a better expectation.</p>"
+        + roundrobin_worked(rr_))}
 
     def poisson_worked(po):
         from overlay_engine.odds import decimal_to_american
@@ -1485,7 +1556,8 @@ def measure(engine) -> dict:
                   f"{ev_per_unit(price, spread.low(0)):+.2%}")])
         + "<p>The last row is the one that decides. An edge that exists under "
         "one devig method and vanishes under another is a modelling artefact, "
-        "not an opportunity.</p>")}
+        "not an opportunity.</p>"
+        + ev_worked(price, spread.consensus(0)))}
 
     a = out["arb"]
     calc["arbitrage"] = {"body": (
@@ -1620,7 +1692,8 @@ def measure(engine) -> dict:
         + "".join(f"<tr><td>{e(r['free'])}</td><td>{e(r['hedge'])}</td>"
                   f"<td>{r['hedge_stake']:,}</td><td>{r['guaranteed']:,}</td>"
                   f"<td>{r['rate']:.1f}%</td></tr>" for r in ladder)
-        + "</table><p>The hedge column is the constraint every guide omits.</p>")}
+        + "</table><p>The hedge column is the constraint every guide omits.</p>"
+        + conversion_worked(out["conversion"]))}
 
     mid = out["middles"]
     calc["middle"] = {"body": (
