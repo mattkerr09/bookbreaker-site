@@ -1443,6 +1443,59 @@ def measure(engine) -> dict:
             "<p>Against the best price on each outcome. Dutching across books at the best price on each lowers "
             "the implied total, and if it ever falls below a whole across every outcome, the dutch is an "
             "<a href=\"/calculators/arbitrage/\">arbitrage</a>.</p>")
+    def effective_worked(pf):
+        row = next(r for r in pf["rows"] if r["n"] == 8)
+        n, rho, prior = row["n"], pf["rho"], pf["prior_rho"]
+        denom, denom_p = 1 + (n - 1) * rho, 1 + (n - 1) * prior
+        return (
+            "<h2>One row, worked</h2>"
+            f"<p>Take {n} bets with an average pairwise correlation of {rho:.2f}. The bottom of the fraction is one "
+            f"plus {n - 1} times {rho:.2f}, which is {denom:.2f}, and {n} over {denom:.2f} is {n / denom:.2f}. Eight "
+            f"tickets carry the risk of about {n / denom:.0f} independent bets. At the prior of {prior:.2f} the "
+            f"same {n} come to {n / denom_p:.2f}.</p>"
+            "<p>The correlation does the work. At zero, every bet counts in full. As it climbs towards one, any "
+            "number of bets behaves like a single bet, because they all win or lose together.</p>"
+            "<h2>Where correlation comes from</h2>"
+            "<p>Several bets in one game: a side, the total and a player's points all move with how the game "
+            "goes.</p>"
+            "<p>One team across several markets, or several games that share a cause, such as weather on a "
+            "day of outdoor totals.</p>"
+            "<p>Not from an arbitrage. The two legs of an arbitrage are opposite sides of one result, which is "
+            "what makes the profit fixed rather than risky.</p>"
+            "<h2>When to count effective bets</h2>"
+            "<p>Before adding one more position to a slate that is already loaded on one game or one team.</p>"
+            "<p>When sizing with <a href=\"/calculators/kelly/\">Kelly</a>. Kelly assumes each bet stands alone; "
+            "on correlated bets the stakes add up to more risk than the fraction meant.</p>"
+            "<p>When reading a record. A month of correlated wins is fewer independent results than the ticket "
+            "count says, so it proves less.</p>")
+
+    def totals_middle_worked(tm):
+        stake, win = 110, 100
+        both, miss = 2 * win, stake - win
+        mid = (tm["low"] + tm["high"]) / 2
+        half = (tm["high"] - tm["low"]) / 2
+        z = half / tm["sigma"]
+        p = tm["approx"] / 100
+        ev = p * both - (1 - p) * miss
+        finals = list(range(int(math.ceil(tm["low"])), int(math.floor(tm["high"])) + 1))
+        return (
+            "<h2>The window in dollars</h2>"
+            f"<p>${stake} on the over {tm['low']} and ${stake} on the under {tm['high']}, both at -110. A final of "
+            f"{', '.join(str(f) for f in finals[:-1])} or {finals[-1]} wins both: up ${both}. Anything else wins one "
+            f"and loses one: down ${miss}. Break-even is {miss} over {both} plus {miss}, the "
+            f"{tm['breakeven']:.2f}% above.</p>"
+            f"<p>The normal approximation centres the total at {mid:g} and asks how much of the curve falls within "
+            f"{half:g} points either side. With a spread of {tm['sigma']:.1f}, that is {z:.4f} standard "
+            f"deviations each way, which covers {tm['approx']:.2f}% of the curve. If that figure were right the "
+            f"pair would be worth {p:.4f} times {both} less {1 - p:.4f} times {miss}, about ${ev:,.2f} on "
+            f"${2 * stake}. It is a prior, so treat that as a reason to count finals, not a result.</p>"
+            "<h2>When to price a totals middle</h2>"
+            "<p>When the total has moved since you bet it and another book now hangs the other side a few points "
+            "away.</p>"
+            "<p>When the window covers finals your sport produces often. Count them in a sample that clears the "
+            "thresholds above before trusting a hit rate.</p>"
+            "<p>For a window one point wide, the <a href=\"/calculators/middle/\">middle calculator</a> works "
+            "the same arithmetic on a counted sample.</p>")
     calc: dict[str, dict] = {}
     d = out["devig"]
     calc["no-vig-odds"] = {"body": (
@@ -1996,7 +2049,8 @@ def measure(engine) -> dict:
     + "".join(f"<tr><td>{r['n']}</td><td>{r['at_prior']:.1f}</td><td>{r['at_rho']:.1f}</td></tr>" for r in m['portfolio']['rows'])
     + "</table>"
     + f"<p>Read the measured column down. From {m['portfolio']['rows'][0]['n']} bets to {m['portfolio']['rows'][-1]['n']} bets, the effective count crawls from {m['portfolio']['rows'][0]['at_rho']:.1f} to {m['portfolio']['rows'][-1]['at_rho']:.1f}. Past a handful of correlated positions, adding another buys no diversification. It only adds stake.</p>"
-    + f"<p>That is what a staking rule has to see. A max single of {m['portfolio']['max_single']}% on a bankroll of {m['portfolio']['bankroll']:.0f} caps a lone bet at {m['portfolio']['cap_alone']:.0f}. The same rule, applied to a book already loaded with correlated exposure, caps it at {m['portfolio']['cap_loaded']:.2f}. Competitors print the first figure and call the portfolio diversified. They are counting tickets, and tickets are not independent.</p>")}
+    + f"<p>That is what a staking rule has to see. A max single of {m['portfolio']['max_single']}% on a bankroll of {m['portfolio']['bankroll']:.0f} caps a lone bet at {m['portfolio']['cap_alone']:.0f}. The same rule, applied to a book already loaded with correlated exposure, caps it at {m['portfolio']['cap_loaded']:.2f}. Competitors print the first figure and call the portfolio diversified. They are counting tickets, and tickets are not independent.</p>"
+    + effective_worked(m['portfolio']))}
 
     calc["totals-middle"] = {"body": (
     "<p>A middle is a pair of bets on one game: the over at the lower line, the under at the higher one. Both win when the final total lands inside the window between them. Outside it, one side pays, the other loses, and the miss costs the vig.</p>"
@@ -2008,7 +2062,8 @@ def measure(engine) -> dict:
     + f"<tr><td>Games in a margin sample</td><td>{m['totals_middle']['min_games']}</td></tr>"
     + f"<tr><td>Observations on each distinct total</td><td>{m['totals_middle']['min_per_cell']}</td></tr>"
     + "</table>"
-    + "<p>Totals carry the higher bar: wider support, more distinct finals, each seen less often. Below any of these minimums the counted estimate is noise wearing a decimal point.</p>")}
+    + "<p>Totals carry the higher bar: wider support, more distinct finals, each seen less often. Below any of these minimums the counted estimate is noise wearing a decimal point.</p>"
+    + totals_middle_worked(m['totals_middle']))}
 
     calc["no-sweat-bet"] = {"body": (
     "<p>A no-sweat bet refunds the first bet if it loses. Its value is the refund multiplied by how often the refund actually arrives, and it arrives only in the branch where the qualifying bet loses. So the qualifying bet should be a longshot. That is the opposite of most instincts, and the opposite of the right play on a bet-and-get, where the bonus lands whatever happens.</p>"
