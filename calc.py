@@ -287,7 +287,7 @@ def closing_line_value(v: dict) -> dict:
             "headline": f"{implied_clv(bet, close):+.2%}",
             "caption": "against the raw close, which compares two vigged prices",
             "table": {"head": None, "rows": rows},
-            "notes": ["That understates the real edge by the closing margin. "
+            "notes": ["That overstates the real edge, by about the closing margin. "
                       "Use it to rank bets against each other, not to claim an "
                       "edge size. Add the other side's closing price and the "
                       "engine devigs the close first."],

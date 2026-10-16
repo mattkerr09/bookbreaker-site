@@ -1577,6 +1577,52 @@ def measure(engine) -> dict:
         "reads. This solves for round stakes directly, because rounding a "
         "lock afterwards breaks it.</p>")}
 
+    def clv_worked(bet, close, other):
+        from overlay_engine.clv import closing_fair
+        db, dc, do = american_to_decimal(bet), american_to_decimal(close), american_to_decimal(other)
+        p_raw = decimal_to_prob(dc)
+        p_fair = closing_fair([dc, do], 0)
+        raw, fair_clv = implied_clv(db, dc), p_fair * db - 1
+        return (
+            "<h2>The same bet, against the fair close</h2>"
+            f"<p>Your {bet:+d} is a decimal price of {db:.4f}. The close at {close:+d} implies {p_raw:.2%} for your "
+            f"side, and the raw figure is that probability times your price, less one: {raw:+.2%}.</p>"
+            f"<p>But {p_raw:.2%} still carries the book's margin. Say the other side closed at {other:+d}. The two "
+            f"closing prices imply {overround([dc, do]):.2%} together, and taking the margin out leaves your side "
+            f"a fair {p_fair:.2%}. Against that, the same bet is worth {fair_clv:+.2%}.</p>"
+            f"<p>So the raw close overstates this edge by {(raw - fair_clv) * 100:.2f} points, most of it the "
+            f"{hold([dc, do]):.2%} the book held at the close. That is "
+            "why the raw number is fine for ranking bets against each other and wrong for claiming an edge.</p>"
+            "<h2>When to check closing line value</h2>"
+            "<p>After every bet that settles, if you want to know whether you are beating the market. A run of "
+            "positive CLV says the prices you take are good long before the profit can.</p>"
+            "<p>When judging a source of picks. A tipster's CLV is harder to fake than a hot month.</p>"
+            "<p>Record the other side's closing price when you can, so the close can be devigged. The "
+            "<a href=\"/calculators/no-vig-odds/\">no-vig calculator</a> shows how that is done.</p>")
+
+    def kelly_worked(price, p_fair, sizing, bankroll):
+        b = price - 1
+        full = (b * p_fair - (1 - p_fair)) / b
+        quarter = full / 4
+        return (
+            "<h2>The Kelly fraction, worked</h2>"
+            f"<p>Kelly stakes the edge over the odds. At {ev_offer:+d} the net odds are {b:.2f} to one. With a "
+            f"fair probability of {p_fair:.4f}, the edge is {b:.2f} times {p_fair:.4f} less {1 - p_fair:.4f}, "
+            f"which is {b * p_fair - (1 - p_fair):.4f}. Divided by {b:.2f}, that is {full:.2%} of the bankroll.</p>"
+            f"<p>Quarter Kelly takes a quarter of that, {quarter:.2%}, or {quarter * bankroll:,.0f} on "
+            f"{bankroll:,.0f}. The engine stakes {sizing.stake:,.2f} instead, because a cap on any single bet of "
+            f"{sizing.bankroll_share:.2%} of the bankroll binds first. That cap is the binding constraint in the "
+            "table.</p>"
+            "<p>Full Kelly grows a bankroll fastest only when the probability is exactly right. Get it a little "
+            "high and full Kelly overbets; fractions of it give up some growth for a much smaller swing.</p>"
+            "<h2>When to size with Kelly</h2>"
+            "<p>When you have a fair probability you trust, from a devigged sharp market, and a price that beats "
+            "it. Without the first, Kelly sizes a guess.</p>"
+            "<p>When you bet many times from one bankroll and want the stake to shrink after losses and grow "
+            "after wins.</p>"
+            "<p>Check the bet is worth taking first: the <a href=\"/calculators/expected-value/\">expected value "
+            "calculator</a> uses the same inputs.</p>")
+
     kelly_bankroll = 10_000.0
     sizing = size_bet(price, fair, bankroll=kelly_bankroll)
     calc["kelly"] = {"body": (
@@ -1588,7 +1634,8 @@ def measure(engine) -> dict:
                  ("Binding constraint", sizing.binding)])
         + "<p>Quarter Kelly, and sized on the least favourable devig rather "
         "than the friendliest. Overestimating an edge costs far more than "
-        "underestimating it.</p>")}
+        "underestimating it.</p>"
+        + kelly_worked(price, fair, sizing, kelly_bankroll))}
 
     def hold_worked():
         d = american_to_decimal(-110)
@@ -1743,11 +1790,12 @@ def measure(engine) -> dict:
                  ("Closing price", f"{clv_close:+d}"),
                  ("CLV against the raw close",
                   f"{implied_clv(american_to_decimal(clv_bet), american_to_decimal(clv_close)):+.2%}")])
-        + "<p>That figure compares two vigged prices and so understates the "
-        "real edge by the closing margin. Use it to rank bets "
+        + "<p>That figure compares two vigged prices and so overstates the "
+        "real edge, by about the closing margin. Use it to rank bets "
         "against each other, not for claiming an edge size. Devigging the "
         "closing market first is what the engine does, and it is why closing "
-        "line value converges far faster than profit.</p>")}
+        "line value converges far faster than profit.</p>"
+        + clv_worked(clv_bet, clv_close, -115))}
 
     hg, du = out["hedge"], out["dutch"]
     calc["hedge"] = {"body": (
@@ -3585,7 +3633,7 @@ break-even. Waiting for profit to confirm a model means waiting years; adjusting
 on early profit means fitting noise. CLV converges far faster, which is why it
 is what this engine calibrates on rather than merely displays.</p>
 <p>One catch: grade against the <em>devigged</em> closing price, not the raw
-one. Comparing two vigged prices understates your edge by the closing margin.
+one. Comparing two vigged prices overstates your edge, by about the closing margin.
 <a href="/calculators/closing-line-value/">The arithmetic &rarr;</a></p>
 """,
 
