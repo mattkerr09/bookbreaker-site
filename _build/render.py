@@ -2421,7 +2421,7 @@ ONWARD = {
         ("/calculators/bonus-bet-conversion/", "The bonus bet conversion calculator"),
         ("/offers/", "Sign-up offers, ranked by what they are worth")],
     "/for/new-bettors/": [
-        ("/guides/how-to-read-american-odds/", "How to read American odds"),
+        ("/calculators/odds-converter/", "How to read American odds"),
         ("/guides/what-does-plus-ev-mean/", "What +EV means")],
     "/how-it-works/": [
         ("/what-your-record-proves/", "What your record proves"),
@@ -2456,15 +2456,11 @@ LONGER_TITLES = {
     "/guides/nfl-key-numbers/": "NFL key numbers: how often games land on 3 and 7",
     "/best/best-bet-tracker/": "Best bet tracker: what to look for, compared",
     "/guides/how-to-line-shop/": "How to line shop: find the best price for every bet",
-    "/guides/how-to-devig-odds/": "How to devig odds and find the fair price",
     "/guides/how-to-hedge-a-bet/": "How to hedge a bet, with the stakes worked out",
     "/guides/what-is-a-middle-bet/": "What is a middle bet, and how both sides can win",
-    "/guides/what-is-vig-and-hold/": "What is vig and hold, and what it costs you",
-    "/guides/what-is-a-low-hold-bet/": "What is a low hold bet, and when to use one",
     "/how-we-are-paid/": "How Bookbreaker is paid, and what payment never changes",
     "/terms/": "Bookbreaker terms of use: a free betting analysis tool",
     "/best/best-ev-betting-software/": "Best +EV betting software: what to look for",
-    "/guides/how-to-read-american-odds/": "How to read American odds, with worked examples",
     "/guides/what-is-a-push-in-betting/": "What is a push in betting, and what happens to your stake",
     "/guides/what-is-a-round-robin-bet/": "What is a round robin bet, and what it costs",
     "/guides/what-is-a-no-sweat-bet-worth/": "What is a no-sweat bet worth, with the numbers worked through",
@@ -3554,7 +3550,7 @@ tennis outright. So it is measured. Every graded bet feeds a comparison of
 which method predicted the closing line. The weights update only if the new
 ones beat the old ones on a slice of your record they were not fitted on.</p>
 <p><a href="/guides/what-does-plus-ev-mean/">What +EV means &rarr;</a>
-&nbsp;&middot;&nbsp;<a href="/guides/how-to-devig-odds/">How devigging works &rarr;</a></p>
+&nbsp;&middot;&nbsp;<a href="/calculators/no-vig-odds/">How devigging works &rarr;</a></p>
 """,
 
 "bonus-hunters": f"""
@@ -3726,23 +3722,6 @@ def guide_bodies(m: dict) -> dict[str, str]:
     lo, hi = min(d["methods"].values()), max(d["methods"].values())
 
     return {
-"how-to-devig-odds": f"""
-<p>A sportsbook's prices imply probabilities that add to more than 100%. The
-surplus is the margin. Devigging redistributes it to recover what the book
-actually believes. <em>How</em> you redistribute it is a modelling choice,
-not arithmetic.</p>
-<p>On a {e(d['market'])} moneyline, the four standard methods give the
-favourite anywhere from {lo:.2f}% to {hi:.2f}%:</p>
-{"".join(f"<p><strong>{e(k)}</strong>: {v:.2f}%</p>" for k, v in sorted(d['methods'].items()))}
-<p>That spread is {d['spread']:.2f} points of probability on a market where a
-2% edge is a good day. Multiplicative is the usual default because it is one
-division, but it spreads the margin in proportion to implied probability. Real
-markets show the opposite pattern (the favourite-longshot bias), so this method
-is the one most likely to overstate a longshot.</p>
-<p>The practical answer: do not pick one. An edge that exists under one method
-and vanishes under another is a modelling artefact.
-<a href="/calculators/no-vig-odds/">Work it through &rarr;</a></p>
-""",
 
 "what-is-a-round-robin-bet": f"""
 <p>A round robin turns a handful of picks into every parlay of a chosen size. Three picks "by 2s" is three
@@ -3932,20 +3911,6 @@ from a risk desk that does not exist is the most common way the advice is
 misapplied. <a href="/account-longevity/">The full model &rarr;</a></p>
 """,
 
-"what-is-vig-and-hold": f"""
-<p>The vig is the sportsbook's margin. On the standard -110 both ways, the two
-prices imply probabilities summing above 100%, and the surplus is what the book
-keeps.</p>
-<p>Hold is what that surplus is worth as a fraction of the money bet, and it is
-not the same number. A market whose implied probabilities sum to 1.0476 holds
-4.55%, not 4.76%. The book's take is measured against the pool, not
-against the excess. Plenty of calculators report the excess and overstate every
-book's margin.</p>
-<p>Why it matters: hold is the cost of doing business at that book, and it
-compounds. A market you can bet at 2% hold instead of 4.5% hands back more than
-most people's claimed edge.
-<a href="/calculators/hold/">Measure a book &rarr;</a></p>
-""",
 
 "how-to-use-the-kelly-criterion": f"""
 <p>Kelly gives the stake that maximises long-run growth <em>given the true
@@ -3965,21 +3930,6 @@ game script is one undiversified position wearing twelve hats.
 <a href="/calculators/kelly/">Size a bet &rarr;</a></p>
 """,
 
-"how-to-read-american-odds": f"""
-<p>A positive number is what you win on 100 staked. A negative number is what
-you must stake to win 100. +150 returns 150 profit on 100; -200 needs 200 to
-win 100.</p>
-<p>Converting to decimal makes them comparable, and converting to implied
-probability makes them meaningful:</p>
-<p>+150 is decimal 2.500 and implies 40.00%. -200 is decimal 1.500 and implies
-66.67%. -110, the standard price, is decimal 1.909 and implies 52.38%.
-That is why a coin-flip bettor at -110 loses steadily.</p>
-<p>The trap is calling that implied number a probability. It is vig-inclusive:
-it is what the price asserts, and across a market those assertions add to more
-than 100%. Treating it as a fair probability without devigging first is the
-most common way to invent an edge that is not there.
-<a href="/calculators/odds-converter/">Convert &rarr;</a></p>
-""",
 
 "how-to-hedge-a-bet": f"""
 <p>Hedging means backing the other side of a position you already hold, so the
@@ -3991,20 +3941,6 @@ of its stakes. Bet both sides and one leg always returns. And the outcome you di
 <p><a href="/calculators/arbitrage/">Stake a hedge &rarr;</a></p>
 """,
 
-"what-is-a-low-hold-bet": f"""
-<p>A low hold bet is the same idea as an arbitrage, one step short of it. Two
-books disagree enough that backing both sides costs you far less than betting
-either alone. Not free, but close.</p>
-<p>Why bother with a position that loses a little by design? Two reasons.
-Turnover at near-zero cost is how you clear a deposit-match rollover without
-handing back the bonus. And a profile made of two-sided bets at ordinary prices
-looks nothing like a profile made of longshot alternate lines.</p>
-<p>The arithmetic is the hold calculation applied across books instead of
-within one. Where a single book holds 4.55% on a standard market, the best
-prices across two might hold 0.5%, and now and then they cross into an
-arbitrage.
-<a href="/calculators/hold/">Measure a pair &rarr;</a></p>
-""",
 
 "how-to-track-your-betting-results": f"""
 <p>Most bettors track profit, which is the number that takes longest to say
@@ -6554,6 +6490,11 @@ REDIRECTS = [
     # The first per-book promo pages shipped on internal short keys (2026-10-11); renamed to the names people search.
     ("/promo-codes/michigan/dk/", "/promo-codes/michigan/draftkings/"),
     ("/promo-codes/michigan/mgm/", "/promo-codes/michigan/betmgm/"),
+    # Thin guides merged into the calculator that works the same question through (2026-10-16, search-health audit).
+    ("/guides/what-is-vig-and-hold/", "/calculators/hold/"),
+    ("/guides/how-to-read-american-odds/", "/calculators/odds-converter/"),
+    ("/guides/how-to-devig-odds/", "/calculators/no-vig-odds/"),
+    ("/guides/what-is-a-low-hold-bet/", "/calculators/low-hold/"),
 ]
 
 def _offer_step_wording(st: str) -> str:
@@ -7111,7 +7052,7 @@ PAGES = [
 #: slug; titles and questions come from _data/guides.csv, so a renamed guide
 #: renames itself here and a deleted one stops the build.
 LLMS_GUIDES = (
-    "how-to-devig-odds", "what-does-plus-ev-mean", "what-is-closing-line-value",
+    "what-does-plus-ev-mean", "what-is-closing-line-value",
     "what-is-arbitrage-betting", "how-to-stake-an-arbitrage-in-round-numbers",
     "how-to-use-the-kelly-criterion", "what-is-a-middle-bet",
     "how-to-convert-a-bonus-bet", "how-old-is-the-price-on-your-screen",

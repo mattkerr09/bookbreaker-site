@@ -335,8 +335,8 @@ CASES = [
     (
         "a download that skips the count",
         "check_every_download_is_counted",
-        "guides/how-to-devig-odds/index.html",
-        "https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=guides-how-to-devig-odds-foot&amp;to=",
+        "guides/what-is-arbitrage-betting/index.html",
+        "https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=guides-what-is-arbitrage-betting-foot&amp;to=",
         "",
     ),
     (

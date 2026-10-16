@@ -53,7 +53,6 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 ## Guides
 
 - [All guides](https://bookbreaker.bet/guides/): each answered with the arithmetic done
-- [How to devig odds](https://bookbreaker.bet/guides/how-to-devig-odds/): How do you find the true probability behind a sportsbook's price?
 - [What does +EV mean in betting](https://bookbreaker.bet/guides/what-does-plus-ev-mean/): What makes a bet mathematically profitable?
 - [What is closing line value](https://bookbreaker.bet/guides/what-is-closing-line-value/): Why do sharp bettors care more about CLV than profit?
 - [What is arbitrage betting](https://bookbreaker.bet/guides/what-is-arbitrage-betting/): How do you bet both sides and still win?
