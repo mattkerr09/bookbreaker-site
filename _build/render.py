@@ -1353,6 +1353,83 @@ def measure(engine) -> dict:
         "per ticket instead of once per bet. A round robin buys a different "
         "shape of outcome, not a better expectation.</p>")}
 
+    def poisson_worked(po):
+        from overlay_engine.odds import decimal_to_american
+        hl, al = po["home_lambda"], po["away_lambda"]
+
+        def pk(lam, k):
+            return lam ** k * math.exp(-lam) / math.factorial(k)
+        rows = "".join(f"<tr><td>{k}</td><td>{pk(hl, k):.2%}</td><td>{pk(al, k):.2%}</td></tr>" for k in range(5))
+        fair_home = 100 / po["home"]
+        return (
+            "<h2>Where those percentages come from</h2>"
+            f"<p>Poisson gives the chance of each goal count from one number, the expected goals. The chance of "
+            f"exactly k goals is the expected goals to the power k, times e to the minus expected goals, over k "
+            f"factorial. For the home side at {hl} and the away side at {al}:</p>"
+            "<table><tr><th>Goals</th><th>Home</th><th>Away</th></tr>" + rows + "</table>"
+            f"<p>A scoreline is one row times another. A 1-1 is {pk(hl, 1):.2%} times {pk(al, 1):.2%}, which is "
+            f"{pk(hl, 1) * pk(al, 1):.2%}, and a 0-0 is {pk(hl, 0) * pk(al, 0):.2%}. Add every scoreline where the "
+            "home side is ahead and you have the home win; add the ones on the diagonal and you have the draw.</p>"
+            f"<p>To turn the home win into a price, take one over it: {po['home']:.2f}% is a fair decimal price of "
+            f"{fair_home:.3f}, or {decimal_to_american(fair_home):+.0f}. A book offering more than that is above "
+            "this model's fair price, which matters only as far as you trust the model over the market.</p>"
+            "<h2>When Poisson is the right tool</h2>"
+            "<p>In low-scoring games where goals arrive one at a time, such as soccer and hockey. It is the "
+            "standard first model for totals, both-teams-to-score and correct-score markets.</p>"
+            "<p>On a whole-number total, where the push is a real outcome and changes what the over and the under "
+            "are worth.</p>"
+            "<p>It is the wrong tool for American football and basketball, where points come in different sizes "
+            "and the score is not a count of rare events.</p>")
+
+    def lowhold_worked():
+        a, b = -105, 102
+        da, db = american_to_decimal(a), american_to_decimal(b)
+        d110 = american_to_decimal(-110)
+        turnover = 1000
+        pair, single = hold([da, db]), hold([d110, d110])
+        return (
+            "<h2>Costing one pair by hand</h2>"
+            f"<p>Say the best price on one side is {a:+d} at one book and the best on the other is {b:+d} at "
+            f"another. In decimal those are {da:.4f} and {db:.4f}, implying {decimal_to_prob(da):.2%} and "
+            f"{decimal_to_prob(db):.2%}. Together that is {overround([da, db]):.2%}, a hold of {pair:.3%}.</p>"
+            f"<p>Staked so that either result pays the same, the hold is what you lose on average per dollar "
+            f"through. On ${turnover:,} of turnover this pair costs ${pair * turnover:,.2f}. The same "
+            f"${turnover:,} at one book pricing both sides -110 costs ${single * turnover:,.2f}, a hold of "
+            f"{single:.3%}.</p>"
+            "<h2>When a low-hold pair is worth it</h2>"
+            "<p>When a deposit match comes with a playthrough requirement. Turning the bonus over on a low-hold "
+            "pair is the cheapest way through it, and the <a href=\"/calculators/deposit-match/\">deposit-match "
+            "calculator</a> sets that cost against the bonus.</p>"
+            "<p>When you want an account to carry ordinary two-sided action, a low-hold pair keeps the cost of "
+            "that action small.</p>"
+            "<p>When the hold goes below zero, the pair is no longer a cost but an arbitrage, and the "
+            "<a href=\"/calculators/arbitrage/\">arbitrage calculator</a> sizes it.</p>")
+
+    def middle_worked(mid):
+        stake, win = 110, 100
+        both = 2 * win
+        miss = stake - win
+        be = miss / (both + miss)
+        hit = mid["cases"][0]
+        p_hit = hit["probability"] / 100
+        ev = p_hit * both - (1 - p_hit) * miss
+        return (
+            "<h2>One middle, in dollars</h2>"
+            f"<p>Take the first window: ${stake} on over 2.5 at -110 at one book, and ${stake} on under 3.5 at "
+            f"-110 at another. If the total lands on exactly 3, both bets win and you are up ${both}. Any other "
+            f"score wins one bet and loses the other: ${win} won, ${stake} lost, down ${miss}.</p>"
+            f"<p>Break-even is the hit rate where those even out: {miss} over {both} plus {miss}, which is "
+            f"{be:.2%}. It needs no model at all. At the {hit['probability']:.2f}% this sample hits, the "
+            f"expected result is {p_hit:.4f} times {both} less {1 - p_hit:.4f} times {miss}, or "
+            f"${ev:,.2f} on ${2 * stake} staked, {ev / (2 * stake):+.2%}.</p>"
+            "<h2>When to look for a middle</h2>"
+            "<p>After the line moves past the number you bet. If you took over 2.5 and another book now hangs "
+            "under 3.5, the gap between the two is a middle you can take.</p>"
+            "<p>Around numbers that land often. In American football a margin of 3 or 7 is the obvious one for spreads, and the "
+            "<a href=\"/calculators/totals-middle/\">totals middle calculator</a> prices a middle on a total.</p>"
+            "<p>Whenever the hit rate is your own estimate. Break-even is exact, the hit rate is not, so a middle "
+            "is only as good as the evidence for how often the window lands.</p>")
+
     po_ = out["poisson"]
     calc["poisson"] = {"body": (
         f"<p>A match modelled at {po_['home_lambda']} and "
@@ -1369,7 +1446,8 @@ def measure(engine) -> dict:
         "<p>Poisson assumes the two sides score independently. They do not: a "
         "team two goals down attacks, a team ahead defends, and real "
         "scorelines carry more draws and more blowouts than this model "
-        "predicts. Treat it as one model's opinion, not a fair price.</p>")}
+        "predicts. Treat it as one model's opinion, not a fair price.</p>"
+        + poisson_worked(po_))}
 
     lh_ = out["lowhold"]
     calc["low-hold"] = {"body": (
@@ -1387,7 +1465,8 @@ def measure(engine) -> dict:
         "hold is money gone; low hold is cheaper than the obvious way and it "
         "is not free. Whether the turnover buys enough rollover progress or "
         "account longevity to be worth the cost is your judgement, and a tool "
-        "that answers that for you is selling something.</p>")}
+        "that answers that for you is selling something.</p>"
+        + lowhold_worked())}
 
     # The EV worked here is the one the calculator above it returns for the same
     # market, so it comes from the unrounded devig: pricing +120 off the
@@ -1555,7 +1634,8 @@ def measure(engine) -> dict:
         "on no distribution at all, which makes it the honest anchor. The hit "
         f"rate comes from counting {mid['games']} recorded games, a "
         f"{e(mid['sample'])} sample shown as an illustration of the mechanism, "
-        "not a claim about any league.</p>")}
+        "not a claim about any league.</p>"
+        + middle_worked(mid))}
 
     price_ladder = (-200, -110, 100, 150, 400)
     calc["odds-converter"] = {"body": (
