@@ -240,6 +240,13 @@ CASES = [
         ",2026-01-01,https://oddsjam.com/subscribe,",
     ),
     (
+        "one more page left thin for Google",
+        "check_thin_pages_do_not_grow",
+        "index.html",
+        "<main",
+        "<main></main><main",
+    ),
+    (
         "How it works falls behind the app's newest release",
         "check_site_names_the_newest_release",
         "how-it-works/index.html",

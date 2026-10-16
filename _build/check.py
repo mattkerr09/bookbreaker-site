@@ -1141,6 +1141,36 @@ MIN_TITLE = 30
 _HUB_LINK = re.compile(r'<a\b[^>]*href="https://kerr-affiliate-hub\.kerrco\.workers\.dev/(?:dl|buy)/[^"]*"[^>]*>')
 
 
+THIN_WORDS = 300
+THIN_CEILING = 68  # 2026-10-16, the CEO's search-health audit: lower it as pages are fixed, never raise it
+
+
+def body_word_count(markup: str) -> int:
+    """Words of body text, counted the way ~/ops/bin/search-health-audit.py counts them, so this gate and the audit
+    agree: no script, style, svg, nav, header or footer; the <main> (or <article>) if there is one."""
+    body = re.sub(r"<(script|style|noscript|svg|nav|footer|header)\b.*?</\1>", " ", markup, flags=re.S | re.I)
+    m = re.search(r"<main\b.*?</main>", body, re.S | re.I) or re.search(r"<article\b.*?</article>", body, re.S | re.I)
+    return len(re.findall(r"[a-z0-9$%.']+", html.unescape(re.sub(r"<[^>]+>", " ", m.group(0) if m else body)).lower()))
+
+
+def check_thin_pages_do_not_grow(pages, fails):
+    """Pages Google can index with under THIN_WORDS words of body may number no more than THIN_CEILING. The CEO's
+    audit of 2026-10-16 found 68 of 139 here, the biggest scaled-content risk across our sites (Google's September
+    2026 spam update): each gets a worked example with real numbers, or a noindex, and the ceiling comes down."""
+    thin = []
+    for path, markup in pages:
+        if path.startswith("go/"):
+            continue
+        rb = re.search(r'<meta[^>]+name=["\']robots["\'][^>]+content=["\']([^"\']*)', markup, re.I)
+        if rb and "noindex" in rb.group(1).lower():
+            continue
+        if (n := body_word_count(markup)) < THIN_WORDS:
+            thin.append((n, path))
+    if len(thin) > THIN_CEILING:
+        fails.append(f"{len(thin)} indexable pages under {THIN_WORDS} words, over the ceiling of {THIN_CEILING}; "
+                     f"thinnest: " + ", ".join(f"{p} ({n})" for n, p in sorted(thin)[:5]))
+
+
 def check_audit_signals(pages, fails):
     """What Docket's audit of 2026-10-13 asked for, held: every download-counter link is nofollow (a redirect to our
     own file, not an endorsement of a workers.dev host), every page carries a machine-readable date (a WebPage
@@ -1950,6 +1980,8 @@ def main() -> int:
             lambda: check_no_sibling_site_links(pages, fails),
         "check_audit_signals":
             lambda: check_audit_signals(pages, fails),
+        "check_thin_pages_do_not_grow":
+            lambda: check_thin_pages_do_not_grow(pages, fails),
         "check_competitor_prices_are_recent":
             lambda: check_competitor_prices_are_recent(fails),
         "check_robots_keeps_crawlers_out_of_the_router":
