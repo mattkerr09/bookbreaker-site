@@ -5835,7 +5835,7 @@ def state_difference(m: dict, name: str, code: str, row: dict) -> str:
                   f"<b>{mine_books}</b> of {m['catalog']['venues']}"
                   f"<i>{_ord(st['books_rank'])} of "
                   f"{len(counts)} states</i>"))
-    cells.append((0.4, "Never limit winners",
+    cells.append((0.4, "Not known to limit winners",
                   f"<b>{len(never)}</b> of {mine_books}"
                   f"<i>{e(', '.join(b['name'] for b in never)) or 'none'}</i>"))
     if "tax_rank" in stand:
@@ -5981,14 +5981,23 @@ def render_state_page(m: dict, code: str) -> str:
     assert len(absent) == st["absent"], (code, len(absent), st["absent"])
 
     def listed(bs: list) -> str:
-        """Books as one line, the type said only where it is not an ordinary sportsbook."""
+        """Books as one line, the type said only where it is not an ordinary sportsbook (and not on the exchanges'
+        own line, whose label already says so)."""
         return ", ".join(partner_link(b["key"], b["name"], code)
-                         + ("" if b["tier"] == "retail" else f" ({'exchange' if b['tier'] == 'exchange' else b['tier']})")
+                         + ("" if b["tier"] in ("retail", "exchange") else f" ({b['tier']})")
                          for b in sorted(bs, key=lambda x: x["name"]))
     # Two lines, not a table: every row of the table repeated "Retail, Limits winning accounts", and states with
     # the same big books shared most of their page in those rows (the near-duplicate gate, 2026-10-07).
-    rows = ((f'<p><b class="pos">Never limit winning accounts:</b> {listed(never)}.</p>' if never else "")
-            + (f'<p><b>Limit winning accounts:</b> {listed(limiting)}.</p>' if limiting else ""))
+    # Exchanges are described by how they work, not by a policy claim: users trade against each other, so no house
+    # profits when one of them wins. Anything else that does not limit is "not known to", since no operator's own
+    # terms are cited for it.
+    ex = [b for b in never if b["tier"] == "exchange"]
+    other = [b for b in never if b["tier"] != "exchange"]
+    rows = ((f'<p><b class="pos">Exchanges, no house side:</b> {listed(ex)} '
+             f'(<a href="/sportsbooks/no-legal-sportsbook/#prediction-markets">legality disputed</a>).</p>' if ex else "")
+            + (f'<p><b class="pos">Not known to limit winning accounts:</b> {listed(other)}.</p>' if other else "")
+            + (f'<p><b>Limit winning accounts:</b> {listed(limiting)}.</p>' if limiting else "")
+            + prediction_state_note(code))
 
     never_names = ", ".join(b["name"] for b in never)
     faqs = [
@@ -6008,7 +6017,7 @@ def render_state_page(m: dict, code: str) -> str:
 <h1>Online sports betting in {e(name)}</h1>
 <p class="lede">{len(online)} licensed online {_n(len(online), 'sportsbook')} took bets in
 {e(name)} as of {e(st['as_of'])}. {len(limiting)} of the {len(books)} {_n(len(books), 'venue')}
-covering the state limit accounts that win{'; ' + e(never_names) + ' ' + _does(len(never)) if never else ''}.</p>
+covering the state limit accounts that win{'; ' + e(never_names) + (' is' if len(never) == 1 else ' are') + ' not known to' if never else ''}.</p>
 {disclosure()}
 {helpline_block(code)}
 {jurisdiction_facts(code, name)}
@@ -6346,6 +6355,48 @@ STYLE_HASH = hashlib.sha256(STYLE.encode()).hexdigest()[:10]
 
 # (was, is). Kept forever once a URL has been submitted: a search engine that
 # learned an address does not unlearn it because the file moved.
+
+PREDICTION_MARKETS_READ = "2026-10-17"
+
+
+#: What each listed state has done about these exchanges' sports contracts, from CBS's state-by-state status page
+#: (dated 2026-10-16, read 2026-10-17). State-specific on purpose: one shared paragraph on every state page made
+#: them near-duplicates of each other (the similarity gate, 2026-10-17).
+PM_STATE_NOTES = {
+    "AZ": "Arizona brought criminal charges against Kalshi; a federal judge has blocked them, and appeals are not over.",
+    "CT": "Connecticut has sent the exchanges cease-and-desist letters.",
+    "IL": "Illinois holds that these contracts fall under its own gambling law.",
+    "MD": "A federal judge refused to stop Maryland enforcing its law against Kalshi, and Kalshi has appealed.",
+    "NJ": "A federal appeals court ruled that New Jersey cannot stop Kalshi's sports contracts; the state has asked the "
+          "Supreme Court to take the case.",
+    "NY": "New York has proposed a law against these contracts, and the federal regulator has countersued.",
+    "OH": "Ohio's casino regulator fined Kalshi, and a lower court upheld the fine.",
+    "TN": "A federal court blocked Tennessee from enforcing its ban, and the state has appealed.",
+}
+
+
+def prediction_state_note(code: str) -> str:
+    note = PM_STATE_NOTES.get(code)
+    if not note:
+        return ""
+    return (f'<p class="caveat">{e(note)} Read {PREDICTION_MARKETS_READ}, <a href="https://www.cbssports.com/'
+            'prediction/news/prediction-market-legal-states/" rel="nofollow">source</a>.</p>')
+
+
+def prediction_caveat() -> str:
+    """Kalshi and Polymarket US sit under federal regulation, and several states dispute that for sports contracts.
+    The CEO's QC of 2026-10-17: say so wherever they are listed, dated and sourced, without overstating either side."""
+    return (
+        '<p class="caveat" id="prediction-markets">Whether these sports contracts are legal is disputed state by state. As of '
+        f'{PREDICTION_MARKETS_READ}, courts had stopped Kalshi offering them in Massachusetts and Nevada, a Michigan '
+        'judge had ordered a temporary shutdown, and Maryland and Ohio had won early rounds; federal courts had '
+        'blocked state enforcement in New Jersey, Tennessee, Arizona and Minnesota, and Connecticut, Rhode Island and '
+        'Wisconsin, among others, have sued or sent cease-and-desist letters. Appeals are open and the answer differs '
+        'by state, so check your own state before using one. Read '
+        f'{PREDICTION_MARKETS_READ}, <a href="https://www.cbssports.com/prediction/news/prediction-market-legal-states/"'
+        ' rel="nofollow">source</a>; the New Jersey ruling, <a href="https://www.coindesk.com/policy/2026/04/06/'
+        'appeals-court-blocks-new-jersey-from-shutting-down-kalshi-s-sports-markets" rel="nofollow">source</a>.</p>')
+
 REDIRECTS = [
     ("/sportsbooks/not-covered/", "/sportsbooks/in-person-only/"),
     # The first per-book promo pages shipped on internal short keys (2026-10-11); renamed to the names people search.
@@ -7310,11 +7361,12 @@ on real prices. New to this? Start with the first group.</p>
 answer. Generating one each would have produced pages that differ only in
 a name.</p>
 <ul>{rows}</ul>
-<p>What is still reachable is the nationwide prediction markets, regulated
-federally rather than by any state:</p>
-<ul>{"".join(f'<li>{e(b["name"])}: never limits winning accounts</li>'
-             for b in nationwide)}</ul>
-<p>That matters more than a consolation prize. An exchange has no bookmaker to limit you, so it is the best place for a consistent winner. It can also anchor a fair price where no sharp sportsbook operates.</p>
+<p>What may still be reachable is the nationwide prediction markets, which are regulated by a federal agency,
+the CFTC:</p>
+<ul>{"".join(f'<li>{e(b["name"])}: an exchange</li>' for b in nationwide)}</ul>
+<p>An exchange matches users against each other, so there is no house that profits when you win. It can also
+anchor a fair price where no sharp sportsbook operates.</p>
+{prediction_caveat()}
 <h2>Location, not residence</h2>
 <p>A licensed online sportsbook checks where you are when you bet, not where you live. A resident of a state on this list can open an account and bet with a book licensed next door while physically inside that state, and the bet is as legal as a local's. The list above names those neighbours from the same state data the rest of this site uses; each linked state page has that state's own rules, such as where an account must be opened.</p>
 <p>Two things follow. Every bet needs you over the line at the moment you place it, so plan around where you will be on game day. And the account and its promotions follow that state's rules, including its age limit and its offers.</p>
@@ -7414,10 +7466,11 @@ needs a price that is better than the consensus. With one operator there is no
 second price, so there is no disagreement to find and no best price to take.
 You get the number you are given.</p>
 <h2>What is still worth doing</h2>
-<p>Prediction markets are regulated federally rather than by any state, so they
-reach these markets too, and they never limit a winning account. They are also
-the only way to see a second price on the same event from inside a
-single-operator state.</p>
+<p>Prediction markets are regulated by a federal agency, the CFTC, and may reach
+these states too. They are exchanges, matching users against each other, so there
+is no house that profits when you win. Where they are available they are the only
+way to see a second price on the same event from inside a single-operator state.</p>
+{prediction_caveat()}
 <ul>{"".join(f'<li>{e(STATE_NAMES.get(c, c))}</li>' for c in solo)}</ul>
 {responsible()}
 <p class="caveat">Read {e(as_of)} from operator state disclosures. A starting
