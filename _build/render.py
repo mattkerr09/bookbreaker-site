@@ -7284,8 +7284,24 @@ on real prices. New to this? Start with the first group.</p>
     dark = sorted(c for c in measured["states"]
                   if not measured["states"][c]["legal"])
     if dark:
+        # Land borders, for the one thing a resident of these states can act on: an online sportsbook licensed in
+        # a neighbouring state takes bets from anyone physically inside that state, wherever they live.
+        borders = {"AL": "FL GA MS TN", "CA": "OR NV AZ", "GA": "FL AL TN NC SC", "ID": "WA OR NV UT WY MT",
+                   "MN": "WI IA SD ND", "OK": "TX NM CO KS MO AR", "SC": "NC GA", "TX": "NM OK AR LA",
+                   "UT": "ID WY CO NM AZ NV"}
+
+        def nearby(c):
+            # `online`, not `legal`: a retail-only or tribal-only neighbour is no use from a phone.
+            legal = [n for n in borders.get(c, "").split() if measured["states"].get(n, {}).get("online")]
+            if not borders.get(c):
+                return "no land border with another state"
+            if not legal:
+                return "no neighbouring state with legal online betting"
+            return "legal online in " + ", ".join(
+                f'<a href="/sportsbooks/{n.lower()}/">{e(STATE_NAMES.get(n, n))}</a>'
+                if (SITE / "sportsbooks" / n.lower()).is_dir() else e(STATE_NAMES.get(n, n)) for n in legal)
         rows = "".join(
-            f"<li>{e(STATE_NAMES.get(c, c))}</li>" for c in dark)
+            f"<li><strong>{e(STATE_NAMES.get(c, c))}</strong>: {nearby(c)}</li>" for c in dark)
         nationwide = measured["states"][dark[0]]["books"]
         body = f"""
 <h1>States with no legal sportsbook</h1>
@@ -7299,6 +7315,12 @@ federally rather than by any state:</p>
 <ul>{"".join(f'<li>{e(b["name"])}: never limits winning accounts</li>'
              for b in nationwide)}</ul>
 <p>That matters more than a consolation prize. An exchange has no bookmaker to limit you, so it is the best place for a consistent winner. It can also anchor a fair price where no sharp sportsbook operates.</p>
+<h2>Location, not residence</h2>
+<p>A licensed online sportsbook checks where you are when you bet, not where you live. A resident of a state on this list can open an account and bet with a book licensed next door while physically inside that state, and the bet is as legal as a local's. The list above names those neighbours from the same state data the rest of this site uses; each linked state page has that state's own rules, such as where an account must be opened.</p>
+<p>Two things follow. Every bet needs you over the line at the moment you place it, so plan around where you will be on game day. And the account and its promotions follow that state's rules, including its age limit and its offers.</p>
+<h2>What does not work</h2>
+<p>Hiding your location from a licensed book, with a VPN or anything else, breaks its terms and its geolocation check, and winnings on a bet placed that way can be voided.</p>
+<p>An offshore sportsbook is not licensed by any US state. There is no regulator to complain to, no protection for the money on deposit, and nothing that makes it pay out. Its prices can still be read as one more opinion, but it is not a place to hold a bankroll.</p>
 <p class="caveat">Read {e(measured['catalog']['as_of'])}. A starting point for
 your own check, not advice.</p>
 """
