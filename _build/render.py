@@ -2461,19 +2461,15 @@ LONGER_TITLES = {
     "/best/best-ev-betting-software/": "Best +EV betting software: what to look for",
     "/guides/what-is-a-push-in-betting/": "What is a push in betting, and what happens to your stake",
     "/guides/what-is-a-round-robin-bet/": "What is a round robin bet, and what it costs",
-    "/guides/what-is-a-no-sweat-bet-worth/": "What is a no-sweat bet worth, with the numbers worked through",
     "/guides/how-to-grade-your-own-bets/": "How to grade your own bets without inflating your record",
     "/guides/what-is-a-sharp-sportsbook/": "What is a sharp sportsbook, and why its prices count as evidence",
     "/guides/how-to-avoid-getting-limited/": "How to avoid getting limited by a sportsbook",
-    "/guides/what-is-a-deposit-match-worth/": "What is a deposit match worth after the rollover",
     "/guides/what-is-arbitrage-betting/": "What is arbitrage betting, and when the profit is locked",
     "/guides/what-is-a-totals-middle-worth/": "What is a totals middle worth, with the numbers worked through",
     "/guides/when-do-bonus-bets-expire/": "When do bonus bets expire, and what they are worth until then",
-    "/guides/what-is-a-parlay-really-worth/": "What is a parlay really worth against its fair price",
     "/guides/how-to-choose-an-odds-feed/": "How to choose an odds feed for betting tools",
     "/guides/what-is-bankroll-management/": "What is bankroll management, and how to size a bet",
     "/guides/why-your-bets-get-rejected/": "Why your bets get rejected: the price was already old",
-    "/guides/what-is-a-profit-boost-worth/": "What is a profit boost worth, with the numbers worked through",
     "/for/ev-bettors/": "Bookbreaker for +EV bettors: fair prices from your own feed",
     "/for/bonus-hunters/": "Bookbreaker for bonus hunters: offers priced by what you keep",
 }
@@ -3860,26 +3856,6 @@ has to rise with the count. Slicing until something looks good is a search, not
 a test. <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
 """,
 
-"what-is-a-parlay-really-worth": f"""
-<p>A parlay pays the product of its legs. Four legs at -110 pay
-{par['pays']:.2f} to 1. Four fair coin flips should pay {par['fair']:.2f} to 1.
-The gap is a {par['hold']:.1f}% hold: {par['multiple']:.1f} times the
-{par['leg_hold']:.2f}% you pay on a single.</p>
-<p>Nothing about a parlay creates value. It multiplies the margin, and the
-payout number grows while the value shrinks, which is exactly why it is the
-most heavily promoted bet in the market.</p>
-<table>
-<tr><th>Legs</th><th>Hold</th></tr>
-{"".join(f"<tr><td>{r['legs']}</td><td>{r['hold']:.1f}%</td></tr>" for r in par['ladder'])}
-</table>
-<p>By {par['lottery_legs']} legs the book is holding more than a quarter of
-every dollar staked. That is roughly where a parlay stops being a bet and
-becomes a lottery ticket. That is a fine thing to buy knowingly, and a poor
-thing to buy while believing you are betting.</p>
-<p>The honest exception: if every leg is genuinely +EV, the parlay of them can
-be too. That is rare and it is not what the promoted parlays are made of.</p>
-<p><a href="/calculators/hold/">How hold works &rarr;</a></p>
-""",
 
 "what-is-a-same-game-parlay-worth": f"""
 <p>Multiplying the legs is the right sum only when the legs are independent.
@@ -3897,7 +3873,7 @@ multiplication alone is quoting a number it cannot support.</p>
 <p>What survives: correlation cuts both ways, and a <em>negatively</em>
 correlated pair is the one books misprice more often. That is a real edge and
 it needs the correlation measured, not assumed.</p>
-<p><a href="/guides/what-is-a-parlay-really-worth/">The ordinary parlay maths
+<p><a href="/calculators/parlay/">The ordinary parlay maths
 &rarr;</a></p>
 """,
 
@@ -3970,86 +3946,8 @@ separates them.</p>
 <p><a href="/calculators/kelly/">Size a bet &rarr;</a></p>
 """,
 
-"what-is-a-deposit-match-worth": f"""
-<p>A 100% match on {mt['deposit']:,} dollars looks like {mt['bonus']:,} dollars
-of extra money. It is not extra and it is not always money you can withdraw. The rollover is a
-price, and you pay it in hold.</p>
-<p>At {mt['rollover']}x on deposit plus bonus, the offer is worth exactly zero
-at a hold of <strong>{mt['breakeven']:.2f}%</strong>. That is the whole
-decision. Everything else is a question of what you are allowed to churn it
-in.</p>
-<table>
-<tr><th>Rollover allowed in</th><th>Hold</th><th>Verdict</th><th>Net</th></tr>
-<tr><td>Moneylines at -110</td><td>{mt['open_hold']:.2f}%</td>
-<td>clears by {mt['open_margin']:+.2f}%</td><td>{mt['open_net']:+,.2f}</td></tr>
-<tr><td>Player props only</td><td>{mt['shut_hold']:.2f}%</td>
-<td>fails by {mt['shut_margin']:+.2f}%</td><td>{mt['shut_net']:+,.2f}</td></tr>
-</table>
-<p>Same headline, same deposit, same rollover multiple: a
-<strong>{mt['swing']:,.2f}</strong> difference, decided entirely by which
-markets the terms let you use. Both holds above are measured off real two-way
-prices, not assumed.</p>
-<p>Books restrict the cheap markets, and they restrict them for exactly this
-reason. A playthrough confined to parlays is worse still: those run
-nearer {mt['prior_parlay']:.0f}% (a stated prior here, not a measurement), and
-nothing at that hold clears a {mt['rollover']}x rollover at any headline.</p>
-<p>So the question is never "how big is the bonus". It is "how cheap is the
-cheapest market they will let me clear it in", and the answer is in the terms,
-under a heading most people never open.</p>
-<p><a href="/calculators/breakeven/">Work out your own break-even &rarr;</a></p>
-""",
 
-"what-is-a-no-sweat-bet-worth": f"""
-<p>"Bet up to {sn['stake']:,} dollars, refunded in bonus bets if it loses."
-The offer's value is not in the bet. It is in the refund, and you only collect
-the refund when the bet <em>loses</em>.</p>
-<p>That inverts the usual instinct. The worth of the offer on its own is the
-refund, times how often you collect it, times what a bonus bet is really worth
-(here {sn['conversion']}% after hedging):</p>
-<table>
-<tr><th>Qualifying price</th><th>Offer premium</th><th>Total EV</th></tr>
-{"".join(f"<tr><td>{r['american']}</td><td>{r['premium']:,.2f}</td><td>{r['ev']:,.2f}</td></tr>" for r in sn['rows'])}
-</table>
-<p>The premium runs from {sn['short_premium']:,.2f} at a coin flip to
-{sn['long_premium']:,.2f} at a longshot: <strong>{sn['ratio']:.2f}x
-more</strong> for taking the longer price. Bet the favourite and you win the
-bet most of the time, which is precisely how you fail to collect the thing you
-signed up for.</p>
-<h2>Two things this does not mean</h2>
-<p><strong>It is not hedgeable.</strong> There is no second bet that locks a
-safety net, because the refund only exists in the branch where you lose. Any
-tool reporting this EV as certain is reporting the wrong field.</p>
-<p><strong>Longer is not unboundedly better.</strong> Real longshots carry the
-heaviest margin, and past some point the extra vig costs more than the extra
-refund frequency earns. The right price is the longest one whose <em>fair</em>
-probability you actually trust.</p>
-<p><a href="/calculators/bonus-bet-conversion/">What a bonus bet converts at
-&rarr;</a></p>
-""",
 
-"what-is-a-profit-boost-worth": f"""
-<p>A boost multiplies profit. Profit grows with the price. So spending a
-{bo['pct']}% boost on a favourite gives almost all of it away.</p>
-<p>The same {bo['pct']}% boost on a {bo['stake']} dollar stake:</p>
-<table>
-<tr><th>Price</th><th>Profit the boost adds</th><th>EV of the boosted bet</th></tr>
-{"".join(f"<tr><td>{r['american']}</td><td>{r['added']:,.2f}</td><td>{r['ev']:,.2f}</td></tr>" for r in bo['rows'])}
-</table>
-<p>Every row takes the posted price as fair: the chance of winning is the
-price's own implied probability, and the EV is the added profit times that
-chance.</p>
-<p>The boost adds {bo['worst']:,.2f} of profit at the short price against
-{bo['best']:,.2f} at the long one, <strong>{bo['multiple']:.0f}x the
-profit</strong>. In expected value it is {bo['ev_worst']:,.2f} against
-{bo['ev_best']:,.2f}, <strong>about {bo['ev_multiple']:.1f}x the EV</strong>
-from the identical token. "Use it on something safe" is the most expensive
-habit in promotional betting.</p>
-<h2>Why books hand them out anyway</h2>
-<p>A boost is cheap to give and it moves behaviour. It pulls people toward bigger stakes and longer prices than they would otherwise take. An account that suddenly bets its boost at +500 now has a very visible exception in its ordinary staking.</p>
-<p>Which is the part nobody costs in: a boost spent optimally is also a boost
-spent conspicuously.</p>
-<p><a href="/account-longevity/">What bet shape gives away &rarr;</a></p>
-""",
 
 "how-to-read-a-betslip-into-your-record": f"""
 <p>A tracker is only worth what its worst row is worth. One misread slip does
@@ -4635,7 +4533,6 @@ PAGE_SHOTS = {
     "/guides/what-is-arbitrage-betting/": "arbitrage",
     "/guides/how-to-stake-an-arbitrage-in-round-numbers/": "arbitrage",
     "/guides/what-is-bankroll-management/": "kelly",
-    "/guides/what-is-a-parlay-really-worth/": "parlay",
     "/guides/what-is-a-same-game-parlay-worth/": "parlay",
     "/guides/how-to-line-shop/": "board",
     "/for/arbitrage-bettors/": "arbitrage",
@@ -6399,6 +6296,10 @@ REDIRECTS = [
     ("/guides/how-to-use-the-kelly-criterion/", "/calculators/kelly/"),
     ("/guides/what-is-closing-line-value/", "/calculators/closing-line-value/"),
     ("/guides/how-to-convert-a-bonus-bet/", "/calculators/bonus-bet-conversion/"),
+    ("/guides/what-is-a-profit-boost-worth/", "/calculators/profit-boost/"),
+    ("/guides/what-is-a-no-sweat-bet-worth/", "/calculators/no-sweat-bet/"),
+    ("/guides/what-is-a-parlay-really-worth/", "/calculators/parlay/"),
+    ("/guides/what-is-a-deposit-match-worth/", "/calculators/deposit-match/"),
 ]
 
 def _offer_step_wording(st: str) -> str:
