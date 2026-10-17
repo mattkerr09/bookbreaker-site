@@ -3825,6 +3825,17 @@ are not symmetric. Solving for round stakes directly gives
 {a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still locked if both bets are accepted and stand, for
 {a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}.
 <a href="/calculators/arbitrage/">Stake one &rarr;</a></p>
+<h2>One arbitrage, start to finish</h2>
+<p>Find two books pricing the same market far enough apart that the implied probabilities add to less than a whole: here {e(a['legs'][0])} at one and {e(a['legs'][1])} at the other. Check both are the same market under the same rules. Work out the stakes for the total you want to put down, in round numbers. Place the leg more likely to move first, confirm it was accepted at the price, then place the second.</p>
+<p>When the game settles, one book pays and the other keeps its stake. With {a['round_stakes'][0]:,} and {a['round_stakes'][1]:,} down, the worse of the two outcomes is {a['round_profit']:,.2f} ahead.</p>
+<h2>What can go wrong</h2>
+<p><strong>One leg is refused.</strong> The price moved, or the stake was over the limit. You hold one bet and either take the risk or cover it at whatever the other side now pays.</p>
+<p><strong>The two books settle by different rules.</strong> Whether overtime counts, what happens when a player does not start, how a tennis retirement is graded. If the rules differ, one result can lose both bets, or void one and leave the other standing.</p>
+<p><strong>A book voids a bet as an obvious error.</strong> A price far from the market is the kind books reserve the right to cancel. The other leg then stands alone.</p>
+<p><strong>The money is in two places.</strong> Every arbitrage needs funds sitting at both books before it appears, and withdrawals take time. The return on the money tied up is lower than the return on the bet.</p>
+<p><strong>The account gets limited.</strong> Books that take arbitrage action for long cut the stakes they accept from it. <a href="/guides/how-to-avoid-getting-limited/">What a limit looks like &rarr;</a></p>
+<h2>Is it legal?</h2>
+<p>Placing bets at licensed books where you are allowed to bet is legal, and backing both sides breaks no law. What a book can do is limit the account or, under its terms, void a price it treats as an error. The locked figure always comes with the condition: both bets accepted at the prices shown, and both standing.</p>
 """,
 
 
