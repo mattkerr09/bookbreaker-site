@@ -3851,6 +3851,16 @@ device or location spoofing. Those are fraud, not staking discipline. And none
 of it applies at a book that never limits winners. Spending edge to hide
 from a risk desk that does not exist is the most common way the advice is
 misapplied. <a href="/account-longevity/">The full model &rarr;</a></p>
+<h2>What a limit looks like</h2>
+<p>Rarely a message. The maximum the slip will take on a market drops, sometimes to a few dollars. Bets above a small amount go to a trader for approval and come back refused or cut. Promotions stop arriving. The account still works; it just stops being worth using for anything with an edge.</p>
+<p>Limits are set per account and often per market, so a book can take your moneyline bets in full and cap your props. Note the maximum each book offers you on the markets you bet, with the date, and you will see a cut the week it happens.</p>
+<h2>What looking ordinary costs, worked</h2>
+<p>Round stakes are the cheapest change and they are not free. On a {rd['total']:,} arbitrage the exact stakes are {rd['exact_legs'][0]:,.2f} and {rd['exact_legs'][1]:,.2f}, locking {rd['exact_profit']:,.2f} if both bets are accepted and stand. Rounded to {rd['round_legs'][0]:,.0f} and {rd['round_legs'][1]:,.0f} it locks {rd['round_profit']:,.2f}: {rd['cost']:,.2f} less, {rd['cost_bps']:.1f} basis points of the stake.</p>
+<p>Whether that is worth paying depends on the book. At one that limits winners, an account that lasts longer at a slightly lower edge per bet makes more in total. At one that never limits, the {rd['cost']:,.2f} is simply lost.</p>
+<h2>Once you have been limited</h2>
+<p>Accept it at that book. A limit is the book's right under its terms, and in regulated states opening a second account to get around one breaks them.</p>
+<p>Move the volume to the books that still take it, and keep the record of which ones those are. The <a href="/sportsbooks/">state pages</a> list what is licensed where you live.</p>
+<p>Keep the account for what it still pays: some limited accounts still receive reload offers and boosts worth converting.</p>
 """,
 
 
