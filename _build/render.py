@@ -4006,23 +4006,55 @@ you take it at are the same decision.</p>
 
 "what-is-bankroll-management": f"""
 <p>Sizing is not a smaller version of picking. It is the thing that decides
-whether a real edge survives a bad run.</p>
+whether a real edge survives a bad run. Two questions get confused: how much
+should <em>one</em> bet be, and how much should be on the table <em>at once</em>.
+The second gets almost no coverage, and it is the one that ends bankrolls.</p>
 <h2>Fractional, always</h2>
 <p>Kelly gives the growth-maximising stake given the true probability. You have an estimate with an error bar, and the penalty is asymmetric. Betting twice the correct fraction has negative growth. Betting half keeps about three-quarters of the growth at a quarter of the variance. Overestimating costs far more than
 underestimating, and devigged estimates are exactly the kind that get
 overestimated.</p>
 <h2>Cap every bet regardless</h2>
-<p>Kelly on a genuine 30% edge and on a stale line ask for the same stake. The
-cap is what makes the difference between them survivable.</p>
+<p>Cap one bet at {pf['max_single']}% of bankroll whatever Kelly says. Kelly on a
+genuine 30% edge and on a stale line ask for the same stake, and the cap is what
+makes the difference between them survivable. On a {pf['bankroll']:,} bankroll
+that is {pf['cap_alone']:,.2f}.</p>
+<h2>How much should be live at once</h2>
+<p>Above {pf['utilisation_flag']}% of bankroll on the table at the same time, the
+question stops being about any single bet. That money cannot be re-deployed,
+re-priced or hedged if the correlation you did not measure turns out higher than
+you assumed.</p>
 <h2>Count correlated bets once</h2>
-<p>Kelly assumes bets resolve one at a time. Twelve overs riding one game
-script is one undiversified position wearing twelve hats, and sizing each at
-its individual optimum is a far larger bet than it looks.</p>
+<p>Twelve bets on one evening's slate are not twelve bets. They share weather,
+pace, injury news and a referee. For <em>n</em> bets with average pairwise
+correlation &rho;, the number of independent bets you are really holding is
+<code>n / (1 + (n-1)&rho;)</code>:</p>
+<table>
+<tr><th>Positions</th><th>At &rho; = {pf['prior_rho']:.2f}</th>
+<th>At &rho; = {pf['rho']:.2f}</th></tr>
+{"".join(f"<tr><td>{r['n']}</td><td>{r['at_prior']:.1f}</td><td>{r['at_rho']:.1f}</td></tr>" for r in pf['rows'])}
+</table>
+<p>At {pf['rho']:.2f}, twelve positions are <strong>{pf['rows'][3]['at_rho']:.1f}
+independent bets</strong>, and doubling them to twenty gets you to
+{pf['rows'][4]['at_rho']:.1f}. Past a handful of correlated bets, adding more
+stops buying diversification and only adds stake.</p>
+<p>So the single-bet cap has to shrink as the book fills. Holding eleven
+correlated bets, the {pf['cap_alone']:,.2f} that was right on an empty book
+becomes <strong>{pf['cap_loaded']:,.2f}</strong>. For genuinely independent bets
+the individual optima are still right, and shrinking them would be superstition:
+at &rho; = 0 the factor is exactly 1.0 and every bet stays full size.</p>
+<h2>Measure the correlation, do not assume it</h2>
+<p>&rho; can be read from your own settled record: group bets that resolved
+together, and see how much their combined results swing against what
+independence predicts. It needs {pf['min_bets']} settled bets and
+{pf['min_groups']} multi-bet groups before it is worth anything; below that the
+honest answer is a labelled prior rather than a number. The
+<a href="/calculators/effective-bets/">effective bets calculator</a> does the
+count.</p>
 <h2>Judge the sizing separately from the picking</h2>
 <p>Money return and flat-bet return answer different questions: what happened,
 and what would have happened staking level. The gap between them is the only
-direct read on whether your sizing earned anything, and almost no tracker
-separates them.</p>
+direct read on whether your sizing earned anything.
+<a href="/guides/how-to-track-your-betting-results/">How to track it &rarr;</a></p>
 <p><a href="/calculators/kelly/">Size a bet &rarr;</a></p>
 """,
 
@@ -4237,39 +4269,6 @@ reporting a number you can use.</p>
 &rarr;</a></p>
 """,
 
-"how-many-bets-are-you-actually-making": f"""
-<p>Twelve bets on one evening's slate are not twelve bets. They share weather,
-pace, injury news and a referee, and everything they share makes them a smaller
-number of larger positions than the count suggests.</p>
-<p>The arithmetic is exact once you have a correlation. For <em>n</em> bets with
-average pairwise correlation &rho;, the number of independent bets you are
-really holding is <code>n / (1 + (n-1)&rho;)</code>:</p>
-<table>
-<tr><th>Positions</th><th>At &rho; = {pf['prior_rho']:.2f}</th>
-<th>At &rho; = {pf['rho']:.2f}</th></tr>
-{"".join(f"<tr><td>{r['n']}</td><td>{r['at_prior']:.1f}</td><td>{r['at_rho']:.1f}</td></tr>" for r in pf['rows'])}
-</table>
-<p>At {pf['rho']:.2f}, twelve positions are <strong>{pf['rows'][3]['at_rho']:.1f}
-independent bets</strong>. Doubling them to twenty gets you to
-{pf['rows'][4]['at_rho']:.1f}. That is the part worth sitting with: past a
-handful of correlated bets, adding more stops buying diversification almost
-entirely, and only adds stake.</p>
-<h2>What it does to sizing</h2>
-<p>A single-bet cap of {pf['max_single']}% of bankroll is right for someone
-holding nothing. On a {pf['bankroll']:,} bankroll that is
-{pf['cap_alone']:,.2f}. Holding eleven correlated bets already, the same cap
-should be <strong>{pf['cap_loaded']:,.2f}</strong>. The difference is
-the shrink factor the correlation implies, and it is not a rounding
-adjustment.</p>
-<h2>Measure it, do not assume it</h2>
-<p>&rho; can be measured from your own settled record: group bets that resolved
-together, and read the correlation off how much their combined results swing
-against what independence predicts. It needs {pf['min_bets']} settled bets and
-{pf['min_groups']} multi-bet groups before it is worth anything, and below that
-the honest answer is a labelled prior rather than a number.</p>
-<p><a href="/guides/what-is-bankroll-management/">Sizing from first principles
-&rarr;</a></p>
-""",
 
 "what-is-a-totals-middle-worth": f"""
 <p>A totals middle is over {tm['low']:g} at one book and under {tm['high']:g}
@@ -4325,34 +4324,10 @@ ones you bet on. So every result the model can see is one you backed,
 and the "worst case" comes out <em>positive</em>. A one-sided book looks
 as if it has no downside to any tool that infers the outcome set from the bets in it. The
 honest response is to say the floor is optimistic and why, not to print it.</p>
-<p><a href="/guides/how-many-bets-are-you-actually-making/">What twelve
+<p><a href="/guides/what-is-bankroll-management/">What twelve
 positions really are &rarr;</a></p>
 """,
 
-"how-much-of-your-bankroll-should-be-live": f"""
-<p>Two different questions get confused here. How much should <em>one</em> bet
-be, and how much should be on the table <em>at once</em>. The second has almost
-no coverage anywhere, and it is the one that ends bankrolls.</p>
-<h2>One bet</h2>
-<p>Cap it at {pf['max_single']}% of bankroll regardless of what Kelly says.
-Kelly on a genuine 30% edge and on a stale line ask for the same stake, and the
-cap is what makes the difference between them survivable.</p>
-<h2>Everything at once</h2>
-<p>Above {pf['utilisation_flag']}% of bankroll live simultaneously, the
-question stops being about any single bet. On a {pf['bankroll']:,} bankroll
-that is money you cannot re-deploy, cannot re-price, and cannot hedge if the
-correlation you did not measure turns out to be higher than you assumed.</p>
-<p>And the single-bet cap has to shrink as the book fills. Holding eleven
-correlated bets, the {pf['cap_alone']:,.2f} that was right on an empty book
-becomes <strong>{pf['cap_loaded']:,.2f}</strong>.</p>
-<h2>Why this is not conservatism</h2>
-<p>For genuinely independent simultaneous bets, the individual optima are still
-right, and shrinking them would be superstition: the easy way to look
-prudent while being wrong. The shrink is a response to measured correlation and
-nothing else. At &rho; = 0 the factor is exactly 1.0 and every bet stays full
-size.</p>
-<p><a href="/calculators/kelly/">Size a bet &rarr;</a></p>
-""",
 
 "what-does-it-mean-that-a-number-is-measured": f"""
 <p>Every betting tool shows you numbers. Almost none of them tell you which
@@ -6391,6 +6366,8 @@ REDIRECTS = [
     ("/guides/what-is-a-no-sweat-bet-worth/", "/calculators/no-sweat-bet/"),
     ("/guides/what-is-a-parlay-really-worth/", "/calculators/parlay/"),
     ("/guides/what-is-a-deposit-match-worth/", "/calculators/deposit-match/"),
+    ("/guides/how-much-of-your-bankroll-should-be-live/", "/guides/what-is-bankroll-management/"),
+    ("/guides/how-many-bets-are-you-actually-making/", "/guides/what-is-bankroll-management/"),
 ]
 
 def _offer_step_wording(st: str) -> str:
