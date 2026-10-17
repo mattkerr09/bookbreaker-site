@@ -4486,6 +4486,17 @@ say {f['naive']}%. On a {f['edge']:.0f}% edge that is the difference between
 {f['edge_honest']:.2f}% and
 {f['edge_naive']:.2f}% actually realised.</p>
 <p>It also explains why the biggest numbers reject most often. A screen sorted by raw expected value is sorted partly by staleness. The largest edges cluster on the books that moved most recently, and those are the books most likely to move again.</p>
+<h2>The other reasons a bet comes back</h2>
+<p><strong>The stake is over the limit.</strong> Every market carries a maximum, lower on props, small leagues and in-play markets, and lower again on an account the book has already cut. Some books accept part of the stake and refuse the rest.</p>
+<p><strong>The market is suspended.</strong> In-play markets close for a few seconds around every dangerous moment, and a bet sent then is refused. Live bets also wait out a short delay before acceptance, and the price can move inside it.</p>
+<p><strong>Your odds-change setting.</strong> Many books let you choose whether a changed price is accepted for you. Set to refuse any change, every small move becomes a rejection; set to accept any change, a worse price goes through without asking.</p>
+<p><strong>A location or account check.</strong> A failed location check or a verification hold stops the bet before the price comes into it.</p>
+<h2>How fast a quote goes stale</h2>
+<p>On the survival curve the engine uses for moneylines, a stated prior with a time constant of {qa['tau']:.0f} seconds, a quote {qa['rows'][0]['age']} seconds old is still there {qa['rows'][0]['survives']:.1f}% of the time. At {qa['rows'][2]['age']} seconds it is {qa['rows'][2]['survives']:.1f}%, and at {qa['rows'][3]['age']} seconds {qa['rows'][3]['survives']:.1f}%. So a {qa['example_edge']:.1f}% edge on a quote {qa['example_age']} seconds old realises {qa['example_realised']:.2f}% on average, not {qa['example_edge']:.1f}%. Your own record of accepted and refused bets replaces the prior once there is enough of it.</p>
+<h2>What to do about it</h2>
+<p>Look at the age of a quote, not just the price, and refresh before you tap.</p>
+<p>In an arbitrage, place the leg most likely to move first: the book that has just moved, or the softer of the two. If that one is refused, nothing is exposed. If the second leg is refused after the first is accepted, you hold one bet, and the <a href="/calculators/hedge/">hedge calculator</a> shows what covering it now costs.</p>
+<p>Keep stakes inside what the market takes, and in round numbers. Where the book offers it, set the odds-change preference to accept better prices only.</p>
 """,
     }
 
