@@ -770,6 +770,26 @@ def measure(engine) -> dict:
         "sundays": _oa.FREE_MONTHLY // (_refreshes * _both), "hist": 10 * _both,
     }
 
+    # A three-bet log for the tracking guide: money return, flat return and CLV against a devigged close, each
+    # computed by the engine, so the guide can show the three disagreeing on the same record.
+    from overlay_engine.clv import closing_fair as _cf
+    from overlay_engine.odds import american_to_decimal as _a2d
+    _log = [(110, 100, True, -105, -115), (-120, 50, False, -130, 110), (150, 25, False, 140, -160)]
+    _rows = []
+    for _price, _stake, _won, _close, _other in _log:
+        _d = _a2d(_price)
+        _fair = _cf([_a2d(_close), _a2d(_other)], 0)
+        _rows.append({"price": f"{_price:+d}", "stake": _stake, "won": _won, "close": f"{_close:+d}",
+                      "other": f"{_other:+d}", "profit": round(_stake * (_d - 1) if _won else -_stake, 2),
+                      "flat": round((_d - 1) if _won else -1.0, 4), "clv": round(100 * (_fair * _d - 1), 2)})
+    _staked = sum(r["stake"] for r in _rows)
+    _profit = sum(r["profit"] for r in _rows)
+    _flat = sum(r["flat"] for r in _rows)
+    out["tracking"] = {"rows": _rows, "staked": _staked, "profit": round(_profit, 2),
+                       "money_roi": round(100 * _profit / _staked, 2), "flat": round(_flat, 2),
+                       "flat_roi": round(100 * _flat / len(_rows), 2),
+                       "clv_mean": round(sum(r["clv"] for r in _rows) / len(_rows), 2), "n": len(_rows)}
+
     # Quote age. A screen showing a price is showing a claim about the past,
     # and the floor under that claim is the feed's own latency.
     tau = PRIOR_TAU.get("h2h", PRIOR_TAU["default"])
@@ -3854,6 +3874,21 @@ a hypothesis. With {ev['bars'][2]['tests']} tags there is a
 {ev['bars'][2]['luck']}% chance one clears the ordinary bar by luck, so the bar
 has to rise with the count. Slicing until something looks good is a search, not
 a test. <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+<h2>What to write down for every bet</h2>
+<p>The price you took and the stake, the book, the sport and the market, and the time you placed it. After the game: the result, and the closing price on both sides of the market, so the close can be devigged. Anything you might later want to slice by goes in as a tag at the time, not reconstructed afterwards.</p>
+<p>The closing price on the other side is the field most logs leave out, and it is the one that turns a raw closing line into a fair one.</p>
+<h2>Three bets, three answers</h2>
+<p>A short log, each closing market devigged by the engine:</p>
+<table>
+<tr><th>Taken</th><th>Stake</th><th>Result</th><th>Closed</th><th>Profit</th><th>CLV</th></tr>
+{"".join(f"<tr><td>{r['price']}</td><td>{r['stake']}</td><td>{'won' if r['won'] else 'lost'}</td><td>{r['close']} / {r['other']}</td><td>{r['profit']:+,.2f}</td><td>{r['clv']:+.2f}%</td></tr>" for r in m['tracking']['rows'])}
+</table>
+<p>Money return: {m['tracking']['profit']:+,.2f} on {m['tracking']['staked']} staked, {m['tracking']['money_roi']:+.2f}%. Flat return, one unit on each: {m['tracking']['flat']:+.2f} units over {m['tracking']['n']}, {m['tracking']['flat_roi']:+.2f}%. The record is up because the largest stake happened to win, not because the picks were good on average.</p>
+<p>Closing line value says something different again. It averages {m['tracking']['clv_mean']:+.2f}% across the three, and each figure is a statement about the price you took against where the market finished, which a result cannot change. Over a few hundred bets that column settles long before the profit column does.</p>
+<h2>When to look at which number</h2>
+<p>Every week: closing line value, since it is the one with enough signal to read at small samples.</p>
+<p>Every few hundred bets: flat return with its interval, to see whether the picks themselves are earning.</p>
+<p>Alongside it: money return, and the gap between the two, to see whether your sizing helps or hurts.</p>
 """,
 
 

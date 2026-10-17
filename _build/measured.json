@@ -4936,6 +4936,47 @@
     "sigma": 13.0,
     "window": 3
   },
+  "tracking": {
+    "clv_mean": 0.78,
+    "flat": -0.9,
+    "flat_roi": -30.0,
+    "money_roi": 20.0,
+    "n": 3,
+    "profit": 35.0,
+    "rows": [
+      {
+        "close": "-105",
+        "clv": 2.56,
+        "flat": 1.1,
+        "other": "-115",
+        "price": "+110",
+        "profit": 110.0,
+        "stake": 100,
+        "won": true
+      },
+      {
+        "close": "-130",
+        "clv": -0.01,
+        "flat": -1.0,
+        "other": "+110",
+        "price": "-120",
+        "profit": -50,
+        "stake": 50,
+        "won": false
+      },
+      {
+        "close": "+140",
+        "clv": -0.22,
+        "flat": -1.0,
+        "other": "-160",
+        "price": "+150",
+        "profit": -25,
+        "stake": 25,
+        "won": false
+      }
+    ],
+    "staked": 175
+  },
   "verify": {
     "accounts": 0,
     "engine_modules": 74,
