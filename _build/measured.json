@@ -672,6 +672,37 @@
     "test": 9,
     "train": 21
   },
+  "lineshop": {
+    "n": 100,
+    "rows": [
+      {
+        "breakeven": 53.49,
+        "ev": -6.52,
+        "price": "-115",
+        "run": -652.17
+      },
+      {
+        "breakeven": 52.38,
+        "ev": -4.55,
+        "price": "-110",
+        "run": -454.55
+      },
+      {
+        "breakeven": 51.22,
+        "ev": -2.38,
+        "price": "-105",
+        "run": -238.1
+      },
+      {
+        "breakeven": 50.0,
+        "ev": 0.0,
+        "price": "+100",
+        "run": 0.0
+      }
+    ],
+    "saved": 216.45,
+    "stake": 100
+  },
   "lowhold": {
     "baseline_cost": 398.1,
     "baseline_hold": 3.981,

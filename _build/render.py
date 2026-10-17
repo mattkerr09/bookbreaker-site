@@ -790,6 +790,18 @@ def measure(engine) -> dict:
                        "flat_roi": round(100 * _flat / len(_rows), 2),
                        "clv_mean": round(sum(r["clv"] for r in _rows) / len(_rows), 2), "n": len(_rows)}
 
+    # Line shopping, priced: the same fair coin flip taken at three prices, over a run of equal bets.
+    from overlay_engine.ev import breakeven_prob as _be, ev_per_unit as _evu
+    _shop_n, _shop_stake = 100, 100
+    _shop = []
+    for _price in (-115, -110, -105, 100):
+        _dec = _a2d(_price)
+        _shop.append({"price": f"{_price:+d}", "breakeven": round(100 * _be(_dec), 2),
+                      "ev": round(100 * _evu(_dec, 0.5), 2),
+                      "run": round(_shop_n * _shop_stake * _evu(_dec, 0.5), 2)})
+    out["lineshop"] = {"rows": _shop, "n": _shop_n, "stake": _shop_stake,
+                       "saved": round(_shop[2]["run"] - _shop[1]["run"], 2)}
+
     # Quote age. A screen showing a price is showing a claim about the past,
     # and the floor under that claim is the feed's own latency.
     tau = PRIOR_TAU.get("h2h", PRIOR_TAU["default"])
@@ -3978,6 +3990,18 @@ profile on it, because a customer who always beats the market is a customer
 whose bets carry information. That is why the price you take and the account
 you take it at are the same decision.</p>
 <p><a href="/account-longevity/">What bet shape gives away &rarr;</a></p>
+<h2>What a better price is worth, worked</h2>
+<p>Take a bet that is a true coin flip and put {m['lineshop']['n']} bets of ${m['lineshop']['stake']} on it at each price:</p>
+<table>
+<tr><th>Price</th><th>Break-even</th><th>EV per bet</th><th>Over {m['lineshop']['n']} bets</th></tr>
+{"".join(f"<tr><td>{r['price']}</td><td>{r['breakeven']:.2f}%</td><td>{r['ev']:+.2f}%</td><td>{r['run']:+,.2f}</td></tr>" for r in m['lineshop']['rows'])}
+</table>
+<p>Taking -105 instead of -110 on the same bet is worth ${m['lineshop']['saved']:,.2f} over that run, with nothing else changed. At even money the coin flip stops costing anything at all. None of the gap comes from picking better; all of it comes from where the bet was placed.</p>
+<h2>How to line shop in practice</h2>
+<p>Hold accounts at several of the books licensed where you live. One account gives you one price; three give you the best of three.</p>
+<p>Compare the same market, not a similar one: the same line, the same period, the same settlement rules. A better price on a different line is a different bet.</p>
+<p>Shop each side separately. The best price on one side and the best on the other are often at different books, and when they are far enough apart the pair is an <a href="/guides/what-is-arbitrage-betting/">arbitrage</a>.</p>
+<p>Use a screen that shows the books side by side, and check the age of each quote before you act on it. <a href="/guides/how-old-is-the-price-on-your-screen/">How old is the price on your screen &rarr;</a></p>
 """,
 
 "what-is-bankroll-management": f"""
