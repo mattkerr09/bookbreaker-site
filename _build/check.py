@@ -1171,6 +1171,27 @@ def check_thin_pages_do_not_grow(pages, fails):
                      f"thinnest: " + ", ".join(f"{p} ({n})" for n, p in sorted(thin)[:5]))
 
 
+def check_neighbours_named_online_are_online(pages, measured, fails):
+    """The no-legal-sportsbook page names, for each state, the neighbours where online betting is legal. Each one
+    named must have the state data's `online` flag: a first draft used `legal` and would have sent readers to
+    Mississippi, Washington and five more states where betting is in person only (2026-10-17)."""
+    import importlib.util
+    render = sys.modules.get("_render")
+    if render is None:
+        spec = importlib.util.spec_from_file_location("_render", SITE / "_build" / "render.py")
+        render = importlib.util.module_from_spec(spec)
+        sys.modules["_render"] = render
+        spec.loader.exec_module(render)
+    by_name = {v: k for k, v in render.STATE_NAMES.items()}
+    page = dict(pages).get("sportsbooks/no-legal-sportsbook/index.html", "")
+    for line in re.findall(r"legal online in (.*?)</li>", page, re.S):
+        for name in (html.unescape(re.sub(r"<[^>]+>", "", n)).strip() for n in line.split(",")):
+            code = by_name.get(name)
+            if code is None or not measured["states"].get(code, {}).get("online"):
+                fails.append(f"sportsbooks/no-legal-sportsbook/index.html: names {name} as legal online, but the "
+                             "state data does not have online betting there")
+
+
 def check_audit_signals(pages, fails):
     """What Docket's audit of 2026-10-13 asked for, held: every download-counter link is nofollow (a redirect to our
     own file, not an endorsement of a workers.dev host), every page carries a machine-readable date (a WebPage
@@ -1980,6 +2001,8 @@ def main() -> int:
             lambda: check_no_sibling_site_links(pages, fails),
         "check_audit_signals":
             lambda: check_audit_signals(pages, fails),
+        "check_neighbours_named_online_are_online":
+            lambda: check_neighbours_named_online_are_online(pages, measured, fails),
         "check_thin_pages_do_not_grow":
             lambda: check_thin_pages_do_not_grow(pages, fails),
         "check_competitor_prices_are_recent":

@@ -240,6 +240,13 @@ CASES = [
         ",2026-01-01,https://oddsjam.com/subscribe,",
     ),
     (
+        "a retail-only state named as legal online next door",
+        "check_neighbours_named_online_are_online",
+        "sportsbooks/no-legal-sportsbook/index.html",
+        '<strong>Alabama</strong>: legal online in ',
+        '<strong>Alabama</strong>: legal online in Mississippi, ',
+    ),
+    (
         "one more page left thin for Google",
         "check_thin_pages_do_not_grow",
         "index.html",
