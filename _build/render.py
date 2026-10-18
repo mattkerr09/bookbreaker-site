@@ -4142,6 +4142,10 @@ blank instead of defaulting them. An unknown book is not
 "DraftKings", and a bet with no event can never be graded.</p>
 <p>And check the reading before it is written. A slip you half-understood is
 not a bet with some missing details; it is text that did not parse.</p>
+<h2>What a clean entry has</h2>
+<p>The price as a number, the stake, the book, the event and the market, each in its own field, and the time it was
+placed. For a parlay, every leg on its own line with the parlay's price beside them, so a void on one leg can be
+regraded later. A bonus bet is marked as one, because it returns no stake and its result counts differently.</p>
 <p><a href="/guides/how-to-track-your-betting-results/">What a record can
 actually prove &rarr;</a></p>
 """,
@@ -4331,6 +4335,10 @@ how many times you happened to run it.</p>
 inflates a win rate; dropping them from the denominator inflates a return.
 Both are common, and a tracker that does not say which it does is not
 reporting a number you can use.</p>
+<h2>The order to grade in</h2>
+<p>Settle each bet from the official result, not the score you remember. Then apply the book's own rule for anything
+unusual: overtime, a player who did not play, a game moved or shortened. Last, record what was paid, which is the
+number that matters when the book's settlement and yours disagree, and note the disagreement so it can be raised.</p>
 <p><a href="/guides/how-to-track-your-betting-results/">Tracking results
 &rarr;</a></p>
 """,
