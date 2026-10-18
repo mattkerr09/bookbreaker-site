@@ -1,11 +1,11 @@
 {
-  "version": "0.1.33",
-  "notes": "DraftKings' new offer, and sign-up offers read again.\n\n- DraftKings is now Bet $5, Get $200 in bonus bets (four $50 bonus bets over 21 days), replacing the $150 offer that ends 10-18.\n- theScore Bet, Hard Rock Bet, Fanatics, BetMGM Michigan and Bally Bet were read again from their terms, with new dates.",
-  "pub_date": "2026-10-15T20:52:34Z",
+  "version": "0.1.34",
+  "notes": "Parlays: what each one costs against its fair price.\n\n- A new Parlays tab prices every NFL yardage and receptions prop at the books licensed in your state, from each book's own main line with its margin taken out.\n- For each game it shows the parlay of the legs with the smallest margin, its fair price beside what the legs multiplied pay, and the cost against fair. Legs that move together are named.\n- Reading props is off until you tick it, and the credits it would spend are shown first. The tab carries 21+ and the National Problem Gambling Helpline.\n- Borgata, Caesars, Bet Desert Diamond, BetRivers and bet365 were read again and are unchanged.",
+  "pub_date": "2026-10-18T23:03:50Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDB0NWJlV3gzeVlMMmhyc1J2TDJNeVRBZ0ZGejJ0TzBRczNRRU5PUGFlYkp0WlFoZEQxN1RoeWNoM3paSW0ybHNCSE0wQStWWEVFS2luUlBOUFUrOEFJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMDk3NTE5CWZpbGU6Qm9va2JyZWFrZXItMC4xLjMzLmFwcC50YXIuZ3oKSGszR0k1c1E1VEtuZGo4Z0syWXduZzkrcm5DdzgrVExVMW5qeVJvaGhPckVDYXRMK0oxMWVtZlFMc0hFQUtFQ25mZHkwdXVOazdXd2tQdzNOZDFqRHc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.33.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDZaalNqKzNNMDFNdlh3bjNpeGVpMkk3M2xUU25PTDJsZ01CL2U4VnQxdXFaV2pIMkE1OWN3WFF0K054dGo5a3JON0tPb3M2MmViY3VyT2JBMmViNndzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzY0NjAyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjM0LmFwcC50YXIuZ3oKOUZ1U1M0T25KWEo1VFNHb045blE3QU9qSTVmWklxaUFsbFg3UTJpbzduZEFNWDA0RWQxaCtXU3cxUUZHNWE5MXA1dDN4U0h4Q3o4QUpXWVdDazlnREE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.34.app.tar.gz"
     }
   }
 }

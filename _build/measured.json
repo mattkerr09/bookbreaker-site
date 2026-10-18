@@ -6,6 +6,7 @@
       "Live odds from your own key",
       "Every book&rsquo;s price, side by side",
       "Futures: who wins the title",
+      "Parlays: what each one costs",
       "Low hold",
       "Sign-up bonuses, turned into cash",
       "Convert a promo you already have",
@@ -30,6 +31,7 @@
       "lowhold",
       "odds",
       "parlay",
+      "parlays",
       "results",
       "screen",
       "welcome"
@@ -47,6 +49,7 @@
       "Low hold",
       "Odds screen",
       "Futures",
+      "Parlays",
       "Your key"
     ]
   },
@@ -470,10 +473,10 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "ef05e01fea29fbbd",
+  "engine_fingerprint": "7ee5374c24534177",
   "engine_load": {
-    "bytes": 6492707,
-    "mb": 6,
+    "bytes": 6506641,
+    "mb": 7,
     "pyodide": "0.29.5"
   },
   "evidence": {
@@ -931,28 +934,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35276218,
-      "kb": 34449,
+      "bytes": 35251660,
+      "kb": 34425,
       "mb": 35.3,
-      "name": "Bookbreaker-0.1.33.dmg",
-      "sha256": "6bb216e7edf2d0ff3e4a5260570fe835b918863ea0a10399c0c21c7d814c127e"
+      "name": "Bookbreaker-0.1.34.dmg",
+      "sha256": "111a39563c4bba9398129509eefbc4891f699e313ef47c7e5c0df75b0ce796e1"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 953171,
-      "kb": 931,
+      "bytes": 974178,
+      "kb": 951,
       "mb": 1.0,
-      "name": "overlay-0.1.33.tar.gz",
-      "sha256": "1a0b6ace4e98332b9279509411b9c81ab0e194e26dd96d050c14b4df47d06381"
+      "name": "overlay-0.1.34.tar.gz",
+      "sha256": "02e0041b7e16c38d94528c16a63f329838a852096c10646b81932b28491ea72f"
     },
-    "version": "0.1.33",
+    "version": "0.1.34",
     "wheel": {
-      "bytes": 479708,
-      "kb": 468,
+      "bytes": 493642,
+      "kb": 482,
       "mb": 0.5,
-      "name": "overlay-0.1.33-py3-none-any.whl",
-      "sha256": "baba014118bb1bed1096c3f61870a10f81a71c0b543339a8131072a7041a1ca2"
+      "name": "overlay-0.1.34-py3-none-any.whl",
+      "sha256": "386438e9c92f8f3be84472b6658ec22f779be22d1f6b2efe1b6337222915930b"
     }
   },
   "replay": {
@@ -5010,14 +5013,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 74,
+    "engine_modules": 75,
     "network_calls": 0,
-    "sha256": "6bb216e7edf2d0ff3e4a5260570fe835b918863ea0a10399c0c21c7d814c127e",
-    "sha256_short": "6bb216e7edf2d0ff",
+    "sha256": "111a39563c4bba9398129509eefbc4891f699e313ef47c7e5c0df75b0ce796e1",
+    "sha256_short": "111a39563c4bba93",
     "sources": 29,
-    "test_files": 99
+    "test_files": 101
   },
-  "version": "0.1.33",
+  "version": "0.1.34",
   "weights": {
     "max_age_days": 90
   },
@@ -5113,7 +5116,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 3,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5129,9 +5132,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
-        "note": "Secondary source; Action Network (read 2026-10-07) gives the same Indiana offer. A $10+ qualifying bet at -500 or longer; bonus bets paid win or lose, expire 7 days after issue, stake not returned.",
+        "note": "Secondary source; Action Network (read 2026-10-15, verified 2026-10-14) gives the same Indiana offer. A $10+ qualifying bet at -500 or longer; bonus bets paid win or lose, expire 7 days after issue, stake not returned.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://www.rotowire.com/betting/bet365/bonus-code",
         "stale": false,
         "states": [
@@ -5402,7 +5405,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 3,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5418,9 +5421,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
-        "note": "Secondary source; Action Network (read 2026-10-07) gives the same offer and states. A $10+ qualifying bet at -500 or longer within 30 days of registering. Bonus bets are paid win or lose, are non-withdrawable, expire 7 days after issue, and the bonus bet stake is not returned. NJ and PA add 50 casino spins, which are not priced here.",
+        "note": "Secondary source; Action Network (read 2026-10-15, verified 2026-10-14) gives the same offer and states. A $10+ qualifying bet at -500 or longer within 30 days of registering. Bonus bets are paid win or lose, are non-withdrawable, expire 7 days after issue, and the bonus bet stake is not returned. NJ and PA add 50 casino spins, which are not priced here.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://www.rotowire.com/betting/bet365/bonus-code",
         "stale": false,
         "states": [
@@ -5446,7 +5449,7 @@
         ]
       },
       {
-        "age_days": 9,
+        "age_days": 3,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5462,9 +5465,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
-        "note": "Secondary source. Rotowire (promo last verified 2026-10-09) lists Michigan, which also gets 50 casino spins that are not priced here. A $10+ qualifying bet at -500 or longer within 30 days of registering. Bonus bets are paid win or lose, are non-withdrawable, expire 7 days after receipt, and the bonus bet stake is not returned. Sportsbook Review's Michigan page (2026-10-05) and Covers' Michigan page (verified 2026-10-09) give the same offer. bet365 began taking Michigan bets on 2026-04-17 (MGCB release).",
+        "note": "Secondary source. Rotowire (promo last verified 2026-10-15) lists Michigan, which also gets 50 casino spins that are not priced here. A $10+ qualifying bet at -500 or longer within 30 days of registering. Bonus bets are paid win or lose, are non-withdrawable, expire 7 days after receipt, and the bonus bet stake is not returned. Sportsbook Review's Michigan page (2026-10-05) and Covers' Michigan page (verified 2026-10-09) give the same offer. bet365 began taking Michigan bets on 2026-04-17 (MGCB release).",
         "offer_type": "bet_and_get",
-        "read": "2026-10-09",
+        "read": "2026-10-15",
         "source": "https://www.rotowire.com/betting/bet365/bonus-code",
         "stale": false,
         "states": [
@@ -5478,7 +5481,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 3,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5494,9 +5497,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
-        "note": "Secondary source. Same terms as bet365's $200 offer, for $150 in these states. Rotowire (read 2026-10-07) gives $150 for IL and TN; the West Virginia amount is from Action Network alone. WV adds 50 casino spins, not priced here.",
+        "note": "Secondary source. Same terms as bet365's $200 offer, for $150 in these states. Rotowire (verified 2026-10-15) gives $150 for IL and TN; the West Virginia amount is from Action Network alone. WV adds 50 casino spins, not priced here.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/bet365",
         "stale": false,
         "states": [
@@ -5512,7 +5515,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 1,
         "book": "borgata",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5528,9 +5531,9 @@
         "ineligible": "",
         "installments": 2,
         "name": "Borgata",
-        "note": "Secondary source: Borgata's own sportsbook page is an app shell with no readable terms. A deposit and a first bet of $20 or more; the $100 in bonus bets is paid whether that bet wins or not, and expires 7 days after it is received. New Jersey only. Top End Sports (2026-06-02) adds that the first bet must be a pregame moneyline and that the $100 comes as two $50 bonus bets; CBS does not give the split, so the two-bet split rests on that one source.",
+        "note": "Secondary source (CBS, dated 2026-10-16, re-read 2026-10-17): Borgata's own sportsbook page is an app shell with no readable terms. A deposit and a first bet of $20 or more; the $100 in bonus bets is paid whether that bet wins or not, and expires 7 days after it is received. New Jersey only. Top End Sports (2026-06-02) adds that the first bet must be a pregame moneyline and that the $100 comes as two $50 bonus bets; CBS does not give the split, so the two-bet split rests on that one source.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-07",
+        "read": "2026-10-17",
         "source": "https://www.cbssports.com/betting/news/borgata-promo-code",
         "stale": false,
         "states": [
@@ -5544,7 +5547,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 1,
         "book": "desertdiamond",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5560,9 +5563,9 @@
         "ineligible": "",
         "installments": 5,
         "name": "Bet Desert Diamond",
-        "note": "Bet Desert Diamond's own terms (Bet & Get). A first deposit of $20 to $100 and a $20+ real-money bet at -200 or longer; once it settles, five $20 bonus bets, usable only at -200 or longer and not in portions, expiring 14 days after issue. Arizona only, and not on Indian lands. A first deposit over $100 gets the $250 Welcome Match instead, a deposit match this screen does not price.",
+        "note": "Bet Desert Diamond's own terms (Bet & Get), re-read 2026-10-17, still ending 2026-12-31. A first deposit of $20 to $100 and a $20+ real-money bet at -200 or longer; once it settles, five $20 bonus bets, usable only at -200 or longer and not in portions, expiring 14 days after issue. Arizona only, and not on Indian lands. A first deposit over $100 gets the $250 Welcome Match instead, a deposit match this screen does not price.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-07",
+        "read": "2026-10-17",
         "source": "https://cms.ddc.whitehatgaming.com/en/promotions?device=desktop&userType=new_user&jurisdiction=US-AZ",
         "stale": false,
         "states": [
@@ -5803,7 +5806,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 3,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5819,9 +5822,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "BetRivers",
-        "note": "BetRivers' own wording, the same on each of these states' sites (in., la., md., mi., pa. and va.betrivers.com). Claim code SPORTS on a first deposit ($10 minimum per Action Network and Rotowire); the next real-money sports bet, at -200 or longer, is refunded as one bonus bet equal to the stake, up to $500, if it loses. Expiry is disputed: Action Network (2026-10-07) and Rotowire say 30 days, Sportsbook Review's New York page (2026-10-07) says 7; the shorter is recorded. Action Network and Sportsbook Review's Illinois page give the same amounts.",
+        "note": "BetRivers' own wording (re-read 2026-10-15 on all fourteen state sites), the same on each of these states' sites (in., la., md., mi., pa. and va.betrivers.com). Claim code SPORTS on a first deposit ($10 minimum per Action Network and Rotowire); the next real-money sports bet, at -200 or longer, is refunded as one bonus bet equal to the stake, up to $500, if it loses. Expiry is disputed: Action Network (2026-10-07) and Rotowire say 30 days, Sportsbook Review's New York page (2026-10-07) says 7; the shorter is recorded. Action Network and Sportsbook Review's Illinois page give the same amounts.",
         "offer_type": "safety_net",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://il.betrivers.com/conf/translations-ENG.js",
         "stale": false,
         "states": [
@@ -5839,7 +5842,7 @@
         ]
       },
       {
-        "age_days": 9,
+        "age_days": 3,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5855,9 +5858,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "BetRivers",
-        "note": "BetRivers' own wording on mi.betrivers.com: claim code SPORTS on a first deposit; your next real money sports wager is eligible, and if it loses, a bonus bet equal to your stake, up to $500, is loaded when it settles. Rotowire (promo last verified 2026-10-09) adds a $10 minimum deposit, minimum odds of -200 on the first wager, and a single bonus bet. Expiry is disputed: Rotowire says 30 days; Sportsbook Review's New York page, read in an earlier pass of this feed, says 7. The shorter is recorded.",
+        "note": "BetRivers' own wording (re-read 2026-10-15 on all fourteen state sites) on mi.betrivers.com: claim code SPORTS on a first deposit; your next real money sports wager is eligible, and if it loses, a bonus bet equal to your stake, up to $500, is loaded when it settles. Rotowire (promo last verified 2026-10-09) adds a $10 minimum deposit, minimum odds of -200 on the first wager, and a single bonus bet. Expiry is disputed: Rotowire says 30 days; Sportsbook Review's New York page, read in an earlier pass of this feed, says 7. The shorter is recorded.",
         "offer_type": "safety_net",
-        "read": "2026-10-09",
+        "read": "2026-10-15",
         "source": "https://mi.betrivers.com/conf/translations-ENG.js",
         "stale": false,
         "states": [
@@ -5942,7 +5945,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 1,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5958,9 +5961,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Caesars",
-        "note": "Secondary source: Caesars' own pages refused the read (403). Ten 100% profit boost tokens, $25 maximum stake and $2,500 maximum extra winnings per token, min odds -10,000, expiring 14 days after receipt. Sportsbook Review's Maine page (2026-09-23) confirms Maine. Caesars runs a second welcome offer through other codes, the Bet Reset row; a new account takes one.",
+        "note": "Secondary source (Action Network, verified 2026-10-17): Caesars' own pages refused the read (403). Ten 100% profit boost tokens, $25 maximum stake and $2,500 maximum extra winnings per token, min odds -10,000, expiring 14 days after receipt. Sportsbook Review's Maine page (2026-09-23) confirms Maine. Caesars runs a second welcome offer through other codes, the Bet Reset row; a new account takes one.",
         "offer_type": "profit_boost",
-        "read": "2026-10-07",
+        "read": "2026-10-17",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/caesars",
         "stale": false,
         "states": [
@@ -6023,7 +6026,7 @@
         ]
       },
       {
-        "age_days": 9,
+        "age_days": 1,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6039,9 +6042,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Caesars",
-        "note": "Secondary source: Caesars' own pages load as a script shell with no readable terms. Action Network (updated 2026-10-01) quoting Caesars' terms: ten 100% profit boost tokens, a $1+ first bet at -10,000 or longer within 30 days of signing up, $25 maximum stake and $2,500 maximum additional winnings per token, each token expiring 14 days after receipt. Covers' Michigan page (verified 2026-10-09) gives the same tokens under another code, a $10 minimum deposit where Action Network says $1, and the offer's end as 2027-03-02. Caesars runs a second welcome offer, the Bet Reset row; a new account takes one.",
+        "note": "Secondary source (re-read 2026-10-17): Caesars' own pages load as a script shell with no readable terms. Action Network (updated 2026-10-01) quoting Caesars' terms: ten 100% profit boost tokens, a $1+ first bet at -10,000 or longer within 30 days of signing up, $25 maximum stake and $2,500 maximum additional winnings per token, each token expiring 14 days after receipt. Covers' Michigan page (verified 2026-10-09) gives the same tokens under another code, a $10 minimum deposit where Action Network says $1, and the offer's end as 2027-03-02. Caesars runs a second welcome offer, the Bet Reset row; a new account takes one.",
         "offer_type": "profit_boost",
-        "read": "2026-10-09",
+        "read": "2026-10-17",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/caesars-sportsbook",
         "stale": false,
         "states": [
@@ -6053,7 +6056,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 1,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6069,9 +6072,9 @@
         "ineligible": "",
         "installments": 5,
         "name": "Caesars",
-        "note": "Secondary source. Five Bet Reset tokens, one at registration and one a day for the next four days. A token bet of $1 to $50 at -1000 or longer that loses is refunded as a bonus bet. Tokens and bonus bets expire after 14 days. amNY (2026-10-03) describes the same offer. The alternative to Caesars' ten profit boosts; a new account takes one.",
+        "note": "Secondary source (Rotowire, verified 2026-10-17). Five Bet Reset tokens, one at registration and one a day for the next four days. A token bet of $1 to $50 at -1000 or longer that loses is refunded as a bonus bet. Tokens and bonus bets expire after 14 days. amNY (2026-10-03) describes the same offer. The alternative to Caesars' ten profit boosts; a new account takes one.",
         "offer_type": "safety_net",
-        "read": "2026-10-07",
+        "read": "2026-10-17",
         "source": "https://www.rotowire.com/betting/caesars/promo-code",
         "stale": false,
         "states": [
@@ -6105,7 +6108,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 3,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6121,9 +6124,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "BetRivers",
-        "note": "BetRivers' own wording, the same on co.betrivers.com. Code SPORTS on a first deposit; the next real-money sports bet, at -200 or longer, is refunded as one bonus bet up to $250 if it loses. Expiry disputed, 30 days (Action Network, Rotowire) or 7 (Sportsbook Review); the shorter is recorded. Action Network gives $250 for New Jersey.",
+        "note": "BetRivers' own wording (re-read 2026-10-15 on all fourteen state sites), the same on co.betrivers.com. Code SPORTS on a first deposit; the next real-money sports bet, at -200 or longer, is refunded as one bonus bet up to $250 if it loses. Expiry disputed, 30 days (Action Network, Rotowire) or 7 (Sportsbook Review); the shorter is recorded. Action Network gives $250 for New Jersey.",
         "offer_type": "safety_net",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://nj.betrivers.com/conf/translations-ENG.js",
         "stale": false,
         "states": [
@@ -6137,7 +6140,7 @@
         ]
       },
       {
-        "age_days": 9,
+        "age_days": 1,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6153,9 +6156,9 @@
         "ineligible": "",
         "installments": 5,
         "name": "Caesars",
-        "note": "Secondary source. Rotowire (updated 2026-10-08, promo last verified 2026-10-09) lists Michigan: five Bet Reset tokens, one a day for five days, each to be used within 14 days at -1000 or longer. A token bet that loses is refunded as a single bonus bet of up to $50; bonus bets expire after 14 days. Round robins, flex parlays and early cash outs do not qualify. The alternative to Caesars' ten profit boosts; a new account takes one.",
+        "note": "Secondary source. Rotowire (updated 2026-10-08, promo last verified 2026-10-17) lists Michigan: five Bet Reset tokens, one a day for five days, each to be used within 14 days at -1000 or longer. A token bet that loses is refunded as a single bonus bet of up to $50; bonus bets expire after 14 days. Round robins, flex parlays and early cash outs do not qualify. The alternative to Caesars' ten profit boosts; a new account takes one.",
         "offer_type": "safety_net",
-        "read": "2026-10-09",
+        "read": "2026-10-17",
         "source": "https://www.rotowire.com/betting/caesars/promo-code",
         "stale": false,
         "states": [
@@ -6198,7 +6201,7 @@
         ]
       },
       {
-        "age_days": 11,
+        "age_days": 3,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6214,9 +6217,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "BetRivers",
-        "note": "BetRivers' own wording, the same on az., ia., oh. and wv.betrivers.com. Code SPORTS on a first deposit; the next real-money sports bet, at -200 or longer, is refunded as one bonus bet up to $100 if it loses. Expiry disputed, 30 days (Action Network, Rotowire) or 7 (Sportsbook Review's New York page); the shorter is recorded. Delaware, where BetRivers runs the lottery's sportsbook, is left out: its three sites carry no first-deposit SPORTS text, and the one report of a Delaware offer (Rotogrinders, 2026-09-11, up to $250) could not be confirmed.",
+        "note": "BetRivers' own wording (re-read 2026-10-15 on all fourteen state sites), the same on az., ia., oh. and wv.betrivers.com. Code SPORTS on a first deposit; the next real-money sports bet, at -200 or longer, is refunded as one bonus bet up to $100 if it loses. Expiry disputed, 30 days (Action Network, Rotowire) or 7 (Sportsbook Review's New York page); the shorter is recorded. Delaware, where BetRivers runs the lottery's sportsbook, is left out: its three sites carry no first-deposit SPORTS text, and the one report of a Delaware offer (Rotogrinders, 2026-09-11, up to $250) could not be confirmed.",
         "offer_type": "safety_net",
-        "read": "2026-10-07",
+        "read": "2026-10-15",
         "source": "https://ny.betrivers.com/conf/translations-ENG.js",
         "stale": false,
         "states": [
@@ -6299,6 +6302,29 @@
     ]
   },
   "whatsnew": [
+    {
+      "date": "2026-10-18",
+      "notes": [
+        {
+          "text": "A new Parlays tab prices every NFL yardage and receptions prop at the books licensed in your state, from each book's own main line with its margin taken out, and gives each leg its fair chance and the best price on offer.",
+          "where": "Tools"
+        },
+        {
+          "text": "For each game it shows the parlay of the legs with the smallest margin, with its fair price beside what the legs multiplied pay, and the cost against fair: a parlay charges the book's margin on every leg. Legs that move together are named, with how a book treats them.",
+          "where": "Tools"
+        },
+        {
+          "text": "Opening the tab reads what is already on this Mac and costs nothing. Reading new props is off until you tick it, and the credits it would spend from your own Odds API key are shown before you press Read.",
+          "where": "Tools"
+        },
+        {
+          "text": "Borgata, Caesars, Bet Desert Diamond, BetRivers and bet365 were read again and are unchanged.",
+          "where": "Promos"
+        }
+      ],
+      "title": "Parlays: what each one costs against its fair price",
+      "version": "0.1.34"
+    },
     {
       "date": "2026-10-15",
       "notes": [
@@ -6399,21 +6425,6 @@
       ],
       "title": "Futures",
       "version": "0.1.27"
-    },
-    {
-      "date": "2026-10-13",
-      "notes": [
-        {
-          "text": "Fixed: a best price, a play, a hedge or an alert could be at a sportsbook that is legal in some states but not licensed in yours. With your state picked in the top bar, every one of them is now at a book licensed there.",
-          "where": "Arbitrage"
-        },
-        {
-          "text": "Until you pick a state, the Arbitrage page, the Odds screen, Low hold and Convert my own promo say in one sentence that a price may be at a book you cannot use where you are.",
-          "where": "Window"
-        }
-      ],
-      "title": "Only sportsbooks licensed in your state",
-      "version": "0.1.26"
     }
   ]
 }

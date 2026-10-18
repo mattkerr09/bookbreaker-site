@@ -15,6 +15,7 @@
     "Live odds from your own key",
     "Every book&rsquo;s price, side by side",
     "Futures: who wins the title",
+    "Parlays: what each one costs",
     "Low hold",
     "Sign-up bonuses, turned into cash",
     "Convert a promo you already have",
@@ -45,9 +46,10 @@
     "Low hold",
     "Odds screen",
     "Futures",
+    "Parlays",
     "Your key"
   ],
-  "recorded_version": "0.1.27",
+  "recorded_version": "0.1.34",
   "encoded_with": [
     "ffmpeg -framerate 12 -i f%05d.png -vf scale=1280:800:flags=lanczos,format=yuv420p -c:v libx264 -preset slow -crf 22 -movflags +faststart -an app.mp4",
     "ffmpeg -framerate 12 -i f%05d.png -vf scale=1280:800:flags=lanczos -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 -an app.webm",
