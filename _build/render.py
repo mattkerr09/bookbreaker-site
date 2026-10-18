@@ -3869,6 +3869,14 @@ push, so those games are not in the count. {cite}</p>
 win covers, at &minus;3 it is money back, at &minus;3.5 it loses. That is why books move the price on a 3 rather than
 the line, and why buying off 3 costs more than buying off 5. <a href="/guides/what-is-a-push-in-betting/">What a
 push is worth</a> shows the same effect on a total.</p>
+<h2>Using it</h2>
+<p>Buying a half point is worth its price only across a key number. Off &minus;3 to &minus;2.5, the
+{k['line_3_push_pct']}% of games that pushed at 3 become wins, about one bet in ten; off &minus;5 to &minus;4.5 almost
+nothing changes, because few games land on 5. {cite}</p>
+<p>The same arithmetic is behind teasers that cross both key numbers. Together 3 and 7 account for
+{float(k['margin_3_pct']) + float(k['margin_7_pct']):.2f}% of final margins, so a teaser that moves an underdog from +1.5
+to +7.5, or a favourite from &minus;7.5 to &minus;1.5, picks up both at once. A teaser that crosses neither buys points
+that rarely matter. {cite}</p>
 """)({r["key"]: r["value"] for r in load_data("nfl_key_numbers")},
      f'From the nflverse games file: <a href="{e(load_data("nfl_key_numbers")[0]["source"])}" rel="nofollow" '
      f'data-cite="1">source</a>, read {e(load_data("nfl_key_numbers")[0]["read"])}.'),
