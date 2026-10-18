@@ -1,4 +1,4 @@
-"""Re-shoot the three panel stills from the window as it stands now.
+"""Re-shoot the panel stills from the window as it stands now.
 
 Kept as a script rather than a memory, because the portfolio site's hardest
 lesson was a product screenshot that drifted from the product with nothing to
@@ -8,7 +8,7 @@ import asyncio, base64, json, pathlib, sys, urllib.request, websockets
 
 OUT = pathlib.Path(sys.argv[1])
 PANELS = [("arb", "panel-arbitrage.jpg"), ("kelly", "panel-stake.jpg"),
-          ("parlay", "panel-parlay.jpg")]
+          ("parlay", "panel-parlay.jpg"), ("devig", "panel-fairodds.jpg")]
 
 
 async def main():

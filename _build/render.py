@@ -364,6 +364,8 @@ def measure(engine) -> dict:
     _shot_arb = _arb.stake_arb([2.10, 2.05], 1000.0)
     _shot_kelly = _kelly.size_bet(_a2d(150.0), 0.45, 10000.0, fraction=0.25)
     _shot_parlay = _parlay.value([_a2d(-110.0)] * 4)
+    from overlay_engine.devig import devig_all as _devig_all
+    _shot_devig = _devig_all([_a2d(-145.0), _a2d(125.0)])
     # Rounded here rather than at render time, so measured.json records the
     # figure the page actually publishes. The gate compares the two literally
     # — storing 8.333333333333332 and printing 8.33 reads to it as a number
@@ -390,6 +392,12 @@ def measure(engine) -> dict:
         "parlay_hold_pct": round(_shot_parlay.leg_hold * 100.0, 2),
         "parlay_pays": round(_shot_parlay.offered - 1.0, 2),
         "parlay_fair": round(_shot_parlay.fair - 1.0, 2),
+        # The Fair odds tab's still (panel-fairodds.jpg): -145 against +125, the tab's own defaults.
+        "devig_a": -145,
+        "devig_b": 125,
+        "devig_fav_pct": round(_shot_devig.consensus(0) * 100.0, 1),
+        "devig_hold_pct": round((1 - 1 / sum(1 / d for d in (_a2d(-145.0), _a2d(125.0)))) * 100.0, 2),
+        "devig_spread_pct": round(_shot_devig.spread(0) * 100.0, 2),
     }
 
     # 2d. What a stranger can check for themselves. A product people hand
@@ -4717,6 +4725,12 @@ def app_shot(m: dict, slug: str) -> str:
             f"The parlay check, on {sc['parlay_legs']} legs at &minus;110. It "
             f"pays {sc['parlay_pays']:.2f} to 1 where fair is "
             f"{sc['parlay_fair']:.2f} to 1."),
+        "no-vig-odds": (
+            "panel-fairodds.jpg",
+            "The app's fair odds tool with the book's cut taken out of both sides.",
+            f"The fair odds tool, on {sc['devig_a']} against +{sc['devig_b']}. With the book&rsquo;s "
+            f"{sc['devig_hold_pct']:.2f}% cut taken out, the favourite wins {sc['devig_fav_pct']:.1f}% of the "
+            f"time, and the four ways of removing the cut disagree by {sc['devig_spread_pct']:.2f}%."),
     }
     if slug not in shots:
         return ""
