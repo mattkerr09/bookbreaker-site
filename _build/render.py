@@ -3845,6 +3845,11 @@ building a parlay around a whole-number line. <a href="/guides/how-to-grade-your
 bets</a> covers recording them.</p>
 <p>The figures come from a Poisson model, which treats the two sides' scoring as independent.
 <a href="/calculators/poisson/">Try your own expected goals</a>.</p>
+<h2>When it matters most</h2>
+<p>Where a whole number lands often. Soccer and hockey totals of 2 and 3, and American football margins that cluster
+on field goals and touchdowns, are where a half point changes the bet the most; <a href="/guides/nfl-key-numbers/">the
+key numbers</a> show how often each lands. Paying extra for the half point is worth it only when that number lands
+often enough to cover what the half point costs.</p>
 """,
 
 "nfl-key-numbers": (lambda k, cite: f"""
@@ -4257,6 +4262,10 @@ by losing to it.</p>
 <p>It also explains the rejections. A bet declined at the moment of placement
 is usually not a limit. It is a price that had already moved before you
 clicked, on a market where the survival curve is steep.</p>
+<h2>What to do with it</h2>
+<p>Read the age beside a price before the price itself. A quote that is minutes old on a market that moves is a guess
+about the present, and the edge on it shrinks by the minute. Refresh before you act, prefer a feed that stamps when it
+saw each price, and on a two-book bet place the side most likely to move first.</p>
 <p><a href="/guides/why-your-bets-get-rejected/">Why bets get rejected
 &rarr;</a></p>
 """,
@@ -4286,6 +4295,11 @@ weight with no evidence behind it looks identical to one with evidence.</p>
 <p>Closing line value, not profit. Profit over a few hundred bets is mostly
 variance; CLV resolves on every bet and correlates with the thing you are
 trying to have. It is a supervision signal, not a scoreboard.</p>
+<h2>Before you trust it</h2>
+<p>Hold back the most recent stretch of games and test on those only. Count every version of the model you tried,
+because each one is another chance to fit noise. Compare its picks with everyone else's picks on the same games, at the
+same distance from the line, so that a good season for the whole market is not mistaken for skill. If the edge
+survives all three, it is worth sizing a bet on.</p>
 <p><a href="/calculators/closing-line-value/">What CLV is &rarr;</a></p>
 """,
 
