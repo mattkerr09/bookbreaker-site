@@ -7045,6 +7045,20 @@ Downloading the NFL player data, which you start yourself, fetches public files 
 <p>And if the app
 crashes it writes a report to your own disk, with passwords and keys stripped
 out; it never sends it. You can attach it to an email yourself if you want to.</p>
+<h2>Check it yourself</h2>
+<p>You do not have to take this page&rsquo;s word for any of it. Your Mac can show you
+every connection the app makes.</p>
+<p><strong>Activity Monitor.</strong> Open it from Applications, then Utilities, and
+choose the Network tab. Find <code>bookbreaker</code>, the app, and
+<code>overlay-engine</code>, the engine it starts to answer each question. Open the app
+and leave it: its bytes sent stay at zero until you press one of the buttons in the list
+above.</p>
+<p><strong>Terminal.</strong> While the app is open, <code>lsof -i -P | grep -i -E
+'bookbreaker|overlay'</code> lists every open connection and the address it goes to.
+With nothing pressed it prints nothing.</p>
+<p><strong>A firewall that asks.</strong> An outbound firewall such as the free, open
+source LuLu stops each new connection and asks you first, naming the program and the
+host. Every host it shows for Bookbreaker should be one named on this page.</p>
 <h2>Sportsbook accounts</h2>
 <p>Bookbreaker never asks for a sportsbook login and cannot connect to one.
 Your history comes in by importing the CSV your book lets you download, or by
