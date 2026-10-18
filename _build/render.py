@@ -3546,6 +3546,12 @@ than it sounds. {e(m['commission']['price'])} on both sides looks like a
 {m['commission']['commission']}% of winnings it is
 {m['commission']['net']:.2f}%. A screen that skips the netting surfaces that
 every time, and it costs money on every one.</p>
+<h2>When one leg is refused</h2>
+<p>Place the leg most likely to move first, usually the book with the stale
+price, and only then the other. If the second is refused or reprices, decide
+at once: hedge at the next best price for a small known loss, or close the
+first leg if the book allows it. Waiting for the old price to come back is how
+a one-sided position turns into a bet you never meant to make.</p>
 <p><a href="/guides/what-is-arbitrage-betting/">The full explanation &rarr;</a>
 &nbsp;&middot;&nbsp;<a href="/account-longevity/">The limiting model &rarr;</a></p>
 """,
@@ -3573,8 +3579,24 @@ default rather than showing them and hoping you notice.</p>
 tennis outright. So it is measured. Every graded bet feeds a comparison of
 which method predicted the closing line. The weights update only if the new
 ones beat the old ones on a slice of your record they were not fitted on.</p>
+<h2>A routine that holds up</h2>
+<p><strong>Refresh, then act fast or not at all.</strong> A price you read a
+few minutes ago may already have moved, so the fill estimate falls with the
+age of the read. Treat an old edge as a question, not a bet.</p>
+<p><strong>Keep the closing price of every bet.</strong> Beating the close is
+the earliest evidence you have that the model is right, long before the profit
+column means anything. A record of wins without closing prices cannot tell you
+which edges were real.</p>
+<p><strong>Size from the low end of the band.</strong> Staking as if the
+friendliest devig were true is how a small edge turns into a large drawdown.
+A fraction of Kelly on the conservative estimate survives the method you
+picked being wrong.</p>
+<p><strong>Spread the action.</strong> An account that only ever takes the
+stale side of a moving line is the easiest one to limit. Mixing markets and
+keeping stakes in round numbers keeps it open longer.</p>
 <p><a href="/calculators/expected-value/">What +EV means &rarr;</a>
-&nbsp;&middot;&nbsp;<a href="/calculators/no-vig-odds/">How devigging works &rarr;</a></p>
+&nbsp;&middot;&nbsp;<a href="/calculators/no-vig-odds/">How devigging works &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/guides/how-to-tell-if-your-model-actually-works/">Is your model working? &rarr;</a></p>
 """,
 
 "bonus-hunters": f"""
@@ -3598,7 +3620,19 @@ before it happens. So this one tracks what you hold, what it converts
 to, what is expiring, and how much face value has already lapsed unused. That
 last figure is the only one that already happened rather than being a
 forecast.</p>
-<p><a href="/calculators/bonus-bet-conversion/">How conversion works &rarr;</a></p>
+<h2>Working through the offers</h2>
+<p><strong>Read the terms before the deposit.</strong> Whether the bonus is
+paid win or lose, in one bet or several, and how long each piece lasts all
+change what it converts to. The headline number rarely says.</p>
+<p><strong>Convert at the longest price you can hedge.</strong> The hedge has
+to be placed at another book, so you need accounts at two or more, and the
+hedge price matters as much as the free leg.</p>
+<p><strong>Use them before they lapse.</strong> Convert each bonus bet while it
+is still valid, oldest first, rather than saving it for a game you like.</p>
+<p><strong>Keep it to books licensed where you are.</strong> An offer from an
+operator your state does not license is not one you can rely on being paid.</p>
+<p><a href="/calculators/bonus-bet-conversion/">How conversion works &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/guides/which-welcome-offer-to-do-first/">Which offer to do first &rarr;</a></p>
 """,
 
 "new-bettors": f"""
