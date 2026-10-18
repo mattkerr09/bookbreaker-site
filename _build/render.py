@@ -4006,6 +4006,12 @@ multiplication alone is quoting a number it cannot support.</p>
 <p>What survives: correlation cuts both ways, and a <em>negatively</em>
 correlated pair is the one books misprice more often. That is a real edge and
 it needs the correlation measured, not assumed.</p>
+<h2>Reading a same-game price</h2>
+<p>Work out what each leg is worth on its own, multiply those chances, and adjust for legs that move together. That gives
+the fair price of the ticket. Then compare it with the book's offer: a book's same-game price is usually shorter than
+the legs multiplied, and the gap is its margin on the whole ticket, charged once per leg and compounded. Take the ticket
+only when the offer is longer than the fair price. If it is not, the parlay is a more expensive way to make the same
+bets.</p>
 <p><a href="/calculators/parlay/">The ordinary parlay maths
 &rarr;</a></p>
 """,
@@ -4033,6 +4039,11 @@ largest.</p>
 <p>Where they never limit winners, no anti-limiting effort is spent at all.
 Spending edge to hide from a risk desk that does not exist is the most common
 way that advice is misapplied.</p>
+<h2>Using a sharp price where you cannot bet it</h2>
+<p>Most US bettors cannot place a bet at the sharpest books, but they can read their prices. Take the margin out of a
+sharp book's market and you have the best available estimate of the true chance. Any book that offers more than that
+on the same side is paying above fair, and that comparison, made one price at a time, is all positive expected value
+means.</p>
 <p><a href="/sportsbooks/nj/">Which books are which, by state &rarr;</a></p>
 """,
 
@@ -4213,6 +4224,11 @@ bets should not be described at all. Not "slightly negative", not
 breakdowns are exactly where it is needed. A tool that shows you twenty
 segments and highlights the green ones is selling you the search results and
 calling them a finding.</p>
+<h2>How to test a segment that looks good</h2>
+<p>Decide on the segment first, then judge it only on bets placed after that decision. Compare it with the same kind of
+bet made by everyone else in the same weeks, so a good season for the whole market does not pass for skill. And check
+it against the closing line rather than profit: a segment that beats the close is worth more attention than one that
+merely won.</p>
 <p><a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
 """,
 
