@@ -3619,6 +3619,30 @@ worse, not better.</p>
 <p>Books limit consistent winners, so an edge you cannot place is worth
 nothing. That makes stake shape, timing and market mix part of the arithmetic
 rather than a separate topic.</p>
+<h2>A first week, in order</h2>
+<p><strong>Pick books licensed where you live.</strong> Only a state-licensed
+sportsbook answers to a regulator that holds your deposit to rules.
+<a href="/sportsbooks/">What is licensed in your state &rarr;</a></p>
+<p><strong>Set the limits before the first bet.</strong> Licensed books let
+you cap deposits and take a break from inside the account. Decide the
+amount you can afford to lose in a month, set it as a deposit limit, and keep
+the bankroll separate from money you need.
+<a href="/responsible-gambling/">Limits and where to get help &rarr;</a></p>
+<p><strong>Learn to read a price.</strong> Turn every price into the chance it
+implies before you judge it. <a href="/calculators/odds-converter/">The odds
+converter &rarr;</a></p>
+<p><strong>Take the best price on offer.</strong> With accounts at two or three
+books, take whichever pays most on the bet you already chose. On a coin flip,
+-105 instead of -110 is worth ${m['lineshop']['saved']:,.2f} over
+{m['lineshop']['n']} bets of ${m['lineshop']['stake']}, with no better picks at
+all. <a href="/guides/how-to-line-shop/">How to line shop &rarr;</a></p>
+<p><strong>Claim the sign-up offers in a sensible order.</strong> Each book's
+first offer is the best one it will make you, and they are worth working out
+before you deposit. <a href="/guides/which-welcome-offer-to-do-first/">Which
+offer to do first &rarr;</a></p>
+<p><strong>Write every bet down.</strong> Price, stake, book and the closing
+price, from the first one. <a href="/guides/how-to-track-your-betting-results/">What
+to record &rarr;</a></p>
 <p>None of this requires a subscription to learn.
 <a href="/guides/">Every guide is here &rarr;</a></p>
 """,
