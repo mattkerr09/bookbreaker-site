@@ -3633,7 +3633,7 @@ def best_bodies(m: dict) -> dict[str, str]:
     n = len(load_data("competitors"))
     _ = m  # referenced inside the f-strings below
 
-    return {
+    bodies = {
 "best-arbitrage-betting-software": f"""
 <p>Every list answering this is an affiliate page, so here is what to check
 instead of who to buy.</p>
@@ -3711,6 +3711,34 @@ measuring anything.</p>
 <p><a href="/calculators/expected-value/">What +EV means &rarr;</a></p>
 """,
     }
+    # Each page then compares the tools the data has dated, sourced rows for, so a reader gets names and prices as
+    # well as what to check (the search-health audit, 2026-10-17: these pages were lists with nothing on them).
+    picks = {"best-arbitrage-betting-software": ["oddsjam", "rebelbetting", "betburger", "avo"],
+             "best-odds-screen": ["betstamp-pro", "oddsjam", "avo", "unabated"],
+             "best-bet-tracker": ["pikkit", "smartstake"],
+             "best-ev-betting-software": ["oddsjam", "unabated", "smartstake", "crazy-ninja-odds"]}
+    ours = {"best-arbitrage-betting-software": "Arbitrage across the books licensed in your state, each with how likely "
+                                               "the price is to still be there and round stakes",
+            "best-odds-screen": "An odds screen with the age of every quote, from your own free odds key",
+            "best-bet-tracker": "Imports a CSV and never asks for a sportsbook password; return comes with its "
+                                "interval",
+            "best-ev-betting-software": "+EV with every devig method side by side, and the range the edge sits in"}
+    comp = {r["slug"]: r for r in load_data("competitors")}
+    for slug, keys in picks.items():
+        rows = "".join(
+            f'<tr><td><a href="{e(comp[k]["url"])}" rel="nofollow">{e(comp[k]["name"])}</a></td>'
+            f'<td>{e(comp[k]["price"])}</td><td>{e(comp[k]["note"])}</td><td>{e(comp[k]["gap"])}</td>'
+            f'<td>read {e(comp[k]["read"])}, <a href="{e(comp[k]["source"])}" rel="nofollow">source</a></td></tr>'
+            for k in keys if k in comp)
+        bodies[slug] += (
+            "<h2>The tools, side by side</h2>"
+            "<p>Prices and descriptions from each tool's own pages, on the date shown. Ours is included so it can "
+            "be held to the same questions.</p>"
+            "<table><tr><th>Tool</th><th>Price</th><th>What it is</th><th>What it does not publish</th><th>Read</th>"
+            "</tr>" + rows
+            + f'<tr><td>Bookbreaker</td><td>Free</td><td>{e(ours[slug])}</td><td>Runs on a Mac only</td>'
+              "<td>this site</td></tr></table>")
+    return bodies
 
 
 def guide_description(row: dict) -> str:
