@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "75d0816e84e76c4d",
+  "engine_fingerprint": "360723541b335167",
   "engine_load": {
-    "bytes": 6510570,
+    "bytes": 6510569,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35252093,
+      "bytes": 35252735,
       "kb": 34426,
       "mb": 35.3,
-      "name": "Bookbreaker-0.1.37.dmg",
-      "sha256": "e15bbb3dd1433cdb675d6e7d6f8c856432c205b866c278bb79a9b18f052e8eaf"
+      "name": "Bookbreaker-0.1.38.dmg",
+      "sha256": "9fe23ef9c29273f6bb0c486eb9813560e9e1da35ca0f041ac07a1b44122f8441"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 982477,
-      "kb": 959,
+      "bytes": 983343,
+      "kb": 960,
       "mb": 1.0,
-      "name": "overlay-0.1.37.tar.gz",
-      "sha256": "29627f179bfd6af43155f00a54504fe467ee137272af0fbab0ee4543628cd735"
+      "name": "overlay-0.1.38.tar.gz",
+      "sha256": "4c8461cb2079167de508063277726514ae2c588ea9b327c893d5d6bdcf20215c"
     },
-    "version": "0.1.37",
+    "version": "0.1.38",
     "wheel": {
-      "bytes": 496160,
+      "bytes": 496159,
       "kb": 485,
       "mb": 0.5,
-      "name": "overlay-0.1.37-py3-none-any.whl",
-      "sha256": "4151faea3fb9c9f3a85d06e8944998eade60fd8901d54bc0a1d371e64a34206d"
+      "name": "overlay-0.1.38-py3-none-any.whl",
+      "sha256": "8ad9bdab9da29f21f7ceecd82bd21b40ecbf9a78af55df160b9c9c1550a3be4d"
     }
   },
   "replay": {
@@ -5230,12 +5230,12 @@
     "accounts": 0,
     "engine_modules": 76,
     "network_calls": 0,
-    "sha256": "e15bbb3dd1433cdb675d6e7d6f8c856432c205b866c278bb79a9b18f052e8eaf",
-    "sha256_short": "e15bbb3dd1433cdb",
+    "sha256": "9fe23ef9c29273f6bb0c486eb9813560e9e1da35ca0f041ac07a1b44122f8441",
+    "sha256_short": "9fe23ef9c29273f6",
     "sources": 29,
-    "test_files": 106
+    "test_files": 107
   },
-  "version": "0.1.37",
+  "version": "0.1.38",
   "weights": {
     "max_age_days": 90
   },
@@ -6521,6 +6521,17 @@
       "date": "2026-10-19",
       "notes": [
         {
+          "text": "A +EV play's detail has a Size this bet button. It opens Bet size with the play's price and the low end of its fair chance already filled in, and works out the stake; put in your own bankroll. The low end is used on purpose: sizing from the friendliest estimate is how a small edge turns into a large losing run.",
+          "where": "Arbitrage"
+        }
+      ],
+      "title": "Size a +EV bet straight from the board",
+      "version": "0.1.38"
+    },
+    {
+      "date": "2026-10-19",
+      "notes": [
+        {
           "text": "Fair odds has a new card: type a Kalshi or Polymarket US contract price in cents and see the odds it really pays once the venue's taker fee is added, and the win chance you need to break even. 47c on Kalshi pays +105 after the fee, not the +113 the price suggests.",
           "where": "Tools"
         },
@@ -6625,21 +6636,6 @@
       ],
       "title": "Open an offer from Promos",
       "version": "0.1.31"
-    },
-    {
-      "date": "2026-10-14",
-      "notes": [
-        {
-          "text": "With no Odds API key saved, Ask opens on Start here: the sign-up offers in your state priced by what you keep, a converter for a promo you already hold, and the three steps to a free key. Each has a button that opens it.",
-          "where": "Ask"
-        },
-        {
-          "text": "The two sample questions that need live sportsbook odds now say they need a free Odds API key, before you press them.",
-          "where": "Ask"
-        }
-      ],
-      "title": "Start here, before you have a key",
-      "version": "0.1.30"
     }
   ],
   "xvenue": {

@@ -1,11 +1,11 @@
 {
-  "version": "0.1.37",
-  "notes": "Kalshi and Polymarket US prices, as the odds they really pay.\n\n- Fair odds has a new card: type a Kalshi or Polymarket US contract price in cents and see the odds it really pays once the venue's taker fee is added, and the win chance you need to break even. 47c on Kalshi pays +105 after the fee, not the +113 the price suggests.\n- It works on this Mac from the price you type and reads nothing. Whether these contracts are legal is disputed state by state, and the card says so.",
-  "pub_date": "2026-10-19T04:04:03Z",
+  "version": "0.1.38",
+  "notes": "Size a +EV bet straight from the board.\n\n- A +EV play's detail has a Size this bet button. It opens Bet size with the play's price and the low end of its fair chance already filled in, and works out the stake; put in your own bankroll. The low end is used on purpose: sizing from the friendliest estimate is how a small edge turns into a large losing run.",
+  "pub_date": "2026-10-19T05:58:19Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHlRb3dZRklWaDJqZlpkRERnTyt1eWpzOUtUUFdUWWQzem56WGtZOTBtV2pENDdDdTQrUFVJRmhoUTlEdVhRR1VRa3c4MzA5MDZvZHdOR2ZyRU9GdVFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzgyNjI3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjM3LmFwcC50YXIuZ3oKaWZSb0gxYis1dXdrZ2xUeTNmZWU2SjlHQlhVRWdVQ2d3MjlsZXZXMmRKbDdkL0ZoZkc5Zzh1clIrckE2ajl6Zml1ZG1Mc1oycnhQZy9zZlZxcTNyRHc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.37.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDMwUXV0eHRDdDVHK0hWSktrZ3JXbEZpUWxaRHhJemhJZnRnLzZTSE9FN2E1ZG1QSE1KTVFuc0dRcWFVVmVIMkRLYTdxeWhmbHJKOFg0bWxZWDVqS0FZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzg5NDgyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjM4LmFwcC50YXIuZ3oKV1FIVTUvcndxYWY2VE5ObkJ4U2x6T3dDWXN4ZmwrbC9ERUNiYjFoZEs1MXZJdGlqNDQ5Vk5nTHQzM1FaNzRnOGZIbkhMSWtRMVQ2QVZVMisway83Q1E9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.38.app.tar.gz"
     }
   }
 }
