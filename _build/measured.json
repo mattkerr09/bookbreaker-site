@@ -72,6 +72,207 @@
     "rounding_cost": 2.35,
     "total": 1000
   },
+  "ask_examples": [
+    {
+      "answer": "Fair chances with the book's margin taken out: -150 is 58.2% (fair -139), +130 is 41.8% (fair +139). The book's margin is 3.36%.",
+      "q": "Fair odds on -150 / +130",
+      "tables": [
+        {
+          "columns": [
+            "Price",
+            "Fair chance",
+            "Fair price"
+          ],
+          "rows": [
+            [
+              "-150",
+              "58.2%",
+              "-139"
+            ],
+            [
+              "+130",
+              "41.8%",
+              "+139"
+            ]
+          ],
+          "title": "Fair odds"
+        }
+      ],
+      "why": "Take the book's margin out of both sides of a market, to see each side's real chance."
+    },
+    {
+      "answer": "A 3-leg parlay pays $811.16 on $100 where $947.62 would be fair: its hold is 13.0%, and its expected profit on $100 is -$13.03. Only each leg's own price was given, so each leg is taken to carry the margin of a standard -110 / -110 market (4.55%), removed in proportion to its price. With both sides of a leg's market, Fair odds gives its real fair price. Legs in different games are close enough to independent that multiplying the probabilities is the right sum.",
+      "q": "What does a -110 -110 +150 parlay pay?",
+      "tables": [
+        {
+          "columns": [
+            "Legs",
+            "Pays $100 \u2192",
+            "Should pay",
+            "Margin",
+            "Expected on $100"
+          ],
+          "rows": [
+            [
+              "3",
+              "$811.16",
+              "$947.62",
+              "13.0%",
+              "-$13.03"
+            ]
+          ],
+          "title": "Parlay"
+        }
+      ],
+      "why": "What a parlay pays against what it should, before you place it."
+    },
+    {
+      "answer": "Full Kelly says 8.3% of the bankroll. At 25% of that on a $1,000 bankroll, the stake is $20.83 (2.08%); tell me your bankroll for your own figure. It assumes your win chance is right.",
+      "q": "How much should I bet at +150 if I think it wins 45% of the time?",
+      "tables": [
+        {
+          "columns": [
+            "Stake",
+            "Share of bankroll",
+            "Full Kelly"
+          ],
+          "rows": [
+            [
+              "$20.83",
+              "2.08%",
+              "8.33%"
+            ]
+          ],
+          "title": "Bet size"
+        }
+      ],
+      "why": "A bet size from your own estimate, at a fraction of the Kelly stake."
+    },
+    {
+      "answer": "There is no recent read of live sportsbook odds (it needs an Odds API key), so every leg is a typical -110 bet whose other side is also -110: no edge by construction. With no edge, no plan reaches $200 from $10 more than 5.0% of the time ($10 divided by $200), and the book's margin takes some of that. Bold play (one big bet, then again with what is left) reaches it 3.9% of the time; for a bettor without an edge that is the plan the mathematics of gambling (Dubins and Savage) favours. All $10 on one parlay reaches it 3.1% of the time. Your 10 parlays of $1 each pay about $337 if they hit. At least one hits 1.9% of the time, and because each pays the target on its own, that is also the chance of reaching it. Splitting lowers the chance: each of the smaller parlays needs more legs to pay the target, and every leg pays the book's margin again. A round robin reaches the target 0.00% of the time but gets something back 81.2% of the time: it buys a smaller win more often, not the target. On average each $1 parlay is worth $0.66 (a loss of the rest to the book), and the whole plan returns $6.58 on $10. This describes the odds of the prices shown. It does not find a bet that beats the book, and nothing here places a bet. 21+. Gambling problem? Call or text 1-800-MY-RESET (1-800-697-3738).",
+      "q": "If I have ten $1 bets, what are the best 10 parlays to make $200?",
+      "tables": [
+        {
+          "columns": [
+            "#",
+            "Legs",
+            "Price",
+            "Pays if it hits",
+            "Chance"
+          ],
+          "rows": [
+            [
+              "1",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ],
+            [
+              "2",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ],
+            [
+              "3",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ],
+            [
+              "4",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ],
+            [
+              "5",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ],
+            [
+              "6",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ],
+            [
+              "7",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ],
+            [
+              "8",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ],
+            [
+              "9",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ],
+            [
+              "10",
+              "9 \u00d7 a typical -110 bet",
+              "+33585",
+              "$336.85",
+              "0.195%"
+            ]
+          ],
+          "title": "The 10 parlays ($1 each)"
+        },
+        {
+          "columns": [
+            "Plan",
+            "Reaches the target",
+            "Gets something back",
+            "Average return"
+          ],
+          "rows": [
+            [
+              "bold play",
+              "3.89%",
+              "3.9%",
+              "$7.78"
+            ],
+            [
+              "one parlay",
+              "3.12%",
+              "3.1%",
+              "$7.92"
+            ],
+            [
+              "10 parlays",
+              "1.94%",
+              "1.9%",
+              "$6.58"
+            ],
+            [
+              "round robin, pairs of 5",
+              "0.00%",
+              "81.2%",
+              "$9.11"
+            ]
+          ],
+          "title": "Ways to stake $10 toward $200"
+        }
+      ],
+      "why": "The question people really ask, answered with the chances rather than a pitch."
+    }
+  ],
   "books": [
     "Bally Bet",
     "Bet Desert Diamond",
@@ -473,9 +674,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "80ec557e0de15a96",
+  "engine_fingerprint": "a815a63b959171b6",
   "engine_load": {
-    "bytes": 6506714,
+    "bytes": 6506847,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -934,28 +1135,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35255343,
-      "kb": 34429,
-      "mb": 35.3,
-      "name": "Bookbreaker-0.1.35.dmg",
-      "sha256": "d64fa3567fe2117f865256497b22e577354fc9ce8ac77237df2343fd48221397"
+      "bytes": 35246771,
+      "kb": 34421,
+      "mb": 35.2,
+      "name": "Bookbreaker-0.1.36.dmg",
+      "sha256": "c8315b77fe9b94e111e5b428813dadfda9f7fa5894ae6e6c6ffcbed54326d7bc"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 976206,
-      "kb": 953,
+      "bytes": 978037,
+      "kb": 955,
       "mb": 1.0,
-      "name": "overlay-0.1.35.tar.gz",
-      "sha256": "c78ed9a10b403cc1e31026a788975389421a8d2fb6294026742cfeafd36266b1"
+      "name": "overlay-0.1.36.tar.gz",
+      "sha256": "2f34f16554f79e4eaaaa81efe6237f8a116172969a438ec93e1431acdfb918d1"
     },
-    "version": "0.1.35",
+    "version": "0.1.36",
     "wheel": {
-      "bytes": 493865,
+      "bytes": 493998,
       "kb": 482,
       "mb": 0.5,
-      "name": "overlay-0.1.35-py3-none-any.whl",
-      "sha256": "9e9ea78fac606e99d6baad416cd738f486307bbf9bfc308f15dd5a084f1c8cc3"
+      "name": "overlay-0.1.36-py3-none-any.whl",
+      "sha256": "5ab83353c97534951b8f27d88c065bf03b0c13923491a4dbfe6b064c534e2cce"
     }
   },
   "replay": {
@@ -5020,12 +5221,12 @@
     "accounts": 0,
     "engine_modules": 75,
     "network_calls": 0,
-    "sha256": "d64fa3567fe2117f865256497b22e577354fc9ce8ac77237df2343fd48221397",
-    "sha256_short": "d64fa3567fe2117f",
+    "sha256": "c8315b77fe9b94e111e5b428813dadfda9f7fa5894ae6e6c6ffcbed54326d7bc",
+    "sha256_short": "c8315b77fe9b94e1",
     "sources": 29,
-    "test_files": 102
+    "test_files": 104
   },
-  "version": "0.1.35",
+  "version": "0.1.36",
   "weights": {
     "max_age_days": 90
   },
@@ -6308,6 +6509,21 @@
   },
   "whatsnew": [
     {
+      "date": "2026-10-19",
+      "notes": [
+        {
+          "text": "Fixed: a loss in Ask's answers reads -$13.03, not $-13.03.",
+          "where": "Ask"
+        },
+        {
+          "text": "The bet-size answer now says which bankroll and fraction of Kelly it used, so you can ask again with your own, and the parlay answer says what it assumed about each leg.",
+          "where": "Ask"
+        }
+      ],
+      "title": "Clearer answers in Ask",
+      "version": "0.1.36"
+    },
+    {
       "date": "2026-10-18",
       "notes": [
         {
@@ -6411,21 +6627,6 @@
       ],
       "title": "betPARX in Michigan, read again",
       "version": "0.1.29"
-    },
-    {
-      "date": "2026-10-14",
-      "notes": [
-        {
-          "text": "Every game on the Odds screen has an Alternate lines button. It opens a ladder of that game's other spreads and totals, every book's price side by side, a fair price for each line, and the best price you can bet marked.",
-          "where": "Odds source"
-        },
-        {
-          "text": "It reads one game at a time and says the cost before you press: up to 4 credits for both ladders in two regions. A game you read is kept on this Mac, so it reopens without spending anything.",
-          "where": "Odds source"
-        }
-      ],
-      "title": "Alternate lines",
-      "version": "0.1.28"
     }
   ]
 }

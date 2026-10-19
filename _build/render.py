@@ -370,6 +370,27 @@ def measure(engine) -> dict:
     # figure the page actually publishes. The gate compares the two literally
     # — storing 8.333333333333332 and printing 8.33 reads to it as a number
     # nobody measured, which is the correct reading.
+    # Ask, answered by the engine's built-in reader (no AI, no key), on an empty home: nothing read or recorded on
+    # this Mac can reach a public page, and every figure on /ask/ is the engine's own words, kept here for the gate.
+    import os as _os
+    import tempfile as _tempfile
+    from overlay_engine import ask as _ask
+    _prev_home = _os.environ.get("OVERLAY_HOME")
+    _os.environ["OVERLAY_HOME"] = _tempfile.mkdtemp(prefix="bb-site-ask-")
+    try:
+        out["ask_examples"] = []
+        for _q, _why in ASK_EXAMPLES:
+            _r = _ask.ask(_q, engine="builtin")
+            if _r.get("mode") != "builtin":
+                raise SystemExit(f"/ask/: {_q!r} was not answered by the built-in reader")
+            out["ask_examples"].append({"q": _q, "why": _why, "answer": _r["answer"], "tables": [
+                {"title": t["title"], "columns": t["columns"], "rows": t["rows"]} for t in _r["tables"]]})
+    finally:
+        if _prev_home is None:
+            _os.environ.pop("OVERLAY_HOME", None)
+        else:
+            _os.environ["OVERLAY_HOME"] = _prev_home
+
     out["showcase"] = {
         "arb_a": 2.10,
         "arb_b": 2.05,
@@ -2877,7 +2898,7 @@ def render_download(m: dict) -> str:
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
             'a security warning.</span></li></ol>'
-            '<p>New in this version: a fix to the parlay check, which treated every leg as a coin flip whatever its price, so a parlay with a plus-money leg could show a profit it does not have. Also recent: a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
+            '<p>New in this version: clearer answers in Ask, which now says the bankroll and Kelly fraction behind a bet size and what it assumed about each parlay leg. Also recent: a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
             'that repeat or oppose a bet you have open, alerts after a refresh you start, Track this bet, which saves a bet with its fair price, which books to fund in your state, a low-hold view, your record against what it should have been, how old every price is, '
             'an Odds screen with every book&rsquo;s price side by side, and a page that prices a promo you already hold. '
             '<a href="/how-it-works/">How it works</a>.</p>')
@@ -6976,6 +6997,51 @@ error, tell us and we will correct it.</p>
 """
 
 
+#: Questions put to Ask for /ask/: ones its built-in reader answers with no AI and no data, so the page shows exactly
+#: what a fresh install answers. Each with the reason a bettor asks it.
+ASK_EXAMPLES = [
+    ("Fair odds on -150 / +130", "Take the book's margin out of both sides of a market, to see each side's real chance."),
+    ("What does a -110 -110 +150 parlay pay?", "What a parlay pays against what it should, before you place it."),
+    ("How much should I bet at +150 if I think it wins 45% of the time?",
+     "A bet size from your own estimate, at a fraction of the Kelly stake."),
+    ("If I have ten $1 bets, what are the best 10 parlays to make $200?",
+     "The question people really ask, answered with the chances rather than a pitch."),
+]
+
+
+def render_ask(m: dict) -> str:
+    """Real questions put to the app's Ask, and its real answers, computed when this page was built."""
+    blocks = []
+    for ex in m["ask_examples"]:
+        tables = "".join(
+            f"<h3>{e(t['title'])}</h3><table><tr>{''.join(f'<th>{e(c)}</th>' for c in t['columns'])}</tr>"
+            + "".join(f"<tr>{''.join(f'<td>{e(str(v))}</td>' for v in row)}</tr>" for row in t["rows"])
+            + "</table>" for t in ex["tables"])
+        blocks.append(f"""<h2>&ldquo;{e(ex['q'])}&rdquo;</h2>
+<p class="dim">{e(ex['why'])}</p>
+<p>{e(ex['answer'])}</p>
+{tables}""")
+    return f"""
+<div class="phead">
+<p class="crumb"><a href="/">Home</a></p>
+<h1>Ask Bookbreaker: real questions, real answers</h1>
+<p class="lede">Ask is the app&rsquo;s plain-English page. Type a question about a price, a parlay or a bet size and it
+answers from the engine&rsquo;s own arithmetic, with the table it used. These are the answers a fresh install gives,
+computed by release {e(m['release']['version'])} when this page was built.</p>
+</div>
+{''.join(blocks)}
+<h2>How Ask works</h2>
+<p>Without an AI, Ask recognises the shape of a question (fair odds, a parlay, a bet size, a plan for a target, the
+best bets in your last read of odds, your own record) and runs the engine on it. Every number in the answer comes from
+that run. With your own Anthropic key it can take any question, and it still answers from the engine&rsquo;s numbers
+rather than making figures up; with a local model through Ollama nothing leaves your Mac.</p>
+<p>It describes the odds of the prices it is given. It does not find a bet that beats the book unless the prices show
+one, and it never places a bet. 21+. Gambling problem? Call or text 1-800-MY-RESET (1-800-697-3738).</p>
+<p><a href="/privacy/">What leaves your Mac when you use Ask &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/calculators/">Every calculator, worked on real prices &rarr;</a></p>
+"""
+
+
 def render_privacy(m: dict) -> str:
     return """
 <h1>Privacy</h1>
@@ -7103,6 +7169,11 @@ PAGES = [
      "records prove nothing, why slicing makes it worse, and what converges "
      "faster than profit.",
      render_evidence),
+    ("/ask/", "ask/index.html",
+     "Ask Bookbreaker: real betting questions, real answers",
+     "Fair odds, what a parlay pays, how much to bet and a $10 to $200 plan: the answers the free Mac app gives, "
+     "computed by its engine, with the tables it used.",
+     render_ask),
     ("/offers/", "offers/index.html",
      "Sportsbook sign-up bonuses ranked by what you actually keep",
      "Every welcome offer priced after hedging: what each bonus converts to in "

@@ -1,11 +1,11 @@
 {
-  "version": "0.1.35",
-  "notes": "Fixed: the parlay check on legs that are not even money.\n\n- The parlay check treated every leg as a coin flip, whatever its price, so a parlay with a plus-money leg such as +150 could show a profit it does not have. Each leg now carries the margin of a standard -110 / -110 market, taken out in proportion to its price, and the answer says so.\n- Ask's parlay answers, and its plan for turning a few small bets into a target, use the same corrected arithmetic.",
-  "pub_date": "2026-10-19T00:44:14Z",
+  "version": "0.1.36",
+  "notes": "Clearer answers in Ask.\n\n- Fixed: a loss in Ask's answers reads -$13.03, not $-13.03.\n- The bet-size answer now says which bankroll and fraction of Kelly it used, so you can ask again with your own, and the parlay answer says what it assumed about each leg.",
+  "pub_date": "2026-10-19T02:08:53Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDIyZUFDSkVvUkdlV3M3eVV0TkFzRmpmYThJQU1VYlFGUFVHYmFuaWtHQ2dqR3hNMThwUDk4Rk0wRkxYZXk2S0xTaFJiM3ovWmRzcCswZjNQZ3pmQXc4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzcwNjI5CWZpbGU6Qm9va2JyZWFrZXItMC4xLjM1LmFwcC50YXIuZ3oKNVV4WWlyMGFUbFBGQWVETjNlemZFOVdsUmQ0dWI3RGUybjdqbWJMNm9TWWVlT3hGMWkvMXZFQXpoYlNmYlpsN1FpQkRkOG44S3JqSm1ZMUFyeDBjQ2c9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.35.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDVxNVhtZXFEUTVkQm1ZWS9ta0hOWWx3T2g5RXd0enRJWXhhcHdpWXFMdWlhOWgyd0RlRUNldkNFUDU4cE50Sk44QnpUeE0ybDRVaGxVVldVSXhPeHc4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzc1NzE3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjM2LmFwcC50YXIuZ3oKb0MveXVkMlczaHZNSFBZWXMzbnNRWjlrRjF4d284WjNUMysybWpkQmJNZTExZjUrcitZajhldFNGQUVHdVh3c1dKakxiMGpET3g3UDFEczBzOUVPQmc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.36.app.tar.gz"
     }
   }
 }
