@@ -2558,6 +2558,7 @@ def onward(path: str) -> str:
 
 
 LONGER_TITLES = {
+    "/calculators/prediction-market-odds/": "Kalshi and Polymarket odds converter, after fees",
     "/guides/nfl-key-numbers/": "NFL key numbers: how often games land on 3 and 7",
     "/best/best-bet-tracker/": "Best bet tracker: what to look for, compared",
     "/guides/how-to-line-shop/": "How to line shop: find the best price for every bet",
