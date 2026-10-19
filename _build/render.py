@@ -2036,6 +2036,36 @@ def measure(engine) -> dict:
         "there.</p>"
         + converter_worked())}
 
+    # Kalshi and Polymarket US prices as the odds they really pay, worked by the same function the page's
+    # calculator runs (calc.py prediction_market_odds), so the example and the form cannot disagree.
+    import importlib.util as _ilu
+    _spec = _ilu.spec_from_file_location("bb_calc_pm", Path(__file__).resolve().parent / "calc.py")
+    _cm = _ilu.module_from_spec(_spec); _spec.loader.exec_module(_cm)
+    _pm_cases = [("47", "Kalshi", ""), ("47", "Polymarket US", ""), ("47", "Kalshi", "MLB"), ("30", "Kalshi", ""),
+                 ("70", "Polymarket US", "")]
+    _pm_rows = []
+    for _price, _venue, _sport in _pm_cases:
+        _r = dict(_cm.prediction_market_odds({"price": _price, "venue": _venue, "sport": _sport, "contracts": "100"})
+                  ["table"]["rows"])
+        _pm_rows.append((_price, _venue + (" (baseball)" if _sport else ""), _r))
+    calc["prediction-market-odds"] = {"body": (
+        "<p>A contract on Kalshi or Polymarket US pays $1 if it wins, so its price in cents reads like a chance. "
+        "The venue&rsquo;s taker fee is added to what you pay, though, so the odds it really pays are shorter than the "
+        "price suggests. On 100 contracts:</p>"
+        "<table><tr><th>Price</th><th>Venue</th><th>Fee</th><th>Cost each</th><th>Break-even</th>"
+        "<th>Decimal</th><th>American</th></tr>"
+        + "".join(
+            f"<tr><td>{p_}c</td><td>{e(v_)}</td><td>{e(r_['Kalshi taker fee on 100 contracts'] if 'Kalshi taker fee on 100 contracts' in r_ else r_['Polymarket US taker fee on 100 contracts'])}</td>"
+            f"<td>{e(r_['Cost per contract with the fee'])}</td><td>{e(r_['Win chance you need to break even'])}</td>"
+            f"<td>{e(r_['Odds after the fee, decimal'])}</td><td>{e(r_['Odds after the fee, American'])}</td></tr>"
+            for p_, v_, r_ in _pm_rows)
+        + "</table><p>Compare the American column with what a sportsbook offers on the same team before choosing "
+        "where to bet: the cheaper-looking contract is not always the better price. The fee is largest near 50 cents "
+        "and is charged on the whole order, so a small order pays more per contract. "
+        "<a href=\"/guides/kalshi-vs-polymarket-arbitrage-after-fees/\">Arbitrage between the two, after fees &rarr;</a></p>"
+        "<p>Whether these sports contracts are legal is disputed state by state, and the answer can change with a court "
+        "ruling. Check your own state before using either venue.</p>")}
+
     calc["breakeven"] = {"body": (
         "<p>What each price needs you to hit:</p>"
         + "<table><tr><th>Price</th><th>Break-even win rate</th></tr>"
@@ -2200,6 +2230,7 @@ def measure(engine) -> dict:
         "parlay": {"legs": ", ".join(
             ["-110"] * out["parlay"]["legs"]), "same_game": ""},
         "odds-converter": {"prices": ", ".join(_am(v) for v in price_ladder)},
+        "prediction-market-odds": {"price": "47", "venue": "Kalshi", "sport": "", "contracts": "100"},
         "breakeven": {"prices": ", ".join(_am(v) for v in price_ladder)},
         "hold": {"prices": ", ".join(_am(a) for a in juiced_american)},
         "bonus-bet-conversion": {
@@ -4886,6 +4917,12 @@ CALC_FORMS = {
         "pay and the hold the ticket carries.",
         [("legs", "Price of each leg", "list"),
          ("same_game", "These legs are all in the same game", "check")]),
+    "prediction-market-odds": (
+        "Convert a contract price",
+        "Enter the price in cents and the venue. You get the odds it really pays once the venue's taker fee is "
+        "added, and the win chance you need to break even.",
+        [("price", "Price, in cents", "num"), ("venue", "Venue (Kalshi or Polymarket US)", "text"),
+         ("sport", "Sport (type MLB for baseball on Kalshi)", "text"), ("contracts", "Contracts", "num")]),
     "odds-converter": (
         "Convert your own prices",
         "Enter any prices, American or decimal. Each comes back in every form.",

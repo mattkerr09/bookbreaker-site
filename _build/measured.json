@@ -395,6 +395,12 @@
       "legs": "-110, -110, -110, -110",
       "same_game": ""
     },
+    "prediction-market-odds": {
+      "contracts": "100",
+      "price": "47",
+      "sport": "",
+      "venue": "Kalshi"
+    },
     "profit-boost": {
       "boost": "50",
       "price": "-110",
@@ -462,6 +468,9 @@
     },
     "poisson": {
       "body": "<p>A match modelled at 1.6 and 1.2 expected goals:</p><table><tr><td>Home</td><td>46.66%</td></tr><tr><td>Draw</td><td>24.71%</td></tr><tr><td>Away</td><td>28.63%</td></tr><tr><td>Over 2.5</td><td>53.05%</td></tr><tr><td>Push on a 3.0 line</td><td>22.25%</td></tr><tr><td>Most likely score</td><td>1-1 at 11.68%</td></tr></table><p>The 22.25% push is why books quote halves, and it is the row most totals calculators leave out entirely.</p><p>Poisson assumes the two sides score independently. They do not: a team two goals down attacks, a team ahead defends, and real scorelines carry more draws and more blowouts than this model predicts. Treat it as one model's opinion, not a fair price.</p><h2>Where those percentages come from</h2><p>Poisson gives the chance of each goal count from one number, the expected goals. The chance of exactly k goals is the expected goals to the power k, times e to the minus expected goals, over k factorial. For the home side at 1.6 and the away side at 1.2:</p><table><tr><th>Goals</th><th>Home</th><th>Away</th></tr><tr><td>0</td><td>20.19%</td><td>30.12%</td></tr><tr><td>1</td><td>32.30%</td><td>36.14%</td></tr><tr><td>2</td><td>25.84%</td><td>21.69%</td></tr><tr><td>3</td><td>13.78%</td><td>8.67%</td></tr><tr><td>4</td><td>5.51%</td><td>2.60%</td></tr></table><p>A scoreline is one row times another. A 1-1 is 32.30% times 36.14%, which is 11.68%, and a 0-0 is 6.08%. Add every scoreline where the home side is ahead and you have the home win; add the ones on the diagonal and you have the draw.</p><p>To turn the home win into a price, take one over it: 46.66% is a fair decimal price of 2.143, or +114. A book offering more than that is above this model's fair price, which matters only as far as you trust the model over the market.</p><h2>When Poisson is the right tool</h2><p>In low-scoring games where goals arrive one at a time, such as soccer and hockey. It is the standard first model for totals, both-teams-to-score and correct-score markets.</p><p>On a whole-number total, where the push is a real outcome and changes what the over and the under are worth.</p><p>It is the wrong tool for American football and basketball, where points come in different sizes and the score is not a count of rare events.</p>"
+    },
+    "prediction-market-odds": {
+      "body": "<p>A contract on Kalshi or Polymarket US pays $1 if it wins, so its price in cents reads like a chance. The venue&rsquo;s taker fee is added to what you pay, though, so the odds it really pays are shorter than the price suggests. On 100 contracts:</p><table><tr><th>Price</th><th>Venue</th><th>Fee</th><th>Cost each</th><th>Break-even</th><th>Decimal</th><th>American</th></tr><tr><td>47c</td><td>Kalshi</td><td>$1.75</td><td>48.75c</td><td>48.75%</td><td>2.051</td><td>+105</td></tr><tr><td>47c</td><td>Polymarket US</td><td>$1.73</td><td>48.73c</td><td>48.73%</td><td>2.052</td><td>+105</td></tr><tr><td>47c</td><td>Kalshi (baseball)</td><td>$0.88</td><td>47.88c</td><td>47.88%</td><td>2.089</td><td>+109</td></tr><tr><td>30c</td><td>Kalshi</td><td>$1.47</td><td>31.47c</td><td>31.47%</td><td>3.178</td><td>+218</td></tr><tr><td>70c</td><td>Polymarket US</td><td>$1.46</td><td>71.46c</td><td>71.46%</td><td>1.399</td><td>-250</td></tr></table><p>Compare the American column with what a sportsbook offers on the same team before choosing where to bet: the cheaper-looking contract is not always the better price. The fee is largest near 50 cents and is charged on the whole order, so a small order pays more per contract. <a href=\"/guides/kalshi-vs-polymarket-arbitrage-after-fees/\">Arbitrage between the two, after fees &rarr;</a></p><p>Whether these sports contracts are legal is disputed state by state, and the answer can change with a court ruling. Check your own state before using either venue.</p>"
     },
     "profit-boost": {
       "body": "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p><p>Below, the boost and the stake are fixed (50% on a stake of $100), and only the price moves.</p><table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr><tr><td>-200</td><td>$25.00</td><td>$16.67</td></tr><tr><td>-110</td><td>$45.45</td><td>$23.81</td></tr><tr><td>+200</td><td>$100.00</td><td>$33.33</td></tr><tr><td>+500</td><td>$250.00</td><td>$41.67</td></tr></table><p>The shortest price, -200, adds $25. The longest, +500, adds $250: 10x the profit on the same token, and about 2.5x the expected value ($16.67 against $41.67), with every row taking the posted price as fair. Spend a boost on a favourite and most of it is given away.</p><p>Competitors print the headline rate and stop, as though 50% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p><p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>"
@@ -676,7 +685,7 @@
   },
   "engine_fingerprint": "a815a63b959171b6",
   "engine_load": {
-    "bytes": 6506847,
+    "bytes": 6509384,
     "mb": 7,
     "pyodide": "0.29.5"
   },

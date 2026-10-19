@@ -36,6 +36,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [Round robin calculator](https://bookbreaker.bet/calculators/round-robin/): What does a round robin actually have to do to pay?
 - [Poisson calculator](https://bookbreaker.bet/calculators/poisson/): What are the scoreline and totals probabilities?
 - [Low hold calculator](https://bookbreaker.bet/calculators/low-hold/): What does turning money over actually cost?
+- [Kalshi and Polymarket price converter](https://bookbreaker.bet/calculators/prediction-market-odds/): What odds does a Kalshi or Polymarket price really pay?
 
 ## Compared
 

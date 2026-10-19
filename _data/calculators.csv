@@ -20,3 +20,4 @@ profit-boost,Profit boost calculator,What is a profit boost actually worth?,spen
 round-robin,Round robin calculator,What does a round robin actually have to do to pay?,size the ticket
 poisson,Poisson calculator,What are the scoreline and totals probabilities?,model a low-scoring game
 low-hold,Low hold calculator,What does turning money over actually cost?,cost the turnover
+prediction-market-odds,Kalshi and Polymarket price converter,What odds does a Kalshi or Polymarket price really pay?,convert
