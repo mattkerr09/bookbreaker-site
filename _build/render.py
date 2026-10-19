@@ -5850,7 +5850,7 @@ def responsible() -> str:
             'Betting carries a risk of financial loss, and nothing on this site '
             'is a prediction that you will win. The engine measures how uncertain '
             'a price is; it does not remove the uncertainty.</p>'
-            f'<p>If gambling stops being fun, it is not fun. {NATIONAL_LINE}, or visit '
+            f'<p>If gambling stops being fun, stop. {NATIONAL_LINE}, or visit '
             '<a href="https://www.ncpgambling.org/help-treatment/" '
             'rel="noopener" target="_blank">ncpgambling.org</a>.</p>'
             '</aside>')
