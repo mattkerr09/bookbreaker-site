@@ -460,45 +460,30 @@ def profit_boost(v: dict) -> dict:
 
 
 def prediction_market_odds(v: dict) -> dict:
-    """A Kalshi or Polymarket US contract price, as the sportsbook odds it really pays after the venue's taker fee."""
-    from overlay_engine.odds import decimal_to_american
-    from overlay_engine.xvenue import FEES_READ, KALSHI_TAKER_RATE, kalshi_fee, pmus_fee
-    price = _number(v, "price", "The price")
-    if price >= 1:
-        price = price / 100                           # 47 means 47 cents
-    if not 0 < price < 1:
-        raise CalcError("The price must be between 1 and 99 cents.")
-    venue = _raw(v, "venue").lower()
-    if venue.startswith("k"):
-        name, sport = "Kalshi", _raw(v, "sport").lower()
-        rate = KALSHI_TAKER_RATE * (0.5 if sport.startswith(("mlb", "base")) else 1.0)
-        fee_of = lambda n: kalshi_fee(n, price, rate=rate)
-    elif venue.startswith("p"):
-        name, fee_of = "Polymarket US", (lambda n: pmus_fee(n, price))
-    else:
-        raise CalcError("The venue must be Kalshi or Polymarket US.")
-    n = int(_number(v, "contracts", "Contracts")) if _raw(v, "contracts") else 100
-    if not 1 <= n <= 100000:
-        raise CalcError("Contracts must be between 1 and 100,000.")
-    fee = fee_of(n)
-    cost = price * n + fee                            # every contract pays $1 if it wins
-    decimal = n / cost
-    rows = [["Price", f"{price * 100:.0f}c, a {price:.0%} chance as priced"],
-            [f"{name} taker fee on {n:,} contracts", f"${fee:,.2f}"],
-            ["Cost per contract with the fee", f"{cost / n * 100:.2f}c"],
-            ["Win chance you need to break even", f"{cost / n:.2%}"],
-            ["Odds after the fee, decimal", f"{decimal:.3f}"],
-            ["Odds after the fee, American", f"{decimal_to_american(decimal):+.0f}"]]
-    notes = [f"Fee formulas read {FEES_READ} from each venue's own fee page; a fee is charged on the whole order, so "
-             "a few contracts pay more per contract than many.",
-             "Whether these sports contracts are legal is disputed state by state; check your own state first."]
-    if name == "Kalshi":
-        notes.insert(1, "Kalshi's baseball game series charge half the usual fee; type MLB as the sport to use it.")
+    """A Kalshi or Polymarket US contract price, as the sportsbook odds it really pays after the venue's taker fee.
+    The arithmetic is the engine's (contract.price_odds), the same the app's Fair odds card runs."""
+    from overlay_engine.contract import price_odds
+    from overlay_engine.odds import OddsError
+    price = _raw(v, "price")
+    if not price:
+        raise CalcError("The price is empty.")
+    contracts = int(_number(v, "contracts", "Contracts")) if _raw(v, "contracts") else 100
+    try:
+        r = price_odds(price, _raw(v, "venue") or "kalshi", sport=_raw(v, "sport"), contracts=contracts)
+    except OddsError as exc:
+        raise CalcError(str(exc)) from exc
+    name, n = r["venue"], r["contracts"]
+    rows = [["Price", f"{r['price'] * 100:.0f}c, a {r['price']:.0%} chance as priced"],
+            [f"{name} taker fee on {n:,} contracts", f"${r['fee']:,.2f}"],
+            ["Cost per contract with the fee", f"{r['cost_each'] * 100:.2f}c"],
+            ["Win chance you need to break even", f"{r['breakeven']:.2%}"],
+            ["Odds after the fee, decimal", f"{r['decimal']:.3f}"],
+            ["Odds after the fee, American", f"{r['american']:+d}"]]
     return {
-        "headline": f"{decimal_to_american(decimal):+.0f}",
-        "caption": f"the sportsbook odds a {price * 100:.0f}c {name} contract pays after its fee",
+        "headline": r["headline"],
+        "caption": f"the sportsbook odds a {r['price'] * 100:.0f}c {name} contract pays after its fee",
         "table": {"head": None, "rows": rows},
-        "notes": notes,
+        "notes": r["notes"],
     }
 
 

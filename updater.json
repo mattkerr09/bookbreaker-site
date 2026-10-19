@@ -1,11 +1,11 @@
 {
-  "version": "0.1.36",
-  "notes": "Clearer answers in Ask.\n\n- Fixed: a loss in Ask's answers reads -$13.03, not $-13.03.\n- The bet-size answer now says which bankroll and fraction of Kelly it used, so you can ask again with your own, and the parlay answer says what it assumed about each leg.",
-  "pub_date": "2026-10-19T02:08:53Z",
+  "version": "0.1.37",
+  "notes": "Kalshi and Polymarket US prices, as the odds they really pay.\n\n- Fair odds has a new card: type a Kalshi or Polymarket US contract price in cents and see the odds it really pays once the venue's taker fee is added, and the win chance you need to break even. 47c on Kalshi pays +105 after the fee, not the +113 the price suggests.\n- It works on this Mac from the price you type and reads nothing. Whether these contracts are legal is disputed state by state, and the card says so.",
+  "pub_date": "2026-10-19T04:04:03Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDVxNVhtZXFEUTVkQm1ZWS9ta0hOWWx3T2g5RXd0enRJWXhhcHdpWXFMdWlhOWgyd0RlRUNldkNFUDU4cE50Sk44QnpUeE0ybDRVaGxVVldVSXhPeHc4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzc1NzE3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjM2LmFwcC50YXIuZ3oKb0MveXVkMlczaHZNSFBZWXMzbnNRWjlrRjF4d284WjNUMysybWpkQmJNZTExZjUrcitZajhldFNGQUVHdVh3c1dKakxiMGpET3g3UDFEczBzOUVPQmc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.36.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHlRb3dZRklWaDJqZlpkRERnTyt1eWpzOUtUUFdUWWQzem56WGtZOTBtV2pENDdDdTQrUFVJRmhoUTlEdVhRR1VRa3c4MzA5MDZvZHdOR2ZyRU9GdVFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzgyNjI3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjM3LmFwcC50YXIuZ3oKaWZSb0gxYis1dXdrZ2xUeTNmZWU2SjlHQlhVRWdVQ2d3MjlsZXZXMmRKbDdkL0ZoZkc5Zzh1clIrckE2ajl6Zml1ZG1Mc1oycnhQZy9zZlZxcTNyRHc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.37.app.tar.gz"
     }
   }
 }
