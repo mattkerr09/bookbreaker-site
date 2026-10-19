@@ -2555,6 +2555,7 @@ def onward(path: str) -> str:
 
 
 LONGER_TITLES = {
+    "/vs/crazy-ninja-odds-alternative/": "Crazy Ninja Odds: what it does free, and a Mac alternative",
     "/calculators/prediction-market-odds/": "Kalshi and Polymarket odds converter, after fees",
     "/guides/nfl-key-numbers/": "NFL key numbers: how often games land on 3 and 7",
     "/best/best-bet-tracker/": "Best bet tracker: what to look for, compared",
@@ -4762,12 +4763,10 @@ def versus_description(row: dict) -> str:
     render, for no reason except that the source text varies in length.
     """
     if row["slug"] == "crazy-ninja-odds":
-        # FROZEN for the CNO title test until 2026-10-06 (CEO order 2026-09-24:
-        # title and meta stay, body is fixed). This text repeats the old, false
-        # claim about CNO. Correct it on 2026-10-06.
-        return ("One devig method at a time rather than the spread. Bookbreaker "
-                "reports the devig spread, the chance of getting the bet down, "
-                "and when a record proves nothing.")
+        # The frozen test text (2026-09-24) repeated a false claim; replaced 2026-10-19 with what CNO publishes. The
+        # page shows at position 7 for "crazy ninja odds" with no clicks, so the meta says what the searcher wants.
+        return ("Crazy Ninja Odds gives free arbitrage, +EV and promo tools on the web. What it covers, and where "
+                "Bookbreaker, a free Mac app, differs.")
     for candidate in (
         f"{row['gap']}. Bookbreaker reports the devig spread, the chance of "
         f"getting the bet down, and when a record proves nothing.",
@@ -5321,10 +5320,9 @@ def render_versus(m: dict, row: dict) -> str:
         "crazy-ninja-odds": (
             "How much the method choice is worth",
             methods_stat + devig_stat + roi_stat,
-            f"Crazy Ninja Odds' worst case takes the most conservative of the "
-            f"methods ({cite}), which is a careful way to bet. Bookbreaker also tells you "
-            "how far apart the methods are, as one number, so you can see when "
-            "the fair price is too uncertain to bet against at all."),
+            f"Crazy Ninja Odds has a free devigger alongside its arbitrage, +EV and promo tools "
+            f"({cite}). Bookbreaker also tells you how far apart the four devig methods are, as one "
+            "number, so you can see when the fair price is too uncertain to bet against at all."),
         "rebelbetting": (
             "How often an arb is still placeable",
             fill_stat + realised_stat + devig_stat,
@@ -5390,11 +5388,11 @@ def render_versus(m: dict, row: dict) -> str:
                f"{e(row['price'])} ({cite})."))
     gap_head = (f"What {e(row['name'])} does, and what Bookbreaker adds" if cno
                 else f"What {e(row['name'])} does not tell you")
-    gap_text = (f"Crazy Ninja Odds is free, and its devigger can show all four "
-                f"methods and a worst case ({cite}). Bookbreaker adds the spread between "
-                "methods as one number, the chance the price is still there when "
-                "your bet lands, and arb stakes in round numbers, offline "
-                "on your Mac." if cno else f"{e(row['gap'])}.")
+    gap_text = (f"Crazy Ninja Odds is free on the web: arbitrage, +EV, low holds, promo converters, a devigger "
+                f"with an API and a hedge calculator, on odds it reads itself ({cite}). That is wider coverage than "
+                "Bookbreaker, which reads only what your own key can afford. Bookbreaker adds the spread between "
+                "devig methods as one number, the chance the price is still there when your bet lands, arb stakes "
+                "in round numbers, and a Mac app that keeps your bets on your machine." if cno else f"{e(row['gap'])}.")
     price_row = ("" if cno else
                  f"<tr><td class=\"prose\">Price</td>\n"
                  f"<td class=\"prose\">{e(row['price'])} ({cite})</td>\n"
