@@ -391,6 +391,19 @@ def measure(engine) -> dict:
         else:
             _os.environ["OVERLAY_HOME"] = _prev_home
 
+    # Kalshi against Polymarket US: what a price gap leaves after both venues' taker fees, from the engine's own fee
+    # functions (xvenue.kalshi_fee, xvenue.pmus_fee) on 100 contracts a side.
+    from overlay_engine import xvenue as _xv
+    _rows = []
+    for _k, _p in ((0.47, 0.50), (0.44, 0.52), (0.45, 0.50), (0.30, 0.65)):
+        _fk, _fp = _xv.kalshi_fee(100, _k), _xv.pmus_fee(100, _p)
+        _rows.append({"kalshi": round(_k * 100), "pmus": round(_p * 100), "gross": round(100 * (1 - _k - _p), 2),
+                      "kalshi_fee": _fk, "pmus_fee": _fp, "net": round(100 * (1 - _k - _p) - _fk - _fp, 2)})
+    out["xvenue"] = {"rows": _rows, "contracts": 100, "kalshi_rate": _xv.KALSHI_TAKER_RATE,
+                     "pmus_coeff": _xv.PMUS_TAKER_COEFF, "mlb_multiplier": _xv.KALSHI_FEE_MULTIPLIER["mlb"],
+                     "mlb_fee_47": _xv.kalshi_fee(100, 0.47, rate=_xv.KALSHI_TAKER_RATE * _xv.KALSHI_FEE_MULTIPLIER["mlb"]),
+                     "read": _xv.FEES_READ, "sources": list(_xv.FEE_SOURCES)}
+
     out["showcase"] = {
         "arb_a": 2.10,
         "arb_b": 2.05,
@@ -3945,6 +3958,36 @@ that rarely matter. {cite}</p>
      f'data-cite="1">source</a>, read {e(load_data("nfl_key_numbers")[0]["read"])}.'),
 
 
+
+"kalshi-vs-polymarket-arbitrage-after-fees": f"""
+<p>Kalshi and Polymarket US both list sports contracts that pay $1 if a team wins. When one venue prices a team&rsquo;s
+win and the other prices the other team&rsquo;s win for less than $1 between them, buying both looks like a locked
+profit. Both venues charge a taker fee on every order, though, and the fee is largest on contracts near 50 cents,
+which is exactly where most game prices sit.</p>
+<h2>What the fees take</h2>
+<p>Kalshi charges {m['xvenue']['kalshi_rate']} &times; contracts &times; price &times; (1 &minus; price), rounded up to
+the cent, and on baseball its game series carry a multiplier of {m['xvenue']['mlb_multiplier']}. Polymarket US charges
+{m['xvenue']['pmus_coeff']} &times; contracts &times; price &times; (1 &minus; price), rounded half to even. On
+{m['xvenue']['contracts']} contracts a side, worked by the engine Bookbreaker uses:</p>
+<table>
+<tr><th>Kalshi, team A</th><th>Polymarket US, team B</th><th>Gap</th><th>Kalshi fee</th><th>Polymarket US fee</th><th>Left after fees</th></tr>
+{"".join(f"<tr><td>{r['kalshi']}c</td><td>{r['pmus']}c</td><td>${r['gross']:.2f}</td><td>${r['kalshi_fee']:.2f}</td><td>${r['pmus_fee']:.2f}</td><td>${r['net']:.2f}</td></tr>" for r in m['xvenue']['rows'])}
+</table>
+<p>A three-cent gap near even money loses money once both fees are paid. Near 50 cents the two fees together take about
+three and a half cents a pair, so a gap has to be wider than that before anything is left, and a gap between a
+favourite and an underdog keeps more of itself because the fee shrinks away from 50 cents. On a baseball game Kalshi&rsquo;s
+fee on 100 contracts at 47c is ${m['xvenue']['mlb_fee_47']:.2f} instead of ${m['xvenue']['rows'][0]['kalshi_fee']:.2f}.</p>
+<p class="caveat">Fee formulas read {m['xvenue']['read']} from each venue&rsquo;s own fee page:
+<a href="{m['xvenue']['sources'][0]}" rel="nofollow" data-cite="1">source</a>,
+<a href="{m['xvenue']['sources'][1]}" rel="nofollow" data-cite="1">source</a>.</p>
+<h2>What else can break it</h2>
+<p>Both venues settle on the official winner, but they can differ on a game that is postponed or not finished, and a
+price can move between your two orders. Depth matters too: the price on the screen may cover only a few contracts. The
+app checks how many contracts are resting at each venue&rsquo;s price before it calls a pair an arbitrage, sizes the
+pair to the smaller of the two and the money you said you would bet, and says what it leaves after both fees.</p>
+{prediction_caveat()}
+<p><a href="/guides/what-is-arbitrage-betting/">What arbitrage is, start to finish &rarr;</a></p>
+""",
 
 "what-is-arbitrage-betting": f"""
 <p>When two books disagree enough, backing both sides returns more than it

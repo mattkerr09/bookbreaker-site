@@ -6628,5 +6628,51 @@
       "title": "betPARX in Michigan, read again",
       "version": "0.1.29"
     }
-  ]
+  ],
+  "xvenue": {
+    "contracts": 100,
+    "kalshi_rate": 0.07,
+    "mlb_fee_47": 0.88,
+    "mlb_multiplier": 0.5,
+    "pmus_coeff": 0.0695,
+    "read": "2026-10-09",
+    "rows": [
+      {
+        "gross": 3.0,
+        "kalshi": 47,
+        "kalshi_fee": 1.75,
+        "net": -0.49,
+        "pmus": 50,
+        "pmus_fee": 1.74
+      },
+      {
+        "gross": 4.0,
+        "kalshi": 44,
+        "kalshi_fee": 1.73,
+        "net": 0.54,
+        "pmus": 52,
+        "pmus_fee": 1.73
+      },
+      {
+        "gross": 5.0,
+        "kalshi": 45,
+        "kalshi_fee": 1.74,
+        "net": 1.52,
+        "pmus": 50,
+        "pmus_fee": 1.74
+      },
+      {
+        "gross": 5.0,
+        "kalshi": 30,
+        "kalshi_fee": 1.47,
+        "net": 1.95,
+        "pmus": 65,
+        "pmus_fee": 1.58
+      }
+    ],
+    "sources": [
+      "https://kalshi.com/fee-schedule",
+      "https://docs.polymarket.us/fees"
+    ]
+  }
 }
