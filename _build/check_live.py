@@ -69,8 +69,23 @@ def fetch(url: str) -> bytes:
         return response.read()
 
 
+def changed_in_last_commit() -> list:
+    """The served files the newest commit touched, plus the sitemap. A new page is exactly what the fixed sample can
+    never contain: on 2026-10-19 this said DEPLOY OK while /promo-codes/new-jersey/ was still a 404, because none of the
+    sampled files had changed and Pages was still building."""
+    import subprocess
+    try:
+        names = subprocess.run(["git", "-C", str(SITE), "diff", "--name-only", "HEAD~1", "HEAD"],
+                               capture_output=True, text=True, check=True).stdout.split()
+    except (OSError, subprocess.CalledProcessError):
+        return ["sitemap.xml"]
+    keep = [n for n in names if not n.startswith(("_build/", "_data/", "_drafts/", ".")) and (SITE / n).exists()
+            and n.endswith((".html", ".css", ".js", ".py", ".xml", ".json", ".txt"))]
+    return sorted(set(keep + ["sitemap.xml"]))
+
+
 def main() -> int:
-    sample = list(SAMPLE)
+    sample = list(SAMPLE) + [n for n in changed_in_last_commit() if n not in SAMPLE]
     measured = SITE / "_build" / "measured.json"
     if measured.exists():
         wheel = json.loads(measured.read_text())["release"]["wheel"]["name"]
@@ -108,6 +123,8 @@ def main() -> int:
               f"{checked - len(differ)}")
         for line in unreachable:
             print(f"    {line}")
+        # A page this build has and the domain does not (a 404 on a new page) is not a deploy that matches.
+        differ += [f"{line} (not served)" for line in unreachable]
 
     if differ:
         print(f"\n{len(differ)} page(s) differ from what is deployed:")
