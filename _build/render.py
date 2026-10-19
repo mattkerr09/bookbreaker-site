@@ -6771,7 +6771,7 @@ def has_book_page(code: str, key: str) -> bool:
 
 # Only Michigan so far. Six states were tried on 2026-10-12 and the hubs measured 0.71 to 0.90 alike (the same national
 # offers in every state); another state is added when its hub has a page's worth of text only that state can say.
-PROMO_HUB_STATES = ["MI"]
+PROMO_HUB_STATES = ["MI", "NJ"]
 
 
 def promo_url(code: str, key: str = "") -> str:
@@ -6907,6 +6907,29 @@ terms as they were read, including where the sources disagree.</p>
 """
 
 
+def state_glance(m: dict, code: str) -> str:
+    """What only this state's hub can say: who regulates it, what it taxes, which books it licenses online, and where the
+    prediction exchanges stand there. Built from the jurisdiction table and the engine's venue catalogue, so two states'
+    hubs differ in substance, not only in the offers (the near-duplicate gate, 2026-10-12)."""
+    name = STATE_NAMES.get(code, code)
+    row = next((r for r in load_data("jurisdictions") if r["code"] == code), None)
+    books = [b["name"] for b in m["states"][code]["books"] if b.get("tier") != "exchange"]
+    exchanges = [b["name"] for b in m["states"][code]["books"] if b.get("tier") == "exchange"]
+    parts = [f"<h2>{e(name)} at a glance</h2>"]
+    if row and row.get("regulator"):
+        tax = (f" Online sports betting there is taxed at {e(row['tax_rate'])}% of gross revenue. {e(row['note'])}"
+               if row.get("tax_rate") else "")
+        parts.append(f'<p>Sports betting in {e(name)} is regulated by the {e(row["regulator"])}.{tax} Read '
+                     f'{e(row["fetched_at"])}, <a href="{e(row["source"])}" rel="nofollow" data-cite="1">source</a>.</p>')
+    if books:
+        parts.append(f"<p>{len(books)} sportsbooks are licensed to take bets online in {e(name)}: "
+                     f"{e(', '.join(books))}. Bookbreaker shows a best price only at these.</p>")
+    if exchanges:
+        parts.append(f"<p>{e(' and '.join(exchanges))} also list sports contracts to {e(name)} customers.</p>"
+                     + prediction_state_note(code))
+    return "".join(parts)
+
+
 def render_promo_hub(m: dict, code: str = PROMO_STATE) -> str:
     """The state's whole answer on one page: every priced offer, with its terms as read.
 
@@ -6925,7 +6948,7 @@ def render_promo_hub(m: dict, code: str = PROMO_STATE) -> str:
         link = partner_link(o["book"], "Open this offer", code, "promo")
         open_offer = f'<p class="offer-states">{link}</p>' if link.startswith("<a ") else ""
         own = (f' <a href="{promo_url(code, o["book"])}">{e(o["name"])} in full &rarr;</a>'
-               if o["book"] in PROMO_PAGES_READY else "")
+               if has_book_page(code, o["book"]) else "")
         return f"""<article class="offer-card">
 <div class="offer-top">{_worth(o)}</div>
 <h3>{e(o['name'])} <small>{e(o['headline'])}</small></h3>
@@ -6957,6 +6980,7 @@ engine. Offers that can be hedged into a locked amount come first, ranked by tha
 Offers that cannot be locked are priced as an expectation and listed after, never ranked against the locks.</p>
 {disclosure()}
 {helpline_block(code)}
+{state_glance(m, code)}
 <p class="src-line">Priced at build time on two stated priors: bonus bets placed at decimal
 {m['welcome']['assumptions_bonus_decimal']:.1f}, and a {m['welcome']['assumptions_hold_pct']:.1f}% combined
 hold across the best two books. Expectations also rest on those.</p>
@@ -6967,7 +6991,7 @@ hold across the best two books. Expectations also rest on those.</p>
 {missing}
 <p><a href="/offers/">All states and every offer &rarr;</a> &nbsp;&middot;&nbsp;
 <a href="/calculators/bonus-bet-conversion/">How to convert a bonus bet &rarr;</a> &nbsp;&middot;&nbsp;
-<a href="/sportsbooks/mi/">Which {e(name_state)} books limit winners &rarr;</a></p>
+<a href="/sportsbooks/{code.lower()}/">Which {e(name_state)} books limit winners &rarr;</a></p>
 <p class="caveat">Read from secondary sources because the books' own promotion pages refuse automated readers.
 Offers change often; check the terms for your state before you sign up. Not legal or financial advice.</p>
 """

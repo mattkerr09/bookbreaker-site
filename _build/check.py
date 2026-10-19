@@ -653,6 +653,18 @@ def check_not_machine_made(pages, fails):
                 )
 
 
+def _state_by_slug() -> dict:
+    """'new-jersey' -> 'NJ', from render.py's own state names (the promo-code URLs are built from them)."""
+    import importlib.util
+    render = sys.modules.get("_render")
+    if render is None:
+        spec = importlib.util.spec_from_file_location("_render", SITE / "_build" / "render.py")
+        render = importlib.util.module_from_spec(spec)
+        sys.modules["_render"] = render
+        spec.loader.exec_module(render)
+    return {v.lower().replace(" ", "-"): k for k, v in render.STATE_NAMES.items()}
+
+
 def check_responsible_gambling(pages, fails):
     """The age notice, the help link, and the right numbers.
 
@@ -674,6 +686,11 @@ def check_responsible_gambling(pages, fails):
             fails.append(f"{path}: missing the National Problem Gambling Helpline (1-800-MY-RESET)")
         got = re.match(r"sportsbooks/([a-z]{2})/index\.html$", path)
         row = lines.get(got.group(1)) if got else None
+        # A state's promo-code pages are that state's too: /promo-codes/new-jersey/ prints New Jersey's own rule.
+        promo = re.match(r"promo-codes/([a-z-]+)/", path)
+        if promo and row is None:
+            code = _state_by_slug().get(promo.group(1))
+            row = lines.get(code.lower()) if code else None
         allowed = bool(row and row["gambler_rule"] == "yes") or path.startswith("responsible-gambling/")
         if "1-800-GAMBLER" in markup and not allowed:
             fails.append(f"{path}: prints 1-800-GAMBLER, which no longer belongs to the national helpline and is not "
