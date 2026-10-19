@@ -2541,9 +2541,6 @@ ONWARD = {
     "/what-your-record-proves/": [
         ("/guides/how-to-grade-your-own-bets/", "How to grade your own bets"),
         ("/guides/why-your-best-sport-is-probably-noise/", "Why your best sport is probably noise")],
-    "/sportsbooks/in-person-only/": [
-        ("/sportsbooks/", "Every state's books"),
-        ("/guides/how-to-line-shop/", "How to line shop")],
     "/sportsbooks/no-legal-sportsbook/": [
         ("/sportsbooks/", "Where betting is legal, state by state")],
 }
@@ -6297,7 +6294,7 @@ def state_url(m: dict, code: str) -> str:
     if not st["legal"]:
         return "/sportsbooks/no-legal-sportsbook/"
     if not st["online"]:
-        return "/sportsbooks/in-person-only/"
+        return "/sportsbooks/#in-person-only"
     if st["single_operator"]:
         return "/sportsbooks/one-book-states/"
     return f"/sportsbooks/{code.lower()}/"
@@ -6646,10 +6643,14 @@ def prediction_caveat() -> str:
         'appeals-court-blocks-new-jersey-from-shutting-down-kalshi-s-sports-markets" rel="nofollow">source</a>.</p>')
 
 REDIRECTS = [
-    ("/sportsbooks/not-covered/", "/sportsbooks/in-person-only/"),
+    ("/sportsbooks/not-covered/", "/sportsbooks/#in-person-only"),
     # The first per-book promo pages shipped on internal short keys (2026-10-11); renamed to the names people search.
-    ("/promo-codes/michigan/dk/", "/promo-codes/michigan/draftkings/"),
-    ("/promo-codes/michigan/mgm/", "/promo-codes/michigan/betmgm/"),
+    ("/promo-codes/michigan/dk/", "/promo-codes/michigan/#draftkings"),
+    ("/promo-codes/michigan/mgm/", "/promo-codes/michigan/#betmgm"),
+    *[(f"/promo-codes/michigan/{slug}/", f"/promo-codes/michigan/#{slug}") for slug in
+      ("draftkings", "fanduel", "betmgm", "caesars", "fanatics", "bet365", "betparx", "betrivers", "hard-rock",
+       "eagle-casino", "thescore", "firekeepers")],
+    ("/sportsbooks/in-person-only/", "/sportsbooks/#in-person-only"),
     # Thin guides merged into the calculator that works the same question through (2026-10-16, search-health audit).
     ("/guides/what-is-vig-and-hold/", "/calculators/hold/"),
     ("/guides/how-to-read-american-odds/", "/calculators/odds-converter/"),
@@ -6766,8 +6767,10 @@ PROMO_SLUGS = {"dk": "draftkings", "fd": "fanduel", "mgm": "betmgm", "caesars": 
 
 
 def has_book_page(code: str, key: str) -> bool:
-    """A book's own page exists only for Michigan so far; other states get the hub."""
-    return code == PROMO_STATE and key in PROMO_PAGES_READY
+    """No single-book promo pages: the twelve Michigan ones were folded into the hub on 2026-10-19 (the CEO's
+    template review: none was ever shown in 90 days of Search Console, and twelve pages of one template is the
+    scaled-content pattern). Each book's detail is a section of the hub, and the old addresses redirect to it."""
+    return False
 
 
 # Only Michigan so far. Six states were tried on 2026-10-12 and the hubs measured 0.71 to 0.90 alike (the same national
@@ -6931,6 +6934,40 @@ def state_glance(m: dict, code: str) -> str:
     return "".join(parts)
 
 
+def book_sections(m: dict, code: str) -> str:
+    """Each book's detail, for the state whose single-book pages were folded into its hub: the payment schedule its
+    terms set, the book's own background with its source, and whether a code is needed. Anchored by the name a
+    searcher types, so the old /promo-codes/<state>/<book>/ addresses land here."""
+    if code != PROMO_STATE:
+        return ""
+    name_state = STATE_NAMES.get(code, code)
+    out = []
+    for key, offers in sorted(promo_offers(m, code).items(), key=lambda kv: PROMO_SLUGS.get(kv[0], kv[0])):
+        if key not in PROMO_SLUGS:
+            continue
+        o = offers[0]; book = o["name"]
+        n, per = o["installments"], o["face"] / (o["installments"] or 1)
+        expiry = (f"{'each ' if n != 1 else ''}expiring {e(o['expires_days'])} days after it is issued"
+                  if o["expires_days"] else "with no expiry read")
+        end = f", and the whole offer ends {e(o['ends'])}" if o["ends"] else ""
+        if o["offer_type"] in ("bet_and_get", "bet_and_get_on_win"):
+            paid = (f"as a single bonus bet of about ${per:,.0f}" if n == 1 else f"in {n} bonus bets of about ${per:,.0f} each")
+            when = "only if the qualifying bet wins, " if o["offer_type"] == "bet_and_get_on_win" else ""
+            schedule = f"Paid {when}{paid}, {expiry}{end}."
+        else:
+            what = "boost" if o["offer_type"] == "profit_boost" else "refund"
+            schedule = f"{'A single ' + what if n == 1 else str(n) + ' ' + what + 's, one per use'}, {expiry}{end}."
+        code_q = ("A source mentions a promo code for this offer; use what the sign-up screen asks for."
+                  if re.search(r"\bcode\b", o["note"], re.I) else
+                  f"None of the sources read on {e(o['read'])} mentions a code; use what the sign-up screen shows.")
+        fact = next((r for r in load_data("promo_facts") if r["book"] == key), None)
+        about = (f' {e(fact["fact"])} <a href="{e(fact["source"])}" rel="nofollow" data-cite="1">source</a>, '
+                 f'read {e(fact["read"])}.' if fact else "")
+        out.append(f'<section id="{PROMO_SLUGS[key]}"><h3>{e(book)} promo code in {e(name_state)}</h3>'
+                   f'<p>{e(o["headline"])}. {schedule} {code_q}{about}</p></section>')
+    return (f"<h2>Each book's offer in detail</h2>\n" + "\n".join(out)) if out else ""
+
+
 def render_promo_hub(m: dict, code: str = PROMO_STATE) -> str:
     """The state's whole answer on one page: every priced offer, with its terms as read.
 
@@ -6990,6 +7027,7 @@ hold across the best two books. Expectations also rest on those.</p>
 <h2>Offers that cannot be locked: refunds and boosts</h2>
 <div class="offer-grid">{''.join(card(o) for o in expected)}</div>
 {missing}
+{book_sections(m, code)}
 <p><a href="/offers/">All states and every offer &rarr;</a> &nbsp;&middot;&nbsp;
 <a href="/calculators/bonus-bet-conversion/">How to convert a bonus bet &rarr;</a> &nbsp;&middot;&nbsp;
 <a href="/sportsbooks/{code.lower()}/">Which {e(name_state)} books limit winners &rarr;</a></p>
@@ -7730,31 +7768,18 @@ your own check, not advice.</p>
         rows = "".join(
             f"<li><strong>{e(STATE_NAMES.get(c, c))}</strong>: "
             f"{e(measured['states'][c]['retail_only'])}</li>" for c in gaps)
-        body = f"""
-<h1>States where betting is legal but not online</h1>
-<p class="lede">{len(gaps)} states allow sports betting in person and have no
-state-regulated online market. They share a page because the answer is the same
-in each, and it is not the answer a missing table would give.</p>
+        # Folded into /sportsbooks/ on 2026-10-19 (the CEO's template review: 194 words, never shown); the old address
+        # redirects to this section.
+        in_person = f"""
+<section id="in-person-only"><h2>States where betting is legal but not online</h2>
+<p>{len(gaps)} states allow sports betting in person and have no state-regulated online market. &ldquo;We have
+not catalogued this state&rdquo; and &ldquo;this state has no online sportsbook&rdquo; would produce the same empty
+list, and only one of them means you should go looking; nothing here is uncatalogued.</p>
 <ul>{rows}</ul>
-<p>That distinction matters more than it looks. &ldquo;We have not catalogued
-this state&rdquo; and &ldquo;this state has no online sportsbook&rdquo; produce
-the same empty list, and only one of them means you should go looking. Nothing
-here is uncatalogued: as of {e(measured['catalog']['as_of'])} every state with
-a legal online market is described, including the five single-operator lottery
-markets.</p>
-<p class="caveat">Read {e(measured['catalog']['as_of'])}. A starting point for
-your own check, not advice.</p>
+<p class="caveat">Read {e(measured['catalog']['as_of'])}. A starting point for your own check, not advice.</p></section>
 """
-        out = SITE / "sportsbooks/in-person-only/index.html"
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(page(
-            "States where betting is legal but not online",
-            "The states that allow sports betting in person with no online "
-            "market, and why that is a different answer from a table with a "
-            "hole in it. Dated.",
-            body, "/sportsbooks/in-person-only/"))
-        built.append(("/sportsbooks/in-person-only/",
-                      "sportsbooks/in-person-only/index.html"))
+    else:
+        in_person = ""
 
     out = SITE / "sportsbooks/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -7763,7 +7788,7 @@ your own check, not advice.</p>
         "Every US state, the licensed sportsbooks covering it, and which of "
         "them limit accounts that win. Dated, and computed rather than "
         "supplied by a sportsbook.",
-        render_state_hub(measured), "/sportsbooks/"))
+        render_state_hub(measured) + in_person, "/sportsbooks/"))
     built.append(("/sportsbooks/", "sportsbooks/index.html"))
 
     # One page per state, at the URL the search term wants. These were
@@ -7891,7 +7916,7 @@ point for your own check, not legal advice.</p>
             "<meta charset=\"utf-8\">\n"
             "<meta name=\"msvalidate.01\" content=\"34D102FD9C044A2BDA597B176842725B\" />\n"
             f"<meta http-equiv=\"refresh\" content=\"0; url={new_url}\">\n"
-            f"<link rel=\"canonical\" href=\"https://bookbreaker.bet{new_url}\">\n"
+            f"<link rel=\"canonical\" href=\"https://bookbreaker.bet{new_url.split('#')[0]}\">\n"
             "<title>Moved</title>\n</head>\n<body>\n"
             f"<p>This page moved to <a href=\"{new_url}\">{new_url}</a>.</p>\n"
             "</body>\n</html>\n"

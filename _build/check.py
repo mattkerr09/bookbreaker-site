@@ -346,7 +346,9 @@ def check_redirects(redirects, fails):
         if not destination.startswith("/"):
             fails.append(f"{path}: redirect target {destination!r} is not a "
                          "site-relative path")
-        if f'rel="canonical" href="https://bookbreaker.bet{destination}"' not in markup:
+        # A redirect into a section of a page (/promo-codes/michigan/#draftkings) is canonical to the page itself:
+        # a fragment is not a separate URL to a search engine.
+        if f'rel="canonical" href="https://bookbreaker.bet{destination.split("#")[0]}"' not in markup:
             fails.append(
                 f"{path}: redirect to {destination} without a canonical "
                 "pointing there — the old URL keeps competing with the new one"
@@ -1159,7 +1161,7 @@ _HUB_LINK = re.compile(r'<a\b[^>]*href="https://kerr-affiliate-hub\.kerrco\.work
 
 
 THIN_WORDS = 300
-THIN_CEILING = 8  # 2026-10-16, the CEO's search-health audit: lower it as pages are fixed, never raise it
+THIN_CEILING = 7  # 2026-10-16, the CEO's search-health audit: lower it as pages are fixed, never raise it
 
 
 def body_word_count(markup: str) -> int:

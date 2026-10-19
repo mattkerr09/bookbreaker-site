@@ -229,8 +229,8 @@ CASES = [
         "a link to a promo page at an internal short key",
         "check_promo_urls_use_full_names",
         "promo-codes/michigan/index.html",
-        'href="/promo-codes/michigan/draftkings/"',
-        'href="/promo-codes/michigan/dk/"',
+        '<section id="draftkings">',
+        '<section id="draftkings"><a href="/promo-codes/michigan/dk/">DraftKings</a>',
     ),
     (
         "a rival's price left unread for months",
@@ -379,7 +379,7 @@ CASES = [
         "a redirect stub losing its canonical",
         "check_redirects",
         "sportsbooks/not-covered/index.html",
-        '<link rel="canonical" href="https://bookbreaker.bet/sportsbooks/in-person-only/">',
+        '<link rel="canonical" href="https://bookbreaker.bet/sportsbooks/">',
         "<!-- canonical removed -->",
     ),
     (
