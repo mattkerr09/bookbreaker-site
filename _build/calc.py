@@ -28,7 +28,7 @@ from overlay_engine.ev import breakeven_prob, ev_per_unit
 from overlay_engine.kelly import MAX_SINGLE, size_bet
 from overlay_engine.odds import (
     decimal_to_american, decimal_to_prob, hold, overround, parse_odds)
-from overlay_engine.parlay import correlation_note, value as parlay_value
+from overlay_engine.parlay import ASSUMPTION, correlation_note, value as parlay_value
 from overlay_engine.promo import (
     bonus_bet_conversion, fair_conversion_ceiling, profit_boost_value,
     safety_net_premium, safety_net_value)
@@ -342,9 +342,7 @@ def parlay(v: dict) -> dict:
     rows = [["Pays, in profit per unit staked", f"{value.offered - 1:.2f}"],
             ["A fair price would pay", f"{value.fair - 1:.2f}"],
             ["Hold on the ticket", f"{value.hold:.1%}"]]
-    notes = ["Each leg is assumed fairly priced against a mirror of itself, "
-             "which is the generous assumption: the hold shown is a floor on "
-             "the real one."]
+    notes = [ASSUMPTION]
     if len(set(legs)) == 1:
         rows += [["Hold on a single leg", f"{value.leg_hold:.2%}"],
                  ["Times the single-leg hold", f"{value.multiple:.1f}"]]

@@ -1,11 +1,11 @@
 {
-  "version": "0.1.34",
-  "notes": "Parlays: what each one costs against its fair price.\n\n- A new Parlays tab prices every NFL yardage and receptions prop at the books licensed in your state, from each book's own main line with its margin taken out.\n- For each game it shows the parlay of the legs with the smallest margin, its fair price beside what the legs multiplied pay, and the cost against fair. Legs that move together are named.\n- Reading props is off until you tick it, and the credits it would spend are shown first. The tab carries 21+ and the National Problem Gambling Helpline.\n- Borgata, Caesars, Bet Desert Diamond, BetRivers and bet365 were read again and are unchanged.",
-  "pub_date": "2026-10-18T23:03:50Z",
+  "version": "0.1.35",
+  "notes": "Fixed: the parlay check on legs that are not even money.\n\n- The parlay check treated every leg as a coin flip, whatever its price, so a parlay with a plus-money leg such as +150 could show a profit it does not have. Each leg now carries the margin of a standard -110 / -110 market, taken out in proportion to its price, and the answer says so.\n- Ask's parlay answers, and its plan for turning a few small bets into a target, use the same corrected arithmetic.",
+  "pub_date": "2026-10-19T00:44:14Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDZaalNqKzNNMDFNdlh3bjNpeGVpMkk3M2xUU25PTDJsZ01CL2U4VnQxdXFaV2pIMkE1OWN3WFF0K054dGo5a3JON0tPb3M2MmViY3VyT2JBMmViNndzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzY0NjAyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjM0LmFwcC50YXIuZ3oKOUZ1U1M0T25KWEo1VFNHb045blE3QU9qSTVmWklxaUFsbFg3UTJpbzduZEFNWDA0RWQxaCtXU3cxUUZHNWE5MXA1dDN4U0h4Q3o4QUpXWVdDazlnREE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.34.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDIyZUFDSkVvUkdlV3M3eVV0TkFzRmpmYThJQU1VYlFGUFVHYmFuaWtHQ2dqR3hNMThwUDk4Rk0wRkxYZXk2S0xTaFJiM3ovWmRzcCswZjNQZ3pmQXc4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzcwNjI5CWZpbGU6Qm9va2JyZWFrZXItMC4xLjM1LmFwcC50YXIuZ3oKNVV4WWlyMGFUbFBGQWVETjNlemZFOVdsUmQ0dWI3RGUybjdqbWJMNm9TWWVlT3hGMWkvMXZFQXpoYlNmYlpsN1FpQkRkOG44S3JqSm1ZMUFyeDBjQ2c9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.35.app.tar.gz"
     }
   }
 }
