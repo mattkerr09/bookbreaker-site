@@ -396,9 +396,9 @@ CASES = [
         # rename that used to copy one into the other now leaves the two 47% alike, which no check should flag.
         "a state page rewritten as a copy of another state's",
         "check_shingle_duplication",
-        "sportsbooks/ks/index.html",
-        "Kansas",
-        "North Carolina",
+        "sportsbooks/va/index.html",
+        "Virginia",
+        "Indiana",
         -1,
     ),
     (

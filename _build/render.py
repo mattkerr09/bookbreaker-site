@@ -6123,8 +6123,14 @@ def state_difference(m: dict, name: str, code: str, row: dict) -> str:
                 f'target="_blank">Source</a>, read {e(read)}.' if src else "")
         note = f"<p class=\"sf-note\">{e(row['note'])}{cite}</p>"
 
+    # Facts only this state can say, each with its own source and read date (_data/state_facts.csv, from the CEO's
+    # template review of 2026-10-19: state pages that read alike get what is true only there).
+    facts = [r for r in load_data("state_facts") if r["code"] == code]
+    only = (f"<h2>Only in {e(name)}</h2>\n<ul>" + "".join(
+        f'<li>{e(r["fact"])} <a href="{e(r["source"])}" rel="nofollow" data-cite="1">source</a>, read {e(r["read"])}.</li>'
+        for r in facts) + "</ul>\n") if facts else ""
     return (f"<h2>Where {e(name)} stands</h2>\n"
-            f'<div class="sf-grid">{grid}</div>\n{note}\n\n')
+            f'<div class="sf-grid">{grid}</div>\n{note}\n\n{only}')
 
 
 def _days_since(iso: str) -> int:
