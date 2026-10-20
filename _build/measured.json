@@ -739,7 +739,7 @@
     "latency_observations": 30,
     "naive": 89
   },
-  "generated": "2026-10-19",
+  "generated": "2026-10-20",
   "grading": {
     "gap": 2.16,
     "p110": 52.38,
@@ -1378,7 +1378,7 @@
       "tax_rate": 13.0
     },
     "AZ": {
-      "age_days": 1866,
+      "age_days": 1867,
       "age_months": 61,
       "age_of": 16,
       "age_rank": 8,
@@ -1388,7 +1388,7 @@
       "tax_rate": 10.0
     },
     "CO": {
-      "age_days": 2362,
+      "age_days": 2363,
       "age_months": 78,
       "age_of": 16,
       "age_rank": 1,
@@ -1398,7 +1398,7 @@
       "tax_rate": 10.0
     },
     "CT": {
-      "age_days": 1826,
+      "age_days": 1827,
       "age_months": 60,
       "age_of": 16,
       "age_rank": 9,
@@ -1408,7 +1408,7 @@
       "tax_rate": 13.75
     },
     "DC": {
-      "age_days": 2335,
+      "age_days": 2336,
       "age_months": 77,
       "age_of": 16,
       "age_rank": 2,
@@ -1418,7 +1418,7 @@
       "tax_rate": 30.0
     },
     "DE": {
-      "age_days": 1020,
+      "age_days": 1021,
       "age_months": 34,
       "age_of": 16,
       "age_rank": 14,
@@ -1433,7 +1433,7 @@
       "tax_rate": 6.75
     },
     "IL": {
-      "age_days": 2314,
+      "age_days": 2315,
       "age_months": 76,
       "age_of": 16,
       "age_rank": 3,
@@ -1450,7 +1450,7 @@
       "tax_rate": 10.0
     },
     "KY": {
-      "age_days": 1117,
+      "age_days": 1118,
       "age_months": 37,
       "age_of": 16,
       "age_rank": 13,
@@ -1470,7 +1470,7 @@
       "tax_rate": 20.0
     },
     "MD": {
-      "age_days": 1426,
+      "age_days": 1427,
       "age_months": 47,
       "age_of": 16,
       "age_rank": 11,
@@ -1485,7 +1485,7 @@
       "tax_rate": 10.0
     },
     "MI": {
-      "age_days": 2096,
+      "age_days": 2097,
       "age_months": 69,
       "age_of": 16,
       "age_rank": 6,
@@ -1495,7 +1495,7 @@
       "tax_rate": 8.4
     },
     "MO": {
-      "age_days": 322,
+      "age_days": 323,
       "age_months": 11,
       "age_of": 16,
       "age_rank": 16,
@@ -1505,7 +1505,7 @@
       "tax_rate": 10.0
     },
     "NC": {
-      "age_days": 952,
+      "age_days": 953,
       "age_months": 31,
       "age_of": 16,
       "age_rank": 15,
@@ -1525,7 +1525,7 @@
       "tax_rate": 6.75
     },
     "NY": {
-      "age_days": 1745,
+      "age_days": 1746,
       "age_months": 57,
       "age_of": 16,
       "age_rank": 10,
@@ -1535,7 +1535,7 @@
       "tax_rate": 51.0
     },
     "OH": {
-      "age_days": 1387,
+      "age_days": 1388,
       "age_months": 46,
       "age_of": 16,
       "age_rank": 12,
@@ -1550,14 +1550,14 @@
       "tax_rate": 36.0
     },
     "TN": {
-      "age_days": 2178,
+      "age_days": 2179,
       "age_months": 72,
       "age_of": 16,
       "age_rank": 4,
       "age_years": 6.0
     },
     "VA": {
-      "age_days": 2097,
+      "age_days": 2098,
       "age_months": 69,
       "age_of": 16,
       "age_rank": 5,
@@ -1572,7 +1572,7 @@
       "tax_rate": 10.0
     },
     "WY": {
-      "age_days": 1874,
+      "age_days": 1875,
       "age_months": 62,
       "age_of": 16,
       "age_rank": 7,
@@ -3267,7 +3267,7 @@
       "never_limit": [],
       "online": true,
       "regulator": {
-        "days": 10,
+        "days": 11,
         "name": "Michigan Gaming Control Board",
         "read": "2026-10-09",
         "sports_operators": 13
@@ -5250,10 +5250,14 @@
   "welcome": {
     "assumptions_bonus_decimal": 4.0,
     "assumptions_hold_pct": 2.0,
+    "feed": {
+      "branch": "main",
+      "commit": "9ab544fda3a2fb3c1668b00865ca011e6359f395"
+    },
     "max_age_days": 21,
     "offers": [
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 20.0,
@@ -5269,9 +5273,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Fanatics",
-        "note": "Fanatics' own page. Opt in on the bet slip each day for your first 10 days; your first cash bet of the day at -200 or longer is matched 100% in FanCash up to $100, paid either way once the bet settles. Missing a day ends the offer. FanCash expires 7 days after issue and its stake is not returned. Rotowire (2026-10-07) says the match is paid only if the bet loses; Fanatics' own terms say either way, and those are recorded. Headline wording from Rotowire and Action Network.",
+        "note": "Fanatics' own page, re-read 2026-10-19; its full terms (10x$100 BET MATCH IN FANCASH) give: ten Bet Matches, one per day for ten straight days starting the day the account is opened; opt in on the bet slip and place a $1+ cash bet at -200 or longer, and FanCash equal to the stake, up to $100 a day, is paid once the bet settles, win or lose, within 72 hours. FanCash expires at 11:59 p.m. ET seven days after issue and its stake is not returned. Promotion ends 2:00 a.m. ET on December 2, 2026. Changed from the earlier read: the terms now say that a day with no opted-in qualifying bet forfeits only that day's reward ('ineligible for the Rewards for that day'); the earlier note said a missed day ends the offer. The bettor also picks which qualifying bet of the day the match applies to, by toggling it on, rather than it being the first bet of the day. States unchanged: AZ CO CT DC IA IL IN KS KY LA MA MD MO NC NJ NY OH PA TN VA VT WV WY (Michigan in its own row). Action Network (Last Updated 2026-10-16) prints the same terms.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://betfanatics.com/sportsbook/promo-code/1000-fancash",
         "stale": false,
         "states": [
@@ -5307,7 +5311,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 20.0,
@@ -5323,9 +5327,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Fanatics",
-        "note": "Fanatics' own page, which lists Michigan. Opt in on the bet slip each day for your first 10 days; your first cash bet of the day, $1 or more at -200 or longer, is matched 100% in FanCash up to $100, paid win or lose once the bet settles (Sportsbook Review's Michigan page, 2026-10-05, which also asks a $10 deposit; Rotowire's 2026-10-05 Michigan article says only if it loses, which Fanatics' own terms, read in an earlier pass of this feed, contradict). A missed day: Fanatics' own page, read in that earlier pass, says it ends the offer; Sportsbook Review's Michigan page says only that day is forfeited. FanCash expires 7 days after issue and its stake is not returned. The page ends the offer at 2:00 a.m. ET on December 2, 2026. The alternative to the $350 FanCash offer; a new account takes one.",
+        "note": "Fanatics' own page, re-read 2026-10-19; its full terms (10x$100 BET MATCH IN FANCASH) give: ten Bet Matches, one per day for ten straight days starting the day the account is opened; opt in on the bet slip and place a $1+ cash bet at -200 or longer, and FanCash equal to the stake, up to $100 a day, is paid once the bet settles, win or lose, within 72 hours. FanCash expires at 11:59 p.m. ET seven days after issue and its stake is not returned. Promotion ends 2:00 a.m. ET on December 2, 2026. Changed from the earlier read: the terms now say that a day with no opted-in qualifying bet forfeits only that day's reward ('ineligible for the Rewards for that day'); the earlier note said a missed day ends the offer. The bettor also picks which qualifying bet of the day the match applies to, by toggling it on, rather than it being the first bet of the day. Michigan is on the eligible list in the terms and on Action Network (Last Updated 2026-10-16). This settles the earlier dispute with Sportsbook Review's Michigan page in its favour (only that day is forfeited). The alternative to the $350 FanCash offer; a new account takes one.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://betfanatics.com/sportsbook/promo-code/1000-fancash",
         "stale": false,
         "states": [
@@ -5339,7 +5343,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5355,9 +5359,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
-        "note": "Secondary source; Action Network (read 2026-10-15, verified 2026-10-14) gives the same Indiana offer. A $10+ qualifying bet at -500 or longer; bonus bets paid win or lose, expire 7 days after issue, stake not returned.",
+        "note": "Secondary source, re-read 2026-10-19: bet365's own page refused the read (Cloudflare). Rotowire (verified 2026-10-19) and Action Network (Last Updated 2026-10-19) both give Indiana Bet $10, Get $365 in Bonus Bets win or lose: $10+ at -500 or longer, bonus bets expire 7 days after receipt, stake not returned.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.rotowire.com/betting/bet365/bonus-code",
         "stale": false,
         "states": [
@@ -5371,7 +5375,7 @@
         ]
       },
       {
-        "age_days": 12,
+        "age_days": 1,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5387,9 +5391,9 @@
         "ineligible": "",
         "installments": 7,
         "name": "Fanatics",
-        "note": "Secondary source. A $20+ cash bet at -500 or longer within 7 days of opening the account, then $50 in FanCash each day for your first 7 days, opted into daily; each day's FanCash expires 24 hours after issue. Action Network lists Illinois; Rotowire (2026-10-07) and Sportsbook Review's Illinois page (2026-10-05) do not, so Illinois is left out. The alternative to the FanCash match; a new account takes one.",
+        "note": "Secondary source, re-read 2026-10-19; Fanatics' own promo-code page (betfanatics.com/sportsbook/promo-code, re-read the same day) agrees. A $20+ cash bet at -500 or longer within 7 days of opening the account, then $50 in FanCash each day for your first 7 days, opted into daily; each day's FanCash expires 24 hours after issue. Illinois is now added: Fanatics' own page lists Illinois for this offer in both its offer table and its state-by-state table ('22 states and Washington, D.C.', every eligible state except New York), and Action Network (Last Updated 2026-10-16) lists it too. It had been left out because Rotowire (2026-10-07) and Sportsbook Review's Illinois page (2026-10-05) did not list it. The alternative to the FanCash match; a new account takes one.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-07",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/fanatics",
         "stale": false,
         "states": [
@@ -5398,6 +5402,7 @@
           "CT",
           "DC",
           "IA",
+          "IL",
           "IN",
           "KS",
           "KY",
@@ -5423,7 +5428,7 @@
         ]
       },
       {
-        "age_days": 10,
+        "age_days": 1,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5439,9 +5444,9 @@
         "ineligible": "",
         "installments": 7,
         "name": "Fanatics",
-        "note": "Secondary source: Covers' Michigan page (updated 2026-10-07, verified 2026-10-09), printing Fanatics' terms for a list of states that includes Michigan. A $20+ cash bet at -500 or longer within 7 days of opening the account, then $50 in FanCash each day for your first 7 days, opted into daily; each day's FanCash expires 24 hours after issue. Covers gives the end as 2026-12-01; Sportsbook Review's Michigan page (2026-10-05) lists the offer as the alternative. The alternative to the FanCash match; a new account takes one.",
+        "note": "Secondary source, re-read 2026-10-19: Covers' Michigan page (updated 2026-10-19) prints Fanatics' terms for a list of states that includes Michigan (excl. NY): a $20+ cash bet at -500 or longer within 7 days of opening the account, then $50 in FanCash each day for your first 7 days, opted into daily; each day's FanCash expires 24 hours after issue. Covers still gives the end as Dec. 1, 2026. Fanatics' own promo-code page (re-read 2026-10-19) lists Michigan for this offer. The alternative to the FanCash match; a new account takes one.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-09",
+        "read": "2026-10-19",
         "source": "https://www.covers.com/betting/usa/michigan",
         "stale": false,
         "states": [
@@ -5455,25 +5460,25 @@
         ]
       },
       {
-        "age_days": 7,
+        "age_days": 1,
         "book": "fd",
         "conversion": 0.69,
-        "cost": 0.5,
+        "cost": 0.7000000000000001,
         "ended": false,
         "ends": "",
-        "expected": 171.25324675324674,
+        "expected": 239.75454545454545,
         "expires_days": "5",
-        "face": 250.0,
-        "guaranteed": 171.25324675324674,
-        "headline": "Get $250 in Bonus Bets!",
+        "face": 350.0,
+        "guaranteed": 239.75454545454545,
+        "headline": "Get $350 in Bonus Bets!",
         "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
-        "installments": 5,
+        "installments": 7,
         "name": "FanDuel",
-        "note": "Secondary source: FanDuel's own pages refused the read (403). A $5 first deposit, then a $5+ bet each day for five consecutive days; each day pays $50 in bonus bets, win or lose. Expiry is disputed: Action Network says 5 days, while Covers (2026-09-27), Rotowire (2026-09-22) and Sportsbook Review say 7 days (168 hours). The shorter is recorded. Sportsbook Review's Massachusetts page gave the promotion's end as 2026-10-11, but Action Network (updated and verified 2026-10-12) still lists the same offer with no end date, so none is recorded.",
+        "note": "Secondary source, re-read 2026-10-19: FanDuel's own promos page loads as a script shell with no readable terms. Action Network (Last Updated 2026-10-19 9:41 AM EDT) now prints 'Get $350 in Bonus Bets!': a $5 first deposit, then a $5+ online real-money bet each day for seven consecutive days; each qualifying day pays $50 in non-withdrawable bonus bets, $350 in all, win or lose. Was $250 over five days. States unchanged (AR AZ CO CT DC IA IL IN KS KY LA MA MD MO NC NJ NY OH PA TN VA VT WV WY, Michigan in its own row). Expiry is disputed on the same page: the printed terms say bonus bets expire 7 days after receipt, one body line says 5; the shorter is recorded, as before. No end date on Action Network; Covers' Michigan page (updated 2026-10-19) says the offer expires on Oct. 25, 2026, which is not recorded because the row's source does not give it. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-12",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/fanduel",
         "stale": false,
         "states": [
@@ -5503,46 +5508,46 @@
           "WY"
         ],
         "steps": [
-          "Qualify: bet $25 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.50. It is a fee, not a bet.",
-          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 5 installments.",
-          "Collect: $171.25 locked from $250 face if both bets are accepted and stand, before the bonus expires (5 days).",
+          "Qualify: bet $35 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.70. It is a fee, not a bet.",
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 7 installments.",
+          "Collect: $239.75 locked from $350 face if both bets are accepted and stand, before the bonus expires (5 days).",
           "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
         ]
       },
       {
-        "age_days": 7,
+        "age_days": 1,
         "book": "fd",
         "conversion": 0.69,
-        "cost": 0.5,
+        "cost": 0.7000000000000001,
         "ended": false,
         "ends": "",
-        "expected": 171.25324675324674,
+        "expected": 239.75454545454545,
         "expires_days": "5",
-        "face": 250.0,
-        "guaranteed": 171.25324675324674,
-        "headline": "Get $250 in Bonus Bets!",
+        "face": 350.0,
+        "guaranteed": 239.75454545454545,
+        "headline": "Get $350 in Bonus Bets!",
         "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
-        "installments": 5,
+        "installments": 7,
         "name": "FanDuel",
-        "note": "Secondary source: FanDuel's own pages load as a script shell with no readable terms. A $5 first deposit, then a $5+ bet each day for five consecutive days; each day pays $50 in bonus bets, win or lose. Expiry is disputed: Action Network (updated 2026-10-07), quoting FanDuel's own terms, says the bonus bets expire 5 days after receipt, while Sportsbook Review's Michigan page (2026-10-05) says 7. The shorter is recorded. Covers' Michigan page (verified 2026-10-09) gave the offer's end as 2026-10-12, but Action Network (updated and verified 2026-10-12, 1:48 AM EDT) still lists the same $250 offer, Michigan among its states, and prints no end date, so no end date is recorded.",
+        "note": "Secondary source, re-read 2026-10-19: FanDuel's own promos page is a script shell. Action Network (Last Updated 2026-10-19) lists Michigan for 'Get $350 in Bonus Bets!': a $5 first deposit, then a $5+ bet each day for seven consecutive days, $50 in bonus bets per qualifying day, $350 in all, win or lose. Was $250 over five days. Expiry disputed: Action Network's printed terms say 7 days after receipt, one body line says 5, Sportsbook Review's Michigan page (2026-10-05) said 7; the shorter is recorded. Covers' Michigan page (updated 2026-10-19) gives the same $350 offer and says it expires on Oct. 25, 2026; Action Network prints no end date, so none is recorded, but the end may be near. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-12",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/fanduel",
         "stale": false,
         "states": [
           "MI"
         ],
         "steps": [
-          "Qualify: bet $25 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.50. It is a fee, not a bet.",
-          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 5 installments.",
-          "Collect: $171.25 locked from $250 face if both bets are accepted and stand, before the bonus expires (5 days).",
+          "Qualify: bet $35 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.70. It is a fee, not a bet.",
+          "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 7 installments.",
+          "Collect: $239.75 locked from $350 face if both bets are accepted and stand, before the bonus expires (5 days).",
           "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "dk",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5558,9 +5563,9 @@
         "ineligible": "",
         "installments": 4,
         "name": "DraftKings",
-        "note": "Secondary source: DraftKings' own pages refuse automated reads (403). Action Network (updated 2026-10-13, promo verified 2026-10-14) prints DraftKings' terms: a first deposit, then a first bet of $5 or more at -500 or longer, win or lose. Bonus bets are paid as $50 when that bet settles and $50 every 7 days after, four times, $200 in all (the page's body says 2 x $25 per instalment; its terms say $50, and the terms are used). Bonus bets expire 7 days after issue. Ends 2026-11-29 11:59 PM ET. The offer also includes 3 months of NBA League Pass, which is not priced here: it is not a betting value and renews at $16.99 a month after the 3 months. It replaces Bet $5, Get $150 (ended 2026-10-18). Connecticut, Maine, New Hampshire and Oregon are not on the page's list, so they are left out until a source names them.",
+        "note": "Secondary source, re-read 2026-10-19: DraftKings' own promos page answered but shows only 'You must be logged in to view this content', so it carries no terms. Action Network (Last Updated 2026-10-19 8:12 AM EDT) prints DraftKings' terms unchanged: $5+ first bet at -500 or longer, win or lose; max $200 as non-withdrawable bonus bets, $50 every 7 days via click-to-claim for 21 days (four payments, $200 in all); bonus bets and click-to-claims expire 7 days (168 hours) after issue; ends 11/29/26 11:59 PM ET. The page body still says 2 x $25 per instalment; the terms say $50 and are used. 3 months of NBA League Pass is not priced (renews at $16.99 a month; redeem by 12/19/26). Eligible list unchanged: AR AZ CO DC IA IL IN KS KY LA MA MD MI MO NC NJ NY OH PA TN VA VT WV WY; CT, ME, NH and OR still not on it. Covers' Michigan page (updated 2026-10-19) gives the same offer and end date. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/draftkings",
         "stale": false,
         "states": [
@@ -5596,7 +5601,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "dk",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5612,9 +5617,9 @@
         "ineligible": "",
         "installments": 4,
         "name": "DraftKings",
-        "note": "Secondary source: DraftKings' own pages refuse automated reads (403). Action Network (updated 2026-10-13, promo verified 2026-10-14) prints DraftKings' terms: a first deposit, then a first bet of $5 or more at -500 or longer, win or lose. Bonus bets are paid as $50 when that bet settles and $50 every 7 days after, four times, $200 in all (the page's body says 2 x $25 per instalment; its terms say $50, and the terms are used). Bonus bets expire 7 days after issue. Ends 2026-11-29 11:59 PM ET. The offer also includes 3 months of NBA League Pass, which is not priced here: it is not a betting value and renews at $16.99 a month after the 3 months. It replaces Bet $5, Get $150 (ended 2026-10-18). Action Network lists Michigan for this same offer.",
+        "note": "Secondary source, re-read 2026-10-19: DraftKings' own promos page is login-only. Action Network (Last Updated 2026-10-19) lists Michigan for this same offer and prints the same terms: $5+ first bet at -500 or longer, $50 every 7 days via click-to-claim for 21 days, $200 in all, 7-day expiry, ends 11/29/26 11:59 PM ET. Covers' Michigan page (updated 2026-10-19) agrees and gives the end as Nov. 29, 2026. NBA League Pass not priced. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/draftkings",
         "stale": false,
         "states": [
@@ -5628,7 +5633,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5644,9 +5649,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
-        "note": "Secondary source; Action Network (read 2026-10-15, verified 2026-10-14) gives the same offer and states. A $10+ qualifying bet at -500 or longer within 30 days of registering. Bonus bets are paid win or lose, are non-withdrawable, expire 7 days after issue, and the bonus bet stake is not returned. NJ and PA add 50 casino spins, which are not priced here.",
+        "note": "Secondary source, re-read 2026-10-19: bet365's own page refused the read (Cloudflare block page), which was not bypassed. Rotowire (Last Updated 2026-10-02, promo last verified 2026-10-19) and Action Network (Last Updated 2026-10-19) agree: Bet $10, Get $200 in Bonus Bets win or lose in AZ CO IA KS KY LA MD MO NC NJ OH PA VA (Michigan in its own row). A $10+ qualifying bet at -500 or longer within 30 days of registering; bonus bets paid win or lose, non-withdrawable, expire 7 days after receipt, stake not returned. NJ and PA add 50 casino spins, not priced. Rotowire's one-line state list also names Indiana, but its state table and Action Network give Indiana the $365 offer, so Indiana stays in that row.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.rotowire.com/betting/bet365/bonus-code",
         "stale": false,
         "states": [
@@ -5672,7 +5677,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5688,9 +5693,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
-        "note": "Secondary source. Rotowire (promo last verified 2026-10-15) lists Michigan, which also gets 50 casino spins that are not priced here. A $10+ qualifying bet at -500 or longer within 30 days of registering. Bonus bets are paid win or lose, are non-withdrawable, expire 7 days after receipt, and the bonus bet stake is not returned. Sportsbook Review's Michigan page (2026-10-05) and Covers' Michigan page (verified 2026-10-09) give the same offer. bet365 began taking Michigan bets on 2026-04-17 (MGCB release).",
+        "note": "Secondary source, re-read 2026-10-19: bet365's own page refused the read (Cloudflare). Rotowire (verified 2026-10-19) lists Michigan at Bet $10, Get $200 in Bonus Bets win or lose + 50 spins; Action Network's terms block names MI, NJ and PA for $200 + 50 spins. $10+ at -500 or longer within 30 days of registering, bonus bets non-withdrawable, expire 7 days after receipt, stake not returned. Spins not priced. bet365 began taking Michigan bets on 2026-04-17 (MGCB release, re-read 2026-10-19).",
         "offer_type": "bet_and_get",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.rotowire.com/betting/bet365/bonus-code",
         "stale": false,
         "states": [
@@ -5704,7 +5709,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5720,9 +5725,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
-        "note": "Secondary source. Same terms as bet365's $200 offer, for $150 in these states. Rotowire (verified 2026-10-15) gives $150 for IL and TN; the West Virginia amount is from Action Network alone. WV adds 50 casino spins, not priced here.",
+        "note": "Secondary source, re-read 2026-10-19: bet365's own page refused the read (Cloudflare). Action Network (Last Updated 2026-10-19) gives $150 win or lose for IL and TN, and a separate $150 + 50 casino spins offer for WV only; Rotowire (verified 2026-10-19) now also lists West Virginia at $150 + 50 spins, so West Virginia no longer rests on Action Network alone. Same terms as the $200 offer: $10+ at -500 or longer, 7-day expiry, stake not returned. Spins not priced.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/bet365",
         "stale": false,
         "states": [
@@ -5738,7 +5743,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
         "book": "borgata",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5754,9 +5759,9 @@
         "ineligible": "",
         "installments": 2,
         "name": "Borgata",
-        "note": "Secondary source (CBS, dated 2026-10-16, re-read 2026-10-17): Borgata's own sportsbook page is an app shell with no readable terms. A deposit and a first bet of $20 or more; the $100 in bonus bets is paid whether that bet wins or not, and expires 7 days after it is received. New Jersey only. Top End Sports (2026-06-02) adds that the first bet must be a pregame moneyline and that the $100 comes as two $50 bonus bets; CBS does not give the split, so the two-bet split rests on that one source.",
+        "note": "Secondary source, re-read 2026-10-19: Borgata's own promo page (redirected to borgataonline.com/en/promo/offers) is an app shell with no readable terms. CBS (published and modified 2026-10-19): a deposit and a first bet of $20 or more on any game; $100 in bonus bets, paid whether or not that bet wins, which expire seven days after they are received; the bonus bet stake is not returned. New Jersey only. The two-$50-bonus-bet split and the pregame-moneyline condition rest on Top End Sports (2026-06-02), not re-read; CBS today says 'any game'.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-17",
+        "read": "2026-10-19",
         "source": "https://www.cbssports.com/betting/news/borgata-promo-code",
         "stale": false,
         "states": [
@@ -5770,7 +5775,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
         "book": "desertdiamond",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5786,9 +5791,9 @@
         "ineligible": "",
         "installments": 5,
         "name": "Bet Desert Diamond",
-        "note": "Bet Desert Diamond's own terms (Bet & Get), re-read 2026-10-17, still ending 2026-12-31. A first deposit of $20 to $100 and a $20+ real-money bet at -200 or longer; once it settles, five $20 bonus bets, usable only at -200 or longer and not in portions, expiring 14 days after issue. Arizona only, and not on Indian lands. A first deposit over $100 gets the $250 Welcome Match instead, a deposit match this screen does not price.",
+        "note": "Bet Desert Diamond's own terms (Bet & Get, welcome-offer entry 'Get $100 in Bonus Bets Now'), re-read 2026-10-19 from its promotions feed: a first deposit of $20 to $100 and a $20+ real-money bet at -200 or longer; once it settles, five $20 bonus bets, usable only at -200 or longer and in full, expiring 14 days after issue. Promotion runs 2026-01-01 to 2026-12-31 11:59 p.m. MT. Arizona only, not on Indian lands. A first deposit over $100 gets the $250 Welcome Match instead, a deposit match this screen does not price.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-17",
+        "read": "2026-10-19",
         "source": "https://cms.ddc.whitehatgaming.com/en/promotions?device=desktop&userType=new_user&jurisdiction=US-AZ",
         "stale": false,
         "states": [
@@ -5802,7 +5807,7 @@
         ]
       },
       {
-        "age_days": 10,
+        "age_days": 11,
         "book": "firekeepers",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5818,7 +5823,7 @@
         "ineligible": "",
         "installments": 1,
         "name": "FireKeepers Sportsbook",
-        "note": "FireKeepers' own promotions page ('Your first bet is a game changer! Wager $10 and unlock $50 in bonus bets!'). First sports wager only, at minimum odds of +100. The page does not say how the $50 is split, when it is paid, whether it is paid on a loss, or when it expires, so none of that is recorded: it is priced as one $50 bonus bet paid win or lose, which its wording suggests and does not state. Sportsbook Review's Michigan page (2026-10-05) says FireKeepers has no welcome bonus and Covers' (verified 2026-10-09) lists an 'up to $500' bonus bet; FireKeepers' own page is the one recorded.",
+        "note": "Unreadable on 2026-10-19: FireKeepers' own promotions page returned 403 Access Denied (Akamai), which was not bypassed, so the read date stays 2026-10-09. As last read: 'Your first bet is a game changer! Wager $10 and unlock $50 in bonus bets!', first sports wager only, minimum odds +100. The page did not say how the $50 is split, when it is paid, whether it is paid on a loss, or when it expires; it is priced as one $50 bonus bet paid win or lose, which its wording suggests and does not state.",
         "offer_type": "bet_and_get",
         "read": "2026-10-09",
         "source": "https://www.igaming.firekeeperscasino.com/promotions",
@@ -5834,7 +5839,7 @@
         ]
       },
       {
-        "age_days": 6,
+        "age_days": 1,
         "book": "betparx",
         "conversion": 0.69,
         "cost": 0.5,
@@ -5850,9 +5855,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "betPARX",
-        "note": "Read on 2026-10-13 from Promotions, Choose Your Reward, Learn More (the offer's own address opens the casino lobby when visited directly). Play Gun Lake's own terms (Play Gun Lake is Gun Lake Casino's betPARX sportsbook). A first sports bet of $25 in cash on any available market, then choose a reward: a $50 Bonus Bet, valid 7 days from issuance, wagered once, its stake not included in returns, or the 200% Profit Boost in the next row. The promotion runs from Sunday, September 27 at 1:00 PM to Sunday, January 31 at 11:59 PM ET; the page gives no year, and 2026-09-27 and 2027-01-31 are both Sundays. A new account takes one reward. Sportsbook Review's Michigan page (2026-10-05) lists the $50 bonus bet.",
+        "note": "Play Gun Lake's own terms, re-read 2026-10-19 from Promotions, Choose Your Reward, Learn More (rendered in a browser; the plain fetch returned only a script shell). A first sports bet of $25 in cash on any available market, then choose a reward: a $50 Bonus Bet, valid 7 days from issuance, wagered once, its stake not included in returns, or the 200% Profit Boost in the next row. Promotion period Sunday, September 27, 1:00 PM to Sunday, January 31, 11:59 PM ET; no year printed, and 2026-09-27 and 2027-01-31 are both Sundays. A new account takes one reward.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-13",
+        "read": "2026-10-19",
         "source": "https://www.playgunlake.com/promotions",
         "stale": false,
         "states": [
@@ -5866,7 +5871,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "bally",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5882,9 +5887,9 @@
         "ineligible": "",
         "installments": 2,
         "name": "Bally Bet",
-        "note": "Bally Bet's own terms (Bet $10+, Get $50), re-read 2026-10-15: the promotional period ends 2026-12-31, and Illinois is not on the eligible list though Bally takes bets there. A $10+ first bet at -250 or longer, settled within 28 days of registering. Bonus bet tokens arrive within 48 hours of it grading as a win or a loss and expire 7 days after issue. The split into two $25 bonus bets is from Top End Sports; Bally's own terms do not state it.",
+        "note": "Bally Bet's own terms (Bet $10+, Get $50), re-read 2026-10-19; the /promotions address now redirects to ballybet.com, which carries the full terms. Promotional period 2026-01-01 to 2026-12-31 11:59 p.m. EST. Eligibility 2.1(d) lists AZ CO IN IA MD MA NJ NY OH TN VA; Illinois is still not on it though Bally takes bets there. A $10+ first cash bet at -250 or longer that settles within 28 days of registering; bonus bet tokens arrive within 48 hours of it grading as a win or a loss and expire 7 days after issue. The two $25 bonus bets split is from Top End Sports; Bally's own terms do not state it.",
         "offer_type": "bet_and_get",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.ballybet.com/promotions",
         "stale": false,
         "states": [
@@ -5908,7 +5913,7 @@
         ]
       },
       {
-        "age_days": 12,
+        "age_days": 1,
         "book": "mgm",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5924,9 +5929,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "BetMGM",
-        "note": "Secondary source: BetMGM's own promotions page did not load (404). A $10 minimum deposit, then a first bet of up to $1,500. If it loses, the stake comes back in bonus bets: one bonus bet for a stake under $50, five bonus bets of 20% each from $50. Bonus bets expire 7 days after issue (Covers 2026-10-04, Top End Sports, Sportsbook Review). Action Network and Covers agree on these states; Massachusetts is from Action Network and Sportsbook Review. Action Network also lists DC, which Covers leaves out and SI says is excluded, so DC is left out.",
+        "note": "Secondary source, re-read 2026-10-19: BetMGM's own promo page (sports.betmgm.com/en/promo/offers, redirected to the Michigan site) loads as a script shell. Action Network (Last Updated 2026-10-13) still lists 'Get up to $1,500 Back in Bonus Bets if Your First Bet Doesn't Win!' (code ACTIONMGM, $10 minimum deposit) for AZ CO DC IA IL IN KS KY LA MA MD NC OH TN VA WY. DC is still left out, as before (Covers had left it out and SI said it was excluded). Action Network today does not print the bonus-bet split or the expiry: one bonus bet under a $50 stake, five of 20% from $50, and the 7-day expiry rest on the earlier reads (Covers 2026-10-04, Top End Sports, Sportsbook Review). Action Network now leads with a different BetMGM offer, the up-to-$1,000 No Sweat token row; a new account takes one. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "safety_net",
-        "read": "2026-10-07",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/betmgm",
         "stale": false,
         "states": [
@@ -5953,7 +5958,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "thescore",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5969,9 +5974,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "theScore Bet",
-        "note": "Action Network's theScore Bet review (updated and verified 2026-10-14) lists Bet Reset up to $1,000 for these states, not New York: a $10 minimum deposit, then the first cash bet; if it loses, the stake comes back as five bonus bets of 20% each, up to $1,000. Secondary source. A $10 minimum deposit and a first bet of $10 or more. If it loses, the stake comes back in bonus bets, up to $1,000, as five tokens of 20% each. Action Network (2026-10-07) lists the same offer for these states except New York, which Sportsbook Review's New York page (2026-10-07) confirms. The 7-day expiry is from Sportsbook Review's Massachusetts page alone. NJ, PA and WV get a different offer that pays only if the first bet wins, which is not listed here. Michigan's is its own row.",
+        "note": "Secondary source, re-read 2026-10-19: theScore Bet's own promotions address redirected to sportsbook.thescore.bet and returned an empty shell with no terms. Action Network (Last Updated 2026-10-19 9:44 AM EDT) still lists 'Bet Reset up to $1000!' (code ACTION) for AZ CO IA IL IN KS KY LA MA MD MO NC OH TN VA, not New York: the first eligible cash bet, and if it loses, the stake comes back as five bonus bets, up to $1,000 in all (its example: a $50 losing bet returns five $10 bonus bets). Cash-outs, voided bets and bets made with bonus bets do not trigger it. The $10 minimum deposit and first bet, and the 7-day expiry (Sportsbook Review's Massachusetts page alone), rest on the earlier reads. NJ, PA, WV and Michigan get the win-only offer, which has its own row. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "safety_net",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/thescore-bet",
         "stale": false,
         "states": [
@@ -5998,7 +6003,7 @@
         ]
       },
       {
-        "age_days": 10,
+        "age_days": 1,
         "book": "eagle",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6014,9 +6019,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Eagle Casino & Sports",
-        "note": "Eagle Casino & Sports' own terms, the offer on its home page. A first deposit of $10 or more starts a 10-day window; each day, if the first real-money wager of the day, at -250 or longer, settles as a loss, a bonus bet equal to the stake, up to $100, is awarded. A bonus bet must be used in full on one wager at -250 or longer within 14 days, only its winnings are paid, and it cannot be used on round robins; a tie earns nothing and an account with earlier deposits is not eligible. The terms print 'Promotion Start: 08.01.2024, Promotion End: Ongoing'. Sportsbook Review's Michigan page (2026-10-05) says Eagle has no welcome bonus and Covers' (verified 2026-10-09) lists a $1,000 first bet offer; Eagle's own page is the one recorded.",
+        "note": "Eagle Casino & Sports' own terms, re-read 2026-10-19 (rendered in a browser; the plain fetch returned only the page shell). A first deposit of $10 or more starts a 10-day window; each day, if the first real-money bet of the day, at -250 or longer, settles as a loss, a bonus bet equal to the stake, up to $100, is issued. It must be used in full on one bet at -250 or longer (parlays and teasers allowed, not round robins) within 14 days, and only its winnings are paid; a tie earns nothing; an account with earlier deposits is not eligible. Michigan only. 'Promotion Start: 08.01.2024, Promotion End: Ongoing.'",
         "offer_type": "safety_net",
-        "read": "2026-10-09",
+        "read": "2026-10-19",
         "source": "https://playeagle.com/promotion.shtml?promoid=upto-1000-inbets-wo",
         "stale": false,
         "states": [
@@ -6029,7 +6034,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6045,9 +6050,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "BetRivers",
-        "note": "BetRivers' own wording (re-read 2026-10-15 on all fourteen state sites), the same on each of these states' sites (in., la., md., mi., pa. and va.betrivers.com). Claim code SPORTS on a first deposit ($10 minimum per Action Network and Rotowire); the next real-money sports bet, at -200 or longer, is refunded as one bonus bet equal to the stake, up to $500, if it loses. Expiry is disputed: Action Network (2026-10-07) and Rotowire say 30 days, Sportsbook Review's New York page (2026-10-07) says 7; the shorter is recorded. Action Network and Sportsbook Review's Illinois page give the same amounts.",
+        "note": "BetRivers' own wording, re-read 2026-10-19 on all fourteen state sites' translations-ENG.js: 'You've claimed code SPORTS on your first deposit! Your next real money Sports wager is eligible and if it loses, receive a Bonus Bet equal to your stake up to $500'. The $500 text appears on il., in., la., md., pa. and va.betrivers.com (and mi., its own row). The $10 minimum deposit and -200 minimum odds are from Action Network and Rotowire, not re-read. Expiry is disputed: Action Network (2026-10-07) and Rotowire say 30 days, Sportsbook Review's New York page (2026-10-07) says 7; the shorter is recorded.",
         "offer_type": "safety_net",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://il.betrivers.com/conf/translations-ENG.js",
         "stale": false,
         "states": [
@@ -6065,7 +6070,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6081,9 +6086,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "BetRivers",
-        "note": "BetRivers' own wording (re-read 2026-10-15 on all fourteen state sites) on mi.betrivers.com: claim code SPORTS on a first deposit; your next real money sports wager is eligible, and if it loses, a bonus bet equal to your stake, up to $500, is loaded when it settles. Rotowire (promo last verified 2026-10-09) adds a $10 minimum deposit, minimum odds of -200 on the first wager, and a single bonus bet. Expiry is disputed: Rotowire says 30 days; Sportsbook Review's New York page, read in an earlier pass of this feed, says 7. The shorter is recorded.",
+        "note": "BetRivers' own wording, re-read 2026-10-19 on all fourteen state sites' translations-ENG.js: 'You've claimed code SPORTS on your first deposit! Your next real money Sports wager is eligible and if it loses, receive a Bonus Bet equal to your stake up to $500'. That text appears on mi.betrivers.com. Covers' Michigan page (updated 2026-10-19) also describes an up-to-$500 offer for Michigan, under its own code. Rotowire's $10 minimum deposit, -200 minimum odds and single bonus bet are from the earlier read. Expiry disputed: Rotowire says 30 days; Sportsbook Review's New York page, read in an earlier pass, says 7. The shorter is recorded.",
         "offer_type": "safety_net",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://mi.betrivers.com/conf/translations-ENG.js",
         "stale": false,
         "states": [
@@ -6096,7 +6101,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "hardrock",
         "conversion": 0.69,
         "cost": 0.1,
@@ -6112,9 +6117,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Hard Rock Bet",
-        "note": "Hard Rock Bet's own page. A $5+ cash bet on any market at -500 or longer unlocks ten No Sweat Bet tokens, one a day for ten consecutive days. Each covers one cash bet up to $50; if it loses, a bonus bet equal to the stake is paid. A token expires at 11:59pm on its day of issue; bonus bets expire 7 days after issue. Runs 2026-10-05 to 2026-12-31. Florida is run under the Seminole Tribe.",
+        "note": "Hard Rock Bet's own page, re-read 2026-10-19 (Updated 2026-10-05; offer verified 2026-10-19). A $5+ cash bet on any market at -500 or longer unlocks ten No Sweat Bet tokens, one a day for ten consecutive days. Each covers one cash bet up to $50; if it loses, a bonus bet equal to the stake, up to $50, is paid. A token expires at 11:59pm on its day of issue; bonus bets expire 7 days after issue. Runs 2026-10-05 12:01 AM to 2026-12-31 11:59 PM. States AZ CO FL IL IN NJ OH TN VA (Michigan in its own row). Florida is run under the Seminole Tribe, same dates.",
         "offer_type": "safety_net",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.hardrock.bet/promo-code/",
         "stale": false,
         "states": [
@@ -6136,7 +6141,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "hardrock",
         "conversion": 0.69,
         "cost": 0.1,
@@ -6152,9 +6157,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Hard Rock Bet",
-        "note": "Hard Rock Bet's own Michigan page ('MI Sportsbook Bonus: Bet $5, Get up to $500 in No Sweat Bets!'). A $5+ cash bet on any market at -500 or longer unlocks ten No Sweat Bet tokens, one a day for ten consecutive days. Each covers one cash bet up to $50; if it loses, a bonus bet equal to the stake is paid. A token expires at 11:59 p.m. on its day of issue; bonus bets expire 7 days after issue. Bets made with bonus bets, on boosts or round robins, or settled with early cash out do not qualify. Runs 2026-10-05 to 2026-12-31. Hard Rock Bet uses no promo code. It has run Island Resort & Casino's sportsbook since 2025-12-02.",
+        "note": "Hard Rock Bet's own page, re-read 2026-10-19: Michigan is on its list (AZ CO FL IL IN MI NJ OH TN VA). A $5+ cash bet at -500 or longer unlocks ten No Sweat Bet tokens, one a day for ten consecutive days; each covers one cash bet up to $50, refunded as a bonus bet equal to the stake if it loses. A token expires at 11:59 p.m. on its day of issue; bonus bets expire 7 days after issue. Round robins do not qualify. Runs 2026-10-05 to 2026-12-31. No promo code. Hard Rock Bet has run Island Resort & Casino's sportsbook since 2025-12-02 (MGCB release, re-read 2026-10-19).",
         "offer_type": "safety_net",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.hardrock.bet/promo-code/",
         "stale": false,
         "states": [
@@ -6168,7 +6173,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6184,9 +6189,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Caesars",
-        "note": "Secondary source (Action Network, verified 2026-10-17): Caesars' own pages refused the read (403). Ten 100% profit boost tokens, $25 maximum stake and $2,500 maximum extra winnings per token, min odds -10,000, expiring 14 days after receipt. Sportsbook Review's Maine page (2026-09-23) confirms Maine. Caesars runs a second welcome offer through other codes, the Bet Reset row; a new account takes one.",
+        "note": "Secondary source, re-read 2026-10-19: Caesars' own promotions address returned 403 with a 'Page Not Found' shell, not bypassed. Action Network (the row's address now redirects to /reviews/caesars-sportsbook; Last Updated 2026-10-01) prints Caesars' terms: min qualifying bet $1; ten 100% profit boost tokens, $25 maximum bet and $2,500 maximum additional winnings per token, tokens expire 14 days after receipt; states AZ CO DC IA IL IN KS KY LA MA MD ME MO NC NJ NY OH PA TN VA WV WY (Michigan in its own row). The -10,000 minimum odds is not printed on today's page and rests on the earlier read. Caesars runs a second welcome offer, the Bet Reset row; a new account takes one. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "profit_boost",
-        "read": "2026-10-17",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/caesars",
         "stale": false,
         "states": [
@@ -6219,7 +6224,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6235,9 +6240,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Fanatics",
-        "note": "Secondary source. New York only. Ten 100% profit boost tokens on opening a verified account, $25 maximum stake each at -500 or longer, expiring at 11:59pm ET on the 7th day after issue. The alternative to the FanCash match in New York; a new account takes one.",
+        "note": "Secondary source, re-read 2026-10-19. New York only. Action Network (Last Updated 2026-10-16): ten 100% profit boost tokens on opening a verified account, max wager $25 each at -500 or longer, expiring at 11:59pm ET on the 7th day after issue. Disputed: Fanatics' own promo-code page (re-read 2026-10-19) says a max stake of $100 per token in its prose summary, while its offer table gives no stake cap. The $25 from Action Network's terms block is kept, as the lower figure, until Fanatics' full terms are read. The alternative to the FanCash match in New York; a new account takes one.",
         "offer_type": "profit_boost",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/fanatics",
         "stale": false,
         "states": [
@@ -6249,7 +6254,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6265,9 +6270,9 @@
         "ineligible": "",
         "installments": 10,
         "name": "Caesars",
-        "note": "Secondary source (re-read 2026-10-17): Caesars' own pages load as a script shell with no readable terms. Action Network (updated 2026-10-01) quoting Caesars' terms: ten 100% profit boost tokens, a $1+ first bet at -10,000 or longer within 30 days of signing up, $25 maximum stake and $2,500 maximum additional winnings per token, each token expiring 14 days after receipt. Covers' Michigan page (verified 2026-10-09) gives the same tokens under another code, a $10 minimum deposit where Action Network says $1, and the offer's end as 2027-03-02. Caesars runs a second welcome offer, the Bet Reset row; a new account takes one.",
+        "note": "Secondary source, re-read 2026-10-19: Caesars' own page refused (403). Action Network (Last Updated 2026-10-01) lists Michigan and prints Caesars' terms: $1+ qualifying bet, ten 100% profit boost tokens, $25 maximum bet and $2,500 maximum additional winnings per token, 14-day token expiry. Covers' Michigan page (updated 2026-10-19) gives the same tokens under its own code, a $10 minimum deposit, a first bet of $1 within 30 days, and the offer's end as Mar. 2, 2027. Caesars runs a second welcome offer, the Bet Reset row; a new account takes one. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "profit_boost",
-        "read": "2026-10-17",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/caesars-sportsbook",
         "stale": false,
         "states": [
@@ -6279,7 +6284,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6295,9 +6300,9 @@
         "ineligible": "",
         "installments": 5,
         "name": "Caesars",
-        "note": "Secondary source (Rotowire, verified 2026-10-17). Five Bet Reset tokens, one at registration and one a day for the next four days. A token bet of $1 to $50 at -1000 or longer that loses is refunded as a bonus bet. Tokens and bonus bets expire after 14 days. amNY (2026-10-03) describes the same offer. The alternative to Caesars' ten profit boosts; a new account takes one.",
+        "note": "Secondary source, re-read 2026-10-19: Caesars' own page refused (403). Rotowire (Last Updated 2026-10-08, promo last verified 2026-10-19): five Bet Reset tokens, one a day for five straight days, each used within 14 days at -1000 or longer, $1 to $50 per token; a losing token bet is refunded as one bonus bet up to $50; bonus bets expire after 14 days; round robins, flex parlays and early cash outs do not qualify. States AZ CO IL IN IA KS KY LA MA MD ME MI MO NC NJ NY OH PA TN VA WV DC WY. Rotowire's state table also shows Rhode Island, which its own state list and Caesars' state picker leave out, so it is not added. The alternative to Caesars' ten profit boosts; a new account takes one.",
         "offer_type": "safety_net",
-        "read": "2026-10-17",
+        "read": "2026-10-19",
         "source": "https://www.rotowire.com/betting/caesars/promo-code",
         "stale": false,
         "states": [
@@ -6331,7 +6336,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6347,9 +6352,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "BetRivers",
-        "note": "BetRivers' own wording (re-read 2026-10-15 on all fourteen state sites), the same on co.betrivers.com. Code SPORTS on a first deposit; the next real-money sports bet, at -200 or longer, is refunded as one bonus bet up to $250 if it loses. Expiry disputed, 30 days (Action Network, Rotowire) or 7 (Sportsbook Review); the shorter is recorded. Action Network gives $250 for New Jersey.",
+        "note": "BetRivers' own wording, re-read 2026-10-19 on all fourteen state sites' translations-ENG.js: 'You've claimed code SPORTS on your first deposit! Your next real money Sports wager is eligible and if it loses, receive a Bonus Bet equal to your stake up to $250'. The $250 text appears on co. and nj.betrivers.com. Code SPORTS on a first deposit; the next real-money sports bet, at -200 or longer, refunded as one bonus bet up to $250 if it loses. Expiry disputed, 30 days (Action Network, Rotowire) or 7 (Sportsbook Review); the shorter is recorded.",
         "offer_type": "safety_net",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://nj.betrivers.com/conf/translations-ENG.js",
         "stale": false,
         "states": [
@@ -6363,7 +6368,7 @@
         ]
       },
       {
-        "age_days": 2,
+        "age_days": 1,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6379,9 +6384,9 @@
         "ineligible": "",
         "installments": 5,
         "name": "Caesars",
-        "note": "Secondary source. Rotowire (updated 2026-10-08, promo last verified 2026-10-17) lists Michigan: five Bet Reset tokens, one a day for five days, each to be used within 14 days at -1000 or longer. A token bet that loses is refunded as a single bonus bet of up to $50; bonus bets expire after 14 days. Round robins, flex parlays and early cash outs do not qualify. The alternative to Caesars' ten profit boosts; a new account takes one.",
+        "note": "Secondary source, re-read 2026-10-19: Caesars' own page refused (403). Rotowire (Last Updated 2026-10-08, promo last verified 2026-10-19) lists Michigan: five Bet Reset tokens, one a day for five days, each used within 14 days at -1000 or longer; a losing token bet is refunded as one bonus bet up to $50; bonus bets expire after 14 days. Round robins, flex parlays and early cash outs do not qualify. The alternative to Caesars' ten profit boosts; a new account takes one.",
         "offer_type": "safety_net",
-        "read": "2026-10-17",
+        "read": "2026-10-19",
         "source": "https://www.rotowire.com/betting/caesars/promo-code",
         "stale": false,
         "states": [
@@ -6394,7 +6399,7 @@
         ]
       },
       {
-        "age_days": 6,
+        "age_days": 1,
         "book": "betparx",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6410,9 +6415,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "betPARX",
-        "note": "Read on 2026-10-13 from Promotions, Choose Your Reward, Learn More (the offer's own address opens the casino lobby when visited directly). Play Gun Lake's own terms, the other reward. After the $25 cash first bet: a 200% Profit Boost with a $50 maximum wager and $5,000 maximum extra winnings, on pre-match, live, same game parlay and parlay bets whose total odds are -200 or longer; bets placed with bonus bets and bets settled by cash out are ineligible. The page does not say when the boost expires. Same promotion period as the $50 bonus bet. The alternative to the bonus bet; a new account takes one.",
+        "note": "Play Gun Lake's own terms, re-read 2026-10-19 (same page and route as the $50 bonus bet row). After the $25 cash first bet: a 200% Profit Boost, $50 maximum wager, $5,000 maximum extra winnings, on pre-match, live, same game parlay and parlay bets at total odds of -200 or longer; bets placed with bonus bets and bets settled by cash out are ineligible. The page still does not say when the boost expires. Same promotion period. The alternative to the bonus bet; a new account takes one.",
         "offer_type": "profit_boost",
-        "read": "2026-10-13",
+        "read": "2026-10-19",
         "source": "https://www.playgunlake.com/promotions",
         "stale": false,
         "states": [
@@ -6424,7 +6429,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6440,9 +6445,9 @@
         "ineligible": "",
         "installments": 1,
         "name": "BetRivers",
-        "note": "BetRivers' own wording (re-read 2026-10-15 on all fourteen state sites), the same on az., ia., oh. and wv.betrivers.com. Code SPORTS on a first deposit; the next real-money sports bet, at -200 or longer, is refunded as one bonus bet up to $100 if it loses. Expiry disputed, 30 days (Action Network, Rotowire) or 7 (Sportsbook Review's New York page); the shorter is recorded. Delaware, where BetRivers runs the lottery's sportsbook, is left out: its three sites carry no first-deposit SPORTS text, and the one report of a Delaware offer (Rotogrinders, 2026-09-11, up to $250) could not be confirmed.",
+        "note": "BetRivers' own wording, re-read 2026-10-19 on all fourteen state sites' translations-ENG.js: 'You've claimed code SPORTS on your first deposit! Your next real money Sports wager is eligible and if it loses, receive a Bonus Bet equal to your stake up to $100'. The $100 text appears on az., ia., ny., oh. and wv.betrivers.com. Expiry disputed, 30 days (Action Network, Rotowire) or 7 (Sportsbook Review's New York page); the shorter is recorded. Delaware is still left out: its sites were not re-read this pass, and the one report of a Delaware offer (Rotogrinders, 2026-09-11) was never confirmed.",
         "offer_type": "safety_net",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://ny.betrivers.com/conf/translations-ENG.js",
         "stale": false,
         "states": [
@@ -6459,7 +6464,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "mgm",
         "conversion": 0.69,
         "cost": 0.2,
@@ -6475,9 +6480,9 @@
         "ineligible": "",
         "installments": 6,
         "name": "BetMGM",
-        "note": "Secondary source: BetMGM's own Michigan promotions page loads as a script shell with no readable terms. Paid only if the first bet, $10 or more, WINS; nothing is paid if it loses. Rotowire (promo last verified 2026-10-09), Action Network (updated 2026-10-06), Sportsbook Review's Michigan page (2026-10-05) and Covers' Michigan page (verified 2026-10-09) agree, and name Michigan, New Jersey, Pennsylvania and West Virginia as the states for it; Covers' prose once describes an 'unsuccessful wager', against its own headline and the other four. Bonus bets expire 7 days after issue (Sportsbook Review). The split into six $25 bonus bets is from Covers alone. Rotowire's 2026-10-05 Michigan article says a first bet of $5+; the others say $10. No minimum odds were read.",
+        "note": "Secondary source, re-read 2026-10-19: BetMGM's own Michigan promotions page loads as a script shell. Action Network (Last Updated 2026-10-13) still lists 'Bet $10 Get $150 in Bonus Bets if You Win!' (code ACTIONGET1) for Michigan, New Jersey, Pennsylvania and West Virginia: paid only if the first bet, $10 or more, wins; nothing is paid if it loses. Covers' Michigan page (updated 2026-10-19) still gives the six $25 bonus bets and still once says 'unsuccessful wager', against its own headline and Action Network. The 7-day expiry is from Sportsbook Review (2026-10-05), not re-read. No minimum odds were read. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "bet_and_get_on_win",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/betmgm",
         "stale": false,
         "states": [
@@ -6491,7 +6496,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 1,
         "book": "thescore",
         "conversion": 0.69,
         "cost": 0.2,
@@ -6507,9 +6512,9 @@
         "ineligible": "",
         "installments": 5,
         "name": "theScore Bet",
-        "note": "Secondary source: theScore Bet's own site sits behind a Cloudflare check, which was not bypassed. Action Network (updated and verified 2026-10-09) lists this offer for Michigan, New Jersey, Pennsylvania and West Virginia, where the other states get a $1,000 Bet Reset: a first bet of $10 or more must win for the bonus to be credited. WTOP's theScore pages (February 2026, read 2026-10-09) give the same offer for those four states, paid as five $20 bonus bets within 72 hours of the bet settling and used within seven days. The sources disagree about Michigan: Covers' Michigan page (verified 2026-10-09), Sportsbook Review's (2026-10-05) and Rotowire's (promo last verified 2026-10-09) show the $1,000 Bet Reset for it, and Action Network says the offer shown 'can depend on your state and when you log in'. This one is recorded because Action Network and WTOP set Michigan apart by name. No minimum odds were read.",
+        "note": "Secondary source, re-read 2026-10-19: theScore Bet's own promotions page returned an empty shell. Action Network (Last Updated 2026-10-19) still lists 'Bet $10, Get $100 in Bonus Bets If You Win!' for MI, NJ, PA and WV; its terms: 'Bonus Bets will be credited if your bet wins.' The first bet of $10 or more must win. The five $20 bonus bets within 72 hours, used within seven days, are from WTOP's theScore pages (read 2026-10-09), not re-read. The sources still disagree about Michigan: Covers' Michigan page (updated 2026-10-19) shows the $1,000 First Bet Reset for Michigan, available until Jan. 1, 2027. This row is kept because Action Network names Michigan for this offer. No minimum odds were read. Action Network's 'last verified' stamp reads October 20, 2026 on every page fetched at 23:10 ET on October 19, so it is the server's own clock, not a check; the page's 'Last Updated' date is the one given here.",
         "offer_type": "bet_and_get_on_win",
-        "read": "2026-10-15",
+        "read": "2026-10-19",
         "source": "https://www.actionnetwork.com/online-sports-betting/reviews/thescore-bet",
         "stale": false,
         "states": [

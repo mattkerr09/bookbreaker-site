@@ -346,6 +346,33 @@ def schema_items(markup: str, fails, path: str):
             yield item
 
 
+def check_offers_come_from_main(pages, measured, fails, offers_repo: Path):
+    """Welcome offers are rendered from the app's main branch as committed (the CEO, 2026-10-19: offers are data, and a
+    re-read offer must not wait on an app build). The render must be of main as it stands now, and every offer on
+    /offers/ shows the day it was checked, beside its own headline."""
+    import subprocess
+    feed = (measured.get("welcome") or {}).get("feed") or {}
+    if feed.get("branch") != "main":
+        fails.append("measured.json: welcome offers were not rendered from the app's main branch")
+        return
+    try:
+        head = subprocess.run(["git", "-C", str(offers_repo), "rev-parse", "main"], capture_output=True, text=True,
+                              check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        fails.append(f"cannot read main in {offers_repo}, so the offers' source is unchecked")
+        return
+    if feed.get("commit") != head:
+        fails.append(f"welcome offers rendered from main at {str(feed.get('commit'))[:10]}, but main is now "
+                     f"{head[:10]}: re-render")
+    shown = visible(dict(pages).get("offers/index.html", ""))
+    for o in measured["welcome"]["offers"]:
+        head_text = html.unescape(str(o.get("headline") or ""))
+        spots = [m.start() for m in re.finditer(re.escape(head_text), shown)] if head_text else []
+        if not any(f"read {o.get('read')}" in shown[i:i + 2500] for i in spots):
+            fails.append(f"offers/index.html: {o.get('book')}'s {head_text!r} does not show the day it was read "
+                         f"({o.get('read')})")
+
+
 def check_page_dates_follow_content(pages, fails):
     """A page's date moves only when its content does (the CEO, 2026-10-19: a date bumped on every build is fake
     freshness). _build/page_dates.json holds each page's content hash and date; the page must carry that date, and its
@@ -2094,6 +2121,7 @@ def check_calculators_run_the_engine(pages, fails, measured):
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
+    parser.add_argument("--offers-repo", default="../arb betting aqpp")
     parser.add_argument("--self-test", action="store_true")
     parser.add_argument("--only", default=None,
                         help="run one check by name, so a break case can\nprove which gate caught it")
@@ -2178,6 +2206,8 @@ def main() -> int:
             lambda: check_neighbours_named_online_are_online(pages, measured, fails),
         "check_thin_pages_do_not_grow":
             lambda: check_thin_pages_do_not_grow(pages, fails),
+        "check_offers_come_from_main":
+            lambda: check_offers_come_from_main(pages, measured, fails, Path(args.offers_repo).expanduser()),
         "check_page_dates_follow_content":
             lambda: check_page_dates_follow_content(pages, fails),
         "check_structured_data_matches_page":

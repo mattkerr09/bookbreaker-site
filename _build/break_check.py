@@ -290,18 +290,34 @@ CASES = [
         "<p>An added line.</p></main>",
     ),
     (
-        "a welcome offer the app read seven weeks ago",
-        "check_claims_are_recent",
+        "offers rendered from an older main",
+        "check_offers_come_from_main",
         "_build/measured.json",
-        '"read": "2026-10-15"',
-        '"read": "2026-08-30"',
+        '"commit": "',
+        '"commit": "0000',
     ),
     (
-        "a book's terms left unread past the limit",
+        "an offer shown without the day it was read",
+        "check_offers_come_from_main",
+        "offers/index.html",
+        "read 2026-",
+        "read in 2026-",
+        -1,
+    ),
+    (
+        "welcome offers the app read a year ago",
+        "check_claims_are_recent",
+        "_build/measured.json",
+        '"read": "2026-',
+        '"read": "2025-',
+        -1,
+    ),
+    (
+        "a book's terms read a year ago",
         "check_claims_are_recent",
         "_data/promo_facts.csv",
-        "2026-10-09",
-        "2026-08-01",
+        ",2026-",
+        ",2025-",
     ),
     (
         "a retail-only state named as legal online next door",
@@ -445,25 +461,6 @@ CASES = [
         "sportsbooks/not-covered/index.html",
         '<link rel="canonical" href="https://bookbreaker.bet/sportsbooks/">',
         "<!-- canonical removed -->",
-    ),
-    (
-        # A single duplicated heading does not make two pages near-duplicates,
-        # and this case used to plant one and call the gate proven. The board
-        # went red — `check_not_machine_made` caught the repeated heading —
-        # and `check_shingle_duplication` was never exercised at all. Thirteen
-        # green runs said otherwise.
-        #
-        # This turns one state page into a copy of another, which is the
-        # actual failure mode: programmatic pages that differ only by name.
-        # Kansas and North Carolina license the same eight books (the engine's re-checked table, 2026-09-24),
-        # so renaming one makes a real near-copy. Missouri and Kentucky no longer share a book list, and the
-        # rename that used to copy one into the other now leaves the two 47% alike, which no check should flag.
-        "a state page rewritten as a copy of another state's",
-        "check_shingle_duplication",
-        "sportsbooks/va/index.html",
-        "Virginia",
-        "Indiana",
-        -1,
     ),
     (
         "two pages sharing a heading",
@@ -660,6 +657,17 @@ CASES = [
 # (label, check, path to create, contents)
 CREATE_CASES = [
     (
+        # A single duplicated heading does not make two pages near-duplicates, and a case that planted one once
+        # called the gate proven while check_not_machine_made did the catching. The real failure is programmatic
+        # pages that say the same thing. A rename used to make one (Virginia renamed Indiana), but by 2026-10-19
+        # every state page carried its own sourced facts and no rename came within the 0.52 cap (the closest,
+        # Maine as Arkansas, 0.501). So the case plants a page that IS another one, under a new address.
+        "a state page copied to a new address",
+        "check_shingle_duplication",
+        "sportsbooks/copy-of-iowa/index.html",
+        (SITE / "sportsbooks" / "ia" / "index.html").read_text(),
+    ),
+    (
         "an internal document tracked in the public site repo",
         "check_no_internal_docs_are_served",
         "DEPLOY.md",
@@ -770,13 +778,17 @@ def main() -> int:
         if path.exists():
             failures.append(f"{label}: {rel} already exists — case is stale")
             continue
+        made = [d for d in reversed(path.parents) if not d.exists()]
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body)
         try:
             board_red = not gate_is_clean()
             named_red = not gate_is_clean(only=check)
         finally:
             path.unlink()
-            if path.exists():
+            for d in reversed(made):
+                d.rmdir()
+            if path.exists() or any(d.exists() for d in made):
                 print(f"RESTORE FAILED: {rel} still there", file=sys.stderr)
                 return 2
         caught = board_red and named_red

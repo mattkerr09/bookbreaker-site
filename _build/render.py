@@ -245,6 +245,24 @@ def devig_table(engine) -> dict:
             "flat": flat}
 
 
+OFFERS_REPO = Path("../arb betting aqpp")
+OFFERS_FILE = "backend/overlay_engine/data/welcome_offers.csv"
+
+
+def main_offers() -> tuple[Path, str]:
+    """The welcome-offer feed as committed on the app's main branch, written to a scratch file, and that commit."""
+    import subprocess
+    import tempfile
+    repo = OFFERS_REPO.expanduser().resolve()
+    commit = subprocess.run(["git", "-C", str(repo), "rev-parse", "main"], capture_output=True, text=True,
+                            check=True).stdout.strip()
+    body = subprocess.run(["git", "-C", str(repo), "show", f"{commit}:{OFFERS_FILE}"], capture_output=True,
+                          text=True, check=True).stdout
+    out = Path(tempfile.mkdtemp()) / "welcome_offers.csv"
+    out.write_text(body)
+    return out, commit
+
+
 def measure(engine) -> dict:
     """Run the engine and collect every number the site will show.
 
@@ -2300,7 +2318,12 @@ def measure(engine) -> dict:
     # The figures on /offers/ are these; none is typed into the page.
     import importlib as _importlib
     _welcome = _importlib.import_module(engine.__name__ + ".welcome")
-    _priced = _welcome.price(_welcome.load())
+    # Offers are data, not engine: they come from the app's main branch as committed, never from the release
+    # being rendered against, so a re-read offer reaches the site without waiting on an app build (the CEO,
+    # 2026-10-19). The release's own loader still refuses a malformed row, and gates.sh runs main's offer tests
+    # on main before this. Only a committed file counts: `git show main:`, never the working tree.
+    _feed, _feed_commit = main_offers()
+    _priced = _welcome.price(_welcome.load(_feed))
     out["welcome"] = {
         "assumptions_bonus_decimal": _welcome.PRIOR_BONUS_DECIMAL,
         "assumptions_hold_pct": _welcome.PRIOR_TWO_BOOK_HOLD * 100,
@@ -2308,6 +2331,7 @@ def measure(engine) -> dict:
         # No total across offers: once the feed carries one row per state's
         # variant, a sum would count the same book's offer several times.
         "offers": [pp.as_dict() for pp in _priced],
+        "feed": {"branch": "main", "commit": _feed_commit},
     }
     return out
 
@@ -5948,6 +5972,10 @@ def jurisdiction_facts(code: str, name: str) -> str:
         ("Minimum age", (row.get("min_age") + "+") if row.get("min_age") else ""),
         ("State tax on sportsbook revenue",
          (row.get("tax_rate") + "%") if row.get("tax_rate") else ""),
+        # The scale is about player props on college athletes, not college betting in general (2026-10-19: rows
+        # rated on in-state-team rules had Arizona "restricted" under a statute that bars every in-game college
+        # prop). banned: no player prop on any college athlete in any game. restricted: barred in some games only
+        # (in-state teams, in-play, negative outcomes). allowed: no college player-prop limit. Blank: not confirmed.
         ("College player props", row.get("college_props", "").title()),
         ("Licensed retail sportsbooks", row.get("retail_venues")),
     ]
@@ -7532,9 +7560,12 @@ def render_llms(built_urls: set[str]) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-repo", default="../arb betting aqpp")
+    parser.add_argument("--offers-repo", default="../arb betting aqpp",
+                        help="the app checkout whose main branch supplies the welcome offers")
     args = parser.parse_args()
 
-    global RELEASE_APP
+    global RELEASE_APP, OFFERS_REPO
+    OFFERS_REPO = Path(args.offers_repo)
     app_repo = Path(args.app_repo).expanduser().resolve()
     engine = load_engine(app_repo)
     measured = measure(engine)

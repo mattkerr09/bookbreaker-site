@@ -264,20 +264,20 @@
   "sha": "b08d4ed8d65a9d98331ed92240a3bb69caa6d0d1962a82ea760c236792ab7170"
  },
  "offers/index.html": {
-  "date": "2026-10-18",
-  "sha": "4d37ca8b35b4a8bb507879c19b78f4bc5a243929d018d38662b16da520bc879d"
+  "date": "2026-10-20",
+  "sha": "8a93643e283705958cd6d64bafee0a2f61e159e7bf4681af57138808de459e40"
  },
  "privacy/index.html": {
   "date": "2026-10-18",
   "sha": "2fdcc719062d301fe9bba35543402cb47ef32a3ad11b1cf8c3e42abd8c499d56"
  },
  "promo-codes/michigan/index.html": {
-  "date": "2026-10-19",
-  "sha": "d689185a6024ac14077c5c69b8d90efd66e7ec9eb792557352ac7a73afcf4f7b"
+  "date": "2026-10-20",
+  "sha": "db2f3c81d1613abdb095ae9bedc22de7209d5876fcccd74c7e5db723f5b2291c"
  },
  "promo-codes/new-jersey/index.html": {
-  "date": "2026-10-19",
-  "sha": "5be2767a741ae478a8ba549d7e9092a585f7acbc38444998a0ef6022d2c33ee5"
+  "date": "2026-10-20",
+  "sha": "77596833301d64bf13efccd81f336198d9241de8c8207a6e8c7b98399cfbd056"
  },
  "responsible-gambling/index.html": {
   "date": "2026-10-10",
@@ -289,7 +289,7 @@
  },
  "sportsbooks/az/index.html": {
   "date": "2026-10-19",
-  "sha": "abfbe8fc89c810734e6cbcc78a37d441ef3d79e2205ff339a9a0da4eb5709471"
+  "sha": "c7bf58e845c87400dbbb0fbf1966e943a1909ff338631c6247564ea802a0b597"
  },
  "sportsbooks/co/index.html": {
   "date": "2026-10-19",
@@ -301,11 +301,11 @@
  },
  "sportsbooks/dc/index.html": {
   "date": "2026-10-19",
-  "sha": "979d00610c47b16f325a2d7da3c73d7b0aa61b99823e496b38701c776647b535"
+  "sha": "35968ddf290f0a6255711b301d5bbdf1ee8652bd0c1b3115371c0e8729cc3eaa"
  },
  "sportsbooks/fl/index.html": {
   "date": "2026-10-19",
-  "sha": "3db61a6c5886bd8abf8f417d909a981358290ed79ade103c2f6e65a947daa172"
+  "sha": "eaaa3cef9d7157f1908ba39225de456a8135a550a533bf2a0c58fd2bf019d1d0"
  },
  "sportsbooks/ia/index.html": {
   "date": "2026-10-19",
@@ -317,7 +317,7 @@
  },
  "sportsbooks/in/index.html": {
   "date": "2026-10-19",
-  "sha": "6a927796d8305ebcc6c7ba7ef64e9281be010d08cb8be014ca866a8b8e46fb5d"
+  "sha": "b307df71f414474abfc1fb86820bdc6022f56385c69421eef2827708840d8712"
  },
  "sportsbooks/index.html": {
   "date": "2026-10-19",
@@ -333,15 +333,15 @@
  },
  "sportsbooks/la/index.html": {
   "date": "2026-10-19",
-  "sha": "05d56ca92ce209c72a1d74f5dd24acdbfb536481c0693002d720783a17a5fd2c"
+  "sha": "d604ab77dd8128bd07972ad6f41cd5070f5afe076fb9ba027816d50f4c2c4e0a"
  },
  "sportsbooks/ma/index.html": {
   "date": "2026-10-19",
-  "sha": "42b98951e5248222f40d0ec29487790faf56ba44bf8a7eb57a9561730f966b50"
+  "sha": "d80b151f58c47ccdb5eeb70ce166f2e22faadfd21d45a811787a04fac1b54dfe"
  },
  "sportsbooks/md/index.html": {
   "date": "2026-10-19",
-  "sha": "8f0d4a5599b99d2f4abeb0f7dfb39bd52a471183a8c8bd28e99de5301db7c17a"
+  "sha": "1b01a62ddb1ab06215edf455e8bdcac6025dcd1532a6ce8de8ccc88bd9026727"
  },
  "sportsbooks/me/index.html": {
   "date": "2026-10-19",
@@ -349,7 +349,7 @@
  },
  "sportsbooks/mi/index.html": {
   "date": "2026-10-19",
-  "sha": "da3fdcacca643685032774ceb77bcff18f4bf2a0c7ad1e54502b656cd3d04971"
+  "sha": "fbc676525171d5fb409367165b1e732702b0ed18a43453a6a42afe12c32d96cc"
  },
  "sportsbooks/mo/index.html": {
   "date": "2026-10-19",
@@ -361,7 +361,7 @@
  },
  "sportsbooks/nj/index.html": {
   "date": "2026-10-19",
-  "sha": "e74d8baff496871d4d087986bd98af558c966e56ea2efbe0be6786c8d4974ae9"
+  "sha": "d6795e447aa66635841dc0b451f5e854c5401713e4b4fc0c9d9e3ee361240c23"
  },
  "sportsbooks/no-legal-sportsbook/index.html": {
   "date": "2026-10-19",
@@ -369,7 +369,7 @@
  },
  "sportsbooks/nv/index.html": {
   "date": "2026-10-19",
-  "sha": "3ab291d227f75f23258fc223d343d4dadb6807011e2399744cc360949cbebcf4"
+  "sha": "cec14dd16c92871b25b7dc3dd60f7c7f860e5e0f42810609eee221433ed78716"
  },
  "sportsbooks/ny/index.html": {
   "date": "2026-10-19",
@@ -377,7 +377,7 @@
  },
  "sportsbooks/oh/index.html": {
   "date": "2026-10-19",
-  "sha": "45371a8683a1cb44651d5482b1770f8820f7afffb7c57a845d483022505cd222"
+  "sha": "1f10ff732d0c9b84a79e4368291fe28148272edafffbab67fabb24ba92de6d0e"
  },
  "sportsbooks/one-book-states/index.html": {
   "date": "2026-10-19",
@@ -389,7 +389,7 @@
  },
  "sportsbooks/tn/index.html": {
   "date": "2026-10-19",
-  "sha": "153460a2047907cd1511764ffdc2ff076c34168ca4d76175dc268a6521623b86"
+  "sha": "fbdda1fff44bde8fe634a92ee740785537636404abd587df09767fe67d7313e2"
  },
  "sportsbooks/va/index.html": {
   "date": "2026-10-19",

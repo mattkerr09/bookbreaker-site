@@ -21,8 +21,21 @@ fail=0
 echo "── self-test ──────────────────────────────────────"
 python3 _build/check.py --self-test || fail=1
 echo
+echo "── offers on main ─────────────────────────────────"
+# The site renders welcome offers from the app's main branch (render.py main_offers). They count only once main's
+# own offer tests pass on main itself: a throwaway worktree, so whatever branch the app checkout is on cannot stand in.
+OFFERS_REPO="${OFFERS_REPO:-../arb betting aqpp}"
+wt="$(mktemp -d)/main"
+if git -C "$OFFERS_REPO" worktree add --detach -q "$wt" main 2>/dev/null; then
+  (cd "$wt" && python3 -m pytest -q -p no:cacheprovider tests/test_welcome.py 2>&1 | tail -1)
+  [ "${PIPESTATUS[0]}" -eq 0 ] || { echo "  !! main's offer tests failed"; fail=1; }
+  git -C "$OFFERS_REPO" worktree remove --force "$wt"
+else
+  echo "  !! could not check out main from $OFFERS_REPO"; fail=1
+fi
+echo
 echo "── site check ─────────────────────────────────────"
-python3 _build/check.py --app-repo "${APP_REPO:-../arb betting aqpp}" || fail=1
+python3 _build/check.py --app-repo "${APP_REPO:-../arb betting aqpp}" --offers-repo "$OFFERS_REPO" || fail=1
 echo
 echo "── structured data ────────────────────────────────"
 # Docket's script, copied as is: every FAQ question and answer, Article headline and date in the markup is on the
