@@ -39,6 +39,10 @@ from pathlib import Path
 
 SITE = Path(__file__).resolve().parents[1]
 TODAY = date.today().isoformat()
+# A page's date is when its content last changed, not when it was last built: a date bumped on every build is fake
+# freshness to Google (the CEO, 2026-10-19). page() writes these placeholders; stamp_page_dates() fills each page's
+# own date, from _build/page_dates.json, after every page is written.
+PAGE_DATE, PAGE_DAY = "__PAGE_DATE__", "__PAGE_DAY__"
 
 # Fixed, not wall-clock: two renders of unchanged input must produce identical
 # pages, or the freshness gate cannot tell a real change from the passage of
@@ -2447,7 +2451,7 @@ def site_schema(path: str, body: str) -> str:
     # answer engines weigh for recency.
     blocks = [json.dumps({
         "@context": "https://schema.org", "@type": "WebPage", "url": f"https://bookbreaker.bet{path}",
-        "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": TODAY,
+        "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": PAGE_DATE,
     }, ensure_ascii=False)]
 
     if path == "/":
@@ -2734,7 +2738,7 @@ def page(title: str, description: str, body: str, path: str,
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
 ever requested. Every figure on this site is computed by running the engine at
-build time. None is typed in. Generated <time datetime="{e(TODAY)}">{e(TODAY)}</time>.</p>
+build time. None is typed in. Updated <time datetime="{PAGE_DATE}">{PAGE_DAY}</time>.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
 will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the
@@ -3786,7 +3790,8 @@ this category run from single figures to several hundred a month.
 """,
 
 "best-odds-screen": f"""
-<p>Speed is the wrong question, and it is the only one anybody advertises.</p>
+<p>Speed is the wrong question to ask of an odds screen or odds screener, and it is the only one anybody
+advertises.</p>
 <p><strong>How old is the quote, measured from the book?</strong> Not from when
 the feed reached the screen. On a feed running {f['latency']:.1f} seconds
 behind, a quote displayed as {f['age']:.0f} seconds old is really
@@ -3800,6 +3805,15 @@ figure to two decimals is showing you a modelling choice.</p>
 that contributes to the consensus pulls it toward its own price, shrinking
 the very edge being detected. It bites hardest where that book is the lone
 outlier and the edge is largest.</p>
+<p><strong>Does it mark a best price you cannot bet?</strong> A best price at a book that is not licensed where you
+are is not a price you can take. A useful screener marks the best price among the books licensed in your state, and
+shows any reference book beside them for comparison without ever calling its price the best.</p>
+<p><strong>Does it show the line you want, or only the main one?</strong> Most of a game's prices sit off the main
+spread and total. A screener that lays out every alternate line a book posts, with a fair price on each, shows where
+one book is out of step with the others; one that shows only the main line hides most of the market.</p>
+<p><strong>Does it say what a refresh costs before it reads?</strong> On a key you pay for by the request, every read
+spends credits, and a full sweep of props and alternate lines spends the most. A screener should price a refresh
+before it makes one, so you choose what to read.</p>
 <p><a href="/">What this one shows &rarr;</a></p>
 """,
 
@@ -6133,6 +6147,40 @@ def state_difference(m: dict, name: str, code: str, row: dict) -> str:
             f'<div class="sf-grid">{grid}</div>\n{note}\n\n{only}')
 
 
+def page_content(markup: str) -> str:
+    """What a page's date dates: its title, description and main column. Sitewide nav and footer edits change every
+    page at once and are not news about any of them."""
+    keep = [m.group(0) for pat in (r"(?s)<title>.*?</title>", r'<meta name="description"[^>]*>', r"(?s)<main\b.*?</main>")
+            for m in [re.search(pat, markup)] if m]
+    return "\n".join(keep) if keep else markup
+
+
+def stamp_page_dates() -> dict:
+    """Fill each page's PAGE_DATE/PAGE_DAY with the day its content last changed. A page whose content hash matches
+    the one stored keeps its stored date; a new or changed page gets today's."""
+    store = SITE / "_build" / "page_dates.json"
+    try:
+        known = json.loads(store.read_text())
+    except (OSError, ValueError):
+        known = {}
+    dates, kept = {}, {}
+    for f in sorted(SITE.rglob("*.html")):
+        rel = str(f.relative_to(SITE))
+        if rel.startswith("_") or rel.startswith("go/"):
+            continue
+        text = f.read_text()
+        if PAGE_DATE not in text:
+            continue
+        sha = hashlib.sha256(page_content(text).encode()).hexdigest()
+        day = known[rel]["date"] if known.get(rel, {}).get("sha") == sha else TODAY
+        d = date.fromisoformat(day)
+        f.write_text(text.replace(PAGE_DATE, day).replace(PAGE_DAY, f"{d.day} {d.strftime('%B %Y')}"))
+        dates[rel] = day
+        kept[rel] = {"sha": sha, "date": day}
+    store.write_text(json.dumps(kept, indent=1, sort_keys=True) + "\n")
+    return dates
+
+
 def _days_since(iso: str) -> int:
     """Days from an ISO date to the build date."""
     then = datetime.date.fromisoformat(iso)
@@ -8008,9 +8056,10 @@ point for your own check, not legal advice.</p>
         "\nSitemap: https://bookbreaker.bet/sitemap.xml\n"
     )
     (SITE / "llms.txt").write_text(render_llms({u for u, _ in built}))
+    dates = stamp_page_dates()
     urls = "".join(
         f"  <url><loc>https://bookbreaker.bet{u}</loc>"
-        f"<lastmod>{TODAY}</lastmod></url>\n" for u, _ in built
+        f"<lastmod>{dates.get(rel, TODAY)}</lastmod></url>\n" for u, rel in built
     )
     (SITE / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'

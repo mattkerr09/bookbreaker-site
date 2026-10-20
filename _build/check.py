@@ -27,6 +27,7 @@ Exit 0 when clean, 1 otherwise.
 from __future__ import annotations
 
 import argparse
+from datetime import date
 import hashlib
 import html
 import json
@@ -192,25 +193,80 @@ def check_numbers_are_measured(pages, measured, fails):
             )
 
 
-MAX_COMPETITOR_AGE_DAYS = 75
+# A claim about someone else's product or terms rots: OddsJam's "$79.99/mo", read 2026-09-24, was gone by 2026-10-14
+# (the plan with arbitrage and +EV was $20/day). Each claim set below carries a read date per row; a row read more than
+# CLAIM_FAIL_DAYS ago blocks the deploy, and one past CLAIM_WARN_DAYS is printed so it is re-read before it blocks.
+CLAIM_WARN_DAYS = 30
+CLAIM_FAIL_DAYS = 45
+# Offers and a book's promo terms change weekly, and a stale offer misleads a bettor more than a stale feature claim
+# (the CEO, 2026-10-19): those two sets warn at a week and block at two.
+CLAIM_LIMITS = {"welcome offers": (7, 14), "book terms": (7, 14)}
+# (claim set, file under _data, the column naming the row, the column holding its read date)
+CLAIM_SETS = [
+    ("rival tools' prices and features", "competitors.csv", "name", "read"),
+    ("book terms", "promo_facts.csv", "book", "read"),
+    ("state law and tax", "jurisdictions.csv", "code", "fetched_at"),
+    ("state facts", "state_facts.csv", "code", "read"),
+    ("helplines and self-exclusion", "helplines.csv", "state", "read"),
+]
+claim_warnings: list[str] = []
 
 
-def check_competitor_prices_are_recent(fails, today=None):
-    """A rival's price is a claim that rots: OddsJam's "$79.99/mo", read 2026-09-24, was gone by 2026-10-14 (the plan
-    with arbitrage and +EV was $20/day). Every competitor row must have been read within MAX_COMPETITOR_AGE_DAYS."""
+def claim_rows(measured):
+    """Every dated claim as (claim set, row name, read date string). Welcome offers come from the app's own feed,
+    through measured.json, so the site cannot quote an offer older than the app does."""
     import csv
+    for label, name, key, col in CLAIM_SETS:
+        with (SITE / "_data" / name).open(newline="") as f:
+            for r in csv.DictReader(f):
+                yield label, f"{name}: {r[key]}", (r.get(col) or "")[:10]
+    for o in (measured.get("welcome") or {}).get("offers", []):
+        yield "welcome offers", f"welcome offer: {o.get('book')}", str(o.get("read") or "")[:10]
+
+
+def claim_age(where, text, fails, today=None):
+    """A dated claim on a page is as old as the newest date it carries: past CLAIM_FAIL_DAYS it fails, past
+    CLAIM_WARN_DAYS it warns, the same limits as the claim files it is rendered from."""
     from datetime import date
     today = today or date.today()
-    with (SITE / "_data" / "competitors.csv").open(newline="") as f:
-        for r in csv.DictReader(f):
-            try:
-                age = (today - date.fromisoformat(r["read"])).days
-            except ValueError:
-                fails.append(f"competitors.csv: {r['slug']} has no read date")
-                continue
-            if age > MAX_COMPETITOR_AGE_DAYS:
-                fails.append(f"competitors.csv: {r['name']}'s price was read {r['read']}, {age} days ago "
-                             f"(limit {MAX_COMPETITOR_AGE_DAYS}); read it again from its source")
+    dates = []
+    for d in re.findall(r"\b20\d\d-\d\d-\d\d\b", text):
+        try:
+            dates.append(date.fromisoformat(d))
+        except ValueError:
+            pass
+    if not dates:
+        return
+    newest = max(dates)
+    age = (today - newest).days
+    if age > CLAIM_FAIL_DAYS:
+        fails.append(f"{where} was last read {newest}, {age} days ago (limit {CLAIM_FAIL_DAYS}); read it again")
+    elif age > CLAIM_WARN_DAYS:
+        claim_warnings.append(f"{where} was last read {newest}, {age} days ago")
+
+
+def check_claims_are_recent(measured, fails, today=None):
+    """Every dated claim set: fail past CLAIM_FAIL_DAYS, warn past CLAIM_WARN_DAYS (CLAIM_LIMITS for the sets that change
+    weekly), and say each set's checked-on date
+    (its oldest read), which the Monday search-health pass reports."""
+    from datetime import date
+    today = today or date.today()
+    oldest = {}
+    for label, row, read in claim_rows(measured):
+        try:
+            age = (today - date.fromisoformat(read)).days
+        except ValueError:
+            fails.append(f"{row} has no read date")
+            continue
+        if label not in oldest or read < oldest[label]:
+            oldest[label] = read
+        warn, fail = CLAIM_LIMITS.get(label, (CLAIM_WARN_DAYS, CLAIM_FAIL_DAYS))
+        if age > fail:
+            fails.append(f"{row} was read {read}, {age} days ago (limit {fail}); read it again from its source")
+        elif age > warn:
+            claim_warnings.append(f"{row} was read {read}, {age} days ago; it blocks the deploy after {fail}")
+    claim_warnings.append("checked on (oldest read per claim set): "
+                          + "; ".join(f"{k} {v}" for k, v in sorted(oldest.items(), key=lambda kv: kv[1])))
 
 
 def check_competitor_claims(pages, fails):
@@ -244,6 +300,8 @@ def check_competitor_claims(pages, fails):
                     f"{path}: dated claim about {hit} with no source link: "
                     f"{text[:110]!r}"
                 )
+            else:
+                claim_age(f"{path}: a claim about {hit}", text, fails)
 
 
 def check_every_competitor_row_is_sourced(pages, fails):
@@ -263,6 +321,102 @@ def check_every_competitor_row_is_sourced(pages, fails):
             elif not has_source(row):
                 fails.append(f"{path}: comparison row with no source link: "
                              f"{visible(row)[:80]!r}")
+            else:
+                claim_age(f"{path}: comparison row {visible(row)[:40]!r}", visible(row), fails)
+
+
+def shown_text(markup: str) -> str:
+    """What a reader can see: visible() less anything the page hides (the hidden attribute, display:none,
+    aria-hidden, template and noscript). Google's rule for structured data is about this text, not the source."""
+    markup = re.sub(r"(?s)<(template|noscript)\b[^>]*>.*?</\1>", " ", markup)
+    for _ in range(3):
+        markup = re.sub(r'(?s)<(\w+)\b(?=[^>]*(?:\shidden[\s>=]|display:\s*none|aria-hidden="true"))[^>]*>.*?</\1>',
+                        " ", markup)
+    return visible(markup).lower()
+
+
+def schema_items(markup: str, fails, path: str):
+    for block in re.findall(r'(?s)<script type="application/ld\+json">(.*?)</script>', markup):
+        try:
+            data = json.loads(block)
+        except ValueError as e:
+            fails.append(f"{path}: structured data that is not valid JSON ({e})")
+            continue
+        for item in (data.get("@graph", [data]) if isinstance(data, dict) else data):
+            yield item
+
+
+def check_page_dates_follow_content(pages, fails):
+    """A page's date moves only when its content does (the CEO, 2026-10-19: a date bumped on every build is fake
+    freshness). _build/page_dates.json holds each page's content hash and date; the page must carry that date, and its
+    title, description and main column must still hash to what was stored with it."""
+    try:
+        known = json.loads((SITE / "_build" / "page_dates.json").read_text())
+    except (OSError, ValueError):
+        fails.append("_build/page_dates.json is missing or unreadable: render.py writes it")
+        return
+    for path, markup in pages:
+        if '"dateModified"' not in markup:
+            continue
+        entry = known.get(path)
+        if not entry:
+            fails.append(f"{path}: no entry in page_dates.json, so its date says nothing")
+            continue
+        keep = [m.group(0) for pat in (r"(?s)<title>.*?</title>", r'<meta name="description"[^>]*>',
+                                       r"(?s)<main\b.*?</main>") for m in [re.search(pat, markup)] if m]
+        sha = hashlib.sha256(("\n".join(keep) if keep else markup).encode()).hexdigest()
+        if sha != entry["sha"]:
+            fails.append(f"{path}: its content changed after page_dates.json was written; re-render so its date moves")
+        stated = re.search(r'"dateModified": "([^"]+)"', markup)
+        if stated and stated.group(1) != entry["date"]:
+            fails.append(f"{path}: dateModified {stated.group(1)} is not the day its content last changed, "
+                         f"{entry['date']}")
+
+
+def check_structured_data_matches_page(pages, redirects, fails):
+    """Structured data may only say what the page shows (Google's rule; Outlier found 34 pages on 2026-10-19 whose
+    FAQ schema asked questions no reader could see, some of it copied between pages). Every FAQPage question and
+    answer is on the page in readable text; an Article or WebPage headline or name is the page's own h1 or title;
+    every date it gives is printed on the page; its url is the page's canonical; a redirect stub carries none."""
+    def flat(s):
+        return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", str(s)))).strip().lower()
+    go = [(str(f.relative_to(SITE)), f.read_text()) for f in sorted((SITE / "go").rglob("*.html"))]
+    for path, markup in list(redirects) + go:
+        if "application/ld+json" in markup:
+            fails.append(f"{path}: a redirect stub carries structured data")
+    for path, markup in pages:
+        shown = shown_text(markup)
+        canonical = re.search(r'<link rel="canonical" href="([^"]+)"', markup)
+        h1 = re.search(r"(?s)<h1[^>]*>(.*?)</h1>", markup)
+        title = re.search(r"(?s)<title>(.*?)</title>", markup)
+        own = {flat(m.group(1)) for m in (h1, title) if m}
+        for item in schema_items(markup, fails, path):
+            kind = item.get("@type")
+            if kind == "FAQPage":
+                for q in item.get("mainEntity", []):
+                    for part, text in (("question", q.get("name", "")),
+                                       ("answer", (q.get("acceptedAnswer") or {}).get("text", ""))):
+                        if flat(text) not in shown:
+                            fails.append(f"{path}: FAQ {part} in structured data that a reader cannot see: "
+                                         f"{flat(text)[:90]!r}")
+            if kind in ("WebPage", "Article", "NewsArticle", "BlogPosting"):
+                for key in ("headline", "name"):
+                    if item.get(key) and flat(item[key]) not in own:
+                        fails.append(f"{path}: {kind} {key} {item[key]!r} is not this page's h1 or title")
+                for key in ("datePublished", "dateModified"):
+                    if not item.get(key):
+                        continue
+                    try:
+                        d = date.fromisoformat(str(item[key])[:10])
+                    except ValueError:
+                        fails.append(f"{path}: {kind} {key} {item[key]!r} is not a date")
+                        continue
+                    if f"{d.day} {d.strftime('%B %Y')}".lower() not in shown:
+                        fails.append(f"{path}: {kind} {key} {item[key]} is not a date the page shows")
+                    elif key == "dateModified" and f'Updated <time datetime="{d.isoformat()}">' not in markup:
+                        fails.append(f"{path}: {kind} dateModified {item[key]} is not the footer's Updated date")
+                if canonical and item.get("url") and item["url"] != canonical.group(1):
+                    fails.append(f"{path}: {kind} url {item['url']} is not the canonical {canonical.group(1)}")
 
 
 def check_render_is_fresh(measured, fails, app_repo: Path):
@@ -1161,7 +1315,7 @@ _HUB_LINK = re.compile(r'<a\b[^>]*href="https://kerr-affiliate-hub\.kerrco\.work
 
 
 THIN_WORDS = 300
-THIN_CEILING = 6  # 2026-10-16, the CEO's search-health audit: lower it as pages are fixed, never raise it
+THIN_CEILING = 5  # 2026-10-19 (was 6); 2026-10-16, the CEO's search-health audit: lower it as pages are fixed, never raise it
 
 
 def body_word_count(markup: str) -> int:
@@ -2024,8 +2178,12 @@ def main() -> int:
             lambda: check_neighbours_named_online_are_online(pages, measured, fails),
         "check_thin_pages_do_not_grow":
             lambda: check_thin_pages_do_not_grow(pages, fails),
-        "check_competitor_prices_are_recent":
-            lambda: check_competitor_prices_are_recent(fails),
+        "check_page_dates_follow_content":
+            lambda: check_page_dates_follow_content(pages, fails),
+        "check_structured_data_matches_page":
+            lambda: check_structured_data_matches_page(pages, redirects, fails),
+        "check_claims_are_recent":
+            lambda: check_claims_are_recent(measured, fails),
         "check_robots_keeps_crawlers_out_of_the_router":
             lambda: check_robots_keeps_crawlers_out_of_the_router(fails),
         "check_video_caption_names_the_recorded_version":
@@ -2071,6 +2229,8 @@ def main() -> int:
     print(f"checked {len(pages)} pages against "
           f"{len(measured_numbers(measured))} measured figures"
           + (f", plus {len(redirects)} redirect(s)" if redirects else ""))
+    for note in claim_warnings:
+        print(f"  claims: {note}")
     if fails:
         print(f"\n{len(fails)} problem(s):")
         for problem in fails:

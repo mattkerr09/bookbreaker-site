@@ -24,6 +24,13 @@ echo
 echo "── site check ─────────────────────────────────────"
 python3 _build/check.py --app-repo "${APP_REPO:-../arb betting aqpp}" || fail=1
 echo
+echo "── structured data ────────────────────────────────"
+# Docket's script, copied as is: every FAQ question and answer, Article headline and date in the markup is on the
+# page a reader sees (Google's rule). check.py's check_structured_data_matches_page adds WebPage dates and stubs.
+python3 _build/verify_structured_data_matches_page.py --self-test || fail=1
+python3 _build/verify_structured_data_matches_page.py 2>&1 | tail -3
+[ "${PIPESTATUS[0]}" -eq 0 ] || fail=1
+echo
 echo "── break tests ────────────────────────────────────"
 python3 _build/break_check.py 2>&1 | tail -2 || fail=1
 echo
