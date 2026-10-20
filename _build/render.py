@@ -6614,7 +6614,16 @@ PM_STATE_NOTES = {
           "Supreme Court to take the case.",
     "NY": "New York has proposed a law against these contracts, and the federal regulator has countersued.",
     "OH": "Ohio's casino regulator fined Kalshi, and a lower court upheld the fine.",
-    "TN": "A federal court blocked Tennessee from enforcing its ban, and the state has appealed.",
+    "TN": "On 2026-09-25 a federal appeals court (the Sixth Circuit) set aside the order that had blocked Tennessee "
+          "from enforcing its ban, ruling against Kalshi in Ohio and Tennessee; Kalshi asked the full court to rehear "
+          "it on 2026-10-09, and no ruling on that had been found.",
+}
+
+
+#: A state whose note was re-read after the CBS page: its own source and date.
+PM_STATE_SOURCES = {
+    "TN": ("https://defirate.com/news/kalshi-asks-full-sixth-circuit-to-review-panel-decision-favoring-ohio-and-tennessee-officials/",
+           "2026-10-19"),
 }
 
 
@@ -6622,8 +6631,9 @@ def prediction_state_note(code: str) -> str:
     note = PM_STATE_NOTES.get(code)
     if not note:
         return ""
-    return (f'<p class="caveat">{e(note)} Read {PREDICTION_MARKETS_READ}, <a href="https://www.cbssports.com/'
-            'prediction/news/prediction-market-legal-states/" rel="nofollow">source</a>.</p>')
+    src, read = PM_STATE_SOURCES.get(code, ("https://www.cbssports.com/prediction/news/prediction-market-legal-states/",
+                                            PREDICTION_MARKETS_READ))
+    return f'<p class="caveat">{e(note)} Read {read}, <a href="{src}" rel="nofollow">source</a>.</p>'
 
 
 def prediction_caveat() -> str:
@@ -6633,12 +6643,15 @@ def prediction_caveat() -> str:
         '<p class="caveat" id="prediction-markets">Whether these sports contracts are legal is disputed state by state. As of '
         f'{PREDICTION_MARKETS_READ}, courts had stopped Kalshi offering them in Massachusetts and Nevada, a Michigan '
         'judge had ordered a temporary shutdown, and Maryland and Ohio had won early rounds; federal courts had '
-        'blocked state enforcement in New Jersey, Tennessee, Arizona and Minnesota, and Connecticut, Rhode Island and '
-        'Wisconsin, among others, have sued or sent cease-and-desist letters. Appeals are open and the answer differs '
-        'by state, so check your own state before using one. Read '
+        'blocked state enforcement in New Jersey, Arizona and Minnesota, while on 2026-09-25 the Sixth Circuit ruled '
+        'against Kalshi in Ohio and Tennessee (a rehearing was asked for on 2026-10-09). Connecticut, Rhode Island and '
+        'Wisconsin, among others, have sued or sent cease-and-desist letters. The appeals courts are split and the answer '
+        'differs by state, so check your own state before using one. Read '
         f'{PREDICTION_MARKETS_READ}, <a href="https://www.cbssports.com/prediction/news/prediction-market-legal-states/"'
         ' rel="nofollow">source</a>; the New Jersey ruling, <a href="https://www.coindesk.com/policy/2026/04/06/'
-        'appeals-court-blocks-new-jersey-from-shutting-down-kalshi-s-sports-markets" rel="nofollow">source</a>.</p>')
+        'appeals-court-blocks-new-jersey-from-shutting-down-kalshi-s-sports-markets" rel="nofollow">source</a>; the '
+        'Sixth Circuit ruling, read 2026-10-19, <a href="https://defirate.com/news/kalshi-asks-full-sixth-circuit-to-review-'
+        'panel-decision-favoring-ohio-and-tennessee-officials/" rel="nofollow">source</a>.</p>')
 
 REDIRECTS = [
     ("/sportsbooks/not-covered/", "/sportsbooks/#in-person-only"),
