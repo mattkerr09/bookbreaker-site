@@ -2555,6 +2555,7 @@ def onward(path: str) -> str:
 
 
 LONGER_TITLES = {
+    "/guides/kalshi-vs-polymarket-arbitrage-after-fees/": "Kalshi Polymarket arbitrage after fees: worked games",
     "/vs/crazy-ninja-odds-alternative/": "Crazy Ninja Odds: what it does free, and a Mac alternative",
     "/calculators/prediction-market-odds/": "Kalshi and Polymarket odds converter, after fees",
     "/guides/nfl-key-numbers/": "NFL key numbers: how often games land on 3 and 7",
@@ -3996,8 +3997,10 @@ profit. Both venues charge a taker fee on every order, though, and the fee is la
 which is exactly where most game prices sit.</p>
 <h2>What the fees take</h2>
 <p>Kalshi charges {m['xvenue']['kalshi_rate']} &times; contracts &times; price &times; (1 &minus; price), rounded up to
-the cent, and on baseball its game series carry a multiplier of {m['xvenue']['mlb_multiplier']}. Polymarket US charges
-{m['xvenue']['pmus_coeff']} &times; contracts &times; price &times; (1 &minus; price), rounded half to even. On
+the cent, and on baseball its game series carry a multiplier of {m['xvenue']['mlb_multiplier']}, though a single game
+can override its series (a baseball playoff game on 2026-10-19 carried the full fee). Polymarket US charges
+{m['xvenue']['pmus_coeff']} &times; contracts &times; price &times; (1 &minus; price), rounded half to even, before any
+volume rebate. On
 {m['xvenue']['contracts']} contracts a side, worked by the engine Bookbreaker uses:</p>
 <table>
 <tr><th>Kalshi, team A</th><th>Polymarket US, team B</th><th>Gap</th><th>Kalshi fee</th><th>Polymarket US fee</th><th>Left after fees</th></tr>

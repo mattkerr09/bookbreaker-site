@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
-<title>Kalshi vs Polymarket US arbitrage, after fees</title>
+<title>Kalshi Polymarket arbitrage after fees: worked games</title>
 <meta name="description" content="When does a price gap between the two exchanges survive their fees? Worked through with the arithmetic done, not just the formula.">
 <link rel="canonical" href="https://bookbreaker.bet/guides/kalshi-vs-polymarket-arbitrage-after-fees/">
 <!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE: no og:title, no
@@ -29,7 +29,7 @@
      card served as `summary` renders as a thumbnail and wastes the image. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bookbreaker">
-<meta property="og:title" content="Kalshi vs Polymarket US arbitrage, after fees">
+<meta property="og:title" content="Kalshi Polymarket arbitrage after fees: worked games">
 <meta property="og:description" content="When does a price gap between the two exchanges survive their fees? Worked through with the arithmetic done, not just the formula.">
 <meta property="og:url" content="https://bookbreaker.bet/guides/kalshi-vs-polymarket-arbitrage-after-fees/">
 <meta property="og:image" content="https://bookbreaker.bet/og.png">
@@ -38,7 +38,7 @@
 <meta property="og:image:alt" content="Bookbreaker: find your edge, with the error bar.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bookbreaker.bet/og.png">
-<meta name="twitter:title" content="Kalshi vs Polymarket US arbitrage, after fees">
+<meta name="twitter:title" content="Kalshi Polymarket arbitrage after fees: worked games">
 <meta name="twitter:description" content="When does a price gap between the two exchanges survive their fees? Worked through with the arithmetic done, not just the formula.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -60,8 +60,10 @@ profit. Both venues charge a taker fee on every order, though, and the fee is la
 which is exactly where most game prices sit.</p>
 <h2>What the fees take</h2>
 <p>Kalshi charges 0.07 &times; contracts &times; price &times; (1 &minus; price), rounded up to
-the cent, and on baseball its game series carry a multiplier of 0.5. Polymarket US charges
-0.0695 &times; contracts &times; price &times; (1 &minus; price), rounded half to even. On
+the cent, and on baseball its game series carry a multiplier of 0.5, though a single game
+can override its series (a baseball playoff game on 2026-10-19 carried the full fee). Polymarket US charges
+0.0695 &times; contracts &times; price &times; (1 &minus; price), rounded half to even, before any
+volume rebate. On
 100 contracts a side, worked by the engine Bookbreaker uses:</p>
 <div class="scroll"><table>
 <tr><th>Kalshi, team A</th><th>Polymarket US, team B</th><th>Gap</th><th>Kalshi fee</th><th>Polymarket US fee</th><th>Left after fees</th></tr>
