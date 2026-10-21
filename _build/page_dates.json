@@ -4,8 +4,8 @@
   "sha": "16723e75106a3a53673b08a88f2f65472851e17749ec5105c4ab3a19baaa82a5"
  },
  "ask/index.html": {
-  "date": "2026-10-19",
-  "sha": "ef02bb16d9347898928c22f7f25c9e6c705091ceeb91d803c6e6e97ecad1d290"
+  "date": "2026-10-20",
+  "sha": "e3927140e6b3ae59446133df555d189532e59f88c3fe36399fc287b5101673f6"
  },
  "best/best-arbitrage-betting-software/index.html": {
   "date": "2026-10-17",
@@ -24,52 +24,52 @@
   "sha": "78f05de458b845455407ea76064487acf4153f05923506f0fc6bdfaba5dd4a30"
  },
  "calculators/arbitrage/index.html": {
-  "date": "2026-10-19",
-  "sha": "275bf55a91ab91f14afba7b7c6df71211cebb7cbc1cb0ed5c6485f84ae865047"
+  "date": "2026-10-20",
+  "sha": "fd47505a40d40759595482d0393ae92c1fd656c5e05b1bcbd216dfa134f917f5"
  },
  "calculators/bonus-bet-conversion/index.html": {
-  "date": "2026-10-19",
-  "sha": "8002c04670566fe9163faf618bf84f73fb82cc24415f2ab96ae1eb46f6794547"
+  "date": "2026-10-20",
+  "sha": "ef69f3e25e7bce7cd92fd760514f04ea430c01d18ade9d9abd175e0af8fffe47"
  },
  "calculators/breakeven/index.html": {
-  "date": "2026-10-19",
-  "sha": "d20f56e8b05367c200f67c30ba128438cb8d489faef731ceba9b0ed631fd5f98"
+  "date": "2026-10-20",
+  "sha": "7f251db4d0cc20f4a9b52484983c254bfbe4fd2ad550a15ad2c2207c8104d640"
  },
  "calculators/closing-line-value/index.html": {
-  "date": "2026-10-19",
-  "sha": "3b6c84f80761c8105b6c497589cae8658734388904b1680af19dfbfc5b3ef3e3"
+  "date": "2026-10-20",
+  "sha": "63e452d82c93bdaef106a4838d5a2e6b9d310de086ccf080264afb028a9ccd29"
  },
  "calculators/deposit-match/index.html": {
   "date": "2026-10-16",
   "sha": "9d0af863747afdbae75dd5a5fd44535eb004632177e1bdf8385349ceac798684"
  },
  "calculators/dutching/index.html": {
-  "date": "2026-10-19",
-  "sha": "6f1a94390150a7ad010c0f1ad36249d678ff8246951c694f257a58678560abac"
+  "date": "2026-10-20",
+  "sha": "144b1a18fc72d3e93564973002945c8904d03c8f6fa990251787906729bb9ef9"
  },
  "calculators/effective-bets/index.html": {
   "date": "2026-10-16",
   "sha": "b9d30bd8a4db760fd510e5780ed7723fcd4c09e96499a1cf9813c477b5a4a094"
  },
  "calculators/expected-value/index.html": {
-  "date": "2026-10-19",
-  "sha": "c966fe09a2d233219c737f26c485fda2736db6d99419c5c4842d194c650b8be1"
+  "date": "2026-10-20",
+  "sha": "dcf459898ce79a1f058347fe1356217e11e889b8a40bf48e98a4098d66a273c9"
  },
  "calculators/hedge/index.html": {
-  "date": "2026-10-19",
-  "sha": "1a70438ae28b23be43f883cb348b7b4d20285cfefc12b8b1509f8c885c24932e"
+  "date": "2026-10-20",
+  "sha": "1d500113e04a4ccbc1ad699d66667bd0dee7b3b4f89da9a795ba1c141a277014"
  },
  "calculators/hold/index.html": {
-  "date": "2026-10-19",
-  "sha": "8542608376a97931087c350916df76d33ee52a1be92ffc37a222a6f2617c773f"
+  "date": "2026-10-20",
+  "sha": "69ff8ed8870ac87a449d8e85bd7fe916b119991b38ceaf4d33e6063fbb28e301"
  },
  "calculators/index.html": {
   "date": "2026-10-18",
   "sha": "d5fff17e80669567494522fba4d05eff70d02cdf7e33c1b76f3373ff5e467a87"
  },
  "calculators/kelly/index.html": {
-  "date": "2026-10-19",
-  "sha": "d1c5ca2373b32a984bc1e2ef9e7105e0eea18eddb2735d167238e229a1b95023"
+  "date": "2026-10-20",
+  "sha": "7d0fbe4c08e7efdb32c341463c8451ade423f85d38d735f3c61afbc5a18f7496"
  },
  "calculators/low-hold/index.html": {
   "date": "2026-10-16",
@@ -80,32 +80,32 @@
   "sha": "7d141794164d372f91aae076568829623def04288c2e50918dfac8a3aceb3710"
  },
  "calculators/no-sweat-bet/index.html": {
-  "date": "2026-10-19",
-  "sha": "6ebb6867a554980daa633be3f847fa6758d99a636127a53e16a1c71fa08f645a"
+  "date": "2026-10-20",
+  "sha": "126c3b8ccd2d3dc889a98804e4fa60ba6b2d41a905b47cd14f9778a3f8313b83"
  },
  "calculators/no-vig-odds/index.html": {
   "date": "2026-10-18",
   "sha": "ffb1011ca009ff7da7fb69e831745490d9f927d74fce4e376a8da26328b30069"
  },
  "calculators/odds-converter/index.html": {
-  "date": "2026-10-19",
-  "sha": "9b8a9282aeaad67d139c3b953647f749dfb7ae2592ec0f158689092132f5a252"
+  "date": "2026-10-20",
+  "sha": "7cf5989d0d8e6527531f22f979b30237eb6ab1e390465fb2a3fc6f6ce1c06316"
  },
  "calculators/parlay/index.html": {
-  "date": "2026-10-19",
-  "sha": "a714f50c4b0c6b4ce9a82bbbc1882df4936dedb1b4952c7344fca2c4e0d3282d"
+  "date": "2026-10-20",
+  "sha": "dea29d464ad09b39d97008709c646f85b5cf7020f4e2e1d2686686b0ad63621d"
  },
  "calculators/poisson/index.html": {
   "date": "2026-10-16",
   "sha": "b5a20171df7a003ea4f59d8986730229b188d9ea75d40b50e6313eeb706f894d"
  },
  "calculators/prediction-market-odds/index.html": {
-  "date": "2026-10-19",
-  "sha": "5792107bd20821d739a4b3712318cb62f5e88ba0a1bf72bde27b72cef189a5b6"
+  "date": "2026-10-20",
+  "sha": "fbf550dd4550c00212845fcec0d850d1ceb863c0ec19682fcebbcf28cb0006da"
  },
  "calculators/profit-boost/index.html": {
-  "date": "2026-10-19",
-  "sha": "decc951783fa339ec4ab81210432993e9a5de97644184ff8e573d8df558571ad"
+  "date": "2026-10-20",
+  "sha": "185ee0d9ba5100edafac0b87a2b5e9863d9504871c21d91c08e5a62840e87ab7"
  },
  "calculators/round-robin/index.html": {
   "date": "2026-10-16",
@@ -116,8 +116,8 @@
   "sha": "eb9d28e840f6084e67a924a85fb9ceccc9244278af57968a687493af42c90642"
  },
  "download/index.html": {
-  "date": "2026-10-19",
-  "sha": "4dbd09a54bf0ec0ce719d5750bb45839ce7a76d36dfe61feec23a4ecc3695208"
+  "date": "2026-10-20",
+  "sha": "f450feea2bde24ce023438867baa47e9391b84576d1ad29e0e6ce2da03336dee"
  },
  "for/arbitrage-bettors/index.html": {
   "date": "2026-10-18",
@@ -252,16 +252,16 @@
   "sha": "225b90d38f140b977eee965476b7448a8bdb4c4761686bc7449c28215b7878ff"
  },
  "how-it-works/index.html": {
-  "date": "2026-10-19",
-  "sha": "0787a99a88e4c18c279086b842d407603728e0f08996c2f14bde2ae738132269"
+  "date": "2026-10-20",
+  "sha": "4188737ba5045ec155d0c88bcdb61552838085e75b063a4c2ff4abe1fac070f7"
  },
  "how-we-are-paid/index.html": {
   "date": "2026-10-19",
   "sha": "ded1169f7aca16e728ba79eb8c35aa3be8da52f5315143d82bcab52ea2c91cbc"
  },
  "index.html": {
-  "date": "2026-10-19",
-  "sha": "b08d4ed8d65a9d98331ed92240a3bb69caa6d0d1962a82ea760c236792ab7170"
+  "date": "2026-10-20",
+  "sha": "f0297d4d9b686c2eb9aada2607ffbf5e09284c20d235d254a9d5d7512a0b5b5f"
  },
  "offers/index.html": {
   "date": "2026-10-20",

@@ -1,11 +1,11 @@
 {
-  "version": "0.1.38",
-  "notes": "Size a +EV bet straight from the board.\n\n- A +EV play's detail has a Size this bet button. It opens Bet size with the play's price and the low end of its fair chance already filled in, and works out the stake; put in your own bankroll. The low end is used on purpose: sizing from the friendliest estimate is how a small edge turns into a large losing run.",
-  "pub_date": "2026-10-19T05:58:19Z",
+  "version": "0.1.39",
+  "notes": "Fixed: Kalshi's full fee on games that override their series.\n\n- Kalshi can charge one game a different fee from its series. A baseball playoff game was charged the full fee while the series charges half, and Bookbreaker used the series rate, so a Kalshi and Polymarket US pair on that game could look profitable when it was not. Each game's own fee is used now.",
+  "pub_date": "2026-10-21T00:15:30Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDMwUXV0eHRDdDVHK0hWSktrZ3JXbEZpUWxaRHhJemhJZnRnLzZTSE9FN2E1ZG1QSE1KTVFuc0dRcWFVVmVIMkRLYTdxeWhmbHJKOFg0bWxZWDVqS0FZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyMzg5NDgyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjM4LmFwcC50YXIuZ3oKV1FIVTUvcndxYWY2VE5ObkJ4U2x6T3dDWXN4ZmwrbC9ERUNiYjFoZEs1MXZJdGlqNDQ5Vk5nTHQzM1FaNzRnOGZIbkhMSWtRMVQ2QVZVMisway83Q1E9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.38.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDBEYXpwRTdYbEUzWkVyRFRjaEFsVTk3dnRTek13bDU1RG5yR0p6TmluMGd5SzhxR3c4NFFZQ00zQ2JyS0phYnRKYUpFTmdBaHpGMDAzc2FvTURRVUFJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyNTQxNzEyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjM5LmFwcC50YXIuZ3oKenZiWmc1dHZBNVUxY296bGtobkpMS3lZdGUrK0JqY1FZQ0tjNUJkQXFiY3FxWk9FZzJ2dy91NjVFNXdEQnVjNWM1NGtNdG5sdkNQcHIrNjRobXRZRGc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.39.app.tar.gz"
     }
   }
 }
