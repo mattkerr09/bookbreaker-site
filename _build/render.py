@@ -2333,6 +2333,13 @@ def measure(engine) -> dict:
         "offers": [pp.as_dict() for pp in _priced],
         "feed": {"branch": "main", "commit": _feed_commit},
     }
+    # An offer whose terms could not be read again is taken off the page, not left up stale and not waved through the
+    # gate (the CEO, 2026-10-19: FireKeepers on 2026-10-23). _data/offers_withdrawn.csv names each one with its dates,
+    # and /offers/ prints a dated line in its place.
+    _gone = {(r["book"], r["headline"]): r for r in load_data("offers_withdrawn")}
+    out["welcome"]["withdrawn"] = [{**_gone[(o["book"], o["headline"])], "name": o["name"]} for o in out["welcome"]["offers"]
+                                   if (o["book"], o["headline"]) in _gone]
+    out["welcome"]["offers"] = [o for o in out["welcome"]["offers"] if (o["book"], o["headline"]) not in _gone]
     return out
 
 
@@ -6784,6 +6791,11 @@ def render_offers(m: dict) -> str:
     app's Offers tab, from the same engine output."""
     w = m["welcome"]
     cards = []
+    withdrawn = "".join(
+        f'<p class="caveat">{e(r["name"])}: '
+        f'terms not published where we could read them. Last read {e(r["last_read"])}; '
+        f'{e(r["note"])}. Not listed until they can be read again.</p>'
+        for r in w.get("withdrawn", []))
     every_state = sorted({st for o in w["offers"] for st in (o.get("states") or [])})
     # A picker only once the feed says where each offer applies. It filters in
     # the page: nothing is sent anywhere, and with no choice every card shows.
@@ -6835,6 +6847,7 @@ bets placed at decimal {w['assumptions_bonus_decimal']:.1f}, and a
 lets you change both.</p>
 {state_picker}
 <div class="offer-grid">{''.join(cards)}</div>
+{withdrawn}
 <p class="caveat">Offers change monthly and differ by state; check the source for
 your state before you sign up. Every row cites where it was read and when, and
 rows older than {w['max_age_days']} days are shown as stale rather than priced.
@@ -7094,11 +7107,17 @@ read {e(o['read'])}.{own}</p>
     locked = sorted((o for o in all_offers if o["guaranteed"]), key=lambda o: -o["guaranteed"])
     expected = sorted((o for o in all_offers if not o["guaranteed"]), key=lambda o: -o["expected"])
     priced = {o["book"] for o in all_offers}
+    gone = {r["book"]: r for r in m["welcome"].get("withdrawn", [])}
     unpriced = sorted(b["name"] for b in m["states"][code]["books"]
-                      if b["key"] not in priced and b["tier"] != "exchange")
+                      if b["key"] not in priced and b["key"] not in gone and b["tier"] != "exchange")
     missing = (f"<p>Not listed above: {e(', '.join(unpriced))}. No new-customer sports offer from "
                f"{'it' if len(unpriced) == 1 else 'them'} has been priced.</p>"
                if unpriced else "")
+    # A withdrawn offer says so, with its dates, rather than reading as "no offer".
+    missing += "".join(
+        f'<p class="caveat">{e(r["name"])}: terms not published where we could read them. Last read '
+        f'{e(r["last_read"])}; {e(r["note"])}. Not listed until they can be read again.</p>'
+        for b in m["states"][code]["books"] for r in [gone.get(b["key"])] if r)
     # A book's own page outlives its priced offer (it says the offer is not priced), so the hub still links it.
     lapsed = [o for k, os_ in promo_offers(m, code, stale=True).items() if has_book_page(code, k) and k not in priced
               for o in os_[:1]]
