@@ -2911,8 +2911,8 @@ def dl_href(m: dict, src: str) -> str:
 
 def free_line(m: dict) -> str:
     """What a person decides on at the button: the cost, the account, the Mac it needs."""
-    return (f'<p class="free-line">Free. No account and no subscription. Needs a Mac with Apple silicon '
-            f'(M1 or later). {m["release"]["app"]["mb"]} MB, notarised by Apple.</p>')
+    return (f'<p class="free-line">Free. No account and no subscription. Needs macOS 14 or later on a Mac with Apple '
+            f'silicon (M1 or later). {m["release"]["app"]["mb"]} MB, notarised by Apple.</p>')
 
 
 PHONE_LINE = ('<p class="phone-link">On your phone? <button type="button" data-send-mac-link>'
@@ -2977,7 +2977,7 @@ def render_download(m: dict) -> str:
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
             'a security warning.</span></li></ol>'
-            '<p>New in this version: a fix that charges Kalshi&rsquo;s full fee on games that override their series, so a pair on such a game is no longer shown as profitable on the lower fee. Also recent: Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
+            '<p>New in this version: Bookbreaker now tells macOS it needs macOS 14 or later, so an older Mac says so before it opens instead of the engine failing after. Also recent: a fix that charges Kalshi&rsquo;s full fee on games that override their series, Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
             'that repeat or oppose a bet you have open, alerts after a refresh you start, Track this bet, which saves a bet with its fair price, which books to fund in your state, a low-hold view, your record against what it should have been, how old every price is, '
             'an Odds screen with every book&rsquo;s price side by side, and a page that prices a promo you already hold. '
             '<a href="/how-it-works/">How it works</a>.</p>')
@@ -3355,7 +3355,7 @@ def render_index(m: dict) -> str:
     <h2>Three steps to your first bet</h2>
   </div>
   <ol class="steps3">
-    <li class="reveal"><b>Download the app</b><span>Free, {app["mb"]} MB, for Macs with Apple silicon.</span></li>
+    <li class="reveal"><b>Download the app</b><span>Free, {app["mb"]} MB, for macOS 14 or later on Apple silicon.</span></li>
     <li class="reveal"><b>Find a pair</b><span>Switch on Live prices to see Kalshi and Polymarket US pairs open in your state, or type the prices you see at two books. The app works out both stakes and the profit.</span></li>
     <li class="reveal"><b>Place both bets, fast</b><span>Bet the stakes shown at each book. If both are accepted at those prices, one side wins, one loses, and you keep the difference.</span></li>
   </ol>
@@ -3423,7 +3423,7 @@ def render_index(m: dict) -> str:
     accounts that win. Bookbreaker rounds your stakes and shows
     <a href="/sportsbooks/">which books in your state limit winners</a>.</p></details>
     <details><summary>Which Macs does it run on?</summary><p>Any Mac with Apple silicon
-    (M1 or later). It is {app["mb"]} MB and notarised by Apple.</p></details>
+    (M1 or later) running macOS 14 Sonoma or later. On an older macOS, the Mac will say it cannot open it. It is {app["mb"]} MB and notarised by Apple.</p></details>
     <details><summary>Does it place bets for me?</summary><p>No. It does the math and you
     place every bet yourself, at licensed books, in a state where betting is legal.</p></details>
   </div>
@@ -7499,7 +7499,7 @@ def render_llms(built_urls: set[str]) -> str:
     lines = [
         "# Bookbreaker",
         "",
-        "> A free sports-betting analysis app for Mac (Apple Silicon) and a command-line "
+        "> A free sports-betting analysis app for Mac (Apple Silicon, macOS 14 or later) and a command-line "
         "tool: it devigs every price four ways, stakes an arbitrage in round numbers, and "
         "shows what each number might be wrong by. No account, and your betting record "
         "never leaves your machine.",
@@ -7521,7 +7521,7 @@ def render_llms(built_urls: set[str]) -> str:
         "",
         link("/", "Bookbreaker", "what it does, with every figure computed by the engine "
              "you download"),
-        link("/download/", "Download", "the Mac app (Apple Silicon, M1 or later; signed "
+        link("/download/", "Download", "the Mac app (macOS 14 or later, Apple Silicon, M1 or later; signed "
              "and notarised by Apple) and the same engine as a command-line tool for "
              "macOS, Linux or Windows (pure Python, 3.9 or newer). Free, with published "
              "SHA-256 checksums"),

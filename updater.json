@@ -1,11 +1,11 @@
 {
-  "version": "0.1.39",
-  "notes": "Fixed: Kalshi's full fee on games that override their series.\n\n- Kalshi can charge one game a different fee from its series. A baseball playoff game was charged the full fee while the series charges half, and Bookbreaker used the series rate, so a Kalshi and Polymarket US pair on that game could look profitable when it was not. Each game's own fee is used now.",
-  "pub_date": "2026-10-21T00:15:30Z",
+  "version": "0.1.40",
+  "notes": "Fixed: Bookbreaker now says it needs macOS 14 or later.\n\n- Bookbreaker told macOS it would run on macOS 10.15, but the engine inside it needs macOS 14 or later. On macOS 11 to 13 it could open and then fail. macOS now checks before it opens, and every build is checked so the two cannot disagree again.",
+  "pub_date": "2026-10-25T02:55:27Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDBEYXpwRTdYbEUzWkVyRFRjaEFsVTk3dnRTek13bDU1RG5yR0p6TmluMGd5SzhxR3c4NFFZQ00zQ2JyS0phYnRKYUpFTmdBaHpGMDAzc2FvTURRVUFJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyNTQxNzEyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjM5LmFwcC50YXIuZ3oKenZiWmc1dHZBNVUxY296bGtobkpMS3lZdGUrK0JqY1FZQ0tjNUJkQXFiY3FxWk9FZzJ2dy91NjVFNXdEQnVjNWM1NGtNdG5sdkNQcHIrNjRobXRZRGc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.39.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTCtUL0xsdTZqQytEUXBreWJ0YXk4L05qZDM2UGVXNlFaTUtHc3BKNkU4Yk15WG85bGczMjI2N01DS3hnWnFGU2RJYjFzU1llSHFPUzNZRFNQcUxVM2dFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyODk2OTA4CWZpbGU6Qm9va2JyZWFrZXItMC4xLjQwLmFwcC50YXIuZ3oKM0c2Y0tHWDd2YlkrYjJrR05ZSlhmRnJyQjBNaVIyNWs1UVdYR2N2WFY3UlNuQ0FmSm9zdG9KQjdDOHFrZStIdENaZCtCeTRmdTdZVGsvdjBTK0xQRGc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.40.app.tar.gz"
     }
   }
 }
