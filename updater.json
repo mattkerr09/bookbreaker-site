@@ -1,11 +1,11 @@
 {
-  "version": "0.1.40",
-  "notes": "Fixed: Bookbreaker now says it needs macOS 14 or later.\n\n- Bookbreaker told macOS it would run on macOS 10.15, but the engine inside it needs macOS 14 or later. On macOS 11 to 13 it could open and then fail. macOS now checks before it opens, and every build is checked so the two cannot disagree again.",
-  "pub_date": "2026-10-25T02:55:27Z",
+  "version": "0.1.41",
+  "notes": "A parlay across games, priced fair from Kalshi.\n\n- Under the Parlay calculator: list Kalshi's game-winner prices, pick a winner in two or more games, and see the parlay's fair price, with a sportsbook's price for the same parlay judged against it. No key needed. These are a prediction market's prices, not a sportsbook parlay, and whether Kalshi is open to you depends on your state, which every answer says.",
+  "pub_date": "2026-10-26T18:31:18Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTCtUL0xsdTZqQytEUXBreWJ0YXk4L05qZDM2UGVXNlFaTUtHc3BKNkU4Yk15WG85bGczMjI2N01DS3hnWnFGU2RJYjFzU1llSHFPUzNZRFNQcUxVM2dFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyODk2OTA4CWZpbGU6Qm9va2JyZWFrZXItMC4xLjQwLmFwcC50YXIuZ3oKM0c2Y0tHWDd2YlkrYjJrR05ZSlhmRnJyQjBNaVIyNWs1UVdYR2N2WFY3UlNuQ0FmSm9zdG9KQjdDOHFrZStIdENaZCtCeTRmdTdZVGsvdjBTK0xQRGc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.40.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDh1YjU0Qjc1bXVDMVRsdDF3c2lOQjVjY1hjZWlhNllXUDRMUzhyelJMQVBlYUlNeFpaUWdOMW00eVRJZ0Zhb2JCa012MVRETitDUFJraVdaN3V6OVFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzMDM5NDYxCWZpbGU6Qm9va2JyZWFrZXItMC4xLjQxLmFwcC50YXIuZ3oKUHl5TVp2WFlVVjdWWUlhUGQ2R1d5NW8rWDUxYlVicWdWMExCYlhWU1NQbzBHRkhNTit3TkltQ09jQVJQUkQ5emhHV0NLNmcwU3dSZlAwWVlucC91QlE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.41.app.tar.gz"
     }
   }
 }
