@@ -1447,7 +1447,10 @@ def check_robots_keeps_crawlers_out_of_the_router(fails):
 #: a bet. Massachusetts fined operators $25,000 for "Can't Lose" and $15,000 for "risk free". This site says
 #: "bonus bets", and for a hedge "locked in whichever side wins, if both bets are accepted and stand".
 BANNED_WORDING = re.compile(
-    r"free bets?\b|free play|risk[- ]free|can['\u2019]?t lose|cannot lose|no-brainer|free money|guaranteed|money-back guarantee",
+    r"free bets?\b|free play|risk[- ]free|can['\u2019]?t lose|cannot lose|no-brainer|free money|guaranteed|money-back guarantee"
+    # "Profit either way" sold a hedge as a sure thing; the CEO, 2026-10-27: the home H1 became "The same return on
+    # either result, when both bets stand", and the phrase may not come back anywhere on the site.
+    r"|either[- ]way",
     re.I)
 
 

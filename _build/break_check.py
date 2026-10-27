@@ -305,6 +305,13 @@ CASES = [
         -1,
     ),
     (
+        "the old hero line, profit either way, put back",
+        "check_house_wording",
+        "index.html",
+        "The same return on either result,",
+        "Profit either way,",
+    ),
+    (
         "welcome offers the app read a year ago",
         "check_claims_are_recent",
         "_build/measured.json",

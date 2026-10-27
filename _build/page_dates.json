@@ -24,12 +24,12 @@
   "sha": "78f05de458b845455407ea76064487acf4153f05923506f0fc6bdfaba5dd4a30"
  },
  "calculators/arbitrage/index.html": {
-  "date": "2026-10-26",
-  "sha": "a578304adfc440f78acab049565ca83c15cf9ab07d08e3c6ffa54360cfdbeb28"
+  "date": "2026-10-27",
+  "sha": "742c5e540cc1363c60c2d40d3cb8c272e7cf122e048fd8d52cea90d7c8fa6fea"
  },
  "calculators/bonus-bet-conversion/index.html": {
-  "date": "2026-10-26",
-  "sha": "ce15fd65c66bf634aa87a5184608cf7d7b0151bab7dd721e46592d02b76cf7c5"
+  "date": "2026-10-27",
+  "sha": "b0c8acb7a4daf3deab31db957c3476ae2c701b62fd90aeec864f3245265875c9"
  },
  "calculators/breakeven/index.html": {
   "date": "2026-10-26",
@@ -164,8 +164,8 @@
   "sha": "d29f792f92f0c63cfa9f70af864b5f4c49d2ab71b12714c0db1393d5aef3c163"
  },
  "guides/how-to-stake-an-arbitrage-in-round-numbers/index.html": {
-  "date": "2026-10-08",
-  "sha": "1d8eb25d88a4aba913cea651cbef9a952cdec2d44633766c058a17042fdb1737"
+  "date": "2026-10-27",
+  "sha": "7d7522e902892f96b7144ea57fcd41570e640976a25fc3476fb4610fdc687b7a"
  },
  "guides/how-to-tell-if-your-model-actually-works/index.html": {
   "date": "2026-10-18",
@@ -261,7 +261,7 @@
  },
  "index.html": {
   "date": "2026-10-27",
-  "sha": "8b8cf20519d8ad70f24b21767049299b8f5f34cc863101636a667dd20be8869b"
+  "sha": "a15cfe13ed8d73c0729e465aae47a1b02f6ee4170a4510cfdb3f56f56f164119"
  },
  "offers/index.html": {
   "date": "2026-10-27",

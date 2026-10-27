@@ -1475,7 +1475,7 @@ def measure(engine) -> dict:
             f"implies {p2:.2%}. Together that is {p1 + p2:.2%}, under a whole, so the pair is an arbitrage: one "
             f"over {p1 + p2:.4f}, less one, is the {a['margin']:.2f}% margin.</p>"
             f"<p>Split the {a['total']:,} in proportion to those probabilities: {p1:.2%} over {p1 + p2:.2%} of it "
-            f"is {s1:,.2f} on the first leg and the rest, {s2:,.2f}, on the second. Either way the return is "
+            f"is {s1:,.2f} on the first leg and the rest, {s2:,.2f}, on the second. On either result the return is "
             f"{a['total'] + a['exact_profit']:,.2f}, which is {a['exact_profit']:,.2f} over the stake.</p>"
             f"<p>Rounded to {r1:,} and {r2:,}, {rt:,} goes down. The first leg would return {r1 * d1:,.2f} and the "
             f"second {r2 * d2:,.2f}, so the worse of the two, {min(r1 * d1, r2 * d2) - rt:,.2f}, is what is "
@@ -1677,7 +1677,7 @@ def measure(engine) -> dict:
             f"does not come back. Against it, {r['hedge_stake']:,} goes on the other side at {r['hedge']}.</p>"
             f"<p>If the bonus bet wins: {bonus:,} won, the {r['hedge_stake']:,} hedge lost, "
             f"{bonus - r['hedge_stake']:,} kept. If the hedge wins instead: it pays {hedge_profit:,.0f} of "
-            f"profit and the bonus bet costs nothing, so about {r['guaranteed']:,} either way. That is "
+            f"profit and the bonus bet costs nothing, so about {r['guaranteed']:,} on either result. That is "
             f"{r['guaranteed']:,} of cash from {bonus:,} of bonus, a rate of {r['rate']:.1f}%.</p>"
             f"<p>Longer prices convert better and cost more to cover. At {long_['free']} the rate is "
             f"{long_['rate']:.1f}%, and the hedge needs {long_['hedge_stake']:,} of your own money on the "
@@ -3236,7 +3236,7 @@ def render_index(m: dict) -> str:
     return f"""
 <section class="hero">
   <p class="eyebrow">Free Mac app for sports bettors</p>
-  <h1>Profit either way,<br><span class="grad">when both bets stand.</span></h1>
+  <h1>The same return on either result,<br><span class="grad">when both bets stand.</span></h1>
   <p class="lede"><strong>The math the books use to price every bet, now worked out on your side, on your own Mac:</strong>
   fair odds with the margin taken out, what a venue&rsquo;s fee really costs, and what a parlay pays against its fair
   price.</p>
@@ -3289,7 +3289,7 @@ def render_index(m: dict) -> str:
     <div class="ex reveal">
       <h3>Betting both sides usually loses</h3>
       <p>Every book takes a cut. Bet ${vig["stake"]} on each side of a
-      {vig["american"]} / {vig["american"]} game and you lose either way.</p>
+      {vig["american"]} / {vig["american"]} game and you lose on either result.</p>
       <div class="ex-pair">
         <div><small>Side one wins</small><b class="lose">&minus;${abs(vig["if_wins"]):.2f}</b></div>
         <div><small>Side two wins</small><b class="lose">&minus;${abs(vig["if_wins"]):.2f}</b></div>
@@ -4440,7 +4440,7 @@ advice is not one you can check.</p>
 <p>Straight rounding is one point in a small neighbourhood of round-stake
 combinations, and often not the best one. Pin the leg at the softest book to a
 clean number, because that is the account whose survival the shape protects.
-Then walk the other leg a few steps either way and score each combination by
+Then walk the other leg a few steps up or down and score each combination by
 its <em>worst</em> outcome.</p>
 <p>Worst outcome, not average. Once stakes are rounded the legs pay
 differently, and quoting the average would describe a position you do not
