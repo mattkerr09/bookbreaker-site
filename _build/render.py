@@ -3237,6 +3237,9 @@ def render_index(m: dict) -> str:
 <section class="hero">
   <p class="eyebrow">Free Mac app for sports bettors</p>
   <h1>Profit either way,<br><span class="grad">when both bets stand.</span></h1>
+  <p class="lede"><strong>The math the books use to price every bet, now worked out on your side, on your own Mac:</strong>
+  fair odds with the margin taken out, what a venue&rsquo;s fee really costs, and what a parlay pays against its fair
+  price.</p>
   <p class="lede">When two books disagree on a game, backing both sides at the right
   stakes locks in a profit, as long as both bets are accepted at the prices shown and
   both stand. Real gaps are rare and usually small. Switch on live Kalshi and
