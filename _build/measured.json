@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "9f0de84ea6b505bc",
+  "engine_fingerprint": "48b5779f3b81226e",
   "engine_load": {
-    "bytes": 6520011,
+    "bytes": 6521012,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35245660,
-      "kb": 34420,
-      "mb": 35.2,
-      "name": "Bookbreaker-0.1.42.dmg",
-      "sha256": "23e5898976e8996ee514ed2f4f19830d409b4e9c1ac38d645535c1ad11246dfc"
+      "bytes": 35794370,
+      "kb": 34955,
+      "mb": 35.8,
+      "name": "Bookbreaker-0.1.43.dmg",
+      "sha256": "c4800c0b0e035d878f5437a3eb3b56af4dd595cbab23d91e9bc414badbe7aff6"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 997215,
-      "kb": 974,
+      "bytes": 999647,
+      "kb": 976,
       "mb": 1.0,
-      "name": "overlay-0.1.42.tar.gz",
-      "sha256": "9b0dad94a5d7e08a2006294e7a13e82a13d44580cfc520cb00648d1769dd6a70"
+      "name": "overlay-0.1.43.tar.gz",
+      "sha256": "da5d16eb88b77a17c7bcb2421ffef978f9f1b4463f8f98596021d4453b665c82"
     },
-    "version": "0.1.42",
+    "version": "0.1.43",
     "wheel": {
-      "bytes": 505601,
-      "kb": 494,
+      "bytes": 506602,
+      "kb": 495,
       "mb": 0.5,
-      "name": "overlay-0.1.42-py3-none-any.whl",
-      "sha256": "64c7a717c87effde330c57d34222e4c8cfee29dc51a239cae2c141703434d5bf"
+      "name": "overlay-0.1.43-py3-none-any.whl",
+      "sha256": "0a00bf481aa275a2da33362c8cc3f3ff198115f07e03ac9c6de933a5700d6446"
     }
   },
   "replay": {
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 78,
     "network_calls": 0,
-    "sha256": "23e5898976e8996ee514ed2f4f19830d409b4e9c1ac38d645535c1ad11246dfc",
-    "sha256_short": "23e5898976e8996e",
+    "sha256": "c4800c0b0e035d878f5437a3eb3b56af4dd595cbab23d91e9bc414badbe7aff6",
+    "sha256_short": "c4800c0b0e035d87",
     "sources": 29,
-    "test_files": 110
+    "test_files": 112
   },
-  "version": "0.1.42",
+  "version": "0.1.43",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "aaf0ad29982bc4879af5108d6a3ab076e9f15067"
+      "commit": "192d1d0a2da8be33499c6cb2b280dfc639ee9d4c"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,17 @@
       "date": "2026-10-30",
       "notes": [
         {
+          "text": "Type a +EV bankroll and choose a Kelly share (a quarter by default) on the Arbitrage page, and each +EV play shows a suggested stake, sized from the low end of its fair chance. When that end shows no edge, it suggests nothing. Both are kept on this Mac. A suggestion, not a promise: any one bet can lose.",
+          "where": "Arbitrage"
+        }
+      ],
+      "title": "A suggested stake on every +EV play",
+      "version": "0.1.43"
+    },
+    {
+      "date": "2026-10-30",
+      "notes": [
+        {
           "text": "Every open bet has a Find a hedge button. Type the other side's price now and see what a hedge would do: no hedge, a hedge that gives your stake back if the other side wins, and one that leaves the same result whichever side wins, each with what both results pay. Both bets must be accepted and stand, and Bookbreaker places nothing.",
           "where": "My bets"
         }
@@ -6561,21 +6572,6 @@
       ],
       "title": "Clearer answers in Ask",
       "version": "0.1.36"
-    },
-    {
-      "date": "2026-10-18",
-      "notes": [
-        {
-          "text": "Fixed: the parlay check treated every leg as a coin flip, whatever its price, so a parlay with a plus-money leg such as +150 could show a profit it does not have. Each leg now carries the margin of a standard -110 / -110 market, taken out in proportion to its price, and the answer says so.",
-          "where": "Tools"
-        },
-        {
-          "text": "Fixed: Ask's parlay answers, and its plan for turning a few small bets into a target, use the same corrected arithmetic. Asked to plan with plus-money legs, it no longer shows a profit or a chance above its own ceiling.",
-          "where": "Ask"
-        }
-      ],
-      "title": "Fixed: the parlay check on legs that are not even money",
-      "version": "0.1.35"
     }
   ],
   "xvenue": {

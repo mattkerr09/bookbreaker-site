@@ -1,11 +1,11 @@
 {
-  "version": "0.1.42",
-  "notes": "Find a hedge for a bet you already have.\n\n- Every open bet in My bets has a Find a hedge button. Type the other side's price now and see what a hedge would do: no hedge, a hedge that gives your stake back if the other side wins, and one that leaves the same result whichever side wins. Both bets must be accepted and stand, and Bookbreaker places nothing.",
-  "pub_date": "2026-10-30T08:21:31Z",
+  "version": "0.1.43",
+  "notes": "A suggested stake on every +EV play.\n\n- Type a +EV bankroll and choose a Kelly share on the Arbitrage page, and each +EV play shows a suggested stake, sized from the low end of its fair chance. When that end shows no edge, it suggests nothing. A suggestion, not a promise: any one bet can lose.",
+  "pub_date": "2026-10-30T19:02:55Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDErZ1pFcHQzUURQNzBtNWt0YXNyZ1VVdExIN285N0NvcWlIRXBHRFhDZ1RBWDFrRk5EcFNPY0hJdGFLTklweEgrZ3g2S2dpVXV1azlKRUxWbHA3R3drPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzMzQ4NDcxCWZpbGU6Qm9va2JyZWFrZXItMC4xLjQyLmFwcC50YXIuZ3oKSzFEL0pmMi9NZkdBWGw3allpTTk4Ky9QL0FRbXJTVUQ5ZHFLeG1MVVhvK1dtb01TVlJ5eC9xS2F2bktFS3pydmRMcHI4TnBWK0pEbjVuZWpYN0NxQmc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.42.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHhYZ1ZPVjBBRC9nOXUyYmVGcm5FS3hGMmZWcUcrZW0wWm42a2FjK0NUMk5iclFLQWhQeC9udDBzczJLMW9iNEdWcldudkMxZ3F4VWVhKzg4REJCeFFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzMzg2OTU5CWZpbGU6Qm9va2JyZWFrZXItMC4xLjQzLmFwcC50YXIuZ3oKSFpiN0ZyUm9TZ3dlUUNXTXd3WmlUT1pMeVZ5NGFFOXFlWkJDQktWL3N0SkxxN1FjTXRUVkZtbmVLYVhBb2t6bXZJZ1o1S0RmVUJlYTNjMTlxMW9QQWc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.43.app.tar.gz"
     }
   }
 }
