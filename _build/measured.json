@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "8120ee07af6b6d0e",
+  "engine_fingerprint": "2990bbe9da0fb49b",
   "engine_load": {
-    "bytes": 6524310,
+    "bytes": 6533311,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35167862,
-      "kb": 34344,
+      "bytes": 35171256,
+      "kb": 34347,
       "mb": 35.2,
-      "name": "Bookbreaker-0.1.45.dmg",
-      "sha256": "13e55b73c12631f562a20a86d017bc5927228f9cac8f5c4be7622c15e8ef199a"
+      "name": "Bookbreaker-0.1.46.dmg",
+      "sha256": "d4d3f3b12bb7142c4945a4cf69bb5b5725fef7cb84b05c4ca795453c57172c54"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1007498,
-      "kb": 984,
+      "bytes": 1029948,
+      "kb": 1006,
       "mb": 1.0,
-      "name": "overlay-0.1.45.tar.gz",
-      "sha256": "74555ca3451b7502914c3843276939014d4983d9b0e3ceeb7cfacdd3060f3c8e"
+      "name": "overlay-0.1.46.tar.gz",
+      "sha256": "b601dd43c88f24369b79bb260efd0b7f985b2a74afcf50da8997fb7aa95d284d"
     },
-    "version": "0.1.45",
+    "version": "0.1.46",
     "wheel": {
-      "bytes": 509900,
-      "kb": 498,
+      "bytes": 518901,
+      "kb": 507,
       "mb": 0.5,
-      "name": "overlay-0.1.45-py3-none-any.whl",
-      "sha256": "85b4d0cc0493d44222a3e909a6eb560320d5c9e1a300d7fc3dc87b13bde288e5"
+      "name": "overlay-0.1.46-py3-none-any.whl",
+      "sha256": "710881074853ac221729c7340a3d4e8a61a69e0a720b4854a0dd81c4991622fb"
     }
   },
   "replay": {
@@ -5236,14 +5236,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 79,
+    "engine_modules": 80,
     "network_calls": 0,
-    "sha256": "13e55b73c12631f562a20a86d017bc5927228f9cac8f5c4be7622c15e8ef199a",
-    "sha256_short": "13e55b73c12631f5",
+    "sha256": "d4d3f3b12bb7142c4945a4cf69bb5b5725fef7cb84b05c4ca795453c57172c54",
+    "sha256_short": "d4d3f3b12bb7142c",
     "sources": 29,
-    "test_files": 115
+    "test_files": 118
   },
-  "version": "0.1.45",
+  "version": "0.1.46",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "417cbe48a3e0d9a1b1346f835b7c1dd1eb56b3c0"
+      "commit": "3a48436397ab429c7d8b7539749752c65fd5b33e"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,21 @@
       "date": "2026-10-31",
       "notes": [
         {
+          "text": "Board filters: sort by return, edge or start time; a price range for +EV bets; not started or in play; starts within the next hour, today, 24 hours or 7 days; switch leagues and bet types off; and a smallest window for middles. Each choice says how many plays it leaves, and Clear filters empties them without touching Recommended. Filters apply on your next read.",
+          "where": "Arbitrage"
+        },
+        {
+          "text": "A +EV play at a book with a balance in Your books is now sized on that balance, and its stake line says so. Other plays keep your +EV bankroll.",
+          "where": "Arbitrage"
+        }
+      ],
+      "title": "Board filters, and a stake on each book's balance",
+      "version": "0.1.46"
+    },
+    {
+      "date": "2026-10-31",
+      "notes": [
+        {
           "text": "Type what is in each sportsbook account under Your books. Saving a tracked bet takes its stake off that book, and settling it pays back what the result returns. Nothing connects to a book: type a balance again whenever it is off.",
           "where": "My bets"
         }
@@ -6553,17 +6568,6 @@
       ],
       "title": "Fixed: Kalshi's full fee on games that override their series",
       "version": "0.1.39"
-    },
-    {
-      "date": "2026-10-19",
-      "notes": [
-        {
-          "text": "A +EV play's detail has a Size this bet button. It opens Bet size with the play's price and the low end of its fair chance already filled in, and works out the stake; put in your own bankroll. The low end is used on purpose: sizing from the friendliest estimate is how a small edge turns into a large losing run.",
-          "where": "Arbitrage"
-        }
-      ],
-      "title": "Size a +EV bet straight from the board",
-      "version": "0.1.38"
     }
   ],
   "xvenue": {

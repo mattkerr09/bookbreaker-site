@@ -1,11 +1,11 @@
 {
-  "version": "0.1.45",
-  "notes": "Your books: a balance for each sportsbook, kept on this Mac.\n\n- Type what is in each sportsbook account under Your books in My bets. Saving a tracked bet takes its stake off that book, and settling it pays back what the result returns. Nothing connects to a book: type a balance again whenever it is off.",
-  "pub_date": "2026-10-31T04:22:31Z",
+  "version": "0.1.46",
+  "notes": "Board filters, and a stake on each book's balance.\n\n- Board filters on the Arbitrage page: sort by return, edge or start time; a price range for +EV bets; not started or in play; when the game starts; leagues and bet types; and a smallest window for middles. Each choice says how many plays it leaves.\n- A +EV play at a book with a balance in Your books is sized on that balance, and its stake line says so.",
+  "pub_date": "2026-10-31T10:37:20Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDFQNGFwcUhIVlNhcU82aDI1QkFsSEJqbVl1aG5EQnIzektWSmtoN1EwK21NV2JUdUp0R3UxZ3ZCVmp3ZHgyVWJoZms4eHRMdmZBU1IxNjlxYXozcFFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDIwNTM0CWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ1LmFwcC50YXIuZ3oKOXZyZUZwMkttcXBRRTVPYlVXOUk3YXkzOGp0ZEZNRGFiOXJjYXlQWGVUOWtrWnA2a2Ztek9UdEU3R091NEdmV1U3bmlBdFNZaE52R0lHclF2VDBoQkE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.45.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDc0dkVsZEpyQUg4QnhRZGVKWlU2cTNXaitEZWRiYVF6QXBYOEVIdlJNQjZqLzlHTFNPb1BmR2ZQeXg2WUJuUXhqd3J1aW42bTE5Y1drc04vOGRFN0FvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDQzMDIzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ2LmFwcC50YXIuZ3oKUHZ3dmlKNkdMQTZTcFVqN24vcTl1dGxGY0taWjh5SXVraWlJQXdmQ2tjTDBKWUdDY0ZxRFJmQTZqdytQUXB5SjE3Mk56NzZ5R2lxMWRGMHU2bWRsRHc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.46.app.tar.gz"
     }
   }
 }

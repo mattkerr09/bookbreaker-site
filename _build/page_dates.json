@@ -5,7 +5,7 @@
  },
  "ask/index.html": {
   "date": "2026-10-31",
-  "sha": "257078a3b484e6b5653e7c27de3c44974b772b430bc08d43ef11fc2d4dff59dd"
+  "sha": "f7b1809245b35b2df7d76d02c2a086ce8b4ae409940bef417736682150da5d21"
  },
  "best/best-arbitrage-betting-software/index.html": {
   "date": "2026-10-17",
@@ -25,19 +25,19 @@
  },
  "calculators/arbitrage/index.html": {
   "date": "2026-10-31",
-  "sha": "ebf0f77370df262884ac3968f6a28d6dfb538054a39acac4b078efbfdd41d543"
+  "sha": "73e85e4eab5beba6a805decbe6e565620f4e8e0c88e134a90e570f7145a663a9"
  },
  "calculators/bonus-bet-conversion/index.html": {
   "date": "2026-10-31",
-  "sha": "23d9a8c08ac8334891807d65e312a14d3f6b2c91e26a758364893f4db33d3e3b"
+  "sha": "82c79c6d218e8b161c6b4e2ad15f5ef56698745c1be609835e4477806cb30c16"
  },
  "calculators/breakeven/index.html": {
   "date": "2026-10-31",
-  "sha": "338b3c6626cde02abffbc97def335b3a4a2f0254fb5a29399d237e86e8d3d9e5"
+  "sha": "eb872353e5ee2ee9e3e08ef76c90aceb2ade7629d483766dd253614e881fabc9"
  },
  "calculators/closing-line-value/index.html": {
   "date": "2026-10-31",
-  "sha": "95f488bc8d70fbd40414f12a1bcc19add4e936b835dd65551146de9d3a3f80da"
+  "sha": "8c6ad54141ff07a4afe391905dd5c68e82a88f707c7fda67277c01b3412c9a96"
  },
  "calculators/deposit-match/index.html": {
   "date": "2026-10-16",
@@ -45,7 +45,7 @@
  },
  "calculators/dutching/index.html": {
   "date": "2026-10-31",
-  "sha": "d70895d1e3d1620f0263ad74a6292f8849d3c2c7fa8e6360a5466e547177a377"
+  "sha": "9b801be87354be996a957ee7c01b4d2b52c5edff5b1ab2ca290bdbae34b9222e"
  },
  "calculators/effective-bets/index.html": {
   "date": "2026-10-16",
@@ -53,15 +53,15 @@
  },
  "calculators/expected-value/index.html": {
   "date": "2026-10-31",
-  "sha": "c0766b113d05571495721bb455986d331cca526a18263bd30cb9dce8132abb2d"
+  "sha": "7f358fe00380aac2635373692faad4da49c8718b40f53fb865801abafa577113"
  },
  "calculators/hedge/index.html": {
   "date": "2026-10-31",
-  "sha": "3903e7b1b141c37ecf26bae4ff06d92185faffb263889506089d1e0888e0ecf6"
+  "sha": "3278f1ffb6dec5f9c547a549171058f0e5dc5b9fb213c334cad805494a830979"
  },
  "calculators/hold/index.html": {
   "date": "2026-10-31",
-  "sha": "3db0b774ff961fc369cf634679a0950941b998237ff6eb8f17cf0894789c5402"
+  "sha": "33c19aaedf7479007205af4ae8de328de78c6b2867b4c6f1d33e4daabe422ef3"
  },
  "calculators/index.html": {
   "date": "2026-10-18",
@@ -69,7 +69,7 @@
  },
  "calculators/kelly/index.html": {
   "date": "2026-10-31",
-  "sha": "14af86f0c178a8bf114d7d6660650a42381df4dc8ea5e69fbe6abdd0253fe205"
+  "sha": "5c2fefd0097b82fd48b703df965868fa72532867c2245f120f1649c98631732e"
  },
  "calculators/low-hold/index.html": {
   "date": "2026-10-16",
@@ -81,7 +81,7 @@
  },
  "calculators/no-sweat-bet/index.html": {
   "date": "2026-10-31",
-  "sha": "f830a8637b9d5afeeea0cd2b2dca9c0d523c730513ee8ef9c47aae0f3d172b94"
+  "sha": "8b39b761c2d6f166d2b5bb667e592d96616d57beed7932e5f4006de76f389b05"
  },
  "calculators/no-vig-odds/index.html": {
   "date": "2026-10-18",
@@ -89,11 +89,11 @@
  },
  "calculators/odds-converter/index.html": {
   "date": "2026-10-31",
-  "sha": "f1ab66ba7ffb42a0cac3bc4b7d4617a8a8466ad1709a51be42fbc5be4046c154"
+  "sha": "d366fbb6d7e5cf38b6480ff14b4ea64b27957415ca598e89f8b2fcf9ec90db17"
  },
  "calculators/parlay/index.html": {
   "date": "2026-10-31",
-  "sha": "acae826b183fe88cb81f997ec80de00f36a325a3607ed61d65ad3cabda2e801b"
+  "sha": "1d2eda351305eae5538ac6e53715ad80bb96e7ea359baa18745f91ccfe3cd4cf"
  },
  "calculators/poisson/index.html": {
   "date": "2026-10-16",
@@ -101,11 +101,11 @@
  },
  "calculators/prediction-market-odds/index.html": {
   "date": "2026-10-31",
-  "sha": "83fcabda554f80f82f6525fe532a68692510b97dfc05f73a99beceefe504fb99"
+  "sha": "35f72673bf0cf85ce9a371d719f57bd90c05e139c7e1b7f20fc6db48dce21456"
  },
  "calculators/profit-boost/index.html": {
   "date": "2026-10-31",
-  "sha": "97de905f5ed3280d367f4ee2fb946bdf4884630d85a35d99bfb6810d6f936a11"
+  "sha": "5aeeee9f725f0bdf623e867bcd20279a117d01724c4e0847aa58e75f83409b8a"
  },
  "calculators/round-robin/index.html": {
   "date": "2026-10-16",
@@ -117,7 +117,7 @@
  },
  "download/index.html": {
   "date": "2026-10-31",
-  "sha": "a29a64ecd8524b9fd9dadd3a37b094b3ede907f290d593dbb2fdfb4d2276eed6"
+  "sha": "e534551f41a1b8690e625e260c7494b58d09e1137920964374c8e92db35f2d7d"
  },
  "for/arbitrage-bettors/index.html": {
   "date": "2026-10-18",
@@ -253,7 +253,7 @@
  },
  "how-it-works/index.html": {
   "date": "2026-10-31",
-  "sha": "31ffcfb75defa165a27731a2683af15ce25842540d54f83368f3b7e7e091b554"
+  "sha": "63c57a2bb2e9eccc85671f0189074d86248ac63fe46fa52626c48c137b96ad9e"
  },
  "how-we-are-paid/index.html": {
   "date": "2026-10-19",
@@ -261,7 +261,7 @@
  },
  "index.html": {
   "date": "2026-10-31",
-  "sha": "ba9a8fdf00afd1d6c976031482d66a781860c74a5f893e177674da3fc30e61ae"
+  "sha": "cea85156c4007e40bdf2bdccdb5619e4a2d2bcdc83a3beb0d657d27a35775ff8"
  },
  "offers/index.html": {
   "date": "2026-10-27",
