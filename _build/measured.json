@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "2990bbe9da0fb49b",
+  "engine_fingerprint": "0a3af618592eaee5",
   "engine_load": {
-    "bytes": 6533311,
+    "bytes": 6534781,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35171256,
-      "kb": 34347,
+      "bytes": 35169556,
+      "kb": 34345,
       "mb": 35.2,
-      "name": "Bookbreaker-0.1.46.dmg",
-      "sha256": "d4d3f3b12bb7142c4945a4cf69bb5b5725fef7cb84b05c4ca795453c57172c54"
+      "name": "Bookbreaker-0.1.47.dmg",
+      "sha256": "f0f409683bbfa89f6fded769c4805d82e8b2d265bdf50286b1146426bbec7697"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1029948,
-      "kb": 1006,
+      "bytes": 1033302,
+      "kb": 1009,
       "mb": 1.0,
-      "name": "overlay-0.1.46.tar.gz",
-      "sha256": "b601dd43c88f24369b79bb260efd0b7f985b2a74afcf50da8997fb7aa95d284d"
+      "name": "overlay-0.1.47.tar.gz",
+      "sha256": "64212a823dd2d172033f856192178a7def36fd6c1113a2d3cf68ce3b405bdf45"
     },
-    "version": "0.1.46",
+    "version": "0.1.47",
     "wheel": {
-      "bytes": 518901,
-      "kb": 507,
+      "bytes": 520371,
+      "kb": 508,
       "mb": 0.5,
-      "name": "overlay-0.1.46-py3-none-any.whl",
-      "sha256": "710881074853ac221729c7340a3d4e8a61a69e0a720b4854a0dd81c4991622fb"
+      "name": "overlay-0.1.47-py3-none-any.whl",
+      "sha256": "c887d23bbb40f3d60ec0a26aedf0d7dac7353ca1d4e88326aa191b49d363c003"
     }
   },
   "replay": {
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 80,
     "network_calls": 0,
-    "sha256": "d4d3f3b12bb7142c4945a4cf69bb5b5725fef7cb84b05c4ca795453c57172c54",
-    "sha256_short": "d4d3f3b12bb7142c",
+    "sha256": "f0f409683bbfa89f6fded769c4805d82e8b2d265bdf50286b1146426bbec7697",
+    "sha256_short": "f0f409683bbfa89f",
     "sources": 29,
-    "test_files": 118
+    "test_files": 119
   },
-  "version": "0.1.46",
+  "version": "0.1.47",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "3a48436397ab429c7d8b7539749752c65fd5b33e"
+      "commit": "8f24228147d3151e04b075488c99de637cfa4243"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,17 @@
       "date": "2026-10-31",
       "notes": [
         {
+          "text": "On Low hold, set the lowest and highest odds for the bet at your credit book (a playthrough often needs a lowest price) and for the other bet. Bookbreaker lists the cheapest pair inside your limits and says how many markets the limits left out.",
+          "where": "Arbitrage"
+        }
+      ],
+      "title": "Low hold: odds for each side",
+      "version": "0.1.47"
+    },
+    {
+      "date": "2026-10-31",
+      "notes": [
+        {
           "text": "Board filters: sort by return, edge or start time; a price range for +EV bets; not started or in play; starts within the next hour, today, 24 hours or 7 days; switch leagues and bet types off; and a smallest window for middles. Each choice says how many plays it leaves, and Clear filters empties them without touching Recommended. Filters apply on your next read.",
           "where": "Arbitrage"
         },
@@ -6557,17 +6568,6 @@
       ],
       "title": "Bookbreaker now says it needs macOS 14 or later",
       "version": "0.1.40"
-    },
-    {
-      "date": "2026-10-19",
-      "notes": [
-        {
-          "text": "Fixed: Kalshi can charge one game a different fee from its series. A baseball playoff game was charged the full fee while the series charges half, and Bookbreaker used the series rate, so a Kalshi and Polymarket US pair on that game could look profitable when it was not. Each game's own fee is used now.",
-          "where": "Arbitrage"
-        }
-      ],
-      "title": "Fixed: Kalshi's full fee on games that override their series",
-      "version": "0.1.39"
     }
   ],
   "xvenue": {

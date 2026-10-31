@@ -1,11 +1,11 @@
 {
-  "version": "0.1.46",
-  "notes": "Board filters, and a stake on each book's balance.\n\n- Board filters on the Arbitrage page: sort by return, edge or start time; a price range for +EV bets; not started or in play; when the game starts; leagues and bet types; and a smallest window for middles. Each choice says how many plays it leaves.\n- A +EV play at a book with a balance in Your books is sized on that balance, and its stake line says so.",
-  "pub_date": "2026-10-31T10:37:20Z",
+  "version": "0.1.47",
+  "notes": "Low hold: odds for each side.\n\n- On Low hold, set the lowest and highest odds for the bet at your credit book and for the other bet. Bookbreaker lists the cheapest pair inside your limits and says how many markets the limits left out.",
+  "pub_date": "2026-10-31T12:37:06Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDc0dkVsZEpyQUg4QnhRZGVKWlU2cTNXaitEZWRiYVF6QXBYOEVIdlJNQjZqLzlHTFNPb1BmR2ZQeXg2WUJuUXhqd3J1aW42bTE5Y1drc04vOGRFN0FvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDQzMDIzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ2LmFwcC50YXIuZ3oKUHZ3dmlKNkdMQTZTcFVqN24vcTl1dGxGY0taWjh5SXVraWlJQXdmQ2tjTDBKWUdDY0ZxRFJmQTZqdytQUXB5SjE3Mk56NzZ5R2lxMWRGMHU2bWRsRHc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.46.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDYxL3U0MFBwb0M3d3lyRGVVcDdXcE5XQkdHOVJQMjN5L0h3SDAyVlBjVy9weTQzbXJ6UFB3c2ZRc3pnZEd0WldqSnBwb09ZQUliNXhBOFA2S2JTcVFRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDUwMjA4CWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ3LmFwcC50YXIuZ3oKQWZNb1ZtTWtRaGVRRXcrV1dUN0tzMmJ4b0tLNDh4b21EWUphWStTQStucEdkcmd4OS82dW9sdDg5bURUM0gzMlJ0MFRTb0pYRGI3WnJOM25ucDlZQUE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.47.app.tar.gz"
     }
   }
 }
