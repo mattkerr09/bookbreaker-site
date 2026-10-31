@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "0863f057953efeab",
+  "engine_fingerprint": "8120ee07af6b6d0e",
   "engine_load": {
-    "bytes": 6521011,
+    "bytes": 6524310,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -739,7 +739,7 @@
     "latency_observations": 30,
     "naive": 89
   },
-  "generated": "2026-10-30",
+  "generated": "2026-10-31",
   "grading": {
     "gap": 2.16,
     "p110": 52.38,
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35244720,
-      "kb": 34419,
+      "bytes": 35167862,
+      "kb": 34344,
       "mb": 35.2,
-      "name": "Bookbreaker-0.1.44.dmg",
-      "sha256": "c2827f83c89bf9aa4dade4424b7cf325ad25e0ef04130633beb67f3109233e22"
+      "name": "Bookbreaker-0.1.45.dmg",
+      "sha256": "13e55b73c12631f562a20a86d017bc5927228f9cac8f5c4be7622c15e8ef199a"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1000317,
-      "kb": 977,
+      "bytes": 1007498,
+      "kb": 984,
       "mb": 1.0,
-      "name": "overlay-0.1.44.tar.gz",
-      "sha256": "b622f1e2d8c8a1aea7ab66a9efd43a3e3228d58c224555e01f0d9c38dec0e560"
+      "name": "overlay-0.1.45.tar.gz",
+      "sha256": "74555ca3451b7502914c3843276939014d4983d9b0e3ceeb7cfacdd3060f3c8e"
     },
-    "version": "0.1.44",
+    "version": "0.1.45",
     "wheel": {
-      "bytes": 506601,
-      "kb": 495,
+      "bytes": 509900,
+      "kb": 498,
       "mb": 0.5,
-      "name": "overlay-0.1.44-py3-none-any.whl",
-      "sha256": "b3f2fc166f5915194845f943a7c23437fabc8dd97447a127cd66ca373167f58f"
+      "name": "overlay-0.1.45-py3-none-any.whl",
+      "sha256": "85b4d0cc0493d44222a3e909a6eb560320d5c9e1a300d7fc3dc87b13bde288e5"
     }
   },
   "replay": {
@@ -1378,7 +1378,7 @@
       "tax_rate": 13.0
     },
     "AZ": {
-      "age_days": 1877,
+      "age_days": 1878,
       "age_months": 62,
       "age_of": 16,
       "age_rank": 8,
@@ -1388,7 +1388,7 @@
       "tax_rate": 10.0
     },
     "CO": {
-      "age_days": 2373,
+      "age_days": 2374,
       "age_months": 78,
       "age_of": 16,
       "age_rank": 1,
@@ -1398,7 +1398,7 @@
       "tax_rate": 10.0
     },
     "CT": {
-      "age_days": 1837,
+      "age_days": 1838,
       "age_months": 60,
       "age_of": 16,
       "age_rank": 9,
@@ -1408,7 +1408,7 @@
       "tax_rate": 13.75
     },
     "DC": {
-      "age_days": 2346,
+      "age_days": 2347,
       "age_months": 77,
       "age_of": 16,
       "age_rank": 2,
@@ -1418,7 +1418,7 @@
       "tax_rate": 30.0
     },
     "DE": {
-      "age_days": 1031,
+      "age_days": 1032,
       "age_months": 34,
       "age_of": 16,
       "age_rank": 14,
@@ -1433,7 +1433,7 @@
       "tax_rate": 6.75
     },
     "IL": {
-      "age_days": 2325,
+      "age_days": 2326,
       "age_months": 76,
       "age_of": 16,
       "age_rank": 3,
@@ -1450,7 +1450,7 @@
       "tax_rate": 10.0
     },
     "KY": {
-      "age_days": 1128,
+      "age_days": 1129,
       "age_months": 37,
       "age_of": 16,
       "age_rank": 13,
@@ -1470,7 +1470,7 @@
       "tax_rate": 20.0
     },
     "MD": {
-      "age_days": 1437,
+      "age_days": 1438,
       "age_months": 47,
       "age_of": 16,
       "age_rank": 11,
@@ -1485,7 +1485,7 @@
       "tax_rate": 10.0
     },
     "MI": {
-      "age_days": 2107,
+      "age_days": 2108,
       "age_months": 69,
       "age_of": 16,
       "age_rank": 6,
@@ -1495,7 +1495,7 @@
       "tax_rate": 8.4
     },
     "MO": {
-      "age_days": 333,
+      "age_days": 334,
       "age_months": 11,
       "age_of": 16,
       "age_rank": 16,
@@ -1505,7 +1505,7 @@
       "tax_rate": 10.0
     },
     "NC": {
-      "age_days": 963,
+      "age_days": 964,
       "age_months": 32,
       "age_of": 16,
       "age_rank": 15,
@@ -1525,7 +1525,7 @@
       "tax_rate": 6.75
     },
     "NY": {
-      "age_days": 1756,
+      "age_days": 1757,
       "age_months": 58,
       "age_of": 16,
       "age_rank": 10,
@@ -1535,7 +1535,7 @@
       "tax_rate": 51.0
     },
     "OH": {
-      "age_days": 1398,
+      "age_days": 1399,
       "age_months": 46,
       "age_of": 16,
       "age_rank": 12,
@@ -1550,14 +1550,14 @@
       "tax_rate": 36.0
     },
     "TN": {
-      "age_days": 2189,
+      "age_days": 2190,
       "age_months": 72,
       "age_of": 16,
       "age_rank": 4,
       "age_years": 6.0
     },
     "VA": {
-      "age_days": 2108,
+      "age_days": 2109,
       "age_months": 69,
       "age_of": 16,
       "age_rank": 5,
@@ -1572,7 +1572,7 @@
       "tax_rate": 10.0
     },
     "WY": {
-      "age_days": 1885,
+      "age_days": 1886,
       "age_months": 62,
       "age_of": 16,
       "age_rank": 7,
@@ -3267,7 +3267,7 @@
       "never_limit": [],
       "online": true,
       "regulator": {
-        "days": 21,
+        "days": 22,
         "name": "Michigan Gaming Control Board",
         "read": "2026-10-09",
         "sports_operators": 13
@@ -5236,14 +5236,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 78,
+    "engine_modules": 79,
     "network_calls": 0,
-    "sha256": "c2827f83c89bf9aa4dade4424b7cf325ad25e0ef04130633beb67f3109233e22",
-    "sha256_short": "c2827f83c89bf9aa",
+    "sha256": "13e55b73c12631f562a20a86d017bc5927228f9cac8f5c4be7622c15e8ef199a",
+    "sha256_short": "13e55b73c12631f5",
     "sources": 29,
-    "test_files": 113
+    "test_files": 115
   },
-  "version": "0.1.44",
+  "version": "0.1.45",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,12 +5252,12 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "9760b5ff48f9eec47e71573b37df1eb328eaaee7"
+      "commit": "417cbe48a3e0d9a1b1346f835b7c1dd1eb56b3c0"
     },
     "max_age_days": 21,
     "offers": [
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 20.0,
@@ -5311,7 +5311,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 20.0,
@@ -5343,7 +5343,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5396,7 +5396,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5428,7 +5428,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "dk",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5482,7 +5482,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "dk",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5514,7 +5514,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5559,7 +5559,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5591,7 +5591,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "fd",
         "conversion": 0.69,
         "cost": 0.3,
@@ -5646,7 +5646,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "fd",
         "conversion": 0.69,
         "cost": 0.3,
@@ -5678,7 +5678,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5712,7 +5712,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "borgata",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5744,7 +5744,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "desertdiamond",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5776,7 +5776,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "betparx",
         "conversion": 0.69,
         "cost": 0.5,
@@ -5808,7 +5808,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "bally",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5850,7 +5850,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "mgm",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5895,7 +5895,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "thescore",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5940,7 +5940,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "eagle",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5971,7 +5971,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6007,7 +6007,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6038,7 +6038,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "hardrock",
         "conversion": 0.69,
         "cost": 0.1,
@@ -6078,7 +6078,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "hardrock",
         "conversion": 0.69,
         "cost": 0.1,
@@ -6110,7 +6110,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6161,7 +6161,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6191,7 +6191,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6221,7 +6221,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6273,7 +6273,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6305,7 +6305,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6336,7 +6336,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "betparx",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6366,7 +6366,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6401,7 +6401,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "mgm",
         "conversion": 0.69,
         "cost": 0.2,
@@ -6433,7 +6433,7 @@
         ]
       },
       {
-        "age_days": 3,
+        "age_days": 4,
         "book": "thescore",
         "conversion": 0.69,
         "cost": 0.2,
@@ -6477,6 +6477,17 @@
     ]
   },
   "whatsnew": [
+    {
+      "date": "2026-10-31",
+      "notes": [
+        {
+          "text": "Type what is in each sportsbook account under Your books. Saving a tracked bet takes its stake off that book, and settling it pays back what the result returns. Nothing connects to a book: type a balance again whenever it is off.",
+          "where": "My bets"
+        }
+      ],
+      "title": "Your books: a balance for each sportsbook, kept on this Mac",
+      "version": "0.1.45"
+    },
     {
       "date": "2026-10-30",
       "notes": [
@@ -6553,21 +6564,6 @@
       ],
       "title": "Size a +EV bet straight from the board",
       "version": "0.1.38"
-    },
-    {
-      "date": "2026-10-19",
-      "notes": [
-        {
-          "text": "Fair odds has a new card: type a Kalshi or Polymarket US contract price in cents and see the odds it really pays once the venue's taker fee is added, and the win chance you need to break even. 47c on Kalshi pays +105 after the fee, not the +113 the price suggests.",
-          "where": "Tools"
-        },
-        {
-          "text": "It works on this Mac from the price you type and reads nothing. Whether these contracts are legal is disputed state by state, and the card says so.",
-          "where": "Tools"
-        }
-      ],
-      "title": "Kalshi and Polymarket US prices, as the odds they really pay",
-      "version": "0.1.37"
     }
   ],
   "xvenue": {

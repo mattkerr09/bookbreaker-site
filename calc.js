@@ -23,10 +23,10 @@
   var BASE = 'https://cdn.jsdelivr.net/pyodide/v0.29.5/full/';
   var SRI = 'sha384-VR47TfKeAmT7vMej7bwOVg0tHTQLLGMSIpsXtFMCZG5OpKZSIXoSLtGY//qHcxc6';
   var PACKAGES = ["micropip", "sqlite3"];
-  var WHEEL = '/releases/overlay-0.1.44-py3-none-any.whl';
+  var WHEEL = '/releases/overlay-0.1.45-py3-none-any.whl';
   var RUNNER = '/calc.py?v=03f4c82f7c';
   var SIZE = '7';
-  var VERSION = '0.1.44';
+  var VERSION = '0.1.45';
 
   var boxes = document.querySelectorAll('form[data-calc]');
   if (!boxes.length) return;

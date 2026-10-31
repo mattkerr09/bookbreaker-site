@@ -1,11 +1,11 @@
 {
-  "version": "0.1.44",
-  "notes": "Three-way arbs in the Arb calculator.\n\n- The Arb calculator takes a third price for a game that can draw (home, draw, away) and sizes every leg so each result pays at least the same, if every bet is accepted and stands.",
-  "pub_date": "2026-10-31T01:46:10Z",
+  "version": "0.1.45",
+  "notes": "Your books: a balance for each sportsbook, kept on this Mac.\n\n- Type what is in each sportsbook account under Your books in My bets. Saving a tracked bet takes its stake off that book, and settling it pays back what the result returns. Nothing connects to a book: type a balance again whenever it is off.",
+  "pub_date": "2026-10-31T04:22:31Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTCtZcUs1SFBSL0RsVlU5bXhXT3lPVkwrdGlzVUZXakhuMjdoeHp3QkdUTDBhR3BDeExZZGNsejFBdWxLbCtxSUJNRWdjZkFuZHpDejU2ZG1QQTdTTXdvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDExMTUxCWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ0LmFwcC50YXIuZ3oKS1ZSNmJFVkFhUXF6bHNsTDA1blFJeEdobzBPQkpLbGo5RFJrWUZjRVlna3pMQmsvamJxUVFUQm9sTUxWU0htOTdkNnhRNDdPeXJtRkRBa3lNckdTQUE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.44.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDFQNGFwcUhIVlNhcU82aDI1QkFsSEJqbVl1aG5EQnIzektWSmtoN1EwK21NV2JUdUp0R3UxZ3ZCVmp3ZHgyVWJoZms4eHRMdmZBU1IxNjlxYXozcFFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDIwNTM0CWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ1LmFwcC50YXIuZ3oKOXZyZUZwMkttcXBRRTVPYlVXOUk3YXkzOGp0ZEZNRGFiOXJjYXlQWGVUOWtrWnA2a2Ztek9UdEU3R091NEdmV1U3bmlBdFNZaE52R0lHclF2VDBoQkE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.45.app.tar.gz"
     }
   }
 }
