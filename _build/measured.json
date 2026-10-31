@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "0a3af618592eaee5",
+  "engine_fingerprint": "e73350d36c6033c6",
   "engine_load": {
-    "bytes": 6534781,
+    "bytes": 6535527,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35169556,
-      "kb": 34345,
+      "bytes": 35167960,
+      "kb": 34344,
       "mb": 35.2,
-      "name": "Bookbreaker-0.1.47.dmg",
-      "sha256": "f0f409683bbfa89f6fded769c4805d82e8b2d265bdf50286b1146426bbec7697"
+      "name": "Bookbreaker-0.1.48.dmg",
+      "sha256": "7c5e0e6d10da3b53c4b6c2fbcb56235e4989018dfa23feb252930f39bf4968fa"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1033302,
-      "kb": 1009,
+      "bytes": 1035299,
+      "kb": 1011,
       "mb": 1.0,
-      "name": "overlay-0.1.47.tar.gz",
-      "sha256": "64212a823dd2d172033f856192178a7def36fd6c1113a2d3cf68ce3b405bdf45"
+      "name": "overlay-0.1.48.tar.gz",
+      "sha256": "2bf6cd7aec649a3910369b4a06a8efb40f73d7978308504104295034a4a91041"
     },
-    "version": "0.1.47",
+    "version": "0.1.48",
     "wheel": {
-      "bytes": 520371,
-      "kb": 508,
+      "bytes": 521117,
+      "kb": 509,
       "mb": 0.5,
-      "name": "overlay-0.1.47-py3-none-any.whl",
-      "sha256": "c887d23bbb40f3d60ec0a26aedf0d7dac7353ca1d4e88326aa191b49d363c003"
+      "name": "overlay-0.1.48-py3-none-any.whl",
+      "sha256": "f3e0a1f500d0678405a2a2196331517df1f52472a12bab803c79e7a6eb1da873"
     }
   },
   "replay": {
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 80,
     "network_calls": 0,
-    "sha256": "f0f409683bbfa89f6fded769c4805d82e8b2d265bdf50286b1146426bbec7697",
-    "sha256_short": "f0f409683bbfa89f",
+    "sha256": "7c5e0e6d10da3b53c4b6c2fbcb56235e4989018dfa23feb252930f39bf4968fa",
+    "sha256_short": "7c5e0e6d10da3b53",
     "sources": 29,
-    "test_files": 119
+    "test_files": 120
   },
-  "version": "0.1.47",
+  "version": "0.1.48",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "8f24228147d3151e04b075488c99de637cfa4243"
+      "commit": "070cb220fb032b201516b075d1c7772c5cc88fbe"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,17 @@
       "date": "2026-10-31",
       "notes": [
         {
+          "text": "Fair odds now lets you choose how the book's cut is removed: the average of four methods, one method, or the worst case, the lowest chance any method gives each side. The worst case is the cautious price to size a bet from.",
+          "where": "Tools"
+        }
+      ],
+      "title": "Fair odds: choose how the cut is removed",
+      "version": "0.1.48"
+    },
+    {
+      "date": "2026-10-31",
+      "notes": [
+        {
           "text": "On Low hold, set the lowest and highest odds for the bet at your credit book (a playthrough often needs a lowest price) and for the other bet. Bookbreaker lists the cheapest pair inside your limits and says how many markets the limits left out.",
           "where": "Arbitrage"
         }
@@ -6557,17 +6568,6 @@
       ],
       "title": "A parlay across games, priced fair from Kalshi",
       "version": "0.1.41"
-    },
-    {
-      "date": "2026-10-24",
-      "notes": [
-        {
-          "text": "Fixed: Bookbreaker told macOS it would run on macOS 10.15, but the engine inside it needs macOS 14 or later. On macOS 11 to 13 it could open and then fail. macOS now checks before it opens, and every build is checked so the two cannot disagree again.",
-          "where": "Window"
-        }
-      ],
-      "title": "Bookbreaker now says it needs macOS 14 or later",
-      "version": "0.1.40"
     }
   ],
   "xvenue": {

@@ -1,11 +1,11 @@
 {
-  "version": "0.1.47",
-  "notes": "Low hold: odds for each side.\n\n- On Low hold, set the lowest and highest odds for the bet at your credit book and for the other bet. Bookbreaker lists the cheapest pair inside your limits and says how many markets the limits left out.",
-  "pub_date": "2026-10-31T12:37:06Z",
+  "version": "0.1.48",
+  "notes": "Fair odds: choose how the cut is removed.\n\n- Fair odds lets you choose how the book's cut is removed: the average of four methods, one method, or the worst case, the lowest chance any method gives each side, which is the cautious price to size from.",
+  "pub_date": "2026-10-31T13:38:39Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDYxL3U0MFBwb0M3d3lyRGVVcDdXcE5XQkdHOVJQMjN5L0h3SDAyVlBjVy9weTQzbXJ6UFB3c2ZRc3pnZEd0WldqSnBwb09ZQUliNXhBOFA2S2JTcVFRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDUwMjA4CWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ3LmFwcC50YXIuZ3oKQWZNb1ZtTWtRaGVRRXcrV1dUN0tzMmJ4b0tLNDh4b21EWUphWStTQStucEdkcmd4OS82dW9sdDg5bURUM0gzMlJ0MFRTb0pYRGI3WnJOM25ucDlZQUE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.47.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTCtPM2RzV1JVSVJoWkFxSFdSZS9kV1U0OStBTTRrcEVuczlNK0VndjNoeVdOZ2tHWVpTdTFiVTJCWGJyR05tSCtxYVVHNGlKMjhkMUlmQ3FWdXFUUEFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDUzOTAxCWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ4LmFwcC50YXIuZ3oKSkZJc29MM0x1NWVLeHVpcmx4QThQU21DTXZ4NG15V29TVE1IR2trRU1JN2d0eE0rOThBa2Vta2NEdW51cHFTM2l4dUowekZlTGM5Umh2Vk1ybldvQWc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.48.app.tar.gz"
     }
   }
 }
