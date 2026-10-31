@@ -1,11 +1,11 @@
 {
-  "version": "0.1.49",
-  "notes": "Hide a whole game, or every play at one book.\n\n- A play's detail offers Hide this whole game and Hide every play at a book, with the same Undo and Hidden plays list. A hidden game leaves the list once it has started; a hidden book stays hidden until you show it again.",
-  "pub_date": "2026-10-31T21:47:54Z",
+  "version": "0.1.50",
+  "notes": "Bet size works out the edge from sharp books.\n\n- Type up to three sharp books' prices for the same market in Bet size: Bookbreaker gives the fair chance and price, the edge and the average expected per $100, and sizes the stake on the cautious end. Any one bet can lose.",
+  "pub_date": "2026-10-31T22:54:21Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHd2YThaS2ZsN0FJRFcyVkIzdjVNNjJpdXFBSldyZXlvcFF0WCtaamZ0VGJBMFc3eXltenpDMHN6SzRsZkErbldSYXNMbGR0NzFCcC8rd3owVGp6c2cwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDgzMjU3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ5LmFwcC50YXIuZ3oKaU1FN2NTdkRpVDNoUDd1WnZpbW1kV0g0NngxWUxTMUR3b3pxU2tCN2VlUjRTaUlJRzlta2ViNStqYWhhUlg2Zm1PZ1NmWmhuVElkanZPOS80SHlWRHc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.49.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDRzYUVob3pXMkp4dGhjNnViV0UraUh2Tmd3NysyOElFdDdNN0w0S1dJN0hGVGY0NnAyVjRHbElPSFdJYVlybmdOelpXL0Roa1ZDcDRqSVRpai9DMGc4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDg3MjQzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjUwLmFwcC50YXIuZ3oKWjc5dzJaZGRZdEdaQUtwRDRTaktuM2dadC9ZRWEreUs0TFp2RDFkNjVPYTI3aWs1RmZ3MGNNN1pHTjBYdHYwNFFmRFJUQkRQWUVzbmU2djJDVXFDREE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.50.app.tar.gz"
     }
   }
 }

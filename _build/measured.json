@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "f4e4027a8722b6a1",
+  "engine_fingerprint": "b70c99b1355ab396",
   "engine_load": {
-    "bytes": 6536168,
+    "bytes": 6537213,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35169813,
+      "bytes": 35170456,
       "kb": 34346,
       "mb": 35.2,
-      "name": "Bookbreaker-0.1.49.dmg",
-      "sha256": "6641eb9644a5baf7a4bea0dd97b5d8bc52a9962f14da7a1012fff1776108c589"
+      "name": "Bookbreaker-0.1.50.dmg",
+      "sha256": "d4d2361d4f45ad3f5d676afebd199ef618a86443650c51cf706cd9c4d52b6f07"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1037442,
-      "kb": 1013,
+      "bytes": 1039759,
+      "kb": 1015,
       "mb": 1.0,
-      "name": "overlay-0.1.49.tar.gz",
-      "sha256": "a20ee2b4100e420f7072be2399ea440d44ac8c720b8544caf08dda0da8d8ac5f"
+      "name": "overlay-0.1.50.tar.gz",
+      "sha256": "80d9d9d9eb66cd32f634a332bd1768c02b010adcfe991ac2123738b4ec94adeb"
     },
-    "version": "0.1.49",
+    "version": "0.1.50",
     "wheel": {
-      "bytes": 521758,
-      "kb": 510,
+      "bytes": 522803,
+      "kb": 511,
       "mb": 0.5,
-      "name": "overlay-0.1.49-py3-none-any.whl",
-      "sha256": "41b9dc3ff0b5ba425c035cee8668d09e91e5e397bc8973f66c0e9adba4a85295"
+      "name": "overlay-0.1.50-py3-none-any.whl",
+      "sha256": "dedf9dcbdf3ef70e8baad745ba4034f4a191fbbf2670abad6c31e49f5789eefd"
     }
   },
   "replay": {
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 80,
     "network_calls": 0,
-    "sha256": "6641eb9644a5baf7a4bea0dd97b5d8bc52a9962f14da7a1012fff1776108c589",
-    "sha256_short": "6641eb9644a5baf7",
+    "sha256": "d4d2361d4f45ad3f5d676afebd199ef618a86443650c51cf706cd9c4d52b6f07",
+    "sha256_short": "d4d2361d4f45ad3f",
     "sources": 29,
-    "test_files": 121
+    "test_files": 122
   },
-  "version": "0.1.49",
+  "version": "0.1.50",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "b9c5ac010307bf4c77cf784bb73bcf01a28e12da"
+      "commit": "913872e15da28c5047eaa0eacbe302226e6740b1"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,17 @@
       "date": "2026-10-31",
       "notes": [
         {
+          "text": "Type up to three sharp books' prices for the same market in Bet size. Bookbreaker removes each book's cut, gives the fair chance and price, the edge and what you can expect per $100 on average, and sizes the stake on the cautious end. Any one bet can lose.",
+          "where": "Tools"
+        }
+      ],
+      "title": "Bet size works out the edge from sharp books",
+      "version": "0.1.50"
+    },
+    {
+      "date": "2026-10-31",
+      "notes": [
+        {
           "text": "A play's detail now offers Hide this whole game and Hide every play at a book, beside Hide this play, with the same Undo and the same Hidden plays list. A hidden game leaves the list once it has started; a hidden book stays hidden until you show it again. Leagues and bet types are switched off under Board filters.",
           "where": "Arbitrage"
         }
@@ -6557,17 +6568,6 @@
       ],
       "title": "A suggested stake on every +EV play",
       "version": "0.1.43"
-    },
-    {
-      "date": "2026-10-30",
-      "notes": [
-        {
-          "text": "Every open bet has a Find a hedge button. Type the other side's price now and see what a hedge would do: no hedge, a hedge that gives your stake back if the other side wins, and one that leaves the same result whichever side wins, each with what both results pay. Both bets must be accepted and stand, and Bookbreaker places nothing.",
-          "where": "My bets"
-        }
-      ],
-      "title": "Find a hedge for a bet you already have",
-      "version": "0.1.42"
     }
   ],
   "xvenue": {
