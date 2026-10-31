@@ -1,11 +1,11 @@
 {
-  "version": "0.1.48",
-  "notes": "Fair odds: choose how the cut is removed.\n\n- Fair odds lets you choose how the book's cut is removed: the average of four methods, one method, or the worst case, the lowest chance any method gives each side, which is the cautious price to size from.",
-  "pub_date": "2026-10-31T13:38:39Z",
+  "version": "0.1.49",
+  "notes": "Hide a whole game, or every play at one book.\n\n- A play's detail offers Hide this whole game and Hide every play at a book, with the same Undo and Hidden plays list. A hidden game leaves the list once it has started; a hidden book stays hidden until you show it again.",
+  "pub_date": "2026-10-31T21:47:54Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTCtPM2RzV1JVSVJoWkFxSFdSZS9kV1U0OStBTTRrcEVuczlNK0VndjNoeVdOZ2tHWVpTdTFiVTJCWGJyR05tSCtxYVVHNGlKMjhkMUlmQ3FWdXFUUEFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDUzOTAxCWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ4LmFwcC50YXIuZ3oKSkZJc29MM0x1NWVLeHVpcmx4QThQU21DTXZ4NG15V29TVE1IR2trRU1JN2d0eE0rOThBa2Vta2NEdW51cHFTM2l4dUowekZlTGM5Umh2Vk1ybldvQWc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.48.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHd2YThaS2ZsN0FJRFcyVkIzdjVNNjJpdXFBSldyZXlvcFF0WCtaamZ0VGJBMFc3eXltenpDMHN6SzRsZkErbldSYXNMbGR0NzFCcC8rd3owVGp6c2cwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDgzMjU3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjQ5LmFwcC50YXIuZ3oKaU1FN2NTdkRpVDNoUDd1WnZpbW1kV0g0NngxWUxTMUR3b3pxU2tCN2VlUjRTaUlJRzlta2ViNStqYWhhUlg2Zm1PZ1NmWmhuVElkanZPOS80SHlWRHc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.49.app.tar.gz"
     }
   }
 }

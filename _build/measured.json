@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "e73350d36c6033c6",
+  "engine_fingerprint": "f4e4027a8722b6a1",
   "engine_load": {
-    "bytes": 6535527,
+    "bytes": 6536168,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35167960,
-      "kb": 34344,
+      "bytes": 35169813,
+      "kb": 34346,
       "mb": 35.2,
-      "name": "Bookbreaker-0.1.48.dmg",
-      "sha256": "7c5e0e6d10da3b53c4b6c2fbcb56235e4989018dfa23feb252930f39bf4968fa"
+      "name": "Bookbreaker-0.1.49.dmg",
+      "sha256": "6641eb9644a5baf7a4bea0dd97b5d8bc52a9962f14da7a1012fff1776108c589"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1035299,
-      "kb": 1011,
+      "bytes": 1037442,
+      "kb": 1013,
       "mb": 1.0,
-      "name": "overlay-0.1.48.tar.gz",
-      "sha256": "2bf6cd7aec649a3910369b4a06a8efb40f73d7978308504104295034a4a91041"
+      "name": "overlay-0.1.49.tar.gz",
+      "sha256": "a20ee2b4100e420f7072be2399ea440d44ac8c720b8544caf08dda0da8d8ac5f"
     },
-    "version": "0.1.48",
+    "version": "0.1.49",
     "wheel": {
-      "bytes": 521117,
-      "kb": 509,
+      "bytes": 521758,
+      "kb": 510,
       "mb": 0.5,
-      "name": "overlay-0.1.48-py3-none-any.whl",
-      "sha256": "f3e0a1f500d0678405a2a2196331517df1f52472a12bab803c79e7a6eb1da873"
+      "name": "overlay-0.1.49-py3-none-any.whl",
+      "sha256": "41b9dc3ff0b5ba425c035cee8668d09e91e5e397bc8973f66c0e9adba4a85295"
     }
   },
   "replay": {
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 80,
     "network_calls": 0,
-    "sha256": "7c5e0e6d10da3b53c4b6c2fbcb56235e4989018dfa23feb252930f39bf4968fa",
-    "sha256_short": "7c5e0e6d10da3b53",
+    "sha256": "6641eb9644a5baf7a4bea0dd97b5d8bc52a9962f14da7a1012fff1776108c589",
+    "sha256_short": "6641eb9644a5baf7",
     "sources": 29,
-    "test_files": 120
+    "test_files": 121
   },
-  "version": "0.1.48",
+  "version": "0.1.49",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "070cb220fb032b201516b075d1c7772c5cc88fbe"
+      "commit": "b9c5ac010307bf4c77cf784bb73bcf01a28e12da"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,17 @@
       "date": "2026-10-31",
       "notes": [
         {
+          "text": "A play's detail now offers Hide this whole game and Hide every play at a book, beside Hide this play, with the same Undo and the same Hidden plays list. A hidden game leaves the list once it has started; a hidden book stays hidden until you show it again. Leagues and bet types are switched off under Board filters.",
+          "where": "Arbitrage"
+        }
+      ],
+      "title": "Hide a whole game, or every play at one book",
+      "version": "0.1.49"
+    },
+    {
+      "date": "2026-10-31",
+      "notes": [
+        {
           "text": "Fair odds now lets you choose how the book's cut is removed: the average of four methods, one method, or the worst case, the lowest chance any method gives each side. The worst case is the cautious price to size a bet from.",
           "where": "Tools"
         }
@@ -6557,17 +6568,6 @@
       ],
       "title": "Find a hedge for a bet you already have",
       "version": "0.1.42"
-    },
-    {
-      "date": "2026-10-26",
-      "notes": [
-        {
-          "text": "Under the Parlay calculator: list Kalshi's game-winner prices, pick a winner in two or more games, and see the parlay's fair price, with a sportsbook's price for the same parlay judged against it. No key needed. These are a prediction market's prices, not a sportsbook parlay, and whether Kalshi is open to you depends on your state, which every answer says.",
-          "where": "Tools"
-        }
-      ],
-      "title": "A parlay across games, priced fair from Kalshi",
-      "version": "0.1.41"
     }
   ],
   "xvenue": {
