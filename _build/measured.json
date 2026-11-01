@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "7471c0b3a5a5612d",
+  "engine_fingerprint": "1d3f26ff6c7d9404",
   "engine_load": {
-    "bytes": 6540896,
+    "bytes": 6549146,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35172772,
-      "kb": 34348,
-      "mb": 35.2,
-      "name": "Bookbreaker-0.1.56.dmg",
-      "sha256": "c5bc42d77df1389eb8cb7fdd738af51595af74642d7dbac840bfd8866acb0dd1"
+      "bytes": 34925628,
+      "kb": 34107,
+      "mb": 34.9,
+      "name": "Bookbreaker-0.1.57.dmg",
+      "sha256": "45758d0197388f3405b45efd0eb14af503a379aaed0dec1639b17c366c4b049f"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1055750,
-      "kb": 1031,
+      "bytes": 1072704,
+      "kb": 1048,
       "mb": 1.1,
-      "name": "overlay-0.1.56.tar.gz",
-      "sha256": "f3d3df0f28bc8f5048eeac2d9fb69d949de3980f7c3a2b1d4ddd905c5c478f48"
+      "name": "overlay-0.1.57.tar.gz",
+      "sha256": "15a1e0202bae6c8b518107b97a9697fcfd0b42668410ee2547e0ce5719206e33"
     },
-    "version": "0.1.56",
+    "version": "0.1.57",
     "wheel": {
-      "bytes": 526486,
-      "kb": 514,
+      "bytes": 534736,
+      "kb": 522,
       "mb": 0.5,
-      "name": "overlay-0.1.56-py3-none-any.whl",
-      "sha256": "42579337dbd10b1b1ed491034f5c6b37ee69fba6e4abc8347ef1e0248b57f81e"
+      "name": "overlay-0.1.57-py3-none-any.whl",
+      "sha256": "27dae78d1b4651e8ecf34cc92d7dd9fa713224749e178a1b50927847c1dc074d"
     }
   },
   "replay": {
@@ -5236,14 +5236,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 80,
+    "engine_modules": 81,
     "network_calls": 0,
-    "sha256": "c5bc42d77df1389eb8cb7fdd738af51595af74642d7dbac840bfd8866acb0dd1",
-    "sha256_short": "c5bc42d77df1389e",
+    "sha256": "45758d0197388f3405b45efd0eb14af503a379aaed0dec1639b17c366c4b049f",
+    "sha256_short": "45758d0197388f34",
     "sources": 29,
-    "test_files": 128
+    "test_files": 129
   },
-  "version": "0.1.56",
+  "version": "0.1.57",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "43de086d9c13c70886afc7e5a43a26b46e901571"
+      "commit": "622d8bf2ed0110f5e9117db5d3c5346cdec6ede5"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,17 @@
       "date": "2026-11-01",
       "notes": [
         {
+          "text": "Type an NFL spread or total and its price, and the line and price with the half point bought. Bookbreaker says how often games closed at that number landed exactly on it (2015 to 2025 regular season), the most the half point is worth paying, and what the extra cost does on average per $100. An average, not a promise: any one bet can lose.",
+          "where": "Tools"
+        }
+      ],
+      "title": "Is buying the half point worth it?",
+      "version": "0.1.57"
+    },
+    {
+      "date": "2026-11-01",
+      "notes": [
+        {
           "text": "Up and Down, or j and k, move between plays on the board; Enter opens the one chosen; Esc closes what is open; / jumps to the first box on the page. Keys do nothing while you are typing in a box.",
           "where": "Arbitrage"
         }
@@ -6557,17 +6568,6 @@
       ],
       "title": "Bet size works out the edge from sharp books",
       "version": "0.1.50"
-    },
-    {
-      "date": "2026-10-31",
-      "notes": [
-        {
-          "text": "A play's detail now offers Hide this whole game and Hide every play at a book, beside Hide this play, with the same Undo and the same Hidden plays list. A hidden game leaves the list once it has started; a hidden book stays hidden until you show it again. Leagues and bet types are switched off under Board filters.",
-          "where": "Arbitrage"
-        }
-      ],
-      "title": "Hide a whole game, or every play at one book",
-      "version": "0.1.49"
     }
   ],
   "xvenue": {

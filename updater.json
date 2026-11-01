@@ -1,11 +1,11 @@
 {
-  "version": "0.1.56",
-  "notes": "Move through the board with the keyboard.\n\n- Up and Down, or j and k, move between plays on the board; Enter opens the one chosen; Esc closes what is open; / jumps to the first box on the page. Keys do nothing while you are typing.",
-  "pub_date": "2026-11-01T14:19:02Z",
+  "version": "0.1.57",
+  "notes": "Is buying the half point worth it?\n\n- Type an NFL spread or total, its price, and the line and price with the half point bought: Bookbreaker gives how often games landed exactly on that number (2015 to 2025 regular season), the most the half point is worth paying, and what it does on average per $100. Any one bet can lose.",
+  "pub_date": "2026-11-01T15:42:31Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDdrNCtwL1ZOYVhMaGx3UXpBamlYWG5ES1ByMGJNK1UzRTZIWkF2MkdVemx0c1ZhRWd4NXo2c0xVY0phNHh2QmFDZFVFZk5kZjlNWWxTYkV3WWg2M0FVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNTQyNzI1CWZpbGU6Qm9va2JyZWFrZXItMC4xLjU2LmFwcC50YXIuZ3oKVEZaMC9jaFU0cC9YNkZQSjVYTUt5RlFIRFhIaVk4b3Vma01NQW5FZmZ0cmlqd25tVWZaMGRzcnRXQjUyMzlYazJtRHE4VU82Q3pQTHU2ajFsK2dIQ0E9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.56.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDF1ekRHRlIzaVMramhZcWNmSkxDMnA4R09vU0FGVDNQa3NmcmhRRlNPQTRaR1hhQVQ0dlNmbjE1UnVOVmpWdFRLZWdVdWd6YVZVdjZjL1VUVm9XY2dnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNTQ3NzMzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjU3LmFwcC50YXIuZ3oKVS9TcUZZR0dHeHJ2dkl0d2pTZ3pRZHdmRE9LTG5zMG1YaUswaE9ZUkhZa3hQNitpZGxjU0VCUlQ3OXpkYmJVMWQ2T1ZleWlUMkNrendweXpDZ2U5REE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.57.app.tar.gz"
     }
   }
 }
