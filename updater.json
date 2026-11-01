@@ -1,11 +1,11 @@
 {
-  "version": "0.1.51",
-  "notes": "Open a sportsbook from a play.\n\n- A play's detail has an Open button for each sportsbook it bets at that is licensed in your state. It opens the book's own page, never a filled-in bet slip, with 21+, your state's helpline and how Bookbreaker is paid beside it.",
-  "pub_date": "2026-11-01T00:00:53Z",
+  "version": "0.1.52",
+  "notes": "Arb calculator: hold a side, or ask for a locked amount.\n\n- Hold one side at the stake you want and the other bets are sized around it, or type an amount to lock and Bookbreaker finds the smallest total that does it at your rounding. Both stay within Most to bet, and depend on every bet being accepted and standing.",
+  "pub_date": "2026-11-01T01:11:58Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDdoQmFVMGtRdFpSZ3BHUGRMSDBBcjVHMnRPUjBoS3hnbW1OaGNVR004TWxEVEd6dUoyWm1YQmhxVlF0RHVzTmVEa1Y4dG0vSHU1dEtKakJTNldPUkE4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDkxMjM1CWZpbGU6Qm9va2JyZWFrZXItMC4xLjUxLmFwcC50YXIuZ3oKcnpsTXBCMGpROVJhcUJSd0N4UVI0M2tlQlU1Zld4dGRJS21tb2ZTTUJlbHZIOHI4NFN1dlpwb1NLTk1ZRThpQjdFR1E1ajZZY29XYzdZWE1zSDR3QWc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.51.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHpEWkd5S0ppc0NNcHNmdWVoRlc4aDd6ZEZONm90M1RBM05CTWg1L0gxSll4eUlTZkdhc0NiSWFXQnNPUkE5THJSMU5pdDJqendoZHFhc0QvcU90eHcwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDk1NTAwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjUyLmFwcC50YXIuZ3oKREtJTElOY3BmTnVSVitrNUJFVlIvMTBqaDg1cHNtNTArOHpydzkwSUQ5SlhPMk9hekVOeGdUbUhrdys5Y0lFbW5HODd4SThyQjdHZzdIaE1zMWZZQmc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.52.app.tar.gz"
     }
   }
 }
