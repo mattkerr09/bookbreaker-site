@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "dc7ea18dd8c764dc",
+  "engine_fingerprint": "7471c0b3a5a5612d",
   "engine_load": {
-    "bytes": 6540895,
+    "bytes": 6540896,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35170001,
-      "kb": 34346,
+      "bytes": 35172772,
+      "kb": 34348,
       "mb": 35.2,
-      "name": "Bookbreaker-0.1.55.dmg",
-      "sha256": "2af295a19286f19d7b58102bda90b863880d4a0c04f368edca3f52bb3b021a1b"
+      "name": "Bookbreaker-0.1.56.dmg",
+      "sha256": "c5bc42d77df1389eb8cb7fdd738af51595af74642d7dbac840bfd8866acb0dd1"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1050319,
-      "kb": 1026,
+      "bytes": 1055750,
+      "kb": 1031,
       "mb": 1.1,
-      "name": "overlay-0.1.55.tar.gz",
-      "sha256": "1960902e598fea2a94d9feb9d89be40878ea22f964f596c97be4712c2965e940"
+      "name": "overlay-0.1.56.tar.gz",
+      "sha256": "f3d3df0f28bc8f5048eeac2d9fb69d949de3980f7c3a2b1d4ddd905c5c478f48"
     },
-    "version": "0.1.55",
+    "version": "0.1.56",
     "wheel": {
-      "bytes": 526485,
+      "bytes": 526486,
       "kb": 514,
       "mb": 0.5,
-      "name": "overlay-0.1.55-py3-none-any.whl",
-      "sha256": "119e1b24660503ad5a9291743a4e46658784db29208e4d2bfd98d8a374744423"
+      "name": "overlay-0.1.56-py3-none-any.whl",
+      "sha256": "42579337dbd10b1b1ed491034f5c6b37ee69fba6e4abc8347ef1e0248b57f81e"
     }
   },
   "replay": {
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 80,
     "network_calls": 0,
-    "sha256": "2af295a19286f19d7b58102bda90b863880d4a0c04f368edca3f52bb3b021a1b",
-    "sha256_short": "2af295a19286f19d",
+    "sha256": "c5bc42d77df1389eb8cb7fdd738af51595af74642d7dbac840bfd8866acb0dd1",
+    "sha256_short": "c5bc42d77df1389e",
     "sources": 29,
-    "test_files": 127
+    "test_files": 128
   },
-  "version": "0.1.55",
+  "version": "0.1.56",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "8f35989833d7f1e5d43570ed1b083c37813844ca"
+      "commit": "43de086d9c13c70886afc7e5a43a26b46e901571"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,17 @@
       "date": "2026-11-01",
       "notes": [
         {
+          "text": "Up and Down, or j and k, move between plays on the board; Enter opens the one chosen; Esc closes what is open; / jumps to the first box on the page. Keys do nothing while you are typing in a box.",
+          "where": "Arbitrage"
+        }
+      ],
+      "title": "Move through the board with the keyboard",
+      "version": "0.1.56"
+    },
+    {
+      "date": "2026-11-01",
+      "notes": [
+        {
           "text": "Type one price in Fair odds and leave Side 2 empty to see it as American, decimal and fractional odds, with the chance it needs to land to break even. With both prices, the same table sits under the fair prices.",
           "where": "Tools"
         }
@@ -6557,17 +6568,6 @@
       ],
       "title": "Hide a whole game, or every play at one book",
       "version": "0.1.49"
-    },
-    {
-      "date": "2026-10-31",
-      "notes": [
-        {
-          "text": "Fair odds now lets you choose how the book's cut is removed: the average of four methods, one method, or the worst case, the lowest chance any method gives each side. The worst case is the cautious price to size a bet from.",
-          "where": "Tools"
-        }
-      ],
-      "title": "Fair odds: choose how the cut is removed",
-      "version": "0.1.48"
     }
   ],
   "xvenue": {

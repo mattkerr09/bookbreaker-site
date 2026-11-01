@@ -1,11 +1,11 @@
 {
-  "version": "0.1.55",
-  "notes": "Fair odds converts any price.\n\n- Type one price in Fair odds and leave Side 2 empty to see it as American, decimal and fractional odds, with the chance it needs to land to break even.",
-  "pub_date": "2026-11-01T06:27:00Z",
+  "version": "0.1.56",
+  "notes": "Move through the board with the keyboard.\n\n- Up and Down, or j and k, move between plays on the board; Enter opens the one chosen; Esc closes what is open; / jumps to the first box on the page. Keys do nothing while you are typing.",
+  "pub_date": "2026-11-01T14:19:02Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTC9lenRjUkhHaHRWTzA4dmlXSjZRcnpsZzRrU0pucFA5UWxFbmpMazdwWSs4UkJ0bk9TYytteHZzalhONnc4eWtNV29SUFhDbDZaN1JwMzFpenZOR1FZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNTE0NDAwCWZpbGU6Qm9va2JyZWFrZXItMC4xLjU1LmFwcC50YXIuZ3oKc2FDdldzbEo4VFFFNStyMVM0akppY0FPNGZ6MHBhNnlVcmpoRnFuU3dNL3k4NFRwUzlhSCtoZSsvbzJXdkVvSjZqNXQvT01HdzRMb0F2RHFUeG4xQmc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.55.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDdrNCtwL1ZOYVhMaGx3UXpBamlYWG5ES1ByMGJNK1UzRTZIWkF2MkdVemx0c1ZhRWd4NXo2c0xVY0phNHh2QmFDZFVFZk5kZjlNWWxTYkV3WWg2M0FVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNTQyNzI1CWZpbGU6Qm9va2JyZWFrZXItMC4xLjU2LmFwcC50YXIuZ3oKVEZaMC9jaFU0cC9YNkZQSjVYTUt5RlFIRFhIaVk4b3Vma01NQW5FZmZ0cmlqd25tVWZaMGRzcnRXQjUyMzlYazJtRHE4VU82Q3pQTHU2ajFsK2dIQ0E9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.56.app.tar.gz"
     }
   }
 }
