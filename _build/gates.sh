@@ -47,6 +47,16 @@ echo
 echo "── break tests ────────────────────────────────────"
 python3 _build/break_check.py 2>&1 | tail -2 || fail=1
 echo
+echo "── app's /go/ pages, live ─────────────────────────"
+# Every sportsbook the app can show an Open button for must answer on the domain (CEO, 2026-11-01). Exit 2 is no
+# network: reported loudly, never a pass, and it does not fail the build, as with the sources below.
+python3 _build/check_go_live.py --app-repo "${APP_REPO:-../arb betting aqpp}" 2>&1 | tail -3
+case "${PIPESTATUS[0]}" in
+  0) ;;
+  2) echo "  !! GO PAGES NOT CHECKED — this run verified nothing" ;;
+  *) fail=1 ;;
+esac
+echo
 echo "── cited sources ──────────────────────────────────"
 # Exit 2 means the check could not run — no network, most likely. That must
 # never read as a pass: a source check that silently succeeds offline looks

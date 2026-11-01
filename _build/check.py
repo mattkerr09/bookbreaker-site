@@ -1856,6 +1856,25 @@ def check_video_caption_names_the_recorded_version(pages, fails):
                              f"the version the video was recorded from ({recorded})")
 
 
+def app_go_books(app_repo: Path) -> list[str]:
+    """The sportsbooks the app's shell will open a /go/<key>/ page for (GO_BOOKS in ui/src-tauri/src/main.rs)."""
+    source = (app_repo / "ui" / "src-tauri" / "src" / "main.rs").read_text()
+    m = re.search(r"const GO_BOOKS: &\[&str\] = &\[(.*?)\];", source, re.S)
+    return re.findall(r'"([^"]+)"', m.group(1)) if m else []
+
+
+def check_every_app_book_has_a_router_page(fails: list[str], app_repo: Path) -> None:
+    """Every book the app can show an Open button for (Open this offer, Open <book> on a play) has its /go/<key>/
+    page here, so no button in the app lands on a 404. The live GET of each is _build/check_go_live.py."""
+    keys = app_go_books(app_repo)
+    if not keys:
+        fails.append("could not read GO_BOOKS from the app's main.rs, so the router pages were not checked")
+        return
+    for key in keys:
+        if not (SITE / "go" / key / "index.html").is_file():
+            fails.append(f"go/{key}/index.html is missing: the app opens bookbreaker.bet/go/{key}/ and would land on a 404")
+
+
 def check_site_names_the_newest_release(pages, fails: list[str], app_repo: Path) -> None:
     """The site says what the app does today: How it works names the app's newest release, read from the app's own
     release notes (ui/src/whatsnew.js). Growth sprint 2026-10-14: a week of features had shipped and not one was on the
@@ -2230,6 +2249,8 @@ def main() -> int:
             lambda: check_no_internal_docs_are_served(fails),
         "check_site_names_the_newest_release":
             lambda: check_site_names_the_newest_release(pages, fails, Path(args.app_repo).expanduser().resolve()),
+        "check_every_app_book_has_a_router_page":
+            lambda: check_every_app_book_has_a_router_page(fails, Path(args.app_repo).expanduser().resolve()),
         "check_hero_video_matches_the_app":
             lambda: check_hero_video_matches_the_app(
                 fails, Path(args.app_repo).expanduser().resolve()),

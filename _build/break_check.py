@@ -683,6 +683,13 @@ CREATE_CASES = [
 ]
 
 
+# Cases whose defect is a file that has gone: the file is moved aside, the gate must go red on the named check, and
+# the file is put back. The CEO's guard of 2026-11-01: an app button whose /go/ page was removed lands on a 404.
+REMOVE_CASES = [
+    ("a router page the app opens is removed", "check_every_app_book_has_a_router_page", "go/fd/index.html"),
+]
+
+
 # The engine to check against. gates.sh already takes APP_REPO for check.py;
 # this read a hard-coded path, so the two could check different engines and a
 # render made against one failed the break tests against the other.
@@ -769,7 +776,8 @@ def main() -> int:
     # to fail, which is not distinguishable from a check that cannot.
     unproven = (registered_checks()
                 - {case[1] for case in CASES}
-                - {case[1] for case in CREATE_CASES})
+                - {case[1] for case in CREATE_CASES}
+                - {case[1] for case in REMOVE_CASES})
     if unproven:
         for name in sorted(unproven):
             print(f"  UNPROVEN  {name} — no break case aims at it")
@@ -804,6 +812,26 @@ def main() -> int:
             failures.append(
                 f"{label}: {check} did not catch a file it should refuse")
 
+    for label, check, rel in REMOVE_CASES:
+        path = SITE / rel
+        if not path.exists():
+            failures.append(f"{label}: {rel} does not exist — case is stale")
+            continue
+        aside = path.with_name(path.name + ".break-aside")
+        path.rename(aside)
+        try:
+            board_red = not gate_is_clean()
+            named_red = not gate_is_clean(only=check)
+        finally:
+            aside.rename(path)
+            if not path.exists() or aside.exists():
+                print(f"RESTORE FAILED: {rel} not put back", file=sys.stderr)
+                return 2
+        caught = board_red and named_red
+        print(f"  {'caught ' if caught else 'MISSED '}  {label}  ({check})")
+        if not caught:
+            failures.append(f"{label}: {check} did not catch a page that is gone")
+
     for case in CASES:
         label, check, rel, find, replace = case[:5]
         times = case[5] if len(case) > 5 else 1
@@ -836,11 +864,11 @@ def main() -> int:
 
     print()
     if failures:
-        print(f"{len(failures)} of {len(CASES) + len(SOURCE_CASES) + len(CREATE_CASES)} breaks went undetected:")
+        print(f"{len(failures)} of {len(CASES) + len(SOURCE_CASES) + len(CREATE_CASES) + len(REMOVE_CASES)} breaks went undetected:")
         for problem in failures:
             print(f"  - {problem}")
         return 1
-    print(f"all {len(CASES) + len(SOURCE_CASES) + len(CREATE_CASES)} breaks caught")
+    print(f"all {len(CASES) + len(SOURCE_CASES) + len(CREATE_CASES) + len(REMOVE_CASES)} breaks caught")
     return 0
 
 
