@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "1bd3cf2f0ad44053",
+  "engine_fingerprint": "dc7ea18dd8c764dc",
   "engine_load": {
-    "bytes": 6540516,
+    "bytes": 6540895,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -739,7 +739,7 @@
     "latency_observations": 30,
     "naive": 89
   },
-  "generated": "2026-10-31",
+  "generated": "2026-11-01",
   "grading": {
     "gap": 2.16,
     "p110": 52.38,
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35950340,
-      "kb": 35108,
-      "mb": 36.0,
-      "name": "Bookbreaker-0.1.54.dmg",
-      "sha256": "c5e7f28114010e0232b2da2cb69aa1cfa19e7f25452b32d2ecbe3bf89d7235e2"
+      "bytes": 35170001,
+      "kb": 34346,
+      "mb": 35.2,
+      "name": "Bookbreaker-0.1.55.dmg",
+      "sha256": "2af295a19286f19d7b58102bda90b863880d4a0c04f368edca3f52bb3b021a1b"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1049023,
-      "kb": 1024,
-      "mb": 1.0,
-      "name": "overlay-0.1.54.tar.gz",
-      "sha256": "7b358b3ac95104fe56fde77adde582f12c12914c7093249233a5195352ec0340"
+      "bytes": 1050319,
+      "kb": 1026,
+      "mb": 1.1,
+      "name": "overlay-0.1.55.tar.gz",
+      "sha256": "1960902e598fea2a94d9feb9d89be40878ea22f964f596c97be4712c2965e940"
     },
-    "version": "0.1.54",
+    "version": "0.1.55",
     "wheel": {
-      "bytes": 526106,
+      "bytes": 526485,
       "kb": 514,
       "mb": 0.5,
-      "name": "overlay-0.1.54-py3-none-any.whl",
-      "sha256": "b99b997190c4874d960a07b3bb51e0c18be4b505620aab3b5c524cdbc033aa36"
+      "name": "overlay-0.1.55-py3-none-any.whl",
+      "sha256": "119e1b24660503ad5a9291743a4e46658784db29208e4d2bfd98d8a374744423"
     }
   },
   "replay": {
@@ -1378,7 +1378,7 @@
       "tax_rate": 13.0
     },
     "AZ": {
-      "age_days": 1878,
+      "age_days": 1879,
       "age_months": 62,
       "age_of": 16,
       "age_rank": 8,
@@ -1388,7 +1388,7 @@
       "tax_rate": 10.0
     },
     "CO": {
-      "age_days": 2374,
+      "age_days": 2375,
       "age_months": 78,
       "age_of": 16,
       "age_rank": 1,
@@ -1398,7 +1398,7 @@
       "tax_rate": 10.0
     },
     "CT": {
-      "age_days": 1838,
+      "age_days": 1839,
       "age_months": 60,
       "age_of": 16,
       "age_rank": 9,
@@ -1408,7 +1408,7 @@
       "tax_rate": 13.75
     },
     "DC": {
-      "age_days": 2347,
+      "age_days": 2348,
       "age_months": 77,
       "age_of": 16,
       "age_rank": 2,
@@ -1418,7 +1418,7 @@
       "tax_rate": 30.0
     },
     "DE": {
-      "age_days": 1032,
+      "age_days": 1033,
       "age_months": 34,
       "age_of": 16,
       "age_rank": 14,
@@ -1433,7 +1433,7 @@
       "tax_rate": 6.75
     },
     "IL": {
-      "age_days": 2326,
+      "age_days": 2327,
       "age_months": 76,
       "age_of": 16,
       "age_rank": 3,
@@ -1450,7 +1450,7 @@
       "tax_rate": 10.0
     },
     "KY": {
-      "age_days": 1129,
+      "age_days": 1130,
       "age_months": 37,
       "age_of": 16,
       "age_rank": 13,
@@ -1470,7 +1470,7 @@
       "tax_rate": 20.0
     },
     "MD": {
-      "age_days": 1438,
+      "age_days": 1439,
       "age_months": 47,
       "age_of": 16,
       "age_rank": 11,
@@ -1485,7 +1485,7 @@
       "tax_rate": 10.0
     },
     "MI": {
-      "age_days": 2108,
+      "age_days": 2109,
       "age_months": 69,
       "age_of": 16,
       "age_rank": 6,
@@ -1495,7 +1495,7 @@
       "tax_rate": 8.4
     },
     "MO": {
-      "age_days": 334,
+      "age_days": 335,
       "age_months": 11,
       "age_of": 16,
       "age_rank": 16,
@@ -1505,7 +1505,7 @@
       "tax_rate": 10.0
     },
     "NC": {
-      "age_days": 964,
+      "age_days": 965,
       "age_months": 32,
       "age_of": 16,
       "age_rank": 15,
@@ -1525,7 +1525,7 @@
       "tax_rate": 6.75
     },
     "NY": {
-      "age_days": 1757,
+      "age_days": 1758,
       "age_months": 58,
       "age_of": 16,
       "age_rank": 10,
@@ -1535,7 +1535,7 @@
       "tax_rate": 51.0
     },
     "OH": {
-      "age_days": 1399,
+      "age_days": 1400,
       "age_months": 46,
       "age_of": 16,
       "age_rank": 12,
@@ -1550,14 +1550,14 @@
       "tax_rate": 36.0
     },
     "TN": {
-      "age_days": 2190,
+      "age_days": 2191,
       "age_months": 72,
       "age_of": 16,
       "age_rank": 4,
       "age_years": 6.0
     },
     "VA": {
-      "age_days": 2109,
+      "age_days": 2110,
       "age_months": 69,
       "age_of": 16,
       "age_rank": 5,
@@ -1572,7 +1572,7 @@
       "tax_rate": 10.0
     },
     "WY": {
-      "age_days": 1886,
+      "age_days": 1887,
       "age_months": 62,
       "age_of": 16,
       "age_rank": 7,
@@ -3267,7 +3267,7 @@
       "never_limit": [],
       "online": true,
       "regulator": {
-        "days": 22,
+        "days": 23,
         "name": "Michigan Gaming Control Board",
         "read": "2026-10-09",
         "sports_operators": 13
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 80,
     "network_calls": 0,
-    "sha256": "c5e7f28114010e0232b2da2cb69aa1cfa19e7f25452b32d2ecbe3bf89d7235e2",
-    "sha256_short": "c5e7f28114010e02",
+    "sha256": "2af295a19286f19d7b58102bda90b863880d4a0c04f368edca3f52bb3b021a1b",
+    "sha256_short": "2af295a19286f19d",
     "sources": 29,
-    "test_files": 126
+    "test_files": 127
   },
-  "version": "0.1.54",
+  "version": "0.1.55",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,12 +5252,12 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "82e03398ab5e84f524aa78059c7940e65a0a1bf7"
+      "commit": "8f35989833d7f1e5d43570ed1b083c37813844ca"
     },
     "max_age_days": 21,
     "offers": [
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 20.0,
@@ -5311,7 +5311,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 20.0,
@@ -5343,7 +5343,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5396,7 +5396,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5428,7 +5428,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "dk",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5482,7 +5482,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "dk",
         "conversion": 0.69,
         "cost": 0.1,
@@ -5514,7 +5514,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5559,7 +5559,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5591,7 +5591,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "fd",
         "conversion": 0.69,
         "cost": 0.3,
@@ -5646,7 +5646,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "fd",
         "conversion": 0.69,
         "cost": 0.3,
@@ -5678,7 +5678,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "bet365",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5712,7 +5712,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "borgata",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5744,7 +5744,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "desertdiamond",
         "conversion": 0.69,
         "cost": 0.4,
@@ -5776,7 +5776,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "betparx",
         "conversion": 0.69,
         "cost": 0.5,
@@ -5808,7 +5808,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "bally",
         "conversion": 0.69,
         "cost": 0.2,
@@ -5850,7 +5850,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "mgm",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5895,7 +5895,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "thescore",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5940,7 +5940,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "eagle",
         "conversion": 0.69,
         "cost": 0.0,
@@ -5971,7 +5971,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6007,7 +6007,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6038,7 +6038,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "hardrock",
         "conversion": 0.69,
         "cost": 0.1,
@@ -6078,7 +6078,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "hardrock",
         "conversion": 0.69,
         "cost": 0.1,
@@ -6110,7 +6110,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6161,7 +6161,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "fanatics",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6191,7 +6191,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6221,7 +6221,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6273,7 +6273,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6305,7 +6305,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "caesars",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6336,7 +6336,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "betparx",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6366,7 +6366,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "betrivers",
         "conversion": 0.69,
         "cost": 0.0,
@@ -6401,7 +6401,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "mgm",
         "conversion": 0.69,
         "cost": 0.2,
@@ -6433,7 +6433,7 @@
         ]
       },
       {
-        "age_days": 4,
+        "age_days": 5,
         "book": "thescore",
         "conversion": 0.69,
         "cost": 0.2,
@@ -6477,6 +6477,17 @@
     ]
   },
   "whatsnew": [
+    {
+      "date": "2026-11-01",
+      "notes": [
+        {
+          "text": "Type one price in Fair odds and leave Side 2 empty to see it as American, decimal and fractional odds, with the chance it needs to land to break even. With both prices, the same table sits under the fair prices.",
+          "where": "Tools"
+        }
+      ],
+      "title": "Fair odds converts any price",
+      "version": "0.1.55"
+    },
     {
       "date": "2026-11-01",
       "notes": [
@@ -6557,17 +6568,6 @@
       ],
       "title": "Fair odds: choose how the cut is removed",
       "version": "0.1.48"
-    },
-    {
-      "date": "2026-10-31",
-      "notes": [
-        {
-          "text": "On Low hold, set the lowest and highest odds for the bet at your credit book (a playthrough often needs a lowest price) and for the other bet. Bookbreaker lists the cheapest pair inside your limits and says how many markets the limits left out.",
-          "where": "Arbitrage"
-        }
-      ],
-      "title": "Low hold: odds for each side",
-      "version": "0.1.47"
     }
   ],
   "xvenue": {
