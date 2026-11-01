@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "78450b89bb86ab66",
+  "engine_fingerprint": "1bd3cf2f0ad44053",
   "engine_load": {
-    "bytes": 6539481,
+    "bytes": 6540516,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35170448,
-      "kb": 34346,
-      "mb": 35.2,
-      "name": "Bookbreaker-0.1.53.dmg",
-      "sha256": "9183b93e9298436ec9855ad5c6890cd86012aa09292cf483c9b96ac78c619880"
+      "bytes": 35950340,
+      "kb": 35108,
+      "mb": 36.0,
+      "name": "Bookbreaker-0.1.54.dmg",
+      "sha256": "c5e7f28114010e0232b2da2cb69aa1cfa19e7f25452b32d2ecbe3bf89d7235e2"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1046590,
-      "kb": 1022,
+      "bytes": 1049023,
+      "kb": 1024,
       "mb": 1.0,
-      "name": "overlay-0.1.53.tar.gz",
-      "sha256": "c54a05888004649a4d53b256ac7fc27e6fe559580b93581da27abde51f5cb77b"
+      "name": "overlay-0.1.54.tar.gz",
+      "sha256": "7b358b3ac95104fe56fde77adde582f12c12914c7093249233a5195352ec0340"
     },
-    "version": "0.1.53",
+    "version": "0.1.54",
     "wheel": {
-      "bytes": 525071,
-      "kb": 513,
+      "bytes": 526106,
+      "kb": 514,
       "mb": 0.5,
-      "name": "overlay-0.1.53-py3-none-any.whl",
-      "sha256": "36faf82e6af1ee1d67f5e474a43201944738ea13682ec98ff88ae1f8eecf4e68"
+      "name": "overlay-0.1.54-py3-none-any.whl",
+      "sha256": "b99b997190c4874d960a07b3bb51e0c18be4b505620aab3b5c524cdbc033aa36"
     }
   },
   "replay": {
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 80,
     "network_calls": 0,
-    "sha256": "9183b93e9298436ec9855ad5c6890cd86012aa09292cf483c9b96ac78c619880",
-    "sha256_short": "9183b93e9298436e",
+    "sha256": "c5e7f28114010e0232b2da2cb69aa1cfa19e7f25452b32d2ecbe3bf89d7235e2",
+    "sha256_short": "c5e7f28114010e02",
     "sources": 29,
-    "test_files": 125
+    "test_files": 126
   },
-  "version": "0.1.53",
+  "version": "0.1.54",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "40f5eb03080323325829475f25c04d05ef919f9d"
+      "commit": "82e03398ab5e84f524aa78059c7940e65a0a1bf7"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,21 @@
       "date": "2026-11-01",
       "notes": [
         {
+          "text": "Leave the price box empty and Find a hedge looks for the other side of your bet in the odds already read on this Mac, at books licensed in your state, best price first, and says how old each price is. It spends no credit. Check the price at the book before you bet.",
+          "where": "My bets"
+        },
+        {
+          "text": "Fixed: a price Find a hedge could not read made it fail instead of saying what to type.",
+          "where": "My bets"
+        }
+      ],
+      "title": "Find a hedge from the odds you have read",
+      "version": "0.1.54"
+    },
+    {
+      "date": "2026-11-01",
+      "notes": [
+        {
           "text": "When an arb or a middle asks for more at a book than the balance you typed in Your books, the play says so and gives the same plan scaled down to fit, with every result scaled the same. A book with no balance typed sets no limit.",
           "where": "Arbitrage"
         }
@@ -6553,21 +6568,6 @@
       ],
       "title": "Low hold: odds for each side",
       "version": "0.1.47"
-    },
-    {
-      "date": "2026-10-31",
-      "notes": [
-        {
-          "text": "Board filters: sort by return, edge or start time; a price range for +EV bets; not started or in play; starts within the next hour, today, 24 hours or 7 days; switch leagues and bet types off; and a smallest window for middles. Each choice says how many plays it leaves, and Clear filters empties them without touching Recommended. Filters apply on your next read.",
-          "where": "Arbitrage"
-        },
-        {
-          "text": "A +EV play at a book with a balance in Your books is now sized on that balance, and its stake line says so. Other plays keep your +EV bankroll.",
-          "where": "Arbitrage"
-        }
-      ],
-      "title": "Board filters, and a stake on each book's balance",
-      "version": "0.1.46"
     }
   ],
   "xvenue": {

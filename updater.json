@@ -1,11 +1,11 @@
 {
-  "version": "0.1.53",
-  "notes": "Plays that need more than you have at a book.\n\n- When an arb or a middle asks for more at a book than the balance you typed in Your books, the play says so and gives the same plan scaled down to fit.",
-  "pub_date": "2026-11-01T02:23:12Z",
+  "version": "0.1.54",
+  "notes": "Find a hedge from the odds you have read.\n\n- Leave the price box empty and Find a hedge looks for the other side of your bet in the odds already read on this Mac, at books licensed in your state, best price first. It spends no credit.\n- Fixed: a price Find a hedge could not read made it fail instead of saying what to type.",
+  "pub_date": "2026-11-01T03:37:51Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTCtlbnl1dldhd0g4d0xnMEg2L2paR3d0WFMrM0VqV2JGbkJNZTV1dnJueUVpbEw4WURsVU5kMExyci83blFOU0Q5bG9Nc3NHZUhrRExzWERTeFRXOEEwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDk5NzczCWZpbGU6Qm9va2JyZWFrZXItMC4xLjUzLmFwcC50YXIuZ3oKMU5QcWxKYmNDc2FDWHdKVEozN1dnVTVRRS9tditFOXhaUFF0WUhPV3pEU0NiQmFiRHl5QVFhYjR1VEthaWpqcjlFc0dnaGw2NnUra3pidlMvakt1RFE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.53.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTHhSR0xrV1VIT0VTS1JLYXNjYUlyYkdNSFNkMWExS3BERkpNZXNmOWpPWUVCVW12MDd1RmpMNDVzRnM0dDNzRnhPbG9JamsxR04zK2VTQWZVMnhsbUFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNTA0MjUzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjU0LmFwcC50YXIuZ3oKRzhBeGlMbjRpcjJqaEdodWt6Z08zQkdtV29rNFl1WFpHZTEwWTNWc0ZkNkNrV3A2QWlIak9yV1Jsa1kxWGVsY2JMSTh5UXZhZnBMNjhMZzk4WEVsRFE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.54.app.tar.gz"
     }
   }
 }
