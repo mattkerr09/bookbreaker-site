@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "692464852ea77c37",
+  "engine_fingerprint": "78450b89bb86ab66",
   "engine_load": {
-    "bytes": 6538807,
+    "bytes": 6539481,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 35966852,
-      "kb": 35124,
-      "mb": 36.0,
-      "name": "Bookbreaker-0.1.52.dmg",
-      "sha256": "b983af82a44c8c8e7d4d0aa5d806643438a04939bb22c74e71b586ece14e5f4c"
+      "bytes": 35170448,
+      "kb": 34346,
+      "mb": 35.2,
+      "name": "Bookbreaker-0.1.53.dmg",
+      "sha256": "9183b93e9298436ec9855ad5c6890cd86012aa09292cf483c9b96ac78c619880"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1044684,
-      "kb": 1020,
+      "bytes": 1046590,
+      "kb": 1022,
       "mb": 1.0,
-      "name": "overlay-0.1.52.tar.gz",
-      "sha256": "dd177cdcc54912bf8ff3e6fb1b97309de71684cedeef01a5f57ccf4da518e2cf"
+      "name": "overlay-0.1.53.tar.gz",
+      "sha256": "c54a05888004649a4d53b256ac7fc27e6fe559580b93581da27abde51f5cb77b"
     },
-    "version": "0.1.52",
+    "version": "0.1.53",
     "wheel": {
-      "bytes": 524397,
-      "kb": 512,
+      "bytes": 525071,
+      "kb": 513,
       "mb": 0.5,
-      "name": "overlay-0.1.52-py3-none-any.whl",
-      "sha256": "3b5ada6ed8579ce9736c120630ac6f5e25bdfb84d86f74ec9cfe56beee798e34"
+      "name": "overlay-0.1.53-py3-none-any.whl",
+      "sha256": "36faf82e6af1ee1d67f5e474a43201944738ea13682ec98ff88ae1f8eecf4e68"
     }
   },
   "replay": {
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 80,
     "network_calls": 0,
-    "sha256": "b983af82a44c8c8e7d4d0aa5d806643438a04939bb22c74e71b586ece14e5f4c",
-    "sha256_short": "b983af82a44c8c8e",
+    "sha256": "9183b93e9298436ec9855ad5c6890cd86012aa09292cf483c9b96ac78c619880",
+    "sha256_short": "9183b93e9298436e",
     "sources": 29,
-    "test_files": 124
+    "test_files": 125
   },
-  "version": "0.1.52",
+  "version": "0.1.53",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "51ac5b6229f455e1988741dde9ba4f3945f14d27"
+      "commit": "40f5eb03080323325829475f25c04d05ef919f9d"
     },
     "max_age_days": 21,
     "offers": [
@@ -6481,6 +6481,17 @@
       "date": "2026-11-01",
       "notes": [
         {
+          "text": "When an arb or a middle asks for more at a book than the balance you typed in Your books, the play says so and gives the same plan scaled down to fit, with every result scaled the same. A book with no balance typed sets no limit.",
+          "where": "Arbitrage"
+        }
+      ],
+      "title": "Plays that need more than you have at a book",
+      "version": "0.1.53"
+    },
+    {
+      "date": "2026-11-01",
+      "notes": [
+        {
           "text": "In the Arb calculator, hold one side at the stake you want and the other bets are sized around it, or type an amount to lock and Bookbreaker finds the smallest total that does it at your rounding. Both stay within Most to bet, and both depend on every bet being accepted and standing.",
           "where": "Tools"
         }
@@ -6557,17 +6568,6 @@
       ],
       "title": "Board filters, and a stake on each book's balance",
       "version": "0.1.46"
-    },
-    {
-      "date": "2026-10-31",
-      "notes": [
-        {
-          "text": "Type what is in each sportsbook account under Your books. Saving a tracked bet takes its stake off that book, and settling it pays back what the result returns. Nothing connects to a book: type a balance again whenever it is off.",
-          "where": "My bets"
-        }
-      ],
-      "title": "Your books: a balance for each sportsbook, kept on this Mac",
-      "version": "0.1.45"
     }
   ],
   "xvenue": {
