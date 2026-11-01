@@ -1,11 +1,11 @@
 {
-  "version": "0.1.50",
-  "notes": "Bet size works out the edge from sharp books.\n\n- Type up to three sharp books' prices for the same market in Bet size: Bookbreaker gives the fair chance and price, the edge and the average expected per $100, and sizes the stake on the cautious end. Any one bet can lose.",
-  "pub_date": "2026-10-31T22:54:21Z",
+  "version": "0.1.51",
+  "notes": "Open a sportsbook from a play.\n\n- A play's detail has an Open button for each sportsbook it bets at that is licensed in your state. It opens the book's own page, never a filled-in bet slip, with 21+, your state's helpline and how Bookbreaker is paid beside it.",
+  "pub_date": "2026-11-01T00:00:53Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDRzYUVob3pXMkp4dGhjNnViV0UraUh2Tmd3NysyOElFdDdNN0w0S1dJN0hGVGY0NnAyVjRHbElPSFdJYVlybmdOelpXL0Roa1ZDcDRqSVRpai9DMGc4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDg3MjQzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjUwLmFwcC50YXIuZ3oKWjc5dzJaZGRZdEdaQUtwRDRTaktuM2dadC9ZRWEreUs0TFp2RDFkNjVPYTI3aWs1RmZ3MGNNN1pHTjBYdHYwNFFmRFJUQkRQWUVzbmU2djJDVXFDREE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.50.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDdoQmFVMGtRdFpSZ3BHUGRMSDBBcjVHMnRPUjBoS3hnbW1OaGNVR004TWxEVEd6dUoyWm1YQmhxVlF0RHVzTmVEa1Y4dG0vSHU1dEtKakJTNldPUkE4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNDkxMjM1CWZpbGU6Qm9va2JyZWFrZXItMC4xLjUxLmFwcC50YXIuZ3oKcnpsTXBCMGpROVJhcUJSd0N4UVI0M2tlQlU1Zld4dGRJS21tb2ZTTUJlbHZIOHI4NFN1dlpwb1NLTk1ZRThpQjdFR1E1ajZZY29XYzdZWE1zSDR3QWc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.51.app.tar.gz"
     }
   }
 }
