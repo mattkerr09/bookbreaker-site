@@ -1342,7 +1342,7 @@ _HUB_LINK = re.compile(r'<a\b[^>]*href="https://kerr-affiliate-hub\.kerrco\.work
 
 
 THIN_WORDS = 300
-THIN_CEILING = 5  # 2026-10-19 (was 6); 2026-10-16, the CEO's search-health audit: lower it as pages are fixed, never raise it
+THIN_CEILING = 4  # 2026-11-02 (was 5; the content pass lifted a page over); 2026-10-19 (was 6); 2026-10-16, the CEO's search-health audit: lower it as pages are fixed, never raise it
 
 
 def body_word_count(markup: str) -> int:

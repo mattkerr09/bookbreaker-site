@@ -2919,6 +2919,12 @@ PHONE_LINE = ('<p class="phone-link">On your phone? <button type="button" data-s
               'Send the Mac link to yourself</button></p>')
 
 
+def after_first_answer(body: str, html: str) -> str:
+    """`html` placed after a body's first paragraph: the answer comes first, then the button (CONTENT-STANDARD 1, 2)."""
+    cut = body.find("</p>")
+    return body if cut < 0 else body[:cut + 4] + "\n" + html + body[cut + 4:]
+
+
 def top_cta(m: dict, src: str) -> str:
     """The download button right after a page's answer, with what a person decides on beside it (CONTENT-STANDARD
     2, 3 and 7: one next step, its terms at the button, visible on a phone without hunting). The foot strip stays."""
@@ -3244,15 +3250,10 @@ def render_index(m: dict) -> str:
 <section class="hero">
   <p class="eyebrow">Free Mac app for sports bettors</p>
   <h1>The same return on either result,<br><span class="grad">when both bets stand.</span></h1>
-  <p class="lede"><strong>The math the books use to price every bet, now worked out on your side, on your own Mac:</strong>
-  fair odds with the margin taken out, what a venue&rsquo;s fee really costs, and what a parlay pays against its fair
-  price.</p>
-  <p class="lede">When two books disagree on a game, backing both sides at the right
-  stakes locks in a profit, as long as both bets are accepted at the prices shown and
-  both stand. Real gaps are rare and usually small. Switch on live Kalshi and
-  Polymarket US prices, or type in the prices you see at your books, and Bookbreaker
-  works out what to bet at each, rounds the stakes so they look human, and shows
-  the profit before you bet.</p>
+  <!-- One short answer above the button (CONTENT-STANDARD 1, 7 and 9, 2026-11-02): on a 375 px phone the button sat at
+       801 px of 812 behind two paragraphs. The detail is kept, under the button. -->
+  <p class="lede">When two books disagree on a game, Bookbreaker works out the stakes that return the same on either
+  result, if both bets are accepted at the prices shown and stand. Real gaps are rare and usually small.</p>
   <div class="cta">
     <a class="btn primary" href="{dl_hero}" data-download>Download free for Mac</a>
     <a class="btn ghost" href="#how">See how it works</a>
@@ -3265,6 +3266,10 @@ def render_index(m: dict) -> str:
     <li>Never asks for a sportsbook login</li>
     <li>Your bets stay on your Mac</li>
   </ul>
+  <p class="lede hero-more">Switch on live Kalshi and Polymarket US prices, or type in the prices you see at your
+  books. Bookbreaker says what to bet at each, rounds the stakes so they look like ordinary bets, and shows the
+  result before you bet. It also does the math the books use to price every bet: fair odds with the margin taken out,
+  what a venue&rsquo;s fee really costs, and what a parlay pays against its fair price.</p>
 </section>
 
 <div class="stage reveal">
@@ -3545,6 +3550,7 @@ def render_how(m: dict) -> str:
 <h1>How Bookbreaker works</h1>
 <p class="lede">One app with a handful of jobs. Each one answers a question bettors
 actually ask, with the math already done.</p>
+{top_cta(m, "how-top")}
 </div>
 <div class="feats" data-hub>
 {feats}
@@ -6365,6 +6371,7 @@ def render_state_page(m: dict, code: str) -> str:
 <p class="lede">{len(online)} licensed online {_n(len(online), 'sportsbook')} took bets in
 {e(name)} as of {e(st['as_of'])}. {len(limiting)} of the {len(books)} {_n(len(books), 'venue')}
 covering the state limit accounts that win{'; ' + e(never_names) + (' is' if len(never) == 1 else ' are') + ' not known to' if never else ''}.</p>
+{top_cta(m, f"state-{code.lower()}-top")}
 {disclosure()}
 {helpline_block(code)}
 {jurisdiction_facts(code, name)}
@@ -7416,12 +7423,12 @@ PAGES = [
      "far each edge could be off, and tracks your record. No account, no login.",
      render_index),
     ("/download/", "download/index.html", "Download Bookbreaker: free arbitrage and +EV app for Mac",
-     "A free command-line arbitrage and +EV engine that runs on your own "
-     "machine. No account, no upload, checksums published for every build.",
+     "Download Bookbreaker free for Mac: arbitrage, +EV and bet tracking that run on your own Mac. No account, no "
+     "subscription, notarised by Apple.",
      render_download),
     ("/how-it-works/", "how-it-works/index.html", "How Bookbreaker finds arbs and prices every bet",
-     "Welcome offers after every cost, middles counted rather than assumed, "
-     "which books you can legally use, and what the tool will not do.",
+     "What Bookbreaker does, job by job: arbs staked in round numbers, +EV with the devig range, welcome offers after "
+     "every cost, and what it will not do.",
      render_how),
     ("/vs/", "vs/index.html", "Bookbreaker vs OddsJam, AVO, Pikkit and every arb tool",
      "OddsJam, AVO, Betstamp, Pikkit and the rest compared on price, features "
@@ -7715,7 +7722,8 @@ download, and do no arithmetic of their own.</p>
             f"<h1>{e(row['title'])}</h1>"
             f'<p class="lede">{e(row["question"])}</p>'
             '</div>\n'
-            + with_shot(measured, url, bodies[row["slug"]])
+            + with_shot(measured, url, after_first_answer(bodies[row["slug"]],
+                                                          top_cta(measured, f"guide-{row['slug']}-top")))
             + related(i),
             url))
         built.append((url, rel))
@@ -7775,6 +7783,7 @@ download, and do no arithmetic of their own.</p>
 <h1>Betting guides</h1>
 <p class="lede">Plain answers to the questions bettors ask, each worked through
 on real prices. New to this? Start with the first group.</p>
+{top_cta(measured, "guides-top")}
 {links}
 """, "/guides/"))
     built.append(("/guides/", "guides/index.html"))
