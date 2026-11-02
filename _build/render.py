@@ -2483,6 +2483,7 @@ def site_schema(path: str, body: str) -> str:
     blocks = [json.dumps({
         "@context": "https://schema.org", "@type": "WebPage", "url": f"https://bookbreaker.bet{path}",
         "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": PAGE_DATE,
+        **({} if path in NO_BYLINE else {"author": {"@type": "Person", "name": AUTHOR}}),
     }, ensure_ascii=False)]
 
     if path == "/":
@@ -2615,8 +2616,24 @@ LONGER_TITLES = {
 }
 
 
+#: Pages with no byline: the home and download pages are the product itself, and the two legal pages are terms.
+NO_BYLINE = {"/", "/download/", "/privacy/", "/terms/"}
+AUTHOR = "Matt Kerr"
+
+
+def byline() -> str:
+    """Who wrote the page and the day its content last changed, under the heading (WHAT-WORKS 2026-11-02: earning pages
+    carry a visible date 84% of the time and a named author 53%, against 55% and 20%). The date is the page's own,
+    filled by stamp_page_dates from its content hash, the same one the footer and the WebPage markup carry."""
+    return (f'<p class="byline">By {AUTHOR} &middot; Updated '
+            f'<time datetime="{PAGE_DATE}">{PAGE_DAY}</time></p>')
+
+
 def page(title: str, description: str, body: str, path: str,
          body_class: str = "") -> str:
+    if path not in NO_BYLINE and "</h1>" in body:
+        cut = body.index("</h1>") + len("</h1>")
+        body = body[:cut] + "\n" + byline() + body[cut:]
     body += onward(path)
     body = re.sub(r"__SRC_([a-z0-9]+)__", lambda m: page_src(path, m.group(1)), body)
     body = TABLE.sub(lambda m: f'<div class="scroll">{m.group(0)}</div>', body)
@@ -4378,6 +4395,8 @@ you can claim the offer and then have nowhere to lay it off. Open two
 bet-and-get books before touching anything else and every bonus after that has
 somewhere to go.</p>
 <h2>The order</h2>
+<p>The <a href="/offers/">offers page</a> lists the sign-up offers in each state with what each keeps after
+hedging, so this order can be followed with real numbers.</p>
 <p><strong>Bet-and-get first.</strong> Nearly free, and the bonus bets it
 produces are the cheapest possible practice at conversion before any real money
 is at risk.</p>
@@ -4740,7 +4759,7 @@ refuses to publish a figure that is not.</p>
 """,
 
 "how-to-choose-an-odds-feed": f"""
-<p>Feeds are sold on a published latency figure. Several publish none at all. Neither case tells you what the feed does on your markets, in your sports, at the minutes you actually bet.</p>
+<p>Choose an odds feed by what it does on your own markets, not by the speed it advertises. Check that it carries the books licensed in your state on the markets you bet, see how it bills, then record a trial window from each candidate and compare the recordings. Feeds are sold on a published latency figure, and several publish none at all; neither tells you what the feed does at the minutes you actually bet.</p>
 <p>The honest way to choose is to record a trial window from every candidate and replay those recordings through the same engine. Same markets, same clock, same decision rules. Only the feed changes. A quoted latency is a claim about the vendor. A replay is a measurement of your book.</p>
 <h2>What to compare first</h2>
 <p>Start with what you can bet. A feed is worth paying for only if it carries the books licensed where you live, on the markets you bet: main lines, alternate lines, player props. Ask for the list by state, not the headline count of bookmakers.</p>
@@ -5154,11 +5173,12 @@ def render_calculator(m: dict, row: dict) -> str:
 <p class="crumb"><a href="/">Home</a><span>/</span>
 <a href="/calculators/">Calculators</a></p>
 <h1>{e(row['name'])}</h1>
-<p class="lede">{e(row['question'])}</p>
+<p class="lede">{e(row.get('answer') or row['question'])}</p>
 </div>
 {own_devig_widget(m) if slug == "no-vig-odds" else ""}
 {calc_form(m, slug) if live else ""}
 {body}
+{top_cta(m, f"calc-{slug}-top")}
 {app_shot(m, slug)}
 <h2>Where the number comes from</h2>
 <p>{provenance}</p>
@@ -6200,12 +6220,16 @@ def state_difference(m: dict, name: str, code: str, row: dict) -> str:
             f'<div class="sf-grid">{grid}</div>\n{note}\n\n{only}')
 
 
+BYLINE_RE = re.compile(r'<p class="byline">.*?</p>', re.S)
+
+
 def page_content(markup: str) -> str:
     """What a page's date dates: its title, description and main column. Sitewide nav and footer edits change every
     page at once and are not news about any of them."""
     keep = [m.group(0) for pat in (r"(?s)<title>.*?</title>", r'<meta name="description"[^>]*>', r"(?s)<main\b.*?</main>")
             for m in [re.search(pat, markup)] if m]
-    return "\n".join(keep) if keep else markup
+    # The byline carries the date itself, so it is left out of what the date dates (check.py does the same).
+    return BYLINE_RE.sub("", "\n".join(keep) if keep else markup)
 
 
 def stamp_page_dates() -> dict:
@@ -7195,6 +7219,11 @@ break and account closure; look under responsible gaming in your account
 settings. Most states with legal sports betting also run a self-exclusion list
 through the gaming regulator, which bars you from every licensed book in that
 state for the period you choose.</p>
+<h2>What the app does to help</h2>
+<p>Every link to a sportsbook in the app shows 21+ and your state's helpline beside it. A suggested stake uses a
+quarter of the Kelly stake unless you choose otherwise, is sized on the cautious end of the fair chance, and says
+that any one bet can lose. My bets shows your results against what the prices said you should have made, so a lucky
+or an unlucky run is visible for what it is.</p>
 <h2>What the numbers here do not promise</h2>
 <p>Bookbreaker reports what a price implies and how uncertain that is. It cannot
 tell you that you will win. A locked figure holds only if both bets are accepted
@@ -7227,6 +7256,11 @@ with, and we say that a fee is paid when someone signs up.</p>
 <p>The order of offers is by what you keep after hedging, worked out by the same engine the app uses, and it
 ignores who pays us. A book that is not licensed in your state is never linked for your state. Paid buttons
 stay away from the step-by-step hedge instructions, and the arithmetic is the same whether a book pays or not.</p>
+<h2>Links inside the app</h2>
+<p>The app links to a sportsbook in two places: Open this offer on a sign-up offer, and Open beside each book on a
+play. Both go through bookbreaker.bet/go/, and only for a book licensed in the state you chose, with 21+, your
+state's helpline and this page's line beside them. They open the book's own page, never a filled-in bet slip, so you
+find and check the bet yourself. The address carries only the book, your state and the page it came from.</p>
 <h2>Questions</h2>
 <p>Email <a href="mailto:matthew@kerrandcompanyholdings.com">matthew@kerrandcompanyholdings.com</a>. More on
 <a href="/terms/">terms</a>, <a href="/privacy/">privacy</a> and

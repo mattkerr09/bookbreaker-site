@@ -45,9 +45,9 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#5b5bff">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=2eda21b42f">
+<link rel="stylesheet" href="/style.css?v=bac4bc53a5">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://bookbreaker.bet/calculators/no-vig-odds/", "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": "2026-10-18"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "No Vig Odds", "item": "https://bookbreaker.bet/calculators/no-vig-odds/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://bookbreaker.bet/calculators/no-vig-odds/", "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": "2026-11-02", "author": {"@type": "Person", "name": "Matt Kerr"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "No Vig Odds", "item": "https://bookbreaker.bet/calculators/no-vig-odds/"}]}</script>
 </head>
 <body class="">
 <header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/guides/">Guides</a><a href="/vs/">Compare</a></span><span class="cta-nav"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=calculators-no-vig-odds-nav&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.57.dmg" data-download rel="nofollow">Download</a></span></nav></header>
@@ -57,7 +57,8 @@
 <p class="crumb"><a href="/">Home</a><span>/</span>
 <a href="/calculators/">Calculators</a></p>
 <h1>No-vig odds calculator</h1>
-<p class="lede">What are the true odds behind a sportsbook&#x27;s price?</p>
+<p class="byline">By Matt Kerr &middot; Updated <time datetime="2026-11-02">2 November 2026</time></p>
+<p class="lede">The true odds are the book&#x27;s prices with its margin taken out. Turn each side&#x27;s price into an implied chance, then scale the chances so they add up to exactly one. Different methods of removing the margin give slightly different answers, so this page shows all four and how far apart they are.</p>
 </div>
 <section class="own reveal">
   <h2>Try it on your own price</h2>
@@ -176,6 +177,8 @@
 </script>
 
 <p>A book offering -145 / +125 is asserting probabilities that sum to more than one. Removing that margin gives the favourite:</p><div class="scroll"><table><tr><td>additive</td><td>57.37%</td></tr><tr><td>multiplicative</td><td>57.11%</td></tr><tr><td>power</td><td>57.50%</td></tr><tr><td>shin</td><td>57.37%</td></tr></table></div><p>Consensus 57.34%, and the four methods disagree by 0.39 points. Every other no-vig calculator returns one number.</p><h2>Taking the margin out by hand</h2><p>The favourite at -145 is 1.6897 in decimal and implies 59.18%. The other side at +125 is 2.2500 and implies 44.44%. Together that is 103.63%; the 3.63% over a whole is the margin.</p><p>The multiplicative method scales each side down by the total: 59.18% over 1.0363 is 57.11%. The additive method takes an equal share of the excess off each side instead: 59.18% less half of 3.63% is 57.37%. Power and Shin lean the cut toward the longshot, where books tend to take more.</p><p>The consensus of the four, 57.34%, is a fair decimal price of 1.744, or -134. A book offering the favourite at better than that is paying above fair; one offering worse is charging for it.</p><h2>When to devig</h2><p>Before judging any price as good or bad. Raw implied probabilities include the margin and make every bet look worse, or a soft price look like an edge it is not.</p><p>On a sharp book's market, to get the fair probability that the <a href="/calculators/expected-value/">expected value</a> and <a href="/calculators/kelly/">Kelly</a> calculators need.</p><p>When the four methods disagree by more than the edge you think you have. Then the edge is a matter of method, not of price.</p>
+<div class="top-cta"><div class="cta"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=calc-no-vig-odds-top&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.57.dmg" data-download rel="nofollow">Download free for Mac</a></div>
+<p class="free-line">Free. No account and no subscription. Needs macOS 14 or later on a Mac with Apple silicon (M1 or later). 34.9 MB, notarised by Apple.</p></div>
 <div class="shots"><figure><img src="/media/panel-fairodds.jpg" width="1280" height="720" loading="lazy" alt="The app's fair odds tool with the book's cut taken out of both sides."><figcaption><b>In the app</b><span>The fair odds tool, on -145 against +125. With the book&rsquo;s 3.50% cut taken out, the favourite wins 57.3% of the time, and the four ways of removing the cut disagree by 0.39%.</span></figcaption></figure></div>
 <h2>Where the number comes from</h2>
 <p>Everything above was computed by the same engine that prices bets, at the moment this page was built. None of it was typed in. The build fails if a figure appears here and not in the engine's own output.</p>
@@ -228,7 +231,7 @@
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
 ever requested. Every figure on this site is computed by running the engine at
-build time. None is typed in. Updated <time datetime="2026-10-18">18 October 2026</time>.</p>
+build time. None is typed in. Updated <time datetime="2026-11-02">2 November 2026</time>.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
 will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the

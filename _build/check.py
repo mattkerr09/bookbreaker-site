@@ -282,7 +282,9 @@ def check_competitor_claims(pages, fails):
 
     for path, markup in pages:
         blocks = re.findall(r"(?s)<tr>.*?</tr>", markup)
-        blocks += re.findall(r"(?s)<p[^>]*>.*?</p>", markup)
+        # <p> or <p class=...> only: a bare <p[^>]*> also opened on the logo's <path>, so one "paragraph" ran from the
+        # nav to the first </p> and read the page's h1 as an undated claim (2026-11-02, once a byline came first).
+        blocks += re.findall(r"(?s)<p(?:\s[^>]*)?>.*?</p>", markup)
         blocks += re.findall(r"(?s)<li>.*?</li>", markup)
 
         for block in blocks:
@@ -391,7 +393,9 @@ def check_page_dates_follow_content(pages, fails):
             continue
         keep = [m.group(0) for pat in (r"(?s)<title>.*?</title>", r'<meta name="description"[^>]*>',
                                        r"(?s)<main\b.*?</main>") for m in [re.search(pat, markup)] if m]
-        sha = hashlib.sha256(("\n".join(keep) if keep else markup).encode()).hexdigest()
+        # The byline carries the date itself, so it is left out of the hash (render.py page_content does the same).
+        content = re.sub(r'(?s)<p class="byline">.*?</p>', "", "\n".join(keep) if keep else markup)
+        sha = hashlib.sha256(content.encode()).hexdigest()
         if sha != entry["sha"]:
             fails.append(f"{path}: its content changed after page_dates.json was written; re-render so its date moves")
         stated = re.search(r'"dateModified": "([^"]+)"', markup)
@@ -1342,7 +1346,7 @@ _HUB_LINK = re.compile(r'<a\b[^>]*href="https://kerr-affiliate-hub\.kerrco\.work
 
 
 THIN_WORDS = 300
-THIN_CEILING = 4  # 2026-11-02 (was 5; the content pass lifted a page over); 2026-10-19 (was 6); 2026-10-16, the CEO's search-health audit: lower it as pages are fixed, never raise it
+THIN_CEILING = 0  # 2026-11-02 (5, then 4, then 0 that day: the content pass lifted or filled every thin page); 2026-10-19 (was 6); 2026-10-16, the CEO's search-health audit: lower it as pages are fixed, never raise it
 
 
 def body_word_count(markup: str) -> int:
