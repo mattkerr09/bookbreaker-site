@@ -2936,6 +2936,17 @@ PHONE_LINE = ('<p class="phone-link">On your phone? <button type="button" data-s
               'Send the Mac link to yourself</button></p>')
 
 
+def with_year(title: str) -> str:
+    """The build year in a title whose topic changes over time: best-of lists and rival prices (WHAT-WORKS 2026-11-02:
+    18% of earning pages carry the year against 7%). Title tag only; the h1 stays as written. Arm started 2026-11-02:
+    read these pages' clicks and impressions in Search Console from 2026-11-30 against the 28 days before."""
+    year = TODAY[:4]
+    if year in title:
+        return title
+    head, sep, tail = title.partition(":")
+    return f"{head} ({year}){sep}{tail}" if sep else f"{title} ({year})"
+
+
 def after_first_answer(body: str, html: str) -> str:
     """`html` placed after a body's first paragraph: the answer comes first, then the button (CONTENT-STANDARD 1, 2)."""
     cut = body.find("</p>")
@@ -7844,7 +7855,7 @@ on real prices. New to this? Start with the first group.</p>
             # Answer first (CONTENT-STANDARD 1, 2026-11-02): a row with an answer opens with it, not with the query.
             lead = row.get("answer") or row.get("question") or row.get("query")
             out.write_text(page(
-                row[title_key], row.get("description") or desc(row),
+                with_year(row[title_key]) if prefix == "best" else row[title_key], row.get("description") or desc(row),
                 f"<h1>{e(row[title_key])}</h1>\n"
                 f"<p class=\"lede\">{e(lead)}</p>\n"
                 + top_cta(measured, f"{prefix}-{row['slug']}-top") + "\n"
@@ -7869,7 +7880,7 @@ on real prices. New to this? Start with the first group.</p>
                           # Pikkit is a bet tracker, so the alternative a Pikkit user wants is the tracker
                           "pikkit": "Free Pikkit alternative for Mac: bet tracking with CLV"}
         out.write_text(page(
-            measured_title.get(row["slug"], f"Free {row['name']} alternative for Mac: arbitrage and +EV"),
+            with_year(measured_title.get(row["slug"], f"Free {row['name']} alternative for Mac: arbitrage and +EV")),
             versus_description(row),
             render_versus(measured, row), url))
         built.append((url, rel))
