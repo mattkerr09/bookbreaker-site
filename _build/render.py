@@ -2636,7 +2636,7 @@ def page(title: str, description: str, body: str, path: str,
         f'<p><a href="/vs/{e(r["slug"])}-alternative/">{e(r["name"])} alternative</a></p>'
         for r in load_data("competitors"))
     foot_best = "".join(
-        f'<p><a href="/best/{e(r["slug"])}/">{e(r["title"])}</a></p>'
+        f'<p><a href="/best/{e(r["slug"])}/">{e(r["title"].split(":")[0])}</a></p>'   # the short name, not the title tag
         for r in load_data("best"))
     foot_for = "".join(
         f'<p><a href="/for/{e(r["slug"])}/">For {e(r["who"])}</a></p>'
@@ -2917,6 +2917,13 @@ def free_line(m: dict) -> str:
 
 PHONE_LINE = ('<p class="phone-link">On your phone? <button type="button" data-send-mac-link>'
               'Send the Mac link to yourself</button></p>')
+
+
+def top_cta(m: dict, src: str) -> str:
+    """The download button right after a page's answer, with what a person decides on beside it (CONTENT-STANDARD
+    2, 3 and 7: one next step, its terms at the button, visible on a phone without hunting). The foot strip stays."""
+    return (f'<div class="top-cta"><div class="cta"><a class="btn primary" href="{dl_href(m, src)}" data-download>'
+            f'Download free for Mac</a></div>\n{free_line(m)}</div>')
 
 #: Pages with no download strip at the foot: the two that carry their own
 #: button, and the three a person reads for the rules rather than for the app.
@@ -4821,9 +4828,9 @@ def versus_description(row: dict) -> str:
     for candidate in (
         f"{row['gap']}. Bookbreaker reports the devig spread, the chance of "
         f"getting the bet down, and when a record proves nothing.",
-        f"A {row['name']} alternative that reports the devig spread, the "
+        f"{article(row['name']).title()} {row['name']} alternative that reports the devig spread, the "
         f"chance of getting the bet down, and when a record proves nothing.",
-        f"A {row['name']} alternative that shows how uncertain its own numbers "
+        f"{article(row['name']).title()} {row['name']} alternative that shows how uncertain its own numbers "
         "are.",
     ):
         if 50 <= len(candidate) <= 160:
@@ -5452,12 +5459,13 @@ def render_versus(m: dict, row: dict) -> str:
     if cno:
         cost = ""
     elif sub:
-        cost = (f"<p>{e(row['name'])} lists {e(row['price'])}. The cheapest "
-                f"monthly plan is {sub['sym']}{sub['yearly_whole']:,} a year you "
+        # The price is in the lede and the table already; said once (CONTENT-STANDARD 9), this starts from the year.
+        cost = (f"<p>At {e(row['name'])}'s prices the cheapest "
+                f"monthly plan costs {sub['sym']}{sub['yearly_whole']:,} a year you "
                 f"clear before any profit is yours. That is "
-                f"{sub['rows'][1]['bets']} winning bets a month at a "
+                f"{sub['rows'][1]['bets']} bets a month at a "
                 f"{sub['sym']}{sub['stake']} stake and a two percent edge, "
-                f"every month, to reach zero ({cite}).</p>")
+                f"every month, just to break even on average ({cite}).</p>")
     else:
         cost = (f"<p>{e(row['name'])} lists {e(row['price'])} and published no "
                 f"monthly figure to work from when this was {cite}. So the one "
@@ -5468,6 +5476,7 @@ def render_versus(m: dict, row: dict) -> str:
     return f"""
 <h1>{headline}</h1>
 <p class="lede">{lede}</p>
+{top_cta(m, f"vs-{row['slug']}-top")}
 {own_devig_widget(m) if cno else ""}
 
 <h2>{gap_head}</h2>
@@ -7789,11 +7798,13 @@ on real prices. New to this? Start with the first group.</p>
             rel = f"{prefix}/{row['slug']}/index.html"
             out = SITE / rel
             out.parent.mkdir(parents=True, exist_ok=True)
-            lead = row.get("question") or row.get("query")
+            # Answer first (CONTENT-STANDARD 1, 2026-11-02): a row with an answer opens with it, not with the query.
+            lead = row.get("answer") or row.get("question") or row.get("query")
             out.write_text(page(
-                row[title_key], desc(row),
+                row[title_key], row.get("description") or desc(row),
                 f"<h1>{e(row[title_key])}</h1>\n"
                 f"<p class=\"lede\">{e(lead)}</p>\n"
+                + top_cta(measured, f"{prefix}-{row['slug']}-top") + "\n"
                 + with_shot(measured, url, bodies[row["slug"]]),
                 url))
             built.append((url, rel))
