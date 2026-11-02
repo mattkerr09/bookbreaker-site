@@ -5038,28 +5038,28 @@
       "yearly_whole": 1056
     },
     "betstamp-pro": {
-      "fee": 99.0,
+      "fee": 249.0,
       "rows": [
         {
-          "bets": 99,
+          "bets": 249,
           "edge": 1,
-          "turnover": 9900
+          "turnover": 24900
         },
         {
-          "bets": 50,
+          "bets": 125,
           "edge": 2,
-          "turnover": 4950
+          "turnover": 12450
         },
         {
-          "bets": 33,
+          "bets": 83,
           "edge": 3,
-          "turnover": 3301
+          "turnover": 8301
         }
       ],
       "stake": 100,
       "sym": "$",
-      "yearly": 1188.0,
-      "yearly_whole": 1188
+      "yearly": 2988.0,
+      "yearly_whole": 2988
     },
     "crazy-ninja-odds": {
       "fee": 5.0,

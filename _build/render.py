@@ -1256,6 +1256,9 @@ def measure(engine) -> dict:
     out["subs"] = {}
     for _row in COMPETITORS:
         _text = (_row.get("price") or "").replace(",", "")
+        # An add-on is bought on top of a plan, never instead of one: Betstamp PRO's "$249/mo ...; add-ons $99/mo" was
+        # read as a $99 plan and its page said $1,188 a year where the cheapest plan costs $2,988 (fixed 2026-11-02).
+        _text = _re.sub(r"(?i)add-?ons?\b[^;]*", "", _text)
         # Only prices actually marked per month. AVO's cheapest figure is a $22
         # day pass, and reading that as a subscription understates the hurdle
         # by a factor of four.
@@ -3658,12 +3661,68 @@ where we read it.</p>
 <td>This site</td></tr>
 {rows}
 </table>
+<h2>Head to head</h2>
+<p>{" &nbsp;&middot;&nbsp; ".join(f'<a href="/vs/{e(r["slug"])}/">{e({c["slug"]: c["name"] for c in COMPETITORS}[r["a"]])} vs {e({c["slug"]: c["name"] for c in COMPETITORS}[r["b"]])} &rarr;</a>' for r in load_data("matchups"))}</p>
 <h2>The gap</h2>
 <p>None of them publishes a fill rate, a rejection rate, or any measure of how
 often a surfaced line is still available when you tap it. Bookbreaker is built
 around that gap. A screen sorted by raw expected value is partly sorted by how
 stale its data is. The biggest numbers cluster on the books that moved most
 recently, and those are the books most likely to move again.</p>
+"""
+
+
+def matchup_cost(m: dict, c: dict) -> str:
+    """One tool's yearly hurdle in a sentence, from the engine's own subs figures, or what its pricing does not let you
+    work out. Dated and sourced."""
+    cite = f'read {e(c["read"])}, <a href="{e(c["source"])}">source</a>'
+    sub = m.get("subs", {}).get(c["slug"])
+    if not sub:
+        return (f"<p>{e(c['name'])} lists {e(c['price'])} ({cite}). It publishes no monthly plan price, so its yearly "
+                f"cost before any profit cannot be worked out from what it publishes.</p>")
+    two = sub["rows"][1]
+    return (f"<p>{e(c['name'])}'s cheapest monthly plan costs {sub['sym']}{sub['yearly_whole']:,} a year. At a "
+            f"{sub['sym']}{sub['stake']} stake and a two percent edge that is {two['bets']} bets a month, every month, "
+            f"just to break even on average ({cite}).</p>")
+
+
+def render_matchup(m: dict, row: dict) -> str:
+    """Two rival tools side by side, with Bookbreaker as the third column (the CEO's page order, 2026-11-02: "X vs Y"
+    searches are the earning type; these three were measured in Google autocomplete). Every rival fact is a dated,
+    sourced row of competitors.csv; every cost figure is the engine's own subs arithmetic; the "which one fits"
+    paragraph is written per pair (matchups.csv fit) from those rows, so the three pages share little but the table."""
+    by = {c["slug"]: c for c in COMPETITORS}
+    a, b = by[row["a"]], by[row["b"]]
+    na, nb = e(a["name"]), e(b["name"])
+    cite = lambda c: f'read {e(c["read"])}, <a href="{e(c["source"])}">source</a>'
+    note = lambda c: c["note"][0].lower() + c["note"][1:] if not c["note"].split()[0].isupper() else c["note"]
+    low = lambda t: t[0].lower() + t[1:]
+    cell = lambda c, k: f'<td class="prose">{e(c[k])} <small>({cite(c)})</small></td>'
+    lede = (f"{na} and {nb} solve different problems. {na} offers {e(note(a))}, and {nb} offers {e(note(b))}. "
+            f"Choose by the markets you bet and by what a plan costs you before any profit: "
+            f"{na} lists {e(a['price'])} ({cite(a)}), and {nb} lists {e(b['price'])} ({cite(b)}).")
+    return f"""
+<h1>{na} vs {nb}</h1>
+<p class="lede">{lede}</p>
+{top_cta(m, f"vs-{row['slug']}-top")}
+<h2>Which one fits</h2>
+<p>{e(row['fit'])} (From each tool's own pages: {na} {cite(a)}; {nb} {cite(b)}.)</p>
+<h2>What each costs before any profit</h2>
+{matchup_cost(m, a)}
+{matchup_cost(m, b)}
+<h2>What neither says on its pricing page</h2>
+<p>{na}: {e(low(a['gap']))} ({cite(a)}). {nb}: {e(low(b['gap']))} ({cite(b)}).</p>
+<table>
+<tr><th></th><th>{na}</th><th>{nb}</th><th>Bookbreaker</th></tr>
+<tr><td class="prose">Price</td>{cell(a, 'price')}{cell(b, 'price')}
+<td class="prose">Free, no account</td></tr>
+<tr><td class="prose">What it is</td>{cell(a, 'note')}{cell(b, 'note')}
+<td class="prose">Arbitrage, +EV and your betting record, on your Mac</td></tr>
+<tr><td class="prose">Not published</td>{cell(a, 'gap')}{cell(b, 'gap')}
+<td class="prose">Mac only; reads what your own odds key can afford</td></tr>
+</table>
+<p><a href="/vs/{e(a['slug'])}-alternative/">{na} alternative &rarr;</a> &nbsp;&middot;&nbsp;
+<a href="/vs/{e(b['slug'])}-alternative/">{nb} alternative &rarr;</a></p>
 """
 
 
@@ -7885,6 +7944,21 @@ on real prices. New to this? Start with the first group.</p>
             render_versus(measured, row), url))
         built.append((url, rel))
     print(f"  /vs/<tool>-alternative/ {len(load_data('competitors'))} pages")
+
+    # Rival-vs-rival pages, one per row of _data/matchups.csv (demand measured in Google autocomplete, 2026-11-02).
+    for row in load_data("matchups"):
+        url, rel = f"/vs/{row['slug']}/", f"vs/{row['slug']}/index.html"
+        out = SITE / rel
+        out.parent.mkdir(parents=True, exist_ok=True)
+        by = {c["slug"]: c for c in COMPETITORS}
+        na, nb = by[row["a"]]["name"], by[row["b"]]["name"]
+        out.write_text(page(
+            with_year(f"{na} vs {nb}: price and a free option"),
+            f"{na} vs {nb}: what each costs a year before any profit, what neither publishes, and a free Mac app "
+            "beside them. Every price dated and sourced.",
+            render_matchup(measured, row), url))
+        built.append((url, rel))
+    print(f"  /vs/<a>-vs-<b>/        {len(load_data('matchups'))} pages")
 
     jurisdiction_start = len(built)
 

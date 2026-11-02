@@ -421,7 +421,11 @@
  },
  "vs/betstamp-pro-alternative/index.html": {
   "date": "2026-11-02",
-  "sha": "2b67da4828a32fef55988ff32fead20d5002b0ab8df026a85153473c2ec0cebd"
+  "sha": "884fdac30c6603c8292d1c240a7eff36cd57e7e75e4d8ae093800929075a0d54"
+ },
+ "vs/betstamp-pro-vs-oddsjam/index.html": {
+  "date": "2026-11-02",
+  "sha": "d532789b78a07f7f332e72c2d57f581cc63e8ed4d6f40707deacb20367ab915f"
  },
  "vs/crazy-ninja-odds-alternative/index.html": {
   "date": "2026-11-02",
@@ -429,11 +433,15 @@
  },
  "vs/index.html": {
   "date": "2026-11-02",
-  "sha": "a906e6fadc40712f40c11c5b155ffc51036f5471443437424cc268c87d00d04f"
+  "sha": "191b08334b344d8118d927a43ac0bb2905ea2d1124d00efada88fad4cf160ccb"
  },
  "vs/oddsjam-alternative/index.html": {
   "date": "2026-11-02",
   "sha": "ff2f5af61e3efea08231abcf30d398160db8ad6834b23407207a09a00eba8807"
+ },
+ "vs/oddsjam-vs-unabated/index.html": {
+  "date": "2026-11-02",
+  "sha": "505336a3d03f40408cd1fb0d0b4aa884890f4ba4cba5b6b3a62eda9370e8bdf3"
  },
  "vs/pikkit-alternative/index.html": {
   "date": "2026-11-02",
@@ -442,6 +450,10 @@
  "vs/rebelbetting-alternative/index.html": {
   "date": "2026-11-02",
   "sha": "8c060a91025dfb8eb774f3484f110634a15e30afd852d66144df78fd261f4c4c"
+ },
+ "vs/rebelbetting-vs-betburger/index.html": {
+  "date": "2026-11-02",
+  "sha": "2e5601f057dd4ad544c3f5a7107c25fdcb1cbcaa789251c0aca0952b6c0e27d3"
  },
  "vs/smartstake-alternative/index.html": {
   "date": "2026-11-02",
