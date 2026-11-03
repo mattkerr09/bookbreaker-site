@@ -3672,6 +3672,15 @@ recently, and those are the books most likely to move again.</p>
 """
 
 
+def head_to_head(slug: str) -> str:
+    """Links from a tool's alternative page to every rival-vs-rival page it is in (CONTENT-STANDARD 5: the next useful
+    page), so the new pages are not reachable from the hub alone."""
+    names = {c["slug"]: c["name"] for c in COMPETITORS}
+    links = [f'<a href="/vs/{e(r["slug"])}/">{e(names[r["a"]])} vs {e(names[r["b"]])} &rarr;</a>'
+             for r in load_data("matchups") if slug in (r["a"], r["b"])]
+    return f'<p>{" &nbsp;&middot;&nbsp; ".join(links)}</p>' if links else ""
+
+
 def matchup_cost(m: dict, c: dict) -> str:
     """One tool's yearly hurdle in a sentence, from the engine's own subs figures, or what its pricing does not let you
     work out. Dated and sourced."""
@@ -5600,7 +5609,7 @@ the date beside it, linked to where it was read.</p>
 <p>{closer}</p>
 
 <p><a href="/vs/">Why every tool in this list has the same blind spot
-&rarr;</a></p>
+&rarr;</a></p>{head_to_head(row["slug"])}
 <p class="caveat">Prices change. This one carries the date it was read.</p>
 """
 
