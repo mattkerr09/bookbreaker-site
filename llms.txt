@@ -9,12 +9,12 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [Bookbreaker](https://bookbreaker.bet/): what it does, with every figure computed by the engine you download
 - [Download](https://bookbreaker.bet/download/): the Mac app (macOS 14 or later, Apple Silicon, M1 or later; signed and notarised by Apple) and the same engine as a command-line tool for macOS, Linux or Windows (pure Python, 3.9 or newer). Free, with published SHA-256 checksums
 - [How it works](https://bookbreaker.bet/how-it-works/): the four devig methods side by side, what rounding an arbitrage stake costs, and how old a price already is
-- [Account longevity](https://bookbreaker.bet/account-longevity/): why an account that gets limited stops earning, what the shape of a bet gives away, and what the tool refuses to do
 - [What your betting record proves](https://bookbreaker.bet/what-your-record-proves/): a return with the interval around it, and why most records prove nothing
+- [Use it from Claude and other AI assistants](https://bookbreaker.bet/ai-assistants/): the engine as an MCP server on your Mac (claude mcp add --transport stdio bookbreaker -- /Applications/Bookbreaker.app/Contents/Resources/engine/overlay-engine mcp): fair odds, arbitrage stakes, bonus bet conversion and a scan of odds already read; places nothing and spends no credit
 
 ## Free calculators
 
-- [All calculators](https://bookbreaker.bet/calculators/): each worked through on example prices, with the range the answer sits in; most take your own numbers and run the same engine in your browser
+- [All calculators](https://bookbreaker.bet/calculators/): each worked through on example prices, with the range the answer sits in; each takes your own numbers and runs the same engine in your browser
 - [No-vig odds calculator](https://bookbreaker.bet/calculators/no-vig-odds/): What are the true odds behind a sportsbook's price?
 - [Expected value calculator](https://bookbreaker.bet/calculators/expected-value/): Is this bet +EV?
 - [Arbitrage calculator](https://bookbreaker.bet/calculators/arbitrage/): How much do I stake on each side?
@@ -57,7 +57,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [What is arbitrage betting](https://bookbreaker.bet/guides/what-is-arbitrage-betting/): How can backing both sides return the same amount?
 - [How to stake an arbitrage in round numbers](https://bookbreaker.bet/guides/how-to-stake-an-arbitrage-in-round-numbers/): What does betting $490 instead of $493.98 actually cost you?
 - [How old is the price on your screen](https://bookbreaker.bet/guides/how-old-is-the-price-on-your-screen/): Why does the line move between clicking and confirming?
-- [How to avoid getting limited](https://bookbreaker.bet/guides/how-to-avoid-getting-limited/): Why do sportsbooks limit winners and what actually extends an account?
+- [Getting limited by a sportsbook](https://bookbreaker.bet/guides/how-to-avoid-getting-limited/): Why do sportsbooks limit winners, and what can you do about it?
 
 ## Responsible gambling and terms
 

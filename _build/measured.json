@@ -454,7 +454,7 @@
   },
   "calculators": {
     "arbitrage": {
-      "body": "<p>+110 at one book and +105 at another is a 3.73% arbitrage on 1,000 staked:</p><table><tr><td>Exact stakes</td><td>493.98 / 506.02</td></tr><tr><td>Locked if both stand, exact</td><td>37.35</td></tr><tr><td>Round stakes</td><td>490 / 500</td></tr><tr><td>Locked if both stand, rounded</td><td>35.00</td></tr><tr><td>Cost of rounding</td><td>2.35</td></tr></table><p>A stake to the cent is the loudest fingerprint a risk desk reads. This solves for round stakes directly, because rounding a lock afterwards breaks it. Any locked figure holds only if both bets are accepted and stand.</p><h2>Finding and sizing it by hand</h2><p>+110 is 2.10 in decimal and implies 47.62%; +105 is 2.05 and implies 48.78%. Together that is 96.40%, under a whole, so the pair is an arbitrage: one over 0.9640, less one, is the 3.73% margin.</p><p>Split the 1,000 in proportion to those probabilities: 47.62% over 96.40% of it is 493.98 on the first leg and the rest, 506.02, on the second. On either result the return is 1,037.35, which is 37.35 over the stake.</p><p>Rounded to 490 and 500, 990 goes down. The first leg would return 1,029.00 and the second 1,025.00, so the worse of the two, 35.00, is what is locked, if both bets are accepted and stand.</p><h2>When an arbitrage is worth taking</h2><p>Only when both bets can be placed at the prices shown. Prices move in seconds; if the second leg is gone by the time you get to it, you hold one bet, not an arbitrage.</p><p>Only when both bets will stand. A book that voids one leg as a palpable error leaves the other exposed, so check the rules on obvious mistakes before betting a price far from the market.</p><p>With round stakes. The <a href=\"/account-longevity/\">account longevity</a> page explains why a stake to the cent draws attention.</p>"
+      "body": "<p>+110 at one book and +105 at another is a 3.73% arbitrage on 1,000 staked:</p><table><tr><td>Exact stakes</td><td>493.98 / 506.02</td></tr><tr><td>Locked if both stand, exact</td><td>37.35</td></tr><tr><td>Round stakes</td><td>490 / 500</td></tr><tr><td>Locked if both stand, rounded</td><td>35.00</td></tr><tr><td>Cost of rounding</td><td>2.35</td></tr></table><p>Nobody types a stake to the cent, so this solves for round stakes directly, because rounding a lock afterwards breaks it. Any locked figure holds only if both bets are accepted and stand.</p><h2>Finding and sizing it by hand</h2><p>+110 is 2.10 in decimal and implies 47.62%; +105 is 2.05 and implies 48.78%. Together that is 96.40%, under a whole, so the pair is an arbitrage: one over 0.9640, less one, is the 3.73% margin.</p><p>Split the 1,000 in proportion to those probabilities: 47.62% over 96.40% of it is 493.98 on the first leg and the rest, 506.02, on the second. On either result the return is 1,037.35, which is 37.35 over the stake.</p><p>Rounded to 490 and 500, 990 goes down. The first leg would return 1,029.00 and the second 1,025.00, so the worse of the two, 35.00, is what is locked, if both bets are accepted and stand.</p><h2>When an arbitrage is worth taking</h2><p>Only when both bets can be placed at the prices shown. Prices move in seconds; if the second leg is gone by the time you get to it, you hold one bet, not an arbitrage.</p><p>Only when both bets will stand. A book that voids one leg as a palpable error leaves the other exposed, so check the rules on obvious mistakes before betting a price far from the market.</p><p>With round stakes: amounts like the ones people type, which a bet slip takes cleanly. They cost a little of the profit, shown above.</p>"
     },
     "bonus-bet-conversion": {
       "body": "<p>A 1,000 bonus bet does not return its stake, so it is worth about half its face value bet naively. Hedged:</p><table><tr><th>Free leg</th><th>Hedge at</th><th>Hedge stake</th><th>Locked if both stand</th><th>Rate</th></tr><tr><td>+100</td><td>-110</td><td>524</td><td>476</td><td>47.6%</td></tr><tr><td>+200</td><td>-230</td><td>1,394</td><td>606</td><td>60.6%</td></tr><tr><td>+400</td><td>-450</td><td>3,273</td><td>727</td><td>72.7%</td></tr><tr><td>+1200</td><td>-1400</td><td>11,200</td><td>800</td><td>80.0%</td></tr></table><p>The hedge column is the constraint every guide omits.</p><h2>The first row, step by step</h2><p>A 1,000 bonus bet placed at +100 wins 1,000 of profit if it lands, and the stake does not come back. Against it, 524 goes on the other side at -110.</p><p>If the bonus bet wins: 1,000 won, the 524 hedge lost, 476 kept. If the hedge wins instead: it pays 476 of profit and the bonus bet costs nothing, so about 476 on either result. That is 476 of cash from 1,000 of bonus, a rate of 47.6%.</p><p>Longer prices convert better and cost more to cover. At +1200 the rate is 80.0%, and the hedge needs 11,200 of your own money on the table until the game ends.</p><h2>When to convert a bonus bet</h2><p>When a sign-up offer or a promotion pays you in bonus bets and you would rather have the cash. Hedging turns a large share of the face value into money you keep whichever way the game goes, provided both bets are accepted and stand.</p><p>When you can afford the hedge. Pick the longest price whose hedge stake you can cover.</p><p>Before the bonus expires. Many expire within a week, and an unused one is worth nothing.</p>"
@@ -511,7 +511,7 @@
       "body": "<p>A contract on Kalshi or Polymarket US pays $1 if it wins, so its price in cents reads like a chance. The venue&rsquo;s taker fee is added to what you pay, though, so the odds it really pays are shorter than the price suggests. On 100 contracts:</p><table><tr><th>Price</th><th>Venue</th><th>Fee</th><th>Cost each</th><th>Break-even</th><th>Decimal</th><th>American</th></tr><tr><td>47c</td><td>Kalshi</td><td>$1.75</td><td>48.75c</td><td>48.75%</td><td>2.051</td><td>+105</td></tr><tr><td>47c</td><td>Polymarket US</td><td>$1.73</td><td>48.73c</td><td>48.73%</td><td>2.052</td><td>+105</td></tr><tr><td>47c</td><td>Kalshi (baseball)</td><td>$0.88</td><td>47.88c</td><td>47.88%</td><td>2.089</td><td>+109</td></tr><tr><td>30c</td><td>Kalshi</td><td>$1.47</td><td>31.47c</td><td>31.47%</td><td>3.178</td><td>+218</td></tr><tr><td>70c</td><td>Polymarket US</td><td>$1.46</td><td>71.46c</td><td>71.46%</td><td>1.399</td><td>-250</td></tr></table><p>Compare the American column with what a sportsbook offers on the same team before choosing where to bet: the cheaper-looking contract is not always the better price. The fee is largest near 50 cents and is charged on the whole order, so a small order pays more per contract. <a href=\"/guides/kalshi-vs-polymarket-arbitrage-after-fees/\">Arbitrage between the two, after fees &rarr;</a></p><p>Whether these sports contracts are legal is disputed state by state, and the answer can change with a court ruling. Check your own state before using either venue.</p>"
     },
     "profit-boost": {
-      "body": "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p><p>Below, the boost and the stake are fixed (50% on a stake of $100), and only the price moves.</p><table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr><tr><td>-200</td><td>$25.00</td><td>$16.67</td></tr><tr><td>-110</td><td>$45.45</td><td>$23.81</td></tr><tr><td>+200</td><td>$100.00</td><td>$33.33</td></tr><tr><td>+500</td><td>$250.00</td><td>$41.67</td></tr></table><p>The shortest price, -200, adds $25. The longest, +500, adds $250: 10x the profit on the same token, and about 2.5x the expected value ($16.67 against $41.67), with every row taking the posted price as fair. Spend a boost on a favourite and most of it is given away.</p><p>The headline rate is easy to read as the value. 50% is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p><p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>"
+      "body": "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p><p>Below, the boost and the stake are fixed (50% on a stake of $100), and only the price moves.</p><table><tr><th>Price</th><th>Boost adds</th><th>EV of the boosted bet</th></tr><tr><td>-200</td><td>$25.00</td><td>$16.67</td></tr><tr><td>-110</td><td>$45.45</td><td>$23.81</td></tr><tr><td>+200</td><td>$100.00</td><td>$33.33</td></tr><tr><td>+500</td><td>$250.00</td><td>$41.67</td></tr></table><p>The shortest price, -200, adds $25. The longest, +500, adds $250: 10x the profit on the same token, and about 2.5x the expected value ($16.67 against $41.67), with every row taking the posted price as fair. Spend a boost on a favourite and most of it is given away.</p><p>The headline rate is easy to read as the value. 50% is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p><p>Then the part nobody costs in. Optimal use puts the token on a long price, which loses more often: most of the time the boosted bet loses and the token is gone. Size it as the bet it is.</p>"
     },
     "round-robin": {
       "body": "<p>Three legs at &minus;110, taken two at a time, is 3 tickets at 25 each: 75 at risk, not 25. That is the first thing the format hides.</p><table><tr><td>Two legs land</td><td>91.12 back, +16.12</td></tr><tr><td>All three land</td><td>273.35 back</td></tr><tr><td>Legs needed to break even</td><td>2 of 3</td></tr><tr><td>Expected profit at fair 50% legs</td><td>-6.66</td></tr><tr><td>Same money on singles</td><td>-3.41</td></tr></table><p>Both those last two are computed with every leg at a true 50%, so the difference is not luck. It is the margin, charged once per ticket instead of once per bet. A round robin buys a different shape of outcome, not a better expectation.</p><h2>Following each ticket</h2><p>Call the legs A, B and C. Taken 2 at a time they make the tickets AB, AC and BC, 25 on each, 75 in all.</p><p>If A and B win and C loses, only AB pays. It returns 91.12, so the round is +16.12 on the 75 staked. If all three win, every ticket pays: 273.35 back, +198.35. If only one leg wins, or none, every ticket loses and the whole 75 is gone.</p><p>The ticket count grows fast. At the same stake each:</p><table><tr><th>Round robin</th><th>Tickets</th><th>At risk</th></tr><tr><td>4 legs by 2s</td><td>6</td><td>150</td></tr><tr><td>4 legs by 3s</td><td>4</td><td>100</td></tr><tr><td>5 legs by 2s</td><td>10</td><td>250</td></tr><tr><td>5 legs by 3s</td><td>10</td><td>250</td></tr></table><h2>When a round robin makes sense</h2><p>When you like several picks and expect one of them to miss. A straight parlay dies with one loss; a round robin by twos still pays when two of three land.</p><p>When you want a parlay's payout shape on part of the money and can live with the margin being charged on every ticket.</p><p>Check it against singles first. With every leg a fair coin flip, the round robin above expects -6.66 and the same money on singles -3.41. The <a href=\"/calculators/parlay/\">parlay calculator</a> prices a single ticket.</p>"
@@ -722,9 +722,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "ab24de833e350dda",
+  "engine_fingerprint": "58836798ab3b3524",
   "engine_load": {
-    "bytes": 6565909,
+    "bytes": 6569857,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1183,28 +1183,28 @@
   },
   "release": {
     "app": {
-      "bytes": 34918219,
-      "kb": 34100,
+      "bytes": 34914551,
+      "kb": 34096,
       "mb": 34.9,
-      "name": "Bookbreaker-0.1.60.dmg",
-      "sha256": "9172bac6d1e0608c14b4c9986c29c55c2a363cafa1c55782c2db948a2591c917"
+      "name": "Bookbreaker-0.1.61.dmg",
+      "sha256": "8664db070f29e30e46046649d09dc6e0c39ac2776ebe89e94141edfe8a107820"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1080744,
-      "kb": 1055,
+      "bytes": 1086303,
+      "kb": 1061,
       "mb": 1.1,
-      "name": "overlay-0.1.60.tar.gz",
-      "sha256": "7932d0d70b108c1ba9eeeeee993f5638001d784ff4fe1712bfb54c6563c50054"
+      "name": "overlay-0.1.61.tar.gz",
+      "sha256": "c13c3fb80438a11f54b79804a4d4058756bf02228a21d97e69e506a38adfcab9"
     },
-    "version": "0.1.60",
+    "version": "0.1.61",
     "wheel": {
-      "bytes": 538542,
-      "kb": 526,
+      "bytes": 542490,
+      "kb": 530,
       "mb": 0.5,
-      "name": "overlay-0.1.60-py3-none-any.whl",
-      "sha256": "8c1002824f7998086d47616a8af14bb492fd7e3ffceefaa9249776506197f459"
+      "name": "overlay-0.1.61-py3-none-any.whl",
+      "sha256": "ff5744b8d3165798b3228d8c71b500be579c8b54e040d3d64e3b76fbd94824f1"
     }
   },
   "replay": {
@@ -5276,14 +5276,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 81,
+    "engine_modules": 82,
     "network_calls": 0,
-    "sha256": "9172bac6d1e0608c14b4c9986c29c55c2a363cafa1c55782c2db948a2591c917",
-    "sha256_short": "9172bac6d1e0608c",
+    "sha256": "8664db070f29e30e46046649d09dc6e0c39ac2776ebe89e94141edfe8a107820",
+    "sha256_short": "8664db070f29e30e",
     "sources": 29,
-    "test_files": 130
+    "test_files": 132
   },
-  "version": "0.1.60",
+  "version": "0.1.61",
   "weights": {
     "max_age_days": 90
   },
@@ -5292,7 +5292,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "888545ade7600f9b6ab4a7f37fd29965755b3bdb"
+      "commit": "44f4ab67517b8f66218da0b4a2c67f7c2314591d"
     },
     "max_age_days": 21,
     "offers": [
@@ -5347,7 +5347,7 @@
           "Qualify: bet $1,000 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $20.00. It is a fee, not a bet.",
           "Convert: place each $100 bonus bet at +300 and hedge $230 cash on the other side at another book. If both bets are accepted and stand, you keep at least $68.70 whichever side wins. Repeat for all 10 installments.",
           "Collect: $667.01 locked from $1,000 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5379,7 +5379,7 @@
           "Qualify: bet $1,000 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $20.00. It is a fee, not a bet.",
           "Convert: place each $100 bonus bet at +300 and hedge $230 cash on the other side at another book. If both bets are accepted and stand, you keep at least $68.70 whichever side wins. Repeat for all 10 installments.",
           "Collect: $667.01 locked from $1,000 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5432,7 +5432,7 @@
           "Qualify: bet $20 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.40. It is a fee, not a bet.",
           "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 7 installments.",
           "Collect: $240.05 locked from $350 face if both bets are accepted and stand, before the bonus expires (1 day).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5464,7 +5464,7 @@
           "Qualify: bet $20 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.40. It is a fee, not a bet.",
           "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 7 installments.",
           "Collect: $240.05 locked from $350 face if both bets are accepted and stand, before the bonus expires (1 day).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5518,7 +5518,7 @@
           "Qualify: bet $5 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.10. It is a fee, not a bet.",
           "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 4 installments.",
           "Collect: $137.30 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5550,7 +5550,7 @@
           "Qualify: bet $5 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.10. It is a fee, not a bet.",
           "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 4 installments.",
           "Collect: $137.30 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5595,7 +5595,7 @@
           "Qualify: bet $10 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
           "Convert: place each $200 bonus bet at +300 and hedge $460 cash on the other side at another book. If both bets are accepted and stand, you keep at least $137.40 whichever side wins.",
           "Collect: $137.20 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5627,7 +5627,7 @@
           "Qualify: bet $10 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
           "Convert: place each $200 bonus bet at +300 and hedge $460 cash on the other side at another book. If both bets are accepted and stand, you keep at least $137.40 whichever side wins.",
           "Collect: $137.20 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5682,7 +5682,7 @@
           "Qualify: bet $20 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.40. It is a fee, not a bet.",
           "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 4 installments.",
           "Collect: $137.00 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5714,7 +5714,7 @@
           "Qualify: bet $20 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.40. It is a fee, not a bet.",
           "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 4 installments.",
           "Collect: $137.00 locked from $200 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5748,7 +5748,7 @@
           "Qualify: bet $10 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
           "Convert: place each $150 bonus bet at +300 and hedge $340 cash on the other side at another book. If both bets are accepted and stand, you keep at least $101.56 whichever side wins.",
           "Collect: $101.36 locked from $150 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5780,7 +5780,7 @@
           "Qualify: bet $20 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.40. It is a fee, not a bet.",
           "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins. Repeat for all 2 installments.",
           "Collect: $68.30 locked from $100 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5812,7 +5812,7 @@
           "Qualify: bet $20 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.40. It is a fee, not a bet.",
           "Convert: place each $20 bonus bet at +300 and hedge $45 cash on the other side at another book. If both bets are accepted and stand, you keep at least $13.44 whichever side wins. Repeat for all 5 installments.",
           "Collect: $66.81 locked from $100 face if both bets are accepted and stand, before the bonus expires (14 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5844,7 +5844,7 @@
           "Qualify: bet $25 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.50. It is a fee, not a bet.",
           "Convert: place each $50 bonus bet at +300 and hedge $115 cash on the other side at another book. If both bets are accepted and stand, you keep at least $34.35 whichever side wins.",
           "Collect: $33.85 locked from $50 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -5886,7 +5886,7 @@
           "Qualify: bet $10 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
           "Convert: place each $25 bonus bet at +300 and hedge $60 cash on the other side at another book. If both bets are accepted and stand, you keep at least $15.00 whichever side wins. Repeat for all 2 installments.",
           "Collect: $29.80 locked from $50 face if both bets are accepted and stand, before the bonus expires (7 days).",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -6470,7 +6470,7 @@
           "Qualify: bet $10 at this book on a market near even money, and hedge the other side at a second book. It costs about $0.20. The bonus is paid only if this bet WINS, and the hedge cannot change that: at even money that is about 50% of the time (a prior).",
           "If it wins, convert: place each $25 bonus bet at +300 and hedge $60 cash on the other side at another book. If both bets are accepted and stand, you keep at least $15.00 whichever side wins. Repeat for all 6 bonus bets.",
           "Expected value about $44.80: 50% of $90.00 kept, less $0.20. Not a locked amount: the other 50% of the time you hold no bonus, and a bonus bet not used within 7 days is lost.",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
       {
@@ -6502,7 +6502,7 @@
           "Qualify: bet $10 at this book on a market near even money, and hedge the other side at a second book. It costs about $0.20. The bonus is paid only if this bet WINS, and the hedge cannot change that: at even money that is about 50% of the time (a prior).",
           "If it wins, convert: place each $20 bonus bet at +300 and hedge $45 cash on the other side at another book. If both bets are accepted and stand, you keep at least $13.44 whichever side wins. Repeat for all 5 bonus bets.",
           "Expected value about $33.40: 50% of $67.21 kept, less $0.20. Not a locked amount: the other 50% of the time you hold no bonus, and a bonus bet not used within 7 days is lost.",
-          "Keep the account: use the rounded stakes shown, never cents; hedge a few minutes after the line last moved, not seconds; no more than three bets an hour at one book; main markets, not alternate lines or props; and place some ordinary bets there too. These are the bet-shape signals the heat model scores. It changes nothing about who is betting, and nothing here ever will."
+          "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       }
     ],
@@ -6518,6 +6518,21 @@
     ]
   },
   "whatsnew": [
+    {
+      "date": "2026-11-04",
+      "notes": [
+        {
+          "text": "The note on keeping an account now says what is true: books set their own limits under their terms, and nothing here gets around them. Round stakes are simply amounts that are easier to type.",
+          "where": "Promos"
+        },
+        {
+          "text": "The engine can run as an MCP server, so Claude and other AI assistants can ask it for fair odds, arbitrage stakes, a bonus bet conversion and the plays in odds already read on this Mac. It places nothing, fetches nothing and spends no credit. Setup is on bookbreaker.bet/ai-assistants.",
+          "where": "Tools"
+        }
+      ],
+      "title": "Ask Bookbreaker from Claude and other AI assistants",
+      "version": "0.1.61"
+    },
     {
       "date": "2026-11-04",
       "notes": [
@@ -6622,17 +6637,6 @@
       ],
       "title": "Find a hedge from the odds you have read",
       "version": "0.1.54"
-    },
-    {
-      "date": "2026-11-01",
-      "notes": [
-        {
-          "text": "When an arb or a middle asks for more at a book than the balance you typed in Your books, the play says so and gives the same plan scaled down to fit, with every result scaled the same. A book with no balance typed sets no limit.",
-          "where": "Arbitrage"
-        }
-      ],
-      "title": "Plays that need more than you have at a book",
-      "version": "0.1.53"
     }
   ],
   "xvenue": {

@@ -219,6 +219,13 @@ CASES = [
         '"That is under 100%, so this is an arbitrage across the outcomes of the "',
     ),
     (
+        "the home page says round stakes look human again",
+        "check_no_evasion_framing",
+        "index.html",
+        "<h3>Round stakes</h3>",
+        "<h3>Stakes that look human</h3>",
+    ),
+    (
         "a listed page linked from nowhere",
         "check_every_listed_page_is_linked",
         "offers/index.html",

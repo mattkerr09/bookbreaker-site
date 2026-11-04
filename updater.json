@@ -1,11 +1,11 @@
 {
-  "version": "0.1.60",
-  "notes": "When no round stakes keep a small arb at your rounding, the calculator says so. A middle on a spread names each side, prices that meet exactly read 0.00%, and Bet size works out the win chance from sharp prices when that box is empty.",
-  "pub_date": "2026-11-04T17:27:57Z",
+  "version": "0.1.61",
+  "notes": "Ask Bookbreaker from Claude and other AI assistants: the engine can run as an MCP server, with setup on bookbreaker.bet/ai-assistants. The note on keeping an account now says what is true: books set their own limits, and nothing here gets around them.",
+  "pub_date": "2026-11-04T22:25:51Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTCtFd1pmZytsL0t0ZzhndEx3VVZxS1hzR2JWZGh1TXVrMGV5T1VmTFI2L3VHam8zTmtmV3hwWkgzY2V4UklsZVovRUZGQmZ1b1hzOFVidjg1ZWZVMVFFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODEzMjQ3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjYwLmFwcC50YXIuZ3oKL01mSUpSeGtQOWtLWmc1UGxNdDZsTmprOU04RXh6aSs1YkVqNjA3ZWdESVN5MXhXV2x0NGxlc3pxdmZTVGlxcEpkUVJmQk1zWEdxQUQwc0JuWW11QUE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.60.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDF4alBUcTcvaEloc0U3WVBvdWVwVjdZS0VWMzhaZEZZTmVvTW1RYWhDWndTR1ZiNnlmQTRzU2ZFb1ZBOGRDYktCZm5DUGtWRXBXMVpRa3hMQXdJQkE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODMxMTIxCWZpbGU6Qm9va2JyZWFrZXItMC4xLjYxLmFwcC50YXIuZ3oKWWZCakovSWNSajBjWjVmZU42ZTRkWUI2MHZud2ZYRzF5MnY1ZVBydUY1YWkycURIM2p6bHFINUhiT1BSRE1XYzc3SndVMGF0d0dnRmUwbWphV2J0RHc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.61.app.tar.gz"
     }
   }
 }

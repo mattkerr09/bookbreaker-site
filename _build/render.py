@@ -1493,8 +1493,8 @@ def measure(engine) -> dict:
             "leg is gone by the time you get to it, you hold one bet, not an arbitrage.</p>"
             "<p>Only when both bets will stand. A book that voids one leg as a palpable error leaves the other "
             "exposed, so check the rules on obvious mistakes before betting a price far from the market.</p>"
-            "<p>With round stakes. The <a href=\"/account-longevity/\">account longevity</a> page explains why "
-            "a stake to the cent draws attention.</p>")
+            "<p>With round stakes: amounts like the ones people type, which a bet slip takes cleanly. They cost a "
+            "little of the profit, shown above.</p>")
 
     def match_worked(mt):
         turnover = mt["rollover"] * (mt["deposit"] + mt["bonus"])
@@ -1866,9 +1866,8 @@ def measure(engine) -> dict:
                   f"{a['round_stakes'][0]:,} / {a['round_stakes'][1]:,}"),
                  ("Locked if both stand, rounded", f"{a['round_profit']:,.2f}"),
                  ("Cost of rounding", f"{a['rounding_cost']:,.2f}")])
-        + "<p>A stake to the cent is the loudest fingerprint a risk desk "
-        "reads. This solves for round stakes directly, because rounding a "
-        "lock afterwards breaks it. Any locked figure holds only if both bets are accepted and stand.</p>"
+        + "<p>Nobody types a stake to the cent, so this solves for round "
+        "stakes directly, because rounding a lock afterwards breaks it. Any locked figure holds only if both bets are accepted and stand.</p>"
         + arb_worked(a))}
 
     def clv_worked(bet, close, other):
@@ -2231,7 +2230,7 @@ def measure(engine) -> dict:
     + "</table>"
     + f"<p>The shortest price, {m['boost']['rows'][0]['american']}, adds ${m['boost']['worst']:.0f}. The longest, {m['boost']['rows'][-1]['american']}, adds ${m['boost']['best']:.0f}: {m['boost']['multiple']:.0f}x the profit on the same token, and about {m['boost']['ev_multiple']:.1f}x the expected value (${m['boost']['ev_worst']:.2f} against ${m['boost']['ev_best']:.2f}), with every row taking the posted price as fair. Spend a boost on a favourite and most of it is given away.</p>"
     + f"<p>The headline rate is easy to read as the value. {m['boost']['pct']}% is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p>"
-    + "<p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>")}
+    + "<p>Then the part nobody costs in. Optimal use puts the token on a long price, which loses more often: most of the time the boosted bet loses and the token is gone. Size it as the bet it is.</p>")}
 
     out["calculators"] = calc
 
@@ -2578,9 +2577,6 @@ def site_schema(path: str, body: str) -> str:
 #: Where a reader goes next from a page whose body linked nowhere useful
 #: (content standard 5). Two each, chosen for the page's own subject.
 ONWARD = {
-    "/account-longevity/": [
-        ("/sportsbooks/", "Which books may limit winners, state by state"),
-        ("/guides/how-to-avoid-getting-limited/", "How to avoid getting limited")],
     "/best/best-arbitrage-betting-software/": [
         ("/calculators/arbitrage/", "The arbitrage calculator"),
         ("/for/arbitrage-bettors/", "Bookbreaker for arbitrage bettors")],
@@ -2642,7 +2638,7 @@ LONGER_TITLES = {
     "/guides/what-is-a-round-robin-bet/": "What is a round robin bet, and what it costs",
     "/guides/how-to-grade-your-own-bets/": "How to grade your own bets without inflating your record",
     "/guides/what-is-a-sharp-sportsbook/": "What is a sharp sportsbook, and why its prices count as evidence",
-    "/guides/how-to-avoid-getting-limited/": "How to avoid getting limited by a sportsbook",
+    "/guides/how-to-avoid-getting-limited/": "Getting limited by a sportsbook: why it happens and what you can do",
     "/guides/what-is-arbitrage-betting/": "What is arbitrage betting, and when the profit is locked",
     "/guides/what-is-a-totals-middle-worth/": "What is a totals middle worth, with the numbers worked through",
     "/guides/when-do-bonus-bets-expire/": "When do bonus bets expire, and what they are worth until then",
@@ -3056,7 +3052,7 @@ def render_download(m: dict) -> str:
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
             'a security warning.</span></li></ol>'
-            '<p>New in this version: the Arb calculator says when no round stakes keep a small arb at your rounding, a middle on a spread names each side, and Bet size works out the win chance from sharp prices when that box is empty. Also recent: this week&rsquo;s welcome offers, re-read on 4 November (FanDuel&rsquo;s is now $200 in bonus bets over four days), an example market whose figures you can check by hand at the prices shown, clearer wording on arbs (the difference is yours only if both bets are accepted and stand), 21+ beside every sportsbook link, a fix in Bet size, is buying the half point worth it, for NFL spreads and totals, from how often games landed on the number in 2015 to 2025 (any one bet can lose), move through the board with the keyboard, Fair odds converts any price into American, decimal and fractional odds with its break-even chance, Find a hedge looks for the other side of your bet in the odds already read on this Mac, best price first, and spends no credit, a play that asks for more at a book than the balance you typed in Your books says so, and gives the same plan scaled down to fit, in the Arb calculator, hold one side at the stake you want, or type an amount to lock and get the smallest total that does it (a lock holds only if every bet is accepted and stands), open a sportsbook from a play, for books licensed in your state, to the book&rsquo;s own page and never a filled-in bet slip, Bet size works out the edge from up to three sharp books&rsquo; prices, with the stake sized on the cautious end (any one bet can lose), hide a whole game, or every play at one book, with the same undo, Fair odds lets you choose how the cut is removed, including a worst case, the cautious price to size from, odds for each side on Low hold, so the cheapest pair it lists fits a playthrough&rsquo;s lowest price, board filters on the Arbitrage page (sort by return, edge or start time, a price range for +EV bets, game state, when the game starts, leagues and bet types, and a smallest window for middles, each saying how many plays it leaves), and a +EV stake sized on that book&rsquo;s balance in Your books. Also recent: Your books, a balance for each sportsbook you type and keep on this Mac, moved by the bets you track and settle (nothing connects to a book), three-way arbs in the Arb calculator, a suggested stake on every +EV play (a suggestion, not a promise: any one bet can lose), Find a hedge on an open bet, a parlay across games priced fair from Kalshi&rsquo;s prices, Bookbreaker now says it needs macOS 14 or later, a fix that charges Kalshi&rsquo;s full fee on games that override their series, Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
+            '<p>New in this version: use the engine from Claude and other AI assistants (see <a href="/ai-assistants/">AI assistants</a>), and the note on keeping an account now says what is true: books set their own limits, and nothing here gets around them. Also recent: the Arb calculator says when no round stakes keep a small arb at your rounding, a middle on a spread names each side, Bet size works out the win chance from sharp prices when that box is empty, this week&rsquo;s welcome offers, re-read on 4 November (FanDuel&rsquo;s is now $200 in bonus bets over four days), an example market whose figures you can check by hand at the prices shown, clearer wording on arbs (the difference is yours only if both bets are accepted and stand), 21+ beside every sportsbook link, a fix in Bet size, is buying the half point worth it, for NFL spreads and totals, from how often games landed on the number in 2015 to 2025 (any one bet can lose), move through the board with the keyboard, Fair odds converts any price into American, decimal and fractional odds with its break-even chance, Find a hedge looks for the other side of your bet in the odds already read on this Mac, best price first, and spends no credit, a play that asks for more at a book than the balance you typed in Your books says so, and gives the same plan scaled down to fit, in the Arb calculator, hold one side at the stake you want, or type an amount to lock and get the smallest total that does it (a lock holds only if every bet is accepted and stands), open a sportsbook from a play, for books licensed in your state, to the book&rsquo;s own page and never a filled-in bet slip, Bet size works out the edge from up to three sharp books&rsquo; prices, with the stake sized on the cautious end (any one bet can lose), hide a whole game, or every play at one book, with the same undo, Fair odds lets you choose how the cut is removed, including a worst case, the cautious price to size from, odds for each side on Low hold, so the cheapest pair it lists fits a playthrough&rsquo;s lowest price, board filters on the Arbitrage page (sort by return, edge or start time, a price range for +EV bets, game state, when the game starts, leagues and bet types, and a smallest window for middles, each saying how many plays it leaves), and a +EV stake sized on that book&rsquo;s balance in Your books. Also recent: Your books, a balance for each sportsbook you type and keep on this Mac, moved by the bets you track and settle (nothing connects to a book), three-way arbs in the Arb calculator, a suggested stake on every +EV play (a suggestion, not a promise: any one bet can lose), Find a hedge on an open bet, a parlay across games priced fair from Kalshi&rsquo;s prices, Bookbreaker now says it needs macOS 14 or later, a fix that charges Kalshi&rsquo;s full fee on games that override their series, Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
             'that repeat or oppose a bet you have open, alerts after a refresh you start, Track this bet, which saves a bet with its fair price, which books to fund in your state, a low-hold view, your record against what it should have been, how old every price is, '
             'an Odds screen with every book&rsquo;s price side by side, and a page that prices a promo you already hold. '
             '<a href="/how-it-works/">How it works</a>.</p>')
@@ -3153,8 +3149,8 @@ under the terms it shipped with.</p>
 <p>It will not log into a sportsbook for you. Account linking means handing a
 third party your credentials, and no feature is worth that. CSV import
 and the betslip parser do the same job without asking. It also does nothing
-about identity, location or device: the anti-limiting work is entirely about
-the shape of the bet, because everything else is fraud rather than strategy.</p>
+about identity, location or device, and nothing about a book&rsquo;s limits: books set
+those under their own terms.</p>
 
 <p><a href="/how-it-works/">How it prices a market &rarr;</a></p>
 """
@@ -3331,7 +3327,7 @@ def render_index(m: dict) -> str:
     <li>Your bets stay on your Mac</li>
   </ul>
   <p class="lede hero-more">Switch on live Kalshi and Polymarket US prices, or type in the prices you see at your
-  books. Bookbreaker says what to bet at each, rounds the stakes so they look like ordinary bets, and shows the
+  books. Bookbreaker says what to bet at each, rounds the stakes to amounts people type, and shows the
   result before you bet. It also does the math the books use to price every bet: fair odds with the margin taken out,
   what a venue&rsquo;s fee really costs, and what a parlay pays against its fair price.</p>
 </section>
@@ -3448,7 +3444,7 @@ def render_index(m: dict) -> str:
   <div class="why">
     <div class="reveal"><h3>Free. No subscription.</h3><p>Other arbitrage tools charge every month. Bookbreaker costs nothing and needs no account.</p></div>
     <div class="reveal"><h3>Knows if the price is still there</h3><p>A price can vanish before your bet lands. The app tells you how likely it is to still be open.</p></div>
-    <div class="reveal"><h3>Stakes that look human</h3><p>Bets to the cent are how books spot software. Bookbreaker gives you round amounts instead.</p></div>
+    <div class="reveal"><h3>Round stakes</h3><p>Amounts like the ones people type, which a bet slip takes cleanly, instead of stakes to the cent. Rounding costs a little, and the app shows how much.</p></div>
     <div class="reveal"><h3>Your login stays yours</h3><p>It never asks for a sportsbook password, and your betting record never leaves your Mac.</p></div>
   </div>
   <div class="price-row">
@@ -3632,8 +3628,8 @@ state</a>.</p>
 <h2>What it never does</h2>
 <p>It never asks for a sportsbook login and never places a bet for you. Your record
 comes from the export your book already gives you. It does nothing about identity,
-location or device: keeping an account healthy is done with the shape of the bet,
-nothing else. <a href="/account-longevity/">How it keeps accounts open</a>.</p>
+location or device. Books set their own limits under their terms, and nothing here gets around them.
+<a href="/guides/how-to-avoid-getting-limited/">Why books limit, and what you can do</a>.</p>
 
 <h2>The math behind it</h2>
 <p>For anyone who wants to check the working. Everything below is computed by the
@@ -3785,10 +3781,9 @@ old is really {f['effective']:.1f}, and its chance of still being there is
 one-sided position on a game you had no opinion about.</p>
 <p>So every arb here is ranked by margin times the chance of getting on, not by
 margin. That reorders the screen, and the reorder is the point.</p>
-<h2>Whether the account survives</h2>
+<h2>Stakes you would actually type</h2>
 <p>The exact stakes for a {a['margin']:.2f}% arb are
-{a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. That precision is
-the clearest signal a risk desk reads. Rounding afterwards breaks the lock
+{a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. Nobody types those. Rounding afterwards breaks the lock
 because the legs are not symmetric. Solving over round stakes gives
 {a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still locked if both bets are accepted and stand, for
 {a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}.</p>
@@ -3805,7 +3800,7 @@ at once: hedge at the next best price for a small known loss, or close the
 first leg if the book allows it. Waiting for the old price to come back is how
 a one-sided position turns into a bet you never meant to make.</p>
 <p><a href="/guides/what-is-arbitrage-betting/">The full explanation &rarr;</a>
-&nbsp;&middot;&nbsp;<a href="/account-longevity/">The limiting model &rarr;</a></p>
+&nbsp;&middot;&nbsp;<a href="/guides/how-to-avoid-getting-limited/">Why books limit &rarr;</a></p>
 """,
 
 "ev-bettors": f"""
@@ -3955,8 +3950,8 @@ are the books most likely to have moved again.</p>
 {e(m['commission']['price'])} both ways reads as a
 {m['commission']['gross']:.2f}% arb and is {m['commission']['net']:.2f}% once
 an exchange takes {m['commission']['commission']}% of winnings.</p>
-<p><strong>Does it stake in round numbers?</strong> A stake to the cent is the
-clearest fingerprint a risk desk reads, and rounding afterwards breaks the lock
+<p><strong>Does it stake in round numbers?</strong> Nobody types a stake to the
+cent, and rounding afterwards breaks the lock
 because the legs are not symmetric. A lock holds only if every bet is accepted and stands.</p>
 <p><strong>What does it cost against what you turn over?</strong> Prices in
 this category run from single figures to several hundred a month.
@@ -4239,9 +4234,9 @@ that looks {f['age']:.0f} seconds old on a feed running {f['latency']:.1f}
 seconds behind is really {f['effective']:.1f}, and its chance of still being
 there is {f['honest']}% rather than {f['naive']}%. Miss one leg and you are not
 arbing, you are betting.</p>
-<p><strong>The stake gives you away.</strong> The exact solution here is
-{a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. Nobody types that,
-and risk desks know it. Rounding afterwards breaks the lock because the legs
+<p><strong>The exact stakes are awkward.</strong> The exact solution here is
+{a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}. Nobody types that.
+Rounding afterwards breaks the lock because the legs
 are not symmetric. Solving for round stakes directly gives
 {a['round_stakes'][0]:,} and {a['round_stakes'][1]:,}, still locked if both bets are accepted and stand, for
 {a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}.
@@ -4262,38 +4257,42 @@ are not symmetric. Solving for round stakes directly gives
 
 
 "how-to-avoid-getting-limited": f"""
-<p>Soft books make money assuming the average customer loses. A consistent
-winner breaks that, so they profile you and cut your stakes. Edge you cannot
-place is worth nothing, which makes account lifetime the denominator of
-everything else.</p>
-<p>What the app scores, in rough order of weight. The percentages are the app&rsquo;s own
-priors, set by hand, not measurements of how any sportsbook reads a bet:</p>
-<p><strong>Stake precision.</strong> {e(h['stakes'][0]['stake'])} scores
-{h['stakes'][0]['heat']}% mechanical; {e(h['stakes'][3]['stake'])} scores
-{h['stakes'][3]['heat']}%. Cents weigh most in the app&rsquo;s score.</p>
-<p><strong>Reaction time.</strong> A bet {e(h['reaction'][0]['after'])} after a
-sharp book moves scores {h['reaction'][0]['heat']}%; the same bet
-{e(h['reaction'][2]['after'])} later scores {h['reaction'][2]['heat']}%. Nobody
-refreshes and decides in half a second.</p>
-<p><strong>Market mix.</strong> Alternate lines read
-{h['markets'][2]['heat']}%, main markets {h['markets'][0]['heat']}%. Arbitrage
-concentrates where pricing gets less attention, which is exactly why a profile
-made of it reads as sharp.</p>
-<p>What none of this involves: multi-accounting, identity or KYC workarounds,
-device or location spoofing. Those are fraud, not staking discipline. And none
-of it applies at a book that does not limit winners. Spending edge to hide
-from a risk desk that does not exist is the most common way the advice is
-misapplied. <a href="/account-longevity/">The full model &rarr;</a></p>
+<p>You cannot reliably avoid it. A sportsbook can limit any account under its terms, and books that price for
+recreational customers do cut the stakes they take from accounts that win or bet the way professionals do. Nothing
+legitimate gets around that, and Bookbreaker does not try. What you can do is know why it happens, stay inside the
+rules, keep records, and use the books that still take your bets.</p>
+<h2>Why books limit</h2>
+<p>A retail book sets its prices expecting most customers to lose a little over time. An account that keeps beating
+those prices costs it money, so the book lowers what it will accept from that account. That is a business decision
+the book is allowed to make, and its terms say so. Exchanges and prediction markets, where customers trade with each
+other, have no house side to protect.</p>
 <h2>What a limit looks like</h2>
-<p>Rarely a message. The maximum the slip will take on a market drops, sometimes to a few dollars. Bets above a small amount go to a trader for approval and come back refused or cut. Promotions stop arriving. The account still works; it just stops being worth using for anything with an edge.</p>
-<p>Limits are set per account and often per market, so a book can take your moneyline bets in full and cap your props. Note the maximum each book offers you on the markets you bet, with the date, and you will see a cut the week it happens.</p>
-<h2>What looking ordinary costs, worked</h2>
-<p>Round stakes are the cheapest change and they are not free. On a {rd['total']:,} arbitrage the exact stakes are {rd['exact_legs'][0]:,.2f} and {rd['exact_legs'][1]:,.2f}, locking {rd['exact_profit']:,.2f} if both bets are accepted and stand. Rounded to {rd['round_legs'][0]:,.0f} and {rd['round_legs'][1]:,.0f} it locks {rd['round_profit']:,.2f}: {rd['cost']:,.2f} less, {rd['cost_bps']:.1f} basis points of the stake.</p>
-<p>Whether that is worth paying depends on the book. At one that limits winners, an account that lasts longer at a slightly lower edge per bet makes more in total. At one that does not limit, the {rd['cost']:,.2f} is simply lost.</p>
+<p>Rarely a message. The maximum the slip will take on a market drops, sometimes to a few dollars. Bets above a small
+amount go to a trader for approval and come back refused or cut. Promotions stop arriving. The account still works;
+it just stops being worth using for anything with an edge.</p>
+<p>Limits are set per account and often per market, so a book can take your moneyline bets in full and cap your
+props.</p>
+<h2>What is allowed, and what is not</h2>
+<p><strong>Allowed:</strong> betting at books licensed where you are, at any stake a book accepts, on any market it
+offers, including both sides of a game at different books.</p>
+<p><strong>Not allowed:</strong> a second account at the same book, an account in someone else&rsquo;s name or with
+someone else&rsquo;s details, and hiding where you are. Those break the book&rsquo;s terms and, in regulated states, can
+break the law. Bookbreaker does none of them and never asks for a sportsbook login.</p>
+<h2>Keep records</h2>
+<p>Write down every bet: book, market, price, stake and result. Note the maximum each book accepts on the markets you
+bet, with the date. A record shows a limit the week it happens, settles a dispute with a book from your side, and is
+what you need at tax time. Bookbreaker keeps that record on your Mac, from your book&rsquo;s own export.</p>
+<h2>Round stakes are a convenience</h2>
+<p>The app stakes in round amounts because they are what people type and a bet slip takes them cleanly. They cost a
+little: on a {rd['total']:,} arbitrage the exact stakes {rd['exact_legs'][0]:,.2f} and {rd['exact_legs'][1]:,.2f} lock
+{rd['exact_profit']:,.2f} if both bets are accepted and stand, and the round {rd['round_legs'][0]:,.0f} and
+{rd['round_legs'][1]:,.0f} lock {rd['round_profit']:,.2f}. They are not a way around a limit.</p>
 <h2>Once you have been limited</h2>
-<p>Accept it at that book. A limit is the book's right under its terms, and in regulated states opening a second account to get around one breaks them.</p>
-<p>Move the volume to the books that still take it, and keep the record of which ones those are. The <a href="/sportsbooks/">state pages</a> list what is licensed where you live.</p>
-<p>Keep the account for what it still pays: some limited accounts still receive reload offers and boosts worth converting.</p>
+<p>Accept it at that book. A limit is the book&rsquo;s right under its terms, and opening a second account to get around
+one breaks them.</p>
+<p>Move your betting to the books that still take it, and keep the record of which ones those are. The
+<a href="/sportsbooks/">state pages</a> list what is licensed where you live.</p>
+<p>Keep the account for what it still pays: some limited accounts still receive reload offers and boosts.</p>
 """,
 
 
@@ -4381,9 +4380,6 @@ never priced against a consensus it helped set. Even a small contribution pulls
 the number toward that book's own price, which shrinks the very edge being
 detected. It bites hardest where that book is the lone outlier and the edge is
 largest.</p>
-<p>Where a book does not limit winners, no anti-limiting effort is spent at all.
-Spending edge to hide from a risk desk that does not exist is the most common
-way that advice is misapplied.</p>
 <h2>Using a sharp price where you cannot bet it</h2>
 <p>Most US bettors cannot place a bet at the sharpest books, but they can read their prices. Take the margin out of a
 sharp book's market and you have the best available estimate of the true chance. Any book that offers more than that
@@ -4405,12 +4401,10 @@ taking.</p>
 half-point improvement on every bet is one of the few things large enough to
 show through. Unlike a model edge, it does not need to be right about
 anything.</p>
-<h2>The catch nobody mentions</h2>
-<p>Consistently capturing the best number is itself a signal. Risk desks
-profile on it, because a customer who always beats the market is a customer
-whose bets carry information. That is why the price you take and the account
-you take it at are the same decision.</p>
-<p><a href="/account-longevity/">What bet shape gives away &rarr;</a></p>
+<h2>The catch</h2>
+<p>Books that price for recreational customers can limit accounts that keep beating the market, under their
+own terms. Line shopping is allowed everywhere; it can still lead to a limit.</p>
+<p><a href="/guides/how-to-avoid-getting-limited/">Why books limit, and what you can do &rarr;</a></p>
 <h2>What a better price is worth, worked</h2>
 <p>Take a bet that is a true coin flip and put {m['lineshop']['n']} bets of ${m['lineshop']['stake']} on it at each price:</p>
 <table>
@@ -4536,13 +4530,10 @@ only shape that can be worth <em>less than nothing</em>: at
 {mt['rollover']}x the break-even hold is {mt['breakeven']:.2f}%, and a
 playthrough restricted to props at {mt['shut_hold']:.2f}% loses
 {abs(mt['shut_net']):,.2f} on a {mt['bonus']:,} dollar headline.</p>
-<h2>The constraint nobody sequences around</h2>
-<p>Every one of these is a new account making an unusual first bet, and they
-all land in the same few weeks. Offer-hunting has a shape, the shape is legible
-from the first deposit, and an account opened purely to clear a bonus tends to
-look like one.</p>
-<p><a href="/guides/how-to-avoid-getting-limited/">What that shape looks like
-&rarr;</a></p>
+<h2>Read the terms first</h2>
+<p>Every offer has its own terms: one per person, the qualifying bet, the playthrough, the expiry. A book can
+limit or close an account that only clears offers, under those terms. Read them before the first deposit.</p>
+<p><a href="/guides/how-to-avoid-getting-limited/">Why books limit, and what you can do &rarr;</a></p>
 """,
 
 "why-your-best-sport-is-probably-noise": f"""
@@ -4584,10 +4575,8 @@ merely won.</p>
 {rd['total']:,} dollars across a two-way at these prices wants
 {rd['exact_legs'][0]:,.2f} and {rd['exact_legs'][1]:,.2f}, locking
 {rd['exact_profit']:,.2f} if both bets are accepted and stand.</p>
-<p>Nobody bets {rd['exact_legs'][0]:,.2f}. More precisely: nobody who is not
-running a tool bets {rd['exact_legs'][0]:,.2f}, which is the problem. Stake
-precision is one of the cheapest signals a risk desk has, and it costs nothing
-to read.</p>
+<p>Nobody types {rd['exact_legs'][0]:,.2f}. People stake round amounts, and a bet
+slip takes them cleanly.</p>
 <h2>What rounding costs</h2>
 <p>Round to {rd['round_legs'][0]:,.0f} and {rd['round_legs'][1]:,.0f} and the
 locked profit (if both bets are accepted and stand) becomes {rd['round_profit']:,.2f}, a cost of
@@ -5430,9 +5419,8 @@ of an edge worth having:</p>
 </figure>
 
 <h2>What rounding a stake costs</h2>
-<p>The exact arbitrage stakes are {exact_a:,.2f} and {exact_b:,.2f}. Nobody
-who is not running a tool bets {exact_a:,.2f}, and stake precision is one of
-the cheapest signals a risk desk has. The round pair sits underneath:</p>
+<p>The exact arbitrage stakes are {exact_a:,.2f} and {exact_b:,.2f}. Nobody types
+{exact_a:,.2f}. The round pair sits underneath:</p>
 <figure class="plate">
   <div class="rf-frame rf-frame--stack">
     {rf(exact_a, exact_a, exact_a, stakes, cls="rf--tick", label=f"exact leg {exact_a:,.2f}")}
@@ -5544,11 +5532,6 @@ def render_versus(m: dict, row: dict) -> str:
         f'<div class="sf"><span class="sf-lab">Download</span>'
         f'<p><b>{m["release"]["app"]["mb"]} MB</b><i>runs on your machine; '
         f'your record never leaves it</i></p></div>')
-    heat_stat = (
-        f'<div class="sf"><span class="sf-lab">Stake fingerprint</span>'
-        f'<p><b>{m["heat"]["stakes"][0]["heat"]}%</b><i>how mechanical the app scores '
-        f'{e(m["heat"]["stakes"][0]["stake"])}, a prior, not a measurement</i></p>'
-        f'</div>')
     roi_stat = (
         f'<div class="sf"><span class="sf-lab">Interval on a '
         f'{m["performance"]["n"]}-bet record</span><p>'
@@ -5746,74 +5729,6 @@ def article(word: str) -> str:
     if word[:2].isupper() and word[:2].isalpha():
         return "an" if first in "AEFHILMNORSX" else "a"
     return "an" if first in "AEIOU" else "a"
-
-
-def render_longevity(m: dict) -> str:
-    h = m["heat"]
-    stake_rows = "".join(
-        f"<tr><td>{e(r['stake'])}</td><td>{r['heat']}%</td></tr>"
-        for r in h["stakes"]
-    )
-    market_rows = "".join(
-        f"<tr><td>{e(r['market'])}</td><td>{r['heat']}%</td></tr>"
-        for r in h["markets"]
-    )
-    a = m["arb"]
-    cat = m["catalog"]
-
-    return f"""
-<h1>An account that gets limited stops earning</h1>
-<p class="lede">Every tool in this category optimises expected value and leaves
-account lifetime to your judgement. That is why the usual experience is three
-excellent weeks followed by a five-dollar maximum stake. Edge you cannot place
-is worth nothing, so lifetime is not a footnote beside expected value.
-It is what expected value gets divided by.</p>
-
-<h2>What a stake gives away</h2>
-<p>Nobody types {e(h['stakes'][0]['stake'])}. A stake to the cent looks computed, and the app
-scores it that way. The scores below are the app&rsquo;s own priors, set by hand, not
-measurements of how any sportsbook reads a bet:</p>
-<table>
-<tr><th>Stake</th><th>How mechanical the app scores it</th></tr>
-{stake_rows}
-</table>
-<p>So the arbitrage solver optimises over <em>round</em> stakes directly rather
-than rounding afterwards, because rounding a lock naively breaks it (and any lock holds only if
-every bet is accepted and stands): the legs are not symmetric. At {e(a['legs'][0])} and {e(a['legs'][1])} that means
-{a['round_stakes'][0]:,} and {a['round_stakes'][1]:,} instead of
-{a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}, giving up
-{a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}. The cost is named
-rather than hidden.</p>
-
-<h2>What a market gives away</h2>
-<p>Arbitrage concentrates in markets priced with less attention, which is
-exactly why a profile made of them reads as sharp:</p>
-<table>
-<tr><th>Market</th><th>How much it signals</th></tr>
-{market_rows}
-</table>
-<p>Reaction time works the same way: a bet placed
-{e(h['reaction'][0]['after'])} after a sharp book moved scores
-{h['reaction'][0]['heat']}%, one placed {e(h['reaction'][2]['after'])} later
-scores {h['reaction'][2]['heat']}%. No human refreshes and decides in half a
-second.</p>
-
-<h2>Where it does nothing at all</h2>
-<p>{cat['venues']} venues taking bets are catalogued, and the ones not known to limit winners
-get no shaping whatsoever. A {e(h['stakes'][0]['stake'])} stake is rounded to
-{h['shaped']:,} at a retail book and left at {h['untouched']:,.2f} at a sharp
-one. Spending edge to hide from a risk desk that does not exist is the most
-common way these tactics are applied wrongly, and there is a test for it.</p>
-
-<h2>What it will not do</h2>
-<p>No multi-accounting. No identity or KYC workarounds. No device or location
-spoofing. That line is drawn in the code, not in a policy document. The model reads bet attributes only (stake sizes, timing, market mix,
-velocity) and has no access to identity or network state. Everything it
-adjusts is a choice you were already making about your own betting.</p>
-<p>It is also advisory. It tells you what to bet; you place it. Automated
-placement against a book's own interface is a different product with a
-different risk profile, and it is not this one.</p>
-"""
 
 
 def render_evidence(m: dict) -> str:
@@ -6740,16 +6655,12 @@ def render_market(m: dict, codes: list[str]) -> str:
     if never:
         longevity = (
             f"<p>{len(never)} of these are not known to limit winning accounts. That "
-            "matters more than it sounds: an account that gets limited stops "
-            "earning, so account lifetime is what expected value is divided "
-            "by. Bookbreaker spends no anti-limiting effort at a venue with no "
-            "risk desk to hide from.</p>"
+            "matters: an account that gets limited stops earning.</p>"
         )
     else:
         longevity = (
-            "<p>Every venue here limits winning accounts, so bet shape carries "
-            "the whole weight: stake sizes, timing and market mix "
-            "decide how long an account lasts.</p>"
+            "<p>Every venue here is a retail book, which may limit winning accounts "
+            "under its terms. Nothing gets around that; read each book&rsquo;s terms.</p>"
         )
 
     anchor = (
@@ -6985,6 +6896,9 @@ def prediction_caveat() -> str:
         'panel-decision-favoring-ohio-and-tennessee-officials/" rel="nofollow">source</a>.</p>')
 
 REDIRECTS = [
+    # Retired 2026-11-04 (CEO, audit C13): it pitched bet shape as a way past a book's limits. Merged into the
+    # honest guide.
+    ("/account-longevity/", "/guides/how-to-avoid-getting-limited/"),
     ("/sportsbooks/not-covered/", "/sportsbooks/#in-person-only"),
     # The first per-book promo pages shipped on internal short keys (2026-10-11); renamed to the names people search.
     ("/promo-codes/michigan/dk/", "/promo-codes/michigan/#draftkings"),
@@ -7219,8 +7133,8 @@ read {e(o['read'])}.</p>
                 f"{e(book)}'s offer is not priced right now, so it is not ranked."
                 if offers[0]["stale"] else
                 f"{e(book)}'s offer cannot be locked, so it is priced as an expectation and not ranked against the locks.")
-    limits = ("limits accounts that win, so treat the offer as a one-time collection and read the "
-              "account-longevity page first" if st_book["limits"] else
+    limits = ("may limit accounts that win, so treat the offer as a one-time collection and read its "
+              "terms first" if st_book["limits"] else
               "is not known to limit accounts that win")
     faqs = [
         (f"Do I need a promo code for {book} in {name_state}?",
@@ -7545,8 +7459,63 @@ that run. With your own Anthropic key it can take any question, and it still ans
 rather than making figures up; with a local model through Ollama nothing leaves your Mac.</p>
 <p>It describes the odds of the prices it is given. It does not find a bet that beats the book unless the prices show
 one, and it never places a bet. 21+. Gambling problem? Call or text 1-800-MY-RESET (1-800-697-3738).</p>
-<p><a href="/privacy/">What leaves your Mac when you use Ask &rarr;</a>
+<p><a href="/ai-assistants/">Use the same engine from Claude &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/privacy/">What leaves your Mac when you use Ask &rarr;</a>
 &nbsp;&middot;&nbsp;<a href="/calculators/">Every calculator, with a worked example &rarr;</a></p>
+"""
+
+
+#: Where the Mac app keeps its engine; the MCP client starts it with the `mcp` verb.
+APP_ENGINE = "/Applications/Bookbreaker.app/Contents/Resources/engine/overlay-engine"
+#: How the MCP server was proved (CEO 2026-11-04: rest it on the stdio protocol tests, dated, and say so).
+MCP_TESTED = ("4 November 2026", "the engine&rsquo;s own protocol tests, which start it as a server and exchange "
+              "MCP messages with it over stdio")
+
+
+def render_ai_assistants(m: dict) -> str:
+    """/ai-assistants/ (queued 2026-11-03 by Matthew via the CEO): the engine as an MCP server for Claude and any
+    MCP client. Answer first, the one line that adds it, the four tools, what it never does, and how it was tested."""
+    d = m["devig"]
+    add = f"claude mcp add --transport stdio bookbreaker -- {APP_ENGINE} mcp"
+    config = json.dumps({"mcpServers": {"bookbreaker": {"command": APP_ENGINE, "args": ["mcp"]}}}, indent=2)
+    when, how = MCP_TESTED
+    return f"""
+<div class="phead">
+<p class="crumb"><a href="/">Home</a></p>
+<h1>Use Bookbreaker from Claude and other AI assistants</h1>
+<p class="lede">Bookbreaker&rsquo;s engine runs as an MCP server on your Mac. An AI assistant can ask it for fair odds,
+arbitrage stakes, a bonus bet conversion and the plays in odds you have already read, and get the engine&rsquo;s numbers
+instead of doing the arithmetic itself. It comes with the free Mac app, release {e(m['release']['version'])}, and in Claude
+Code it is one line.</p>
+</div>
+<h2>Add it to Claude Code</h2>
+<pre><code>{e(add)}</code></pre>
+<p>Then ask in plain words, such as &ldquo;what are the fair odds on {e(d['market'])}?&rdquo; The assistant calls the
+engine, which answers {d['consensus']:.2f}% for the favourite and says the four ways of removing the book&rsquo;s margin
+disagree by {d['spread']:.2f} points.</p>
+<h2>Add it to Claude Desktop or another MCP client</h2>
+<p>Put this in the client&rsquo;s MCP settings (for Claude Desktop, the file claude_desktop_config.json), then restart
+the client:</p>
+<pre><code>{e(config)}</code></pre>
+<h2>The four tools</h2>
+<p><b>fair_odds</b>: two prices for one market, with the margin removed four ways, their average and how far they
+disagree.</p>
+<p><b>arb_stakes</b>: prices that cross, staked in round amounts under a total, with the profit if every bet is accepted
+and stands. Prices that do not cross are said to.</p>
+<p><b>bonus_bet_conversion</b>: a bonus bet and the other side, with the cash hedge and what is left if both bets
+stand.</p>
+<p><b>scan</b>: the best plays in the odds the app has already read on your Mac. It reads files only: it spends no
+Odds API credit and needs no key.</p>
+<h2>What the engine never does</h2>
+<p>It places no bet, opens no sportsbook and never asks for a login. The engine sends nothing over the network; it
+answers on your Mac. Your assistant sends your conversation to its own provider, as it always does. Every answer ends
+with the line the app prints: 21+. Gambling problem? Call or text 1-800-MY-RESET (1-800-697-3738).</p>
+<h2>How it was tested</h2>
+<p>Tested on {when} by {how}: the handshake, the tool list, all four tools on worked prices, bad input and the
+responsible-gambling line on every answer. It has not yet been run end to end inside Claude Code; this page will say
+when it has, with the date.</p>
+<p><a href="/ask/">Ask Bookbreaker in the app &rarr;</a>
+&nbsp;&middot;&nbsp;<a href="/download/">Download the free Mac app &rarr;</a></p>
 """
 
 
@@ -7666,18 +7635,17 @@ PAGES = [
      "OddsJam, AVO, Betstamp, Pikkit and the rest compared on price, features "
      "and limits. Every claim is dated and linked to its source.",
      render_vs),
-    ("/account-longevity/", "account-longevity/index.html",
-     "Account longevity: why limits matter more than edge",
-     "An account that gets limited stops earning, so lifetime is what expected "
-     "value gets divided by. What bet shape gives away, and what this tool "
-     "refuses to do.",
-     render_longevity),
     ("/what-your-record-proves/", "what-your-record-proves/index.html",
      "What your betting record actually proves",
      "A 2% edge swings between -7% and +11% over a season. Why most betting "
      "records prove nothing, why slicing makes it worse, and what converges "
      "faster than profit.",
      render_evidence),
+    ("/ai-assistants/", "ai-assistants/index.html",
+     "Use Bookbreaker from Claude and other AI assistants (MCP)",
+     "Add Bookbreaker's betting engine to Claude as an MCP server: fair odds, arbitrage stakes, bonus bet "
+     "conversion and a scan of odds on your Mac.",
+     render_ai_assistants),
     ("/ask/", "ask/index.html",
      "Ask Bookbreaker: real betting questions, real answers",
      "Fair odds, what a parlay pays, how much to bet and a $10 to $200 plan: the answers the free Mac app gives, "
@@ -7778,11 +7746,11 @@ def render_llms(built_urls: set[str]) -> str:
              "SHA-256 checksums"),
         link("/how-it-works/", "How it works", "the four devig methods side by side, "
              "what rounding an arbitrage stake costs, and how old a price already is"),
-        link("/account-longevity/", "Account longevity", "why an account that gets "
-             "limited stops earning, what the shape of a bet gives away, and what the "
-             "tool refuses to do"),
         link("/what-your-record-proves/", "What your betting record proves",
              "a return with the interval around it, and why most records prove nothing"),
+        link("/ai-assistants/", "Use it from Claude and other AI assistants", "the engine as an MCP server on "
+             "your Mac (claude mcp add --transport stdio bookbreaker -- " + APP_ENGINE + " mcp): fair odds, arbitrage "
+             "stakes, bonus bet conversion and a scan of odds already read; places nothing and spends no credit"),
         # /sportsbooks/ and /offers/ are left out on purpose (CEO, 2026-09-28): the engine's state table was found
         # wrong in 17 of 22 rows (bookbreaker-app c5b5590) and the live pages still render the old one, so an AI
         # should not be pointed at them until they are re-rendered on the corrected data.
@@ -7790,7 +7758,7 @@ def render_llms(built_urls: set[str]) -> str:
         "## Free calculators",
         "",
         link("/calculators/", "All calculators", "each worked through on example prices, "
-             "with the range the answer sits in; most take your own numbers and run "
+             "with the range the answer sits in; each takes your own numbers and runs "
              "the same engine in your browser"),
         *(link(f"/calculators/{r['slug']}/", r["name"], sentence(r["question"]))
           for r in calcs),
@@ -7977,7 +7945,7 @@ download, and do no arithmetic of their own.</p>
         ("parlays", "Parlays",
          "The most popular bet in the market and the worst priced."),
         ("keeping-the-account", "Keeping the account",
-         "What bet shape gives away, and what actually extends an account."),
+         "Why books limit winning accounts, what is allowed, and why records matter."),
         ("proving-it-works", "Proving it works",
          "Whether your record can distinguish you from break-even yet."),
     ]

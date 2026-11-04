@@ -1589,6 +1589,25 @@ def check_money_is_written_plainly(pages, fails):
             fails.append(f"{path}: writes {hit!r}; a negative amount is -$1.00 and a zero has no sign")
 
 
+EVASION = re.compile(r"look(?:s|ed|ing)? human|human-looking|spot(?:s|ting)? software|risk desk|fly(?:ing)? under"
+                     r"|avoid(?:s|ing)? detection|under the radar|edge to hide|like a bot"
+                     r"|place some ordinary bets|minutes after the line last moved|look(?:s|ed)? (?:like )?ordinary", re.I)
+
+
+def check_no_evasion_framing(pages, fails):
+    """Round stakes are a convenience, never a way past a sportsbook's limits (CEO decision on audit C13,
+    2026-11-04). No page says stakes "look human", that books "spot software", or anything about hiding from a
+    "risk desk", and llms.txt says none of it either."""
+    texts = [(path, visible(markup)) for path, markup in pages]
+    llms = SITE / "llms.txt"
+    if llms.exists():
+        texts.append(("llms.txt", llms.read_text()))
+    for path, text in texts:
+        for hit in sorted({m.group(0).lower() for m in EVASION.finditer(text)}):
+            fails.append(f"{path}: says {hit!r}; round stakes are a convenience, and nothing here gets around a "
+                         "book's limits")
+
+
 def check_house_wording(pages, fails):
     """No page says "free bet", "risk-free", "guaranteed" and the rest of the banned list.
 
@@ -2388,6 +2407,7 @@ def main() -> int:
             lambda: check_every_app_book_has_a_router_page(fails, Path(args.app_repo).expanduser().resolve()),
         "check_no_win_promises_or_bare_locks": lambda: check_no_win_promises_or_bare_locks(pages, fails),
         "check_every_listed_page_is_linked": lambda: check_every_listed_page_is_linked(pages, fails),
+        "check_no_evasion_framing": lambda: check_no_evasion_framing(pages, fails),
         "check_money_is_written_plainly": lambda: check_money_is_written_plainly(pages, fails),
         "check_dutching_partial_set_is_not_an_arbitrage":
             lambda: check_dutching_partial_set_is_not_an_arbitrage(fails, Path(args.app_repo).expanduser().resolve()),
