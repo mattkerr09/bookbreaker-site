@@ -2173,7 +2173,7 @@ def measure(engine) -> dict:
     + "</table>"
     + f"<p>From {m['parlay']['ladder'][0]['hold']:.1f}% up to {m['parlay']['ladder'][-1]['hold']:.1f}%. Every added leg is sold as upside. It is also margin, charged before the ticket is graded. Past {m['parlay']['lottery_legs']} legs the payout is a lottery price and the hold, still climbing, stops being the number that decides anything.</p>"
     + "<p>Same-game legs break the arithmetic above. " + m['parlay']['sgp_note'] + "</p>"
-    + "<p>Every other parlay calculator prints the payout to the cent and stops there. The payout is the book's number. The fair price is the number that says what the ticket costs.</p>")}
+    + "<p>The payout to the cent is the book's number. The fair price is the number that says what the ticket costs.</p>")}
 
     calc["deposit-match"] = {"body": (
     "<p>A deposit match is a loan of turnover, not a gift, and the interest is the hold on whatever markets the terms let you churn through.</p>"
@@ -2185,7 +2185,7 @@ def measure(engine) -> dict:
     + f"<tr><td>Props only</td><td>{m['match']['shut_hold']:.2f}%</td><td>${m['match']['shut_net']:.2f}</td><td>{m['match']['shut_margin']:.2f}%</td></tr>"
     + "</table>"
     + f"<p>Same headline, same deposit, same rollover, and a swing of ${m['match']['swing']:.2f} between them. The market restriction is the offer. The bonus figure is packaging.</p>"
-    + f"<p>Competitors print one number to two decimals as though it were measured, then bury the eligible-markets line. Where terms push churn into parlays the cost climbs again; our parlay hold prior of {m['match']['prior_parlay']:.1f}% is a prior, not a measurement, and it is deliberately excluded from the table above.</p>"
+    + f"<p>One number to two decimals reads as if it were measured, and the eligible-markets line is what decides it. Where terms push churn into parlays the cost climbs again; our parlay hold prior of {m['match']['prior_parlay']:.1f}% is a prior, not a measurement, and it is deliberately excluded from the table above.</p>"
     + match_worked(m['match']))}
 
     calc["effective-bets"] = {"body": (
@@ -2201,7 +2201,7 @@ def measure(engine) -> dict:
     calc["totals-middle"] = {"body": (
     "<p>A middle is a pair of bets on one game: the over at the lower line, the under at the higher one. Both win when the final total lands inside the window between them. Outside it, one side pays, the other loses, and the miss costs the vig.</p>"
     + f"<p>The lines priced here are {m['totals_middle']['low']} and {m['totals_middle']['high']}, a window {m['totals_middle']['window']} points wide. Break-even is {m['totals_middle']['breakeven']:.2f}%: the rate the window must hit for the pair to be worth holding. That is arithmetic on both prices and nothing else: no distribution, no sample, no view on the sport. It is the honest anchor.</p>"
-    + f"<p>The window probability is {m['totals_middle']['approx']:.2f}%. That one is a normal approximation, and its spread of {m['totals_middle']['sigma']:.1f} points is a stated prior, not a measurement. Competitors print a figure like it out to the decimal as though it had been observed.</p>"
+    + f"<p>The window probability is {m['totals_middle']['approx']:.2f}%. That one is a normal approximation, and its spread of {m['totals_middle']['sigma']:.1f} points is a stated prior, not a measurement. A figure like it, printed to the decimal, reads as observed when it is assumed.</p>"
     + "<p>Counting beats a smooth curve. Real scores cluster on the totals a sport actually produces. A curve cannot reproduce a lump, so it moves mass into gaps where finals never land. Count finals, and hold the sample to a threshold first.</p>"
     + "<table><tr><th>Threshold</th><th>Minimum</th></tr>"
     + f"<tr><td>Games in a totals sample</td><td>{m['totals_middle']['min_total_games']}</td></tr>"
@@ -2218,7 +2218,7 @@ def measure(engine) -> dict:
     + "".join(f"<tr><td>{r['american']}</td><td>{r['premium']:.2f}</td><td>{r['ev']:.2f}</td></tr>" for r in m['safety_net']['rows'])
     + "</table>"
     + f"<p>Short price to long price: {m['safety_net']['short_premium']:.2f} &rarr; {m['safety_net']['long_premium']:.2f}, a ratio of {m['safety_net']['ratio']:.2f}&times;. The gap between refund value and EV at the short price is the margin paid to place the qualifying bet at all. Longer is not unboundedly better: the long rows here are priced fair, which is a prior. Real longshot markets carry the heaviest margin, so read the long end as a ceiling.</p>"
-    + "<p>It is not hedgeable. The refund exists only in the branch where the bet loses, and a hedge pays only in the branch where it wins. Hedging buys away the outcome that produces the bonus, and pays a second margin to do it. Competitors print a single bonus value with the qualifying price held fixed. The price is the entire decision.</p>")}
+    + "<p>It is not hedgeable. The refund exists only in the branch where the bet loses, and a hedge pays only in the branch where it wins. Hedging buys away the outcome that produces the bonus, and pays a second margin to do it. A single bonus value with the qualifying price held fixed hides the point: the price is the entire decision.</p>")}
 
     calc["profit-boost"] = {"body": (
     "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p>"
@@ -2227,7 +2227,7 @@ def measure(engine) -> dict:
     + "".join(f"<tr><td>{r['american']}</td><td>${r['added']:.2f}</td><td>${r['ev']:.2f}</td></tr>" for r in m['boost']['rows'])
     + "</table>"
     + f"<p>The shortest price, {m['boost']['rows'][0]['american']}, adds ${m['boost']['worst']:.0f}. The longest, {m['boost']['rows'][-1]['american']}, adds ${m['boost']['best']:.0f}: {m['boost']['multiple']:.0f}x the profit on the same token, and about {m['boost']['ev_multiple']:.1f}x the expected value (${m['boost']['ev_worst']:.2f} against ${m['boost']['ev_best']:.2f}), with every row taking the posted price as fair. Spend a boost on a favourite and most of it is given away.</p>"
-    + f"<p>Competitors print the headline rate and stop, as though {m['boost']['pct']}% were the value. It is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p>"
+    + f"<p>The headline rate is easy to read as the value. {m['boost']['pct']}% is the rate, not the value. The value is the rate applied to a price. The EV column carries a prior: that the posted price is fair. Move that prior and the column moves with it. The ordering does not.</p>"
     + "<p>Then the part nobody costs in. A boost spent optimally is a boost spent conspicuously. Optimal use puts the token on a long price, near the top of your staking, inside the window the offer runs. That is a visible exception in an otherwise flat book, and an account whose staking carries a visible exception is an account a risk desk can read.</p>")}
 
     out["calculators"] = calc
@@ -2285,9 +2285,13 @@ def measure(engine) -> dict:
         {s for v in VENUES.values() for s in v.states}
         | set(NO_LEGAL_BETTING) | set(COVERAGE_GAPS) | set(RETAIL_ONLY)
     )
-    out["books"] = sorted(v.name for v in VENUES.values())
+    # The home page counts and scrolls the venues still taking bets. It counted all 33 and showed BetFred, WynnBET
+    # and SI Sportsbook, which take bets nowhere (audit C10, 2026-11-04); their keys stay in the catalog so old
+    # ledger rows resolve.
+    taking = [v for v in VENUES.values() if not v.exited]
+    out["books"] = sorted(v.name for v in taking)
     out["catalog"] = {
-        "venues": len(VENUES), "as_of": AS_OF, "states": len(states),
+        "venues": len(taking), "exited": len(VENUES) - len(taking), "as_of": AS_OF, "states": len(states),
         "nj": len(for_state("NJ")), "fl": len(for_state("FL")),
     }
     # The hub counts these out loud, so they are measured rather than printed
@@ -2550,7 +2554,7 @@ def site_schema(path: str, body: str) -> str:
 #: (content standard 5). Two each, chosen for the page's own subject.
 ONWARD = {
     "/account-longevity/": [
-        ("/sportsbooks/", "Which books limit winners, state by state"),
+        ("/sportsbooks/", "Which books may limit winners, state by state"),
         ("/guides/how-to-avoid-getting-limited/", "How to avoid getting limited")],
     "/best/best-arbitrage-betting-software/": [
         ("/calculators/arbitrage/", "The arbitrage calculator"),
@@ -3318,7 +3322,7 @@ def render_index(m: dict) -> str:
 </div>
 
 <section class="books">
-  <p class="books-cap">Knows {m["catalog"]["venues"]} sportsbooks, exchanges and prediction markets across {m["catalog"]["states"]} states</p>
+  <p class="books-cap">Knows {m["catalog"]["venues"]} sportsbooks, exchanges and prediction markets taking bets across {m["catalog"]["states"]} states</p>
   <div class="marquee"><div class="marquee-row">{names}<span aria-hidden="true"></span>{names.replace("<span>", '<span aria-hidden="true">')}</div></div>
 </section>
 
@@ -3420,7 +3424,7 @@ def render_index(m: dict) -> str:
     <div class="reveal"><h3>Your login stays yours</h3><p>It never asks for a sportsbook password, and your betting record never leaves your Mac.</p></div>
   </div>
   <div class="price-row">
-    {price("oddsjam", "Arbitrage and +EV plan", "$20/day")}
+    {price("oddsjam", "Arbitrage and +EV plan at $20 a day, billed monthly", "about $600/mo")}
     {price("avo", "Pro plan", "$88/mo")}
     {price("smartstake", "Premium plan", "$99/mo")}
     <p class="price ours"><span class="price-name">Bookbreaker</span><span class="price-val">Free</span><span class="price-src">No plan, no card, no account</span></p>
@@ -3466,7 +3470,7 @@ def render_index(m: dict) -> str:
     app works out the rest.</p></details>
     <details><summary>Will betting like this get me limited?</summary><p>Some books limit
     accounts that win. Bookbreaker rounds your stakes and shows
-    <a href="/sportsbooks/">which books in your state limit winners</a>.</p></details>
+    <a href="/sportsbooks/">which books in your state may limit winners</a>.</p></details>
     <details><summary>Which Macs does it run on?</summary><p>Any Mac with Apple silicon
     (M1 or later) running macOS 14 Sonoma or later. On an older macOS, the Mac will say it cannot open it. It is {app["mb"]} MB and notarised by Apple.</p></details>
     <details><summary>Does it place bets for me?</summary><p>No. It does the math and you
@@ -3663,8 +3667,9 @@ where we read it.</p>
 <h2>Head to head</h2>
 <p>{" &nbsp;&middot;&nbsp; ".join(f'<a href="/vs/{e(r["slug"])}/">{e({c["slug"]: c["name"] for c in COMPETITORS}[r["a"]])} vs {e({c["slug"]: c["name"] for c in COMPETITORS}[r["b"]])} &rarr;</a>' for r in load_data("matchups"))}</p>
 <h2>The gap</h2>
-<p>None of them publishes a fill rate, a rejection rate, or any measure of how
-often a surfaced line is still available when you tap it. Bookbreaker is built
+<p>When we last read their sites (the dates are in the table above), none of them
+published a fill rate, a rejection rate, or any measure of how often a surfaced
+line is still available when you tap it. Bookbreaker is built
 around that gap. A screen sorted by raw expected value is partly sorted by how
 stale its data is. The biggest numbers cluster on the books that moved most
 recently, and those are the books most likely to move again.</p>
@@ -3912,10 +3917,9 @@ def best_bodies(m: dict) -> dict[str, str]:
 
     bodies = {
 "best-arbitrage-betting-software": f"""
-<p>Every list answering this is an affiliate page, so here is what to check
-instead of who to buy.</p>
+<p>Here is what to check, rather than who to buy.</p>
 <p><strong>Does it publish a fill rate?</strong> None of the {n} tools
-catalogued here does. An arb you cannot get both legs on is not an arb, and a
+catalogued here did when we last read their sites. An arb you cannot get both legs on is not an arb, and a
 screen ranked on raw margin is ranked partly by how stale its own data is.
 The biggest numbers cluster on the books that moved most recently, which
 are the books most likely to have moved again.</p>
@@ -4725,10 +4729,9 @@ positions really are &rarr;</a></p>
 
 
 "what-does-it-mean-that-a-number-is-measured": f"""
-<p>Every betting tool shows you numbers. Almost none of them tell you which
-ones came from data and which came from somebody's assumption typed into a
-constant. The difference decides what a number is worth, and it is invisible
-unless the tool says so on purpose.</p>
+<p>Every betting tool shows you numbers. What a number is worth depends on
+whether it came from data or from somebody's assumption typed into a
+constant. The difference is invisible unless the tool says so on purpose.</p>
 <h2>Three kinds of number</h2>
 <p><strong>Arithmetic.</strong> Break-even on a pair of prices. A parlay's
 payout. These cannot be wrong, only misread. The totals middle above
@@ -5692,7 +5695,7 @@ scores {h['reaction'][2]['heat']}%. No human refreshes and decides in half a
 second.</p>
 
 <h2>Where it does nothing at all</h2>
-<p>{cat['venues']} venues are catalogued, and the ones not known to limit winners
+<p>{cat['venues']} venues taking bets are catalogued, and the ones not known to limit winners
 get no shaping whatsoever. A {e(h['stakes'][0]['stake'])} stake is rounded to
 {h['shaped']:,} at a retail book and left at {h['untouched']:,.2f} at a sharp
 one. Spending edge to hide from a risk desk that does not exist is the most
@@ -6462,7 +6465,7 @@ def render_state_page(m: dict, code: str) -> str:
     rows = ((f'<p><b class="pos">Exchanges, no house side:</b> {listed(ex)} '
              f'(<a href="/sportsbooks/no-legal-sportsbook/#prediction-markets">legality disputed</a>).</p>' if ex else "")
             + (f'<p><b class="pos">Not known to limit winning accounts:</b> {listed(other)}.</p>' if other else "")
-            + (f'<p><b>Limit winning accounts:</b> {listed(limiting)}.</p>' if limiting else "")
+            + (f'<p><b>Retail books, which may limit winning accounts:</b> {listed(limiting)}.</p>' if limiting else "")
             + prediction_state_note(code))
 
     never_names = ", ".join(b["name"] for b in never)
@@ -6483,7 +6486,7 @@ def render_state_page(m: dict, code: str) -> str:
 <h1>Online sports betting in {e(name)}</h1>
 <p class="lede">{len(online)} licensed online {_n(len(online), 'sportsbook')} took bets in
 {e(name)} as of {e(st['as_of'])}. {len(limiting)} of the {len(books)} {_n(len(books), 'venue')}
-covering the state limit accounts that win{'; ' + e(never_names) + (' is' if len(never) == 1 else ' are') + ' not known to' if never else ''}.</p>
+covering the state are retail books, which may limit accounts that win{'; ' + e(never_names) + (' is' if len(never) == 1 else ' are') + ' not known to' if never else ''}.</p>
 {top_cta(m, f"state-{code.lower()}-top")}
 {disclosure()}
 {helpline_block(code)}
@@ -6542,8 +6545,8 @@ def render_state_hub(m: dict) -> str:
     return f"""
 {breadcrumb_schema([("Sportsbooks by state", "/sportsbooks/")])}
 <h1>Sports betting by state</h1>
-<p class="lede">Every state, every licensed sportsbook covering it, and the
-column no other guide prints: which of them limit accounts that win. Read
+<p class="lede">Every state, every licensed sportsbook covering it, and which
+of them may limit accounts that win. Read
 {e(as_of)}.</p>
 {disclosure()}
 
@@ -6584,19 +6587,19 @@ def state_description(name: str) -> str:
     """
     for candidate in (
         f"Sportsbooks and prediction markets reachable from {name}: which "
-        f"limit winning accounts, and whether a fair price can be anchored. "
+        f"may limit winning accounts, and whether a fair price can be anchored. "
         f"Dated, not advice.",
-        f"Sportsbooks reachable from {name}: which limit winning accounts, "
+        f"Sportsbooks reachable from {name}: which may limit winning accounts, "
         f"and whether a fair price can be anchored there. Dated, not advice.",
         f"Sportsbooks and prediction markets reachable from {name}, and which "
-        f"of them limit winning accounts. Dated.",
+        f"of them may limit winning accounts. Dated.",
     ):
         if 50 <= len(candidate) <= 160:
             return candidate
-    short = f"Sportsbooks reachable from {name}, and which limit winners."
+    short = f"Sportsbooks reachable from {name}, and which may limit winners."
     if 50 <= len(short) <= 160:
         return short
-    return ("Sportsbooks and prediction markets by state: which limit winning "
+    return ("Sportsbooks and prediction markets by state: which may limit winning "
             "accounts, and whether a fair price can be anchored. Dated.")
 
 
@@ -7278,7 +7281,7 @@ hold across the best two books. Expectations also rest on those.</p>
 {book_sections(m, code)}
 <p><a href="/offers/">All states and every offer &rarr;</a> &nbsp;&middot;&nbsp;
 <a href="/calculators/bonus-bet-conversion/">How to convert a bonus bet &rarr;</a> &nbsp;&middot;&nbsp;
-<a href="/sportsbooks/{code.lower()}/">Which {e(name_state)} books limit winners &rarr;</a></p>
+<a href="/sportsbooks/{code.lower()}/">Which {e(name_state)} books may limit winners &rarr;</a></p>
 <p class="caveat">Read from secondary sources because the books' own promotion pages refuse automated readers.
 Offers change often; check the terms for your state before you sign up. Not legal or financial advice.</p>
 """
@@ -7486,10 +7489,11 @@ delivery network, may record the IP address of that request, under
 The numbers you type are never sent to jsDelivr or to us.</p>
 <h2>The app</h2>
 <p>Bookbreaker runs on your Mac. Your bets, stakes, results and account notes
-stay in a file on your machine. There is no account, no sync and no upload, and
-the window itself cannot make a network request: it links no HTTP client and
-its content security policy permits no external address. A test in the source
-fails the build if either ever changes.</p>
+stay in a file on your machine. There is no account, no sync and no upload. The
+window&rsquo;s page cannot make a network request: its content security policy permits
+no external address. The app around it links exactly one network client, the updater,
+which runs only for Check for updates below. A test in the source fails the build if the
+policy changes or a second client is linked.</p>
 <p>Only these reach the internet, and only when you ask:</p>
 <ul>
 <li><b>Live prices.</b> The switch on the Arbitrage page, when you turn it on, requests
@@ -8064,7 +8068,7 @@ list, and only one of them means you should go looking; nothing here is uncatalo
     out = SITE / "sportsbooks/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page(
-        "Sports betting by state: which books limit winners",
+        "Sports betting by state: which books may limit winners",
         "Every US state, the licensed sportsbooks covering it, and which of "
         "them limit accounts that win. Dated, and computed rather than "
         "supplied by a sportsbook.",
@@ -8142,7 +8146,7 @@ point for your own check, not legal advice.</p>
             # Carolina. Sized against the longest name in the set (14) so it
             # cannot overflow: 14 + 42 = 56. "every book, and" went; "which
             # books limit winners" is the distinctive half and it stays.
-            f"{name} sports betting: which books limit winners",
+            f"{name} sports betting: which books may limit winners",
             state_description(name),
             render_state_page(measured, code), url))
         built.append((url, rel))
