@@ -683,9 +683,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "1d3f26ff6c7d9404",
+  "engine_fingerprint": "e83d5f3004390a54",
   "engine_load": {
-    "bytes": 6549513,
+    "bytes": 6549819,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -1144,28 +1144,28 @@
   },
   "release": {
     "app": {
-      "bytes": 34925628,
-      "kb": 34107,
+      "bytes": 34924864,
+      "kb": 34106,
       "mb": 34.9,
-      "name": "Bookbreaker-0.1.57.dmg",
-      "sha256": "45758d0197388f3405b45efd0eb14af503a379aaed0dec1639b17c366c4b049f"
+      "name": "Bookbreaker-0.1.58.dmg",
+      "sha256": "0ea4734ac20114a135bf64e2f4f3b67f08ee63d07bf4f932131ea5c20cdea338"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1072704,
-      "kb": 1048,
+      "bytes": 1074023,
+      "kb": 1049,
       "mb": 1.1,
-      "name": "overlay-0.1.57.tar.gz",
-      "sha256": "15a1e0202bae6c8b518107b97a9697fcfd0b42668410ee2547e0ce5719206e33"
+      "name": "overlay-0.1.58.tar.gz",
+      "sha256": "f6ee56bf6c3b178c4ad035960b2d30ce79d82a500438b955600cdb20614166f7"
     },
-    "version": "0.1.57",
+    "version": "0.1.58",
     "wheel": {
-      "bytes": 534736,
-      "kb": 522,
+      "bytes": 535042,
+      "kb": 523,
       "mb": 0.5,
-      "name": "overlay-0.1.57-py3-none-any.whl",
-      "sha256": "27dae78d1b4651e8ecf34cc92d7dd9fa713224749e178a1b50927847c1dc074d"
+      "name": "overlay-0.1.58-py3-none-any.whl",
+      "sha256": "5c66fa2c7f39f80b461181d484991461e802a378de1c7631e069895b2c6eab7a"
     }
   },
   "replay": {
@@ -5238,12 +5238,12 @@
     "accounts": 0,
     "engine_modules": 81,
     "network_calls": 0,
-    "sha256": "45758d0197388f3405b45efd0eb14af503a379aaed0dec1639b17c366c4b049f",
-    "sha256_short": "45758d0197388f34",
+    "sha256": "0ea4734ac20114a135bf64e2f4f3b67f08ee63d07bf4f932131ea5c20cdea338",
+    "sha256_short": "0ea4734ac20114a1",
     "sources": 29,
-    "test_files": 129
+    "test_files": 130
   },
-  "version": "0.1.57",
+  "version": "0.1.58",
   "weights": {
     "max_age_days": 90
   },
@@ -5252,7 +5252,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "622d8bf2ed0110f5e9117db5d3c5346cdec6ede5"
+      "commit": "b1dffbb9d98409da7d0b54cac64b663143aca6ae"
     },
     "max_age_days": 21,
     "offers": [
@@ -6478,6 +6478,25 @@
   },
   "whatsnew": [
     {
+      "date": "2026-11-04",
+      "notes": [
+        {
+          "text": "The page now says plainly that the difference is yours only if both bets are accepted and stand.",
+          "where": "Arbitrage"
+        },
+        {
+          "text": "Every sportsbook link reads 21+. Where a state's legal minimum is 18, that is said beside it.",
+          "where": "Promos"
+        },
+        {
+          "text": "Fixed: typing 45 for a 45% win chance in Bet size showed an error report. It now asks for the share, like 0.45.",
+          "where": "Tools"
+        }
+      ],
+      "title": "Clearer wording on arbs, 21+ everywhere, and a fix in Bet size",
+      "version": "0.1.58"
+    },
+    {
       "date": "2026-11-01",
       "notes": [
         {
@@ -6557,17 +6576,6 @@
       ],
       "title": "Open a sportsbook from a play",
       "version": "0.1.51"
-    },
-    {
-      "date": "2026-10-31",
-      "notes": [
-        {
-          "text": "Type up to three sharp books' prices for the same market in Bet size. Bookbreaker removes each book's cut, gives the fair chance and price, the edge and what you can expect per $100 on average, and sizes the stake on the cautious end. Any one bet can lose.",
-          "where": "Tools"
-        }
-      ],
-      "title": "Bet size works out the edge from sharp books",
-      "version": "0.1.50"
     }
   ],
   "xvenue": {

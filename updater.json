@@ -1,11 +1,11 @@
 {
-  "version": "0.1.57",
-  "notes": "Is buying the half point worth it?\n\n- Type an NFL spread or total, its price, and the line and price with the half point bought: Bookbreaker gives how often games landed exactly on that number (2015 to 2025 regular season), the most the half point is worth paying, and what it does on average per $100. Any one bet can lose.",
-  "pub_date": "2026-11-01T15:42:31Z",
+  "version": "0.1.58",
+  "notes": "Clearer wording on arbs, 21+ everywhere, and a fix in Bet size.\n\n- The Arbitrage page says the difference is yours only if both bets are accepted and stand.\n- Every sportsbook link reads 21+; where a state allows 18, that is said beside it.\n- Fixed: typing 45 for a 45% win chance in Bet size showed an error report.",
+  "pub_date": "2026-11-04T09:24:08Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDF1ekRHRlIzaVMramhZcWNmSkxDMnA4R09vU0FGVDNQa3NmcmhRRlNPQTRaR1hhQVQ0dlNmbjE1UnVOVmpWdFRLZWdVdWd6YVZVdjZjL1VUVm9XY2dnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNTQ3NzMzCWZpbGU6Qm9va2JyZWFrZXItMC4xLjU3LmFwcC50YXIuZ3oKVS9TcUZZR0dHeHJ2dkl0d2pTZ3pRZHdmRE9LTG5zMG1YaUswaE9ZUkhZa3hQNitpZGxjU0VCUlQ3OXpkYmJVMWQ2T1ZleWlUMkNrendweXpDZ2U5REE9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.57.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDhlTnQ0bEpPbEdPMGltdDBtWWdLM25nYUt0cEt5SGRkZVhBN01GWEViOU5ZVWVCZGUyTjlEdVR3am53bjlwa3MvdXg0YXE3TU8wSVBwdG80TklGSHdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNzg0MjMyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjU4LmFwcC50YXIuZ3oKdnFrRHNUeWZ4RTBBc0w1ZExpR1NaZGRsamdTOXhqNFNtUDRmeHNrbU1KZE5JbFN1M3JCanlGSFVKR0hac0RoUTlmVGRlMDk4QUROSFhNeldobmRPQWc9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.58.app.tar.gz"
     }
   }
 }
