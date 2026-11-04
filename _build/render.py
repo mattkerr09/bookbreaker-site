@@ -960,6 +960,9 @@ def measure(engine) -> dict:
         "high": hi_line,
         "window": int(hi_line - lo_line),
         "approx": round(approx * 100, 2),
+        # Unrounded, for the dollar figure: the page's calculator works from it, and the rounded 2-place percentage
+        # put the worked example a cent away from the calculator's answer on the same inputs.
+        "p_exact": approx,
         "sigma": PRIOR_SIGMA["totals"],
         "breakeven": round(
             (1.0 / mid_lo + 1.0 / mid_hi - 1.0) * 100, 2),
@@ -1591,7 +1594,7 @@ def measure(engine) -> dict:
         mid = (tm["low"] + tm["high"]) / 2
         half = (tm["high"] - tm["low"]) / 2
         z = half / tm["sigma"]
-        p = tm["approx"] / 100
+        p = tm["p_exact"]
         ev = p * both - (1 - p) * miss
         finals = list(range(int(math.ceil(tm["low"])), int(math.floor(tm["high"])) + 1))
         return (
@@ -1803,7 +1806,7 @@ def measure(engine) -> dict:
                  ("Most likely score",
                   f"{po_['top_score']} at {po_['top_prob']:.2f}%")])
         + f"<p>The {po_['push_whole']:.2f}% push is why books quote halves, "
-        "and it is the row most totals calculators leave out entirely.</p>"
+        "and it is the row a totals price has to account for.</p>"
         "<p>Poisson assumes the two sides score independently. They do not: a "
         "team two goals down attacks, a team ahead defends, and real "
         "scorelines carry more draws and more blowouts than this model "
@@ -2194,7 +2197,7 @@ def measure(engine) -> dict:
     + f"<table><tr><th>Bets</th><th>Effective at prior rho {m['portfolio']['prior_rho']:.2f}</th><th>Effective at example rho {m['portfolio']['rho']:.2f}</th></tr>"
     + "".join(f"<tr><td>{r['n']}</td><td>{r['at_prior']:.1f}</td><td>{r['at_rho']:.1f}</td></tr>" for r in m['portfolio']['rows'])
     + "</table>"
-    + f"<p>Read the measured column down. From {m['portfolio']['rows'][0]['n']} bets to {m['portfolio']['rows'][-1]['n']} bets, the effective count crawls from {m['portfolio']['rows'][0]['at_rho']:.1f} to {m['portfolio']['rows'][-1]['at_rho']:.1f}. Past a handful of correlated positions, adding another buys no diversification. It only adds stake.</p>"
+    + f"<p>Read the example column down. From {m['portfolio']['rows'][0]['n']} bets to {m['portfolio']['rows'][-1]['n']} bets, the effective count crawls from {m['portfolio']['rows'][0]['at_rho']:.1f} to {m['portfolio']['rows'][-1]['at_rho']:.1f}. Past a handful of correlated positions, adding another buys no diversification. It only adds stake.</p>"
     + f"<p>That is what a staking rule has to see. A max single of {m['portfolio']['max_single']}% on a bankroll of {m['portfolio']['bankroll']:.0f} caps a lone bet at {m['portfolio']['cap_alone']:.0f}. The same rule, applied to a book already loaded with correlated exposure, caps it at {m['portfolio']['cap_loaded']:.2f}. Competitors print the first figure and call the portfolio diversified. They are counting tickets, and tickets are not independent.</p>"
     + effective_worked(m['portfolio']))}
 
@@ -2253,6 +2256,17 @@ def measure(engine) -> dict:
         "closing-line-value": {"bet": _am(clv_bet), "close": _am(clv_close),
                                "other": ""},
         "no-vig-odds": {"side": "-145", "other": "+125"},
+        "round-robin": {"legs": "-110, -110, -110", "size": "2", "stake": "25", "chance": "50"},
+        "poisson": {"home": "1.6", "away": "1.2", "line": "2.5"},
+        "effective-bets": {"bets": f"{out['portfolio']['rows'][-1]['n']}", "rho": f"{out['portfolio']['prior_rho']:g}"},
+        "low-hold": {"first": "1.91, 2.02, 1.87", "second": "1.91, 1.83, 1.98", "turnover": "10000"},
+        "totals-middle": {"low": f"{out['totals_middle']['low']:g}", "over": "-110",
+                          "high": f"{out['totals_middle']['high']:g}", "under": "-110", "total": "220",
+                          "sigma": f"{out['totals_middle']['sigma']:g}"},
+        "deposit-match": {"deposit": "1000", "bonus": "1000", "rollover": "10",
+                          "market": "-110, -110", "bonus_only": ""},
+        "middle": {"low": "-110", "high": "-110", "total": "1000",
+                   "chance": f"{out['middles']['cases'][0]['probability']:.2f}"},
         "expected-value": {"price": _am(ev_offer), "side": mkt_side,
                            "other": mkt_other, "own": ""},
         "parlay": {"legs": ", ".join(
@@ -2588,7 +2602,7 @@ ONWARD = {
         ("/ask/", "Ask Bookbreaker: questions the app answers")],
     "/how-it-works/": [
         ("/what-your-record-proves/", "What your record proves"),
-        ("/calculators/", "Every calculator, worked on real prices"),
+        ("/calculators/", "Every calculator, with a worked example"),
         ("/ask/", "Ask Bookbreaker: questions the app answers")],
     "/offers/": [
         ("/calculators/bonus-bet-conversion/", "How to convert a bonus bet"),
@@ -3042,7 +3056,7 @@ def render_download(m: dict) -> str:
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
             'a security warning.</span></li></ol>'
-            '<p>New in this version: this week&rsquo;s welcome offers, re-read on 4 November (FanDuel&rsquo;s is now $200 in bonus bets over four days), and an example market whose figures you can check by hand at the prices shown. Also recent: clearer wording on arbs (the difference is yours only if both bets are accepted and stand), 21+ beside every sportsbook link, a fix in Bet size, is buying the half point worth it, for NFL spreads and totals, from how often games landed on the number in 2015 to 2025 (any one bet can lose), move through the board with the keyboard, Fair odds converts any price into American, decimal and fractional odds with its break-even chance, Find a hedge looks for the other side of your bet in the odds already read on this Mac, best price first, and spends no credit, a play that asks for more at a book than the balance you typed in Your books says so, and gives the same plan scaled down to fit, in the Arb calculator, hold one side at the stake you want, or type an amount to lock and get the smallest total that does it (a lock holds only if every bet is accepted and stands), open a sportsbook from a play, for books licensed in your state, to the book&rsquo;s own page and never a filled-in bet slip, Bet size works out the edge from up to three sharp books&rsquo; prices, with the stake sized on the cautious end (any one bet can lose), hide a whole game, or every play at one book, with the same undo, Fair odds lets you choose how the cut is removed, including a worst case, the cautious price to size from, odds for each side on Low hold, so the cheapest pair it lists fits a playthrough&rsquo;s lowest price, board filters on the Arbitrage page (sort by return, edge or start time, a price range for +EV bets, game state, when the game starts, leagues and bet types, and a smallest window for middles, each saying how many plays it leaves), and a +EV stake sized on that book&rsquo;s balance in Your books. Also recent: Your books, a balance for each sportsbook you type and keep on this Mac, moved by the bets you track and settle (nothing connects to a book), three-way arbs in the Arb calculator, a suggested stake on every +EV play (a suggestion, not a promise: any one bet can lose), Find a hedge on an open bet, a parlay across games priced fair from Kalshi&rsquo;s prices, Bookbreaker now says it needs macOS 14 or later, a fix that charges Kalshi&rsquo;s full fee on games that override their series, Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
+            '<p>New in this version: the Arb calculator says when no round stakes keep a small arb at your rounding, a middle on a spread names each side, and Bet size works out the win chance from sharp prices when that box is empty. Also recent: this week&rsquo;s welcome offers, re-read on 4 November (FanDuel&rsquo;s is now $200 in bonus bets over four days), an example market whose figures you can check by hand at the prices shown, clearer wording on arbs (the difference is yours only if both bets are accepted and stand), 21+ beside every sportsbook link, a fix in Bet size, is buying the half point worth it, for NFL spreads and totals, from how often games landed on the number in 2015 to 2025 (any one bet can lose), move through the board with the keyboard, Fair odds converts any price into American, decimal and fractional odds with its break-even chance, Find a hedge looks for the other side of your bet in the odds already read on this Mac, best price first, and spends no credit, a play that asks for more at a book than the balance you typed in Your books says so, and gives the same plan scaled down to fit, in the Arb calculator, hold one side at the stake you want, or type an amount to lock and get the smallest total that does it (a lock holds only if every bet is accepted and stands), open a sportsbook from a play, for books licensed in your state, to the book&rsquo;s own page and never a filled-in bet slip, Bet size works out the edge from up to three sharp books&rsquo; prices, with the stake sized on the cautious end (any one bet can lose), hide a whole game, or every play at one book, with the same undo, Fair odds lets you choose how the cut is removed, including a worst case, the cautious price to size from, odds for each side on Low hold, so the cheapest pair it lists fits a playthrough&rsquo;s lowest price, board filters on the Arbitrage page (sort by return, edge or start time, a price range for +EV bets, game state, when the game starts, leagues and bet types, and a smallest window for middles, each saying how many plays it leaves), and a +EV stake sized on that book&rsquo;s balance in Your books. Also recent: Your books, a balance for each sportsbook you type and keep on this Mac, moved by the bets you track and settle (nothing connects to a book), three-way arbs in the Arb calculator, a suggested stake on every +EV play (a suggestion, not a promise: any one bet can lose), Find a hedge on an open bet, a parlay across games priced fair from Kalshi&rsquo;s prices, Bookbreaker now says it needs macOS 14 or later, a fix that charges Kalshi&rsquo;s full fee on games that override their series, Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
             'that repeat or oppose a bet you have open, alerts after a refresh you start, Track this bet, which saves a bet with its fair price, which books to fund in your state, a low-hold view, your record against what it should have been, how old every price is, '
             'an Odds screen with every book&rsquo;s price side by side, and a page that prices a promo you already hold. '
             '<a href="/how-it-works/">How it works</a>.</p>')
@@ -4052,11 +4066,11 @@ def guide_description(row: dict) -> str:
         f"{row['question']} Worked through with the arithmetic done, not just "
         "the formula.",
         f"{row['question']} Answered with the numbers worked.",
-        f"{row['title']}, worked through with real prices.",
+        f"{row['title']}, worked through on example prices.",
     ):
         if 50 <= len(candidate) <= 160:
             return candidate
-    return f"{row['title']} — worked through on real prices, with the range."
+    return f"{row['title']} — worked through on example prices, with the range."
 
 
 def app_scope_note() -> str:
@@ -5096,6 +5110,63 @@ CALC_FORMS = {
         [("bet", "Price you took", "odds"),
          ("close", "Closing price", "odds"),
          ("other", "Other side&rsquo;s closing price (optional)", "odds")]),
+    "low-hold": (
+        "Price your own low-hold pair",
+        "Enter each book's price for the first side, then each book's price for the other side in the same book "
+        "order, and the turnover you need. You get the cheapest way to cover both sides and what it costs.",
+        [("first", "First side, one price per book", "list"),
+         ("second", "Other side, same book order", "list"),
+         ("turnover", "Turnover", "num")]),
+    "totals-middle": (
+        "Price your own totals middle",
+        "Enter the over's total and price, the under's total and price, what you would stake in all and how widely "
+        "finals spread around the total. You get the chance of landing in the window, break-even and what the pair "
+        "is worth on average.",
+        [("low", "Over, total", "num"),
+         ("over", "Over, price", "odds"),
+         ("high", "Under, total", "num"),
+         ("under", "Under, price", "odds"),
+         ("total", "Total to stake", "num"),
+         ("sigma", "Spread of finals (points)", "num")]),
+    "effective-bets": (
+        "Count your own effective bets",
+        "Enter how many bets you hold open and the average correlation between them. You get how many independent "
+        "bets that adds up to.",
+        [("bets", "Bets held open", "num"),
+         ("rho", "Average correlation (0 to 1)", "num")]),
+    "deposit-match": (
+        "Check your own deposit match",
+        "Enter the deposit, the bonus, the playthrough multiple and one book's prices for every side of the "
+        "cheapest market the terms let you bet. You get the hold the offer breaks even at and what it is worth on "
+        "average.",
+        [("deposit", "Deposit", "num"),
+         ("bonus", "Bonus", "num"),
+         ("rollover", "Playthrough (times)", "num"),
+         ("market", "Prices of the market you play through", "list"),
+         ("bonus_only", "The playthrough counts the bonus only, not the deposit", "check")]),
+    "poisson": (
+        "Model your own match",
+        "Enter each side's expected goals and a total line. You get home, draw and away, the over, the push on a "
+        "whole number and the most likely score.",
+        [("home", "Home expected goals", "num"),
+         ("away", "Away expected goals", "num"),
+         ("line", "Total line", "num")]),
+    "middle": (
+        "Price your own middle",
+        "Enter the price of each bet, the total you would stake and how often you think the result lands in the "
+        "window between the two lines. Break-even comes from the prices alone; the hit rate is yours.",
+        [("low", "Price, first bet", "odds"),
+         ("high", "Price, second bet", "odds"),
+         ("total", "Total to stake", "num"),
+         ("chance", "How often it lands in the window (%)", "num")]),
+    "round-robin": (
+        "Work out your own round robin",
+        "Enter the price of every leg, how many legs each parlay takes and the stake on each ticket. Add one win "
+        "chance for every leg to see the expected profit against the same money on singles.",
+        [("legs", "Price of each leg", "list"),
+         ("size", "Legs in each parlay", "num"),
+         ("stake", "Stake on each ticket", "num"),
+         ("chance", "Each leg's win chance (%), optional", "num")]),
     "no-vig-odds": (
         "Any price, American or decimal",
         "Type both sides of one market at any price, American or decimal, including prices like &minus;112 that "
@@ -5255,10 +5326,10 @@ def calc_form(m: dict, slug: str) -> str:
 def calc_description(m: dict, row: dict) -> str:
     """Meta description: what the page does now, which is take your numbers."""
     if row["slug"] not in m["calc_defaults"]:
-        return (f"{row['question']} Worked through on real prices by the "
+        return (f"{row['question']} Worked through on example prices by the "
                 "engine that prices bets, with the range the answer sits in.")
     text = (f"{row['question']} Type your own numbers: the real engine runs "
-            "in your browser, with a worked example on real prices.")
+            "in your browser, with a worked example.")
     if len(text) > 160:
         raise SystemExit(f"{row['slug']}: description is {len(text)} characters")
     return text
@@ -5268,7 +5339,7 @@ def render_calculator(m: dict, row: dict) -> str:
     """One calculator page, with a worked example the engine produced.
 
     Every competing calculator page shows a form and a formula. These show the
-    arithmetic already done on real prices, and — the part none of them do —
+    arithmetic already done on example prices, and — the part none of them do —
     the range the answer actually sits in.
     """
     slug = row["slug"]
@@ -7475,7 +7546,7 @@ rather than making figures up; with a local model through Ollama nothing leaves 
 <p>It describes the odds of the prices it is given. It does not find a bet that beats the book unless the prices show
 one, and it never places a bet. 21+. Gambling problem? Call or text 1-800-MY-RESET (1-800-697-3738).</p>
 <p><a href="/privacy/">What leaves your Mac when you use Ask &rarr;</a>
-&nbsp;&middot;&nbsp;<a href="/calculators/">Every calculator, worked on real prices &rarr;</a></p>
+&nbsp;&middot;&nbsp;<a href="/calculators/">Every calculator, with a worked example &rarr;</a></p>
 """
 
 
@@ -7718,7 +7789,7 @@ def render_llms(built_urls: set[str]) -> str:
         "",
         "## Free calculators",
         "",
-        link("/calculators/", "All calculators", "each worked through on real prices, "
+        link("/calculators/", "All calculators", "each worked through on example prices, "
              "with the range the answer sits in; most take your own numbers and run "
              "the same engine in your browser"),
         *(link(f"/calculators/{r['slug']}/", r["name"], sentence(r["question"]))
@@ -7808,7 +7879,7 @@ def main() -> int:
         out = SITE / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(
-            f"{row['name']}: free, worked on real prices",
+            f"{row['name']}: free, with a worked example",
             calc_description(measured, row),
             render_calculator(measured, row), url))
         built.append((url, rel))
@@ -7824,7 +7895,7 @@ def main() -> int:
     )
     hub = f"""
 <h1>Free betting calculators</h1>
-<p class="lede">Each one comes with the answer already worked out on real prices,
+<p class="lede">Each one comes with the answer already worked out on example prices,
 so you see what it tells you before you type a thing. Most then take your own
 numbers and run the real engine in your browser. Pick the question you have.</p>
 <ul class="cards" data-hub>{rows}</ul>
@@ -7836,10 +7907,10 @@ download, and do no arithmetic of their own.</p>
     out = SITE / "calculators/index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page(
-        "Free betting calculators, worked on real prices",
+        "Free betting calculators, with worked examples",
         "No-vig odds, expected value, arbitrage staking, Kelly, hold, bonus "
         "conversion, middles and closing line value, each worked through on "
-        "real prices.",
+        "example prices.",
         hub, "/calculators/"))
     built.append(("/calculators/", "calculators/index.html"))
 
@@ -7943,7 +8014,7 @@ download, and do no arithmetic of their own.</p>
         f"""
 <h1>Betting guides</h1>
 <p class="lede">Plain answers to the questions bettors ask, each worked through
-on real prices. New to this? Start with the first group.</p>
+on example prices. New to this? Start with the first group.</p>
 {top_cta(measured, "guides-top")}
 {links}
 """, "/guides/"))
