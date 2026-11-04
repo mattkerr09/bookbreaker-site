@@ -1523,6 +1523,48 @@ def check_dutching_partial_set_is_not_an_arbitrage(fails, app_repo: Path):
                       f"holds only if they cover every outcome: {said[:140]!r}")
 
 
+def check_round_robin_example_is_priced_as_it_says(pages, fails, app_repo: Path):
+    """The round-robin page says three legs at -110, so its figures must be the engine's at -110 (1.90909...). It was
+    built on decimal 1.91 and showed 91.20 and 273.61 where a reader working -110 by hand gets 91.12 and 273.35
+    (audit M1, 2026-11-04)."""
+    if str(app_repo / "backend") not in sys.path:
+        sys.path.insert(0, str(app_repo / "backend"))
+    from overlay_engine import roundrobin
+    from overlay_engine.odds import american_to_decimal
+    def figures(price):
+        rows = roundrobin.build([price] * 3, [2], 25.0, probs=[0.5, 0.5, 0.5]).by_leg_count()
+        return [f"{rows[2]['returned_low']:,.2f}", f"{rows[3]['returned_low']:,.2f}"]
+    want, rounded = figures(american_to_decimal(-110)), figures(1.91)
+    for path, markup in pages:
+        if path != "calculators/round-robin/index.html":
+            continue
+        text = visible(markup)
+        if "Three legs at \u2212110" not in text and "Three legs at -110" not in text:
+            fails.append(f"{path}: no longer says 'Three legs at -110'; re-point this check at what it says")
+        for figure in want:
+            if figure not in text:
+                fails.append(f"{path}: the engine at -110 returns {figure} and the page does not show it, so a "
+                             "reader working the example by hand cannot reproduce it")
+        for figure in rounded:
+            if figure in text:
+                fails.append(f"{path}: shows {figure}, the figure for decimal 1.91, while saying -110 (1.90909...)")
+
+
+def check_devig_box_refuses_prices_off_its_grid(pages, fails):
+    """The quick no-vig box holds the engine's answers for prices in steps of 5. A price off that grid (-112) was
+    snapped to the nearest one (-110) and answered for a different market (audit M2, 2026-11-04). Every page that
+    carries the box must refuse instead, and say where the engine takes any price."""
+    for path, markup in pages:
+        if 'id="own-a"' not in markup:
+            continue
+        if not re.search(r"if \(ai < 0 \|\| bi < 0\) \{\s*say\('<p class=\"own-no\">", markup):
+            fails.append(f"{path}: the no-vig box no longer refuses a price off its grid")
+        if re.search(r"\bnearest\(|snapped", markup):
+            fails.append(f"{path}: the no-vig box rounds a price to the nearest one on its grid")
+        if 'href="/calculators/no-vig-odds/"' not in markup:
+            fails.append(f"{path}: the no-vig box does not point at the calculator that takes any price")
+
+
 def check_house_wording(pages, fails):
     """No page says "free bet", "risk-free", "guaranteed" and the rest of the banned list.
 
@@ -2323,6 +2365,10 @@ def main() -> int:
         "check_no_win_promises_or_bare_locks": lambda: check_no_win_promises_or_bare_locks(pages, fails),
         "check_dutching_partial_set_is_not_an_arbitrage":
             lambda: check_dutching_partial_set_is_not_an_arbitrage(fails, Path(args.app_repo).expanduser().resolve()),
+        "check_round_robin_example_is_priced_as_it_says":
+            lambda: check_round_robin_example_is_priced_as_it_says(
+                pages, fails, Path(args.app_repo).expanduser().resolve()),
+        "check_devig_box_refuses_prices_off_its_grid": lambda: check_devig_box_refuses_prices_off_its_grid(pages, fails),
         "check_hero_video_matches_the_app":
             lambda: check_hero_video_matches_the_app(
                 fails, Path(args.app_repo).expanduser().resolve()),

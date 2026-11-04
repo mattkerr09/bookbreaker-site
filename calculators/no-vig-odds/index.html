@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
 <title>No-vig odds calculator: free, worked on real prices</title>
-<meta name="description" content="What are the true odds behind a sportsbook&#x27;s price? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="description" content="What are the true odds behind a sportsbook&#x27;s price? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="canonical" href="https://bookbreaker.bet/calculators/no-vig-odds/">
 <!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE: no og:title, no
      og:description, no twitter:card, so every shared link unfurled as a bare
@@ -30,7 +30,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bookbreaker">
 <meta property="og:title" content="No-vig odds calculator: free, worked on real prices">
-<meta property="og:description" content="What are the true odds behind a sportsbook&#x27;s price? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta property="og:description" content="What are the true odds behind a sportsbook&#x27;s price? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <meta property="og:url" content="https://bookbreaker.bet/calculators/no-vig-odds/">
 <meta property="og:image" content="https://bookbreaker.bet/og.png">
 <meta property="og:image:width" content="1200">
@@ -39,7 +39,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bookbreaker.bet/og.png">
 <meta name="twitter:title" content="No-vig odds calculator: free, worked on real prices">
-<meta name="twitter:description" content="What are the true odds behind a sportsbook&#x27;s price? Worked through on real prices by the engine that prices bets, with the range the answer sits in.">
+<meta name="twitter:description" content="What are the true odds behind a sportsbook&#x27;s price? Type your own numbers: the real engine runs in your browser, with a worked example on real prices.">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -62,9 +62,9 @@
 </div>
 <section class="own reveal">
   <h2>Try it on your own price</h2>
-  <p class="own-lede">Type the two sides of any market. You get the consensus
-  fair probability and how far the four methods disagree about it. A one-figure
-  no-vig calculator leaves that number out.</p>
+  <p class="own-lede">Type the two sides of a market priced in steps of 5, like
+  &minus;145 and &plus;125. You get the consensus fair probability and how far the
+  four methods disagree about it. A one-figure no-vig calculator leaves that number out.</p>
   <div class="own-in">
     <label>Price one <input id="own-a" inputmode="text" value="-145"
       autocomplete="off" spellcheck="false"></label>
@@ -76,10 +76,11 @@
   </div>
   <p class="own-note">Every answer here was computed by the same engine that
   built this page, for all 6,737 two-way markets between &minus;600 and
-  &plus;600. Nothing is calculated in your browser: a second implementation
+  &plus;600 in steps of 5. Nothing is calculated in your browser: a second implementation
   drifts from the first, and the drift is invisible until someone bets on it.
-  Prices that do not form a real two-way market are refused rather than
-  rounded into one.</p>
+  A price off that grid, such as &minus;112, is refused rather than rounded to the nearest one, and so
+  is a pair that does not form a real two-way market. The
+  <a href="/calculators/no-vig-odds/">no-vig calculator</a> runs the engine itself on any price.</p>
 </section>
 
 <script>
@@ -105,13 +106,9 @@
     return n;
   }
 
-  function nearest(v, prices) {
-    var best = null, gap = Infinity;
-    for (var i = 0; i < prices.length; i++) {
-      var d = Math.abs(prices[i] - v);
-      if (d < gap) { gap = d; best = prices[i]; }
-    }
-    return best;
+  var ENGINE = '<a href="/calculators/no-vig-odds/">no-vig calculator</a>';
+  function esc(t) {
+    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   function say(html) { out.innerHTML = html; }
@@ -121,21 +118,25 @@
     var av = parse(a.value), bv = parse(b.value);
     if (av === null || bv === null) {
       say('<p class="own-hint">Two American prices, like &minus;145 and ' +
-          '&plus;125.</p>');
+          '&plus;125. For a decimal price, the ' + ENGINE + ' takes it.</p>');
       return;
     }
     var prices = table.prices;
     var ai = prices.indexOf(av), bi = prices.indexOf(bv);
-    var snapped = false;
-    if (ai < 0) { av = nearest(av, prices); ai = prices.indexOf(av); snapped = true; }
-    if (bi < 0) { bv = nearest(bv, prices); bi = prices.indexOf(bv); snapped = true; }
+    if (ai < 0 || bi < 0) {
+      say('<p class="own-no">' + esc(ai < 0 ? a.value : b.value) + ' is not on this table, which ' +
+          'holds the engine&rsquo;s answers for prices in steps of 5 from &minus;600 to &plus;600. ' +
+          'The nearest one would be a different market, so there is no answer here. The ' + ENGINE +
+          ' runs the engine on any price.</p>');
+      return;
+    }
     var key = ai * table.stride + bi;
     var flat = table.flat, found = -1;
     for (var i = 0; i < flat.length; i += 3) {
       if (flat[i] === key) { found = i; break; }
     }
     if (found < 0) {
-      say('<p class="own-no">Those two prices do not make a two-way market ' +
+      say('<p class="own-no">Those two prices do not make a two-way market' +
           '. Together they imply a total outside the 0&ndash;12% ' +
           'margin a real one carries. Rounding them into range would be ' +
           'inventing an answer, so there is not one.</p>');
@@ -144,10 +145,7 @@
     var consensus = flat[found + 1] / 100;
     var spread = flat[found + 2] / 100;
     say('<div class="own-big">' + consensus.toFixed(2) + '%</div>' +
-        '<p class="own-cap">Consensus fair probability for the first side' +
-        (snapped ? ' (nearest priced market: ' +
-          (av > 0 ? '+' : '') + av + ' / ' + (bv > 0 ? '+' : '') + bv + ')'
-          : '') + '.</p>' +
+        '<p class="own-cap">Consensus fair probability for the first side.</p>' +
         '<p class="own-spread">The four methods disagree by <b>' +
         spread.toFixed(2) + ' points</b>. A calculator that prints one ' +
         'number to two decimals has picked one of them and not told you.</p>');
@@ -175,13 +173,23 @@
   load();
 })();
 </script>
-
-<p>A book offering -145 / +125 is asserting probabilities that sum to more than one. Removing that margin gives the favourite:</p><div class="scroll"><table><tr><td>additive</td><td>57.37%</td></tr><tr><td>multiplicative</td><td>57.11%</td></tr><tr><td>power</td><td>57.50%</td></tr><tr><td>shin</td><td>57.37%</td></tr></table></div><p>Consensus 57.34%, and the four methods disagree by 0.39 points. Every other no-vig calculator returns one number.</p><h2>Taking the margin out by hand</h2><p>The favourite at -145 is 1.6897 in decimal and implies 59.18%. The other side at +125 is 2.2500 and implies 44.44%. Together that is 103.63%; the 3.63% over a whole is the margin.</p><p>The multiplicative method scales each side down by the total: 59.18% over 1.0363 is 57.11%. The additive method takes an equal share of the excess off each side instead: 59.18% less half of 3.63% is 57.37%. Power and Shin lean the cut toward the longshot, where books tend to take more.</p><p>The consensus of the four, 57.34%, is a fair decimal price of 1.744, or -134. A book offering the favourite at better than that is paying above fair; one offering worse is charging for it.</p><h2>When to devig</h2><p>Before judging any price as good or bad. Raw implied probabilities include the margin and make every bet look worse, or a soft price look like an edge it is not.</p><p>On a sharp book's market, to get the fair probability that the <a href="/calculators/expected-value/">expected value</a> and <a href="/calculators/kelly/">Kelly</a> calculators need.</p><p>When the four methods disagree by more than the edge you think you have. Then the edge is a matter of method, not of price.</p>
+<section class="own calc">
+  <h2>Any price, American or decimal</h2>
+  <p class="own-lede">Type both sides of one market at any price, American or decimal, including prices like &minus;112 that the box above does not hold. The engine runs in your browser and gives the fair probability under each of the four methods.</p>
+  <form data-calc="no-vig-odds" novalidate>
+    <div class="own-in"><label>First side <input name="side" inputmode="text" value="-145" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label>Other side <input name="other" inputmode="text" value="+125" autocomplete="off" autocapitalize="off" spellcheck="false"></label></div>
+    
+    <div class="calc-go"><button class="btn primary" type="submit" disabled>Calculate</button></div>
+  </form>
+  <div class="own-out" aria-live="polite"></div>
+</section>
+<script src="/calc.js?v=121ba17905" defer></script>
+<p>A book offering -145 / +125 is asserting probabilities that sum to more than one. Removing that margin gives the favourite:</p><div class="scroll"><table><tr><td>additive</td><td>57.37%</td></tr><tr><td>multiplicative</td><td>57.11%</td></tr><tr><td>power</td><td>57.50%</td></tr><tr><td>shin</td><td>57.37%</td></tr></table></div><p>Consensus 57.34%, and the four methods disagree by 0.39 points. A calculator that returns one number has picked one of them without saying which.</p><h2>Taking the margin out by hand</h2><p>The favourite at -145 is 1.6897 in decimal and implies 59.18%. The other side at +125 is 2.2500 and implies 44.44%. Together that is 103.63%; the 3.63% over a whole is the margin.</p><p>The multiplicative method scales each side down by the total: 59.18% over 1.0363 is 57.11%. The additive method takes an equal share of the excess off each side instead: 59.18% less half of 3.63% is 57.37%. Power and Shin lean the cut toward the longshot, where books tend to take more.</p><p>The consensus of the four, 57.34%, is a fair decimal price of 1.744, or -134. A book offering the favourite at better than that is paying above fair; one offering worse is charging for it.</p><h2>When to devig</h2><p>Before judging any price as good or bad. Raw implied probabilities include the margin and make every bet look worse, or a soft price look like an edge it is not.</p><p>On a sharp book's market, to get the fair probability that the <a href="/calculators/expected-value/">expected value</a> and <a href="/calculators/kelly/">Kelly</a> calculators need.</p><p>When the four methods disagree by more than the edge you think you have. Then the edge is a matter of method, not of price.</p>
 <div class="top-cta"><div class="cta"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=calc-no-vig-odds-top&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.58.dmg" data-download rel="nofollow">Download free for Mac</a></div>
 <p class="free-line">Free. No account and no subscription. Needs macOS 14 or later on a Mac with Apple silicon (M1 or later). 34.9 MB, notarised by Apple.</p></div>
 <div class="shots"><figure><img src="/media/panel-fairodds.jpg" width="1280" height="720" loading="lazy" alt="The app's fair odds tool with the book's cut taken out of both sides."><figcaption><b>In the app</b><span>The fair odds tool, on -145 against +125. With the book&rsquo;s 3.50% cut taken out, the favourite wins 57.3% of the time, and the four ways of removing the cut disagree by 0.39%.</span></figcaption></figure></div>
 <h2>Where the number comes from</h2>
-<p>Everything above was computed by the same engine that prices bets, at the moment this page was built. None of it was typed in. The build fails if a figure appears here and not in the engine's own output.</p>
+<p>The worked example was computed by the same engine that prices bets, at the moment this page was built. None of it was typed in. The build fails if a figure appears here and not in the engine's own output. The calculator runs that engine, release 0.1.58, in your browser, and the build checks that it returns this example&rsquo;s answers for this example&rsquo;s inputs.</p>
 <p><a href="/how-it-works/">How a price is formed &rarr;</a>
 &nbsp;&middot;&nbsp;
 <a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>

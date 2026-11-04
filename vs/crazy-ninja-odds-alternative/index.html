@@ -60,9 +60,9 @@
 <p class="free-line">Free. No account and no subscription. Needs macOS 14 or later on a Mac with Apple silicon (M1 or later). 34.9 MB, notarised by Apple.</p></div>
 <section class="own reveal">
   <h2>Try it on your own price</h2>
-  <p class="own-lede">Type the two sides of any market. You get the consensus
-  fair probability and how far the four methods disagree about it. A one-figure
-  no-vig calculator leaves that number out.</p>
+  <p class="own-lede">Type the two sides of a market priced in steps of 5, like
+  &minus;145 and &plus;125. You get the consensus fair probability and how far the
+  four methods disagree about it. A one-figure no-vig calculator leaves that number out.</p>
   <div class="own-in">
     <label>Price one <input id="own-a" inputmode="text" value="-145"
       autocomplete="off" spellcheck="false"></label>
@@ -74,10 +74,11 @@
   </div>
   <p class="own-note">Every answer here was computed by the same engine that
   built this page, for all 6,737 two-way markets between &minus;600 and
-  &plus;600. Nothing is calculated in your browser: a second implementation
+  &plus;600 in steps of 5. Nothing is calculated in your browser: a second implementation
   drifts from the first, and the drift is invisible until someone bets on it.
-  Prices that do not form a real two-way market are refused rather than
-  rounded into one.</p>
+  A price off that grid, such as &minus;112, is refused rather than rounded to the nearest one, and so
+  is a pair that does not form a real two-way market. The
+  <a href="/calculators/no-vig-odds/">no-vig calculator</a> runs the engine itself on any price.</p>
 </section>
 
 <script>
@@ -103,13 +104,9 @@
     return n;
   }
 
-  function nearest(v, prices) {
-    var best = null, gap = Infinity;
-    for (var i = 0; i < prices.length; i++) {
-      var d = Math.abs(prices[i] - v);
-      if (d < gap) { gap = d; best = prices[i]; }
-    }
-    return best;
+  var ENGINE = '<a href="/calculators/no-vig-odds/">no-vig calculator</a>';
+  function esc(t) {
+    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   function say(html) { out.innerHTML = html; }
@@ -119,21 +116,25 @@
     var av = parse(a.value), bv = parse(b.value);
     if (av === null || bv === null) {
       say('<p class="own-hint">Two American prices, like &minus;145 and ' +
-          '&plus;125.</p>');
+          '&plus;125. For a decimal price, the ' + ENGINE + ' takes it.</p>');
       return;
     }
     var prices = table.prices;
     var ai = prices.indexOf(av), bi = prices.indexOf(bv);
-    var snapped = false;
-    if (ai < 0) { av = nearest(av, prices); ai = prices.indexOf(av); snapped = true; }
-    if (bi < 0) { bv = nearest(bv, prices); bi = prices.indexOf(bv); snapped = true; }
+    if (ai < 0 || bi < 0) {
+      say('<p class="own-no">' + esc(ai < 0 ? a.value : b.value) + ' is not on this table, which ' +
+          'holds the engine&rsquo;s answers for prices in steps of 5 from &minus;600 to &plus;600. ' +
+          'The nearest one would be a different market, so there is no answer here. The ' + ENGINE +
+          ' runs the engine on any price.</p>');
+      return;
+    }
     var key = ai * table.stride + bi;
     var flat = table.flat, found = -1;
     for (var i = 0; i < flat.length; i += 3) {
       if (flat[i] === key) { found = i; break; }
     }
     if (found < 0) {
-      say('<p class="own-no">Those two prices do not make a two-way market ' +
+      say('<p class="own-no">Those two prices do not make a two-way market' +
           '. Together they imply a total outside the 0&ndash;12% ' +
           'margin a real one carries. Rounding them into range would be ' +
           'inventing an answer, so there is not one.</p>');
@@ -142,10 +143,7 @@
     var consensus = flat[found + 1] / 100;
     var spread = flat[found + 2] / 100;
     say('<div class="own-big">' + consensus.toFixed(2) + '%</div>' +
-        '<p class="own-cap">Consensus fair probability for the first side' +
-        (snapped ? ' (nearest priced market: ' +
-          (av > 0 ? '+' : '') + av + ' / ' + (bv > 0 ? '+' : '') + bv + ')'
-          : '') + '.</p>' +
+        '<p class="own-cap">Consensus fair probability for the first side.</p>' +
         '<p class="own-spread">The four methods disagree by <b>' +
         spread.toFixed(2) + ' points</b>. A calculator that prints one ' +
         'number to two decimals has picked one of them and not told you.</p>');

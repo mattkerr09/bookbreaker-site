@@ -219,6 +219,20 @@ CASES = [
         '"That is under 100%, so this is an arbitrage across the outcomes of the "',
     ),
     (
+        "the round-robin example shows the figures for 1.91 while saying -110",
+        "check_round_robin_example_is_priced_as_it_says",
+        "calculators/round-robin/index.html",
+        "273.35",
+        "273.61",
+    ),
+    (
+        "the no-vig box answers an off-grid price for the nearest one",
+        "check_devig_box_refuses_prices_off_its_grid",
+        "calculators/no-vig-odds/index.html",
+        "if (ai < 0 || bi < 0) {",
+        "if (false) {",
+    ),
+    (
         "a router page that claims a live tracking link the table does not have",
         "check_router_pages_match_the_table_and_behave",
         "go/dk/index.html",

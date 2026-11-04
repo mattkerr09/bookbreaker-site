@@ -381,6 +381,28 @@ def breakeven(v: dict) -> dict:
     }
 
 
+def no_vig(v: dict) -> dict:
+    side = _price(v, "side", "The price for the first side")
+    other = _price(v, "other", "The price for the other side")
+    total = 1 / side + 1 / other
+    if total < 1:
+        raise CalcError(f"Those two prices imply {total:.2%} together, under 100%. One book does not price a market "
+                        "that way: two books' prices that do are an arbitrage, with no margin to remove.")
+    if total > 1.12:
+        raise CalcError(f"Those two prices imply {total:.2%} together, a margin over 12%. That is not the two sides "
+                        "of one market, so there is no fair probability to give.")
+    market = devig_all([side, other])
+    fair, spread = market.consensus(0), market.spread(0)
+    return {
+        "headline": f"{fair:.2%}",
+        "caption": "consensus fair probability for the first side, with the book's margin removed",
+        "table": {"head": ["Method", "First side"],
+                  "rows": [[name, f"{p[0]:.2%}"] for name, p in sorted(market.by_method.items())]},
+        "notes": [f"The four methods disagree by {spread * 100:.2f} points. A calculator that prints one number has "
+                  "picked one of them."],
+    }
+
+
 def hold_calc(v: dict) -> dict:
     prices = _prices(v, "prices", "The prices", 2, 12)
     return {
@@ -501,6 +523,7 @@ CALCULATORS = {
     "odds-converter": (odds_converter, ("prices",)),
     "breakeven": (breakeven, ("prices",)),
     "hold": (hold_calc, ("prices",)),
+    "no-vig-odds": (no_vig, ("side", "other")),
     "bonus-bet-conversion": (bonus_conversion, ("bonus", "free", "hedge")),
     "no-sweat-bet": (no_sweat, ("stake", "conversion", "price", "prob")),
     "profit-boost": (profit_boost, ("stake", "boost", "price", "prob")),

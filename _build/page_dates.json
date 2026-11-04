@@ -25,19 +25,19 @@
  },
  "calculators/arbitrage/index.html": {
   "date": "2026-11-04",
-  "sha": "cf9093d9afce55242cc37cf7c607190ba0a884123dec8aed7e196c52df3e3de9"
+  "sha": "273d3413884ee5dd8617526177ecec1e664a6aff0e5cd39d34013eeb0ed4eafb"
  },
  "calculators/bonus-bet-conversion/index.html": {
   "date": "2026-11-04",
-  "sha": "cccbad433c20166f441f0c6e09538e1a2e1778bbf1d5f619c1141adb8d27a171"
+  "sha": "8f9d5caabcb2e553c50171dc747849e53bef2c782d7608d97f196057de9597f5"
  },
  "calculators/breakeven/index.html": {
   "date": "2026-11-04",
-  "sha": "39726970dc4947f4d2f83652847f7bcf943e2682973853d9d4f528067bcab801"
+  "sha": "40806df3c5a18d52fadd5304089d7b485fd593f2795aa1082bc5575f70b9c33d"
  },
  "calculators/closing-line-value/index.html": {
   "date": "2026-11-04",
-  "sha": "22c518f682f6e4ce1b89bb9d0fde4484141b6f1c0ade39eac833f0964fc3c55b"
+  "sha": "9f268b4f69f0cf8a156f9fb23660fbd2f9843952a5ab5118707813a1f653166a"
  },
  "calculators/deposit-match/index.html": {
   "date": "2026-11-04",
@@ -45,7 +45,7 @@
  },
  "calculators/dutching/index.html": {
   "date": "2026-11-04",
-  "sha": "060441156a907ef68182af5f09ac14bcaf3d44f464609b381ad5f3c72191f605"
+  "sha": "e8c356eb9a58dda5b11151c2ddbc256c96e7a777b7d889ccf7d113a0166ac5ad"
  },
  "calculators/effective-bets/index.html": {
   "date": "2026-11-04",
@@ -53,15 +53,15 @@
  },
  "calculators/expected-value/index.html": {
   "date": "2026-11-04",
-  "sha": "3a74e32f5544b20246c42464d59d8a9c55124eaebfa697364e38ba5d390b3420"
+  "sha": "559055de3b28ddb61d229712e04d8665ec1dbbf216f120494b45e86e295c5001"
  },
  "calculators/hedge/index.html": {
   "date": "2026-11-04",
-  "sha": "47146ef9160b8d4abb183f306198941808f5c4167ea0a3c8af3d96ea889678c6"
+  "sha": "d78ad1eda5d8549b80c40e6702b8c4be642fdeb1643f116cf2b03bce78d0e081"
  },
  "calculators/hold/index.html": {
   "date": "2026-11-04",
-  "sha": "1a044c45d751bd92b699e6920ef44f75a6d4afea9f85f77c388d5180ea910590"
+  "sha": "27ea9e488b2856c3f3d39c98b4ca552bf6cb79ee271856e24a2d5f7e18dbc0ff"
  },
  "calculators/index.html": {
   "date": "2026-11-04",
@@ -69,7 +69,7 @@
  },
  "calculators/kelly/index.html": {
   "date": "2026-11-04",
-  "sha": "5f1e7de26490ad69d2f57dd230868aa4d2cfe5b6a6207d4648ebcc83cfefe8e4"
+  "sha": "f249f30d5b11b6dd0acfbcb1215a732deec231d0647c778d8ccfd5ef1f76eb17"
  },
  "calculators/low-hold/index.html": {
   "date": "2026-11-04",
@@ -81,19 +81,19 @@
  },
  "calculators/no-sweat-bet/index.html": {
   "date": "2026-11-04",
-  "sha": "dc9f4bc7942deffd2e894ece0484efe417dc2dc1b5d789f4b40d672c8d708fec"
+  "sha": "f536d07a22a7fd388ac5ae04194ef00aff265263c1b24b54aa47c7222d18fe88"
  },
  "calculators/no-vig-odds/index.html": {
   "date": "2026-11-04",
-  "sha": "22418d972fb6aa569f2e942a233b533036daf02379e89dbf3ece87f20cad5d03"
+  "sha": "50c8f6172a7dbb82b9d72144a1e028ac33a02c627e8bea9c555766f53ca9556a"
  },
  "calculators/odds-converter/index.html": {
   "date": "2026-11-04",
-  "sha": "4598954203b1f4913fa6644d40ad236fd97bcfd1537e31cea1b0baf45266d026"
+  "sha": "cb499067d2caa2394a08cbcedc6a5350406f18ef8f337e0f98bc5073b0f94aed"
  },
  "calculators/parlay/index.html": {
   "date": "2026-11-04",
-  "sha": "74e80d78e89e632b847ad8b54c08517498bacc8f8b899cd615a91dc99848ee1d"
+  "sha": "26ee3e34caca60c502d09d3ed9f12c85875440cfe9a540c6631d77ee463afb5a"
  },
  "calculators/poisson/index.html": {
   "date": "2026-11-04",
@@ -101,15 +101,15 @@
  },
  "calculators/prediction-market-odds/index.html": {
   "date": "2026-11-04",
-  "sha": "a0dc096d2d794746953aba5addc4fae8cf48bd9e7dbf1caf546711e01541a84d"
+  "sha": "0e36feef0f679b2a10596424d75733be8ed3909916d9093f1cacc08c5e900bed"
  },
  "calculators/profit-boost/index.html": {
   "date": "2026-11-04",
-  "sha": "0c9e6255f00383eabd5276f7535bc3040426991b0a45074091fdad086edca09d"
+  "sha": "f220d3b25cec954c7da636c264877f556c89e2c810d1fbfd9d5812af5bb7161f"
  },
  "calculators/round-robin/index.html": {
   "date": "2026-11-04",
-  "sha": "5cc77e283b1b73a471a4b20560459d0fffd80b77c42658d6a2da12290b8c3ac6"
+  "sha": "8de56b4f517888f5bdcd462d4e7a18071d4736dcf20e2bdeae6c10eeff989cdf"
  },
  "calculators/totals-middle/index.html": {
   "date": "2026-11-04",
@@ -429,7 +429,7 @@
  },
  "vs/crazy-ninja-odds-alternative/index.html": {
   "date": "2026-11-04",
-  "sha": "a55096d1bba83d1173ec05cd20b645c1da6b920a339503b42492e9e1e6dca8c8"
+  "sha": "b3095135ce8b9d8c51e2ee970b0738f402becb466c4313b635667cafd9c57cab"
  },
  "vs/index.html": {
   "date": "2026-11-04",

@@ -305,7 +305,9 @@ def measure(engine) -> dict:
     # surfaces the engine gained after a feature-by-feature comparison.
     from overlay_engine import lowhold as _lh, poisson as _po, roundrobin as _rr
 
-    rr = _rr.build([1.91, 1.91, 1.91], [2], 25.0, probs=[0.5, 0.5, 0.5])
+    # Three legs at -110 means -110 (1.90909...), not 1.91: the page said -110 and built on 1.91, so a reader
+    # checking by hand got 91.12 where it showed 91.20 (audit M1, 2026-11-04).
+    rr = _rr.build([american_to_decimal(-110)] * 3, [2], 25.0, probs=[0.5, 0.5, 0.5])
     rr_rows = rr.by_leg_count()
     rr_ev = rr.expected_value()
     out["roundrobin"] = {
@@ -1617,8 +1619,8 @@ def measure(engine) -> dict:
         f"sum to more than one. Removing that margin gives the favourite:</p>"
         + table([(m_, f"{v:.2f}%") for m_, v in sorted(d["methods"].items())])
         + f"<p>Consensus {d['consensus']:.2f}%, and the four methods disagree "
-        f"by {d['spread']:.2f} points. Every other no-vig calculator returns "
-        "one number.</p>"
+        f"by {d['spread']:.2f} points. A calculator that returns one number has "
+        "picked one of them without saying which.</p>"
         + novig_worked(d))}
 
 
@@ -1654,8 +1656,8 @@ def measure(engine) -> dict:
             "<h2>The sum, written out</h2>"
             f"<p>Expected value is what a bet returns on average per unit staked. At {ev_offer:+d} the decimal "
             f"price is {price:.2f}, so a win pays {price - 1:.2f} units of profit and a loss costs one unit.</p>"
-            f"<p>Weight each by its chance. The win side is {p_fair:.4f} times {price - 1:.2f}, which is "
-            f"{win_part:.4f}. The loss side is {lose_part:.4f} times one. The difference, {ev:+.4f}, is the "
+            f"<p>Weight each by its chance. The win side is {p_fair:.6f} times {price - 1:.2f}, which is "
+            f"{win_part:.6f}. The loss side is {lose_part:.6f} times one. The difference, {ev:+.6f}, is the "
             f"{ev:+.2%} in the table: about ${ev * stake:,.2f} on every ${stake} staked, on average, over many "
             "bets like it.</p>"
             f"<p>The break-even column is the same sum set to zero. At {breakeven_prob(price):.2%} the two sides "
@@ -2250,6 +2252,7 @@ def measure(engine) -> dict:
                       "total": f"{out['arb']['total']}"},
         "closing-line-value": {"bet": _am(clv_bet), "close": _am(clv_close),
                                "other": ""},
+        "no-vig-odds": {"side": "-145", "other": "+125"},
         "expected-value": {"price": _am(ev_offer), "side": mkt_side,
                            "other": mkt_other, "own": ""},
         "parlay": {"legs": ", ".join(
@@ -3133,9 +3136,9 @@ def own_devig_widget(m: dict) -> str:
     it uses fixed element ids."""
     return f"""<section class="own reveal">
   <h2>Try it on your own price</h2>
-  <p class="own-lede">Type the two sides of any market. You get the consensus
-  fair probability and how far the four methods disagree about it. A one-figure
-  no-vig calculator leaves that number out.</p>
+  <p class="own-lede">Type the two sides of a market priced in steps of 5, like
+  &minus;145 and &plus;125. You get the consensus fair probability and how far the
+  four methods disagree about it. A one-figure no-vig calculator leaves that number out.</p>
   <div class="own-in">
     <label>Price one <input id="own-a" inputmode="text" value="-145"
       autocomplete="off" spellcheck="false"></label>
@@ -3147,10 +3150,11 @@ def own_devig_widget(m: dict) -> str:
   </div>
   <p class="own-note">Every answer here was computed by the same engine that
   built this page, for all {m['calculator']['markets']:,} two-way markets between &minus;600 and
-  &plus;600. Nothing is calculated in your browser: a second implementation
+  &plus;600 in steps of 5. Nothing is calculated in your browser: a second implementation
   drifts from the first, and the drift is invisible until someone bets on it.
-  Prices that do not form a real two-way market are refused rather than
-  rounded into one.</p>
+  A price off that grid, such as &minus;112, is refused rather than rounded to the nearest one, and so
+  is a pair that does not form a real two-way market. The
+  <a href="/calculators/no-vig-odds/">no-vig calculator</a> runs the engine itself on any price.</p>
 </section>
 
 <script>
@@ -3176,13 +3180,9 @@ def own_devig_widget(m: dict) -> str:
     return n;
   }}
 
-  function nearest(v, prices) {{
-    var best = null, gap = Infinity;
-    for (var i = 0; i < prices.length; i++) {{
-      var d = Math.abs(prices[i] - v);
-      if (d < gap) {{ gap = d; best = prices[i]; }}
-    }}
-    return best;
+  var ENGINE = '<a href="/calculators/no-vig-odds/">no-vig calculator</a>';
+  function esc(t) {{
+    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }}
 
   function say(html) {{ out.innerHTML = html; }}
@@ -3192,21 +3192,25 @@ def own_devig_widget(m: dict) -> str:
     var av = parse(a.value), bv = parse(b.value);
     if (av === null || bv === null) {{
       say('<p class="own-hint">Two American prices, like &minus;145 and ' +
-          '&plus;125.</p>');
+          '&plus;125. For a decimal price, the ' + ENGINE + ' takes it.</p>');
       return;
     }}
     var prices = table.prices;
     var ai = prices.indexOf(av), bi = prices.indexOf(bv);
-    var snapped = false;
-    if (ai < 0) {{ av = nearest(av, prices); ai = prices.indexOf(av); snapped = true; }}
-    if (bi < 0) {{ bv = nearest(bv, prices); bi = prices.indexOf(bv); snapped = true; }}
+    if (ai < 0 || bi < 0) {{
+      say('<p class="own-no">' + esc(ai < 0 ? a.value : b.value) + ' is not on this table, which ' +
+          'holds the engine&rsquo;s answers for prices in steps of 5 from &minus;600 to &plus;600. ' +
+          'The nearest one would be a different market, so there is no answer here. The ' + ENGINE +
+          ' runs the engine on any price.</p>');
+      return;
+    }}
     var key = ai * table.stride + bi;
     var flat = table.flat, found = -1;
     for (var i = 0; i < flat.length; i += 3) {{
       if (flat[i] === key) {{ found = i; break; }}
     }}
     if (found < 0) {{
-      say('<p class="own-no">Those two prices do not make a two-way market ' +
+      say('<p class="own-no">Those two prices do not make a two-way market' +
           '. Together they imply a total outside the 0&ndash;12% ' +
           'margin a real one carries. Rounding them into range would be ' +
           'inventing an answer, so there is not one.</p>');
@@ -3215,10 +3219,7 @@ def own_devig_widget(m: dict) -> str:
     var consensus = flat[found + 1] / 100;
     var spread = flat[found + 2] / 100;
     say('<div class="own-big">' + consensus.toFixed(2) + '%</div>' +
-        '<p class="own-cap">Consensus fair probability for the first side' +
-        (snapped ? ' (nearest priced market: ' +
-          (av > 0 ? '+' : '') + av + ' / ' + (bv > 0 ? '+' : '') + bv + ')'
-          : '') + '.</p>' +
+        '<p class="own-cap">Consensus fair probability for the first side.</p>' +
         '<p class="own-spread">The four methods disagree by <b>' +
         spread.toFixed(2) + ' points</b>. A calculator that prints one ' +
         'number to two decimals has picked one of them and not told you.</p>');
@@ -5060,6 +5061,13 @@ CALC_FORMS = {
         [("bet", "Price you took", "odds"),
          ("close", "Closing price", "odds"),
          ("other", "Other side&rsquo;s closing price (optional)", "odds")]),
+    "no-vig-odds": (
+        "Any price, American or decimal",
+        "Type both sides of one market at any price, American or decimal, including prices like &minus;112 that "
+        "the box above does not hold. The engine runs in your browser and gives the fair probability under each "
+        "of the four methods.",
+        [("side", "First side", "odds"),
+         ("other", "Other side", "odds")]),
     "expected-value": (
         "Check your own edge",
         "Enter the price you are offered and where the market has both sides. "
