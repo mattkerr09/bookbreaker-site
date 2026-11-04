@@ -942,7 +942,16 @@ def check_inline_scripts_parse(pages, fails):
                 fails.append(f"{path}: an inline script does not parse ({why})")
 
 
-CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+# The browser the console-error stage drives: a PINNED Chrome for Testing headless shell, not the everyday Chrome.
+# Chrome 156 (auto-updated 2026-11-03) stopped answering Page.navigate after a few pages and fired no load events in
+# headless mode, which crashed this stage on pages that load fine; the CEO chose to pin (2026-11-04). The shell is the
+# one Playwright already keeps on this Mac (Chrome for Testing 151.0.7922.34), so nothing was downloaded. Override with
+# BOOKBREAKER_GATE_CHROME; CHROME_MAX_MAJOR is the newest major the stage accepts, raised only after a newer one is
+# shown to pass the whole gate.
+import os as _os
+CHROME = _os.environ.get("BOOKBREAKER_GATE_CHROME", _os.path.expanduser(
+    "~/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell"))
+CHROME_MAX_MAJOR = 155
 
 
 def _console_errors(paths: list[str]) -> dict[str, list[str]]:
@@ -1073,7 +1082,16 @@ def check_pages_run_without_console_errors(pages, fails):
     import os
     import tempfile
     if not os.path.exists(CHROME):
-        fails.append("Google Chrome is not installed, so pages cannot be run in a browser")
+        fails.append(f"the pinned gate browser is missing ({CHROME}), so pages cannot be run in a browser; set "
+                     "BOOKBREAKER_GATE_CHROME to a Chrome for Testing headless shell no newer than "
+                     f"{CHROME_MAX_MAJOR}")
+        return
+    import subprocess as _sp
+    got = _sp.run([CHROME, "--version"], capture_output=True, text=True, timeout=30).stdout
+    major = int(m.group(1)) if (m := re.search(r"(\d+)\.\d+\.\d+", got)) else None
+    if major is None or major > CHROME_MAX_MAJOR:
+        fails.append(f"the gate browser reports {got.strip() or 'no version'}; the console stage is pinned to Chrome "
+                     f"{CHROME_MAX_MAJOR} or older (Chrome 156 headless stalls; see CHROME in check.py)")
         return
 
     # A page that ran clean is not run again until it, or a local script it

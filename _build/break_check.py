@@ -75,7 +75,7 @@ CASES = [
         "check_competitor_claims",
         "vs/index.html",
         # AVO's row (a per-month price the claims check reads as one). Moves when AVO is re-read, every 75 days at most.
-        '<td>70+ sportsbooks</td><td>read 2026-10-14, ',
+        '<td>70+ sportsbooks</td><td>read 2026-11-04, ',
         '<td>70+ sportsbooks</td><td>read recently, ',
     ),
     (
@@ -177,6 +177,13 @@ CASES = [
         'href="https://sports.betmgm.com/"',
     ),
     (
+        "the console stage runs a browser newer than the pinned one",
+        "check_pages_run_without_console_errors",
+        "_build/check.py",
+        "CHROME_MAX_MAJOR = 155",
+        "CHROME_MAX_MAJOR = 150",
+    ),
+    (
         "a router page that claims a live tracking link the table does not have",
         "check_router_pages_match_the_table_and_behave",
         "go/dk/index.html",
@@ -236,14 +243,14 @@ CASES = [
         "a rival's price left unread for months",
         "check_claims_are_recent",
         "_data/competitors.csv",
-        ",2026-10-14,https://oddsjam.com/subscribe,",
+        ",2026-11-04,https://oddsjam.com/subscribe,",
         ",2026-01-01,https://oddsjam.com/subscribe,",
     ),
     (
         "a rival's price on a page, dated two months back",
         "check_every_competitor_row_is_sourced",
         "vs/oddsjam-alternative/index.html",
-        "both billed monthly (read 2026-10-14,",
+        "both billed monthly (read 2026-11-04,",
         "both billed monthly (read 2026-08-14,",
         2,
     ),
