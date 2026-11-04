@@ -1,7 +1,7 @@
 {
  "account-longevity/index.html": {
   "date": "2026-11-04",
-  "sha": "467fb5d2cf7fb03958955e3d9f3f806ed80985900e1b9619cf53969618313a4e"
+  "sha": "5d9221821cf961c0a57509ed9259d43649b48c910363c475a9d880524c65bc9d"
  },
  "ask/index.html": {
   "date": "2026-11-04",
@@ -145,7 +145,7 @@
  },
  "guides/how-to-avoid-getting-limited/index.html": {
   "date": "2026-11-04",
-  "sha": "a963761ebcc36610ea8a43183412a2d7d7a5dec45e429a652ace1b28faddf753"
+  "sha": "f1c961524c30273f31b2db294c55f87658091e2b1fb04a191789cd91cf24f62d"
  },
  "guides/how-to-choose-an-odds-feed/index.html": {
   "date": "2026-11-04",
@@ -209,7 +209,7 @@
  },
  "guides/what-is-a-sharp-sportsbook/index.html": {
   "date": "2026-11-04",
-  "sha": "264c0caad363e36c456915ce92ba7cba579c57ea348f274be3f45da7e690952c"
+  "sha": "415f398db33ce5f987b2045964fa93ffc464ce5572a59005971e53f7391d19f4"
  },
  "guides/what-is-a-totals-middle-worth/index.html": {
   "date": "2026-11-04",
@@ -261,7 +261,7 @@
  },
  "index.html": {
   "date": "2026-11-04",
-  "sha": "7d57bfe55684b12aa165b5f0140363ba30518393601366d7cd24c5adf11df1a2"
+  "sha": "e2727bbfd81ea2e34a8d4c7fec0ad0b9bfe922499117d6525fb46cae157fa20d"
  },
  "offers/index.html": {
   "date": "2026-11-02",
@@ -320,8 +320,8 @@
   "sha": "94a468be35483984dcc70e127c36c4e6f09aeea822d135b3b5e1d77c52b359fd"
  },
  "sportsbooks/index.html": {
-  "date": "2026-11-02",
-  "sha": "db99ddde93e42e9cdd4492a16578fab1418a5f211238b39da060dec2b9a89e1f"
+  "date": "2026-11-04",
+  "sha": "c3a2fdcddb510adf95313baf1afad1ddfc7c26ed72c6e6523c0ab6f8b8e2fda4"
  },
  "sportsbooks/ks/index.html": {
   "date": "2026-11-04",
@@ -365,7 +365,7 @@
  },
  "sportsbooks/no-legal-sportsbook/index.html": {
   "date": "2026-11-04",
-  "sha": "b868d78693be9615d9b13e7b131b1017e7c7c54aeee629d06e7f07d956ab2c31"
+  "sha": "fbbe49b535b19ec1d7625203f1402ec27db22fb24de2ee22455e91f245d780ba"
  },
  "sportsbooks/nv/index.html": {
   "date": "2026-11-04",

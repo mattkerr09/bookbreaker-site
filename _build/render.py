@@ -3449,10 +3449,8 @@ def render_index(m: dict) -> str:
     your second bet lands, a book can cap your stake or void a bet, and an exchange may
     have only a little on offer at the price you see. Live pairs are sized to the
     amount on offer when the prices were read, but that can change in seconds, so check
-    before you bet. When we priced
-    the Kalshi and Polymarket gaps our own scanner found against what was really on
-    offer, nearly all of them disappeared, and the one left was worth about a cent.
-    Real gaps are rare and small. That is why the app tells you how likely each price
+    before you bet.
+    Real gaps are rare and usually small. That is why the app tells you how likely each price
     is to still be there.</p></details>
     <details><summary>Is it really free?</summary><p>Yes. There is no subscription, no
     account and no card. Download it and use it.</p></details>
@@ -4232,7 +4230,7 @@ concentrates where pricing gets less attention, which is exactly why a profile
 made of it reads as sharp.</p>
 <p>What none of this involves: multi-accounting, identity or KYC workarounds,
 device or location spoofing. Those are fraud, not staking discipline. And none
-of it applies at a book that never limits winners. Spending edge to hide
+of it applies at a book that does not limit winners. Spending edge to hide
 from a risk desk that does not exist is the most common way the advice is
 misapplied. <a href="/account-longevity/">The full model &rarr;</a></p>
 <h2>What a limit looks like</h2>
@@ -4240,7 +4238,7 @@ misapplied. <a href="/account-longevity/">The full model &rarr;</a></p>
 <p>Limits are set per account and often per market, so a book can take your moneyline bets in full and cap your props. Note the maximum each book offers you on the markets you bet, with the date, and you will see a cut the week it happens.</p>
 <h2>What looking ordinary costs, worked</h2>
 <p>Round stakes are the cheapest change and they are not free. On a {rd['total']:,} arbitrage the exact stakes are {rd['exact_legs'][0]:,.2f} and {rd['exact_legs'][1]:,.2f}, locking {rd['exact_profit']:,.2f} if both bets are accepted and stand. Rounded to {rd['round_legs'][0]:,.0f} and {rd['round_legs'][1]:,.0f} it locks {rd['round_profit']:,.2f}: {rd['cost']:,.2f} less, {rd['cost_bps']:.1f} basis points of the stake.</p>
-<p>Whether that is worth paying depends on the book. At one that limits winners, an account that lasts longer at a slightly lower edge per bet makes more in total. At one that never limits, the {rd['cost']:,.2f} is simply lost.</p>
+<p>Whether that is worth paying depends on the book. At one that limits winners, an account that lasts longer at a slightly lower edge per bet makes more in total. At one that does not limit, the {rd['cost']:,.2f} is simply lost.</p>
 <h2>Once you have been limited</h2>
 <p>Accept it at that book. A limit is the book's right under its terms, and in regulated states opening a second account to get around one breaks them.</p>
 <p>Move the volume to the books that still take it, and keep the record of which ones those are. The <a href="/sportsbooks/">state pages</a> list what is licensed where you live.</p>
@@ -4332,7 +4330,7 @@ never priced against a consensus it helped set. Even a small contribution pulls
 the number toward that book's own price, which shrinks the very edge being
 detected. It bites hardest where that book is the lone outlier and the edge is
 largest.</p>
-<p>Where they never limit winners, no anti-limiting effort is spent at all.
+<p>Where a book does not limit winners, no anti-limiting effort is spent at all.
 Spending edge to hide from a risk desk that does not exist is the most common
 way that advice is misapplied.</p>
 <h2>Using a sharp price where you cannot bet it</h2>
@@ -5686,7 +5684,7 @@ scores {h['reaction'][2]['heat']}%. No human refreshes and decides in half a
 second.</p>
 
 <h2>Where it does nothing at all</h2>
-<p>{cat['venues']} venues are catalogued, and the ones that never limit winners
+<p>{cat['venues']} venues are catalogued, and the ones not known to limit winners
 get no shaping whatsoever. A {e(h['stakes'][0]['stake'])} stake is rounded to
 {h['shaped']:,} at a retail book and left at {h['untouched']:,.2f} at a sharp
 one. Spending edge to hide from a risk desk that does not exist is the most
@@ -6559,7 +6557,7 @@ accounts that win, and with which books operate elsewhere but not there.</p>
 
 <h2>No legal sportsbook: {m["markets"]["none"]} states</h2>
 <p>Federally regulated prediction markets still reach these, and they are the
-venues that never limit a winner.</p>
+venues not known to limit a winner.</p>
 <ul class="states">{cells(none)}</ul>
 
 <p class="caveat">Coverage read {e(as_of)} from operator state disclosures.
@@ -6626,7 +6624,7 @@ def render_market(m: dict, codes: list[str]) -> str:
     never = st["never_limit"]
     if never:
         longevity = (
-            f"<p>{len(never)} of these never limit winning accounts. That "
+            f"<p>{len(never)} of these are not known to limit winning accounts. That "
             "matters more than it sounds: an account that gets limited stops "
             "earning, so account lifetime is what expected value is divided "
             "by. Bookbreaker spends no anti-limiting effort at a venue with no "
@@ -8004,17 +8002,18 @@ on real prices. New to this? Start with the first group.</p>
         nationwide = measured["states"][dark[0]]["books"]
         body = f"""
 <h1>States with no legal sportsbook</h1>
-<p class="lede">{len(dark)} states had no legal online sportsbook as of
-{e(measured['catalog']['as_of'])}. They share a page because they share an
-answer. Generating one each would have produced pages that differ only in
-a name.</p>
+<p class="lede">There is no legal online sportsbook in these {len(dark)} states, as of
+{e(measured['catalog']['as_of'])}. Bookbreaker is for adults 21 and over in states where sports betting is legal.
+The states share a page because they share an answer.</p>
 <ul>{rows}</ul>
-<p>What may still be reachable is the nationwide prediction markets, which are regulated by a federal agency,
-the CFTC:</p>
+<h2 id="prediction-market-facts">Prediction markets: what they are, and where the courts stand</h2>
+<p>Some exchanges regulated by a federal agency, the CFTC, list contracts on sports results:</p>
 <ul>{"".join(f'<li>{e(b["name"])}: an exchange</li>' for b in nationwide)}</ul>
-<p>An exchange matches users against each other, so there is no house on the other side of your bet. It can also
-anchor a fair price where no sharp sportsbook operates.</p>
+<p>An exchange matches users against each other rather than taking the other side itself. Whether its sports
+contracts are legal is decided state by state, and the courts disagree:</p>
 {prediction_caveat()}
+<p>Check your own state's current position before using one, and do not use one where your state says its sports
+contracts are illegal.</p>
 <h2>Location, not residence</h2>
 <p>A licensed online sportsbook checks where you are when you bet, not where you live. A resident of a state on this list can open an account and bet with a book licensed next door while physically inside that state, and the bet is as legal as a local's. The list above names those neighbours from the same state data the rest of this site uses; each linked state page has that state's own rules, such as where an account must be opened.</p>
 <p>Two things follow. Every bet needs you over the line at the moment you place it, so plan around where you will be on game day. And the account and its promotions follow that state's rules, including its age limit and its offers.</p>
@@ -8028,9 +8027,8 @@ your own check, not advice.</p>
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(
             "States with no legal sportsbook",
-            "The states with no legal online sportsbook, and what is still "
-            "reachable in them: nationwide prediction markets that never limit "
-            "winning accounts. Dated.",
+            "Which states have no legal online sportsbook, and where the court fights over prediction-market sports "
+            "contracts stand. Dated.",
             body, "/sportsbooks/no-legal-sportsbook/"))
         built.append(("/sportsbooks/no-legal-sportsbook/",
                       "sportsbooks/no-legal-sportsbook/index.html"))

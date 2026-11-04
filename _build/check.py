@@ -1478,7 +1478,10 @@ BANNED_WORDING = re.compile(
 
 # "you win" alone is not here: the books' own offer names ("Bet $10, Get $150 in Bonus Bets if You Win!") are quoted
 # as evidence on the offer pages, and they describe the book's condition, not a promise from this site.
-WIN_PROMISE = re.compile(r"win without|still win|win whichever|you win whichever|profit either way|guaranteed", re.I)
+# "never limit" sold prediction markets as the workaround in states without legal betting (the CEO's L6 decision,
+# 2026-11-04); whether a book limits is a catalog default, not a finding, so the site says "not known to limit".
+WIN_PROMISE = re.compile(r"win without|still win|win whichever|you win whichever|profit either way|guaranteed|never limit",
+                         re.I)
 LOCK_WORD = re.compile(r"\block(?:s|ed|ing)?\b", re.I)
 LOCK_NEGATED = re.compile(r"not (?:a )?lock|cannot be lock|can['\u2019]?t be lock|never lock|no lock|without the lock", re.I)
 

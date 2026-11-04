@@ -184,6 +184,13 @@ CASES = [
         "CHROME_MAX_MAJOR = 150",
     ),
     (
+        "the no-legal-sportsbook page sells prediction markets as never limiting",
+        "check_no_win_promises_or_bare_locks",
+        "sportsbooks/no-legal-sportsbook/index.html",
+        "<p>Check your own state's current position",
+        "<p>Prediction markets never limit winning accounts. Check your own state's current position",
+    ),
+    (
         "the home page promises a win again",
         "check_no_win_promises_or_bare_locks",
         "index.html",
