@@ -191,6 +191,13 @@ CASES = [
         "<p>Prediction markets never limit winning accounts. Check your own state's current position",
     ),
     (
+        "the no-legal-sportsbook page steers people to what is still reachable",
+        "check_no_win_promises_or_bare_locks",
+        "sportsbooks/no-legal-sportsbook/index.html",
+        "<p>Some exchanges regulated by a federal agency",
+        "<p>What may still be reachable is the exchanges regulated by a federal agency",
+    ),
+    (
         "the home page promises a win again",
         "check_no_win_promises_or_bare_locks",
         "index.html",
