@@ -158,9 +158,12 @@ def dutching(v: dict) -> dict:
             for leg in plan.legs]
     notes = [f"The prices imply {implied:.2%} of probability between them."]
     if profit > 0:
+        # Only an arbitrage when these prices cover EVERY outcome of the event: a dutch over two of three outcomes
+        # loses everything when the third lands (the full audit, 2026-11-04, on +240 / +250).
         notes.append(
-            "That is under 100%, so this is an arbitrage: the profit is locked "
-            f"if {_stand(len(prices))}.")
+            "That is under 100%. It is an arbitrage only if these prices cover every possible outcome of the "
+            f"event, and then the return holds if {_stand(len(prices))}. If any outcome is left out, "
+            "every stake here is lost when that outcome happens.")
     else:
         notes.append(
             "Anything above 100% is the book's margin, so this spread costs "

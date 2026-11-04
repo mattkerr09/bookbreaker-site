@@ -24,7 +24,7 @@
   var SRI = 'sha384-VR47TfKeAmT7vMej7bwOVg0tHTQLLGMSIpsXtFMCZG5OpKZSIXoSLtGY//qHcxc6';
   var PACKAGES = ["micropip", "sqlite3"];
   var WHEEL = '/releases/overlay-0.1.57-py3-none-any.whl';
-  var RUNNER = '/calc.py?v=03f4c82f7c';
+  var RUNNER = '/calc.py?v=f7944a1ef4';
   var SIZE = '7';
   var VERSION = '0.1.57';
 

@@ -25,7 +25,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [Odds converter](https://bookbreaker.bet/calculators/odds-converter/): American to decimal to implied probability
 - [Break-even calculator](https://bookbreaker.bet/calculators/breakeven/): What win rate does this price need?
 - [CLV calculator](https://bookbreaker.bet/calculators/closing-line-value/): Did I beat the closing line?
-- [Hedge calculator](https://bookbreaker.bet/calculators/hedge/): How much do I bet to lock in a profit?
+- [Hedge calculator](https://bookbreaker.bet/calculators/hedge/): How much do I bet on the other side to fix my result?
 - [Dutching calculator](https://bookbreaker.bet/calculators/dutching/): How do I split a stake across several outcomes?
 - [Parlay calculator](https://bookbreaker.bet/calculators/parlay/): How much does a parlay really pay?
 - [Deposit match calculator](https://bookbreaker.bet/calculators/deposit-match/): Is a deposit match bonus worth it after rollover?
@@ -54,7 +54,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 ## Guides
 
 - [All guides](https://bookbreaker.bet/guides/): each answered with the arithmetic done
-- [What is arbitrage betting](https://bookbreaker.bet/guides/what-is-arbitrage-betting/): How do you bet both sides and still win?
+- [What is arbitrage betting](https://bookbreaker.bet/guides/what-is-arbitrage-betting/): How can backing both sides return the same amount?
 - [How to stake an arbitrage in round numbers](https://bookbreaker.bet/guides/how-to-stake-an-arbitrage-in-round-numbers/): What does betting $490 instead of $493.98 actually cost you?
 - [How old is the price on your screen](https://bookbreaker.bet/guides/how-old-is-the-price-on-your-screen/): Why does the line move between clicking and confirming?
 - [How to avoid getting limited](https://bookbreaker.bet/guides/how-to-avoid-getting-limited/): Why do sportsbooks limit winners and what actually extends an account?

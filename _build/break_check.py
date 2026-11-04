@@ -67,8 +67,8 @@ CASES = [
         "a hand-typed figure on a page",
         "check_numbers_are_measured",
         "index.html",
-        "<h2>Win without picking winners</h2>",
-        "<h2>Win without picking winners</h2>\n<p>Users average 12.7% ROI.</p>",
+        "<h2>Back both sides, and the return is the same</h2>",
+        "<h2>Back both sides, and the return is the same</h2>\n<p>Users average 12.7% ROI.</p>",
     ),
     (
         "a competitor's price with the date stripped",
@@ -182,6 +182,27 @@ CASES = [
         "_build/check.py",
         "CHROME_MAX_MAJOR = 155",
         "CHROME_MAX_MAJOR = 150",
+    ),
+    (
+        "the home page promises a win again",
+        "check_no_win_promises_or_bare_locks",
+        "index.html",
+        "<h2>Back both sides, and the return is the same</h2>",
+        "<h2>Win without picking winners</h2>",
+    ),
+    (
+        "a lock claimed without its condition",
+        "check_no_win_promises_or_bare_locks",
+        "calculators/hedge/index.html",
+        "<th>Locked if both stand</th>",
+        "<th>Locked</th>",
+    ),
+    (
+        "a dutch over part of the outcomes called an arbitrage",
+        "check_dutching_partial_set_is_not_an_arbitrage",
+        "calc.py",
+        '"That is under 100%. It is an arbitrage only if these prices cover every possible outcome of the "',
+        '"That is under 100%, so this is an arbitrage across the outcomes of the "',
     ),
     (
         "a router page that claims a live tracking link the table does not have",

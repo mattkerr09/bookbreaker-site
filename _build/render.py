@@ -1482,7 +1482,7 @@ def measure(engine) -> dict:
             f"{a['total'] + a['exact_profit']:,.2f}, which is {a['exact_profit']:,.2f} over the stake.</p>"
             f"<p>Rounded to {r1:,} and {r2:,}, {rt:,} goes down. The first leg would return {r1 * d1:,.2f} and the "
             f"second {r2 * d2:,.2f}, so the worse of the two, {min(r1 * d1, r2 * d2) - rt:,.2f}, is what is "
-            "locked.</p>"
+            "locked, if both bets are accepted and stand.</p>"
             "<h2>When an arbitrage is worth taking</h2>"
             "<p>Only when both bets can be placed at the prices shown. Prices move in seconds; if the second "
             "leg is gone by the time you get to it, you hold one bet, not an arbitrage.</p>"
@@ -1547,7 +1547,7 @@ def measure(engine) -> dict:
             f"<p>The bet is worth making only if you think the two together win more often than "
             f"{sub_total:.2%}. That figure is the whole decision, and it comes straight from the prices.</p>"
             "<h2>Dutching to a target profit</h2>"
-            f"<p>To win ${target} whichever of the two lands, solve for the pot: the profit is the pot over "
+            f"<p>To clear ${target} whichever of the two lands (if both bets are accepted and stand), solve for the pot: the profit is the pot over "
             f"{sub_total:.4f} less the pot, so the pot is {target} times {sub_total:.4f} over "
             f"{1 - sub_total:.4f}, which is ${target_pot:,.2f}. Split it by the same shares.</p>"
             "<h2>When dutching fits</h2>"
@@ -1863,7 +1863,7 @@ def measure(engine) -> dict:
                  ("Cost of rounding", f"{a['rounding_cost']:,.2f}")])
         + "<p>A stake to the cent is the loudest fingerprint a risk desk "
         "reads. This solves for round stakes directly, because rounding a "
-        "lock afterwards breaks it.</p>"
+        "lock afterwards breaks it. Any locked figure holds only if both bets are accepted and stand.</p>"
         + arb_worked(a))}
 
     def clv_worked(bet, close, other):
@@ -2041,7 +2041,7 @@ def measure(engine) -> dict:
                   for r in mid["cases"])
         + f"</table><p>Break-even is arithmetic on the two prices and depends "
         "on no distribution at all, which makes it the honest anchor. The hit "
-        f"rate comes from counting {mid['games']} recorded games, a "
+        f"rate comes from counting {mid['games']} example games, a "
         f"{e(mid['sample'])} sample shown as an illustration of the mechanism, "
         "not a claim about any league.</p>"
         + middle_worked(mid))}
@@ -2119,16 +2119,16 @@ def measure(engine) -> dict:
     hg, du = out["hedge"], out["dutch"]
     calc["hedge"] = {"body": (
         f"<p>A {hg['stake']:,} stake at {e(hg['open'])} that has since moved. "
-        "Laying the other side locks a result now, and what it locks depends "
+        "Laying the other side fixes a result now, if both bets are accepted and stand, and what it fixes depends "
         "entirely on the price you can lay at:</p>"
-        + "<table><tr><th>Lay at</th><th>Lay stake</th><th>Locked</th>"
+        + "<table><tr><th>Lay at</th><th>Lay stake</th><th>Locked if both stand</th>"
         "<th>Return on total staked</th></tr>"
         + "".join(f"<tr><td>{e(r['american'])}</td><td>{r['lay']:,.2f}</td>"
                   f"<td>{r['locked']:+,.2f}</td><td>{r['pct']:+.2f}%</td></tr>"
                   for r in hg["rows"])
         + "</table>"
         + f"<p>The direction surprises people: a <em>longer</em> lay price "
-        "needs a smaller lay stake, so it keeps more. Laying at "
+        "needs a smaller lay stake, so it keeps more. If both bets are accepted and stand, laying at "
         f"{e(hg['best']['american'])} locks {hg['best']['locked']:+,.2f}, while "
         f"laying at {e(hg['worst']['american'])} locks "
         f"{hg['worst']['locked']:+,.2f}: a loss taken deliberately "
@@ -2154,7 +2154,7 @@ def measure(engine) -> dict:
         "negative here, and it is supposed to be: the prices imply "
         f"{du['implied']:.2f}% of probability between them, and everything "
         "above a hundred is the book's margin. Dutching is the same solver as "
-        "an arbitrage without the locked floor.</p>"
+        "an arbitrage without the fixed floor.</p>"
         + "<p>So it earns nothing on its own. It is a way of expressing a view "
         "you already hold (that the winner is somewhere inside this set) "
         "at a known cost. It is not a way of manufacturing an edge. "
@@ -2177,7 +2177,7 @@ def measure(engine) -> dict:
     "<p>A deposit match is a loan of turnover, not a gift, and the interest is the hold on whatever markets the terms let you churn through.</p>"
     + f"<p>The offer: deposit ${m['match']['deposit']}, receive ${m['match']['bonus']} in bonus funds, clear {m['match']['rollover']}x rollover before anything can be withdrawn.</p>"
     + f"<p>Break-even hold is the number that decides it. It sits at {m['match']['breakeven']:.1f}%. Churn below that and the bonus survives to the cashier. Churn above it and the bonus was spent before the terms released it.</p>"
-    + "<p>So the clause that matters is the one listing eligible markets. Both holds below are measured off real two-way prices, not assumed.</p>"
+    + "<p>So the clause that matters is the one listing eligible markets. Both holds below are worked from typed example markets (a main line and a player prop), not measured at any book.</p>"
     + "<table><tr><th>What the rollover allows</th><th>Churn hold</th><th>Net</th><th>Margin</th></tr>"
     + f"<tr><td>Moneylines</td><td>{m['match']['open_hold']:.2f}%</td><td>${m['match']['open_net']:.2f}</td><td>{m['match']['open_margin']:.2f}%</td></tr>"
     + f"<tr><td>Props only</td><td>{m['match']['shut_hold']:.2f}%</td><td>${m['match']['shut_net']:.2f}</td><td>{m['match']['shut_margin']:.2f}%</td></tr>"
@@ -2188,8 +2188,8 @@ def measure(engine) -> dict:
 
     calc["effective-bets"] = {"body": (
     "<p>Stake spread across correlated bets is not spread. Effective bets is the count a book is really holding: n divided by one plus n minus one times rho, where rho is the average pairwise correlation between positions. Independent bets give n_eff equal to n. Everything else gives less.</p>"
-    + f"<p>The correlation used as a starting point here is a prior, not a measurement: rho of {m['portfolio']['prior_rho']:.2f}. The measured figure on this book is {m['portfolio']['rho']:.2f}. Same bet counts, two columns.</p>"
-    + f"<table><tr><th>Bets</th><th>Effective at prior rho {m['portfolio']['prior_rho']:.2f}</th><th>Effective at measured rho {m['portfolio']['rho']:.2f}</th></tr>"
+    + f"<p>The correlation used as a starting point here is a prior, not a measurement: rho of {m['portfolio']['prior_rho']:.2f}. Beside it, {m['portfolio']['rho']:.2f} is what a synthetic ledger built at that level measures back: an example, since no real book was measured. Same bet counts, two columns.</p>"
+    + f"<table><tr><th>Bets</th><th>Effective at prior rho {m['portfolio']['prior_rho']:.2f}</th><th>Effective at example rho {m['portfolio']['rho']:.2f}</th></tr>"
     + "".join(f"<tr><td>{r['n']}</td><td>{r['at_prior']:.1f}</td><td>{r['at_rho']:.1f}</td></tr>" for r in m['portfolio']['rows'])
     + "</table>"
     + f"<p>Read the measured column down. From {m['portfolio']['rows'][0]['n']} bets to {m['portfolio']['rows'][-1]['n']} bets, the effective count crawls from {m['portfolio']['rows'][0]['at_rho']:.1f} to {m['portfolio']['rows'][-1]['at_rho']:.1f}. Past a handful of correlated positions, adding another buys no diversification. It only adds stake.</p>"
@@ -2788,8 +2788,8 @@ def page(title: str, description: str, body: str, path: str,
   </div>
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
-ever requested. Every figure on this site is computed by running the engine at
-build time. None is typed in. Updated <time datetime="{PAGE_DATE}">{PAGE_DAY}</time>.</p>
+ever requested. Every calculated figure on this site comes from running the engine at
+build time; prices, offers and facts are read from their sources and dated. Updated <time datetime="{PAGE_DATE}">{PAGE_DAY}</time>.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
 will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the
@@ -3021,7 +3021,7 @@ def render_download(m: dict) -> str:
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
             'a security warning.</span></li></ol>'
-            '<p>New in this version: is buying the half point worth it, for NFL spreads and totals, from how often games landed on the number in 2015 to 2025 (any one bet can lose). Also recent: move through the board with the keyboard, Fair odds converts any price into American, decimal and fractional odds with its break-even chance, Find a hedge looks for the other side of your bet in the odds already read on this Mac, best price first, and spends no credit, a play that asks for more at a book than the balance you typed in Your books says so, and gives the same plan scaled down to fit, in the Arb calculator, hold one side at the stake you want, or type an amount to lock and get the smallest total that does it, open a sportsbook from a play, for books licensed in your state, to the book&rsquo;s own page and never a filled-in bet slip, Bet size works out the edge from up to three sharp books&rsquo; prices, with the stake sized on the cautious end (any one bet can lose), hide a whole game, or every play at one book, with the same undo, Fair odds lets you choose how the cut is removed, including a worst case, the cautious price to size from, odds for each side on Low hold, so the cheapest pair it lists fits a playthrough&rsquo;s lowest price, board filters on the Arbitrage page (sort by return, edge or start time, a price range for +EV bets, game state, when the game starts, leagues and bet types, and a smallest window for middles, each saying how many plays it leaves), and a +EV stake sized on that book&rsquo;s balance in Your books. Also recent: Your books, a balance for each sportsbook you type and keep on this Mac, moved by the bets you track and settle (nothing connects to a book), three-way arbs in the Arb calculator, a suggested stake on every +EV play (a suggestion, not a promise: any one bet can lose), Find a hedge on an open bet, a parlay across games priced fair from Kalshi&rsquo;s prices, Bookbreaker now says it needs macOS 14 or later, a fix that charges Kalshi&rsquo;s full fee on games that override their series, Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
+            '<p>New in this version: is buying the half point worth it, for NFL spreads and totals, from how often games landed on the number in 2015 to 2025 (any one bet can lose). Also recent: move through the board with the keyboard, Fair odds converts any price into American, decimal and fractional odds with its break-even chance, Find a hedge looks for the other side of your bet in the odds already read on this Mac, best price first, and spends no credit, a play that asks for more at a book than the balance you typed in Your books says so, and gives the same plan scaled down to fit, in the Arb calculator, hold one side at the stake you want, or type an amount to lock and get the smallest total that does it (a lock holds only if every bet is accepted and stands), open a sportsbook from a play, for books licensed in your state, to the book&rsquo;s own page and never a filled-in bet slip, Bet size works out the edge from up to three sharp books&rsquo; prices, with the stake sized on the cautious end (any one bet can lose), hide a whole game, or every play at one book, with the same undo, Fair odds lets you choose how the cut is removed, including a worst case, the cautious price to size from, odds for each side on Low hold, so the cheapest pair it lists fits a playthrough&rsquo;s lowest price, board filters on the Arbitrage page (sort by return, edge or start time, a price range for +EV bets, game state, when the game starts, leagues and bet types, and a smallest window for middles, each saying how many plays it leaves), and a +EV stake sized on that book&rsquo;s balance in Your books. Also recent: Your books, a balance for each sportsbook you type and keep on this Mac, moved by the bets you track and settle (nothing connects to a book), three-way arbs in the Arb calculator, a suggested stake on every +EV play (a suggestion, not a promise: any one bet can lose), Find a hedge on an open bet, a parlay across games priced fair from Kalshi&rsquo;s prices, Bookbreaker now says it needs macOS 14 or later, a fix that charges Kalshi&rsquo;s full fee on games that override their series, Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
             'that repeat or oppose a bet you have open, alerts after a refresh you start, Track this bet, which saves a bet with its fair price, which books to fund in your state, a low-hold view, your record against what it should have been, how old every price is, '
             'an Odds screen with every book&rsquo;s price side by side, and a page that prices a promo you already hold. '
             '<a href="/how-it-works/">How it works</a>.</p>')
@@ -3324,7 +3324,7 @@ def render_index(m: dict) -> str:
 <section class="sec" id="how">
   <div class="sec-head">
     <span class="kicker">How it works</span>
-    <h2>Win without picking winners</h2>
+    <h2>Back both sides, and the return is the same</h2>
     <p>Sportsbooks are built to profit whoever wins. Every so often two of them
     disagree enough that both sides can pay, if you get both bets on.</p>
   </div>
@@ -3341,8 +3341,8 @@ def render_index(m: dict) -> str:
     <div class="ex reveal">
       <h3>Unless the prices disagree</h3>
       <p>Find {a_odds} at one book and {b_odds} at another. Bet ${a_stake} and
-      ${b_stake}, and if both bets are accepted at those prices, you win whichever
-      side comes in.</p>
+      ${b_stake}, and if both bets are accepted at those prices and stand, the return is
+      the same whichever side comes in.</p>
       <div class="ex-pair">
         <div><small>Side one wins</small><b class="win">+${a_win:.2f}</b></div>
         <div><small>Side two wins</small><b class="win">+${b_win:.2f}</b></div>
@@ -3353,7 +3353,7 @@ def render_index(m: dict) -> str:
       <p>Finding those pairs by hand means watching prices all day. The app does
       it, then hands you the bet.</p>
       <ul class="ex-list">
-        <li>Checks any two prices for a locked profit</li>
+        <li>Checks any two prices for a return that holds if both bets stand</li>
         <li>Tells you exactly what to bet at each book</li>
         <li>Rounds stakes so they don't look like software</li>
         <li>Warns you when a price is likely gone</li>
@@ -3549,7 +3549,7 @@ def render_how(m: dict) -> str:
              f"feed's own delay and tells you the chance the price is still open when your "
              f"bet lands, so you stop chasing prices that are gone.</p>",
              stat=(f"{f['honest']}%", f"chance a price that looks {f['age']:.0f} seconds old is "
-                   f"still there, once the feed's {f['latency']} second delay is counted")),
+                   f"still there, once an example feed delay of {f['latency']} seconds is counted")),
         feat("Bet size", "Bet the right amount",
              f"<p>Tell it your bankroll and your edge. It gives a bet size that grows your "
              f"bankroll without betting it all, and says what capped it.</p>"
@@ -3926,7 +3926,7 @@ are the books most likely to have moved again.</p>
 an exchange takes {m['commission']['commission']}% of winnings.</p>
 <p><strong>Does it stake in round numbers?</strong> A stake to the cent is the
 clearest fingerprint a risk desk reads, and rounding afterwards breaks the lock
-because the legs are not symmetric.</p>
+because the legs are not symmetric. A lock holds only if every bet is accepted and stands.</p>
 <p><strong>What does it cost against what you turn over?</strong> Prices in
 this category run from single figures to several hundred a month.
 <a href="/vs/">Every one dated and linked &rarr;</a></p>
@@ -4151,7 +4151,7 @@ that rarely matter. {cite}</p>
 <p>Kalshi and Polymarket US both list sports contracts that pay $1 if a team wins. When one venue prices a team&rsquo;s
 win and the other prices the other team&rsquo;s win for less than $1 between them, buying both looks like a locked
 profit. Both venues charge a taker fee on every order, though, and the fee is largest on contracts near 50 cents,
-which is exactly where most game prices sit.</p>
+which is exactly where most game prices sit. (and a lock holds only if both orders are filled and stand)</p>
 <h2>What the fees take</h2>
 <p>Kalshi charges {m['xvenue']['kalshi_rate']} &times; contracts &times; price &times; (1 &minus; price), rounded up to
 the cent, and on baseball its game series carry a multiplier of {m['xvenue']['mlb_multiplier']}, though a single game
@@ -4534,7 +4534,7 @@ merely won.</p>
 <p>The exact stakes on an arbitrage come out ugly. Splitting
 {rd['total']:,} dollars across a two-way at these prices wants
 {rd['exact_legs'][0]:,.2f} and {rd['exact_legs'][1]:,.2f}, locking
-{rd['exact_profit']:,.2f}.</p>
+{rd['exact_profit']:,.2f} if both bets are accepted and stand.</p>
 <p>Nobody bets {rd['exact_legs'][0]:,.2f}. More precisely: nobody who is not
 running a tool bets {rd['exact_legs'][0]:,.2f}, which is the problem. Stake
 precision is one of the cheapest signals a risk desk has, and it costs nothing
@@ -4555,7 +4555,7 @@ Then walk the other leg a few steps up or down and score each combination by
 its <em>worst</em> outcome.</p>
 <p>Worst outcome, not average. Once stakes are rounded the legs pay
 differently, and quoting the average would describe a position you do not
-hold. The locked number is the small one.</p>
+hold. The locked number is the small one, and it holds only if both bets are accepted and stand.</p>
 <p><a href="/calculators/arbitrage/">Stake one &rarr;</a></p>
 """,
 
@@ -5045,7 +5045,7 @@ CALC_FORMS = {
     "hedge": (
         "Price your own hedge",
         "Enter the bet you already hold and the prices you could take on the "
-        "other side now. Each price shows what it would lock.",
+        "other side now. Each price shows what it would lock if both bets are accepted and stand.",
         [("stake", "Your stake", "num"),
          ("open", "Price you took", "odds"),
          ("lay", "Prices you can bet the other side at", "list")]),
@@ -5521,8 +5521,7 @@ def render_versus(m: dict, row: dict) -> str:
     # slug like everything else on this page, so the third column of the table
     # answers the gap in the second column rather than a category it fell into.
     answer = {
-        "oddsjam": "Every quote carries its age, floored by that book's own "
-                   "measured feed latency",
+        "oddsjam": "Every quote carries its age, floored by that book's feed latency",
         "avo": "No delayed tier: one build, everything visible, free",
         "betstamp-pro": "A published fill probability for every quote age",
         "pikkit": "CSV or pasted betslip; no credentials, ever",
@@ -5666,8 +5665,8 @@ identify arbitrage. Nobody types {e(h['stakes'][0]['stake'])}:</p>
 {stake_rows}
 </table>
 <p>So the arbitrage solver optimises over <em>round</em> stakes directly rather
-than rounding afterwards, because rounding a lock naively breaks it: the
-legs are not symmetric. At {e(a['legs'][0])} and {e(a['legs'][1])} that means
+than rounding afterwards, because rounding a lock naively breaks it (and any lock holds only if
+every bet is accepted and stands): the legs are not symmetric. At {e(a['legs'][0])} and {e(a['legs'][1])} that means
 {a['round_stakes'][0]:,} and {a['round_stakes'][1]:,} instead of
 {a['exact_stakes'][0]:,.2f} and {a['exact_stakes'][1]:,.2f}, giving up
 {a['rounding_cost']:,.2f} of the {a['exact_profit']:,.2f}. The cost is named
@@ -5718,8 +5717,8 @@ and +11% across a season. So a bettor with a real edge routinely shows a losing
 year, and a bettor with none routinely shows a great one. Every tracker prints
 the number and stops.</p>
 
-<h2>A real record, read honestly</h2>
-<p>{p['n']} settled bets, {p['profit']:+,} profit, {p['roi']:.2f}% return:</p>
+<h2>An example record, read honestly</h2>
+<p>An example record built for this page, not a real bettor's: {p['n']} settled bets, {p['profit']:+,} profit, {p['roi']:.2f}% return:</p>
 <p class="figure">{e(p['verdict'])}</p>
 <p>The interval runs {p['low']:.1f}% to {p['high']:.1f}%. Nothing about that
 record distinguishes it from break-even, and no amount of presentation changes
@@ -5990,8 +5989,11 @@ def helpline_block(code: str = "") -> str:
     """
     row = HELPLINES.get((code or "").upper())
     name = STATE_NAMES.get(code.upper(), code) if code else ""
-    parts = [f"<strong>{'18+' if row and row['min_age'] == '18' else '21+'}"
-             f"{f' in {e(name)}' if row and row['min_age'] == '18' else ''}.</strong>"]
+    # Bookbreaker is for 21 and over everywhere (Terms, Responsible gambling, footer). A state whose legal minimum is
+    # 18 says so beside it, never in place of it (the full audit, 2026-11-04: DC and WY led with "18+").
+    parts = ["<strong>21+.</strong>"]
+    if row and row["min_age"] == "18":
+        parts.append(f"The legal minimum in {e(name)} is 18; Bookbreaker is for adults 21 and over.")
     if row and row["gambler_rule"] == "yes":
         parts.append(e(row["gambler_wording"]).replace("1-800-GAMBLER", '<a href="tel:+18004262537">1-800-GAMBLER</a>') + ".")
     if row and row["line"]:
@@ -6093,7 +6095,9 @@ def jurisdiction_facts(code: str, name: str) -> str:
     facts = [
         ("Regulator", row.get("regulator")),
         ("Online betting went live", row.get("launch_date")),
-        ("Minimum age", (row.get("min_age") + "+") if row.get("min_age") else ""),
+        # The legal minimum, never written as "18+" (which reads as who may use this site; Bookbreaker is 21+).
+        ("Minimum age", (f"{row['min_age']} under state law; Bookbreaker is for 21 and over" if row.get("min_age") == "18"
+                         else row["min_age"] + "+") if row.get("min_age") else ""),
         ("State tax on sportsbook revenue",
          (row.get("tax_rate") + "%") if row.get("tax_rate") else ""),
         # The scale is about player props on college athletes, not college betting in general (2026-10-19: rows
@@ -7251,7 +7255,8 @@ read {e(o['read'])}.{own}</p>
 {breadcrumb_schema([("Promo codes", f"/promo-codes/{promo_slug(code)}/")])}
 <h1>{e(name_state)} sportsbook promo codes, ranked by what they are worth</h1>
 <p class="lede">The welcome offers read and priced for licensed {e(name_state)} sportsbooks, by the same
-engine. Offers that can be hedged into a locked amount come first, ranked by that amount, not the headline.
+engine. Offers that can be hedged into a locked amount (one that holds if every bet is accepted and stands) come
+first, ranked by that amount, not the headline.
 Offers that cannot be locked are priced as an expectation and listed after, never ranked against the locks.</p>
 {disclosure()}
 {helpline_block(code)}
@@ -7259,7 +7264,7 @@ Offers that cannot be locked are priced as an expectation and listed after, neve
 <p class="src-line">Priced at build time on two stated priors: bonus bets placed at decimal
 {m['welcome']['assumptions_bonus_decimal']:.1f}, and a {m['welcome']['assumptions_hold_pct']:.1f}% combined
 hold across the best two books. Expectations also rest on those.</p>
-<h2>Offers you can lock by hedging</h2>
+<h2>Offers you can lock by hedging, if every bet stands</h2>
 <div class="offer-grid">{''.join(card(o) for o in locked)}</div>
 <h2>Offers that cannot be locked: refunds and boosts</h2>
 <div class="offer-grid">{''.join(card(o) for o in expected)}</div>
@@ -8007,7 +8012,7 @@ a name.</p>
 <p>What may still be reachable is the nationwide prediction markets, which are regulated by a federal agency,
 the CFTC:</p>
 <ul>{"".join(f'<li>{e(b["name"])}: an exchange</li>' for b in nationwide)}</ul>
-<p>An exchange matches users against each other, so there is no house that profits when you win. It can also
+<p>An exchange matches users against each other, so there is no house on the other side of your bet. It can also
 anchor a fair price where no sharp sportsbook operates.</p>
 {prediction_caveat()}
 <h2>Location, not residence</h2>
@@ -8098,7 +8103,7 @@ You get the number you are given.</p>
 <h2>What is still worth doing</h2>
 <p>Prediction markets are regulated by a federal agency, the CFTC, and may reach
 these states too. They are exchanges, matching users against each other, so there
-is no house that profits when you win. Where they are available they are the only
+is no house on the other side of your bet. Where they are available they are the only
 way to see a second price on the same event from inside a single-operator state.</p>
 {prediction_caveat()}
 <ul>{"".join(f'<li>{e(STATE_NAMES.get(c, c))}</li>' for c in solo)}</ul>

@@ -1476,6 +1476,50 @@ BANNED_WORDING = re.compile(
     re.I)
 
 
+# "you win" alone is not here: the books' own offer names ("Bet $10, Get $150 in Bonus Bets if You Win!") are quoted
+# as evidence on the offer pages, and they describe the book's condition, not a promise from this site.
+WIN_PROMISE = re.compile(r"win without|still win|win whichever|you win whichever|profit either way|guaranteed", re.I)
+LOCK_WORD = re.compile(r"\block(?:s|ed|ing)?\b", re.I)
+LOCK_NEGATED = re.compile(r"not (?:a )?lock|cannot be lock|can['\u2019]?t be lock|never lock|no lock|without the lock", re.I)
+
+
+def check_no_win_promises_or_bare_locks(pages, fails):
+    """Nothing promises a win, and no lock is claimed without its condition (the full audit, 2026-11-04: the home h2
+    "Win without picking winners", "How do you bet both sides and still win?" on five pages, and lock claims with no
+    "accepted and stands" on hedge, dutching, the calculators index, account longevity and best arbitrage).
+
+    Two rules, read on every block of the main column (paragraph, list item, table cell, heading): no phrase in
+    WIN_PROMISE, and any block that says lock/locks/locked also says the bets must stand, unless it says the amount is
+    NOT locked."""
+    for path, markup in pages:
+        main = re.search(r"(?s)<main\b.*?</main>", markup)
+        if not main:
+            continue
+        for tag, inner in re.findall(r"(?s)<(p|li|td|th|h[1-6])(?:\s[^>]*)?>(.*?)</\1>", main.group(0)):
+            text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", inner)).strip()
+            if (m := WIN_PROMISE.search(text)):
+                fails.append(f"{path}: promises a win ({m.group(0)!r}): {text[:110]!r}")
+            if LOCK_WORD.search(text) and not LOCK_NEGATED.search(text) and not re.search(r"\bstand(?:s|ing)?\b", text, re.I):
+                fails.append(f"{path}: claims a lock without saying every bet must be accepted and stand: {text[:110]!r}")
+
+
+def check_dutching_partial_set_is_not_an_arbitrage(fails, app_repo: Path):
+    """A dutch whose prices imply under 100% is an arbitrage only if they cover every outcome of the event. The
+    calculator cannot know that, so it must say so: +240 / +250 are two of three outcomes in the page's own example,
+    and calling them "an arbitrage: the profit is locked" told people a bet that loses everything was safe."""
+    import importlib.util
+    if str(app_repo / "backend") not in sys.path:
+        sys.path.insert(0, str(app_repo / "backend"))
+    spec = importlib.util.spec_from_file_location("bb_calc_dutch", SITE / "calc.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    out = json.loads(mod.run_json("dutching", json.dumps({"total": "100", "prices": "+240, +250"})))
+    said = " ".join(out.get("notes") or [])
+    if "this is an arbitrage" in said or "every possible outcome" not in said:
+        fails.append("calculators/dutching: a dutch over prices under 100% is called an arbitrage without saying it "
+                      f"holds only if they cover every outcome: {said[:140]!r}")
+
+
 def check_house_wording(pages, fails):
     """No page says "free bet", "risk-free", "guaranteed" and the rest of the banned list.
 
@@ -2273,6 +2317,9 @@ def main() -> int:
             lambda: check_site_names_the_newest_release(pages, fails, Path(args.app_repo).expanduser().resolve()),
         "check_every_app_book_has_a_router_page":
             lambda: check_every_app_book_has_a_router_page(fails, Path(args.app_repo).expanduser().resolve()),
+        "check_no_win_promises_or_bare_locks": lambda: check_no_win_promises_or_bare_locks(pages, fails),
+        "check_dutching_partial_set_is_not_an_arbitrage":
+            lambda: check_dutching_partial_set_is_not_an_arbitrage(fails, Path(args.app_repo).expanduser().resolve()),
         "check_hero_video_matches_the_app":
             lambda: check_hero_video_matches_the_app(
                 fails, Path(args.app_repo).expanduser().resolve()),
