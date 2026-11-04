@@ -219,6 +219,20 @@ CASES = [
         '"That is under 100%, so this is an arbitrage across the outcomes of the "',
     ),
     (
+        "a listed page linked from nowhere",
+        "check_every_listed_page_is_linked",
+        "offers/index.html",
+        'href="/promo-codes/new-jersey/"',
+        'href="/promo-codes/new-jersey-gone/"',
+    ),
+    (
+        "a negative amount written $-0.49",
+        "check_money_is_written_plainly",
+        "guides/kalshi-vs-polymarket-arbitrage-after-fees/index.html",
+        "<td>-$0.49</td>",
+        "<td>$-0.49</td>",
+    ),
+    (
         "the round-robin example shows the figures for 1.91 while saying -110",
         "check_round_robin_example_is_priced_as_it_says",
         "calculators/round-robin/index.html",

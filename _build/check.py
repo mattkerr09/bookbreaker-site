@@ -1565,6 +1565,30 @@ def check_devig_box_refuses_prices_off_its_grid(pages, fails):
             fails.append(f"{path}: the no-vig box does not point at the calculator that takes any price")
 
 
+def check_every_listed_page_is_linked(pages, fails):
+    """Every page in the sitemap is linked from at least one other page. /ask/ and /promo-codes/new-jersey/ were
+    listed but linked from nowhere (audit B5, 2026-11-04): a page only a crawler can reach is half published."""
+    listed = set(re.findall(r"<loc>https://bookbreaker\.bet([^<]*)</loc>", (SITE / "sitemap.xml").read_text()))
+    linked: dict[str, set] = {}
+    for path, markup in pages:
+        here = "/" if path == "index.html" else "/" + path.rsplit("/", 1)[0] + "/"
+        for href in re.findall(r'href="(/[^"#?]*)', markup):
+            linked.setdefault(href, set()).add(here)
+    for url in sorted(listed - {"/"}):
+        if not linked.get(url, set()) - {url}:
+            fails.append(f"{url} is in the sitemap but no other page links to it")
+
+
+MONEY_SLIP = re.compile(r"\$-\d|(?<![\d.,])[-\u2212]0\.0+(?![\d])")
+
+
+def check_money_is_written_plainly(pages, fails):
+    """-$1,481.20, never $-1481.20, and no negative zero such as -0.00 or -0.00% (audit B7, 2026-11-04)."""
+    for path, markup in pages:
+        for hit in sorted({m.group(0) for m in MONEY_SLIP.finditer(visible(markup))}):
+            fails.append(f"{path}: writes {hit!r}; a negative amount is -$1.00 and a zero has no sign")
+
+
 def check_house_wording(pages, fails):
     """No page says "free bet", "risk-free", "guaranteed" and the rest of the banned list.
 
@@ -2363,6 +2387,8 @@ def main() -> int:
         "check_every_app_book_has_a_router_page":
             lambda: check_every_app_book_has_a_router_page(fails, Path(args.app_repo).expanduser().resolve()),
         "check_no_win_promises_or_bare_locks": lambda: check_no_win_promises_or_bare_locks(pages, fails),
+        "check_every_listed_page_is_linked": lambda: check_every_listed_page_is_linked(pages, fails),
+        "check_money_is_written_plainly": lambda: check_money_is_written_plainly(pages, fails),
         "check_dutching_partial_set_is_not_an_arbitrage":
             lambda: check_dutching_partial_set_is_not_an_arbitrage(fails, Path(args.app_repo).expanduser().resolve()),
         "check_round_robin_example_is_priced_as_it_says":

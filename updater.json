@@ -1,11 +1,11 @@
 {
-  "version": "0.1.58",
-  "notes": "Clearer wording on arbs, 21+ everywhere, and a fix in Bet size.\n\n- The Arbitrage page says the difference is yours only if both bets are accepted and stand.\n- Every sportsbook link reads 21+; where a state allows 18, that is said beside it.\n- Fixed: typing 45 for a 45% win chance in Bet size showed an error report.",
-  "pub_date": "2026-11-04T09:24:08Z",
+  "version": "0.1.59",
+  "notes": "This week's welcome offers, re-read on 4 November: FanDuel's is now $200 in bonus bets over four days, BetMGM's $1,500 offer now covers DC. The example market uses exact American prices, so every card's figures check by hand, and RETURN is the return on the stakes shown.",
+  "pub_date": "2026-11-04T14:23:33Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDhlTnQ0bEpPbEdPMGltdDBtWWdLM25nYUt0cEt5SGRkZVhBN01GWEViOU5ZVWVCZGUyTjlEdVR3am53bjlwa3MvdXg0YXE3TU8wSVBwdG80TklGSHdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzNzg0MjMyCWZpbGU6Qm9va2JyZWFrZXItMC4xLjU4LmFwcC50YXIuZ3oKdnFrRHNUeWZ4RTBBc0w1ZExpR1NaZGRsamdTOXhqNFNtUDRmeHNrbU1KZE5JbFN1M3JCanlGSFVKR0hac0RoUTlmVGRlMDk4QUROSFhNeldobmRPQWc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.58.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDB1aEVGRVRUbmVxRjh0eE83ajRjQkRFWW4xK040ekNHVkpmTCs3Q0krcldaRzdZclpsc0hLU2NCa3ZVUGx2Q29mTjB1eldZWmFNSE9EajJzankzTlE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODAyMTg3CWZpbGU6Qm9va2JyZWFrZXItMC4xLjU5LmFwcC50YXIuZ3oKWVBJcWdBOWdNMHpBTGs3ZUZpZEhuZHdaWHZ3SkdKNlV1Zmp1a1FRSkNVZHh2aGdkdWdMRldEQUdxalJrL3RZd2ZKZ2JFaGtGUm9rQjZZM1VLTTZLQVE9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.59.app.tar.gz"
     }
   }
 }
