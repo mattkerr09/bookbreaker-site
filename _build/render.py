@@ -595,40 +595,6 @@ def measure(engine) -> dict:
         "verdict": rep.overall.verdict(),
     }
 
-    # 7. Account longevity: what bet shape gives away.
-    from overlay_engine.heat import (
-        AccountHeat, BetRecord, market_heat, reaction_heat,
-        stake_precision_heat, shape as shape_bet,
-    )
-    from overlay_engine.models import Book, BookTier
-
-    books = {
-        "dk": Book("dk", "DraftKings", BookTier.RETAIL),
-        "pinnacle": Book("pinnacle", "Pinnacle", BookTier.SHARP,
-                         limits_winners=False),
-    }
-    out["heat"] = {
-        "stakes": [
-            {"stake": f"{v:,.2f}", "heat": round(stake_precision_heat(v) * 100)}
-            for v in (473.82, 473.0, 475.0, 500.0)
-        ],
-        "reaction": [
-            {"after": f"{t:g}s", "heat": round(reaction_heat(t) * 100)}
-            for t in (0.5, 30.0, 120.0)
-        ],
-        "markets": [
-            {"market": m, "heat": round(market_heat(m) * 100)}
-            for m in ("h2h", "player_points", "alternate_spreads")
-        ],
-        "shaped": round(
-            shape_bet("dk", 473.82, 0.03, AccountHeat(), books, now=NOW).stake
-        ),
-        "untouched": round(
-            shape_bet("pinnacle", 473.82, 0.03, AccountHeat(), books,
-                      now=NOW).stake, 2
-        ),
-    }
-
     # 8. What a record can and cannot prove.
     from overlay_engine.performance import (
         MIN_BETS, bonferroni_z, family_error_rate,
@@ -3052,7 +3018,7 @@ def render_download(m: dict) -> str:
             'Applications folder in the window that opens.</span></li>'
             '<li><b>Open Bookbreaker</b><span>Apple has notarised it, so it opens without '
             'a security warning.</span></li></ol>'
-            '<p>New in this version: use the engine from Claude and other AI assistants (see <a href="/ai-assistants/">AI assistants</a>), and the note on keeping an account now says what is true: books set their own limits, and nothing here gets around them. Also recent: the Arb calculator says when no round stakes keep a small arb at your rounding, a middle on a spread names each side, Bet size works out the win chance from sharp prices when that box is empty, this week&rsquo;s welcome offers, re-read on 4 November (FanDuel&rsquo;s is now $200 in bonus bets over four days), an example market whose figures you can check by hand at the prices shown, clearer wording on arbs (the difference is yours only if both bets are accepted and stand), 21+ beside every sportsbook link, a fix in Bet size, is buying the half point worth it, for NFL spreads and totals, from how often games landed on the number in 2015 to 2025 (any one bet can lose), move through the board with the keyboard, Fair odds converts any price into American, decimal and fractional odds with its break-even chance, Find a hedge looks for the other side of your bet in the odds already read on this Mac, best price first, and spends no credit, a play that asks for more at a book than the balance you typed in Your books says so, and gives the same plan scaled down to fit, in the Arb calculator, hold one side at the stake you want, or type an amount to lock and get the smallest total that does it (a lock holds only if every bet is accepted and stands), open a sportsbook from a play, for books licensed in your state, to the book&rsquo;s own page and never a filled-in bet slip, Bet size works out the edge from up to three sharp books&rsquo; prices, with the stake sized on the cautious end (any one bet can lose), hide a whole game, or every play at one book, with the same undo, Fair odds lets you choose how the cut is removed, including a worst case, the cautious price to size from, odds for each side on Low hold, so the cheapest pair it lists fits a playthrough&rsquo;s lowest price, board filters on the Arbitrage page (sort by return, edge or start time, a price range for +EV bets, game state, when the game starts, leagues and bet types, and a smallest window for middles, each saying how many plays it leaves), and a +EV stake sized on that book&rsquo;s balance in Your books. Also recent: Your books, a balance for each sportsbook you type and keep on this Mac, moved by the bets you track and settle (nothing connects to a book), three-way arbs in the Arb calculator, a suggested stake on every +EV play (a suggestion, not a promise: any one bet can lose), Find a hedge on an open bet, a parlay across games priced fair from Kalshi&rsquo;s prices, Bookbreaker now says it needs macOS 14 or later, a fix that charges Kalshi&rsquo;s full fee on games that override their series, Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
+            '<p>New in this version: hedges are rounded to the amount that keeps the most money, and the app no longer adjusts any stake or the timing of a bet to make an account last longer. Also recent: use the engine from Claude and other AI assistants (see <a href="/ai-assistants/">AI assistants</a>), and the note on keeping an account now says what is true: books set their own limits, and nothing here gets around them. Also recent: the Arb calculator says when no round stakes keep a small arb at your rounding, a middle on a spread names each side, Bet size works out the win chance from sharp prices when that box is empty, this week&rsquo;s welcome offers, re-read on 4 November (FanDuel&rsquo;s is now $200 in bonus bets over four days), an example market whose figures you can check by hand at the prices shown, clearer wording on arbs (the difference is yours only if both bets are accepted and stand), 21+ beside every sportsbook link, a fix in Bet size, is buying the half point worth it, for NFL spreads and totals, from how often games landed on the number in 2015 to 2025 (any one bet can lose), move through the board with the keyboard, Fair odds converts any price into American, decimal and fractional odds with its break-even chance, Find a hedge looks for the other side of your bet in the odds already read on this Mac, best price first, and spends no credit, a play that asks for more at a book than the balance you typed in Your books says so, and gives the same plan scaled down to fit, in the Arb calculator, hold one side at the stake you want, or type an amount to lock and get the smallest total that does it (a lock holds only if every bet is accepted and stands), open a sportsbook from a play, for books licensed in your state, to the book&rsquo;s own page and never a filled-in bet slip, Bet size works out the edge from up to three sharp books&rsquo; prices, with the stake sized on the cautious end (any one bet can lose), hide a whole game, or every play at one book, with the same undo, Fair odds lets you choose how the cut is removed, including a worst case, the cautious price to size from, odds for each side on Low hold, so the cheapest pair it lists fits a playthrough&rsquo;s lowest price, board filters on the Arbitrage page (sort by return, edge or start time, a price range for +EV bets, game state, when the game starts, leagues and bet types, and a smallest window for middles, each saying how many plays it leaves), and a +EV stake sized on that book&rsquo;s balance in Your books. Also recent: Your books, a balance for each sportsbook you type and keep on this Mac, moved by the bets you track and settle (nothing connects to a book), three-way arbs in the Arb calculator, a suggested stake on every +EV play (a suggestion, not a promise: any one bet can lose), Find a hedge on an open bet, a parlay across games priced fair from Kalshi&rsquo;s prices, Bookbreaker now says it needs macOS 14 or later, a fix that charges Kalshi&rsquo;s full fee on games that override their series, Size this bet, a Kalshi and Polymarket US price converter in Fair odds, clearer answers in Ask, a fix to the parlay check, which treated every leg as a coin flip whatever its price, a Parlays tab that shows what each parlay costs against its fair price, DraftKings&rsquo; new sign-up offer (Bet $5, Get $200 in bonus bets), how many refreshes your credits cover, Open this offer on Promos, a Start here page before you add a key, alternate lines, a ladder of every spread and total a book posts for a game, futures, every best price at a sportsbook licensed in your state, your own EV formula of the sharp books you trust, a What&rsquo;s new list inside the app, every filter says how many plays it would leave, alerts from Bookbreaker itself, hide a play with undo, bet warnings for plays '
             'that repeat or oppose a bet you have open, alerts after a refresh you start, Track this bet, which saves a bet with its fair price, which books to fund in your state, a low-hold view, your record against what it should have been, how old every price is, '
             'an Odds screen with every book&rsquo;s price side by side, and a page that prices a promo you already hold. '
             '<a href="/how-it-works/">How it works</a>.</p>')
@@ -3767,7 +3733,7 @@ def audience_bodies(m: dict) -> dict[str, str]:
     """One body per audience. Each reads differently because the engine serves
     each of them with different parts of itself."""
     a, f, d, p = m["arb"], m["fill"], m["devig"], m["performance"]
-    conv, h, ev, hero = m["conversion"], m["heat"], m["evidence"], m["hero"]
+    conv, ev, hero = m["conversion"], m["evidence"], m["hero"]
 
     return {
 "arbitrage-bettors": f"""
@@ -4095,7 +4061,7 @@ def guide_bodies(m: dict) -> dict[str, str]:
         return ("<table>" + "".join(f"<tr><th>{e(k)}</th><td>{v}</td></tr>" for k, v in rows) + "</table>")
 
     d, a, f, p = m["devig"], m["arb"], m["fill"], m["performance"]
-    conv, mid, h, ev = m["conversion"], m["middles"], m["heat"], m["evidence"]
+    conv, mid, ev = m["conversion"], m["middles"], m["evidence"]
     par = m["parlay"]
     mt, sn, bo = m["match"], m["safety_net"], m["boost"]
     mu, rd, qa = m["multiplicity"], m["rounding"], m["quote_age"]
@@ -6694,8 +6660,7 @@ def render_market(m: dict, codes: list[str]) -> str:
         distinctive = (
             f"<p>{st['retail']} retail books operate here, including "
             + e(", ".join(retail_names[:3]))
-            + ". Each one you hold is another price to compare, and another "
-            "account whose lifetime the heat model is protecting.</p>"
+            + ". Each one you hold is another price to compare.</p>"
         )
 
     shared = "" if len(codes) == 1 else (

@@ -1,11 +1,11 @@
 {
-  "version": "0.1.61",
-  "notes": "Ask Bookbreaker from Claude and other AI assistants: the engine can run as an MCP server, with setup on bookbreaker.bet/ai-assistants. The note on keeping an account now says what is true: books set their own limits, and nothing here gets around them.",
-  "pub_date": "2026-11-04T22:25:51Z",
+  "version": "0.1.62",
+  "notes": "A hedge is rounded to the multiple of five that keeps the most money, never chosen for how it looks. The app no longer adjusts any stake or the timing of a bet to make an account last longer; books set their own limits.",
+  "pub_date": "2026-11-05T00:23:12Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDF4alBUcTcvaEloc0U3WVBvdWVwVjdZS0VWMzhaZEZZTmVvTW1RYWhDWndTR1ZiNnlmQTRzU2ZFb1ZBOGRDYktCZm5DUGtWRXBXMVpRa3hMQXdJQkE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODMxMTIxCWZpbGU6Qm9va2JyZWFrZXItMC4xLjYxLmFwcC50YXIuZ3oKWWZCakovSWNSajBjWjVmZU42ZTRkWUI2MHZud2ZYRzF5MnY1ZVBydUY1YWkycURIM2p6bHFINUhiT1BSRE1XYzc3SndVMGF0d0dnRmUwbWphV2J0RHc9PQo=",
-      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.61.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSdVAxeW9kcEFOTDV1SjA5aURhV01MbDJlWU4yeWx5VUdUc2ViTnNNTjFodnNMaU5GdkQ1eG9MckIralZ0TXQ4eVVORWRNUXh4UUdmQ1lNVnlEeTJDNTRnNFFqbzhtOEE4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzODM4MTU4CWZpbGU6Qm9va2JyZWFrZXItMC4xLjYyLmFwcC50YXIuZ3oKYUVVK2NXTXNjS0trZ09yNWp2Vy9EMTZGM3RFRmdCODNQL0ZTUWdEYlpucXNDY010c1FHZEFVczgxaEgycUZRMDBlQ3cxd0t6SlpwNGJVNkIrcUJtQ3c9PQo=",
+      "url": "https://bookbreaker.bet/releases/Bookbreaker-0.1.62.app.tar.gz"
     }
   }
 }

@@ -722,9 +722,9 @@
     ],
     "total": 300
   },
-  "engine_fingerprint": "58836798ab3b3524",
+  "engine_fingerprint": "a07fe502db0ded36",
   "engine_load": {
-    "bytes": 6569857,
+    "bytes": 6564693,
     "mb": 7,
     "pyodide": "0.29.5"
   },
@@ -785,56 +785,6 @@
     "p120": 54.55,
     "ratio": 0.45,
     "vig_at_110": 4.76
-  },
-  "heat": {
-    "markets": [
-      {
-        "heat": 5,
-        "market": "h2h"
-      },
-      {
-        "heat": 60,
-        "market": "player_points"
-      },
-      {
-        "heat": 90,
-        "market": "alternate_spreads"
-      }
-    ],
-    "reaction": [
-      {
-        "after": "0.5s",
-        "heat": 99
-      },
-      {
-        "after": "30s",
-        "heat": 47
-      },
-      {
-        "after": "120s",
-        "heat": 5
-      }
-    ],
-    "shaped": 470,
-    "stakes": [
-      {
-        "heat": 100,
-        "stake": "473.82"
-      },
-      {
-        "heat": 75,
-        "stake": "473.00"
-      },
-      {
-        "heat": 12,
-        "stake": "475.00"
-      },
-      {
-        "heat": 0,
-        "stake": "500.00"
-      }
-    ],
-    "untouched": 473.82
   },
   "hedge": {
     "best": {
@@ -1183,28 +1133,28 @@
   },
   "release": {
     "app": {
-      "bytes": 34914551,
-      "kb": 34096,
+      "bytes": 34913151,
+      "kb": 34095,
       "mb": 34.9,
-      "name": "Bookbreaker-0.1.61.dmg",
-      "sha256": "8664db070f29e30e46046649d09dc6e0c39ac2776ebe89e94141edfe8a107820"
+      "name": "Bookbreaker-0.1.62.dmg",
+      "sha256": "c11f8d8cfdda5fe139b44e3772c6339231e1fe54015ecfd322a6e4d41550b59f"
     },
     "hash_bits": 256,
     "python": "3.9",
     "sdist": {
-      "bytes": 1086303,
-      "kb": 1061,
+      "bytes": 1081589,
+      "kb": 1056,
       "mb": 1.1,
-      "name": "overlay-0.1.61.tar.gz",
-      "sha256": "c13c3fb80438a11f54b79804a4d4058756bf02228a21d97e69e506a38adfcab9"
+      "name": "overlay-0.1.62.tar.gz",
+      "sha256": "de613d02356690814f161cedf614a80943638e88c2bb56bce9b9a0650cb683f0"
     },
-    "version": "0.1.61",
+    "version": "0.1.62",
     "wheel": {
-      "bytes": 542490,
-      "kb": 530,
+      "bytes": 537326,
+      "kb": 525,
       "mb": 0.5,
-      "name": "overlay-0.1.61-py3-none-any.whl",
-      "sha256": "ff5744b8d3165798b3228d8c71b500be579c8b54e040d3d64e3b76fbd94824f1"
+      "name": "overlay-0.1.62-py3-none-any.whl",
+      "sha256": "99f266a9e1fd5159c63f1b85ea461c40d79f53be29b63f17203ecf0b848dafeb"
     }
   },
   "replay": {
@@ -1656,7 +1606,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "AK",
       "venues": 2
     },
@@ -1694,7 +1644,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "AL",
       "venues": 2
     },
@@ -1746,7 +1696,7 @@
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "AR",
       "venues": 4
     },
@@ -1861,7 +1811,7 @@
       "retail": 11,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "AZ",
       "venues": 13
     },
@@ -1899,7 +1849,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "CA",
       "venues": 2
     },
@@ -2015,7 +1965,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "CO",
       "venues": 13
     },
@@ -2074,7 +2024,7 @@
       "retail": 3,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "CT",
       "venues": 5
     },
@@ -2154,7 +2104,7 @@
       "retail": 6,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "DC",
       "venues": 8
     },
@@ -2199,7 +2149,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run by BetRivers",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "DE",
       "venues": 3
     },
@@ -2244,7 +2194,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "FL",
       "venues": 3
     },
@@ -2282,7 +2232,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "GA",
       "venues": 2
     },
@@ -2320,7 +2270,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "HI",
       "venues": 2
     },
@@ -2429,7 +2379,7 @@
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "IA",
       "venues": 12
     },
@@ -2467,7 +2417,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "ID",
       "venues": 2
     },
@@ -2576,7 +2526,7 @@
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "IL",
       "venues": 12
     },
@@ -2684,7 +2634,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "IN",
       "venues": 12
     },
@@ -2771,7 +2721,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "KS",
       "venues": 9
     },
@@ -2873,7 +2823,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "KY",
       "venues": 11
     },
@@ -2967,7 +2917,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "LA",
       "venues": 10
     },
@@ -3037,7 +2987,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "MA",
       "venues": 7
     },
@@ -3145,7 +3095,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "MD",
       "venues": 12
     },
@@ -3197,7 +3147,7 @@
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "ME",
       "venues": 4
     },
@@ -3314,7 +3264,7 @@
       "retail": 13,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "MI",
       "venues": 13
     },
@@ -3352,7 +3302,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "MN",
       "venues": 2
     },
@@ -3447,7 +3397,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "MO",
       "venues": 10
     },
@@ -3485,7 +3435,7 @@
       "retail": 0,
       "retail_only": "retail sportsbooks only, no online betting",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "MS",
       "venues": 2
     },
@@ -3530,7 +3480,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run by Intralot, where the app only works inside authorised Sports Bet Montana locations",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "MT",
       "venues": 3
     },
@@ -3617,7 +3567,7 @@
       "retail": 7,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "NC",
       "venues": 9
     },
@@ -3655,7 +3605,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "ND",
       "venues": 2
     },
@@ -3693,7 +3643,7 @@
       "retail": 0,
       "retail_only": "licensed casinos only; online betting is on the 2026-11-03 ballot",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "NE",
       "venues": 2
     },
@@ -3738,7 +3688,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "an exclusive lottery contract with DraftKings",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "NH",
       "venues": 3
     },
@@ -3867,7 +3817,7 @@
       "retail": 13,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "NJ",
       "venues": 15
     },
@@ -3905,7 +3855,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "NM",
       "venues": 2
     },
@@ -3949,7 +3899,7 @@
       "retail": 2,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "NV",
       "venues": 3
     },
@@ -4043,7 +3993,7 @@
       "retail": 8,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "NY",
       "venues": 10
     },
@@ -4165,7 +4115,7 @@
       "retail": 12,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "OH",
       "venues": 14
     },
@@ -4203,7 +4153,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "OK",
       "venues": 2
     },
@@ -4248,7 +4198,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "an exclusive lottery partnership with DraftKings",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "OR",
       "venues": 3
     },
@@ -4349,7 +4299,7 @@
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "PA",
       "venues": 11
     },
@@ -4394,7 +4344,7 @@
       "retail": 1,
       "retail_only": "",
       "single_operator": "a lottery market run on the IGT platform",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "RI",
       "venues": 3
     },
@@ -4432,7 +4382,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "SC",
       "venues": 2
     },
@@ -4470,7 +4420,7 @@
       "retail": 0,
       "retail_only": "Deadwood and tribal casinos only, no online betting",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "SD",
       "venues": 2
     },
@@ -4571,7 +4521,7 @@
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "TN",
       "venues": 11
     },
@@ -4609,7 +4559,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "TX",
       "venues": 2
     },
@@ -4647,7 +4597,7 @@
       "retail": 0,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "UT",
       "venues": 2
     },
@@ -4755,7 +4705,7 @@
       "retail": 10,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "VA",
       "venues": 12
     },
@@ -4814,7 +4764,7 @@
       "retail": 3,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "VT",
       "venues": 5
     },
@@ -4834,7 +4784,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, including on-premises mobile, no statewide online betting",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "WA",
       "venues": 0
     },
@@ -4872,7 +4822,7 @@
       "retail": 0,
       "retail_only": "tribal casinos only, no state-regulated online betting",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "WI",
       "venues": 2
     },
@@ -4973,7 +4923,7 @@
       "retail": 9,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "WV",
       "venues": 11
     },
@@ -5046,7 +4996,7 @@
       "retail": 5,
       "retail_only": "",
       "single_operator": "",
-      "stale_days": 41,
+      "stale_days": 42,
       "state": "WY",
       "venues": 7
     }
@@ -5276,14 +5226,14 @@
   },
   "verify": {
     "accounts": 0,
-    "engine_modules": 82,
+    "engine_modules": 81,
     "network_calls": 0,
-    "sha256": "8664db070f29e30e46046649d09dc6e0c39ac2776ebe89e94141edfe8a107820",
-    "sha256_short": "8664db070f29e30e",
+    "sha256": "c11f8d8cfdda5fe139b44e3772c6339231e1fe54015ecfd322a6e4d41550b59f",
+    "sha256_short": "c11f8d8cfdda5fe1",
     "sources": 29,
-    "test_files": 132
+    "test_files": 133
   },
-  "version": "0.1.61",
+  "version": "0.1.62",
   "weights": {
     "max_age_days": 90
   },
@@ -5292,7 +5242,7 @@
     "assumptions_hold_pct": 2.0,
     "feed": {
       "branch": "main",
-      "commit": "44f4ab67517b8f66218da0b4a2c67f7c2314591d"
+      "commit": "d074c4955e3a372feaabe04cca9f13a3597c10ba"
     },
     "max_age_days": 21,
     "offers": [
@@ -5308,7 +5258,6 @@
         "face": 1000.0,
         "guaranteed": 667.012987012987,
         "headline": "Get Up To $1000 Matched in FanCash",
-        "hedge_heat": 0.2,
         "hedge_stake": 230.0,
         "ineligible": "",
         "installments": 10,
@@ -5362,7 +5311,6 @@
         "face": 1000.0,
         "guaranteed": 667.012987012987,
         "headline": "Get Up To $1000 Matched in FanCash",
-        "hedge_heat": 0.2,
         "hedge_stake": 230.0,
         "ineligible": "",
         "installments": 10,
@@ -5394,7 +5342,6 @@
         "face": 350.0,
         "guaranteed": 240.05454545454543,
         "headline": "Bet $20, Get $350 in FanCash!",
-        "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
         "installments": 7,
@@ -5447,7 +5394,6 @@
         "face": 350.0,
         "guaranteed": 240.05454545454543,
         "headline": "Bet $20, Get $350 in FanCash!",
-        "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
         "installments": 7,
@@ -5479,7 +5425,6 @@
         "face": 200.0,
         "guaranteed": 137.3025974025974,
         "headline": "Bet $5, Get $200 in Bonus Bets",
-        "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
         "installments": 4,
@@ -5533,7 +5478,6 @@
         "face": 200.0,
         "guaranteed": 137.3025974025974,
         "headline": "Bet $5, Get $200 in Bonus Bets",
-        "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
         "installments": 4,
@@ -5565,7 +5509,6 @@
         "face": 200.0,
         "guaranteed": 137.2025974025974,
         "headline": "Bet $10, Get $200 in Bonus Bets Win or Lose",
-        "hedge_heat": 0.2,
         "hedge_stake": 460.0,
         "ineligible": "",
         "installments": 1,
@@ -5610,7 +5553,6 @@
         "face": 200.0,
         "guaranteed": 137.2025974025974,
         "headline": "Bet $10, Get $200 in Bonus Bets Win or Lose",
-        "hedge_heat": 0.2,
         "hedge_stake": 460.0,
         "ineligible": "",
         "installments": 1,
@@ -5642,7 +5584,6 @@
         "face": 200.0,
         "guaranteed": 137.0025974025974,
         "headline": "Get $200 in Bonus Bets!",
-        "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
         "installments": 4,
@@ -5697,7 +5638,6 @@
         "face": 200.0,
         "guaranteed": 137.0025974025974,
         "headline": "Get $200 in Bonus Bets!",
-        "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
         "installments": 4,
@@ -5724,13 +5664,12 @@
         "cost": 0.2,
         "ended": false,
         "ends": "",
-        "expected": 101.35844155844156,
+        "expected": 102.85194805194804,
         "expires_days": "7",
         "face": 150.0,
-        "guaranteed": 101.35844155844156,
+        "guaranteed": 102.85194805194804,
         "headline": "Bet $10, Get $150 in Bonus Bets Win or Lose!",
-        "hedge_heat": 0.2,
-        "hedge_stake": 340.0,
+        "hedge_stake": 345.0,
         "ineligible": "",
         "installments": 1,
         "name": "bet365",
@@ -5746,8 +5685,8 @@
         ],
         "steps": [
           "Qualify: bet $10 at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
-          "Convert: place each $150 bonus bet at +300 and hedge $340 cash on the other side at another book. If both bets are accepted and stand, you keep at least $101.56 whichever side wins.",
-          "Collect: $101.36 locked from $150 face if both bets are accepted and stand, before the bonus expires (7 days).",
+          "Convert: place each $150 bonus bet at +300 and hedge $345 cash on the other side at another book. If both bets are accepted and stand, you keep at least $103.05 whichever side wins.",
+          "Collect: $102.85 locked from $150 face if both bets are accepted and stand, before the bonus expires (7 days).",
           "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
@@ -5763,7 +5702,6 @@
         "face": 100.0,
         "guaranteed": 68.30129870129869,
         "headline": "Bet $20, get $100 instantly in bonus bets",
-        "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
         "installments": 2,
@@ -5795,7 +5733,6 @@
         "face": 100.0,
         "guaranteed": 66.8077922077922,
         "headline": "Get $100 in Bonus Bets Now",
-        "hedge_heat": 0.3,
         "hedge_stake": 45.0,
         "ineligible": "",
         "installments": 5,
@@ -5827,7 +5764,6 @@
         "face": 50.0,
         "guaranteed": 33.85064935064935,
         "headline": "Choose Your Reward: $50 Bonus Bet",
-        "hedge_heat": 0.3,
         "hedge_stake": 115.0,
         "ineligible": "",
         "installments": 1,
@@ -5854,13 +5790,12 @@
         "cost": 0.2,
         "ended": false,
         "ends": "2026-12-31",
-        "expected": 29.8,
+        "expected": 32.65714285714285,
         "expires_days": "7",
         "face": 50.0,
-        "guaranteed": 29.8,
+        "guaranteed": 32.65714285714285,
         "headline": "Bet $10 and get $50 in Bonus Bets",
-        "hedge_heat": 0.2,
-        "hedge_stake": 60.0,
+        "hedge_stake": 55.0,
         "ineligible": "",
         "installments": 2,
         "name": "Bally Bet",
@@ -5884,8 +5819,8 @@
         ],
         "steps": [
           "Qualify: bet $10 in all, on the schedule its terms set, at this book on the lowest-hold market you can find, and hedge the other side at a second book. It costs about $0.20. It is a fee, not a bet.",
-          "Convert: place each $25 bonus bet at +300 and hedge $60 cash on the other side at another book. If both bets are accepted and stand, you keep at least $15.00 whichever side wins. Repeat for all 2 installments.",
-          "Collect: $29.80 locked from $50 face if both bets are accepted and stand, before the bonus expires (7 days).",
+          "Convert: place each $25 bonus bet at +300 and hedge $55 cash on the other side at another book. If both bets are accepted and stand, you keep at least $16.43 whichever side wins. Repeat for all 2 installments.",
+          "Collect: $32.66 locked from $50 face if both bets are accepted and stand, before the bonus expires (7 days).",
           "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
@@ -5901,7 +5836,6 @@
         "face": 1500.0,
         "guaranteed": 0.0,
         "headline": "Get up to $1,500 Back in Bonus Bets if Your First Bet Doesn't Win!",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 1,
@@ -5947,7 +5881,6 @@
         "face": 1000.0,
         "guaranteed": 0.0,
         "headline": "Bet Reset up to $1,000",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 1,
@@ -5992,7 +5925,6 @@
         "face": 1000.0,
         "guaranteed": 0.0,
         "headline": "Up to $1,000 in bonus bets",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 10,
@@ -6023,7 +5955,6 @@
         "face": 500.0,
         "guaranteed": 0.0,
         "headline": "If it loses, receive a Bonus Bet equal to your stake up to $500!",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 1,
@@ -6059,7 +5990,6 @@
         "face": 500.0,
         "guaranteed": 0.0,
         "headline": "If it loses, receive a Bonus Bet equal to your stake up to $500!",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 1,
@@ -6090,7 +6020,6 @@
         "face": 500.0,
         "guaranteed": 0.0,
         "headline": "Bet $5, Get $500 in Bonus Bets",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 10,
@@ -6130,7 +6059,6 @@
         "face": 500.0,
         "guaranteed": 0.0,
         "headline": "Bet $5, Get $500 in Bonus Bets",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 10,
@@ -6162,7 +6090,6 @@
         "face": 750.0,
         "guaranteed": 0.0,
         "headline": "Bet $1+, Double Your Winnings Your Next 10 Wagers!",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 10,
@@ -6213,7 +6140,6 @@
         "face": 750.0,
         "guaranteed": 0.0,
         "headline": "Get 10x100% Profit Boost Tokens Instantly!",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 10,
@@ -6243,7 +6169,6 @@
         "face": 750.0,
         "guaranteed": 0.0,
         "headline": "Bet $1+, Double Your Winnings Your Next 10 Wagers!",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 10,
@@ -6273,7 +6198,6 @@
         "face": 250.0,
         "guaranteed": 0.0,
         "headline": "Get Up To $250 in Bonus Bets",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 5,
@@ -6325,7 +6249,6 @@
         "face": 250.0,
         "guaranteed": 0.0,
         "headline": "If it loses, receive a Bonus Bet equal to your stake up to $250!",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 1,
@@ -6357,7 +6280,6 @@
         "face": 250.0,
         "guaranteed": 0.0,
         "headline": "Get Up To $250 in Bonus Bets",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 5,
@@ -6388,7 +6310,6 @@
         "face": 300.0,
         "guaranteed": 0.0,
         "headline": "Choose Your Reward: 200% Profit Boost",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 1,
@@ -6418,7 +6339,6 @@
         "face": 100.0,
         "guaranteed": 0.0,
         "headline": "If it loses, receive a Bonus Bet equal to your stake up to $100!",
-        "hedge_heat": 0.0,
         "hedge_stake": 0.0,
         "ineligible": "",
         "installments": 1,
@@ -6448,13 +6368,12 @@
         "cost": 0.2,
         "ended": false,
         "ends": "",
-        "expected": 44.8,
+        "expected": 49.085714285714275,
         "expires_days": "7",
         "face": 150.0,
         "guaranteed": 0.0,
         "headline": "Bet $10, Get $150 in Bonus Bets if You Win!",
-        "hedge_heat": 0.2,
-        "hedge_stake": 60.0,
+        "hedge_stake": 55.0,
         "ineligible": "",
         "installments": 6,
         "name": "BetMGM",
@@ -6468,8 +6387,8 @@
         ],
         "steps": [
           "Qualify: bet $10 at this book on a market near even money, and hedge the other side at a second book. It costs about $0.20. The bonus is paid only if this bet WINS, and the hedge cannot change that: at even money that is about 50% of the time (a prior).",
-          "If it wins, convert: place each $25 bonus bet at +300 and hedge $60 cash on the other side at another book. If both bets are accepted and stand, you keep at least $15.00 whichever side wins. Repeat for all 6 bonus bets.",
-          "Expected value about $44.80: 50% of $90.00 kept, less $0.20. Not a locked amount: the other 50% of the time you hold no bonus, and a bonus bet not used within 7 days is lost.",
+          "If it wins, convert: place each $25 bonus bet at +300 and hedge $55 cash on the other side at another book. If both bets are accepted and stand, you keep at least $16.43 whichever side wins. Repeat for all 6 bonus bets.",
+          "Expected value about $49.09: 50% of $98.57 kept, less $0.20. Not a locked amount: the other 50% of the time you hold no bonus, and a bonus bet not used within 7 days is lost.",
           "Books set their own limits and can limit or close an account under their terms; nothing here gets around that. Read each book's terms before you start, and keep a record of every bet."
         ]
       },
@@ -6485,7 +6404,6 @@
         "face": 100.0,
         "guaranteed": 0.0,
         "headline": "Bet $10, Get $100 in Bonus Bets If You Win!",
-        "hedge_heat": 0.3,
         "hedge_stake": 45.0,
         "ineligible": "",
         "installments": 5,
@@ -6518,6 +6436,17 @@
     ]
   },
   "whatsnew": [
+    {
+      "date": "2026-11-04",
+      "notes": [
+        {
+          "text": "A hedge is rounded to the multiple of five that keeps the most money. It is never chosen for how it looks, and the app no longer adjusts any stake or the timing of a bet to make an account last longer. Books set their own limits.",
+          "where": "Promos"
+        }
+      ],
+      "title": "Round stakes, and nothing more",
+      "version": "0.1.62"
+    },
     {
       "date": "2026-11-04",
       "notes": [
@@ -6622,21 +6551,6 @@
       ],
       "title": "Fair odds converts any price",
       "version": "0.1.55"
-    },
-    {
-      "date": "2026-11-01",
-      "notes": [
-        {
-          "text": "Leave the price box empty and Find a hedge looks for the other side of your bet in the odds already read on this Mac, at books licensed in your state, best price first, and says how old each price is. It spends no credit. Check the price at the book before you bet.",
-          "where": "My bets"
-        },
-        {
-          "text": "Fixed: a price Find a hedge could not read made it fail instead of saying what to type.",
-          "where": "My bets"
-        }
-      ],
-      "title": "Find a hedge from the odds you have read",
-      "version": "0.1.54"
     }
   ],
   "xvenue": {
