@@ -727,6 +727,31 @@ def measure(engine) -> dict:
                           "plain": bag_cases[0], "on_win": bag_cases[1:],
                           "cost_share": round(bag_cases[0]["cost"] / bag_cases[0]["worth"] * 100, 2)}
 
+    # NFL spread to moneyline: the table calc.py carries (the browser runs calc.py alone) must be the one in
+    # _data/nfl_spread_moneyline.csv, and every row shown is calc.py's own answer for that spread.
+    import importlib.util as _ilu_sm
+    _sm_spec = _ilu_sm.spec_from_file_location("bb_calc_sm", Path(__file__).resolve().parent / "calc.py")
+    _sm = _ilu_sm.module_from_spec(_sm_spec); _sm_spec.loader.exec_module(_sm)
+    _sm_csv = load_data("nfl_spread_moneyline")
+    _sm_want = {float(r["spread"]): (int(r["games"]), int(r["won"]), int(r["tied"]), float(r["fair"])) for r in _sm_csv}
+    if _sm_want != {float(k): v for k, v in _sm.NFL_SPREAD.items()} or _sm_csv[0]["read"] != _sm.NFL_SPREAD_READ:
+        raise SystemExit("calc.py's NFL_SPREAD table differs from _data/nfl_spread_moneyline.csv: "
+                         "re-run _build/nfl_spread_moneyline.py")
+    _sm_rows = []
+    for _k in sorted(_sm.NFL_SPREAD):
+        _ans = _sm.spread_to_moneyline({"spread": f"-{_k:g}"})
+        _fav, _dog = _ans["headline"].split(" / ")
+        _cells = dict(_ans["table"]["rows"])
+        _sm_rows.append({"spread": f"{_k:g}", "fav": _fav, "dog": _dog,
+                         "chance": _cells["Favourite's chance in the closing moneylines"],
+                         "games": _cells["Games that closed at this spread, 2015 to 2025"],
+                         "won": _cells["Favourites that won outright"],
+                         "range": _cells["Range that outright rate could sit in (95%)"]})
+    out["spread_moneyline"] = {"rows": _sm_rows, "games": _sm.NFL_SPREAD_GAMES, "read": _sm.NFL_SPREAD_READ,
+                               "source": _sm_csv[0]["source"], "spreads": len(_sm_rows),
+                               "three": next(r for r in _sm_rows if r["spread"] == "3"),
+                               "seven": next(r for r in _sm_rows if r["spread"] == "7")}
+
     # A profit boost. It multiplies profit, and profit grows with the price,
     # so spending it on a favourite gives most of it away.
     boost_stake, boost_pct = 100.0, 0.5
@@ -2209,6 +2234,17 @@ def measure(engine) -> dict:
     + f"<p>Short price to long price: {m['safety_net']['short_premium']:.2f} &rarr; {m['safety_net']['long_premium']:.2f}, a ratio of {m['safety_net']['ratio']:.2f}&times;. The gap between refund value and EV at the short price is the margin paid to place the qualifying bet at all. Longer is not unboundedly better: the long rows here are priced fair, which is a prior. Real longshot markets carry the heaviest margin, so read the long end as a ceiling.</p>"
     + "<p>It is not hedgeable. The refund exists only in the branch where the bet loses, and a hedge pays only in the branch where it wins. Hedging buys away the outcome that produces the bonus, and pays a second margin to do it. A single bonus value with the qualifying price held fixed hides the point: the price is the entire decision.</p>")}
 
+    sm = m["spread_moneyline"]
+    sm_cite = (f'From nflverse&rsquo;s public games file: <a href="{e(sm["source"])}" rel="nofollow" data-cite="1">'
+               f'source</a>, read {e(sm["read"])}.')
+    calc["spread-to-moneyline"] = {"body": (
+    f"<p>A spread and a moneyline price the same game two ways, so each spread has a moneyline it matches. The cleanest way to find it is to ask the market. Across {sm['games']} NFL games from 2015 to 2025 that closed with both a spread and moneylines, a 3-point favourite&rsquo;s closing moneylines, with the margin removed, gave it a {sm['three']['chance']} chance on average: a fair moneyline of {sm['three']['fav']}, and {sm['three']['dog']} for the underdog. At 7 points it was {sm['seven']['chance']}, {sm['seven']['fav']}. {sm_cite}</p>"
+    + f"<p>The table checks that against what happened. A 3-point favourite won outright {sm['three']['won']}, and the range that rate could sit in, given the sample, is {sm['three']['range']}. Where the outright rate is far from the market&rsquo;s chance, look at the range first: most spreads closed in only a few dozen to a few hundred games.</p>"
+    + "<table><tr><th>Spread</th><th>Fair moneyline</th><th>Underdog</th><th>Chance</th><th>Games</th><th>Won outright</th><th>95% range</th></tr>"
+    + "".join(f"<tr><td>&minus;{r['spread']}</td><td>{r['fav']}</td><td>{r['dog']}</td><td>{r['chance']}</td><td>{r['games']}</td><td>{r['won']}</td><td>{r['range']}</td></tr>" for r in sm['rows'])
+    + f"</table><p>{sm['spreads']} spreads closed in at least 40 games; the rest are left out rather than guessed. {sm_cite}</p>"
+    + "<p>These are fair prices. A book&rsquo;s posted moneyline adds its margin on top, so the favourite&rsquo;s price is a little longer and the underdog&rsquo;s a little shorter than the table. The steps are not even, either: the chance jumps at 3 and 7, where football margins pile up. <a href=\"/guides/nfl-key-numbers/\">The key numbers</a> show how often each margin lands.</p>")}
+
     bg = m["bet_and_get"]; bp = bg["plain"]
     calc["bet-and-get"] = {"body": (
     f"<p>Take the common form: bet ${bp['stake']}, get ${bp['bonus']} in bonus bets, paid whatever the qualifying bet does. Placed at {bp['side']} on a market priced {bp['side']} and {bp['other']}, the qualifier loses ${bp['cost']:.2f} on average, which is the margin on ${bp['stake']}. That is the whole cost.</p>"
@@ -2279,6 +2315,7 @@ def measure(engine) -> dict:
         "no-sweat-bet": {
             "stake": f"{net_stake:.0f}", "conversion": f"{conv_rate * 100:.0f}",
             "price": _am(net_cases[0][0]), "prob": f"{net_cases[0][1] * 100:g}"},
+        "spread-to-moneyline": {"spread": "-3"},
         "bet-and-get": {
             "stake": f"{bag_cases[0]['stake']}", "side": bag_cases[0]["side"], "other": bag_cases[0]["other"],
             "bonus": f"{bag_cases[0]['bonus']}", "conversion": f"{bag_rate * 100:g}", "on_win": ""},
@@ -5214,6 +5251,10 @@ CALC_FORMS = {
          ("conversion", "Bonus-bet conversion (%)", "num"),
          ("price", "Qualifying price", "odds"),
          ("prob", "Chance it wins (%)", "num")]),
+    "spread-to-moneyline": (
+        "Convert your own spread",
+        "Enter an NFL point spread, like -3 or 6.5.",
+        [("spread", "Point spread", "odds")]),
     "bet-and-get": (
         "Value your own bet-and-get",
         "Enter the qualifying stake, its price and the other side's price at the same book, the bonus and the share "

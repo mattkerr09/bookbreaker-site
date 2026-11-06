@@ -23,6 +23,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [Bonus bet conversion calculator](https://bookbreaker.bet/calculators/bonus-bet-conversion/): What is my bonus bet actually worth?
 - [Middle calculator](https://bookbreaker.bet/calculators/middle/): What does this middle need to hit to be worth it?
 - [Odds converter](https://bookbreaker.bet/calculators/odds-converter/): American to decimal to implied probability
+- [NFL spread to moneyline converter](https://bookbreaker.bet/calculators/spread-to-moneyline/): What moneyline is a 3-point favorite in the NFL?
 - [Break-even calculator](https://bookbreaker.bet/calculators/breakeven/): What win rate does this price need?
 - [CLV calculator](https://bookbreaker.bet/calculators/closing-line-value/): Did I beat the closing line?
 - [Hedge calculator](https://bookbreaker.bet/calculators/hedge/): How much do I bet on the other side to fix my result?

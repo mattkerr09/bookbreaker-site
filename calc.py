@@ -41,6 +41,34 @@ from overlay_engine.promo import (
     safety_net_premium, safety_net_value)
 
 
+# BEGIN NFL_SPREAD (written by _build/nfl_spread_moneyline.py; do not edit by hand)
+NFL_SPREAD_READ = '2026-10-22'
+NFL_SPREAD_GAMES = 3023
+NFL_SPREAD = {
+    1: (206, 99, 0, 0.5185),
+    1.5: (102, 55, 0, 0.5306),
+    2: (80, 44, 1, 0.5432),
+    2.5: (311, 165, 3, 0.5653),
+    3: (433, 259, 1, 0.5974),
+    3.5: (308, 195, 1, 0.6312),
+    4: (133, 74, 0, 0.6514),
+    4.5: (106, 70, 0, 0.6659),
+    5: (63, 45, 0, 0.6778),
+    5.5: (142, 91, 1, 0.6889),
+    6: (142, 99, 0, 0.7025),
+    6.5: (136, 107, 0, 0.7197),
+    7: (172, 129, 2, 0.7414),
+    7.5: (165, 125, 0, 0.7597),
+    8: (41, 30, 0, 0.7751),
+    8.5: (49, 36, 0, 0.7821),
+    9.5: (48, 41, 0, 0.7933),
+    10: (80, 65, 0, 0.7982),
+    10.5: (64, 55, 0, 0.8107),
+    14: (42, 37, 0, 0.8762),
+}
+# END NFL_SPREAD
+
+
 class CalcError(ValueError):
     """Something the person typed that cannot be used, in words they can act on."""
 
@@ -524,6 +552,43 @@ def bet_and_get(v: dict) -> dict:
     }
 
 
+def spread_to_moneyline(v: dict) -> dict:
+    """An NFL point spread as a moneyline: what the closing moneylines implied, on average, for favourites at that
+    closing spread from 2015 to 2025, and how often those favourites actually won outright."""
+    raw = _raw(v, "spread").replace("\u2212", "-").strip()
+    try:
+        spread = abs(float(raw.lstrip("+")))
+    except ValueError:
+        raise CalcError(f"{raw!r} is not a spread. Type the points, like -3.5 or 7.") from None
+    if spread == 0 or spread * 2 != int(spread * 2):
+        raise CalcError("Type a spread in half points other than zero, like -3 or -6.5.")
+    if spread not in NFL_SPREAD:
+        below = [k for k in NFL_SPREAD if k < spread]
+        above = [k for k in NFL_SPREAD if k > spread]
+        near = " and ".join(f"{k:g}" for k in ([max(below)] if below else []) + ([min(above)] if above else []))
+        raise CalcError(f"Fewer than 40 NFL games since 2015 closed at exactly {spread:g}, too few to measure. "
+                        f"The nearest spreads measured are {near}.")
+    games, won, tied, fair = NFL_SPREAD[spread]
+    decided = games - tied
+    rate = won / decided
+    z = 1.96                                       # a 95% Wilson interval on the outright rate
+    centre = (rate + z * z / (2 * decided)) / (1 + z * z / decided)
+    half = z * ((rate * (1 - rate) / decided + z * z / (4 * decided * decided)) ** 0.5) / (1 + z * z / decided)
+    return {
+        "headline": f"{_american(1 / fair)} / {_american(1 / (1 - fair))}",
+        "caption": f"the fair moneyline for a {spread:g}-point NFL favourite and its underdog, with the margin removed",
+        "table": {"head": None, "rows": [
+            ["Favourite's chance in the closing moneylines", f"{fair:.2%}"],
+            ["Games that closed at this spread, 2015 to 2025", f"{games}"],
+            ["Favourites that won outright", f"{won} of {decided}, {rate:.1%}"],
+            ["Range that outright rate could sit in (95%)", f"{centre - half:.1%} to {centre + half:.1%}"]]},
+        "notes": [f"The moneyline is the average of each game's own closing moneylines with the margin removed, across "
+                  f"every NFL game since 2015 that closed at this spread (nflverse's public games file, read "
+                  f"{NFL_SPREAD_READ}). A book's posted moneyline adds its margin on top. A game with a high total "
+                  f"makes the same spread a smaller edge, so one game can sit either side of this average."],
+    }
+
+
 def poisson(v: dict) -> dict:
     home = _amount(v, "home", "Home expected goals")
     away = _amount(v, "away", "Away expected goals")
@@ -755,6 +820,7 @@ CALCULATORS = {
     "deposit-match": (deposit_match, ("deposit", "bonus", "rollover", "market", "bonus_only")),
     "bonus-bet-conversion": (bonus_conversion, ("bonus", "free", "hedge")),
     "no-sweat-bet": (no_sweat, ("stake", "conversion", "price", "prob")),
+    "spread-to-moneyline": (spread_to_moneyline, ("spread",)),
     "bet-and-get": (bet_and_get, ("stake", "side", "other", "bonus", "conversion", "on_win")),
     "profit-boost": (profit_boost, ("stake", "boost", "price", "prob")),
     "prediction-market-odds": (prediction_market_odds, ("price", "venue", "sport", "contracts")),
