@@ -581,7 +581,7 @@
       "body": "<p>A parlay pays the product of its legs. It compounds the margin on each of them too.</p><p>A 4-leg ticket, every leg held at 4.55%, pays 12.28 in profit per unit staked. Strip the margin out of each leg and the fair price pays 15.00. Add the stake back to each and the gap between them is a hold of 17.0% on the ticket: 3.7 times the hold on a single leg.</p><p>Holding the per-leg figure of 4.55% fixed as a prior, the hold climbs with the leg count:</p><table><tr><th>Legs</th><th>Hold on the ticket</th></tr><tr><td>2</td><td>8.9%</td></tr><tr><td>3</td><td>13.0%</td></tr><tr><td>4</td><td>17.0%</td></tr><tr><td>5</td><td>20.8%</td></tr><tr><td>6</td><td>24.4%</td></tr><tr><td>8</td><td>31.1%</td></tr></table><p>From 8.9% up to 31.1%. Every added leg is sold as upside. It is also margin, charged before the ticket is graded. Past 7 legs the payout is a lottery price and the hold, still climbing, stops being the number that decides anything.</p><p>Same-game legs break the arithmetic above. These legs are in one game and are not independent. A team covering the spread makes the over more likely, not less. Books price same-game parlays with a correlation adjustment for exactly that reason, so the independent figure above is an upper bound on what this is worth, not an estimate of it.</p><p>The payout to the cent is the book's number. The fair price is the number that says what the ticket costs.</p>"
     },
     "pickem-ev": {
-      "body": "<p>A pick&rsquo;em entry pays a multiple of the entry fee when enough of its picks are right. Whether that is worth it comes down to one number: the chance each pick needs to win for the entry to pay back what it costs, on average. Below that, the entry loses money over time; above it, it earns, if the chances are right.</p><h2>The break-even chance for each entry</h2><p>At PrizePicks&rsquo; standard payouts, with every pick at the same chance:</p><table><tr><th>Entry</th><th>Picks</th><th>Pays (all correct first)</th><th>Break-even per pick</th></tr><tr><td>Power Play</td><td>2</td><td>3x</td><td>57.74%</td></tr><tr><td>Power Play</td><td>3</td><td>6x</td><td>55.03%</td></tr><tr><td>Power Play</td><td>4</td><td>10x</td><td>56.23%</td></tr><tr><td>Power Play</td><td>5</td><td>20x</td><td>54.93%</td></tr><tr><td>Power Play</td><td>6</td><td>37.5x</td><td>54.66%</td></tr><tr><td>Flex Play</td><td>2</td><td>2x / 0.5x</td><td>61.80%</td></tr><tr><td>Flex Play</td><td>3</td><td>3x / 1x</td><td>57.74%</td></tr><tr><td>Flex Play</td><td>4</td><td>6x / 1.5x</td><td>55.03%</td></tr><tr><td>Flex Play</td><td>5</td><td>10x / 2x / 0.4x</td><td>54.25%</td></tr><tr><td>Flex Play</td><td>6</td><td>25x / 2x / 0.4x</td><td>54.21%</td></tr></table><p>From PrizePicks&rsquo; payouts page: <a href=\"https://www.prizepicks.com/help-center/payouts\" rel=\"nofollow\" data-cite=\"1\">source</a>, read 2026-11-06. PrizePicks&rsquo; own page says the payout on your entry screen can differ from this table, so type the multipliers you are shown.</p><h2>Two worked entries</h2><p>Say each pick is a prop a sportsbook prices -135/+110. With the margin removed, that is a 54.89% chance per pick. A 2-pick Power Play at 3x needs 57.74% per pick, so it pays back 0.9037 per dollar on average: -$0.96 on a $10 entry. A 5-pick Flex Play at 10x, 2x and 0.4x needs 54.25%, so the same picks pay back 1.0421 per dollar: +$0.42 on $10. From PrizePicks&rsquo; payouts page: <a href=\"https://www.prizepicks.com/help-center/payouts\" rel=\"nofollow\" data-cite=\"1\">source</a>, read 2026-11-06.</p><table><tr><th>5-pick Flex Play</th><th>How often</th></tr><tr><td>All correct, pays 10x</td><td>4.98% of the time</td></tr><tr><td>4 of 5 correct, pays 2x</td><td>20.47% of the time</td></tr><tr><td>3 of 5 correct, pays 0.4x</td><td>33.65% of the time</td></tr></table><p>Each number rests on the chances, and a sportsbook&rsquo;s no-vig price is an estimate of a pick&rsquo;s chance, not a fact. A small error in each chance compounds across five picks. The maths also treats the picks as independent; two picks from the same game often move together, which changes the answer. An average says nothing about one entry: most 5-pick entries pay back less than they cost.</p>"
+      "body": "<p>A pick&rsquo;em entry pays a multiple of the entry fee when enough of its picks are right. Whether that is worth it comes down to one number: the chance each pick needs to win for the entry to pay back what it costs, on average. Below that, the entry loses money over time; above it, it earns, if the chances are right.</p><h2>The break-even chance for each entry</h2><p>At PrizePicks&rsquo; standard payouts, with every pick at the same chance:</p><table><tr><th>Entry</th><th>Picks</th><th>Pays (all correct first)</th><th>Break-even per pick</th></tr><tr><td>Power Play</td><td>2</td><td>3x</td><td>57.74%</td></tr><tr><td>Power Play</td><td>3</td><td>6x</td><td>55.03%</td></tr><tr><td>Power Play</td><td>4</td><td>10x</td><td>56.23%</td></tr><tr><td>Power Play</td><td>5</td><td>20x</td><td>54.93%</td></tr><tr><td>Power Play</td><td>6</td><td>37.5x</td><td>54.66%</td></tr><tr><td>Flex Play</td><td>2</td><td>2x / 0.5x</td><td>61.80%</td></tr><tr><td>Flex Play</td><td>3</td><td>3x / 1x</td><td>57.74%</td></tr><tr><td>Flex Play</td><td>4</td><td>6x / 1.5x</td><td>55.03%</td></tr><tr><td>Flex Play</td><td>5</td><td>10x / 2x / 0.4x</td><td>54.25%</td></tr><tr><td>Flex Play</td><td>6</td><td>25x / 2x / 0.4x</td><td>54.21%</td></tr></table><p>From PrizePicks&rsquo; payouts page: <a href=\"https://www.prizepicks.com/help-center/payouts\" rel=\"nofollow\" data-cite=\"1\">source</a>, read 2026-11-06. PrizePicks&rsquo; own page says the payout on your entry screen can differ from this table, so type the multipliers you are shown.</p><h2>Two worked entries</h2><p>Say each pick is a prop a sportsbook prices -135/+110. With the margin removed, that is a 54.89% chance per pick: the engine&rsquo;s average of four ways of removing it (additive 54.91%, multiplicative 54.68%, power 55.04%, Shin 54.91%). A reader using one method alone lands a little either side, and every figure below starts from 54.89%. A 2-pick Power Play at 3x needs 57.74% per pick, so it pays back 0.904 per dollar on average: -$0.96 on a $10 entry. A 5-pick Flex Play at 10x, 2x and 0.4x needs 54.25%, so the same picks pay back 1.042 per dollar: +$0.42 on $10. From PrizePicks&rsquo; payouts page: <a href=\"https://www.prizepicks.com/help-center/payouts\" rel=\"nofollow\" data-cite=\"1\">source</a>, read 2026-11-06.</p><table><tr><th>5-pick Flex Play</th><th>How often</th></tr><tr><td>All correct, pays 10x</td><td>4.98% of the time</td></tr><tr><td>4 of 5 correct, pays 2x</td><td>20.47% of the time</td></tr><tr><td>3 of 5 correct, pays 0.4x</td><td>33.65% of the time</td></tr></table><p>Each number rests on the chances, and a sportsbook&rsquo;s no-vig price is an estimate of a pick&rsquo;s chance, not a fact. A small error in each chance compounds across five picks. The maths also treats the picks as independent; two picks from the same game often move together, which changes the answer. An average says nothing about one entry: most 5-pick entries pay back less than they cost.</p>"
     },
     "poisson": {
       "body": "<p>A match modelled at 1.6 and 1.2 expected goals:</p><table><tr><td>Home</td><td>46.66%</td></tr><tr><td>Draw</td><td>24.71%</td></tr><tr><td>Away</td><td>28.63%</td></tr><tr><td>Over 2.5</td><td>53.05%</td></tr><tr><td>Push on a 3.0 line</td><td>22.25%</td></tr><tr><td>Most likely score</td><td>1-1 at 11.68%</td></tr></table><p>The 22.25% push is why books quote halves, and it is the row a totals price has to account for.</p><p>Poisson assumes the two sides score independently. They do not: a team two goals down attacks, a team ahead defends, and real scorelines carry more draws and more blowouts than this model predicts. Treat it as one model's opinion, not a fair price.</p><h2>Where those percentages come from</h2><p>Poisson gives the chance of each goal count from one number, the expected goals. The chance of exactly k goals is the expected goals to the power k, times e to the minus expected goals, over k factorial. For the home side at 1.6 and the away side at 1.2:</p><table><tr><th>Goals</th><th>Home</th><th>Away</th></tr><tr><td>0</td><td>20.19%</td><td>30.12%</td></tr><tr><td>1</td><td>32.30%</td><td>36.14%</td></tr><tr><td>2</td><td>25.84%</td><td>21.69%</td></tr><tr><td>3</td><td>13.78%</td><td>8.67%</td></tr><tr><td>4</td><td>5.51%</td><td>2.60%</td></tr></table><p>A scoreline is one row times another. A 1-1 is 32.30% times 36.14%, which is 11.68%, and a 0-0 is 6.08%. Add every scoreline where the home side is ahead and you have the home win; add the ones on the diagonal and you have the draw.</p><p>To turn the home win into a price, take one over it: 46.66% is a fair decimal price of 2.143, or +114. A book offering more than that is above this model's fair price, which matters only as far as you trust the model over the market.</p><h2>When Poisson is the right tool</h2><p>In low-scoring games where goals arrive one at a time, such as soccer and hockey. It is the standard first model for totals, both-teams-to-score and correct-score markets.</p><p>On a whole-number total, where the push is a real outcome and changes what the over and the under are worth.</p><p>It is the wrong tool for American football and basketball, where points come in different sizes and the score is not a count of rare events.</p>"
@@ -1110,7 +1110,7 @@
   },
   "pickem": {
     "five": {
-      "back": "1.0421",
+      "back": "1.042",
       "breakeven": "54.25%",
       "chance": "54.89%",
       "n": 5,
@@ -1135,7 +1135,7 @@
         ],
         [
           "Paid back on average, per dollar",
-          "1.0421"
+          "1.042"
         ],
         [
           "Break-even chance per pick",
@@ -1144,6 +1144,12 @@
       ]
     },
     "line": "-135/+110",
+    "methods": {
+      "Shin": "54.91%",
+      "additive": "54.91%",
+      "multiplicative": "54.68%",
+      "power": "55.04%"
+    },
     "read": "2026-11-06",
     "source": "https://www.prizepicks.com/help-center/payouts",
     "state_quote": "PrizePicks currently operates Player Picks across 36 states plus Washington D.C.",
@@ -1212,7 +1218,7 @@
       }
     ],
     "two": {
-      "back": "0.9037",
+      "back": "0.904",
       "breakeven": "57.74%",
       "chance": "54.89%",
       "n": 2,
@@ -1229,7 +1235,7 @@
         ],
         [
           "Paid back on average, per dollar",
-          "0.9037"
+          "0.904"
         ],
         [
           "Break-even chance per pick",

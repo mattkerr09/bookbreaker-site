@@ -662,7 +662,7 @@ def pickem_ev(v: dict) -> dict:
     for miss, mult in enumerate(pays):
         label = "All correct" if miss == 0 else f"{n - miss} of {n} correct"
         rows.append([f"{label}, pays {mult:g}x", f"{dist[n - miss]:.2%} of the time"])
-    rows += [["Paid back on average, per dollar", f"{back:.4f}"],
+    rows += [["Paid back on average, per dollar", f"{back:.3f}"],
              ["Break-even chance per pick", f"{hi:.2%}"]]
     net = entry * (back - 1)
     return {

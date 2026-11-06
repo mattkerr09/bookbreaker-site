@@ -774,7 +774,9 @@ def measure(engine) -> dict:
         return {"n": n, "pays": pays, "result": ans["headline"], "back": cells["Paid back on average, per dollar"],
                 "chance": cells["Each pick's chance"].split(", ")[0], "breakeven": cells["Break-even chance per pick"],
                 "rows": ans["table"]["rows"]}
-    out["pickem"] = {"table": _pk_table, "line": _pk_line, "source": _pk_rows[0]["source"], "read": _pk_rows[0]["read"],
+    _pk_split = devig_all([american_to_decimal(int(x)) for x in _pk_line.split("/")])
+    _pk_methods = {("Shin" if k == "shin" else k): f"{v[0]:.2%}" for k, v in sorted(_pk_split.by_method.items())}
+    out["pickem"] = {"methods": _pk_methods, "table": _pk_table, "line": _pk_line, "source": _pk_rows[0]["source"], "read": _pk_rows[0]["read"],
                      "state_quote": _pk_state["quote"], "state_source": _pk_state["source"],
                      "state_read": _pk_state["read"], "two": _pk_case(2, "3"), "five": _pk_case(5, "10, 2, 0.4")}
 
@@ -2294,7 +2296,7 @@ def measure(engine) -> dict:
     + "".join(f"<tr><td>{r['play']}</td><td>{r['picks']}</td><td>{e(r['pays'])}</td><td>{r['breakeven']}</td></tr>" for r in pk['table'])
     + f"</table><p>{pk_cite} PrizePicks&rsquo; own page says the payout on your entry screen can differ from this table, so type the multipliers you are shown.</p>"
     + "<h2>Two worked entries</h2>"
-    + f"<p>Say each pick is a prop a sportsbook prices {e(pk['line'])}. With the margin removed, that is a {pk['two']['chance']} chance per pick. A 2-pick Power Play at 3x needs {pk['two']['breakeven']} per pick, so it pays back {pk['two']['back']} per dollar on average: {pk['two']['result']} on a $10 entry. A 5-pick Flex Play at 10x, 2x and 0.4x needs {pk['five']['breakeven']}, so the same picks pay back {pk['five']['back']} per dollar: {pk['five']['result']} on $10. {pk_cite}</p>"
+    + f"<p>Say each pick is a prop a sportsbook prices {e(pk['line'])}. With the margin removed, that is a {pk['two']['chance']} chance per pick: the engine&rsquo;s average of four ways of removing it ({', '.join(f'{k} {v}' for k, v in pk['methods'].items())}). A reader using one method alone lands a little either side, and every figure below starts from {pk['two']['chance']}. A 2-pick Power Play at 3x needs {pk['two']['breakeven']} per pick, so it pays back {pk['two']['back']} per dollar on average: {pk['two']['result']} on a $10 entry. A 5-pick Flex Play at 10x, 2x and 0.4x needs {pk['five']['breakeven']}, so the same picks pay back {pk['five']['back']} per dollar: {pk['five']['result']} on $10. {pk_cite}</p>"
     + "<table><tr><th>5-pick Flex Play</th><th>How often</th></tr>"
     + "".join(f"<tr><td>{e(k)}</td><td>{e(v)}</td></tr>" for k, v in pk['five']['rows'][1:4])
     + "</table>"
