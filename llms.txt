@@ -32,6 +32,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [Effective bets calculator](https://bookbreaker.bet/calculators/effective-bets/): How many bets am I really making if they are correlated?
 - [Totals middle calculator](https://bookbreaker.bet/calculators/totals-middle/): How do you price a totals middle bet?
 - [No-sweat bet calculator](https://bookbreaker.bet/calculators/no-sweat-bet/): What odds should I use for a no-sweat first bet?
+- [Bet and get calculator](https://bookbreaker.bet/calculators/bet-and-get/): What is a bet $5 get $200 offer actually worth?
 - [Profit boost calculator](https://bookbreaker.bet/calculators/profit-boost/): What is a profit boost actually worth?
 - [Round robin calculator](https://bookbreaker.bet/calculators/round-robin/): What does a round robin actually have to do to pay?
 - [Poisson calculator](https://bookbreaker.bet/calculators/poisson/): What are the scoreline and totals probabilities?

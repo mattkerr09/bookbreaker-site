@@ -47,7 +47,7 @@
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css?v=bac4bc53a5">
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://bookbreaker.bet/calculators/poisson/", "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": "2026-11-04", "author": {"@type": "Person", "name": "Matt Kerr"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "Poisson", "item": "https://bookbreaker.bet/calculators/poisson/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://bookbreaker.bet/calculators/poisson/", "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": "2026-11-06", "author": {"@type": "Person", "name": "Matt Kerr"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "Poisson", "item": "https://bookbreaker.bet/calculators/poisson/"}]}</script>
 </head>
 <body class="">
 <header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/guides/">Guides</a><a href="/vs/">Compare</a></span><span class="cta-nav"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=calculators-poisson-nav&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.62.dmg" data-download rel="nofollow">Download</a></span></nav></header>
@@ -57,7 +57,7 @@
 <p class="crumb"><a href="/">Home</a><span>/</span>
 <a href="/calculators/">Calculators</a></p>
 <h1>Poisson calculator</h1>
-<p class="byline">By Matt Kerr &middot; Updated <time datetime="2026-11-04">4 November 2026</time></p>
+<p class="byline">By Matt Kerr &middot; Updated <time datetime="2026-11-06">6 November 2026</time></p>
 <p class="lede">For low-scoring sports, a Poisson model turns each team&#x27;s expected goals into the chance of every scoreline, and from those the chance of each side, each total and each margin. It gives fair prices to compare with the book&#x27;s.</p>
 </div>
 
@@ -71,7 +71,7 @@
   </form>
   <div class="own-out" aria-live="polite"></div>
 </section>
-<script src="/calc.js?v=7601f54090" defer></script>
+<script src="/calc.js?v=894eca7bde" defer></script>
 <p>A match modelled at 1.6 and 1.2 expected goals:</p><div class="scroll"><table><tr><td>Home</td><td>46.66%</td></tr><tr><td>Draw</td><td>24.71%</td></tr><tr><td>Away</td><td>28.63%</td></tr><tr><td>Over 2.5</td><td>53.05%</td></tr><tr><td>Push on a 3.0 line</td><td>22.25%</td></tr><tr><td>Most likely score</td><td>1-1 at 11.68%</td></tr></table></div><p>The 22.25% push is why books quote halves, and it is the row a totals price has to account for.</p><p>Poisson assumes the two sides score independently. They do not: a team two goals down attacks, a team ahead defends, and real scorelines carry more draws and more blowouts than this model predicts. Treat it as one model's opinion, not a fair price.</p><h2>Where those percentages come from</h2><p>Poisson gives the chance of each goal count from one number, the expected goals. The chance of exactly k goals is the expected goals to the power k, times e to the minus expected goals, over k factorial. For the home side at 1.6 and the away side at 1.2:</p><div class="scroll"><table><tr><th>Goals</th><th>Home</th><th>Away</th></tr><tr><td>0</td><td>20.19%</td><td>30.12%</td></tr><tr><td>1</td><td>32.30%</td><td>36.14%</td></tr><tr><td>2</td><td>25.84%</td><td>21.69%</td></tr><tr><td>3</td><td>13.78%</td><td>8.67%</td></tr><tr><td>4</td><td>5.51%</td><td>2.60%</td></tr></table></div><p>A scoreline is one row times another. A 1-1 is 32.30% times 36.14%, which is 11.68%, and a 0-0 is 6.08%. Add every scoreline where the home side is ahead and you have the home win; add the ones on the diagonal and you have the draw.</p><p>To turn the home win into a price, take one over it: 46.66% is a fair decimal price of 2.143, or +114. A book offering more than that is above this model's fair price, which matters only as far as you trust the model over the market.</p><h2>When Poisson is the right tool</h2><p>In low-scoring games where goals arrive one at a time, such as soccer and hockey. It is the standard first model for totals, both-teams-to-score and correct-score markets.</p><p>On a whole-number total, where the push is a real outcome and changes what the over and the under are worth.</p><p>It is the wrong tool for American football and basketball, where points come in different sizes and the score is not a count of rare events.</p>
 <div class="top-cta"><div class="cta"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=calc-poisson-top&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.62.dmg" data-download rel="nofollow">Download free for Mac</a></div>
 <p class="free-line">Free. No account and no subscription. Needs macOS 14 or later on a Mac with Apple silicon (M1 or later). 34.9 MB, notarised by Apple.</p></div>
@@ -127,7 +127,7 @@
 </div>
 <p class="foot-fine">No sportsbook accounts are linked and no credentials are
 ever requested. Every calculated figure on this site comes from running the engine at
-build time; prices, offers and facts are read from their sources and dated. Updated <time datetime="2026-11-04">4 November 2026</time>.</p>
+build time; prices, offers and facts are read from their sources and dated. Updated <time datetime="2026-11-06">6 November 2026</time>.</p>
 <p class="foot-fine">21+ and present in a state where betting is legal.
 Gambling carries a risk of financial loss, and nothing here predicts that you
 will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the

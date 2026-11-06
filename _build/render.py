@@ -706,6 +706,27 @@ def measure(engine) -> dict:
         "ratio": round(net_rows[-1]["premium"] / net_rows[0]["premium"], 2),
     }
 
+    # A bet-and-get: "bet $5, get $200 in bonus bets". When the bonus lands
+    # whatever happens, the qualifier is a fee and the value is the conversion.
+    # When it lands only on a win, the qualifier's chance decides how often you
+    # collect, so a short price wins, the opposite of a no-sweat bet.
+    from overlay_engine.promo import bet_and_get_value
+    bag_rate = ladder[1]["rate"] / 100            # +200 bonus bet, covered at -230
+    bag_cases = []
+    for stake, bonus, side_a, other_a, on_win in ((5.0, 200.0, -110, -110, False), (10.0, 150.0, -500, 380, True),
+                                                  (10.0, 150.0, -110, -110, True), (10.0, 150.0, 150, -170, True)):
+        side_d, other_d = american_to_decimal(side_a), american_to_decimal(other_a)
+        win = devig_all([side_d, other_d]).consensus(0)
+        arrives = win if on_win else 1.0
+        worth = bet_and_get_value(stake, 1 - win * side_d, bonus * arrives, bag_rate)
+        bag_cases.append({"stake": int(stake), "bonus": int(bonus), "side": f"{side_a:+d}", "other": f"{other_a:+d}",
+                          "on_win": on_win, "win": round(win * 100, 2), "cost": round(worth.cost, 2),
+                          "received": round(bonus * arrives, 2), "converted": round(bonus * arrives * bag_rate, 2),
+                          "worth": round(worth.expected, 2)})
+    out["bet_and_get"] = {"rate": ladder[1]["rate"], "free": ladder[1]["free"], "hedge": ladder[1]["hedge"],
+                          "plain": bag_cases[0], "on_win": bag_cases[1:],
+                          "cost_share": round(bag_cases[0]["cost"] / bag_cases[0]["worth"] * 100, 2)}
+
     # A profit boost. It multiplies profit, and profit grows with the price,
     # so spending it on a favourite gives most of it away.
     boost_stake, boost_pct = 100.0, 0.5
@@ -2188,6 +2209,18 @@ def measure(engine) -> dict:
     + f"<p>Short price to long price: {m['safety_net']['short_premium']:.2f} &rarr; {m['safety_net']['long_premium']:.2f}, a ratio of {m['safety_net']['ratio']:.2f}&times;. The gap between refund value and EV at the short price is the margin paid to place the qualifying bet at all. Longer is not unboundedly better: the long rows here are priced fair, which is a prior. Real longshot markets carry the heaviest margin, so read the long end as a ceiling.</p>"
     + "<p>It is not hedgeable. The refund exists only in the branch where the bet loses, and a hedge pays only in the branch where it wins. Hedging buys away the outcome that produces the bonus, and pays a second margin to do it. A single bonus value with the qualifying price held fixed hides the point: the price is the entire decision.</p>")}
 
+    bg = m["bet_and_get"]; bp = bg["plain"]
+    calc["bet-and-get"] = {"body": (
+    f"<p>Take the common form: bet ${bp['stake']}, get ${bp['bonus']} in bonus bets, paid whatever the qualifying bet does. Placed at {bp['side']} on a market priced {bp['side']} and {bp['other']}, the qualifier loses ${bp['cost']:.2f} on average, which is the margin on ${bp['stake']}. That is the whole cost.</p>"
+    + f"<p>The value is in the conversion. Bet each bonus bet at {bg['free']} and cover the other side at {bg['hedge']}, and the engine keeps {bg['rate']}% of the bonus in cash, if every bet is accepted and stands: the ${bp['bonus']} becomes ${bp['converted']:.2f}. Take off the qualifier and the offer is worth ${bp['worth']:.2f}, and the qualifier&rsquo;s cost is {bg['cost_share']}% of it. A rate you get at better prices moves the answer more than anything else on this page.</p>"
+    + "<h2>When the bonus is paid only if the qualifier wins</h2>"
+    + f"<p>Some books pay the bonus only if the qualifying bet wins. Now the qualifier&rsquo;s chance decides how often you collect, so a short price is worth more: the opposite of a no-sweat bet. Below, bet ${m['bet_and_get']['on_win'][0]['stake']} to get ${m['bet_and_get']['on_win'][0]['bonus']} if it wins, at the same {bg['rate']}% conversion:</p>"
+    + "<table><tr><th>Qualifying price</th><th>Other side</th><th>Chance it wins</th><th>Bonus received, on average</th><th>Worth, on average</th></tr>"
+    + "".join(f"<tr><td>{r['side']}</td><td>{r['other']}</td><td>{r['win']:.2f}%</td><td>${r['received']:.2f}</td><td>${r['worth']:.2f}</td></tr>" for r in bg['on_win'])
+    + "</table>"
+    + "<p>Each chance is that market&rsquo;s own prices with the margin removed, the average of four methods, which is an estimate. This version cannot be hedged: a bet against the qualifier cannot pay out bonus bets, so in the branch where it loses you get nothing.</p>"
+    + "<p>Two things the headline leaves out. Bonus bets often arrive in several pieces that each expire, so the conversion has to happen in time. And a bonus bet returns only its winnings, never its own stake, which is why it converts for less than its face.</p>")}
+
     calc["profit-boost"] = {"body": (
     "<p>A profit boost multiplies profit, not stake. Profit scales with the price, so the same token is worth a different amount on every bet it could be spent on.</p>"
     + f"<p>Below, the boost and the stake are fixed ({m['boost']['pct']}% on a stake of ${m['boost']['stake']:.0f}), and only the price moves.</p>"
@@ -2246,6 +2279,9 @@ def measure(engine) -> dict:
         "no-sweat-bet": {
             "stake": f"{net_stake:.0f}", "conversion": f"{conv_rate * 100:.0f}",
             "price": _am(net_cases[0][0]), "prob": f"{net_cases[0][1] * 100:g}"},
+        "bet-and-get": {
+            "stake": f"{bag_cases[0]['stake']}", "side": bag_cases[0]["side"], "other": bag_cases[0]["other"],
+            "bonus": f"{bag_cases[0]['bonus']}", "conversion": f"{bag_rate * 100:g}", "on_win": ""},
         "profit-boost": {
             "stake": f"{boost_stake:.0f}", "boost": f"{boost_pct * 100:.0f}",
             "price": _am(-110), "prob": f"{100 / american_to_decimal(-110):.2f}"},
@@ -5178,6 +5214,16 @@ CALC_FORMS = {
          ("conversion", "Bonus-bet conversion (%)", "num"),
          ("price", "Qualifying price", "odds"),
          ("prob", "Chance it wins (%)", "num")]),
+    "bet-and-get": (
+        "Value your own bet-and-get",
+        "Enter the qualifying stake, its price and the other side's price at the same book, the bonus and the share "
+        "of it you expect to keep in cash.",
+        [("stake", "Qualifying stake", "num"),
+         ("side", "Qualifying price", "odds"),
+         ("other", "Price of the other side", "odds"),
+         ("bonus", "Bonus bets", "num"),
+         ("conversion", "Bonus-bet conversion (%)", "num"),
+         ("on_win", "The bonus is paid only if the qualifying bet wins", "check")]),
     "profit-boost": (
         "Value your own boost",
         "Enter the stake, the boost, the price it applies to and the chance "

@@ -37,7 +37,7 @@ from overlay_engine.portfolio import effective_bets as effective_count
 from overlay_engine.offers import ClassHold, Verdict
 from overlay_engine.promo import breakeven_hold
 from overlay_engine.promo import (
-    bonus_bet_conversion, fair_conversion_ceiling, profit_boost_value,
+    bet_and_get_value, bonus_bet_conversion, fair_conversion_ceiling, profit_boost_value,
     safety_net_premium, safety_net_value)
 
 
@@ -485,6 +485,45 @@ def deposit_match(v: dict) -> dict:
     }
 
 
+def bet_and_get(v: dict) -> dict:
+    """"Bet $5, get $200 in bonus bets": the qualifying bet's average cost against what the bonus converts to.
+    The qualifier's chance comes from its own market with the margin removed (the four-method average)."""
+    stake = _amount(v, "stake", "The qualifying stake")
+    side = _price(v, "side", "The qualifying price")
+    other = _price(v, "other", "The price of the other side")
+    bonus = _amount(v, "bonus", "The bonus bets")
+    conversion = _percent(v, "conversion", "The bonus-bet conversion rate", closed=True)
+    on_win = bool(_raw(v, "on_win"))
+    if 1 / side + 1 / other < 1:
+        raise CalcError("Those two prices cross, so they are two books' prices, not one market. Type the qualifying "
+                        "book's price for both sides.")
+    win = devig_all([side, other]).consensus(0)
+    loss_rate = 1 - win * side                     # what the qualifier loses on average, per dollar staked
+    arrives = win if on_win else 1.0
+    worth = bet_and_get_value(stake, loss_rate, bonus * arrives, conversion)
+    converted = bonus * arrives * conversion
+    rows = [["Qualifying bet costs, on average", f"${worth.cost:,.2f}"],
+            ["Chance the qualifier wins", f"{win:.2%}"],
+            ["Bonus bets received" + (", on average" if on_win else ""), f"${bonus * arrives:,.2f}"],
+            ["Bonus converts to", f"${converted:,.2f}"]]
+    notes = ["The conversion rate is your assumption: what share of each bonus bet you keep in cash when you bet it "
+             "and cover the other side. The bonus bet conversion calculator works it out from real prices, and the "
+             "cash is locked only if every bet is accepted and stands."]
+    if on_win:
+        notes.append("This bonus arrives only if the qualifying bet wins, so a short price collects it more often. "
+                     "It cannot be hedged: a bet against the qualifier cannot pay out bonus bets.")
+    else:
+        notes.append("This bonus arrives whatever the qualifying bet does, so the qualifier is a small fee. Place it "
+                     "on the market with the smallest margin you can find.")
+    return {
+        "headline": f"{'-' if worth.expected < 0 else ''}${abs(worth.expected):,.2f}",
+        "caption": ("what the offer is worth on average, after the qualifying bet's cost"
+                    if on_win else "what the offer is worth after the qualifying bet's cost, at your conversion rate"),
+        "table": {"head": None, "rows": rows},
+        "notes": notes,
+    }
+
+
 def poisson(v: dict) -> dict:
     home = _amount(v, "home", "Home expected goals")
     away = _amount(v, "away", "Away expected goals")
@@ -716,6 +755,7 @@ CALCULATORS = {
     "deposit-match": (deposit_match, ("deposit", "bonus", "rollover", "market", "bonus_only")),
     "bonus-bet-conversion": (bonus_conversion, ("bonus", "free", "hedge")),
     "no-sweat-bet": (no_sweat, ("stake", "conversion", "price", "prob")),
+    "bet-and-get": (bet_and_get, ("stake", "side", "other", "bonus", "conversion", "on_win")),
     "profit-boost": (profit_boost, ("stake", "boost", "price", "prob")),
     "prediction-market-odds": (prediction_market_odds, ("price", "venue", "sport", "contracts")),
 }

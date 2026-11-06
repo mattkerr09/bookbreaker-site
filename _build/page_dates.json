@@ -24,96 +24,100 @@
   "sha": "2cf989fbb3e8941709f1660952acfc06b6537132b641ef7b2e24aba4a91c4823"
  },
  "calculators/arbitrage/index.html": {
-  "date": "2026-11-04",
-  "sha": "0b461564061dc995eea15fa1b0892fa9a70adf8c652517840e8a7aede7949ffc"
+  "date": "2026-11-06",
+  "sha": "95fae5960759d2458c5dc930bcef87e990c98a61c75b068cec40e01c722023e4"
+ },
+ "calculators/bet-and-get/index.html": {
+  "date": "2026-11-06",
+  "sha": "ead5c0c77db04126e5c5bab5bc802d2dc0d6c3dc09be9ea158c90ecc7dc49bac"
  },
  "calculators/bonus-bet-conversion/index.html": {
-  "date": "2026-11-04",
-  "sha": "7b5f6f5eb5094efca16ae1dce424100a59d4e61e29975f4a380ec6d5c485eea1"
+  "date": "2026-11-06",
+  "sha": "06fcb7ea556f4a4ef7d06c0340e2b2b1783a5d84318623fddc7751471d2bafd9"
  },
  "calculators/breakeven/index.html": {
-  "date": "2026-11-04",
-  "sha": "c52c466dd193af42ab980c4f0afab47d283236dabb4627b8f24d928bdd5ae920"
+  "date": "2026-11-06",
+  "sha": "c02d06b10f21da46bda2e13b1d0bb7153b4212141b970a2d2e4b2c218d694d01"
  },
  "calculators/closing-line-value/index.html": {
-  "date": "2026-11-04",
-  "sha": "9a1335a66e946388d3042e4746eb3afd5c1944fb350007a130c4c1d6c9e9a353"
+  "date": "2026-11-06",
+  "sha": "0c9c124f1041cfbe193272d8dc9994bbf2c99c273c51c0e8a443a43a1a6b8d3b"
  },
  "calculators/deposit-match/index.html": {
-  "date": "2026-11-04",
-  "sha": "51ba075faa2e10ef28c098cef64968cab508d19744ee43cad21c80a62a11d376"
+  "date": "2026-11-06",
+  "sha": "f5ffd75ae37eae04203afa69fa4c591cc4df5ff757d4cb48cae88f46cde85919"
  },
  "calculators/dutching/index.html": {
-  "date": "2026-11-04",
-  "sha": "e72f5b2de9a24ec954d8f78651512a88c8344170453f8993a37a818a8aae18f0"
+  "date": "2026-11-06",
+  "sha": "a964d5885b665eb33eb58bba029716d3ff96d481cb694055f3ae7e7563ef333d"
  },
  "calculators/effective-bets/index.html": {
-  "date": "2026-11-04",
-  "sha": "e934c59b545beb75eb77b622b47c0ac95cc3c7f687285823cf903cdc68f77a8d"
+  "date": "2026-11-06",
+  "sha": "462d6e5d29f527803eeb2b3c0fbbb1129e03a9505beda26daadbe7353d97e856"
  },
  "calculators/expected-value/index.html": {
-  "date": "2026-11-04",
-  "sha": "7d03f809ed156175ba7fa47ab2dc59bdef997f49f374945200d104c5352cab9a"
+  "date": "2026-11-06",
+  "sha": "b7295798896d91e3c085900df19708942a7f89784c495652fc4862a1ae91f98e"
  },
  "calculators/hedge/index.html": {
-  "date": "2026-11-04",
-  "sha": "2ba7418f571642b98bba135db3afb0bdf63ee94a32f7bf65cf78ce8ef59a0ae1"
+  "date": "2026-11-06",
+  "sha": "f6d1baa093aa529edb2addb8d80242417ea98b424720b33f4929ef3711c4601d"
  },
  "calculators/hold/index.html": {
-  "date": "2026-11-04",
-  "sha": "f3abdc3743a86b9b65c4a80fc861284736927f813baa7a3988a55b13a8ab538e"
+  "date": "2026-11-06",
+  "sha": "168904be4b82c3e1500e8f15b1b9a8a98a6c7eff1272e94e24b8d52240079e4a"
  },
  "calculators/index.html": {
-  "date": "2026-11-04",
-  "sha": "d9a166184407c89b3c036707d6e4cb189e8f8fb1a819219322e0375a20350dda"
+  "date": "2026-11-06",
+  "sha": "80bdb289c7efb6865071baed58f822203c699f8f1fa6ac65faa822d535556cac"
  },
  "calculators/kelly/index.html": {
-  "date": "2026-11-04",
-  "sha": "2d9eb6d081af90ec09e122c51e37e98177fe855910fa673cd7124bf7b95aa16c"
+  "date": "2026-11-06",
+  "sha": "9b0622fccfcc868334fed38c3913db83cd8fbae29da4d1236032a8ab9502a661"
  },
  "calculators/low-hold/index.html": {
-  "date": "2026-11-04",
-  "sha": "e722a0f2510118e9d26d3f68cf432bb7afc5cab7021cc2c381cfc6a5fab37411"
+  "date": "2026-11-06",
+  "sha": "6e12542b8d49e8c33e30857a51dab69af67ebe3277ed31a574d5a964ba1f4a5b"
  },
  "calculators/middle/index.html": {
-  "date": "2026-11-04",
-  "sha": "f4e825549147d96e0f5d16cc599809c5f7c7f5656e392010859b2769c6ed484e"
+  "date": "2026-11-06",
+  "sha": "cbdc5a49772aefa115b70a0b872c3258f4d5e29ee3e1e00a84255a8c57844273"
  },
  "calculators/no-sweat-bet/index.html": {
-  "date": "2026-11-04",
-  "sha": "da6501e85c907b07ea9573239bb3f57ca7381e36990b4dbca9d11b0f6fc175f1"
+  "date": "2026-11-06",
+  "sha": "319ce748512adcc05c6a0bc6a56ba3602bcde3558eec5eb61c31ca47d5c5fd23"
  },
  "calculators/no-vig-odds/index.html": {
-  "date": "2026-11-04",
-  "sha": "fd3940f4a899760e16b7c9b372731d7781f691d63385caac5cd3d1ce1248c739"
+  "date": "2026-11-06",
+  "sha": "c42a2e7f42b39485cc8a0cfb6aae0738935b9ae89df0ef708eaa58f8635e3b86"
  },
  "calculators/odds-converter/index.html": {
-  "date": "2026-11-04",
-  "sha": "5a55b297d0e0b5014f6b1b67f718226f390c54c7b9279c763369b9a63cdb6f5a"
+  "date": "2026-11-06",
+  "sha": "1e57c739b9e5a14075efc5709df9899b5258e54fd40789957dd228978089cdea"
  },
  "calculators/parlay/index.html": {
-  "date": "2026-11-04",
-  "sha": "98a07e88567fa7c086b00df0b730674604ab1a679024469496d4962ccf747546"
+  "date": "2026-11-06",
+  "sha": "393798d803f2fc5c94382f683d09e052e1eac2c990b424b020eeb417517727dc"
  },
  "calculators/poisson/index.html": {
-  "date": "2026-11-04",
-  "sha": "2ac58bd4226b62f7b017c950ece1d4273d6a2e07491e53aaa0ba7c868e7fb3db"
+  "date": "2026-11-06",
+  "sha": "fce947dad2bc920e4945eca47e9f8aa0e5b68d867f2b1a29ebc20bf4524de1b2"
  },
  "calculators/prediction-market-odds/index.html": {
-  "date": "2026-11-04",
-  "sha": "c35d2227fdb6ec34a77c8507bf4e26793af4c98d7f8c5acc487ed905801a6aaa"
+  "date": "2026-11-06",
+  "sha": "3015c8e45a5f462335040f42f19a908557a2626c8d257d93a9e6498cec113d51"
  },
  "calculators/profit-boost/index.html": {
-  "date": "2026-11-04",
-  "sha": "56d2a8504613ba0d20b741cb84bebcb389a179f3529603b566eaff928f04f62c"
+  "date": "2026-11-06",
+  "sha": "04af6c75ed5e931f7d64aae33965863dac2c62a24a60a90af10066f626e285d6"
  },
  "calculators/round-robin/index.html": {
-  "date": "2026-11-04",
-  "sha": "e4d823db3f3981d6a271ae6d625ed27228d2baa309d6a2f1ce7e45c704d09d5c"
+  "date": "2026-11-06",
+  "sha": "45f2ae5d3e996063b6994fa5a6dc7d1eee1dd357bf2b316f3ee09c2a40d4bba3"
  },
  "calculators/totals-middle/index.html": {
-  "date": "2026-11-04",
-  "sha": "2194506862d27d9d3ae4102ff91d0cea230251df3856e5d7452d6890a47f7a04"
+  "date": "2026-11-06",
+  "sha": "199c0fa9c656d80fc7d1d2ab920958ff8632e394b4e32c2fcd28414d0e94ef8c"
  },
  "download/index.html": {
   "date": "2026-11-04",
@@ -340,8 +344,8 @@
   "sha": "ca2f60963b3d3a6d5c4d494629f9d9664eeb3cf3fe4d7e39468f436d62ee996e"
  },
  "sportsbooks/md/index.html": {
-  "date": "2026-11-04",
-  "sha": "04ed507c1d0036f483d8006fe6544057e49e0425df296d7bcf0fe50f1237b7f7"
+  "date": "2026-11-06",
+  "sha": "4b432da0059e347cd0dc3c1f9b51cf4a021ae03295b0a6d34e34c787cf740e2a"
  },
  "sportsbooks/me/index.html": {
   "date": "2026-11-04",
