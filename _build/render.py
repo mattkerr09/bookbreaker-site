@@ -2015,6 +2015,16 @@ def measure(engine) -> dict:
             f"<p>Going back from decimal: below 2.0 the American price is minus 100 over the decimal less one, "
             f"so {dec:.2f} becomes {decimal_to_american(dec):+.0f}. At 2.0 or above it is 100 times the decimal "
             f"less one.</p>"
+            "<h2>How much a bet pays</h2>"
+            f"<p>The decimal price is what a winning bet pays back for each dollar staked, stake included. So $100 "
+            f"on {plus:+d} pays back ${100 * dp:,.2f}: ${100 * (dp - 1):,.2f} profit and the $100 stake. $100 on "
+            f"{minus:+d} pays back ${100 * dm:,.2f}, ${100 * (dm - 1):,.2f} of it profit. At -110, the usual price "
+            f"on a spread, $100 wins ${100 * (d110 - 1):,.2f}. A losing bet pays nothing back, and the stake is "
+            "gone.</p>"
+            "<table><tr><th>Price</th><th>Profit on $100</th><th>Paid back if it wins</th></tr>"
+            + "".join(f"<tr><td>{a:+d}</td><td>${100 * (american_to_decimal(a) - 1):,.2f}</td>"
+                      f"<td>${100 * american_to_decimal(a):,.2f}</td></tr>" for a in (-200, -110, 100, 150, 400))
+            + "</table>"
             "<h2>When converting helps</h2>"
             "<p>When an exchange or an overseas book quotes decimal and you think in American, or the reverse.</p>"
             "<p>When comparing one line across books. Decimal prices compare in proportion, so the gap between "
@@ -2305,7 +2315,7 @@ def measure(engine) -> dict:
                            "other": mkt_other, "own": ""},
         "parlay": {"legs": ", ".join(
             ["-110"] * out["parlay"]["legs"]), "same_game": ""},
-        "odds-converter": {"prices": ", ".join(_am(v) for v in price_ladder)},
+        "odds-converter": {"prices": ", ".join(_am(v) for v in price_ladder), "stake": "100"},
         "prediction-market-odds": {"price": "47", "venue": "Kalshi", "sport": "", "contracts": "100"},
         "breakeven": {"prices": ", ".join(_am(v) for v in price_ladder)},
         "hold": {"prices": ", ".join(_am(a) for a in juiced_american)},
@@ -5224,8 +5234,10 @@ CALC_FORMS = {
          ("sport", "Sport (type MLB for baseball on Kalshi)", "text"), ("contracts", "Contracts", "num")]),
     "odds-converter": (
         "Convert your own prices",
-        "Enter any prices, American or decimal. Each comes back in every form.",
-        [("prices", "Prices", "list")]),
+        "Enter any prices, American or decimal, and a stake. Each price comes back in every form, with what the "
+        "stake pays if it wins.",
+        [("prices", "Prices", "list"),
+         ("stake", "Stake", "num")]),
     "breakeven": (
         "Find your own break-even",
         "Enter the prices you are looking at. Each shows the win rate it needs "

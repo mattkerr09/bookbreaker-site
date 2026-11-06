@@ -397,9 +397,15 @@ def parlay(v: dict) -> dict:
 
 def odds_converter(v: dict) -> dict:
     prices = _prices(v, "prices", "The prices", 1, 20)
+    stake = _amount(v, "stake", "The stake") if _raw(v, "stake") else None
+    head = ["American", "Decimal", "Implied"]
     rows = [[_american(d), f"{d:.3f}", f"{decimal_to_prob(d):.2%}"] for d in prices]
+    if stake is not None:
+        head += [f"Profit on ${stake:,.2f}", "Paid back if it wins"]
+        for row, d in zip(rows, prices):
+            row += [f"${stake * (d - 1):,.2f}", f"${stake * d:,.2f}"]
     return {
-        "table": {"head": ["American", "Decimal", "Implied"], "rows": rows},
+        "table": {"head": head, "rows": rows},
         "notes": ["The implied column is vig-inclusive: it is what the price "
                   "asserts, not a fair probability. Devig the market before "
                   "calling it one."],
@@ -807,7 +813,7 @@ CALCULATORS = {
     "closing-line-value": (closing_line_value, ("bet", "close", "other")),
     "expected-value": (expected_value, ("price", "side", "other", "own")),
     "parlay": (parlay, ("legs", "same_game")),
-    "odds-converter": (odds_converter, ("prices",)),
+    "odds-converter": (odds_converter, ("prices", "stake")),
     "breakeven": (breakeven, ("prices",)),
     "hold": (hold_calc, ("prices",)),
     "no-vig-odds": (no_vig, ("side", "other")),
