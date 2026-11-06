@@ -25,47 +25,47 @@
  },
  "calculators/arbitrage/index.html": {
   "date": "2026-11-06",
-  "sha": "6e283ed8a7a0044e11434aa0848fee431ad41a1264ce3bec045e4fd14b41e3d2"
+  "sha": "0df0e321fa6dac6c1b6db87b93d4b3bc8e534d0f52667e724fbc8a3b7514b813"
  },
  "calculators/bet-and-get/index.html": {
   "date": "2026-11-06",
-  "sha": "d132cc6a758d71e4572c347af0d5bc0649bc7a3596fbbf31c4de14da077b5605"
+  "sha": "0c089866cbb6345d6e996d6778d0867599861cee9f2179ae231264cce96f8fff"
  },
  "calculators/bonus-bet-conversion/index.html": {
   "date": "2026-11-06",
-  "sha": "3b8157161373a6ccaaa76f9bb43850ae9b0d29a36f249681015dec0f1785f01e"
+  "sha": "9306c77de52ec67bfc651961efd9b216b483a4fe3ba72bf4b76d0b877a0e6616"
  },
  "calculators/breakeven/index.html": {
   "date": "2026-11-06",
-  "sha": "52279774c2a44a7131a1cb19b74b8bccc5ac939c1b0272518cb7f737811c7aff"
+  "sha": "64b975ab3bdf5f8243457bf02986accedb9565b74f8bf45ac20894dda056e60e"
  },
  "calculators/closing-line-value/index.html": {
   "date": "2026-11-06",
-  "sha": "ae1b3869bf4c98c67e339ba615f67d72a407e7489f0c339f2bfb66f6ee254004"
+  "sha": "0498413fd0994bd3de202a4b326b0df18699b8e71be016ef06e422fd45489de1"
  },
  "calculators/deposit-match/index.html": {
   "date": "2026-11-06",
-  "sha": "056671b25ea95e3863246bd27351b9aaa8b0e0daf99a3854c40a7030116693c2"
+  "sha": "fa2c9cc31d10099ebbe30a47e667d9bed2734dab5ce960fa4e9e103007092fec"
  },
  "calculators/dutching/index.html": {
   "date": "2026-11-06",
-  "sha": "5badd19dc5e545f2ac0226c587f838b93c7822ccb35ca727dcf7e212ab3ea3df"
+  "sha": "bdbeec15bd702183cc6538bf40e2b76c7fe1667af801cc7c33d49fdb51b10771"
  },
  "calculators/effective-bets/index.html": {
   "date": "2026-11-06",
-  "sha": "22d29e632e07f9ab2e150030b70cb0d144df0dba71aa34c9fea882b9a36deb8b"
+  "sha": "09db2077dd10b96002cc15648b5cef990e4f3474cb3f74a1be17a43e494730fa"
  },
  "calculators/expected-value/index.html": {
   "date": "2026-11-06",
-  "sha": "ff7c0d341e323203472d3207dd836ba44796d18445936733a0b60247d890343f"
+  "sha": "299895b184a2589c8c8afd96a477f83eaa5cb55e12d4015fa0b47d86e5533d15"
  },
  "calculators/hedge/index.html": {
   "date": "2026-11-06",
-  "sha": "9c3a358e588f5e91821f9adc10950395028adcc5ce32a9e809fd5c9b1231e8cf"
+  "sha": "28dc2fa007c2873ee1a4db2fa1206f28d0dbe1f971e15755f78312c5a6455ac8"
  },
  "calculators/hold/index.html": {
   "date": "2026-11-06",
-  "sha": "0c0017f1349836e108845f255c7c280ecc4a6e9d5eb334638351c98f933b5270"
+  "sha": "3e6cf9b48b35712f2d2848f0576d99793be93855637dcecfff5a59475730705d"
  },
  "calculators/index.html": {
   "date": "2026-11-06",
@@ -73,55 +73,55 @@
  },
  "calculators/kelly/index.html": {
   "date": "2026-11-06",
-  "sha": "aded9a3d974741feb0fdd88a3fe651b9fb005f379148d5f27ac2efa46130cb92"
+  "sha": "44cf160943018e2c9f1865ecd04e1e0d6f46aa8ed458d45c1ae210ea0c54d67a"
  },
  "calculators/low-hold/index.html": {
   "date": "2026-11-06",
-  "sha": "a4479fbb3e5ba5c05083a4aaa6971b7402077ca4babac75ce98a9bfba453e7a1"
+  "sha": "2ccb59168881676c54236c382b1a73b5c0b97c4fca9f2209b45a3266af7ffc1c"
  },
  "calculators/middle/index.html": {
   "date": "2026-11-06",
-  "sha": "21134f8769b01bc3bec598d4dda18d64d31cb4c61b743acb72393afd8c5d3d0c"
+  "sha": "be54d4310e23a7fec3e7b2a71cb7767c87a8dd825a74784d0e886ed6549f5b61"
  },
  "calculators/no-sweat-bet/index.html": {
   "date": "2026-11-06",
-  "sha": "c0aab5501e1ca3388cc080b672717f501d45fddcb57dda0e76a8dc0cd2326129"
+  "sha": "21bd9c865ffd8677a3345349de42a20be782a94cf41c22c654c3fe11ae3a65d3"
  },
  "calculators/no-vig-odds/index.html": {
   "date": "2026-11-06",
-  "sha": "8c73a2d7f2f47499d029cccf13881dcf1f51ddb9822559346ddac5d02a4789a3"
+  "sha": "f9d0608768c38319e529231bc61e6841b12e4f3f14f8c9c13229c7e81cb8ad1e"
  },
  "calculators/odds-converter/index.html": {
   "date": "2026-11-06",
-  "sha": "4f8b605ebf3cf2d1e5ce84066bec0fb113fc3e9c262fb9db0f3605bf645ace34"
+  "sha": "8643d48358e23e35a3d90595beab2e8c630e0ee7252dd9dd7e775be2870e95d5"
  },
  "calculators/parlay/index.html": {
   "date": "2026-11-06",
-  "sha": "55c5b8c69ddf49e078642e27e0887f11eb4b7d972d438726dfa8b5306421b980"
+  "sha": "ba003286b21a8f5c2b8ce5d2ab9be6393cfcd99cde651c1394261c4a471fd47e"
  },
  "calculators/poisson/index.html": {
   "date": "2026-11-06",
-  "sha": "2a5bf30facabcf1cc5bec6ae54406a11051e730f18b200019482cb477348ee14"
+  "sha": "e408273fa1f07846ed510cc7b4e24d09db9afc8d2a7b8f264a17318c6f8a528a"
  },
  "calculators/prediction-market-odds/index.html": {
   "date": "2026-11-06",
-  "sha": "46f9a47f00f32a95f110b7f8648ff7e80893dcaa53ed8ae3d1e81dc1458a128d"
+  "sha": "c08fefdf65481a2e20be8b05589b1ef8b973b16bcd1c43017b908e7196693837"
  },
  "calculators/profit-boost/index.html": {
   "date": "2026-11-06",
-  "sha": "f7971d117f1047ac76888a7c79c23b310a0e9cddbeffd0bd84a4b42e920e373b"
+  "sha": "c738ae93d14d5194a29d024405d28b2faa5a4e7cdb4d6c5f5f2de75a61341522"
  },
  "calculators/round-robin/index.html": {
   "date": "2026-11-06",
-  "sha": "809fe6729983be811072b2913c23cd22f20c9f1b8505130993ad87907926ea24"
+  "sha": "c0df82e9dea22791b07230a68fefa2298274be687ed2a7aa7f4b429376fe324e"
  },
  "calculators/spread-to-moneyline/index.html": {
   "date": "2026-11-06",
-  "sha": "4ae39fb0a42415cb8582082958151f494b6b7147be40e5adba2eb2d9fa92ad47"
+  "sha": "ec9f65437f9a19bdf95f5af64bb9470281c5c33970ef6bb31c31e39a89f18e28"
  },
  "calculators/totals-middle/index.html": {
   "date": "2026-11-06",
-  "sha": "6438dfcd2722522feb916da6a95dc82a069b220e1dc7da4904a15ffa4c00aaca"
+  "sha": "8dda2475d74b73e1f25b3b8362c0854f682eabaf9416c29e8c3ace3a3bf5e0f2"
  },
  "download/index.html": {
   "date": "2026-11-04",

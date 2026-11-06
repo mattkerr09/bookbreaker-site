@@ -585,8 +585,8 @@ def spread_to_moneyline(v: dict) -> dict:
         "caption": f"the fair moneyline for a {spread:g}-point NFL favourite and its underdog, with the margin removed",
         "table": {"head": None, "rows": [
             ["Favourite's chance in the closing moneylines", f"{fair:.2%}"],
-            ["Games that closed at this spread, 2015 to 2025", f"{games}"],
-            ["Favourites that won outright", f"{won} of {decided}, {rate:.1%}"],
+            ["Games that closed at this spread, 2015 to 2025", f"{games:,}"],
+            ["Favourites that won outright", f"{won:,} of {decided:,}, {rate:.1%}"],
             ["Range that outright rate could sit in (95%)", f"{centre - half:.1%} to {centre + half:.1%}"]]},
         "notes": [f"The moneyline is the average of each game's own closing moneylines with the margin removed, across "
                   f"every NFL game since 2015 that closed at this spread (nflverse's public games file, read "
