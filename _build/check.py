@@ -993,7 +993,8 @@ def _console_errors(paths: list[str]) -> dict[str, list[str]]:
     cdp_port = free_port()
     profile = tempfile.mkdtemp(prefix="bb-console-")
     chrome = subprocess.Popen(
-        [CHROME, "--headless=new", f"--remote-debugging-port={cdp_port}",
+        # Muted: no test plays sound through the Mac's speakers (CEO rule, 2026-11-05).
+        [CHROME, "--headless=new", "--mute-audio", f"--remote-debugging-port={cdp_port}",
          f"--user-data-dir={profile}", "--no-first-run", "--no-default-browser-check",
          "about:blank"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     found: dict[str, list[str]] = {}
