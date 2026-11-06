@@ -29,6 +29,7 @@ Bookbreaker is an analysis tool for adults 21 and over in states where sports be
 - [Hedge calculator](https://bookbreaker.bet/calculators/hedge/): How much do I bet on the other side to fix my result?
 - [Dutching calculator](https://bookbreaker.bet/calculators/dutching/): How do I split a stake across several outcomes?
 - [Parlay calculator](https://bookbreaker.bet/calculators/parlay/): How much does a parlay really pay?
+- [Pick'em entry EV calculator](https://bookbreaker.bet/calculators/pickem-ev/): What win rate per pick does a pick'em entry need to break even?
 - [Deposit match calculator](https://bookbreaker.bet/calculators/deposit-match/): Is a deposit match bonus worth it after rollover?
 - [Effective bets calculator](https://bookbreaker.bet/calculators/effective-bets/): How many bets am I really making if they are correlated?
 - [Totals middle calculator](https://bookbreaker.bet/calculators/totals-middle/): How do you price a totals middle bet?

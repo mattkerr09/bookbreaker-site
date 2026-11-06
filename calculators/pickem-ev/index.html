@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
+<title>Pick&#x27;em entry EV calculator: free, with a worked example</title>
+<meta name="description" content="What win rate per pick does a pick&#x27;em entry need to break even? Type your own numbers: the real engine runs in your browser, with a worked example.">
+<link rel="canonical" href="https://bookbreaker.bet/calculators/pickem-ev/">
+<!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE: no og:title, no
+     og:description, no twitter:card, so every shared link unfurled as a bare
+     URL. It was the only site in the portfolio without any, on the one whose
+     subject people actually paste into group chats.
+
+     Derived from the title and description this page already computes, so it
+     cannot drift from them the way a second hand-written copy would. That is
+     the same fault that let the version banner sit at 0.1.0 for two releases.
+
+     og:image was deliberately ABSENT rather than pointed at a placeholder: a
+     tag naming a file that 404s is worse than no tag, because a scraper
+     records the miss. The card now exists, so the tag does. 2026-09-02:
+     /og.png, 1200x630, drawn from the LIVE computed palette rather than a
+     guess -- #0057B8 read off the page's own link colour, #1D1D1F off its
+     body text, Space Grotesk off its h1 -- and carrying this site's own
+     headline. The motif is a point estimate inside its interval, which is
+     the product's whole claim rather than decoration.
+
+     twitter:card moves from summary to summary_large_image with it: a 1.91:1
+     card served as `summary` renders as a thumbnail and wastes the image. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bookbreaker">
+<meta property="og:title" content="Pick&#x27;em entry EV calculator: free, with a worked example">
+<meta property="og:description" content="What win rate per pick does a pick&#x27;em entry need to break even? Type your own numbers: the real engine runs in your browser, with a worked example.">
+<meta property="og:url" content="https://bookbreaker.bet/calculators/pickem-ev/">
+<meta property="og:image" content="https://bookbreaker.bet/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Bookbreaker: find your edge, with the error bar.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bookbreaker.bet/og.png">
+<meta name="twitter:title" content="Pick&#x27;em entry EV calculator: free, with a worked example">
+<meta name="twitter:description" content="What win rate per pick does a pick&#x27;em entry need to break even? Type your own numbers: the real engine runs in your browser, with a worked example.">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#5b5bff">
+<link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/style.css?v=bac4bc53a5">
+<script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://bookbreaker.bet/calculators/pickem-ev/", "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": "2026-11-06", "author": {"@type": "Person", "name": "Matt Kerr"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://bookbreaker.bet/calculators/"}, {"@type": "ListItem", "position": 2, "name": "Pickem EV", "item": "https://bookbreaker.bet/calculators/pickem-ev/"}]}</script>
+</head>
+<body class="">
+<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/guides/">Guides</a><a href="/vs/">Compare</a></span><span class="cta-nav"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=calculators-pickem-ev-nav&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.62.dmg" data-download rel="nofollow">Download</a></span></nav></header>
+<main>
+
+<div class="phead">
+<p class="crumb"><a href="/">Home</a><span>/</span>
+<a href="/calculators/">Calculators</a></p>
+<h1>Pick&#x27;em entry EV calculator</h1>
+<p class="byline">By Matt Kerr &middot; Updated <time datetime="2026-11-06">6 November 2026</time></p>
+<p class="lede">It depends on the entry. At PrizePicks&#x27; standard payouts a 2-pick Power Play needs each pick to win 57.74% of the time to pay back its cost on average, and a 5-pick Flex Play needs 54.25%. This page works out the break-even chance and the average result for any entry from the payouts on your screen and each pick&#x27;s chance.</p>
+</div>
+
+<p class="disclose"><strong>These are fantasy contest apps, not licensed sportsbooks.</strong> Whether paid contests are allowed depends on your state, so check the app&rsquo;s own state list. PrizePicks&rsquo; page says &ldquo;PrizePicks currently operates Player Picks across 36 states plus Washington D.C.&rdquo;, and that list leaves out Michigan and other states (<a href="https://www.prizepicks.com/help-center/where-can-i-play" rel="nofollow" data-cite="1">source</a>, read 2026-11-06). This page is maths only. It carries no sign-up link and no code; its PrizePicks links are that app&rsquo;s own help pages, cited as sources.</p>
+<section class="own calc">
+  <h2>Price your own entry</h2>
+  <p class="own-lede">Enter each pick as a chance (55) or a sportsbook's two prices for that prop (-135/+110), the payout multipliers your entry screen shows (all correct first, then one miss, then two) and the entry fee.</p>
+  <form data-calc="pickem-ev" novalidate>
+    <div class="own-in"><label class="calc-wide">Picks <input name="picks" inputmode="text" value="-135/+110, -135/+110, -135/+110, -135/+110, -135/+110" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label class="calc-wide">Payout multipliers <input name="payouts" inputmode="text" value="10, 2, 0.4" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label>Entry fee <input name="entry" inputmode="decimal" value="10" autocomplete="off" autocapitalize="off" spellcheck="false"></label></div>
+    
+    <div class="calc-go"><button class="btn primary" type="submit" disabled>Calculate</button></div>
+  </form>
+  <div class="own-out" aria-live="polite"></div>
+</section>
+<script src="/calc.js?v=b947816ec2" defer></script>
+<p>A pick&rsquo;em entry pays a multiple of the entry fee when enough of its picks are right. Whether that is worth it comes down to one number: the chance each pick needs to win for the entry to pay back what it costs, on average. Below that, the entry loses money over time; above it, it earns, if the chances are right.</p><h2>The break-even chance for each entry</h2><p>At PrizePicks&rsquo; standard payouts, with every pick at the same chance:</p><div class="scroll"><table><tr><th>Entry</th><th>Picks</th><th>Pays (all correct first)</th><th>Break-even per pick</th></tr><tr><td>Power Play</td><td>2</td><td>3x</td><td>57.74%</td></tr><tr><td>Power Play</td><td>3</td><td>6x</td><td>55.03%</td></tr><tr><td>Power Play</td><td>4</td><td>10x</td><td>56.23%</td></tr><tr><td>Power Play</td><td>5</td><td>20x</td><td>54.93%</td></tr><tr><td>Power Play</td><td>6</td><td>37.5x</td><td>54.66%</td></tr><tr><td>Flex Play</td><td>2</td><td>2x / 0.5x</td><td>61.80%</td></tr><tr><td>Flex Play</td><td>3</td><td>3x / 1x</td><td>57.74%</td></tr><tr><td>Flex Play</td><td>4</td><td>6x / 1.5x</td><td>55.03%</td></tr><tr><td>Flex Play</td><td>5</td><td>10x / 2x / 0.4x</td><td>54.25%</td></tr><tr><td>Flex Play</td><td>6</td><td>25x / 2x / 0.4x</td><td>54.21%</td></tr></table></div><p>From PrizePicks&rsquo; payouts page: <a href="https://www.prizepicks.com/help-center/payouts" rel="nofollow" data-cite="1">source</a>, read 2026-11-06. PrizePicks&rsquo; own page says the payout on your entry screen can differ from this table, so type the multipliers you are shown.</p><h2>Two worked entries</h2><p>Say each pick is a prop a sportsbook prices -135/+110. With the margin removed, that is a 54.89% chance per pick. A 2-pick Power Play at 3x needs 57.74% per pick, so it pays back 0.9037 per dollar on average: -$0.96 on a $10 entry. A 5-pick Flex Play at 10x, 2x and 0.4x needs 54.25%, so the same picks pay back 1.0421 per dollar: +$0.42 on $10. From PrizePicks&rsquo; payouts page: <a href="https://www.prizepicks.com/help-center/payouts" rel="nofollow" data-cite="1">source</a>, read 2026-11-06.</p><div class="scroll"><table><tr><th>5-pick Flex Play</th><th>How often</th></tr><tr><td>All correct, pays 10x</td><td>4.98% of the time</td></tr><tr><td>4 of 5 correct, pays 2x</td><td>20.47% of the time</td></tr><tr><td>3 of 5 correct, pays 0.4x</td><td>33.65% of the time</td></tr></table></div><p>Each number rests on the chances, and a sportsbook&rsquo;s no-vig price is an estimate of a pick&rsquo;s chance, not a fact. A small error in each chance compounds across five picks. The maths also treats the picks as independent; two picks from the same game often move together, which changes the answer. An average says nothing about one entry: most 5-pick entries pay back less than they cost.</p>
+<div class="top-cta"><div class="cta"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=calc-pickem-ev-top&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.62.dmg" data-download rel="nofollow">Download free for Mac</a></div>
+<p class="free-line">Free. No account and no subscription. Needs macOS 14 or later on a Mac with Apple silicon (M1 or later). 34.9 MB, notarised by Apple.</p></div>
+
+<h2>Where the number comes from</h2>
+<p>The worked example was computed by the same engine that prices bets, at the moment this page was built. None of it was typed in. The build fails if a figure appears here and not in the engine's own output. The calculator runs that engine, release 0.1.62, in your browser, and the build checks that it returns this example&rsquo;s answers for this example&rsquo;s inputs.</p>
+<p><a href="/how-it-works/">How a price is formed &rarr;</a>
+&nbsp;&middot;&nbsp;
+<a href="/what-your-record-proves/">What a record can prove &rarr;</a></p>
+
+</main>
+<footer>
+<div class="get-app"><p class="get-app-line">Bookbreaker finds arbitrage and +EV bets on your Mac, and shows how sure each one is.</p><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=calculators-pickem-ev-foot&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.62.dmg" data-download rel="nofollow">Download free</a><p class="free-line">Free. No account and no subscription. Needs macOS 14 or later on a Mac with Apple silicon (M1 or later). 34.9 MB, notarised by Apple.</p><p class="phone-link">On your phone? <button type="button" data-send-mac-link>Send the Mac link to yourself</button></p></div>
+<div class="foot-grid">
+  <div>
+    <p class="foot-brand">Bookbreaker</p>
+    <p>An analysis tool. It tells you what the numbers say; you place your own
+    bets. Not affiliated with any sportsbook.</p>
+    <p>Built by Matthew Kerr in Grand Rapids, MI &middot;
+    <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Tools</p>
+    <p><a href="/download/">Download and install</a></p>
+    <p><a href="/calculators/">Calculators</a></p>
+    <p><a href="/guides/">Guides</a></p>
+    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Compare</p>
+    <p><a href="/vs/">Every tool, dated</a></p>
+    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
+    <p><a href="/what-your-record-proves/">What a record proves</a></p>
+    <p><a href="/offers/">Sign-up offers, ranked</a></p>
+    <p><a href="/privacy/">Privacy</a></p>
+    <p><a href="/terms/">Terms</a></p>
+    <p><a href="/responsible-gambling/">Responsible gambling</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Alternatives</p>
+    <p><a href="/vs/oddsjam-alternative/">OddsJam alternative</a></p><p><a href="/vs/avo-alternative/">AVO alternative</a></p><p><a href="/vs/betstamp-pro-alternative/">Betstamp PRO alternative</a></p><p><a href="/vs/pikkit-alternative/">Pikkit alternative</a></p><p><a href="/vs/crazy-ninja-odds-alternative/">Crazy Ninja Odds alternative</a></p><p><a href="/vs/rebelbetting-alternative/">RebelBetting alternative</a></p><p><a href="/vs/betburger-alternative/">BetBurger alternative</a></p><p><a href="/vs/unabated-alternative/">Unabated alternative</a></p><p><a href="/vs/smartstake-alternative/">SmartStake alternative</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Best of</p>
+    <p><a href="/best/best-arbitrage-betting-software/">Best arbitrage betting software</a></p><p><a href="/best/best-odds-screen/">Best odds screen for sports betting</a></p><p><a href="/best/best-bet-tracker/">Best bet tracker</a></p><p><a href="/best/best-ev-betting-software/">Best +EV betting software</a></p>
+    <p class="foot-head">Built for</p>
+    <p><a href="/for/arbitrage-bettors/">For arbers</a></p><p><a href="/for/ev-bettors/">For +EV bettors</a></p><p><a href="/for/bonus-hunters/">For bonus hunters</a></p><p><a href="/for/new-bettors/">For beginners</a></p>
+  </div>
+  <div>
+    <p class="foot-head">Company</p>
+    <p><a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a></p>
+  </div>
+</div>
+<p class="foot-fine">No sportsbook accounts are linked and no credentials are
+ever requested. Every calculated figure on this site comes from running the engine at
+build time; prices, offers and facts are read from their sources and dated. Updated <time datetime="2026-11-06">6 November 2026</time>.</p>
+<p class="foot-fine">21+ and present in a state where betting is legal.
+Gambling carries a risk of financial loss, and nothing here predicts that you
+will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the
+National Problem Gambling Helpline, or visit
+<a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>. More on
+<a href="/responsible-gambling/">responsible gambling</a> and <a href="/how-we-are-paid/">how Bookbreaker is paid</a>.</p>
+</footer>
+<script>
+/* Scroll reveal, taken from the Outlier site because Matthew asked for
+   exactly its behaviour.
+
+   Direction is set with custom properties rather than by overriding
+   transform, so a single rule owns the transform and a element sliding in
+   from the left cannot fight one settling from below.
+
+   Two-way on purpose: the observer is NOT unobserved after firing. Calling
+   unobserve is what turns this into a one-shot effect that fills the page in
+   once and then sits there, and scrolling back up and down again should replay
+   it. */
+(function () {
+  var root = document.documentElement;
+  root.classList.add('js');           // CSS only hides things once JS is here,
+                                      // so no-JS renders the page fully visible
+  var reduce = window.matchMedia
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    for (var i = 0; i < els.length; i++) els[i].classList.add('in');
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      e.target.classList.toggle('in', e.isIntersecting);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  for (var j = 0; j < els.length; j++) io.observe(els[j]);
+})();
+/* Carry the visitor's source and any affiliate id into the link they send to their Mac. */
+function kcCarry(url){try{var s=JSON.parse(localStorage.getItem('kc_aff')||'null');var v=(s&&s.exp>Date.now()&&s.v)||{};var q=[];var r=v.ref||v.landing_source;if(r)q.push('ref='+encodeURIComponent(r));['via','rekomi_ref','affonso_referral','awc','cjevent','irclickid'].forEach(function(k){if(v[k])q.push(k+'='+encodeURIComponent(v[k]));});return q.length?url+'&'+q.join('&'):url;}catch(e){return url;}}
+document.querySelectorAll('[data-send-mac-link]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var url = kcCarry('https://bookbreaker.bet/download/?utm_source=phone-share&utm_medium=share');
+    var text = 'Bookbreaker is a free Mac app for sports bettors. Open this on your Mac to download it.';
+    if (window.plausible) { try { window.plausible('Send Mac Link'); } catch (e) {} }
+    if (navigator.share) {
+      navigator.share({ title: 'Bookbreaker for Mac', text: text, url: url }).catch(function () {});
+    } else {
+      location.href = 'mailto:?subject=' + encodeURIComponent('Bookbreaker for Mac: download link') +
+        '&body=' + encodeURIComponent(text + '\n\n' + url);
+    }
+  });
+});
+document.querySelectorAll('[data-download]').forEach(function (a) {
+  a.addEventListener('click', function () {
+    if (window.plausible) { try { window.plausible('Download'); } catch (e) {} }
+  });
+});
+</script>
+<script src="https://kerr-affiliate-hub.kerrco.workers.dev/snippet.js" defer></script>
+</body>
+</html>

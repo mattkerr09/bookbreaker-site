@@ -752,6 +752,32 @@ def measure(engine) -> dict:
                                "three": next(r for r in _sm_rows if r["spread"] == "3"),
                                "seven": next(r for r in _sm_rows if r["spread"] == "7")}
 
+    # Pick'em entry EV (Matthew's call via the CEO, 2026-11-06): maths only, no app links or codes. Payout
+    # multipliers are PrizePicks' public standard table as read; every figure below is calc.py's own answer.
+    _pk_rows = load_data("pickem_payouts")
+    _pk_state = load_data("pickem_states")[0]
+    _pk_line = "-135/+110"
+    _pk_table = []
+    for _play in ("power", "flex"):
+        for _n in sorted({int(r["picks"]) for r in _pk_rows if r["play"] == _play}):
+            _tier = sorted((r for r in _pk_rows if r["play"] == _play and int(r["picks"]) == _n),
+                           key=lambda r: -int(r["correct"]))
+            _pays = ", ".join(r["multiplier"] for r in _tier)
+            _ans = _sm.pickem_ev({"picks": ", ".join(["55"] * _n), "payouts": _pays, "entry": "10"})
+            _cells = dict(_ans["table"]["rows"])
+            _pk_table.append({"play": "Power Play" if _play == "power" else "Flex Play", "picks": _n,
+                              "pays": " / ".join(f"{r['multiplier']}x" for r in _tier),
+                              "breakeven": _cells["Break-even chance per pick"]})
+    def _pk_case(n, pays):
+        ans = _sm.pickem_ev({"picks": ", ".join([_pk_line] * n), "payouts": pays, "entry": "10"})
+        cells = dict(ans["table"]["rows"])
+        return {"n": n, "pays": pays, "result": ans["headline"], "back": cells["Paid back on average, per dollar"],
+                "chance": cells["Each pick's chance"].split(", ")[0], "breakeven": cells["Break-even chance per pick"],
+                "rows": ans["table"]["rows"]}
+    out["pickem"] = {"table": _pk_table, "line": _pk_line, "source": _pk_rows[0]["source"], "read": _pk_rows[0]["read"],
+                     "state_quote": _pk_state["quote"], "state_source": _pk_state["source"],
+                     "state_read": _pk_state["read"], "two": _pk_case(2, "3"), "five": _pk_case(5, "10, 2, 0.4")}
+
     # A profit boost. It multiplies profit, and profit grows with the price,
     # so spending it on a favourite gives most of it away.
     boost_stake, boost_pct = 100.0, 0.5
@@ -2255,6 +2281,25 @@ def measure(engine) -> dict:
     + f"</table><p>{sm['spreads']} spreads closed in at least 40 games; the rest are left out rather than guessed. {sm_cite}</p>"
     + "<p>These are fair prices. A book&rsquo;s posted moneyline adds its margin on top, so the favourite&rsquo;s price is a little longer and the underdog&rsquo;s a little shorter than the table. The steps are not even, either: the chance jumps at 3 and 7, where football margins pile up. <a href=\"/guides/nfl-key-numbers/\">The key numbers</a> show how often each margin lands.</p>")}
 
+    pk = m["pickem"]
+    pk_cite = (f'From PrizePicks&rsquo; payouts page: <a href="{e(pk["source"])}" rel="nofollow" data-cite="1">'
+               f'source</a>, read {e(pk["read"])}.')
+    calc["pickem-ev"] = {"body": (
+    "<p>A pick&rsquo;em entry pays a multiple of the entry fee when enough of its picks are right. Whether that is "
+    "worth it comes down to one number: the chance each pick needs to win for the entry to pay back what it costs, on "
+    "average. Below that, the entry loses money over time; above it, it earns, if the chances are right.</p>"
+    "<h2>The break-even chance for each entry</h2>"
+    "<p>At PrizePicks&rsquo; standard payouts, with every pick at the same chance:</p>"
+    "<table><tr><th>Entry</th><th>Picks</th><th>Pays (all correct first)</th><th>Break-even per pick</th></tr>"
+    + "".join(f"<tr><td>{r['play']}</td><td>{r['picks']}</td><td>{e(r['pays'])}</td><td>{r['breakeven']}</td></tr>" for r in pk['table'])
+    + f"</table><p>{pk_cite} PrizePicks&rsquo; own page says the payout on your entry screen can differ from this table, so type the multipliers you are shown.</p>"
+    + "<h2>Two worked entries</h2>"
+    + f"<p>Say each pick is a prop a sportsbook prices {e(pk['line'])}. With the margin removed, that is a {pk['two']['chance']} chance per pick. A 2-pick Power Play at 3x needs {pk['two']['breakeven']} per pick, so it pays back {pk['two']['back']} per dollar on average: {pk['two']['result']} on a $10 entry. A 5-pick Flex Play at 10x, 2x and 0.4x needs {pk['five']['breakeven']}, so the same picks pay back {pk['five']['back']} per dollar: {pk['five']['result']} on $10. {pk_cite}</p>"
+    + "<table><tr><th>5-pick Flex Play</th><th>How often</th></tr>"
+    + "".join(f"<tr><td>{e(k)}</td><td>{e(v)}</td></tr>" for k, v in pk['five']['rows'][1:4])
+    + "</table>"
+    + "<p>Each number rests on the chances, and a sportsbook&rsquo;s no-vig price is an estimate of a pick&rsquo;s chance, not a fact. A small error in each chance compounds across five picks. The maths also treats the picks as independent; two picks from the same game often move together, which changes the answer. An average says nothing about one entry: most 5-pick entries pay back less than they cost.</p>")}
+
     bg = m["bet_and_get"]; bp = bg["plain"]
     calc["bet-and-get"] = {"body": (
     f"<p>Take the common form: bet ${bp['stake']}, get ${bp['bonus']} in bonus bets, paid whatever the qualifying bet does. Placed at {bp['side']} on a market priced {bp['side']} and {bp['other']}, the qualifier loses ${bp['cost']:.2f} on average, which is the margin on ${bp['stake']}. That is the whole cost.</p>"
@@ -2326,6 +2371,7 @@ def measure(engine) -> dict:
             "stake": f"{net_stake:.0f}", "conversion": f"{conv_rate * 100:.0f}",
             "price": _am(net_cases[0][0]), "prob": f"{net_cases[0][1] * 100:g}"},
         "spread-to-moneyline": {"spread": "-3"},
+        "pickem-ev": {"picks": ", ".join([out["pickem"]["line"]] * 5), "payouts": "10, 2, 0.4", "entry": "10"},
         "bet-and-get": {
             "stake": f"{bag_cases[0]['stake']}", "side": bag_cases[0]["side"], "other": bag_cases[0]["other"],
             "bonus": f"{bag_cases[0]['bonus']}", "conversion": f"{bag_rate * 100:g}", "on_win": ""},
@@ -5263,6 +5309,13 @@ CALC_FORMS = {
          ("conversion", "Bonus-bet conversion (%)", "num"),
          ("price", "Qualifying price", "odds"),
          ("prob", "Chance it wins (%)", "num")]),
+    "pickem-ev": (
+        "Price your own entry",
+        "Enter each pick as a chance (55) or a sportsbook's two prices for that prop (-135/+110), the payout "
+        "multipliers your entry screen shows (all correct first, then one miss, then two) and the entry fee.",
+        [("picks", "Picks", "list"),
+         ("payouts", "Payout multipliers", "list"),
+         ("entry", "Entry fee", "num")]),
     "spread-to-moneyline": (
         "Convert your own spread",
         "Enter an NFL point spread, like -3 or 6.5.",
@@ -5389,6 +5442,17 @@ def calc_description(m: dict, row: dict) -> str:
     return text
 
 
+def pickem_notice(m: dict) -> str:
+    """The plain line the pick'em page carries above its form (CEO guardrail, 2026-11-06): what these apps are, and
+    the app's own state list quoted with its read date. No state-by-state legal claims of our own."""
+    pk = m["pickem"]
+    return (f'<p class="disclose"><strong>These are fantasy contest apps, not licensed sportsbooks.</strong> Whether paid '
+            f'contests are allowed depends on your state, so check the app&rsquo;s own state list. PrizePicks&rsquo; '
+            f'page says &ldquo;{e(pk["state_quote"])}&rdquo;, and that list leaves out Michigan and other states '
+            f'(<a href="{e(pk["state_source"])}" rel="nofollow" data-cite="1">source</a>, read {e(pk["state_read"])}). '
+            f'This page is maths only. It carries no sign-up link and no code; its PrizePicks links are that app&rsquo;s own help pages, cited as sources.</p>')
+
+
 def render_calculator(m: dict, row: dict) -> str:
     """One calculator page, with a worked example the engine produced.
 
@@ -5421,6 +5485,7 @@ def render_calculator(m: dict, row: dict) -> str:
 <p class="lede">{e(row.get('answer') or row['question'])}</p>
 </div>
 {own_devig_widget(m) if slug == "no-vig-odds" else ""}
+{pickem_notice(m) if slug == "pickem-ev" else ""}
 {calc_form(m, slug) if live else ""}
 {body}
 {top_cta(m, f"calc-{slug}-top")}

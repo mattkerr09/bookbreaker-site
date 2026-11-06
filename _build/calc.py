@@ -595,6 +595,89 @@ def spread_to_moneyline(v: dict) -> dict:
     }
 
 
+def _pick_chance(token: str) -> float:
+    """One pick's chance: a percentage (55 or 55%), or a sportsbook's two prices for that prop with the margin
+    removed (-135/+110), the engine's four-method average."""
+    t = token.strip().replace("−", "-")
+    if "/" in t:
+        a, b = (x.strip() for x in t.split("/", 1))
+        try:
+            pair = [parse_odds(a), parse_odds(b)]
+        except ValueError as exc:
+            raise CalcError(f"{t!r} is not two prices I can read. Type both sides of the prop, like -135/+110.") from exc
+        if 1 / pair[0] + 1 / pair[1] < 1:
+            raise CalcError(f"{t!r} crosses, so it is two books' prices. Type one book's two prices for the prop.")
+        return devig_all(pair).consensus(0)
+    try:
+        pct = float(t.rstrip("%"))
+    except ValueError:
+        raise CalcError(f"{t!r} is not a chance or a pair of prices. Type 55 for 55%, or -135/+110.") from None
+    if not 0 < pct < 100:
+        raise CalcError("Each pick's chance has to be between 0 and 100%.")
+    return pct / 100
+
+
+def _correct_counts(chances: list) -> list:
+    """P(exactly k picks correct), k = 0..n, for picks that win independently at their own chances."""
+    dist = [1.0]
+    for p in chances:
+        nxt = [0.0] * (len(dist) + 1)
+        for k, x in enumerate(dist):
+            nxt[k] += x * (1 - p)
+            nxt[k + 1] += x * p
+        dist = nxt
+    return dist
+
+
+def _pickem_return(chances: list, pays: list) -> float:
+    dist, n = _correct_counts(chances), len(chances)
+    return sum(dist[n - miss] * mult for miss, mult in enumerate(pays))
+
+
+def pickem_ev(v: dict) -> dict:
+    """A pick'em entry's expected return from its payout multipliers and each pick's chance. Maths only: it reads no
+    app and places nothing."""
+    tokens = [t for t in re.split(r"[,\n]+", _raw(v, "picks")) if t.strip()]
+    if not 2 <= len(tokens) <= 8:
+        raise CalcError("Type between 2 and 8 picks, separated by commas.")
+    chances = [_pick_chance(t) for t in tokens]
+    pays = []
+    for t in [t for t in re.split(r"[,\s]+", _raw(v, "payouts")) if t.strip()]:
+        try:
+            pays.append(float(t.strip().rstrip("xX")))
+        except ValueError:
+            raise CalcError(f"{t!r} is not a multiplier. Type them like 10, 2, 0.4: all correct first, then one "
+                            "miss, then two.") from None
+    if not 1 <= len(pays) <= 3 or len(pays) > len(chances) or any(m < 0 for m in pays):
+        raise CalcError("Type 1 to 3 payout multipliers, all correct first, then one miss, then two, like 10, 2, 0.4.")
+    entry = _amount(v, "entry", "The entry fee")
+    n = len(chances)
+    back = _pickem_return(chances, pays)
+    lo, hi = 0.0, 1.0
+    for _ in range(60):                            # the one chance per pick at which the entry breaks even
+        mid = (lo + hi) / 2
+        lo, hi = (lo, mid) if _pickem_return([mid] * n, pays) >= 1 else (mid, hi)
+    dist = _correct_counts(chances)
+    rows = [["Each pick's chance", ", ".join(f"{p:.2%}" for p in chances)]]
+    for miss, mult in enumerate(pays):
+        label = "All correct" if miss == 0 else f"{n - miss} of {n} correct"
+        rows.append([f"{label}, pays {mult:g}x", f"{dist[n - miss]:.2%} of the time"])
+    rows += [["Paid back on average, per dollar", f"{back:.4f}"],
+             ["Break-even chance per pick", f"{hi:.2%}"]]
+    net = entry * (back - 1)
+    return {
+        "headline": f"{'-' if net < 0 else '+'}${abs(net):,.2f}",
+        "caption": f"the entry's average result on ${entry:,.2f}, if every chance you typed is right",
+        "table": {"head": None, "rows": rows},
+        "notes": ["Every chance here is an estimate, and the answer is only as good as the worst of them. The maths "
+                  "treats the picks as independent; picks from the same game often are not, which changes the "
+                  "answer. Use the multipliers the app shows on your own entry screen, since they can differ from "
+                  "its standard table.",
+                  "These are fantasy contest apps, not licensed sportsbooks. Whether paid contests are allowed "
+                  "depends on your state: check the app's own state list."],
+    }
+
+
 def poisson(v: dict) -> dict:
     home = _amount(v, "home", "Home expected goals")
     away = _amount(v, "away", "Away expected goals")
@@ -827,6 +910,7 @@ CALCULATORS = {
     "bonus-bet-conversion": (bonus_conversion, ("bonus", "free", "hedge")),
     "no-sweat-bet": (no_sweat, ("stake", "conversion", "price", "prob")),
     "spread-to-moneyline": (spread_to_moneyline, ("spread",)),
+    "pickem-ev": (pickem_ev, ("picks", "payouts", "entry")),
     "bet-and-get": (bet_and_get, ("stake", "side", "other", "bonus", "conversion", "on_win")),
     "profit-boost": (profit_boost, ("stake", "boost", "price", "prob")),
     "prediction-market-odds": (prediction_market_odds, ("price", "venue", "sport", "contracts")),
