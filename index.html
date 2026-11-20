@@ -4,362 +4,147 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
-<title>Bookbreaker: free arbitrage and +EV betting app for Mac</title>
-<meta name="description" content="A free Mac app that finds sports betting arbitrage and +EV bets, shows how far each edge could be off, and tracks your record. No account, no login.">
+<title>BookBreaker: sports stats with the game count behind every trend</title>
+<meta name="description" content="Player and team stats for the NBA, NFL, MLB and NHL. See how often a player or team reached a number, out of how many games, and whether it held up. Mac and Windows, 18 December 2026.">
 <link rel="canonical" href="https://bookbreaker.bet/">
-<!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE: no og:title, no
-     og:description, no twitter:card, so every shared link unfurled as a bare
-     URL. It was the only site in the portfolio without any, on the one whose
-     subject people actually paste into group chats.
-
-     Derived from the title and description this page already computes, so it
-     cannot drift from them the way a second hand-written copy would. That is
-     the same fault that let the version banner sit at 0.1.0 for two releases.
-
-     og:image was deliberately ABSENT rather than pointed at a placeholder: a
-     tag naming a file that 404s is worse than no tag, because a scraper
-     records the miss. The card now exists, so the tag does. 2026-09-02:
-     /og.png, 1200x630, drawn from the LIVE computed palette rather than a
-     guess -- #0057B8 read off the page's own link colour, #1D1D1F off its
-     body text, Space Grotesk off its h1 -- and carrying this site's own
-     headline. The motif is a point estimate inside its interval, which is
-     the product's whole claim rather than decoration.
-
-     twitter:card moves from summary to summary_large_image with it: a 1.91:1
-     card served as `summary` renders as a thumbnail and wastes the image. -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Bookbreaker">
-<meta property="og:title" content="Bookbreaker: free arbitrage and +EV betting app for Mac">
-<meta property="og:description" content="A free Mac app that finds sports betting arbitrage and +EV bets, shows how far each edge could be off, and tracks your record. No account, no login.">
+<meta property="og:site_name" content="BookBreaker">
+<meta property="og:title" content="BookBreaker: sports stats with the game count behind every trend">
+<meta property="og:description" content="Player and team stats for the NBA, NFL, MLB and NHL. See how often a player or team reached a number, out of how many games, and whether it held up. Mac and Windows, 18 December 2026.">
 <meta property="og:url" content="https://bookbreaker.bet/">
-<meta property="og:image" content="https://bookbreaker.bet/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Bookbreaker: find your edge, with the error bar.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bookbreaker.bet/og.png">
-<meta name="twitter:title" content="Bookbreaker: free arbitrage and +EV betting app for Mac">
-<meta name="twitter:description" content="A free Mac app that finds sports betting arbitrage and +EV bets, shows how far each edge could be off, and tracks your record. No account, no login.">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#5b5bff">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=bac4bc53a5">
+<link rel="stylesheet" href="/style.css">
+<style>
+.trend{max-width:30rem;margin:2.2rem auto 0;text-align:left;background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r);padding:1.25rem 1.35rem;box-shadow:0 20px 60px -30px var(--glow)}
+.trend-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.trend-q{font-weight:600;font-size:1.02rem;color:var(--ink)}
+.trend-n{font-family:var(--mono);font-size:var(--t-2);color:var(--ink-3)}
+.trend-big{font-size:2.6rem;font-weight:650;letter-spacing:-.03em;margin:.35rem 0 .1rem;color:var(--ink)}
+.trend-big small{font-size:1rem;font-weight:500;color:var(--ink-2);margin-left:.4rem;letter-spacing:0}
+.trend-range{font-size:var(--t-3);color:var(--ink-2)}
+.trend-bars{display:grid;grid-template-columns:repeat(17,1fr);gap:4px;margin:1rem 0 .4rem}
+.trend-bars i{display:block;height:28px;border-radius:4px;background:rgba(255,255,255,.08)}
+.trend-bars i.y{background:linear-gradient(180deg,#8b89ff,#4f4dff)}
+.trend-held{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.9rem}
+.trend-held div{background:var(--card-2);border-radius:var(--r-sm);padding:.7rem .8rem}
+.trend-held small{display:block;font-size:var(--t-1);color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
+.trend-held b{font-size:1.15rem;color:var(--ink)}
+.trend-src{font-size:var(--t-1);color:var(--ink-3);margin-top:.8rem}
+.soon{display:inline-block;margin-bottom:1rem;padding:.35rem .8rem;border-radius:999px;font-size:.82rem;font-weight:600;
+  color:var(--accent-hi);background:rgba(91,91,255,.12);border:1px solid rgba(139,137,255,.3)}
+.price-plain{max-width:34rem;margin:1.4rem auto 0;font-size:1rem;color:var(--ink-2)}
+.prose-page{max-width:var(--measure-page);margin:0 auto;padding:3rem 0}
+.prose-page h1{font-size:clamp(2rem,4.6vw,3rem);letter-spacing:-.035em}
+.prose-page h2{margin-top:2rem;font-size:1.3rem}
+</style>
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://bookbreaker.bet/", "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": "2026-11-04"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://bookbreaker.bet/#org", "name": "Bookbreaker", "url": "https://bookbreaker.bet/"}, {"@type": "WebSite", "@id": "https://bookbreaker.bet/#site", "name": "Bookbreaker", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}, {"@type": "SoftwareApplication", "name": "Bookbreaker", "applicationCategory": "FinanceApplication", "operatingSystem": "macOS", "softwareVersion": "0.1.62", "url": "https://bookbreaker.bet/", "publisher": {"@id": "https://bookbreaker.bet/#org"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "BookBreaker", "operatingSystem": "macOS, Windows", "applicationCategory": "SportsApplication", "description": "Player and team statistics for the NBA, NFL, MLB and NHL, with the game count behind every trend.", "author": {"@type": "Person", "name": "Matthew Kerr"}, "publisher": {"@type": "Organization", "name": "Kerr & Company", "url": "https://kerrandcompanyholdings.com/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can I get BookBreaker now?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet. It comes out on 18 December 2026, for Mac and Windows. This page will have the download and the price on it that day."}}, {"@type": "Question", "name": "Which sports does it cover?", "acceptedAnswer": {"@type": "Answer", "text": "The NBA, NFL, MLB and NHL: player and team stats, game by game, with home and away, opponent and date filters."}}, {"@type": "Question", "name": "What does \u201cheld up later\u201d mean?", "acceptedAnswer": {"@type": "Answer", "text": "When a trend is spotted, BookBreaker keeps checking it in the games that come after. For each kind of trend, it shows how often trends like that kept holding, checked game by game through the season and never with hindsight."}}, {"@type": "Question", "name": "Why does every number say how many games it rests on?", "acceptedAnswer": {"@type": "Answer", "text": "Because 7 of 10 and 70 of 100 are not the same thing. Over 10 games the true rate could be a long way from 70%, so BookBreaker shows the game count and the range the rate could really sit in, next to every number."}}, {"@type": "Question", "name": "Do I need an account?", "acceptedAnswer": {"@type": "Answer", "text": "No. There's no sign-in. The app downloads one shared stats file, keeps your history on your own computer, and works offline on the last update it has."}}, {"@type": "Question", "name": "What happens after the first year?", "acceptedAnswer": {"@type": "Answer", "text": "The $39 includes 12 months of new games. After that, new games are an optional $19 a year. Without it, the app keeps every stat and tool it already has; only new games stop arriving."}}, {"@type": "Question", "name": "Who makes it?", "acceptedAnswer": {"@type": "Answer", "text": "Matthew Kerr, a solo software maker in Grand Rapids, Michigan, through Kerr & Company. You can email him at matthew@kerrandcompanyholdings.com."}}]}</script>
 </head>
 <body class="home">
-<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/guides/">Guides</a><a href="/vs/">Compare</a></span><span class="cta-nav"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=home-nav&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.62.dmg" data-download rel="nofollow">Download</a></span></nav></header>
+<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>BookBreaker</a><span class="links"><a href="/#what">What it shows</a><a href="/#price">Price</a><a href="/#questions">Questions</a></span></nav></header>
 <main>
-
 <section class="hero">
-  <p class="eyebrow">Free Mac app for sports bettors</p>
-  <h1>The same return on either result,<br><span class="grad">when both bets stand.</span></h1>
-  <!-- One short answer above the button (CONTENT-STANDARD 1, 7 and 9, 2026-11-02): on a 375 px phone the button sat at
-       801 px of 812 behind two paragraphs. The detail is kept, under the button. -->
-  <p class="lede">When two books disagree on a game, Bookbreaker works out the stakes that return the same on either
-  result, if both bets are accepted at the prices shown and stand. Real gaps are rare and usually small.</p>
-  <div class="cta">
-    <a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=home-hero&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.62.dmg" data-download rel="nofollow">Download free for Mac</a>
-    <a class="btn ghost" href="#how">See how it works</a>
-  </div>
-  <p class="free-line">Free. No account and no subscription. Needs macOS 14 or later on a Mac with Apple silicon (M1 or later). 34.9 MB, notarised by Apple.</p>
-  <p class="phone-link">On your phone? <button type="button" data-send-mac-link>Send the Mac link to yourself</button></p>
-  <ul class="ticks">
-    <li>Free, no subscription</li>
-    <li>No account</li>
-    <li>Never asks for a sportsbook login</li>
-    <li>Your bets stay on your Mac</li>
-  </ul>
-  <p class="lede hero-more">Switch on live Kalshi and Polymarket US prices, or type in the prices you see at your
-  books. Bookbreaker says what to bet at each, rounds the stakes to amounts people type, and shows the
-  result before you bet. It also does the math the books use to price every bet: fair odds with the margin taken out,
-  what a venue&rsquo;s fee really costs, and what a parlay pays against its fair price.</p>
-</section>
-
-<div class="stage reveal">
-  <div class="window">
-    <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i></div>
-    <video autoplay muted loop playsinline preload="metadata"
-           poster="/media/app-poster.jpg" width="1280" height="800"
-           aria-label="The Bookbreaker window finding a bet and working out both stakes">
-      <source src="/media/app.mp4" type="video/mp4">
-      <source src="/media/app.webm" type="video/webm">
-    </video>
-  </div>
-  <p class="stage-cap">The app recorded on a Mac, version 0.1.34.</p>
+<span class="soon">Coming 18 December 2026 &middot; Mac and Windows</span>
+<h1>How often did it really happen?</h1>
+<p class="lede">Type a number, like 25 points. BookBreaker shows how often the player or team reached it, out of how many
+games, and whether trends like that kept holding in the games after.</p>
+<p class="price-plain">$39 once, with 12 months of new games included. After that, new games are an optional $19 a year.</p>
+<div class="trend reveal" aria-label="An example trend card, from Detroit's 2025 season">
+<div class="trend-top"><span class="trend-q">Detroit, 24 or more points</span><span class="trend-n">17 games</span></div>
+<div class="trend-big">12 of 17<small>71%</small></div>
+<div class="trend-range">With 17 games, the real rate could be anywhere from 47% to 87%. Last 10 games: 7 of 10.</div>
+<div class="trend-bars" aria-hidden="true"><i class="" title="not reached"></i><i class="y" title="reached"></i><i class="y" title="reached"></i><i class="y" title="reached"></i><i class="y" title="reached"></i><i class="" title="not reached"></i><i class="y" title="reached"></i><i class="y" title="reached"></i><i class="y" title="reached"></i><i class="" title="not reached"></i><i class="y" title="reached"></i><i class="y" title="reached"></i><i class="y" title="reached"></i><i class="y" title="reached"></i><i class="y" title="reached"></i><i class="" title="not reached"></i><i class="" title="not reached"></i></div>
+<div class="trend-held">
+<div><small>First 8 games</small><b>6 of 8 &middot; 75%</b></div>
+<div><small>The 9 games after</small><b>6 of 9 &middot; 67%</b></div>
 </div>
-
-<section class="books">
-  <p class="books-cap">Knows 26 sportsbooks, exchanges and prediction markets taking bets across 51 states</p>
-  <div class="marquee"><div class="marquee-row"><span>Bally Bet</span><span>Bet Desert Diamond</span><span>BetMGM</span><span>BetRivers</span><span>Betfair Exchange</span><span>Borgata</span><span>Caesars</span><span>Circa Sports</span><span>DraftKings</span><span>Eagle Casino &amp; Sports</span><span>Ember Sportsbook</span><span>FanDuel</span><span>Fanatics</span><span>FireKeepers Sportsbook</span><span>Four Winds Sportsbook</span><span>Hard Rock Bet</span><span>Kalshi</span><span>Pinnacle</span><span>Polymarket US</span><span>Prime Sportsbook</span><span>ProphetX</span><span>Sports Bet Montana</span><span>Sportsbook Rhode Island</span><span>bet365</span><span>betPARX</span><span>theScore Bet</span><span aria-hidden="true"></span><span aria-hidden="true">Bally Bet</span><span aria-hidden="true">Bet Desert Diamond</span><span aria-hidden="true">BetMGM</span><span aria-hidden="true">BetRivers</span><span aria-hidden="true">Betfair Exchange</span><span aria-hidden="true">Borgata</span><span aria-hidden="true">Caesars</span><span aria-hidden="true">Circa Sports</span><span aria-hidden="true">DraftKings</span><span aria-hidden="true">Eagle Casino &amp; Sports</span><span aria-hidden="true">Ember Sportsbook</span><span aria-hidden="true">FanDuel</span><span aria-hidden="true">Fanatics</span><span aria-hidden="true">FireKeepers Sportsbook</span><span aria-hidden="true">Four Winds Sportsbook</span><span aria-hidden="true">Hard Rock Bet</span><span aria-hidden="true">Kalshi</span><span aria-hidden="true">Pinnacle</span><span aria-hidden="true">Polymarket US</span><span aria-hidden="true">Prime Sportsbook</span><span aria-hidden="true">ProphetX</span><span aria-hidden="true">Sports Bet Montana</span><span aria-hidden="true">Sportsbook Rhode Island</span><span aria-hidden="true">bet365</span><span aria-hidden="true">betPARX</span><span aria-hidden="true">theScore Bet</span></div></div>
+<p class="trend-src">A real example: Detroit's 2025 regular season, worked out from nflverse's public schedules file
+(<a href="https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv" rel="nofollow">source</a>, read 22 October 2026). The app's own screens come with the launch.</p>
+</div>
 </section>
 
-<section class="sec" id="how">
-  <div class="sec-head">
-    <span class="kicker">How it works</span>
-    <h2>Back both sides, and the return is the same</h2>
-    <p>Sportsbooks are built to profit whoever wins. Every so often two of them
-    disagree enough that both sides can pay, if you get both bets on.</p>
-  </div>
-  <div class="explain">
-    <div class="ex reveal">
-      <h3>Betting both sides usually loses</h3>
-      <p>Every book takes a cut. Bet $100 on each side of a
-      -110 / -110 game and you lose on either result.</p>
-      <div class="ex-pair">
-        <div><small>Side one wins</small><b class="lose">&minus;$9.09</b></div>
-        <div><small>Side two wins</small><b class="lose">&minus;$9.09</b></div>
-      </div>
-    </div>
-    <div class="ex reveal">
-      <h3>Unless the prices disagree</h3>
-      <p>Find +110 at one book and +105 at another. Bet $490 and
-      $500, and if both bets are accepted at those prices and stand, the return is
-      the same whichever side comes in.</p>
-      <div class="ex-pair">
-        <div><small>Side one wins</small><b class="win">+$39.00</b></div>
-        <div><small>Side two wins</small><b class="win">+$35.00</b></div>
-      </div>
-    </div>
-    <div class="ex reveal">
-      <h3>Bookbreaker does the work</h3>
-      <p>Finding those pairs by hand means watching prices all day. The app does
-      it, then hands you the bet.</p>
-      <ul class="ex-list">
-        <li>Checks any two prices for a return that holds if both bets stand</li>
-        <li>Tells you exactly what to bet at each book</li>
-        <li>Rounds stakes so they don't look like software</li>
-        <li>Warns you when a price is likely gone</li>
-      </ul>
-    </div>
-  </div>
+<section class="sec" id="what">
+<div class="sec-head"><span class="kicker">What every trend shows</span><h2>The number, how many games it rests on, and whether it lasted</h2>
+<p>Most stat sites show a percentage and stop. BookBreaker shows what that percentage is worth.</p></div>
+<div class="explain">
+<div class="ex reveal"><h3>The game count</h3><p>Every rate says how many games it comes from. 7 of 10 and 70 of 100 look the
+same as a percentage. They aren't the same.</p></div>
+<div class="ex reveal"><h3>A range, not one number</h3><p>With only a few games, the true rate could be far from what they show.
+Each trend shows the range it could really sit in, so a small sample looks small.</p></div>
+<div class="ex reveal"><h3>Held up later</h3><p>For each kind of trend, BookBreaker checks how often it kept holding in the games
+after it was spotted, game by game through the season, never with hindsight.</p></div>
+</div>
 </section>
 
-<section class="sec">
-  <div class="sec-head">
-    <span class="kicker">The math, done for you</span>
-    <h2>One game. Two books. The profit if both stand.</h2>
-    <p>This is what the app hands you for every gap it finds.</p>
-  </div>
-  <div class="console reveal">
-    <div class="console-top">
-      <span><span class="console-game">Example game</span> &middot; <span class="console-market">Moneyline</span></span>
-      <span class="console-tag">Worked by the engine</span>
-    </div>
-    <div class="console-body">
-      <div class="leg">
-        <span class="leg-book">Book A</span><span class="leg-side">Team one to win</span>
-        <span class="leg-odds">+110</span>
-        <span class="leg-lab">Bet</span><span class="leg-stake">$490</span>
-        <span class="leg-wins">If this wins <b>+$39.00</b></span>
-      </div>
-      <div class="dial"><div><b>3.54%</b><span>If both stand</span></div></div>
-      <div class="leg">
-        <span class="leg-book">Book B</span><span class="leg-side">Team two to win</span>
-        <span class="leg-odds">+105</span>
-        <span class="leg-lab">Bet</span><span class="leg-stake">$500</span>
-        <span class="leg-wins">If this wins <b>+$35.00</b></span>
-      </div>
-    </div>
-    <div class="console-profit"><span>Locked if both bets are accepted and stand, on $990</span><b>+$35.00</b></div>
-  </div>
-  <p class="console-note">An example market. The stakes are rounded to amounts a book
-  will take, which is why the two sides pay slightly differently. Prices move and books
-  can cap or void a bet, so check both are still there before you place either.</p>
+<section class="sec" id="yours">
+<div class="sec-head"><span class="kicker">On your computer</span><h2>No account, and your history never disappears</h2></div>
+<div class="explain">
+<div class="ex reveal"><h3>No sign-in</h3><p>The app downloads one shared stats file. Nothing about you goes with it.</p></div>
+<div class="ex reveal"><h3>Works offline</h3><p>Everything runs on your Mac or PC, on the last update it has. Each update shows its
+date, so you always know how fresh the stats are.</p></div>
+<div class="ex reveal"><h3>Kept for good</h3><p>Past seasons and past games stay on your computer. A stat you looked at last month
+is still there next month.</p></div>
+</div>
 </section>
 
-<section class="sec">
-  <div class="sec-head">
-    <span class="kicker">Get started</span>
-    <h2>Three steps to your first bet</h2>
-  </div>
-  <ol class="steps3">
-    <li class="reveal"><b>Download the app</b><span>Free, 34.9 MB, for macOS 14 or later on Apple silicon.</span></li>
-    <li class="reveal"><b>Find a pair</b><span>Switch on Live prices to see Kalshi and Polymarket US pairs open in your state, or type the prices you see at two books. The app works out both stakes and the profit.</span></li>
-    <li class="reveal"><b>Place both bets, fast</b><span>Bet the stakes shown at each book. If both are accepted at those prices, one side wins, one loses, and you keep the difference.</span></li>
-  </ol>
+<section class="sec" id="price">
+<div class="sec-head"><span class="kicker">Price</span><h2>$39 once, with a year of new games</h2>
+<p>The app is $39 once, for Mac and Windows, with 12 months of new games included. After that, new games are an optional $19 a
+year. Skip it and the app keeps every stat and tool it already has; only new games stop arriving. It comes out on 18 December 2026.</p></div>
 </section>
 
-<section class="sec">
-  <div class="sec-head">
-    <span class="kicker">Why Bookbreaker</span>
-    <h2>Built for the part other tools skip</h2>
-  </div>
-  <div class="why">
-    <div class="reveal"><h3>Free. No subscription.</h3><p>Other arbitrage tools charge every month. Bookbreaker costs nothing and needs no account.</p></div>
-    <div class="reveal"><h3>Knows if the price is still there</h3><p>A price can vanish before your bet lands. The app tells you how likely it is to still be open.</p></div>
-    <div class="reveal"><h3>Round stakes</h3><p>Amounts like the ones people type, which a bet slip takes cleanly, instead of stakes to the cent. Rounding costs a little, and the app shows how much.</p></div>
-    <div class="reveal"><h3>Your login stays yours</h3><p>It never asks for a sportsbook password, and your betting record never leaves your Mac.</p></div>
-  </div>
-  <div class="price-row">
-    <p class="price"><span class="price-name">OddsJam</span><span class="price-val">about $600/mo</span><span class="price-src">Arbitrage and +EV plan at $20 a day, billed monthly &middot; read 2026-11-04, <a href="https://oddsjam.com/subscribe">source</a></span></p>
-    <p class="price"><span class="price-name">AVO</span><span class="price-val">$88/mo</span><span class="price-src">Pro plan &middot; read 2026-11-04, <a href="https://www.avo.bet/product/arbitrage">source</a></span></p>
-    <p class="price"><span class="price-name">SmartStake</span><span class="price-val">$99/mo</span><span class="price-src">Premium plan &middot; read 2026-11-04, <a href="https://www.smartstake.app/pricing">source</a></span></p>
-    <p class="price ours"><span class="price-name">Bookbreaker</span><span class="price-val">Free</span><span class="price-src">No plan, no card, no account</span></p>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="sec-head">
-    <span class="kicker">With your own odds key</span>
-    <h2>Every book&rsquo;s price, and what your promo is worth</h2>
-  </div>
-  <div class="why">
-    <div class="reveal"><h3>Every book&rsquo;s price, side by side</h3><p>The Odds screen lays out each game&rsquo;s price at every sportsbook your free key reads, marks the best one, and says when it was read. Pick a bet to see its fair price and what it is worth at each book.</p></div>
-    <div class="reveal"><h3>Which bet to place first</h3><p>On an arb or a middle, the app shows what you make in each result and numbers the bets, so the price most likely to move goes in first.</p></div>
-    <div class="reveal"><h3>Convert a promo you already have</h3><p>Type in a bonus bet, refund, profit boost or deposit match, the book and the amount. You see what it is worth and what you keep if each side wins.</p></div>
-    <div class="reveal"><h3>Player props, when you want them</h3><p>Off until you switch them on. Then the app tells you how many credits a refresh will cost before it reads anything.</p></div>
-  </div>
-  <figure class="feat-shot reveal"><img src="/media/panel-convert.jpg" width="1600" height="900" loading="lazy" alt="The Convert my own promo page pricing a bonus bet at DraftKings"></figure>
-  <p><a href="/how-it-works/">How each page works &rarr;</a></p>
-</section>
-
-<section class="sec">
-  <div class="sec-head"><span class="kicker">Questions</span><h2>Before you download</h2></div>
-  <div class="faq">
-    <details><summary>Is the profit locked in no matter what?</summary><p>No. It is locked only if
-    both bets are accepted at the prices shown and both stand. A price can move before
-    your second bet lands, a book can cap your stake or void a bet, and an exchange may
-    have only a little on offer at the price you see. Live pairs are sized to the
-    amount on offer when the prices were read, but that can change in seconds, so check
-    before you bet.
-    Real gaps are rare and usually small. That is why the app tells you how likely each price
-    is to still be there.</p></details>
-    <details><summary>Is it really free?</summary><p>Yes. There is no subscription, no
-    account and no card. Download it and use it.</p></details>
-    <details><summary>What is arbitrage betting?</summary><p>Betting every side of a game
-    at books whose prices disagree, so the winning bet pays more than the losing one
-    costs. <a href="/guides/what-is-arbitrage-betting/">The full guide</a>.</p></details>
-    <details><summary>Where do the prices come from?</summary><p>Switch on Live prices
-    and the app reads Kalshi's and Polymarket US's public prices for NFL, MLB, NBA and NHL
-    games, and shows a pair only in states where both are open. For the sportsbooks, add a free
-    key from The Odds API (500 credits a month) and the app reads live odds from the major US
-    books, saying what each refresh costs before it runs. Or type in the price you see and the
-    app works out the rest.</p></details>
-    <details><summary>Will betting like this get me limited?</summary><p>Some books limit
-    accounts that win. Bookbreaker rounds your stakes and shows
-    <a href="/sportsbooks/">which books in your state may limit winners</a>.</p></details>
-    <details><summary>Which Macs does it run on?</summary><p>Any Mac with Apple silicon
-    (M1 or later) running macOS 14 Sonoma or later. On an older macOS, the Mac will say it cannot open it. It is 34.9 MB and notarised by Apple.</p></details>
-    <details><summary>Does it place bets for me?</summary><p>No. It does the math and you
-    place every bet yourself, at licensed books, in a state where betting is legal.</p></details>
-  </div>
-</section>
-
-<section class="close reveal">
-  <h2>See the gaps for yourself</h2>
-  <p>Free for Mac. It takes a minute to set up.</p>
-  <div class="cta"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=home-foot&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.62.dmg" data-download rel="nofollow">Download free for Mac</a></div>
-  <p class="free-line">Free. No account and no subscription. Needs macOS 14 or later on a Mac with Apple silicon (M1 or later). 34.9 MB, notarised by Apple.</p>
-  <p class="phone-link">On your phone? <button type="button" data-send-mac-link>Send the Mac link to yourself</button></p>
+<section class="sec" id="questions">
+<div class="sec-head"><span class="kicker">Questions</span><h2>Before it comes out</h2></div>
+<div class="faq">
+<details><summary>Can I get BookBreaker now?</summary><p>Not yet. It comes out on 18 December 2026, for Mac and Windows. This page will have the download and the price on it that day.</p></details>
+<details><summary>Which sports does it cover?</summary><p>The NBA, NFL, MLB and NHL: player and team stats, game by game, with home and away, opponent and date filters.</p></details>
+<details><summary>What does “held up later” mean?</summary><p>When a trend is spotted, BookBreaker keeps checking it in the games that come after. For each kind of trend, it shows how often trends like that kept holding, checked game by game through the season and never with hindsight.</p></details>
+<details><summary>Why does every number say how many games it rests on?</summary><p>Because 7 of 10 and 70 of 100 are not the same thing. Over 10 games the true rate could be a long way from 70%, so BookBreaker shows the game count and the range the rate could really sit in, next to every number.</p></details>
+<details><summary>Do I need an account?</summary><p>No. There&#x27;s no sign-in. The app downloads one shared stats file, keeps your history on your own computer, and works offline on the last update it has.</p></details>
+<details><summary>What happens after the first year?</summary><p>The $39 includes 12 months of new games. After that, new games are an optional $19 a year. Without it, the app keeps every stat and tool it already has; only new games stop arriving.</p></details>
+<details><summary>Who makes it?</summary><p>Matthew Kerr, a solo software maker in Grand Rapids, Michigan, through Kerr &amp; Company. You can email him at matthew@kerrandcompanyholdings.com.</p></details>
+</div>
 </section>
 
 </main>
 <footer>
-
 <div class="foot-grid">
-  <div>
-    <p class="foot-brand">Bookbreaker</p>
-    <p>An analysis tool. It tells you what the numbers say; you place your own
-    bets. Not affiliated with any sportsbook.</p>
-    <p>Built by Matthew Kerr in Grand Rapids, MI &middot;
-    <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Tools</p>
-    <p><a href="/download/">Download and install</a></p>
-    <p><a href="/calculators/">Calculators</a></p>
-    <p><a href="/guides/">Guides</a></p>
-    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Compare</p>
-    <p><a href="/vs/">Every tool, dated</a></p>
-    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
-    <p><a href="/what-your-record-proves/">What a record proves</a></p>
-    <p><a href="/offers/">Sign-up offers, ranked</a></p>
-    <p><a href="/privacy/">Privacy</a></p>
-    <p><a href="/terms/">Terms</a></p>
-    <p><a href="/responsible-gambling/">Responsible gambling</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Alternatives</p>
-    <p><a href="/vs/oddsjam-alternative/">OddsJam alternative</a></p><p><a href="/vs/avo-alternative/">AVO alternative</a></p><p><a href="/vs/betstamp-pro-alternative/">Betstamp PRO alternative</a></p><p><a href="/vs/pikkit-alternative/">Pikkit alternative</a></p><p><a href="/vs/crazy-ninja-odds-alternative/">Crazy Ninja Odds alternative</a></p><p><a href="/vs/rebelbetting-alternative/">RebelBetting alternative</a></p><p><a href="/vs/betburger-alternative/">BetBurger alternative</a></p><p><a href="/vs/unabated-alternative/">Unabated alternative</a></p><p><a href="/vs/smartstake-alternative/">SmartStake alternative</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Best of</p>
-    <p><a href="/best/best-arbitrage-betting-software/">Best arbitrage betting software</a></p><p><a href="/best/best-odds-screen/">Best odds screen for sports betting</a></p><p><a href="/best/best-bet-tracker/">Best bet tracker</a></p><p><a href="/best/best-ev-betting-software/">Best +EV betting software</a></p>
-    <p class="foot-head">Built for</p>
-    <p><a href="/for/arbitrage-bettors/">For arbers</a></p><p><a href="/for/ev-bettors/">For +EV bettors</a></p><p><a href="/for/bonus-hunters/">For bonus hunters</a></p><p><a href="/for/new-bettors/">For beginners</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Company</p>
-    <p><a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a></p>
-  </div>
+<div>
+<p class="foot-brand">BookBreaker</p>
+<p>Player and team stats for the NBA, NFL, MLB and NHL, for Mac and Windows. Coming 18 December 2026.</p>
+<p>Built by Matthew Kerr in Grand Rapids, MI &middot; <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
 </div>
-<p class="foot-fine">No sportsbook accounts are linked and no credentials are
-ever requested. Every calculated figure on this site comes from running the engine at
-build time; prices, offers and facts are read from their sources and dated. Updated <time datetime="2026-11-04">4 November 2026</time>.</p>
-<p class="foot-fine">21+ and present in a state where betting is legal.
-Gambling carries a risk of financial loss, and nothing here predicts that you
-will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the
-National Problem Gambling Helpline, or visit
-<a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>. More on
-<a href="/responsible-gambling/">responsible gambling</a> and <a href="/how-we-are-paid/">how Bookbreaker is paid</a>.</p>
+<div>
+<p class="foot-head">Site</p>
+<p><a href="/">Home</a></p>
+<p><a href="/privacy/">Privacy</a></p>
+</div>
+<div>
+<p class="foot-head">Company</p>
+<p><a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a></p>
+</div>
+</div>
+<p class="foot-fine">Not affiliated with the NBA, NFL, MLB or NHL, or with any team. Names and statistics only. Checked
+<time datetime="2026-11-20">20 November 2026</time>.</p>
 </footer>
 <script>
-/* Scroll reveal, taken from the Outlier site because Matthew asked for
-   exactly its behaviour.
-
-   Direction is set with custom properties rather than by overriding
-   transform, so a single rule owns the transform and a element sliding in
-   from the left cannot fight one settling from below.
-
-   Two-way on purpose: the observer is NOT unobserved after firing. Calling
-   unobserve is what turns this into a one-shot effect that fills the page in
-   once and then sits there, and scrolling back up and down again should replay
-   it. */
+/* Scroll reveal, the same behaviour as the Outlier and Crisp sites: two-way, and nothing is hidden without JS. */
 (function () {
-  var root = document.documentElement;
-  root.classList.add('js');           // CSS only hides things once JS is here,
-                                      // so no-JS renders the page fully visible
-  var reduce = window.matchMedia
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement; root.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var els = document.querySelectorAll('.reveal');
-  if (reduce || !('IntersectionObserver' in window)) {
-    for (var i = 0; i < els.length; i++) els[i].classList.add('in');
-    return;
-  }
+  if (reduce || !('IntersectionObserver' in window)) { for (var i = 0; i < els.length; i++) els[i].classList.add('in'); return; }
   var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      e.target.classList.toggle('in', e.isIntersecting);
-    });
+    entries.forEach(function (x) { x.target.classList.toggle('in', x.isIntersecting); });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
   for (var j = 0; j < els.length; j++) io.observe(els[j]);
 })();
-/* Carry the visitor's source and any affiliate id into the link they send to their Mac. */
-function kcCarry(url){try{var s=JSON.parse(localStorage.getItem('kc_aff')||'null');var v=(s&&s.exp>Date.now()&&s.v)||{};var q=[];var r=v.ref||v.landing_source;if(r)q.push('ref='+encodeURIComponent(r));['via','rekomi_ref','affonso_referral','awc','cjevent','irclickid'].forEach(function(k){if(v[k])q.push(k+'='+encodeURIComponent(v[k]));});return q.length?url+'&'+q.join('&'):url;}catch(e){return url;}}
-document.querySelectorAll('[data-send-mac-link]').forEach(function (b) {
-  b.addEventListener('click', function () {
-    var url = kcCarry('https://bookbreaker.bet/download/?utm_source=phone-share&utm_medium=share');
-    var text = 'Bookbreaker is a free Mac app for sports bettors. Open this on your Mac to download it.';
-    if (window.plausible) { try { window.plausible('Send Mac Link'); } catch (e) {} }
-    if (navigator.share) {
-      navigator.share({ title: 'Bookbreaker for Mac', text: text, url: url }).catch(function () {});
-    } else {
-      location.href = 'mailto:?subject=' + encodeURIComponent('Bookbreaker for Mac: download link') +
-        '&body=' + encodeURIComponent(text + '\n\n' + url);
-    }
-  });
-});
-document.querySelectorAll('[data-download]').forEach(function (a) {
-  a.addEventListener('click', function () {
-    if (window.plausible) { try { window.plausible('Download'); } catch (e) {} }
-  });
-});
 </script>
-<script src="https://kerr-affiliate-hub.kerrco.workers.dev/snippet.js" defer></script>
 </body>
 </html>

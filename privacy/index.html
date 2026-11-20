@@ -4,249 +4,96 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
-<title>Privacy: what Bookbreaker collects</title>
-<meta name="description" content="What this site counts without cookies, what it keeps in your browser, and what the app sends about you, which is nothing.">
+<title>Privacy: BookBreaker</title>
+<meta name="description" content="What bookbreaker.bet counts (no cookies, no personal data) and what the app will need (no account).">
 <link rel="canonical" href="https://bookbreaker.bet/privacy/">
-<!-- SOCIAL METADATA. Added 2026-08-18. This site had NONE: no og:title, no
-     og:description, no twitter:card, so every shared link unfurled as a bare
-     URL. It was the only site in the portfolio without any, on the one whose
-     subject people actually paste into group chats.
-
-     Derived from the title and description this page already computes, so it
-     cannot drift from them the way a second hand-written copy would. That is
-     the same fault that let the version banner sit at 0.1.0 for two releases.
-
-     og:image was deliberately ABSENT rather than pointed at a placeholder: a
-     tag naming a file that 404s is worse than no tag, because a scraper
-     records the miss. The card now exists, so the tag does. 2026-09-02:
-     /og.png, 1200x630, drawn from the LIVE computed palette rather than a
-     guess -- #0057B8 read off the page's own link colour, #1D1D1F off its
-     body text, Space Grotesk off its h1 -- and carrying this site's own
-     headline. The motif is a point estimate inside its interval, which is
-     the product's whole claim rather than decoration.
-
-     twitter:card moves from summary to summary_large_image with it: a 1.91:1
-     card served as `summary` renders as a thumbnail and wastes the image. -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Bookbreaker">
-<meta property="og:title" content="Privacy: what Bookbreaker collects">
-<meta property="og:description" content="What this site counts without cookies, what it keeps in your browser, and what the app sends about you, which is nothing.">
+<meta property="og:site_name" content="BookBreaker">
+<meta property="og:title" content="Privacy: BookBreaker">
+<meta property="og:description" content="What bookbreaker.bet counts (no cookies, no personal data) and what the app will need (no account).">
 <meta property="og:url" content="https://bookbreaker.bet/privacy/">
-<meta property="og:image" content="https://bookbreaker.bet/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Bookbreaker: find your edge, with the error bar.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bookbreaker.bet/og.png">
-<meta name="twitter:title" content="Privacy: what Bookbreaker collects">
-<meta name="twitter:description" content="What this site counts without cookies, what it keeps in your browser, and what the app sends about you, which is nothing.">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#5b5bff">
 <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/style.css?v=bac4bc53a5">
+<link rel="stylesheet" href="/style.css">
+<style>
+.trend{max-width:30rem;margin:2.2rem auto 0;text-align:left;background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r);padding:1.25rem 1.35rem;box-shadow:0 20px 60px -30px var(--glow)}
+.trend-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.trend-q{font-weight:600;font-size:1.02rem;color:var(--ink)}
+.trend-n{font-family:var(--mono);font-size:var(--t-2);color:var(--ink-3)}
+.trend-big{font-size:2.6rem;font-weight:650;letter-spacing:-.03em;margin:.35rem 0 .1rem;color:var(--ink)}
+.trend-big small{font-size:1rem;font-weight:500;color:var(--ink-2);margin-left:.4rem;letter-spacing:0}
+.trend-range{font-size:var(--t-3);color:var(--ink-2)}
+.trend-bars{display:grid;grid-template-columns:repeat(17,1fr);gap:4px;margin:1rem 0 .4rem}
+.trend-bars i{display:block;height:28px;border-radius:4px;background:rgba(255,255,255,.08)}
+.trend-bars i.y{background:linear-gradient(180deg,#8b89ff,#4f4dff)}
+.trend-held{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.9rem}
+.trend-held div{background:var(--card-2);border-radius:var(--r-sm);padding:.7rem .8rem}
+.trend-held small{display:block;font-size:var(--t-1);color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
+.trend-held b{font-size:1.15rem;color:var(--ink)}
+.trend-src{font-size:var(--t-1);color:var(--ink-3);margin-top:.8rem}
+.soon{display:inline-block;margin-bottom:1rem;padding:.35rem .8rem;border-radius:999px;font-size:.82rem;font-weight:600;
+  color:var(--accent-hi);background:rgba(91,91,255,.12);border:1px solid rgba(139,137,255,.3)}
+.price-plain{max-width:34rem;margin:1.4rem auto 0;font-size:1rem;color:var(--ink-2)}
+.prose-page{max-width:var(--measure-page);margin:0 auto;padding:3rem 0}
+.prose-page h1{font-size:clamp(2rem,4.6vw,3rem);letter-spacing:-.035em}
+.prose-page h2{margin-top:2rem;font-size:1.3rem}
+</style>
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://bookbreaker.bet/privacy/", "isPartOf": {"@type": "WebSite", "url": "https://bookbreaker.bet/"}, "dateModified": "2026-11-04"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Privacy", "item": "https://bookbreaker.bet/privacy/"}]}</script>
 </head>
 <body class="">
-<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>Bookbreaker</a><span class="links"><a href="/how-it-works/">How it works</a><a href="/calculators/">Calculators</a><a href="/offers/">Offers</a><a href="/guides/">Guides</a><a href="/vs/">Compare</a></span><span class="cta-nav"><a class="btn primary" href="https://kerr-affiliate-hub.kerrco.workers.dev/dl/bookbreaker?src=privacy-nav&amp;to=https://bookbreaker.bet/releases/Bookbreaker-0.1.62.dmg" data-download rel="nofollow">Download</a></span></nav></header>
+<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>BookBreaker</a><span class="links"><a href="/#what">What it shows</a><a href="/#price">Price</a><a href="/#questions">Questions</a></span></nav></header>
 <main>
-
+<article class="prose-page">
 <h1>Privacy</h1>
-<p class="lede">The short version: this site counts visits without cookies and
-never learns who you are, and the app sends nothing about you anywhere.</p>
+<p class="lede">This site counts visits without cookies, and the app, when it comes out, won't need an account.</p>
 <h2>This website</h2>
-<p>No advertising pixels, no cookies, no sign-up or contact forms and no
-accounts. Three things on these pages do record something, and this is each of
-them:</p>
-<ul>
-<li><b>Visit counts.</b> Every page loads Plausible Analytics from plausible.io.
-It counts page views, the page that sent you here, your country and the kind of
-device, and two button presses: Download and the button that sends the link to
-your Mac. Plausible sets no cookies and, by its own account, does not store your
-IP address (<a href="https://plausible.io/data-policy">Plausible&rsquo;s data policy</a>).</li>
-<li><b>Download counts.</b> Each Download button passes through a counter we run
-on Cloudflare (kerr-affiliate-hub.kerrco.workers.dev) on its way to the file. It
-adds one to a daily tally of which page and which button, with your country and
-whether the request looked like a person or a robot. It keeps no IP address and
-no browser identifier. Cloudflare sees the request as any host would, under
-<a href="https://www.cloudflare.com/privacypolicy/">its own privacy policy</a>.</li>
-<li><b>Referral codes.</b> If you arrive from an affiliate or partner link, the
-link&rsquo;s referral code is kept in your browser&rsquo;s local storage on this
-site (key <code>kc_aff</code>) for 30 days and added to the link you send to your
-Mac, so the partner who referred you is credited. It is stored only by this site,
-is not a cookie, is not sent to any third party by this site, and is not read by
-any other site. Clearing your browser&rsquo;s site data removes it. The script
-that does this loads from the same Cloudflare counter.</li>
-</ul>
-<p>The site is hosted on GitHub Pages. GitHub may record the IP address of
-anyone who requests a page, for security and abuse prevention, under
-<a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub&rsquo;s own privacy statement</a>.
-We cannot see those records.</p>
-<h2>The calculators</h2>
-<p>Most calculators work out your answer in your own browser. The first time you
-press Calculate, your browser downloads a Python runtime from the jsDelivr
-content delivery network (cdn.jsdelivr.net) and the engine itself from this
-site, and does the arithmetic on your machine. jsDelivr, like any content
-delivery network, may record the IP address of that request, under
-<a href="https://www.jsdelivr.com/terms/privacy-policy">its own privacy policy</a>.
-The numbers you type are never sent to jsDelivr or to us.</p>
+<p>bookbreaker.bet uses Plausible Analytics to count page visits. Plausible sets no cookies and stores no personal data: it
+counts pages, where visitors came from and which country, and nothing that identifies you. The site has no forms and asks
+for nothing.</p>
 <h2>The app</h2>
-<p>Bookbreaker runs on your Mac. Your bets, stakes, results and account notes
-stay in a file on your machine. There is no account, no sync and no upload. The
-window&rsquo;s page cannot make a network request: its content security policy permits
-no external address. The app around it links exactly one network client, the updater,
-which runs only for Check for updates below. A test in the source fails the build if the
-policy changes or a second client is linked.</p>
-<p>Only these reach the internet, and only when you ask:</p>
-<ul>
-<li><b>Live prices.</b> The switch on the Arbitrage page, when you turn it on, requests
-public prices from Kalshi and Polymarket US. It is the same request a browser makes,
-carrying nothing about you.</li>
-<li><b>Live sportsbook odds.</b> If you add your own Odds API key on the Odds source page,
-pressing its button sends that key and the sports, regions and bet types you picked
-(and, if you switched on player props, the games and prop markets it reads, one game at a time)
-to api.the-odds-api.com, and nothing else. Futures, alternate lines and the Parlays tab&rsquo;s player props work the
-same way, each only when you press its own Read button. The key is kept in your Mac&rsquo;s Keychain.</li>
-<li><b>Open this offer.</b> On the app&rsquo;s Promos page, pressing it opens your browser at
-bookbreaker.bet&rsquo;s link for that sportsbook, carrying the book, your state and that it came
-from Promos, and this site sends you on to the sportsbook. Nothing else about you is sent.</li>
-<li><b>Ask.</b> If you add your own Anthropic key, your question and the numbers the engine
-looked up to answer it go to Anthropic when you press Ask, and nothing else does. The key is kept in
-your Mac&rsquo;s Keychain. With a model running on your own Mac through Ollama, nothing leaves it.
-Downloading the NFL player data, which you start yourself, fetches public files from GitHub.</li>
-<li><b>Check for updates.</b> When you press Check for updates, the app asks bookbreaker.bet for the latest version. The request carries no app ID and nothing about you, nothing installs unless you say yes, and only an update signed with our key will install.</li>
-</ul>
-<p>And if the app
-crashes it writes a report to your own disk, with passwords and keys stripped
-out; it never sends it. You can attach it to an email yourself if you want to.</p>
-<h2>Check it yourself</h2>
-<p>You do not have to take this page&rsquo;s word for any of it. Your Mac can show you
-every connection the app makes.</p>
-<p><strong>Activity Monitor.</strong> Open it from Applications, then Utilities, and
-choose the Network tab. Find <code>bookbreaker</code>, the app, and
-<code>overlay-engine</code>, the engine it starts to answer each question. Open the app
-and leave it: its bytes sent stay at zero until you press one of the buttons in the list
-above.</p>
-<p><strong>Terminal.</strong> While the app is open, <code>lsof -i -P | grep -i -E
-'bookbreaker|overlay'</code> lists every open connection and the address it goes to.
-With nothing pressed it prints nothing.</p>
-<p><strong>A firewall that asks.</strong> An outbound firewall such as the free, open
-source LuLu stops each new connection and asks you first, naming the program and the
-host. Every host it shows for Bookbreaker should be one named on this page.</p>
-<h2>Sportsbook accounts</h2>
-<p>Bookbreaker never asks for a sportsbook login and cannot connect to one.
-Your history comes in by importing the CSV your book lets you download, or by
-pasting a betslip.</p>
-<h2>Links to sportsbooks</h2>
-<p>Links on this site to sportsbooks are ordinary links. None is an affiliate
-link and none pays us.</p>
-
+<p>BookBreaker comes out on 18 December 2026. It has no account and no sign-in. Its full privacy details, including exactly what it
+sends and when, will be published here before it can be downloaded.</p>
+<h2>Contact</h2>
+<p>Questions go to Matthew Kerr at <a href="mailto:matthew@kerrandcompanyholdings.com">matthew@kerrandcompanyholdings.com</a>.</p>
+<p class="trend-src">Checked 20 November 2026.</p>
+</article>
 </main>
 <footer>
-
 <div class="foot-grid">
-  <div>
-    <p class="foot-brand">Bookbreaker</p>
-    <p>An analysis tool. It tells you what the numbers say; you place your own
-    bets. Not affiliated with any sportsbook.</p>
-    <p>Built by Matthew Kerr in Grand Rapids, MI &middot;
-    <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Tools</p>
-    <p><a href="/download/">Download and install</a></p>
-    <p><a href="/calculators/">Calculators</a></p>
-    <p><a href="/guides/">Guides</a></p>
-    <p><a href="/sportsbooks/nj/">Sportsbooks by state</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Compare</p>
-    <p><a href="/vs/">Every tool, dated</a></p>
-    <p><a href="/best/best-ev-betting-software/">What to look for</a></p>
-    <p><a href="/what-your-record-proves/">What a record proves</a></p>
-    <p><a href="/offers/">Sign-up offers, ranked</a></p>
-    <p><a href="/privacy/">Privacy</a></p>
-    <p><a href="/terms/">Terms</a></p>
-    <p><a href="/responsible-gambling/">Responsible gambling</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Alternatives</p>
-    <p><a href="/vs/oddsjam-alternative/">OddsJam alternative</a></p><p><a href="/vs/avo-alternative/">AVO alternative</a></p><p><a href="/vs/betstamp-pro-alternative/">Betstamp PRO alternative</a></p><p><a href="/vs/pikkit-alternative/">Pikkit alternative</a></p><p><a href="/vs/crazy-ninja-odds-alternative/">Crazy Ninja Odds alternative</a></p><p><a href="/vs/rebelbetting-alternative/">RebelBetting alternative</a></p><p><a href="/vs/betburger-alternative/">BetBurger alternative</a></p><p><a href="/vs/unabated-alternative/">Unabated alternative</a></p><p><a href="/vs/smartstake-alternative/">SmartStake alternative</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Best of</p>
-    <p><a href="/best/best-arbitrage-betting-software/">Best arbitrage betting software</a></p><p><a href="/best/best-odds-screen/">Best odds screen for sports betting</a></p><p><a href="/best/best-bet-tracker/">Best bet tracker</a></p><p><a href="/best/best-ev-betting-software/">Best +EV betting software</a></p>
-    <p class="foot-head">Built for</p>
-    <p><a href="/for/arbitrage-bettors/">For arbers</a></p><p><a href="/for/ev-bettors/">For +EV bettors</a></p><p><a href="/for/bonus-hunters/">For bonus hunters</a></p><p><a href="/for/new-bettors/">For beginners</a></p>
-  </div>
-  <div>
-    <p class="foot-head">Company</p>
-    <p><a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a></p>
-  </div>
+<div>
+<p class="foot-brand">BookBreaker</p>
+<p>Player and team stats for the NBA, NFL, MLB and NHL, for Mac and Windows. Coming 18 December 2026.</p>
+<p>Built by Matthew Kerr in Grand Rapids, MI &middot; <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
 </div>
-<p class="foot-fine">No sportsbook accounts are linked and no credentials are
-ever requested. Every calculated figure on this site comes from running the engine at
-build time; prices, offers and facts are read from their sources and dated. Updated <time datetime="2026-11-04">4 November 2026</time>.</p>
-<p class="foot-fine">21+ and present in a state where betting is legal.
-Gambling carries a risk of financial loss, and nothing here predicts that you
-will win. If it stops being fun, stop. Call or text <a href="tel:+18006973738">1-800-MY-RESET</a> (1-800-697-3738), the
-National Problem Gambling Helpline, or visit
-<a href="https://www.ncpgambling.org/help-treatment/">ncpgambling.org</a>. More on
-<a href="/responsible-gambling/">responsible gambling</a> and <a href="/how-we-are-paid/">how Bookbreaker is paid</a>.</p>
+<div>
+<p class="foot-head">Site</p>
+<p><a href="/">Home</a></p>
+<p><a href="/privacy/">Privacy</a></p>
+</div>
+<div>
+<p class="foot-head">Company</p>
+<p><a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a></p>
+</div>
+</div>
+<p class="foot-fine">Not affiliated with the NBA, NFL, MLB or NHL, or with any team. Names and statistics only. Checked
+<time datetime="2026-11-20">20 November 2026</time>.</p>
 </footer>
 <script>
-/* Scroll reveal, taken from the Outlier site because Matthew asked for
-   exactly its behaviour.
-
-   Direction is set with custom properties rather than by overriding
-   transform, so a single rule owns the transform and a element sliding in
-   from the left cannot fight one settling from below.
-
-   Two-way on purpose: the observer is NOT unobserved after firing. Calling
-   unobserve is what turns this into a one-shot effect that fills the page in
-   once and then sits there, and scrolling back up and down again should replay
-   it. */
+/* Scroll reveal, the same behaviour as the Outlier and Crisp sites: two-way, and nothing is hidden without JS. */
 (function () {
-  var root = document.documentElement;
-  root.classList.add('js');           // CSS only hides things once JS is here,
-                                      // so no-JS renders the page fully visible
-  var reduce = window.matchMedia
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement; root.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var els = document.querySelectorAll('.reveal');
-  if (reduce || !('IntersectionObserver' in window)) {
-    for (var i = 0; i < els.length; i++) els[i].classList.add('in');
-    return;
-  }
+  if (reduce || !('IntersectionObserver' in window)) { for (var i = 0; i < els.length; i++) els[i].classList.add('in'); return; }
   var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      e.target.classList.toggle('in', e.isIntersecting);
-    });
+    entries.forEach(function (x) { x.target.classList.toggle('in', x.isIntersecting); });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
   for (var j = 0; j < els.length; j++) io.observe(els[j]);
 })();
-/* Carry the visitor's source and any affiliate id into the link they send to their Mac. */
-function kcCarry(url){try{var s=JSON.parse(localStorage.getItem('kc_aff')||'null');var v=(s&&s.exp>Date.now()&&s.v)||{};var q=[];var r=v.ref||v.landing_source;if(r)q.push('ref='+encodeURIComponent(r));['via','rekomi_ref','affonso_referral','awc','cjevent','irclickid'].forEach(function(k){if(v[k])q.push(k+'='+encodeURIComponent(v[k]));});return q.length?url+'&'+q.join('&'):url;}catch(e){return url;}}
-document.querySelectorAll('[data-send-mac-link]').forEach(function (b) {
-  b.addEventListener('click', function () {
-    var url = kcCarry('https://bookbreaker.bet/download/?utm_source=phone-share&utm_medium=share');
-    var text = 'Bookbreaker is a free Mac app for sports bettors. Open this on your Mac to download it.';
-    if (window.plausible) { try { window.plausible('Send Mac Link'); } catch (e) {} }
-    if (navigator.share) {
-      navigator.share({ title: 'Bookbreaker for Mac', text: text, url: url }).catch(function () {});
-    } else {
-      location.href = 'mailto:?subject=' + encodeURIComponent('Bookbreaker for Mac: download link') +
-        '&body=' + encodeURIComponent(text + '\n\n' + url);
-    }
-  });
-});
-document.querySelectorAll('[data-download]').forEach(function (a) {
-  a.addEventListener('click', function () {
-    if (window.plausible) { try { window.plausible('Download'); } catch (e) {} }
-  });
-});
 </script>
-<script src="https://kerr-affiliate-hub.kerrco.workers.dev/snippet.js" defer></script>
 </body>
 </html>
