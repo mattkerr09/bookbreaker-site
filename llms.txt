@@ -3,7 +3,7 @@
 > A desktop app for player and team statistics in the NBA, NFL, MLB and NHL, for Mac and Windows. Every trend shows how many
 > games it rests on, the range the rate could really sit in, and how often trends like it held up in later games.
 
-- Status: not out yet. Release date 18 December 2026.
+- Status: in development, not out yet. No release date set.
 - Price: $39 once, including 12 months of new games. After that, new games are an optional $19 a year. Without it, the app
   keeps all its stats and tools.
 - Platforms: Mac and Windows.

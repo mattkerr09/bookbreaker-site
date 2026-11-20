@@ -23,7 +23,9 @@ from pathlib import Path
 SITE = Path(__file__).resolve().parents[1]
 CHECKED = "20 November 2026"
 CHECKED_ISO = "2026-11-20"
-LAUNCH = "18 December 2026"
+# No public date until the bake-off passes (Saban's card, 2026-11-20: the queue puts BookBreaker at wave 6, and Matthew
+# said it "runs only its free data trial and bake-off until it shows a plan that can win"). A date we might miss is a claim.
+LAUNCH = None
 EMAIL = "matthew@kerrandcompanyholdings.com"
 NFL_FILE = Path("/Users/matthewkerr/bb-lab/research/nfl/data/games.csv")
 NFL_SOURCE = "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv"
@@ -149,7 +151,7 @@ def page(path: str, title: str, description: str, body: str, body_class: str = "
 <div class="foot-grid">
 <div>
 <p class="foot-brand">BookBreaker</p>
-<p>Player and team stats for the NBA, NFL, MLB and NHL, for Mac and Windows. Coming {LAUNCH}.</p>
+<p>Player and team stats for the NBA, NFL, MLB and NHL, for Mac and Windows. In development.</p>
 <p>Built by Matthew Kerr in Grand Rapids, MI &middot; <a href="mailto:{EMAIL}">Email</a></p>
 </div>
 <div>
@@ -173,7 +175,7 @@ def page(path: str, title: str, description: str, body: str, body_class: str = "
 
 FAQ = [
     ("Can I get BookBreaker now?",
-     f"Not yet. It comes out on {LAUNCH}, for Mac and Windows. This page will have the download and the price on it that day."),
+     "Not yet. It's in development, for Mac and Windows. When it comes out, this page will have the download and the price on it."),
     ("Which sports does it cover?",
      "The NBA, NFL, MLB and NHL: player and team stats, game by game, with home and away, opponent and date filters."),
     ("What does “held up later” mean?",
@@ -198,7 +200,7 @@ def home(x: dict) -> str:
     bars = "".join(f'<i class="{"y" if b else ""}" title="{"reached" if b else "not reached"}"></i>' for b in x["bars"])
     faq = "\n".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in FAQ)
     return f"""<section class="hero">
-<span class="soon">Coming {LAUNCH} &middot; Mac and Windows</span>
+<span class="soon">In development &middot; Mac and Windows</span>
 <h1>How often did it really happen?</h1>
 <p class="lede">Type a number, like 25 points. BookBreaker shows how often the player or team reached it, out of how many
 games, and whether trends like that kept holding in the games after.</p>
@@ -245,7 +247,7 @@ is still there next month.</p></div>
 <section class="sec" id="price">
 <div class="sec-head"><span class="kicker">Price</span><h2>$39 once, with a year of new games</h2>
 <p>The app is $39 once, for Mac and Windows, with 12 months of new games included. After that, new games are an optional $19 a
-year. Skip it and the app keeps every stat and tool it already has; only new games stop arriving. It comes out on {LAUNCH}.</p></div>
+year. Skip it and the app keeps every stat and tool it already has; only new games stop arriving.</p></div>
 </section>
 
 <section class="sec" id="questions">
@@ -266,7 +268,7 @@ def privacy() -> str:
 counts pages, where visitors came from and which country, and nothing that identifies you. The site has no forms and asks
 for nothing.</p>
 <h2>The app</h2>
-<p>BookBreaker comes out on {LAUNCH}. It has no account and no sign-in. Its full privacy details, including exactly what it
+<p>BookBreaker is in development. It will have no account and no sign-in. Its full privacy details, including exactly what it
 sends and when, will be published here before it can be downloaded.</p>
 <h2>Contact</h2>
 <p>Questions go to Matthew Kerr at <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
@@ -288,7 +290,7 @@ def llms(x: dict) -> str:
 > A desktop app for player and team statistics in the NBA, NFL, MLB and NHL, for Mac and Windows. Every trend shows how many
 > games it rests on, the range the rate could really sit in, and how often trends like it held up in later games.
 
-- Status: not out yet. Release date {LAUNCH}.
+- Status: in development, not out yet. No release date set.
 - Price: $39 once, including 12 months of new games. After that, new games are an optional $19 a year. Without it, the app
   keeps all its stats and tools.
 - Platforms: Mac and Windows.
@@ -316,7 +318,7 @@ def main() -> None:
     files = {
         "index.html": page("/", "BookBreaker: sports stats with the game count behind every trend",
                            "Player and team stats for the NBA, NFL, MLB and NHL. See how often a player or team reached a number, "
-                           f"out of how many games, and whether it held up. Mac and Windows, {LAUNCH}.",
+                           "out of how many games, and whether it held up. Mac and Windows, in development.",
                            home(x), "home", [org, faq_ld]),
         "privacy/index.html": page("/privacy/", "Privacy: BookBreaker",
                                    "What bookbreaker.bet counts (no cookies, no personal data) and what the app will need (no account).",
