@@ -43,8 +43,8 @@ class BuildAndPageTests(unittest.TestCase):
         self.assertIn('SITE GREEN', check.stdout)
 
     def test_inventory_sitemap_llms_and_no_extra_pages(self):
-        self.assertEqual(len(SEARCH_PAGES), 7)
-        self.assertEqual(len(set(SEARCH_PATHS)), 7)
+        self.assertEqual(len(SEARCH_PAGES), 8)
+        self.assertEqual(len(set(SEARCH_PATHS)), 8)
         self.assertEqual(set(PUBLISHED), set(SEARCH_PATHS + DATA_PATHS) | {'index.html', 'privacy/index.html', '404.html', 'llms.txt', 'robots.txt', 'sitemap.xml', 'README.md'})
         actual = {str(p.relative_to(SITE)) for p in SITE.rglob('*.html')
                   if not any(part.startswith('.') for part in p.relative_to(SITE).parts)
@@ -68,7 +68,7 @@ class BuildAndPageTests(unittest.TestCase):
         home = Document(read('index.html')).root
         home_lists = [n for n in home.all('main')[0].all('ul') if n.attrs.get('aria-label') == 'Guides']
         self.assertEqual(len(home_lists), 1)
-        self.assertEqual(len(home_lists[0].all('a')), 8)
+        self.assertEqual(len(home_lists[0].all('a')), 9)
         for path in ['index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS]:
             source = read(path)
             doc = Document(source).root
@@ -81,7 +81,7 @@ class BuildAndPageTests(unittest.TestCase):
             links = {n.attrs['href'] for n in lists[0].all('a')}
             self.assertEqual(links, {f'/{p["slug"]}/' for p in SEARCH_PAGES + [NFL_INDEX]}, path)
         for path in SEARCH_PATHS + DATA_PATHS:
-            self.assertIn(cta(), read(path))
+            self.assertIn(cta(player_study=path == 'does-a-player-streak-hold-up/index.html'), read(path))
 
     def test_article_metadata_structure_and_word_limits(self):
         for config in SEARCH_PAGES:
@@ -186,6 +186,8 @@ class BuildAndPageTests(unittest.TestCase):
         for row in held_up(season_scores()):
             self.assertIn(f'{e(row["band"])}</th><td>{row["spots"]}</td><td>{row["n"]}</td><td>{row["k"]} of {row["n"]} · {row["pct"]}%</td><td>{row["lo"]}% to {row["hi"]}%</td>', source)
         for path in SEARCH_PATHS:
+            if path == 'does-a-player-streak-hold-up/index.html':
+                continue  # This study cites the player CSVs, rather than schedules.
             self.assertIn(NFL_SOURCE, read(path))
             self.assertIn(NFL_READ, read(path))
 

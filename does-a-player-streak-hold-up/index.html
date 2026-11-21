@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
+<title>Does a player&#x27;s streak hold up in the next games?</title>
+<meta name="description" content="NFL player yards study: an 82% average last-5 rate became 56% in later games, 482 of 860. Counts, Wilson ranges and the 2024 threshold method.">
+<link rel="canonical" href="https://bookbreaker.bet/does-a-player-streak-hold-up/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BookBreaker">
+<meta property="og:title" content="Does a player&#x27;s streak hold up in the next games?">
+<meta property="og:description" content="NFL player yards study: an 82% average last-5 rate became 56% in later games, 482 of 860. Counts, Wilson ranges and the 2024 threshold method.">
+<meta property="og:url" content="https://bookbreaker.bet/does-a-player-streak-hold-up/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/style.css">
+<style>
+.trend{max-width:30rem;margin:2.2rem auto 0;text-align:left;background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r);padding:1.25rem 1.35rem;box-shadow:0 20px 60px -30px var(--glow)}
+.trend-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.trend-q{font-weight:600;font-size:1.02rem;color:var(--ink)}
+.trend-n{font-family:var(--mono);font-size:var(--t-2);color:var(--ink-3)}
+.trend-big{font-size:2.6rem;font-weight:650;letter-spacing:-.03em;margin:.35rem 0 .1rem;color:var(--ink)}
+.trend-big small{font-size:1rem;font-weight:500;color:var(--ink-2);margin-left:.4rem;letter-spacing:0}
+.trend-range{font-size:var(--t-3);color:var(--ink-2)}
+.trend-bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;margin:1rem 0 .4rem}
+.trend-bars i{display:block;height:28px;border-radius:4px;background:rgba(255,255,255,.08)}
+.trend-bars i.y{background:linear-gradient(180deg,#8b89ff,#4f4dff)}
+.trend-held{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.9rem}
+.trend-held div{background:var(--card-2);border-radius:var(--r-sm);padding:.7rem .8rem}
+.trend-held small{display:block;font-size:var(--t-1);color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
+.trend-held b{font-size:1.15rem;color:var(--ink)}
+.trend-src{font-size:var(--t-1);color:var(--ink-3);margin-top:.8rem}
+.soon{display:inline-block;margin-bottom:1rem;padding:.35rem .8rem;border-radius:999px;font-size:.82rem;font-weight:600;
+  color:var(--accent-hi);background:rgba(91,91,255,.12);border:1px solid rgba(139,137,255,.3)}
+.price-plain{max-width:34rem;margin:1.4rem auto 0;font-size:1rem;color:var(--ink-2)}
+.prose-page{max-width:var(--measure-page);margin:0 auto;padding:3rem 0}
+.prose-page h1{font-size:clamp(2rem,4.6vw,3rem);letter-spacing:-.035em}
+.prose-page h2{margin-top:2rem;font-size:1.3rem}
+</style>
+<script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Does a player's streak hold up in the next games?", "description": "NFL player yards study: an 82% average last-5 rate became 56% in later games, 482 of 860. Counts, Wilson ranges and the 2024 threshold method.", "mainEntityOfPage": "https://bookbreaker.bet/does-a-player-streak-hold-up/", "author": {"@type": "Person", "name": "Matthew Kerr"}, "datePublished": "2026-11-21", "dateModified": "2026-11-21"}</script>
+</head>
+<body class="search">
+<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>BookBreaker</a><span class="links"><a href="/#what">The plan</a><a href="/#price">Price</a><a href="/#questions">Questions</a></span></nav></header>
+<main>
+<article><section class="hero search-hero"><h1>Does a player&#x27;s streak hold up in the next games?</h1><p class="lede">In this NFL player study, spots showing an 80% or higher last-5 rate averaged 82% in those past games. The later rate was 56%: 482 of 860 games, with a Wilson 95% range of 53% to 59%. The past count was right. It described those games, without settling what came next.</p><p class="byline">Checked 21 November 2026 · By Matthew Kerr, who makes BookBreaker</p><aside class="ex development" aria-label="BookBreaker in development"><p class="soon">In development · Mac and Windows</p><p>BookBreaker is a sports statistics app in development for Mac and Windows.</p><p>No download yet. Check this site for progress.</p><a class="btn primary" href="/#what">See the app plan</a></aside></section><div class="search-body"><h2>The gap between the display and the next games</h2>
+<p>I checked player yards rather than team points. The question was simple: after a player reached his own number
+in most recent games, how often did he reach that same number in the games after? The number stayed fixed throughout
+the check. No 2025 result helped choose it.</p>
+<figure class="study-chart"><svg viewBox="0 0 300 930" role="img" aria-labelledby="study-title study-desc"><title id="study-title">Shown rates beside later rates</title><desc id="study-desc">Squares mark the average shown rate. Circles mark the later rate. Bars give the later Wilson 95% range. Both tables give the exact counts.</desc><text class="study-panel" x="18" y="28">Last 5 games</text><text x="18.0" y="55" text-anchor="start">0%</text><text x="150.0" y="55" text-anchor="middle">50%</text><text x="282.0" y="55" text-anchor="end">100%</text><g data-window="5" data-band="under 40%"><text x="18" y="90">under 40%</text><text x="18" y="111">18% shown · 34% later</text><line class="study-track" x1="18" x2="282" y1="130" y2="130"/><line class="study-range" x1="100.85" x2="116.00" y1="130" y2="130"/><rect x="60.77" y="126" width="8" height="8"/><circle cx="108.27" cy="130" r="5"/></g><g data-window="5" data-band="40 to 59%"><text x="18" y="168">40 to 59%</text><text x="18" y="189">40% shown · 42% later</text><line class="study-track" x1="18" x2="282" y1="208" y2="208"/><line class="study-range" x1="120.98" x2="134.43" y1="208" y2="208"/><rect x="119.60" y="204" width="8" height="8"/><circle cx="127.65" cy="208" r="5"/></g><g data-window="5" data-band="60 to 69%"><text x="18" y="246">60 to 69%</text><text x="18" y="267">60% shown · 51% later</text><line class="study-track" x1="18" x2="282" y1="286" y2="286"/><line class="study-range" x1="145.26" x2="159.62" y1="286" y2="286"/><rect x="172.40" y="282" width="8" height="8"/><circle cx="152.45" cy="286" r="5"/></g><g data-window="5" data-band="70 to 79%"><text x="18" y="324">70 to 79%</text><text x="18" y="348">No spots with a last-5 rate</text></g><g data-window="5" data-band="80% and over"><text x="18" y="402">80% and over</text><text x="18" y="423">82% shown · 56% later</text><line class="study-track" x1="18" x2="282" y1="442" y2="442"/><line class="study-range" x1="157.15" x2="174.63" y1="442" y2="442"/><rect x="231.04" y="438" width="8" height="8"/><circle cx="165.96" cy="442" r="5"/></g><text class="study-panel" x="18" y="488">Last 10 games</text><text x="18.0" y="515" text-anchor="start">0%</text><text x="150.0" y="515" text-anchor="middle">50%</text><text x="282.0" y="515" text-anchor="end">100%</text><g data-window="10" data-band="under 40%"><text x="18" y="550">under 40%</text><text x="18" y="571">26% shown · 33% later</text><line class="study-track" x1="18" x2="282" y1="590" y2="590"/><line class="study-range" x1="96.85" x2="114.66" y1="590" y2="590"/><rect x="82.47" y="586" width="8" height="8"/><circle cx="105.53" cy="590" r="5"/></g><g data-window="10" data-band="40 to 59%"><text x="18" y="628">40 to 59%</text><text x="18" y="649">46% shown · 43% later</text><line class="study-track" x1="18" x2="282" y1="668" y2="668"/><line class="study-range" x1="123.65" x2="137.16" y1="668" y2="668"/><rect x="135.85" y="664" width="8" height="8"/><circle cx="130.35" cy="668" r="5"/></g><g data-window="10" data-band="60 to 69%"><text x="18" y="706">60 to 69%</text><text x="18" y="727">60% shown · 51% later</text><line class="study-track" x1="18" x2="282" y1="746" y2="746"/><line class="study-range" x1="143.73" x2="160.94" y1="746" y2="746"/><rect x="172.40" y="742" width="8" height="8"/><circle cx="152.35" cy="746" r="5"/></g><g data-window="10" data-band="70 to 79%"><text x="18" y="784">70 to 79%</text><text x="18" y="805">70% shown · 56% later</text><line class="study-track" x1="18" x2="282" y1="824" y2="824"/><line class="study-range" x1="155.93" x2="176.81" y1="824" y2="824"/><rect x="198.80" y="820" width="8" height="8"/><circle cx="166.47" cy="824" r="5"/></g><g data-window="10" data-band="80% and over"><text x="18" y="862">80% and over</text><text x="18" y="883">82% shown · 67% later</text><line class="study-track" x1="18" x2="282" y1="902" y2="902"/><line class="study-range" x1="180.78" x2="207.26" y1="902" y2="902"/><rect x="229.75" y="898" width="8" height="8"/><circle cx="194.53" cy="902" r="5"/></g></svg><figcaption>Square: average shown. Circle: later rate. Bar: Wilson 95% range. Each panel uses a 0% to 100% scale.</figcaption></figure>
+<h2>Last 5: 82% shown, 56% later in the highest band</h2>
+<div class="scroll" role="region" tabindex="0" aria-label="Last 5 games shown, next 5 games checked"><table><caption>Last 5 games shown, next 5 games checked</caption><thead><tr><th scope="col">Past rate band</th><th scope="col">Spots</th><th scope="col">Average rate shown</th><th scope="col">Later count and rate</th><th scope="col">Wilson 95% range</th></tr></thead><tbody><tr><th scope="row">under 40%</th><td>254</td><td>18%</td><td>358 of 1047 · 34%</td><td>31% to 37%</td></tr><tr><th scope="row">40 to 59%</th><td>330</td><td>40%</td><td>596 of 1435 · 42%</td><td>39% to 44%</td></tr><tr><th scope="row">60 to 69%</th><td>297</td><td>60%</td><td>659 of 1294 · 51%</td><td>48% to 54%</td></tr><tr><th scope="row">70 to 79%</th><td>0</td><td>Not reachable</td><td>No later games</td><td>No range</td></tr><tr><th scope="row">80% and over</th><td>199</td><td>82%</td><td>482 of 860 · 56%</td><td>53% to 59%</td></tr></tbody></table></div>
+<p>A last-5 rate moves in steps of 20 percentage points. It cannot fall in 70 to 79%.
+The highest band includes four of five and five of five. The average shown gives each spot equal weight.
+The later rate divides all reaches by all later games, so a spot with five later games adds more than one with only one.</p>
+<h2>Last 10: a second window on the same question</h2>
+<div class="scroll" role="region" tabindex="0" aria-label="Last 10 games shown, next 5 games checked"><table><caption>Last 10 games shown, next 5 games checked</caption><thead><tr><th scope="col">Past rate band</th><th scope="col">Spots</th><th scope="col">Average rate shown</th><th scope="col">Later count and rate</th><th scope="col">Wilson 95% range</th></tr></thead><tbody><tr><th scope="row">under 40%</th><td>187</td><td>26%</td><td>247 of 745 · 33%</td><td>30% to 37%</td></tr><tr><th scope="row">40 to 59%</th><td>333</td><td>46%</td><td>609 of 1431 · 43%</td><td>40% to 45%</td></tr><tr><th scope="row">60 to 69%</th><td>208</td><td>60%</td><td>458 of 900 · 51%</td><td>48% to 54%</td></tr><tr><th scope="row">70 to 79%</th><td>140</td><td>70%</td><td>338 of 601 · 56%</td><td>52% to 60%</td></tr><tr><th scope="row">80% and over</th><td>87</td><td>82%</td><td>224 of 335 · 67%</td><td>62% to 72%</td></tr></tbody></table></div>
+<p>Ten games allow every band in the table. The outcome is still the next five games, rather than the next ten.
+These are two checks on the same season. Their games can repeat across windows and across bands.</p>
+<h2>How I chose the number and the spots</h2>
+<p>The eligible group was 274 quarterbacks, running backs, wide receivers and tight ends.
+Each had at least eight regular-season games in 2024 and a rounded-up 2024 median of at least 10 yards.
+The main stat was passing yards for quarterbacks, rushing yards for running backs, and receiving yards for receivers
+and tight ends. Each player and position pair had its own log.</p>
+<p>For each log, I sorted the games by season and week. I took the middle 2024 yardage value, averaging the two middle
+values when needed, then rounded up to a whole yard. That was the player's number for the whole study.
+A game equal to the number counted as reaching it. A blank yards value in a recorded row counted as zero.</p>
+<p>I then walked through 2025 in order. A spot was a game where the rate across the five or ten played games ending
+there fell in a band. Early lookbacks could include the end of 2024. The outcome used only the next five recorded
+games from 2025. At season end I kept fewer than five when that was all that remained. A spot with none was left out.</p>
+<p>After a spot, the next spot in that player's same band was at least six games later. Its five later games could
+not overlap the earlier spot's five later games. Each band ran separately. I pooled the later counts across players
+and used Wilson 95% ranges with z = 1.96. Percentages and range ends are rounded to whole numbers.</p>
+<h2>What the gap means</h2>
+<p>The past count is right: it describes those past games. In the last-10 check, the shown rate ran above the later
+rate in every band from 40% up. In the last-5 check, that held from 60% up. The exception was 40 to 59%:
+40% shown became 42% later. The under-40% band ran below the later rate in both windows.</p>
+<p>Part of this pattern is regression toward each player's usual level. Choosing unusually high recent counts can
+select runs that include good fortune. The next games need not keep that same share. The reverse can happen after low
+counts. This check does not measure how much each cause contributed.</p>
+<p>That is why my plan for BookBreaker pairs the count with a range and a later-games check.
+This is one season, one league and yards only. Players can share games and conditions. The pooled Wilson ranges use a
+model of separate trials with a common rate; they do not account for every connection between these results.</p>
+<h2>What it does not mean</h2>
+<p>This makes no claim about any single player or game. It does not predict future results and gives no advice.
+A pooled rate belongs to this group and these rules. It is not a personal forecast or a reason to expect the same outcome
+in a different season.</p>
+<section class="search-faq"><h2>Questions</h2><div class="faq"><details><summary>Did 82% turn into 56% for every player?</summary><p>No. Those are group summaries. The 82% is the average shown across 199 spots. The 56% pools 482 reaches across 860 later games.</p></details><details><summary>Did the 2025 games choose the number?</summary><p>No. Only the 2024 regular-season yards chose each number. The 2025 rows supplied the spots and their later outcomes.</p></details><details><summary>Why are there fewer than five later games per spot on average?</summary><p>Spots near the end of 2025 can have one to four later games. Those shorter groups stay in the count, with their actual number of games.</p></details><details><summary>Is this proof that a streak cannot continue?</summary><p>No. It measures what followed these past spots. It does not settle the next result or identify a particular player.</p></details></div></section>
+<section class="sources"><h2>Sources</h2><ul>
+<li><a href="https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2024.csv">nflverse weekly player statistics, 2024 CSV</a>. Read 2026-11-21.</li>
+<li><a href="https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2025.csv">nflverse weekly player statistics, 2025 CSV</a>. Read 2026-11-21.</li>
+</ul><p>The method above describes the calculation. Only regular-season rows and the identity, position, season,
+week and three yards fields enter it. Player identities stay out of this page.</p></section>
+<section class="onward"><h2>Read next</h2><ul><li><a href="/is-a-10-game-trend-reliable/">Is a 10-game trend reliable?</a></li><li><a href="/did-the-trend-hold-up/">Did the trend hold up in later games?</a></li></ul></section>
+<p><a href="/nfl-team-scoring/">Read the separate NFL team scoring tables</a>.</p></div></article>
+</main>
+<footer>
+<div class="foot-grid">
+<div>
+<p class="foot-brand">BookBreaker</p>
+<p>BookBreaker is a sports statistics app in development for Mac and Windows.</p>
+<p>Built by Matthew Kerr in Grand Rapids, MI &middot; <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
+</div>
+<div>
+<p class="foot-head">Site</p>
+<p><a href="/">Home</a></p>
+<p><a href="/privacy/">Privacy</a></p>
+</div>
+<div>
+<p class="foot-head">Guides</p>
+<ul class="guide-links" aria-label="Guides"><li><a href="/nba-player-stats-app/">An NBA player stats app checklist</a></li><li><a href="/free-nba-player-game-logs/">Where can I read free NBA player game logs?</a></li><li><a href="/pay-once-sports-stats-app/">Can I pay once for a sports stats app?</a></li><li><a href="/linemate-alternative/">Looking for a Linemate alternative for stats?</a></li><li><a href="/how-often-did-a-player-clear-a-number/">How often did a player clear a number?</a></li><li><a href="/is-a-10-game-trend-reliable/">Is a 10-game trend reliable?</a></li><li><a href="/did-the-trend-hold-up/">Did the trend hold up in later games?</a></li><li><a href="/does-a-player-streak-hold-up/">Does a player&#x27;s streak hold up in the next games?</a></li><li><a href="/nfl-team-scoring/">NFL team scoring</a></li></ul>
+</div>
+<div>
+<p class="foot-head">Company</p>
+<p><a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a></p>
+</div>
+</div>
+<p class="foot-fine">Not affiliated with the NBA, NFL, MLB or NHL, or with any team. Names and statistics only. Checked
+<time datetime="2026-11-21">21 November 2026</time>.</p>
+</footer>
+<script>
+/* Two-way scroll reveal; content is visible without JavaScript. */
+(function () {
+  var root = document.documentElement; root.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) { for (var i = 0; i < els.length; i++) els[i].classList.add('in'); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (x) { x.target.classList.toggle('in', x.isIntersecting); });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  for (var j = 0; j < els.length; j++) io.observe(els[j]);
+})();
+</script>
+</body>
+</html>

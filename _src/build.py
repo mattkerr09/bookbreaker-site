@@ -1,4 +1,4 @@
-"""Build the home page, seven search answers and NFL scoring batch offline.
+"""Build the home page, search answers and NFL scoring batch offline.
 
 App claims are planned. Rival and league facts come from the dated registries.
 Team scores and statistical ranges are computed from the local schedules file.
@@ -77,6 +77,8 @@ REVEAL = """<script>
 def page(path: str, title: str, description: str, body: str, body_class: str = "", jsonld: list | None = None,
          index: bool = True) -> str:
     url = "https://bookbreaker.bet" + path
+    desktop = ('<p>BookBreaker is a sports statistics app in development for Mac and Windows.</p>'
+               if path == '/does-a-player-streak-hold-up/' else claim("desktop"))
     ld = "".join(f'<script type="application/ld+json">{json.dumps(x)}</script>\n' for x in (jsonld or []))
     robots = "" if index else '<meta name="robots" content="noindex">\n'
     return f"""<!doctype html>
@@ -111,7 +113,7 @@ def page(path: str, title: str, description: str, body: str, body_class: str = "
 <div class="foot-grid">
 <div>
 <p class="foot-brand">BookBreaker</p>
-{claim("desktop")}
+{desktop}
 <p>Built by Matthew Kerr in Grand Rapids, MI &middot; <a href="mailto:{EMAIL}">Email</a></p>
 </div>
 <div>
@@ -244,7 +246,8 @@ def llms(x: dict) -> str:
 def article(config: dict, x: dict) -> str:
     return (f'<article><section class="hero search-hero"><h1>{e(config["title"])}</h1>'
             f'<p class="lede">{e(config["answer"])}</p>'
-            f'<p class="byline">Checked {CHECKED} · By Matthew Kerr, who makes BookBreaker</p>' + cta()
+            f'<p class="byline">Checked {CHECKED} · By Matthew Kerr, who makes BookBreaker</p>'
+            + cta(player_study=config['slug'] == 'does-a-player-streak-hold-up')
             + '</section><div class="search-body">' + ARTICLE_BODIES[config['slug']](x) + '</div></article>')
 
 

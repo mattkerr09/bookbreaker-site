@@ -6,6 +6,7 @@ from pathlib import Path
 
 SEARCH_PAGES = [
     {"slug": "nba-player-stats-app", "title": "What should an NBA player stats app show?",
+     "link_title": "An NBA player stats app checklist",
      "description": "A player stats checklist: game counts, ranges, recent games and context. Dated rival prices and a look at the planned BookBreaker desktop app.",
      "answer": "Start with the game count behind each rate. Then look for a range, recent games beside the season, and filters for home or away and opponent. A single percentage leaves too much out. Choose the device and payment plan that fit how you read stats, after checking what is available today.",
      "note": "Game counts, ranges, filters and dated rival prices."},
@@ -33,6 +34,10 @@ SEARCH_PAGES = [
      "description": "A worked NFL team-points study checks later games without using them to choose past spots. Counts and Wilson ranges for all five rate bands.",
      "answer": "To check a trend later, freeze what you knew when you spotted it. Find past points in time with a similar rate, then count what happened in the following games. Keep those later games out of the spot choice. Show the pooled count and its range, and withhold a score when there are too few games.",
      "note": "A reproducible later-games study on one NFL season of team points."},
+    {"slug": "does-a-player-streak-hold-up", "title": "Does a player's streak hold up in the next games?",
+     "description": "NFL player yards study: an 82% average last-5 rate became 56% in later games, 482 of 860. Counts, Wilson ranges and the 2024 threshold method.",
+     "answer": "In this NFL player study, spots showing an 80% or higher last-5 rate averaged 82% in those past games. The later rate was 56%: 482 of 860 games, with a Wilson 95% range of 53% to 59%. The past count was right. It described those games, without settling what came next.",
+     "note": "Player yards shown versus later, with numbers fixed from 2024."},
 ]
 SEARCH_PATHS = [f"{page['slug']}/index.html" for page in SEARCH_PAGES]
 NFL_TEAMS = json.loads((Path(__file__).resolve().parent / 'data/nfl_teams.json').read_text())

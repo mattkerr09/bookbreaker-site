@@ -20,4 +20,5 @@
 - [How often did a player clear a number?](https://bookbreaker.bet/how-often-did-a-player-clear-a-number/): A Detroit team-points example of counting games at a threshold.
 - [Is a 10-game trend reliable?](https://bookbreaker.bet/is-a-10-game-trend-reliable/): Wilson ranges explain what a short run of games can tell you.
 - [Did the trend hold up in later games?](https://bookbreaker.bet/did-the-trend-hold-up/): A reproducible later-games study on one NFL season of team points.
+- [Does a player's streak hold up in the next games?](https://bookbreaker.bet/does-a-player-streak-hold-up/): Player yards shown versus later, with numbers fixed from 2024.
 - [NFL team scoring](https://bookbreaker.bet/nfl-team-scoring/): 2025 regular-season team scores, counts and ranges

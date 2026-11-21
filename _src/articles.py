@@ -1,9 +1,10 @@
-"""The seven answers. build.py supplies the site's shared page shell."""
+"""Search answers. build.py supplies the site's shared page shell."""
 from __future__ import annotations
 
 from content import FACTS, cell, claim, cta, e, fact, faq, onward, sources, table
 from costs import annual_cost, planned_cost
 from stats import held_up, season_scores, wilson
+from player_article import player_body
 
 
 RIVALS = ('linemate', 'madness', 'dimers')
@@ -287,7 +288,7 @@ fixed rate in about 95% of repeated samples under that model. It is not a 95% pr
 <h2>Detroit puts the range in context</h2>
 <p>In the local file, Detroit reached {x['line']} or more points in {x['k']} of {x['n']} games in its {x['season']}
 regular season. That is {x['pct']}% after rounding. Its Wilson range runs from {x['lo']}% to {x['hi']}%.
-The answer is based on team points because no player data is stored here.</p>
+This example uses team points. For players, the NFL streak study counts what came next.</p>
 {claim('player-data')}
 <p>A large-looking season percentage can therefore sit beside a wide interval. Read both. I would also inspect the dated
 rows before trying to explain the count. The calculation tells you how much sampling doubt remains under its assumptions.
@@ -369,4 +370,5 @@ ARTICLE_BODIES = {
     'how-often-did-a-player-clear-a-number': counting,
     'is-a-10-game-trend-reliable': reliability,
     'did-the-trend-hold-up': later,
+    'does-a-player-streak-hold-up': player_body,
 }

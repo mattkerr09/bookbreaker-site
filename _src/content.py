@@ -31,9 +31,11 @@ def claim(key: str, tag: str = "p") -> str:
             f'<span class="claim-text">{e(CLAIMS[key]["text"])}</span></{tag}>')
 
 
-def cta() -> str:
+def cta(player_study: bool = False) -> str:
+    description = ('<p>BookBreaker is a sports statistics app in development for Mac and Windows.</p>'
+                   if player_study else claim("desktop"))
     return ('<aside class="ex development" aria-label="BookBreaker in development">'
-            '<p class="soon">In development · Mac and Windows</p>' + claim("desktop") +
+            '<p class="soon">In development · Mac and Windows</p>' + description +
             '<p>No download yet. Check this site for progress.</p>'
             '<a class="btn primary" href="/#what">See the app plan</a></aside>')
 
@@ -73,6 +75,6 @@ def onward(slugs: list[str]) -> str:
 def guide_links(cards: bool = False) -> str:
     item_class = ' class="card"' if cards else ''
     items = ''.join(f'<li{item_class}><a href="/{p["slug"]}/">'
-                    f'{e(p["title"])}</a></li>' for p in SEARCH_PAGES)
+                    f'{e(p.get("link_title", p["title"]))}</a></li>' for p in SEARCH_PAGES)
     items += f'<li{item_class}><a href="/{NFL_INDEX["slug"]}/">NFL team scoring</a></li>'
     return f'<ul class="{"cards" if cards else "guide-links"}" aria-label="Guides">{items}</ul>'

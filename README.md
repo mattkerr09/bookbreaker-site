@@ -2,7 +2,7 @@
 
 The website for BookBreaker, a planned sports statistics app for Mac and Windows. It is in development, with no download or launch date.
 
-- Build: `python3 _src/build.py` writes index.html, privacy/, 404.html, the seven search pages, the 33 NFL scoring pages, llms.txt and sitemap.xml. It does not write robots.txt.
+- Build: `python3 _src/build.py` writes index.html, privacy/, 404.html, the eight search pages, the 33 NFL scoring pages, llms.txt and sitemap.xml. It does not write robots.txt.
 - Gate: `python3 _src/check.py` must print SITE GREEN (exit 0) before any commit. It fails on the banned words listed in it, on outbound
   links outside the allowed list, and on anything left from the old product.
 - Deploy: GitHub Pages from `main`, with CNAME bookbreaker.bet. A push is live only when Pages reports the build for that
@@ -22,9 +22,10 @@ The page inventory is `_src/pages.py`. The generator, checker and tests use it.
 - `/how-often-did-a-player-clear-a-number/`: Detroit team points, last 10 and the season.
 - `/is-a-10-game-trend-reliable/`: computed Wilson ranges and their limits.
 - `/did-the-trend-hold-up/`: a later-games study on the 2025 NFL regular season.
+- `/does-a-player-streak-hold-up/`: NFL player yards shown versus later, with each number fixed from 2024.
 - `/nfl-team-scoring/`: a sortable comparison of all 32 teams, linked to each team's 2025 game log.
 
-Still coming: every app feature in `_src/data/claims.json`, the desktop app itself, player logs and a real app screen. An OG image is also still coming. The page metadata does not point to an image that does not exist.
+Still coming: every app feature in `_src/data/claims.json`, the desktop app itself, player logs in the app and a real app screen. An OG image is also still coming. The page metadata does not point to an image that does not exist.
 
 Facts live in `_src/data/facts.json`. Rival facts use the exact source URLs and read times from the supplied dated local notes. The named rivals are Linemate, PropsMadness and Dimers Pro. League URL patterns are code text from PLAN-FIXES.md, section 2, with the browser test date. Replace the player placeholders when using them.
 
@@ -45,6 +46,16 @@ Only the held-up-later search joins the previous 2024 regular season. It uses th
 Each team links to the two most recently faced distinct division opponents in its displayed log. The table on the index starts in name order and has keyboard-accessible column buttons. It remains readable without JavaScript.
 
 The NFL tests recount every game, trend and split, and independently walk the past spots. Detroit's average and 24-point count are recounted separately. Poison fixtures add fake unknown field values and completed 2026 games, then rebuild all pages and require unchanged output. Every new scoring test also runs against a deliberately broken input, restored in memory afterward. All pairs of team pages must stay below a 0.5 five-word shingle Jaccard score; each team versus every other HTML page must stay below 0.3. These checks use all words in main, including tables.
+
+## Player yards shown versus later
+
+`_src/player_study.py` reads only player_id, position, season, week, season_type, passing_yards, rushing_yards and receiving_yards from the local nflverse weekly player CSVs for 2024 and 2025. No name field is read. The files are in `/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-player-week/`. Source URLs and the 2026-11-21 read date are in that module and on the page. There is no network step.
+
+`python3 _src/player_study.py` reproduces the research run's output.txt exactly, including every printed count, percentage and range. A frozen copy is in `_src/tests/fixtures/player-study-output.txt`. The study keeps regular-season QB, RB, WR and TE rows, grouped by player and position. At least eight 2024 rows and a 2024 median rounded up to at least 10 yards set eligibility. Rounding comes before the cutoff, so a 9.5-yard median qualifies. Only 2024 sets the number.
+
+Each 2025 spot uses the five or ten played games ending there, including late 2024 when needed. Its outcome contains up to five later 2025 rows. The next spot in the same band is at least six games later, matching the saved run. Games can repeat across bands and windows. Counts are pooled across logs; the shown average gives each spot equal weight. The page reports the 40% shown to 42% later exception in the last-5 table, rather than claiming that every band from 40% up fell.
+
+`_src/player_article.py` builds both tables and one SVG from those results. The new tests check the frozen output, allowlisted reading, 2024-only thresholds, prefix selection, no overlap, partial horizons, no exposed player IDs, table and chart numbers, metadata, links and similarity against every page. Each new check rejects a deliberately broken input and restores it in memory. CSS tests reject old product words, sizes below 12 pixels and text palette contrast below 4.5:1. The new page uses present development wording, including its shared call to action and footer, to avoid future-result language.
 
 Run `python3 -m unittest discover -s _src/tests -v`. This runs the build and checker as subprocesses, checks the pages and registries, and breaks rules in memory to verify that the tests reject them. It uses Python 3.9 and the standard library, with no network or packages.
 
