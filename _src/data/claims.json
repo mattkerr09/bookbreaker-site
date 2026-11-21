@@ -1,0 +1,72 @@
+[
+  {
+    "id": "desktop",
+    "text": "BookBreaker will be a sports statistics app for Mac and Windows.",
+    "status": "planned"
+  },
+  {
+    "id": "counts",
+    "text": "BookBreaker will put a game count and a range beside every trend.",
+    "status": "planned"
+  },
+  {
+    "id": "filters",
+    "text": "BookBreaker will offer last 5, last 10, last 20 and season views, with home or away and opponent filters.",
+    "status": "planned"
+  },
+  {
+    "id": "held",
+    "text": "BookBreaker will show how often similar past trends reached the number in later games, with a count and a Wilson range.",
+    "status": "planned"
+  },
+  {
+    "id": "local",
+    "text": "BookBreaker will need no account and will keep your history on your computer.",
+    "status": "planned"
+  },
+  {
+    "id": "offline",
+    "text": "BookBreaker will work offline with the last stats file it has.",
+    "status": "planned"
+  },
+  {
+    "id": "price",
+    "text": "BookBreaker will cost $39 once, with 12 months of new games included. After that, new games will be an optional $19 a year.",
+    "status": "planned"
+  },
+  {
+    "id": "keep",
+    "text": "Without the yearly update, BookBreaker will keep every stat and tool it already has. New games will stop arriving.",
+    "status": "planned"
+  },
+  {
+    "id": "leagues",
+    "text": "BookBreaker will cover player and team statistics for the NBA, NFL, MLB and NHL.",
+    "status": "planned"
+  },
+  {
+    "id": "threshold",
+    "text": "BookBreaker will let you type a number and read how often a player or team reached it, out of how many games.",
+    "status": "planned"
+  },
+  {
+    "id": "privacy",
+    "text": "The app will need no sign-in. Its full privacy details, including what a licence check sends, will be published before a download is available.",
+    "status": "planned"
+  },
+  {
+    "id": "player-data",
+    "text": "Player game logs will come with BookBreaker. The worked examples here use team scores because no player data is stored on this machine.",
+    "status": "planned"
+  },
+  {
+    "id": "cost-without-updates",
+    "text": "BookBreaker will cost $39 once without later new-game updates.",
+    "status": "planned"
+  },
+  {
+    "id": "cost-with-updates",
+    "text": "BookBreaker will cost $39 once, then an optional $19 for each later year of new games.",
+    "status": "planned"
+  }
+]

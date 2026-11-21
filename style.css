@@ -562,3 +562,25 @@ table,.rf,.own-big,.shots figcaption,.plate,code{font-variant-numeric:tabular-nu
 /* How it works: Recently added, read from the app's own release notes. */
 .recent li{margin:0 0 10px}
 .recent .muted{opacity:.7;font-size:.9em}
+
+/* Search answers use the existing hero, cards, tables and FAQ. */
+.coming{display:inline-block;margin-right:.35rem;padding:.08rem .45rem;
+  border:1px solid var(--hover-rule);border-radius:999px;color:var(--accent-hi);
+  font-size:.72rem;font-weight:600;vertical-align:.08em}
+.development{max-width:38rem;margin:1.25rem auto;text-align:left;align-items:flex-start}
+.development .soon{margin-bottom:.5rem}
+.development p{margin-bottom:.65rem}
+.development .btn{margin-top:.25rem;white-space:normal;text-align:center}
+.search-hero{text-align:left;padding:.5rem 0 1rem}
+.search-hero h1{font-size:clamp(2rem,4.6vw,3rem)}
+.search-hero .lede{margin:0 0 1rem}
+.search-hero .byline{margin:0;font-size:.86rem}
+.search-hero .development{margin:1rem 0 0}
+.search-body h2{font-size:1.45rem}
+caption{text-align:left;padding:.8rem 1rem;color:var(--ink);font-weight:600}
+.sources{margin-top:2.5rem;font-size:.85rem;overflow-wrap:anywhere}
+.sources li{margin-bottom:.7rem}
+.guide-links{list-style:none;padding:0;margin:.5rem 0}
+.guide-links li{font-size:.86rem;margin:.5rem 0}
+.foot-grid [data-claim]{font-size:.88rem}
+@media (max-width:420px){.search-hero{padding-top:0}.development{padding:1rem}}

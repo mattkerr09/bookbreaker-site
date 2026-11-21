@@ -6,12 +6,12 @@
 <meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
 <meta name="robots" content="noindex">
 <title>Page not found: BookBreaker</title>
-<meta name="description" content="BookBreaker is now a sports statistics app.">
+<meta name="description" content="BookBreaker is in development.">
 <link rel="canonical" href="https://bookbreaker.bet/404.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BookBreaker">
 <meta property="og:title" content="Page not found: BookBreaker">
-<meta property="og:description" content="BookBreaker is now a sports statistics app.">
+<meta property="og:description" content="BookBreaker is in development.">
 <meta property="og:url" content="https://bookbreaker.bet/404.html">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -28,7 +28,7 @@
 .trend-big{font-size:2.6rem;font-weight:650;letter-spacing:-.03em;margin:.35rem 0 .1rem;color:var(--ink)}
 .trend-big small{font-size:1rem;font-weight:500;color:var(--ink-2);margin-left:.4rem;letter-spacing:0}
 .trend-range{font-size:var(--t-3);color:var(--ink-2)}
-.trend-bars{display:grid;grid-template-columns:repeat(17,1fr);gap:4px;margin:1rem 0 .4rem}
+.trend-bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;margin:1rem 0 .4rem}
 .trend-bars i{display:block;height:28px;border-radius:4px;background:rgba(255,255,255,.08)}
 .trend-bars i.y{background:linear-gradient(180deg,#8b89ff,#4f4dff)}
 .trend-held{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.9rem}
@@ -46,19 +46,19 @@
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 </head>
 <body class="">
-<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>BookBreaker</a><span class="links"><a href="/#what">What it shows</a><a href="/#price">Price</a><a href="/#questions">Questions</a></span></nav></header>
+<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>BookBreaker</a><span class="links"><a href="/#what">The plan</a><a href="/#price">Price</a><a href="/#questions">Questions</a></span></nav></header>
 <main>
 <article class="prose-page">
 <h1>That page has gone</h1>
-<p class="lede">BookBreaker is now a sports statistics app, and the pages this site used to have are no longer here.</p>
-<p><a class="btn primary" href="/">See what BookBreaker does</a></p>
+<p class="lede">This page has gone. BookBreaker is in development.</p>
+<p><a class="btn primary" href="/">See the BookBreaker plan</a></p>
 </article>
 </main>
 <footer>
 <div class="foot-grid">
 <div>
 <p class="foot-brand">BookBreaker</p>
-<p>Player and team stats for the NBA, NFL, MLB and NHL, for Mac and Windows. In development.</p>
+<p data-claim="desktop"><span class="coming">Coming</span> <span class="claim-text">BookBreaker will be a sports statistics app for Mac and Windows.</span></p>
 <p>Built by Matthew Kerr in Grand Rapids, MI &middot; <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
 </div>
 <div>
@@ -67,15 +67,19 @@
 <p><a href="/privacy/">Privacy</a></p>
 </div>
 <div>
+<p class="foot-head">Guides</p>
+<ul class="guide-links" aria-label="Guides"><li><a href="/nba-player-stats-app/">What should an NBA player stats app show?</a></li><li><a href="/free-nba-player-game-logs/">Where can I read free NBA player game logs?</a></li><li><a href="/pay-once-sports-stats-app/">Can I pay once for a sports stats app?</a></li><li><a href="/linemate-alternative/">Looking for a Linemate alternative for stats?</a></li><li><a href="/how-often-did-a-player-clear-a-number/">How often did a player clear a number?</a></li><li><a href="/is-a-10-game-trend-reliable/">Is a 10-game trend reliable?</a></li><li><a href="/did-the-trend-hold-up/">Did the trend hold up in later games?</a></li></ul>
+</div>
+<div>
 <p class="foot-head">Company</p>
 <p><a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a></p>
 </div>
 </div>
 <p class="foot-fine">Not affiliated with the NBA, NFL, MLB or NHL, or with any team. Names and statistics only. Checked
-<time datetime="2026-11-20">20 November 2026</time>.</p>
+<time datetime="2026-11-21">21 November 2026</time>.</p>
 </footer>
 <script>
-/* Scroll reveal, the same behaviour as the Outlier and Crisp sites: two-way, and nothing is hidden without JS. */
+/* Two-way scroll reveal; content is visible without JavaScript. */
 (function () {
   var root = document.documentElement; root.classList.add('js');
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

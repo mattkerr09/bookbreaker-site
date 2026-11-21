@@ -10,12 +10,14 @@ Why each check exists:
 """
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
 SITE = Path(__file__).resolve().parents[1]
-PUBLISHED = ["index.html", "privacy/index.html", "404.html", "llms.txt", "robots.txt", "sitemap.xml", "README.md"]
+from pages import PUBLISHED
 # README.md is listed because GitHub Pages copies it to /README.md as it is.
 BANNED = re.compile(
     r"\bodds\b|\bpicks?\b|\bbets?\b|\bbetting\b|\bbettors?\b|\bedge\b|\+\s*EV\b|\bEV\b|\barbitrage\b|\barbs?\b|\bwagers?\b"
@@ -29,8 +31,16 @@ LEFTOVERS = ["guides", "sportsbooks", "calculators", "go", "promo-codes", "vs", 
              "_build", "_data", "_drafts"]
 
 
+def allowed_hosts() -> set[str]:
+    facts = json.loads((SITE / "_src/data/facts.json").read_text())
+    return ALLOWED_HOSTS | {urlsplit(fact["source"]).hostname for fact in facts
+                            if urlsplit(fact["source"]).scheme in ("http", "https")
+                            and urlsplit(fact["source"]).hostname}
+
+
 def main() -> int:
     fails: list[str] = []
+    hosts = allowed_hosts()
     for rel in PUBLISHED:
         p = SITE / rel
         if not p.exists():
@@ -56,7 +66,7 @@ def main() -> int:
                 host = re.sub(r"^https?://", "", href).split("/")[0].lower()
                 if host == "bookbreaker.bet":
                     continue
-                if host not in ALLOWED_HOSTS:
+                if host not in hosts:
                     fails.append(f"{rel}: outbound link to {host} is not allowed")
             if text.count("https://kerrandcompanyholdings.com/") > 1 + text.count('"url": "https://kerrandcompanyholdings.com/"'):
                 fails.append(f"{rel}: more than one company link (RULES 52)")

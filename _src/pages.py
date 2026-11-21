@@ -1,0 +1,35 @@
+"""One inventory for the generator, checker and page tests."""
+from __future__ import annotations
+
+SEARCH_PAGES = [
+    {"slug": "nba-player-stats-app", "title": "What should an NBA player stats app show?",
+     "description": "A player stats checklist: game counts, ranges, recent games and context. Dated rival prices and a look at the planned BookBreaker desktop app.",
+     "answer": "Start with the game count behind each rate. Then look for a range, recent games beside the season, and filters for home or away and opponent. A single percentage leaves too much out. Choose the device and payment plan that fit how you read stats, after checking what is available today.",
+     "note": "Game counts, ranges, filters and dated rival prices."},
+    {"slug": "free-nba-player-game-logs", "title": "Where can I read free NBA player game logs?",
+     "description": "Start with the league's player game-log page. Learn to count the last 10 games by hand before looking at the planned BookBreaker app.",
+     "answer": "Use the league’s own player game-log page first. You can read the played games, choose a stat and count the rows yourself. For a last 10 view, take the newest 10 games the player actually played. Keep the dates and your chosen number beside the count so you can check the result again.",
+     "note": "The free league route and a way to read ten games by hand."},
+    {"slug": "pay-once-sports-stats-app", "title": "Can I pay once for a sports stats app?",
+     "description": "Worked costs over one, two and three years from dated rival reads, beside BookBreaker's planned $39 licence and optional yearly data update.",
+     "answer": "Separate the app licence from the cost of fresh games. Paying once can mean keeping the software, while new data still has a yearly fee. Compare both totals over the time you expect to use it. Also check what you can still open if you stop paying for updates, before choosing a plan.",
+     "note": "Licence costs and optional data updates over three years."},
+    {"slug": "linemate-alternative", "title": "Looking for a Linemate alternative for stats?",
+     "description": "Linemate's dated App Store price and rating reads beside BookBreaker's planned desktop approach. Phone use, cost and trend checks are separate choices.",
+     "answer": "Begin with how you want to read your stats: on a phone or at a computer. Then compare the payment plan and the evidence beside each trend. A different app is useful when it fits that job. A desktop plan still in development cannot replace something you need to use on your phone today.",
+     "note": "Phone use and dated Linemate reads beside a desktop plan."},
+    {"slug": "how-often-did-a-player-clear-a-number", "title": "How often did a player clear a number?",
+     "description": "Count games at or above your chosen number. A computed Detroit team-points example shows last 10 games beside the full 2025 regular season.",
+     "answer": "Choose the number before you count. Mark each played game that reached it, including a game equal to the number. Count those marks as k, and all the played games in your window as n. Read the result as k of n. Keep a season count beside a recent count so the window stays clear.",
+     "note": "A Detroit team-points example of counting games at a threshold."},
+    {"slug": "is-a-10-game-trend-reliable", "title": "Is a 10-game trend reliable?",
+     "description": "Ten games describe ten results. Computed Wilson ranges for 5, 10 and 20 games show why a small sample leaves room for doubt.",
+     "answer": "Ten games can describe what just happened, but leave a wide range for the underlying rate. Five games leave even more doubt. Twenty can narrow the range without settling what happens next. Read the count, the range and the game context together. None of them promises that a recent trend will continue.",
+     "note": "Wilson ranges explain what a short run of games can tell you."},
+    {"slug": "did-the-trend-hold-up", "title": "Did the trend hold up in later games?",
+     "description": "A worked NFL team-points study checks later games without using them to choose past spots. Counts and Wilson ranges for all five rate bands.",
+     "answer": "To check a trend later, freeze what you knew when you spotted it. Find past points in time with a similar rate, then count what happened in the following games. Keep those later games out of the spot choice. Show the pooled count and its range, and withhold a score when there are too few games.",
+     "note": "A reproducible later-games study on one NFL season of team points."},
+]
+SEARCH_PATHS = [f"{page['slug']}/index.html" for page in SEARCH_PAGES]
+PUBLISHED = ["index.html", "privacy/index.html", "404.html", "llms.txt", "robots.txt", "sitemap.xml", "README.md", *SEARCH_PATHS]

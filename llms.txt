@@ -1,18 +1,22 @@
 # BookBreaker
 
-> A desktop app for player and team statistics in the NBA, NFL, MLB and NHL, for Mac and Windows. Every trend shows how many
-> games it rests on, the range the rate could really sit in, and how often trends like it held up in later games.
+> A planned desktop app for player and team statistics. In development for Mac and Windows.
 
-- Status: in development, not out yet. No release date set.
-- Price: $39 once, including 12 months of new games. After that, new games are an optional $19 a year. Without it, the app
-  keeps all its stats and tools.
-- Platforms: Mac and Windows.
-- Account: none. The app downloads one shared stats file and keeps history on the user's computer. It works offline.
-- What it shows: stats and trends only. Names and statistics; no league or team logos.
-- Maker: Matthew Kerr, Grand Rapids, Michigan, through Kerr & Company (https://kerrandcompanyholdings.com/).
+- Planned price: $39 once, including 12 months of new games. Later new games will be an optional $19 a year.
+- Planned features: game counts, Wilson ranges and a held-up-later check. History will stay on the computer, with no account.
+- No download or launch date yet.
 - Contact: matthew@kerrandcompanyholdings.com
-- Checked: 20 November 2026
+- Checked: 21 November 2026
 
 ## Pages
-- [Home](https://bookbreaker.bet/): what the app shows, the price and the questions people ask
+- [Home](https://bookbreaker.bet/): the app plan and a computed team-points example
 - [Privacy](https://bookbreaker.bet/privacy/)
+
+## Guides and answers
+- [What should an NBA player stats app show?](https://bookbreaker.bet/nba-player-stats-app/): Game counts, ranges, filters and dated rival prices.
+- [Where can I read free NBA player game logs?](https://bookbreaker.bet/free-nba-player-game-logs/): The free league route and a way to read ten games by hand.
+- [Can I pay once for a sports stats app?](https://bookbreaker.bet/pay-once-sports-stats-app/): Licence costs and optional data updates over three years.
+- [Looking for a Linemate alternative for stats?](https://bookbreaker.bet/linemate-alternative/): Phone use and dated Linemate reads beside a desktop plan.
+- [How often did a player clear a number?](https://bookbreaker.bet/how-often-did-a-player-clear-a-number/): A Detroit team-points example of counting games at a threshold.
+- [Is a 10-game trend reliable?](https://bookbreaker.bet/is-a-10-game-trend-reliable/): Wilson ranges explain what a short run of games can tell you.
+- [Did the trend hold up in later games?](https://bookbreaker.bet/did-the-trend-hold-up/): A reproducible later-games study on one NFL season of team points.

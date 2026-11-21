@@ -1,0 +1,219 @@
+[
+  {
+    "id": "nba-logs",
+    "subject": "NBA",
+    "text": "The NBA player game-log table was tested in a browser on 20 November 2026. Its URL pattern is nba.com/stats/player/<id>/boxscores-traditional.",
+    "source": "PLAN-FIXES.md, section 2",
+    "readAt": "2026-11-20T23:42:44Z"
+  },
+  {
+    "id": "nfl-logs",
+    "subject": "NFL",
+    "text": "The NFL player game-log table was tested in a browser on 20 November 2026. Its URL pattern is nfl.com/players/<slug>/stats/logs/. Older seasons use the season choice on that page.",
+    "source": "PLAN-FIXES.md, section 2",
+    "readAt": "2026-11-20T23:42:44Z"
+  },
+  {
+    "id": "method-trend",
+    "subject": "Method",
+    "text": "A trend uses one player or team, one stat, a threshold you type, and the last 5, 10 or 20 games played, or the season. It may be split by home, away or opponent.",
+    "source": "PLAN-FIXES.md, section 1",
+    "readAt": "2026-11-21"
+  },
+  {
+    "id": "method-bands",
+    "subject": "Method",
+    "text": "The five rate bands are under 40%, 40 to 59%, 60 to 69%, 70 to 79%, and 80% and over.",
+    "source": "PLAN-FIXES.md, section 1",
+    "readAt": "2026-11-21"
+  },
+  {
+    "id": "method-spots",
+    "subject": "Method",
+    "text": "Walk through games in date order across this season and the previous one. After each game, use the window ending at that game. A rate in the current band makes a spot. Games after the spot cannot choose it.",
+    "source": "PLAN-FIXES.md, section 1",
+    "readAt": "2026-11-21"
+  },
+  {
+    "id": "method-horizon",
+    "subject": "Method",
+    "text": "After a spot, count threshold reaches in the next 5 games the subject played. The next spot for that band cannot start until those games have passed. Within that calculation, each later game counts once.",
+    "source": "PLAN-FIXES.md, section 1",
+    "readAt": "2026-11-21"
+  },
+  {
+    "id": "method-pool",
+    "subject": "Method",
+    "text": "Pool the later games as x of y, with a Wilson 95% range. The end of a season may leave fewer than 5 games after a spot. Under 15 later games, show \u201ctoo few past spots to tell\u201d and no score.",
+    "source": "PLAN-FIXES.md, section 1",
+    "readAt": "2026-11-21"
+  },
+  {
+    "id": "method-missing",
+    "subject": "Method",
+    "text": "Count games the subject played. Skip missed games in both the window and the later games. Player minutes and snaps are outside the first version.",
+    "source": "PLAN-FIXES.md, section 1",
+    "readAt": "2026-11-21"
+  },
+  {
+    "id": "method-corrections",
+    "subject": "Method",
+    "text": "When a provider corrects a stat, the next nightly file will carry it. Rates and scores will be worked out again from the stored logs. No result will be kept across nights.",
+    "source": "PLAN-FIXES.md, section 1",
+    "readAt": "2026-11-21"
+  },
+  {
+    "id": "method-type",
+    "subject": "Method",
+    "text": "The number for a kind of trend pools subjects within a league, for the same stat family, window and band. It has its own counts.",
+    "source": "PLAN-FIXES.md, section 1",
+    "readAt": "2026-11-21"
+  },
+  {
+    "id": "linemate-name",
+    "subject": "Linemate",
+    "text": "Linemate",
+    "source": "https://apps.apple.com/us/app/id1635246793",
+    "readAt": "2026-11-21T00:45:17Z"
+  },
+  {
+    "id": "linemate-price",
+    "subject": "Linemate",
+    "text": "Linemate in-app prices read: monthly $9.99 to $19.99; annual $59.99 to $79.99.",
+    "source": "https://apps.apple.com/us/app/id1635246793",
+    "readAt": "2026-11-21T00:45:17Z"
+  },
+  {
+    "id": "linemate-annual-low",
+    "subject": "Linemate",
+    "text": "$59.99",
+    "source": "https://apps.apple.com/us/app/id1635246793",
+    "readAt": "2026-11-21T00:45:17Z"
+  },
+  {
+    "id": "linemate-annual-high",
+    "subject": "Linemate",
+    "text": "$79.99",
+    "source": "https://apps.apple.com/us/app/id1635246793",
+    "readAt": "2026-11-21T00:45:17Z"
+  },
+  {
+    "id": "linemate-rating",
+    "subject": "Linemate",
+    "text": "Linemate had a 4.84 App Store average from 14,347 ratings on the saved read.",
+    "source": "https://apps.apple.com/us/app/id1635246793",
+    "readAt": "2026-11-20T23:45:17Z"
+  },
+  {
+    "id": "linemate-platform",
+    "subject": "Linemate",
+    "text": "Linemate has a phone app listed in the App Store.",
+    "source": "https://apps.apple.com/us/app/id1635246793",
+    "readAt": "2026-11-20T23:45:17Z"
+  },
+  {
+    "id": "cheapest-annual",
+    "subject": "Linemate",
+    "text": "The cheapest yearly price in these saved reads was $59.99, Linemate\u2019s Annual in-app price.",
+    "source": "https://apps.apple.com/us/app/id1635246793",
+    "readAt": "2026-11-21T00:45:17Z"
+  },
+  {
+    "id": "madness-name",
+    "subject": "PropsMadness",
+    "text": "PropsMadness",
+    "source": "https://www.propsmadness.com/",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "madness-price",
+    "subject": "PropsMadness",
+    "text": "PropsMadness listed a $0 free tier and Pro at $25 a month or $250 billed yearly.",
+    "source": "https://www.propsmadness.com/",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "madness-annual",
+    "subject": "PropsMadness",
+    "text": "$250.00",
+    "source": "https://www.propsmadness.com/",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "madness-platform",
+    "subject": "PropsMadness",
+    "text": "PropsMadness has a phone app.",
+    "source": "https://www.propsmadness.com/",
+    "readAt": "2026-11-20T23:16:00Z"
+  },
+  {
+    "id": "madness-filters",
+    "subject": "PropsMadness",
+    "text": "PropsMadness listed rate filters for minutes, opponent and who is in the lineup.",
+    "source": "https://www.propsmadness.com/",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "madness-free",
+    "subject": "PropsMadness",
+    "text": "PropsMadness listed a free tier at $0.",
+    "source": "https://www.propsmadness.com/",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "dimers-name",
+    "subject": "Dimers Pro",
+    "text": "Dimers Pro",
+    "source": "https://www.dimers.com/subscription",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "dimers-price",
+    "subject": "Dimers Pro",
+    "text": "Dimers Pro listed a sale annual price of $99.99 for the first year, then $199.99 a year. It also listed 2 months at $14.99 a month, then $29.99 a month, and 6 months for $149.99.",
+    "source": "https://www.dimers.com/subscription",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "dimers-annual-first",
+    "subject": "Dimers Pro",
+    "text": "$99.99",
+    "source": "https://www.dimers.com/subscription",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "dimers-annual-later",
+    "subject": "Dimers Pro",
+    "text": "$199.99",
+    "source": "https://www.dimers.com/subscription",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "dimers-platform",
+    "subject": "Dimers Pro",
+    "text": "Dimers listed web, iOS and Android.",
+    "source": "https://www.dimers.com/subscription",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "linemate-read",
+    "subject": "Linemate",
+    "text": "2026-11-21T00:45:17Z",
+    "source": "https://apps.apple.com/us/app/id1635246793",
+    "readAt": "2026-11-21T00:45:17Z"
+  },
+  {
+    "id": "madness-read",
+    "subject": "PropsMadness",
+    "text": "2026-11-20T22:53:00Z",
+    "source": "https://www.propsmadness.com/",
+    "readAt": "2026-11-20T22:53:00Z"
+  },
+  {
+    "id": "dimers-read",
+    "subject": "Dimers Pro",
+    "text": "2026-11-20T22:53:00Z",
+    "source": "https://www.dimers.com/subscription",
+    "readAt": "2026-11-20T22:53:00Z"
+  }
+]
