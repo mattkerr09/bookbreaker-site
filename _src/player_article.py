@@ -1,7 +1,7 @@
 """The shown-versus-later page, drawn directly from the player study."""
 from __future__ import annotations
 
-from content import cell, e, faq, onward, table
+from content import cell, e, faq, nfl_credit, onward, table
 from player_study import PLAYER_READ, PLAYER_SOURCES, study
 
 
@@ -104,6 +104,7 @@ in a different season.</p>
 <section class="sources"><h2>Sources</h2><ul>
 <li><a href="{e(PLAYER_SOURCES[0])}">nflverse weekly player statistics, 2024 CSV</a>. Read {PLAYER_READ}.</li>
 <li><a href="{e(PLAYER_SOURCES[1])}">nflverse weekly player statistics, 2025 CSV</a>. Read {PLAYER_READ}.</li>
+{nfl_credit()}
 </ul><p>The method above describes the calculation. Only regular-season rows and the identity, position, season,
 week and three yards fields enter it. Player identities stay out of this page.</p></section>
 {onward(['did-the-trend-hold-up', 'is-a-10-game-trend-reliable'])}

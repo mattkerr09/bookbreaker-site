@@ -22,6 +22,7 @@ import build
 import stats
 from content import cta
 from nfl import answer, team_report
+from build import ORIGIN
 from pages import DATA_PAGES, DATA_PATHS, NFL_TEAMS, PUBLISHED, TEAM_PAGES
 from page_rules import Document, article_issues, clean, jaccard, shingles, words
 from stats import NFL_READ, NFL_SOURCE, SCHEDULE_FIELDS, schedule_rows, season_scores, wilson
@@ -104,8 +105,8 @@ class NFLScoringTests(unittest.TestCase):
                    for u in ET.fromstring(read('sitemap.xml'))}
         for path in DATA_PATHS:
             self.assertTrue((SITE / path).is_file(), path)
-            self.assertEqual(entries['https://bookbreaker.bet/' + path.removesuffix('index.html')], '2026-11-21')
-        self.assertEqual(read('llms.txt').count('[NFL team scoring](https://bookbreaker.bet/nfl-team-scoring/)'), 1)
+            self.assertEqual(entries[ORIGIN + '/' + path.removesuffix('index.html')], '2026-11-21')
+        self.assertEqual(read('llms.txt').count(f'[NFL team scoring]({ORIGIN}/nfl-team-scoring/)'), 1)
 
     def test_metadata_content_and_links(self):
         current, previous = season_scores(), season_scores(season=2024)

@@ -4,7 +4,7 @@ from __future__ import annotations
 import math
 from collections import defaultdict
 
-from content import cell, cta, e, faq, table
+from content import cell, cta, e, faq, nfl_credit, table
 from nfl import TEAM_BY_CODE, count_text, interval, team_link
 from pages import PLAYER_INDEX, PLAYER_PAGES
 from player_data import PLAYER_READ, PLAYER_SOURCES, read_player_rows, thresholds
@@ -132,7 +132,7 @@ def player_sources() -> str:
         for year, url in zip((2024, 2025), PLAYER_SOURCES)) +
         f'<li><a href="{e(NFL_SOURCE)}">nflverse games.csv</a>. Read {NFL_READ}. Dates and designated sides.</li>'
         '<li>PLAN-FIXES.md, section 1. Read 2026-11-21. '
-        '<a href="/nfl-player-stats/#method">Player page method</a>.</li></ul></section>')
+        '<a href="/nfl-player-stats/#method">Player page method</a>.</li>' + nfl_credit() + '</ul></section>')
 
 
 def player_body(p: dict, r: dict) -> str:

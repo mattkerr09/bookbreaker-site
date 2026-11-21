@@ -17,7 +17,7 @@ sys.path.insert(0, str(SOURCE))
 
 import player_study
 from check import BANNED
-from content import cta
+from content import NFL_LICENSE, cta
 from pages import PUBLISHED, SEARCH_PAGES
 from page_rules import Document, article_issues, clean, jaccard, shingles
 from player_study import (MAIN_STAT, PLAYER_FIELDS, PLAYER_READ, PLAYER_SOURCES,
@@ -221,7 +221,8 @@ class PlayerStudyTests(unittest.TestCase):
                 self.assertAlmostEqual(float(bar.attrs['x1']), 18 + 264 * lo, places=2)
                 self.assertAlmostEqual(float(bar.attrs['x2']), 18 + 264 * hi, places=2)
         sources = main.classes('sources')[0]
-        self.assertEqual({n.attrs['href'] for n in sources.all('a')}, set(PLAYER_SOURCES))
+        self.assertEqual({n.attrs['href'] for n in sources.all('a')},
+                         set(PLAYER_SOURCES) | {NFL_LICENSE, 'https://github.com/nflverse/nflverse-data'})
         self.assertEqual(sources.text().count(PLAYER_READ), 2)
         self.assertTrue(3 <= len(main.all('details')) <= 5)
         links = {n.attrs.get('href') for n in main.all('a')}

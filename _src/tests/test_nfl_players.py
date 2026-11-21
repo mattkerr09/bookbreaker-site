@@ -23,6 +23,7 @@ sys.path.insert(0, str(SOURCE))
 import player_data
 from content import cta
 from nfl_players import (POSITION_FIELDS, player_answer, player_body, player_reports)
+from build import ORIGIN
 from pages import PLAYER_INDEX, PLAYER_PAGES, PLAYER_PATHS, PUBLISHED, TEAM_PAGES
 from player_data import MAIN_STAT, PLAYER_PAGE_FIELDS, PLAYER_READ, PLAYER_SOURCES, player_catalog, read_player_rows, thresholds
 from page_rules import Document, article_issues, clean, jaccard, shingles
@@ -337,8 +338,8 @@ class NFLPlayerTests(unittest.TestCase):
         ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
         entries = {u.find('s:loc', ns).text: u.find('s:lastmod', ns).text for u in ET.fromstring(read('sitemap.xml'))}
         for path in PLAYER_PATHS:
-            self.assertEqual(entries['https://bookbreaker.bet/' + path.removesuffix('index.html')], '2026-11-21')
-        self.assertEqual(read('llms.txt').count('[NFL player stats](https://bookbreaker.bet/nfl-player-stats/)'), 1)
+            self.assertEqual(entries[ORIGIN + '/' + path.removesuffix('index.html')], '2026-11-21')
+        self.assertEqual(read('llms.txt').count(f'[NFL player stats]({ORIGIN}/nfl-player-stats/)'), 1)
 
     def test_jaccard_limits(self):
         sets = {p: shingles(read(p)) for p in PUBLISHED if p.endswith('.html')}

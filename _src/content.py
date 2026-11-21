@@ -8,6 +8,7 @@ from pathlib import Path
 from pages import NFL_INDEX, PLAYER_INDEX, SEARCH_PAGES
 from stats import NFL_READ, NFL_SOURCE
 
+NFL_LICENSE = "https://creativecommons.org/licenses/by/4.0/"
 DATA = Path(__file__).resolve().parent / "data"
 FACTS = {item["id"]: item for item in json.loads((DATA / "facts.json").read_text())}
 CLAIMS = {item["id"]: item for item in json.loads((DATA / "claims.json").read_text())}
@@ -56,6 +57,11 @@ def faq(items: list[tuple[str, str]]) -> str:
             ''.join(f'<details><summary>{e(q)}</summary>{a}</details>' for q, a in items) + '</div></section>')
 
 
+def nfl_credit() -> str:
+    return ('<li>NFL data: <a href="https://github.com/nflverse/nflverse-data">nflverse</a>, licensed '
+            f'<a href="{NFL_LICENSE}">CC BY 4.0</a>. Counts and ranges computed by BookBreaker.</li>')
+
+
 def sources(keys: list[str]) -> str:
     reads = sorted({(FACTS[key]["source"], FACTS[key]["readAt"]) for key in keys})
     entries = []
@@ -63,7 +69,7 @@ def sources(keys: list[str]) -> str:
         label = f'<a href="{e(url)}">{e(url)}</a>' if url.startswith("https://") else e(url)
         entries.append(f'<li>{label}. Read {e(date)}.</li>')
     entries.append(f'<li><a href="{e(NFL_SOURCE)}">{e(NFL_SOURCE)}</a>. Data file read {NFL_READ}.</li>')
-    return '<section class="sources"><h2>Sources</h2><ul>' + ''.join(entries) + '</ul></section>'
+    return '<section class="sources"><h2>Sources</h2><ul>' + ''.join(entries) + nfl_credit() + '</ul></section>'
 
 
 def onward(slugs: list[str]) -> str:

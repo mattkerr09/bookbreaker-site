@@ -11,13 +11,14 @@ import json
 from pathlib import Path
 
 from articles import ARTICLE_BODIES
-from content import claim, cta, guide_links
+from content import claim, cta, guide_links, nfl_credit
 from pages import DATA_PAGES, NFL_INDEX, PLAYER_DATA_PAGES, PLAYER_INDEX, SEARCH_PAGES
 from nfl import index_body, team_body, team_report
 from nfl_players import player_body, player_index_body, player_reports, team_players
 from stats import NFL_FILE, NFL_READ, NFL_SOURCE, example, season_scores, wilson
 
 SITE = Path(__file__).resolve().parents[1]
+ORIGIN = "https://bookbreaker.bet"
 CHECKED = "21 November 2026"
 CHECKED_ISO = "2026-11-21"
 # No public date until the bake-off passes (Saban's card, 2026-11-20: the queue puts BookBreaker at wave 6, and Matthew
@@ -77,7 +78,7 @@ REVEAL = """<script>
 
 def page(path: str, title: str, description: str, body: str, body_class: str = "", jsonld: list | None = None,
          index: bool = True) -> str:
-    url = "https://bookbreaker.bet" + path
+    url = ORIGIN + path
     desktop = ('<p>BookBreaker is a sports statistics app in development for Mac and Windows.</p>'
                if path == '/does-a-player-streak-hold-up/' or path.startswith('/nfl-player-stats/') else claim("desktop"))
     ld = "".join(f'<script type="application/ld+json">{json.dumps(x)}</script>\n' for x in (jsonld or []))
@@ -196,6 +197,7 @@ with the rest of the season. It is not the held-up-later method.</p>
 </section>
 <section class="sec" id="search-pages"><div class="sec-head"><h2>Guides</h2>
 <p>Start with the question you came to answer.</p></div>{guide_links(cards=True)}</section>
+<section class="sources"><h2>Sources</h2><ul>{nfl_credit()}</ul></section>
 """
 
 
@@ -236,13 +238,13 @@ def llms(x: dict) -> str:
 - Checked: {CHECKED}
 
 ## Pages
-- [Home](https://bookbreaker.bet/): the app plan and a computed team-points example
-- [Privacy](https://bookbreaker.bet/privacy/)
+- [Home]({ORIGIN}/): the app plan and a computed team-points example
+- [Privacy]({ORIGIN}/privacy/)
 
 ## Guides and answers
-""" + "".join(f"- [{p['title']}](https://bookbreaker.bet/{p['slug']}/): {p['note']}\n" for p in SEARCH_PAGES) + (
-        f"- [NFL team scoring](https://bookbreaker.bet/{NFL_INDEX['slug']}/): 2025 regular-season team scores, counts and ranges\n"
-        f"- [NFL player stats](https://bookbreaker.bet/{PLAYER_INDEX['slug']}/): 2025 player game logs, last-10 counts, ranges and later checks\n")
+""" + "".join(f"- [{p['title']}]({ORIGIN}/{p['slug']}/): {p['note']}\n" for p in SEARCH_PAGES) + (
+        f"- [NFL team scoring]({ORIGIN}/{NFL_INDEX['slug']}/): 2025 regular-season team scores, counts and ranges\n"
+        f"- [NFL player stats]({ORIGIN}/{PLAYER_INDEX['slug']}/): 2025 player game logs, last-10 counts, ranges and later checks\n")
 
 
 def article(config: dict, x: dict) -> str:
@@ -268,12 +270,12 @@ def main() -> None:
                          "BookBreaker is in development.", not_found(), index=False),
         "llms.txt": llms(x),
         "sitemap.xml": ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-                        + "".join(f"<url><loc>https://bookbreaker.bet{p}</loc><lastmod>{CHECKED_ISO}</lastmod></url>\n"
+                        + "".join(f"<url><loc>{ORIGIN}{p}</loc><lastmod>{CHECKED_ISO}</lastmod></url>\n"
                                   for p in ("/", "/privacy/", *(f"/{item['slug']}/" for item in [*SEARCH_PAGES, *DATA_PAGES, *PLAYER_DATA_PAGES])))
                         + "</urlset>\n"),
     }
     for config in [*SEARCH_PAGES, *DATA_PAGES, *PLAYER_DATA_PAGES]:
-        url = f"https://bookbreaker.bet/{config['slug']}/"
+        url = f"{ORIGIN}/{config['slug']}/"
         schema = {"@context": "https://schema.org", "@type": "Article", "headline": config['title'],
                   "description": config['description'], "mainEntityOfPage": url,
                   "author": {"@type": "Person", "name": "Matthew Kerr"},

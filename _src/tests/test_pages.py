@@ -22,6 +22,7 @@ sys.path.insert(0, str(SOURCE))
 from articles import cost_rows, later
 from content import CLAIMS, FACTS, cta, e, fact, table
 from costs import annual_cost, planned_cost
+from build import ORIGIN
 from pages import DATA_PAGES, DATA_PATHS, NFL_INDEX, PLAYER_DATA_PAGES, PLAYER_INDEX, PLAYER_PATHS, PUBLISHED, SEARCH_PAGES, SEARCH_PATHS
 from stats import NFL_READ, NFL_SOURCE, example, held_up, season_scores, wilson
 from page_rules import Document, article_issues, clean, jaccard, registry_issues, shingles, words
@@ -53,13 +54,13 @@ class BuildAndPageTests(unittest.TestCase):
         sitemap = ET.fromstring(read('sitemap.xml'))
         ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
         entries = {u.find('s:loc', ns).text: u.find('s:lastmod', ns).text for u in sitemap}
-        expected_urls = {'https://bookbreaker.bet/', 'https://bookbreaker.bet/privacy/'} | {
-            f'https://bookbreaker.bet/{p["slug"]}/' for p in SEARCH_PAGES + DATA_PAGES + PLAYER_DATA_PAGES}
+        expected_urls = {ORIGIN + '/', ORIGIN + '/privacy/'} | {
+            f'{ORIGIN}/{p["slug"]}/' for p in SEARCH_PAGES + DATA_PAGES + PLAYER_DATA_PAGES}
         self.assertEqual(set(entries), expected_urls)
         self.assertEqual(set(entries.values()), {'2026-11-21'})
         llms = read('llms.txt').split('## Guides and answers\n')[1]
         for page in SEARCH_PAGES:
-            self.assertIn(f'https://bookbreaker.bet/{page["slug"]}/', llms)
+            self.assertIn(f'{ORIGIN}/{page["slug"]}/', llms)
             self.assertIn(page['note'], llms)
         self.assertFalse((SITE / 'guides').exists())
 
@@ -124,14 +125,15 @@ class BuildAndPageTests(unittest.TestCase):
             self.assertEqual(registry_issues(read(path), FACTS, CLAIMS), [], path)
 
     def test_links_are_exact_fact_sources_or_existing_allowed_hosts(self):
-        from check import ALLOWED_HOSTS
+        from check import ALLOWED_HOSTS, NFL_LICENSE
         approved_sources = {entry['source'] for entry in FACTS.values() if entry['source'].startswith('https://')}
+        hosts = ALLOWED_HOSTS | {urlsplit(NFL_LICENSE).hostname}
         for path in ['index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]:
             for node in Document(read(path)).root.all('a'):
                 href = node.attrs.get('href', '')
                 if href.startswith('https://'):
                     url = urlsplit(href)
-                    self.assertTrue(href in approved_sources or url.hostname in ALLOWED_HOSTS or url.hostname == 'bookbreaker.bet', (path, href))
+                    self.assertTrue(href in approved_sources or url.hostname in hosts or url.hostname == 'bookbreaker.bet', (path, href))
 
     def test_checker_allows_fact_hosts_and_rejects_other_hosts(self):
         import check
@@ -142,6 +144,7 @@ class BuildAndPageTests(unittest.TestCase):
             with patch.object(check, 'SITE', site), patch.object(check, 'PUBLISHED', ['index.html']):
                 self.assertTrue({'apps.apple.com', 'www.propsmadness.com', 'www.dimers.com'} <= check.allowed_hosts())
                 for url, status in [('https://apps.apple.com/us/app/id1635246793', 0),
+                                    ('https://creativecommons.org/licenses/by/4.0/', 0),
                                     ('https://unlisted.example/page', 1)]:
                     (site / 'index.html').write_text(f'<a href="{url}">Source</a>')
                     with redirect_stdout(io.StringIO()) as output:

@@ -31,6 +31,8 @@ Facts live in `_src/data/facts.json`. Rival facts use the exact source URLs and 
 
 The checker adds hosts from http or https fact sources to its allowed list. Hosts absent from both lists still fail. Its banned words and old-path rules are unchanged.
 
+NFL pages also carry the nflverse credit and a CC BY 4.0 link. The checker reads that licence link's host in the same way as fact-source hosts.
+
 `_src/stats.py` reads the local nflverse file at build time. It computes Detroit counts and all five rows of the later-games study. The study uses 24 or more team points, a last-10 window and the next 5 played games. Bands run separately. Later games do not repeat within a team's calculation for one band, but can appear across bands. The Wilson example table uses constructed counts to explain the formula, not invented player results.
 
 ## NFL scoring batch
@@ -76,3 +78,10 @@ Thresholds use the exact 2025 median rounded upward to a whole yard, multiplied 
 The individual later check uses the final last-10 band and searches that player's 2024 and 2025 regular-season games with the existing five-game horizon and five-game step from PLAN-FIXES section 1. Only that check uses 2024. The threshold was chosen from the full 2025 season, so it describes stored results rather than testing a number fixed before that season. The separate pooled study keeps its original 2024 threshold and six-game step, and still reproduces its saved output. Of the 273 player pages, 238 have fewer than 15 later games and show “too few past spots to tell” with no score or range.
 
 The player tests verify the eligible set, slug collisions, metadata and every page component, game logs, cards, splits, chart coordinates, all index rows and team links. They independently recount the later spots and three named players, using a second Wilson formula. Synthetic poison columns are guarded against cell access, then the allowed rows reproduce the player pages. Missing games, postseason and 2026 rows, images, advice words and five-word Jaccard limits have separate checks. Each new test also rejects a deliberately broken input patched in memory, then restores it. Will Dissly's recorded name is preserved; the advice-word check removes recorded display names before checking prose.
+
+## Launch redirect kit
+
+The site still uses https://bookbreaker.bet. `_src/build.py` has one `ORIGIN` constant for canonical, OG, sitemap,
+llms.txt and JSON-LD URLs. Switch it only in the new site's launch-day build.
+The offline redirect generator, CSV contract, account steps and fallback limits are in [`_launch/README.md`](_launch/README.md).
+The saved `_launch/bulk-redirects.csv` is for review and later Cloudflare import. Nothing here changes DNS or enables redirects.
