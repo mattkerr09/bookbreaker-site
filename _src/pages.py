@@ -1,6 +1,9 @@
 """One inventory for the generator, checker and page tests."""
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 SEARCH_PAGES = [
     {"slug": "nba-player-stats-app", "title": "What should an NBA player stats app show?",
      "description": "A player stats checklist: game counts, ranges, recent games and context. Dated rival prices and a look at the planned BookBreaker desktop app.",
@@ -32,4 +35,14 @@ SEARCH_PAGES = [
      "note": "A reproducible later-games study on one NFL season of team points."},
 ]
 SEARCH_PATHS = [f"{page['slug']}/index.html" for page in SEARCH_PAGES]
-PUBLISHED = ["index.html", "privacy/index.html", "404.html", "llms.txt", "robots.txt", "sitemap.xml", "README.md", *SEARCH_PATHS]
+NFL_TEAMS = json.loads((Path(__file__).resolve().parent / 'data/nfl_teams.json').read_text())
+NFL_INDEX = {"slug": "nfl-team-scoring", "title": "NFL team scoring stats, 2025 season",
+             "description": "Every 2025 regular-season team score, points per game, threshold counts, Wilson ranges and a check of later games for all 32 NFL teams."}
+TEAM_PAGES = [dict(team, slug=f"{NFL_INDEX['slug']}/{team['slug']}",
+                   title=f"{team['name']} points by game, 2025 season",
+                   description=f"{team['name']} 2025 regular-season points by game, last 5 and last 10 counts, home and away splits, Wilson ranges and a later-games check.")
+              for team in NFL_TEAMS]
+DATA_PAGES = [NFL_INDEX, *TEAM_PAGES]
+DATA_PATHS = [f"{page['slug']}/index.html" for page in DATA_PAGES]
+PUBLISHED = ["index.html", "privacy/index.html", "404.html", "llms.txt", "robots.txt", "sitemap.xml", "README.md",
+             *SEARCH_PATHS, *DATA_PATHS]

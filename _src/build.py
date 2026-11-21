@@ -1,4 +1,4 @@
-"""Build the BookBreaker home page and seven search answers without the network.
+"""Build the home page, seven search answers and NFL scoring batch offline.
 
 App claims are planned. Rival and league facts come from the dated registries.
 Team scores and statistical ranges are computed from the local schedules file.
@@ -12,8 +12,9 @@ from pathlib import Path
 
 from articles import ARTICLE_BODIES
 from content import claim, cta, guide_links
-from pages import SEARCH_PAGES
-from stats import NFL_FILE, NFL_READ, NFL_SOURCE, example, wilson
+from pages import DATA_PAGES, NFL_INDEX, SEARCH_PAGES
+from nfl import index_body, team_body, team_report
+from stats import NFL_FILE, NFL_READ, NFL_SOURCE, example, season_scores, wilson
 
 SITE = Path(__file__).resolve().parents[1]
 CHECKED = "21 November 2026"
@@ -236,7 +237,8 @@ def llms(x: dict) -> str:
 - [Privacy](https://bookbreaker.bet/privacy/)
 
 ## Guides and answers
-""" + "".join(f"- [{p['title']}](https://bookbreaker.bet/{p['slug']}/): {p['note']}\n" for p in SEARCH_PAGES)
+""" + "".join(f"- [{p['title']}](https://bookbreaker.bet/{p['slug']}/): {p['note']}\n" for p in SEARCH_PAGES) + (
+        f"- [NFL team scoring](https://bookbreaker.bet/{NFL_INDEX['slug']}/): 2025 regular-season team scores, counts and ranges\n")
 
 
 def article(config: dict, x: dict) -> str:
@@ -248,6 +250,8 @@ def article(config: dict, x: dict) -> str:
 
 def main() -> None:
     x = example()
+    current, previous = season_scores(), season_scores(season=2024)
+    reports = {team: team_report(games, previous[team]) for team, games in current.items()}
     files = {
         "index.html": page("/", "BookBreaker: sports stats with the game count behind every trend",
                            "BookBreaker is in development for Mac and Windows. Planned player and team stats with game counts, ranges and a later-games check.",
@@ -259,17 +263,23 @@ def main() -> None:
         "llms.txt": llms(x),
         "sitemap.xml": ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                         + "".join(f"<url><loc>https://bookbreaker.bet{p}</loc><lastmod>{CHECKED_ISO}</lastmod></url>\n"
-                                  for p in ("/", "/privacy/", *(f"/{item['slug']}/" for item in SEARCH_PAGES)))
+                                  for p in ("/", "/privacy/", *(f"/{item['slug']}/" for item in [*SEARCH_PAGES, *DATA_PAGES])))
                         + "</urlset>\n"),
     }
-    for config in SEARCH_PAGES:
+    for config in [*SEARCH_PAGES, *DATA_PAGES]:
         url = f"https://bookbreaker.bet/{config['slug']}/"
         schema = {"@context": "https://schema.org", "@type": "Article", "headline": config['title'],
                   "description": config['description'], "mainEntityOfPage": url,
                   "author": {"@type": "Person", "name": "Matthew Kerr"},
                   "datePublished": CHECKED_ISO, "dateModified": CHECKED_ISO}
+        if config in SEARCH_PAGES:
+            body = article(config, x)
+        elif config == NFL_INDEX:
+            body = index_body(reports)
+        else:
+            body = team_body(config, reports[config['abbreviation']])
         files[f"{config['slug']}/index.html"] = page(f"/{config['slug']}/", config['title'], config['description'],
-                                                  article(config, x), "search", [schema])
+                                                  body, "search", [schema])
     for rel, text in files.items():
         out = SITE / rel
         out.parent.mkdir(parents=True, exist_ok=True)

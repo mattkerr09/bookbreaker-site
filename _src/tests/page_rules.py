@@ -76,7 +76,7 @@ def article_issues(source: str, config: dict) -> list[str]:
     errors = []
     want = lambda condition, label: errors.append(label) if not condition else None
     url = f'https://bookbreaker.bet/{config["slug"]}/'
-    titles = doc.all('title')
+    titles = doc.all('head')[0].all('title') if doc.all('head') else []
     want(len(titles) == 1 and clean(titles[0].text()) == config['title'], 'title')
     metas = doc.all('meta')
     get_meta = lambda key, value: [m.attrs.get('content', '') for m in metas if m.attrs.get(key) == value]

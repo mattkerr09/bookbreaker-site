@@ -584,3 +584,30 @@ caption{text-align:left;padding:.8rem 1rem;color:var(--ink);font-weight:600}
 .guide-links li{font-size:.86rem;margin:.5rem 0}
 .foot-grid [data-claim]{font-size:.88rem}
 @media (max-width:420px){.search-hero{padding-top:0}.development{padding:1rem}}
+
+/* NFL scoring pages keep the site's cards, type and neutral accent. */
+.threshold-grid{display:grid;gap:1rem;margin:1.25rem 0;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr))}
+.trend-card{min-width:0;padding:1rem}
+.trend-card .scroll{margin:.5rem 0 0}
+.trend-card th,.trend-card td{padding:.6rem .65rem}
+.trend-card caption{font-size:.9rem}
+.team-body .scroll th{font-size:.875rem;letter-spacing:0;text-transform:none;color:var(--ink-2)}
+.score-chart{margin:1rem 0 1.5rem;padding:1rem;border:1px solid var(--rule);border-radius:var(--r);
+  background:linear-gradient(180deg,var(--card-2),var(--card))}
+.score-chart svg{display:block;width:100%;height:auto;overflow:visible}
+.score-chart polyline{fill:none;stroke:var(--accent-hi);stroke-width:2.5;stroke-linejoin:round}
+.score-chart circle{fill:var(--ink);stroke:var(--card);stroke-width:1}
+.chart-grid line{stroke:var(--rule)}
+.chart-grid text{fill:var(--ink-2);font:14px var(--sans)}
+.score-chart figcaption{font-size:.9rem;color:var(--ink-2);margin-top:.5rem}
+.held-card{padding:1.25rem;border:1px solid var(--hover-rule);border-radius:var(--r);background:var(--card)}
+.held-card h2{margin-top:0}
+.held-card p:last-child{margin-bottom:0}
+#team-scores th{font-size:.875rem;letter-spacing:0;text-transform:none;color:var(--ink-2)}
+#team-scores thead th{min-width:7rem}
+#team-scores thead th:first-child{min-width:12rem}
+#team-scores button{font:inherit;color:var(--ink);text-align:left;background:none;border:0;padding:.25rem 0;cursor:pointer}
+#team-scores button:hover{text-decoration:underline}
+#team-scores [aria-sort] button::after{content:" ▴";color:var(--accent-hi)}
+#team-scores [aria-sort="descending"] button::after{content:" ▾"}
+@media (max-width:600px){.chart-grid text{font-size:28px}}

@@ -5,7 +5,7 @@ import html
 import json
 from pathlib import Path
 
-from pages import SEARCH_PAGES
+from pages import NFL_INDEX, SEARCH_PAGES
 from stats import NFL_READ, NFL_SOURCE
 
 DATA = Path(__file__).resolve().parent / "data"
@@ -74,4 +74,5 @@ def guide_links(cards: bool = False) -> str:
     item_class = ' class="card"' if cards else ''
     items = ''.join(f'<li{item_class}><a href="/{p["slug"]}/">'
                     f'{e(p["title"])}</a></li>' for p in SEARCH_PAGES)
+    items += f'<li{item_class}><a href="/{NFL_INDEX["slug"]}/">NFL team scoring</a></li>'
     return f'<ul class="{"cards" if cards else "guide-links"}" aria-label="Guides">{items}</ul>'

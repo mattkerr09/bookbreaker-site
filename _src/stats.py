@@ -11,6 +11,28 @@ NFL_READ = "2026-10-22"
 BANDS = ("Under 40%", "40 to 59%", "60 to 69%", "70 to 79%", "80% and over")
 HORIZON = 5
 MIN_FUTURE = 15
+SCHEDULE_FIELDS = (
+    "game_id", "season", "game_type", "week", "gameday", "away_team", "away_score",
+    "home_team", "home_score", "location", "overtime", "div_game", "roof",
+    "away_rest", "home_rest", "stadium",
+)
+
+
+def schedule_rows(path: Path = NFL_FILE, season: int = 2025) -> list[dict]:
+    """The only CSV entry point. Retain allowlisted cells at the read boundary.
+
+    Unknown fields never become row keys. Only completed REG rows for the
+    requested season leave this function. The previous season is for later checks.
+    """
+    if season not in (2024, 2025):
+        raise ValueError("only the 2025 season and its previous season are supported")
+    with path.open(newline="") as source:
+        reader = csv.reader(source)
+        header = next(reader)
+        positions = [(key, header.index(key)) for key in SCHEDULE_FIELDS if key in header]
+        rows = ({key: cells[index] for key, index in positions} for cells in reader)
+        return [r for r in rows if r["season"] == str(season) and r["game_type"] == "REG"
+                and r["home_score"] not in ("", "NA") and r["away_score"] not in ("", "NA")]
 
 
 def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
@@ -37,16 +59,18 @@ def rate(scores: list[int], threshold: int) -> dict:
 def season_scores(path: Path = NFL_FILE, season: int = 2025) -> dict[str, list[dict]]:
     """Only completed regular-season games, once per team, in date/game-id order."""
     teams: dict[str, list[dict]] = {}
-    with path.open(newline="") as source:
-        rows = [r for r in csv.DictReader(source)
-                if r["season"] == str(season) and r["game_type"] == "REG"
-                and r["home_score"] not in ("", "NA") and r["away_score"] not in ("", "NA")]
+    rows = schedule_rows(path, season)
     for row in sorted(rows, key=lambda r: (r["gameday"], r["game_id"])):
         for side, other in (("home", "away"), ("away", "home")):
             team = row[f"{side}_team"]
             teams.setdefault(team, []).append({"date": row["gameday"], "id": row["game_id"],
                                               "points": int(row[f"{side}_score"]), "site": side,
-                                              "opponent": row[f"{other}_team"]})
+                                              "opponent": row[f"{other}_team"],
+                                              "allowed": int(row[f"{other}_score"]),
+                                              "season": season, "week": int(row.get("week", 0)),
+                                              "overtime": row.get("overtime", "0") == "1",
+                                              "division": row.get("div_game", "0") == "1",
+                                              "location": row.get("location", "")})
     return teams
 
 
