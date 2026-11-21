@@ -22,3 +22,4 @@
 - [Did the trend hold up in later games?](https://bookbreaker.bet/did-the-trend-hold-up/): A reproducible later-games study on one NFL season of team points.
 - [Does a player's streak hold up in the next games?](https://bookbreaker.bet/does-a-player-streak-hold-up/): Player yards shown versus later, with numbers fixed from 2024.
 - [NFL team scoring](https://bookbreaker.bet/nfl-team-scoring/): 2025 regular-season team scores, counts and ranges
+- [NFL player stats](https://bookbreaker.bet/nfl-player-stats/): 2025 player game logs, last-10 counts, ranges and later checks

@@ -529,3 +529,12 @@ caption{text-align:left;padding:.8rem 1rem;color:var(--ink);font-weight:600}
 .study-track{stroke:var(--ink-3);stroke-width:1}
 .study-range{stroke:var(--accent-hi);stroke-width:8;stroke-linecap:round}
 .study-chart figcaption{font-size:.875rem;color:var(--ink-2);margin-top:.75rem}
+
+/* Player logs use the same neutral palette as team scores. */
+.player-body .scroll th{font-size:.875rem;letter-spacing:0;text-transform:none;color:var(--ink-2)}
+.player-chart .median-line{stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:6 5}
+.position-nav{display:flex;flex-wrap:wrap;gap:.75rem;margin:1rem 0 2rem;height:auto;padding:0}
+.position-nav a{padding:.5rem 1rem;border:1px solid var(--rule);border-radius:var(--r-sm)}
+.team-players ul{columns:2;column-gap:2rem}
+.team-players li{break-inside:avoid;margin-bottom:.5rem}
+@media (max-width:600px){.team-players ul{columns:1}}

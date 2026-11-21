@@ -12,8 +12,9 @@ from pathlib import Path
 
 from articles import ARTICLE_BODIES
 from content import claim, cta, guide_links
-from pages import DATA_PAGES, NFL_INDEX, SEARCH_PAGES
+from pages import DATA_PAGES, NFL_INDEX, PLAYER_DATA_PAGES, PLAYER_INDEX, SEARCH_PAGES
 from nfl import index_body, team_body, team_report
+from nfl_players import player_body, player_index_body, player_reports, team_players
 from stats import NFL_FILE, NFL_READ, NFL_SOURCE, example, season_scores, wilson
 
 SITE = Path(__file__).resolve().parents[1]
@@ -78,7 +79,7 @@ def page(path: str, title: str, description: str, body: str, body_class: str = "
          index: bool = True) -> str:
     url = "https://bookbreaker.bet" + path
     desktop = ('<p>BookBreaker is a sports statistics app in development for Mac and Windows.</p>'
-               if path == '/does-a-player-streak-hold-up/' else claim("desktop"))
+               if path == '/does-a-player-streak-hold-up/' or path.startswith('/nfl-player-stats/') else claim("desktop"))
     ld = "".join(f'<script type="application/ld+json">{json.dumps(x)}</script>\n' for x in (jsonld or []))
     robots = "" if index else '<meta name="robots" content="noindex">\n'
     return f"""<!doctype html>
@@ -240,7 +241,8 @@ def llms(x: dict) -> str:
 
 ## Guides and answers
 """ + "".join(f"- [{p['title']}](https://bookbreaker.bet/{p['slug']}/): {p['note']}\n" for p in SEARCH_PAGES) + (
-        f"- [NFL team scoring](https://bookbreaker.bet/{NFL_INDEX['slug']}/): 2025 regular-season team scores, counts and ranges\n")
+        f"- [NFL team scoring](https://bookbreaker.bet/{NFL_INDEX['slug']}/): 2025 regular-season team scores, counts and ranges\n"
+        f"- [NFL player stats](https://bookbreaker.bet/{PLAYER_INDEX['slug']}/): 2025 player game logs, last-10 counts, ranges and later checks\n")
 
 
 def article(config: dict, x: dict) -> str:
@@ -255,6 +257,7 @@ def main() -> None:
     x = example()
     current, previous = season_scores(), season_scores(season=2024)
     reports = {team: team_report(games, previous[team]) for team, games in current.items()}
+    players = player_reports()
     files = {
         "index.html": page("/", "BookBreaker: sports stats with the game count behind every trend",
                            "BookBreaker is in development for Mac and Windows. Planned player and team stats with game counts, ranges and a later-games check.",
@@ -266,10 +269,10 @@ def main() -> None:
         "llms.txt": llms(x),
         "sitemap.xml": ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                         + "".join(f"<url><loc>https://bookbreaker.bet{p}</loc><lastmod>{CHECKED_ISO}</lastmod></url>\n"
-                                  for p in ("/", "/privacy/", *(f"/{item['slug']}/" for item in [*SEARCH_PAGES, *DATA_PAGES])))
+                                  for p in ("/", "/privacy/", *(f"/{item['slug']}/" for item in [*SEARCH_PAGES, *DATA_PAGES, *PLAYER_DATA_PAGES])))
                         + "</urlset>\n"),
     }
-    for config in [*SEARCH_PAGES, *DATA_PAGES]:
+    for config in [*SEARCH_PAGES, *DATA_PAGES, *PLAYER_DATA_PAGES]:
         url = f"https://bookbreaker.bet/{config['slug']}/"
         schema = {"@context": "https://schema.org", "@type": "Article", "headline": config['title'],
                   "description": config['description'], "mainEntityOfPage": url,
@@ -279,8 +282,12 @@ def main() -> None:
             body = article(config, x)
         elif config == NFL_INDEX:
             body = index_body(reports)
+        elif config == PLAYER_INDEX:
+            body = player_index_body(players)
+        elif config in PLAYER_DATA_PAGES:
+            body = player_body(config, players[config['player_id']])
         else:
-            body = team_body(config, reports[config['abbreviation']])
+            body = team_body(config, reports[config['abbreviation']], team_players(config['abbreviation']))
         files[f"{config['slug']}/index.html"] = page(f"/{config['slug']}/", config['title'], config['description'],
                                                   body, "search", [schema])
     for rel, text in files.items():

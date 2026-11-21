@@ -13,28 +13,14 @@ from statistics import median
 
 from stats import BANDS, band, wilson
 
-PLAYER_DATA = Path('/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-player-week')
+from player_data import MAIN_STAT, PLAYER_DATA, PLAYER_READ, PLAYER_SOURCES, read_player_rows
+
 PLAYER_FIELDS = ('player_id', 'position', 'season', 'week', 'season_type',
                  'passing_yards', 'rushing_yards', 'receiving_yards')
-MAIN_STAT = {'QB': 'passing_yards', 'RB': 'rushing_yards',
-             'WR': 'receiving_yards', 'TE': 'receiving_yards'}
-PLAYER_READ = '2026-11-21'
-PLAYER_SOURCES = tuple('https://github.com/nflverse/nflverse-data/releases/download/'
-                       f'stats_player/stats_player_week_{year}.csv' for year in (2024, 2025))
 
 
 def player_rows(directory: Path = PLAYER_DATA) -> list[dict]:
-    rows = []
-    for season in (2024, 2025):
-        with (directory / f'stats_player_week_{season}.csv').open(newline='') as handle:
-            reader = csv.reader(handle)
-            header = next(reader)
-            positions = [(key, header.index(key)) for key in PLAYER_FIELDS]
-            for cells in reader:
-                row = {key: cells[index] for key, index in positions}
-                if row['season'] == str(season) and row['season_type'] == 'REG' and row['position'] in MAIN_STAT:
-                    rows.append(row)
-    return rows
+    return read_player_rows(directory, PLAYER_FIELDS)
 
 
 def player_logs(rows: list[dict]) -> dict[tuple[str, str], list[dict]]:

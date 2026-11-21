@@ -2,7 +2,7 @@
 
 The website for BookBreaker, a planned sports statistics app for Mac and Windows. It is in development, with no download or launch date.
 
-- Build: `python3 _src/build.py` writes index.html, privacy/, 404.html, the eight search pages, the 33 NFL scoring pages, llms.txt and sitemap.xml. It does not write robots.txt.
+- Build: `python3 _src/build.py` writes index.html, privacy/, 404.html, the eight search pages, the 33 NFL scoring pages, the 274 NFL player pages, llms.txt and sitemap.xml. It does not write robots.txt.
 - Gate: `python3 _src/check.py` must print SITE GREEN (exit 0) before any commit. It fails on the banned words listed in it, on outbound
   links outside the allowed list, and on anything left from the old product.
 - Deploy: GitHub Pages from `main`, with CNAME bookbreaker.bet. A push is live only when Pages reports the build for that
@@ -37,7 +37,7 @@ The checker adds hosts from http or https fact sources to its allowed list. Host
 
 `_src/data/nfl_teams.json` maps the file's 32 team codes to plain names and slugs. `_src/pages.py` derives the 33 paths for the build, checker and tests. `_src/nfl.py` draws the charts and builds the team tables, trend cards, splits and FAQs.
 
-The only CSV entry point is `schedule_rows()` in `_src/stats.py`. It retains only the job's 16 allowed fields, then returns completed regular-season rows for the requested season. No other CSV field is passed to a calculation or page. The source and read date are `NFL_SOURCE` and `NFL_READ` in that file. There is no network step.
+The schedule CSV entry point is `schedule_rows()` in `_src/stats.py`. It retains only the job's 16 allowed fields, then returns completed regular-season rows for the requested season. No other CSV field is passed to a calculation or page. The source and read date are `NFL_SOURCE` and `NFL_READ` in that file. There is no network step.
 
 Every displayed game log uses the 2025 season. The team's median score, rounded up, sets three thresholds: that number and 7 points either side. Splits use the median threshold. The index uses 24 points for every team, so that column compares the same mark. Home and away are designated sides, including neutral venues.
 
@@ -49,7 +49,7 @@ The NFL tests recount every game, trend and split, and independently walk the pa
 
 ## Player yards shown versus later
 
-`_src/player_study.py` reads only player_id, position, season, week, season_type, passing_yards, rushing_yards and receiving_yards from the local nflverse weekly player CSVs for 2024 and 2025. No name field is read. The files are in `/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-player-week/`. Source URLs and the 2026-11-21 read date are in that module and on the page. There is no network step.
+`_src/player_study.py` requests only player_id, position, season, week, season_type, passing_yards, rushing_yards and receiving_yards from the local nflverse weekly player CSVs for 2024 and 2025. No name field is read. The files are in `/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-player-week/`. Source URLs and the 2026-11-21 read date are shared through `_src/player_data.py` and on the page. There is no network step.
 
 `python3 _src/player_study.py` reproduces the research run's output.txt exactly, including every printed count, percentage and range. A frozen copy is in `_src/tests/fixtures/player-study-output.txt`. The study keeps regular-season QB, RB, WR and TE rows, grouped by player and position. At least eight 2024 rows and a 2024 median rounded up to at least 10 yards set eligibility. Rounding comes before the cutoff, so a 9.5-yard median qualifies. Only 2024 sets the number.
 
@@ -62,3 +62,17 @@ Run `python3 -m unittest discover -s _src/tests -v`. This runs the build and che
 The named-action check catches common present-tense verbs after “BookBreaker” outside registered claims. It does not understand every verb, pronouns, implied subjects or words in pictures. A person must still review the copy. Visual checks at 375 and 1280 pixels also remain required; browser access was denied in this workspace.
 
 Go-live order for Claude: re-read every rival fact at its source and save the read time, run the gate and inspect the layouts, then publish, then IndexNow. Nothing in this job publishes or submits URLs.
+
+## NFL player pages
+
+`_src/player_data.py` owns the single player CSV boundary, `read_player_rows()`. It selects only the 21 approved fields by column index. The pooled study requests its original eight-field subset. Unknown values are never accessed or passed to calculations. The two source files and their 2026-11-21 read date are named there. Schedule dates, designated sides and division flags still come through `schedule_rows()` with its existing allowlist and source read date.
+
+`_src/pages.py` derives one index and 273 eligible player paths from the local files: 37 QB, 60 RB, 116 WR and 60 TE. Eligibility uses at least 8 recorded 2025 regular-season games and an exact median of at least 10 yards in the position's main stat. No missed game becomes a row or a zero. Slugs use the lowercase display name with punctuation replaced by hyphens; duplicate names gain position, then team. The latest recorded 2025 row supplies the position. Pages name every team in a traded player's 2025 log and appear on each of those team pages.
+
+`_src/nfl_players.py` joins recorded player rows to schedule games by team and game ID, checks week and opponent, and refuses an unmatched or duplicate game. Each player has a position-specific game log, three threshold cards, four splits, a drawn SVG with the exact median line, a measured observation, three personal FAQs and source links. The index has one table per position and the shared method. The home and footer Guides lists link to it. Each team page lists all its eligible players. Player pages link to up to two eligible teammates at their position.
+
+Thresholds use the exact 2025 median rounded upward to a whole yard, multiplied by 0.75, 1 and 1.25. Each is rounded to the nearest 5 yards, with halves upward. Small medians can give the lower and middle cards the same mark. Splits and the individual later check use the middle rounded mark, while the chart line and index median column show the exact median. Every last-10 count shows its real denominator, including logs with only 8 or 9 games.
+
+The individual later check uses the final last-10 band and searches that player's 2024 and 2025 regular-season games with the existing five-game horizon and five-game step from PLAN-FIXES section 1. Only that check uses 2024. The threshold was chosen from the full 2025 season, so it describes stored results rather than testing a number fixed before that season. The separate pooled study keeps its original 2024 threshold and six-game step, and still reproduces its saved output. Of the 273 player pages, 238 have fewer than 15 later games and show “too few past spots to tell” with no score or range.
+
+The player tests verify the eligible set, slug collisions, metadata and every page component, game logs, cards, splits, chart coordinates, all index rows and team links. They independently recount the later spots and three named players, using a second Wilson formula. Synthetic poison columns are guarded against cell access, then the allowed rows reproduce the player pages. Missing games, postseason and 2026 rows, images, advice words and five-word Jaccard limits have separate checks. Each new test also rejects a deliberately broken input patched in memory, then restores it. Will Dissly's recorded name is preserved; the advice-word check removes recorded display names before checking prose.

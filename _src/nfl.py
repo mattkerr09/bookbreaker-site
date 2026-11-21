@@ -122,7 +122,7 @@ def held_line(r: dict) -> str:
     return f'<section class="held-card"><h2>Held up later</h2><p>{result}</p><p>{e(context)}</p></section>'
 
 
-def team_body(team: dict, r: dict) -> str:
+def team_body(team: dict, r: dict, players_html: str = "") -> str:
     name, games, t = team['name'], r['games'], r['threshold']
     game_rows = [[cell(g['week'], True), cell(g['date']), f'<td>{e(TEAM_BY_CODE[g["opponent"]]["name"])}</td>',
                   cell(g['site'].capitalize()), cell(g['points']), cell(g['allowed']),
@@ -175,7 +175,7 @@ def team_body(team: dict, r: dict) -> str:
             '<li><a href="/nfl-team-scoring/">All NFL team scoring pages</a></li>' + links +
             '<li><a href="/did-the-trend-hold-up/">Did the trend hold up in later games?</a></li>'
             '<li><a href="/is-a-10-game-trend-reliable/">Is a 10-game trend reliable?</a></li>'
-            '</ul></section></div></article>')
+            '</ul></section>' + players_html + '</div></article>')
 
 
 SORT_SCRIPT = '''<script>
