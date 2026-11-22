@@ -25,6 +25,7 @@ BANNED = re.compile(
     r"|\bwagering\b|sportsbook|\bgambl|\bparlays?\b|\bprops?\b|\blocks?\b|\bbonus|\bpromo|\bpayouts?\b|\bjuice\b|\bvig\b"
     r"|\bspreads?\b|\bmoneyline|\bunderdog|\bfavou?rites?\b|\bhandicap|\btouts?\b|\bwin more\b|\bguarantee", re.I)
 DOMAIN = re.compile(r"bookbreaker\.bet", re.I)
+OWN_HOST = "bookbreaker.bet"
 ALLOWED_HOSTS = {"kerrandcompanyholdings.com", "plausible.io", "github.com", "schema.org", "www.sitemaps.org"}
 LEFTOVERS = ["guides", "sportsbooks", "calculators", "go", "promo-codes", "vs", "for", "best", "what-your-record-proves",
              "responsible-gambling", "offers", "how-we-are-paid", "how-it-works", "download", "ask", "ai-assistants",
@@ -65,7 +66,7 @@ def main() -> int:
                         fails.append(f"{rel}: internal link {href} has no file")
                     continue
                 host = re.sub(r"^https?://", "", href).split("/")[0].lower()
-                if host == "bookbreaker.bet":
+                if host == OWN_HOST:
                     continue
                 if host not in hosts:
                     fails.append(f"{rel}: outbound link to {host} is not allowed")

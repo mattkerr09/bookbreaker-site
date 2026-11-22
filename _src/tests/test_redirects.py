@@ -58,7 +58,8 @@ class RedirectTests(unittest.TestCase):
             with out.open(newline='') as stream:
                 rows = list(csv.reader(stream))
             self.assertEqual(out.read_bytes(), (SITE / '_launch/bulk-redirects.csv').read_bytes())
-        self.assertEqual(len(rows), 320)
+        # Every sitemap URL, plus llms.txt, sitemap.xml and robots.txt (privacy is already in the sitemap).
+        self.assertEqual(len(rows), len(ET.fromstring((SITE / 'sitemap.xml').read_text())) + 3)
         self.assertEqual([tuple(row[:2]) for row in rows], pairs)
         for row in rows:
             self.assertEqual(len(row), 7)
@@ -141,7 +142,7 @@ class RedirectTests(unittest.TestCase):
             self.assertEqual(redirects.main(['--verify'], lambda url: (200, {})), 1)
             self.assertEqual(redirects.main(['--verify'], transport), 0)
             self.assertEqual(calls, list(expected))
-            self.assertIn('323 redirects checked; 0 misses', output.getvalue())
+            self.assertIn(f'{len(expected)} redirects checked; 0 misses', output.getvalue())
             for probe in probes:
                 with self.subTest(probe=probe):
                     def broken(url):

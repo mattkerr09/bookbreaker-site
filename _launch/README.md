@@ -33,7 +33,7 @@ https://developers.cloudflare.com/fundamentals/manage-domains/redirect-domain/
    This command uses the network and is for launch day only. It sends one GET per old URL without following redirects.
    Every response must be 301 with Location exactly equal to the matching Streakgauge URL. A connection error,
    wrong status, wrong Location or missing Location fails the check. Repeat after DNS has settled.
-   The 323 checks cover the 320 mapped URLs and these three extra requests:
+   The checks cover every mapped URL (one per sitemap URL, plus llms.txt, sitemap.xml and robots.txt) and these three extra requests:
 
    - `https://bookbreaker.bet/no-such-page/` must go to `https://streakgauge.com/no-such-page/`.
    - `https://bookbreaker.bet/llms.txt?x=1` must go to `https://streakgauge.com/llms.txt?x=1`.
@@ -64,7 +64,7 @@ Generate the file from the unchanged old-host sitemap:
 python3 _src/redirects.py --csv _launch/bulk-redirects.csv
 ```
 
-The CSV must not include a header row with column names. It has 320 data rows.
+The CSV must not include a header row with column names. It has one data row per mapped URL (the test checks the count against the sitemap).
 The columns are in this exact order, shown here only as a reference:
 
 ```text
@@ -104,3 +104,21 @@ It cannot pass `--verify`. Complete Plan A and rerun the real check when the acc
 Run `python3 -m unittest discover -s _src/tests -v`.
 Tests use stub transports for good and bad responses, including the three extra launch probes.
 They never request the live old or new host. No network was used to prepare this fix.
+
+## The Streakgauge site (built, not deployed)
+
+`_src/launch.py OUTDIR` builds streakgauge.com from these same sources: every page at the same path, the name Streakgauge,
+the gauge mark and icons in `_launch/streakgauge-assets/` (drawn by `make_icons.py`), CNAME, robots.txt and a new IndexNow
+key file. Its gate fails on any page that still says BookBreaker or .bet, on the usual site gate and on missing icons.
+`_launch/build-streakgauge.sh` rebuilds the local copy at ~/streakgauge-site (a git repo with no remote yet).
+
+Launch-day order (WIN-PLAN section 8):
+1. Matthew buys streakgauge.com (his card; .com only).
+2. Create the GitHub repo for the site, add it as the remote of ~/streakgauge-site, push, turn on Pages with the custom
+   domain, and point the domain's DNS at Pages. Rebuild first with `build-streakgauge.sh` so it carries the latest pages.
+3. Matthew adds the site in Plausible and verifies it in Bing Webmaster and Search Console (his sign-ins). Put the new
+   Bing code into the page shell's msvalidate meta (the launch build strips bookbreaker.bet's code), rebuild, push.
+4. Turn on the bookbreaker.bet redirect (Plan A above), run `redirects.py --verify`, send IndexNow for the new site.
+5. Re-run the name checks (WIN-PLAN section 7) the same day; then the Dodo product form (DODO-PRODUCT-FORM.md).
+Still missing before launch: terms (a draft goes to Matthew; new legal text is his), and present-tense copy once the app
+really ships (the pages say "in development" until then).

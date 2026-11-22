@@ -1,14 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Bookbreaker. A B with its top bowl pushed out of line: two books quoting
-       the same market at different prices, and the gap between them is the
-       whole product. The break is the name, and it is the thing.
-
-       Blue at Matthew's request, in FanDuel's family. The shape is ours; the
-       mark is not theirs and implies no affiliation.
-
-       The B is drawn solid rather than knocked out of the tile. A knockout
-       takes the colour of whatever sits behind it, which on a browser tab is
-       not a colour we choose. -->
   <defs>
     <linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#3ba3ff"/>

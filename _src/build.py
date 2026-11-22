@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 
 from articles import ARTICLE_BODIES
-from content import claim, cta, guide_links, nfl_credit
+from content import cell, claim, cta, guide_links, nfl_credit, table
 from pages import DATA_PAGES, NFL_INDEX, PLAYER_DATA_PAGES, PLAYER_INDEX, SEARCH_PAGES
 from nfl import index_body, team_body, team_report
 from nfl_players import player_body, player_index_body, player_reports, team_players
@@ -107,7 +107,7 @@ def page(path: str, title: str, description: str, body: str, body_class: str = "
 <script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
 {ld}</head>
 <body class="{e(body_class)}">
-<header><nav><a class="brand" href="/">{MARK}BookBreaker</a><span class="links"><a href="/#what">The plan</a><a href="/#price">Price</a><a href="/#questions">Questions</a></span></nav></header>
+<header><nav><a class="brand" href="/">{MARK}BookBreaker</a><span class="links"><a href="/#what">The plan</a><a href="/pricing/">Price</a><a href="/#questions">Questions</a></span></nav></header>
 <main>
 {body}
 </main>
@@ -121,6 +121,7 @@ def page(path: str, title: str, description: str, body: str, body_class: str = "
 <div>
 <p class="foot-head">Site</p>
 <p><a href="/">Home</a></p>
+<p><a href="/pricing/">Price</a></p>
 <p><a href="/privacy/">Privacy</a></p>
 </div>
 <div>
@@ -218,6 +219,34 @@ for nothing.</p>
 </article>"""
 
 
+def pricing() -> str:
+    """The planned price, kept to the claims registry. No checkout exists until the payment provider approves."""
+    rows = [[cell('The app, today', True), cell('$39 once'), cell('The app and 12 months of new games')],
+            [cell('Each later year', True), cell('$19, optional'), cell('Another 12 months of new games')],
+            [cell('If you stop', True), cell('$0'), cell('Every stat and tool you already have keeps working')]]
+    totals = [[cell(f'{years} {"year" if years == 1 else "years"}', True), cell(f'${39}'),
+               cell(f'${39 + 19 * (years - 1)}')] for years in (1, 2, 3)]
+    return f"""<article class="prose-page">
+<h1>BookBreaker price</h1>
+<p class="lede">$39 once for the app, with 12 months of new games. After that, new games are an optional $19 a year.
+BookBreaker is in development, so nothing is on sale yet.</p>
+{claim('price')}{claim('keep')}
+<h2>What you pay</h2>
+{table(['When', 'Price', 'What it covers'], rows, 'The planned BookBreaker price')}
+<h2>Totals over three years</h2>
+{table(['Years of use', 'Without later updates', 'With every yearly update'], totals, 'Planned totals, before any sales tax')}
+<p>For dated yearly prices of other stats apps, read <a href="/pay-once-sports-stats-app/">Can I pay once for a sports
+stats app?</a></p>
+<h2>What the licence is for</h2>
+{claim('desktop')}{claim('counts')}{claim('held')}{claim('local')}{claim('offline')}
+<h2>When you can buy it</h2>
+<p>Not yet. There is no download and no launch date. The checkout opens only after the payment provider approves the
+product in writing, and the refund terms are published with it.</p>
+<p>Questions go to Matthew Kerr at <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
+<p class="trend-src">Checked {CHECKED}.</p>
+</article>"""
+
+
 def not_found() -> str:
     return """<article class="prose-page">
 <h1>That page has gone</h1>
@@ -239,6 +268,7 @@ def llms(x: dict) -> str:
 
 ## Pages
 - [Home]({ORIGIN}/): the app plan and a computed team-points example
+- [Price]({ORIGIN}/pricing/): $39 once with 12 months of new games, then an optional $19 a year
 - [Privacy]({ORIGIN}/privacy/)
 
 ## Guides and answers
@@ -264,6 +294,9 @@ def main() -> None:
         "index.html": page("/", "BookBreaker: sports stats with the game count behind every trend",
                            "BookBreaker is in development for Mac and Windows. Planned player and team stats with game counts, ranges and a later-games check.",
                            home(x), "home"),
+        "pricing/index.html": page("/pricing/", "BookBreaker price: $39 once, then optional $19 a year",
+                                   "BookBreaker's planned price: $39 once with 12 months of new games, then an optional "
+                                   "$19 a year. In development; no checkout yet.", pricing()),
         "privacy/index.html": page("/privacy/", "Privacy: BookBreaker",
                                    "What bookbreaker.bet counts and the planned app privacy details.", privacy()),
         "404.html": page("/404.html", "Page not found: BookBreaker",
@@ -271,7 +304,7 @@ def main() -> None:
         "llms.txt": llms(x),
         "sitemap.xml": ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                         + "".join(f"<url><loc>{ORIGIN}{p}</loc><lastmod>{modified}</lastmod></url>\n"
-                                  for p, modified in (("/", CHECKED_ISO), ("/privacy/", CHECKED_ISO),
+                                  for p, modified in (("/", CHECKED_ISO), ("/pricing/", CHECKED_ISO), ("/privacy/", CHECKED_ISO),
                                                       *((f"/{item['slug']}/", item.get('modified', CHECKED_ISO))
                                                         for item in [*SEARCH_PAGES, *DATA_PAGES, *PLAYER_DATA_PAGES])))
                         + "</urlset>\n"),

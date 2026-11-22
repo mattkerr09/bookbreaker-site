@@ -47,15 +47,15 @@ class BuildAndPageTests(unittest.TestCase):
     def test_inventory_sitemap_llms_and_no_extra_pages(self):
         self.assertEqual(len(SEARCH_PAGES), 8)
         self.assertEqual(len(set(SEARCH_PATHS)), 8)
-        self.assertEqual(set(PUBLISHED), set(SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS) | {'index.html', 'privacy/index.html', '404.html', 'llms.txt', 'robots.txt', 'sitemap.xml', 'README.md'})
+        self.assertEqual(set(PUBLISHED), set(SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS) | {'index.html', 'pricing/index.html', 'privacy/index.html', '404.html', 'llms.txt', 'robots.txt', 'sitemap.xml', 'README.md'})
         actual = {str(p.relative_to(SITE)) for p in SITE.rglob('*.html')
                   if not any(part.startswith('.') for part in p.relative_to(SITE).parts)
                   and p.relative_to(SITE).parts[0] != '_src'}
-        self.assertEqual(actual, set(SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS) | {'index.html', 'privacy/index.html', '404.html'})
+        self.assertEqual(actual, set(SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS) | {'index.html', 'pricing/index.html', 'privacy/index.html', '404.html'})
         sitemap = ET.fromstring(read('sitemap.xml'))
         ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
         entries = {u.find('s:loc', ns).text: u.find('s:lastmod', ns).text for u in sitemap}
-        expected_urls = {ORIGIN + '/', ORIGIN + '/privacy/'} | {
+        expected_urls = {ORIGIN + '/', ORIGIN + '/pricing/', ORIGIN + '/privacy/'} | {
             f'{ORIGIN}/{p["slug"]}/' for p in SEARCH_PAGES + DATA_PAGES + PLAYER_DATA_PAGES}
         self.assertEqual(set(entries), expected_urls)
         self.assertEqual({entries[f'{ORIGIN}/{p["slug"]}/'] for p in PLAYER_DATA_PAGES}, {PLAYER_2026_READ})
@@ -73,7 +73,7 @@ class BuildAndPageTests(unittest.TestCase):
         home_lists = [n for n in home.all('main')[0].all('ul') if n.attrs.get('aria-label') == 'Guides']
         self.assertEqual(len(home_lists), 1)
         self.assertEqual(len(home_lists[0].all('a')), 10)
-        for path in ['index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]:
+        for path in ['index.html', 'pricing/index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]:
             source = read(path)
             doc = Document(source).root
             self.assertEqual(len(doc.all('header')), 1, path)
@@ -124,14 +124,14 @@ class BuildAndPageTests(unittest.TestCase):
             self.assertRegex(entry['text'], r'\bwill\b')
 
     def test_every_marked_fact_and_claim_matches_its_registry(self):
-        for path in ['index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]:
+        for path in ['index.html', 'pricing/index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]:
             self.assertEqual(registry_issues(read(path), FACTS, CLAIMS), [], path)
 
     def test_links_are_exact_fact_sources_or_existing_allowed_hosts(self):
         from check import ALLOWED_HOSTS, NFL_LICENSE
         approved_sources = {entry['source'] for entry in FACTS.values() if entry['source'].startswith('https://')}
         hosts = ALLOWED_HOSTS | {urlsplit(NFL_LICENSE).hostname}
-        for path in ['index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]:
+        for path in ['index.html', 'pricing/index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]:
             for node in Document(read(path)).root.all('a'):
                 href = node.attrs.get('href', '')
                 if href.startswith('https://'):
@@ -168,7 +168,7 @@ class BuildAndPageTests(unittest.TestCase):
 
     def test_plain_copy_and_no_retired_product_name(self):
         prohibited = re.compile(r'\b(?:best|beats|seamless|unlock|elevate|game.changer|supercharge|revolutioni[sz]e|effortless|empower|leverage|cutting.edge|streamline|revolutionary|unleash|game.changing)\b|#1\b|better than|unlike other apps|the only|not just[^.]*but', re.I)
-        for path in ['index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS]:
+        for path in ['index.html', 'pricing/index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS]:
             source = read(path)
             self.assertNotRegex(Document(source).root.text(), prohibited, path)
             self.assertNotRegex(source, r'[\u2013\u2014]', path)
@@ -224,7 +224,7 @@ class BuildAndPageTests(unittest.TestCase):
 
     def test_build_is_repeatable_and_does_not_write_forbidden_files(self):
         paths = ['CNAME', '1d72346274f3ba1a3957eb72beea0f75.txt', '39a190ab445d73f57af4ed54a6992c18.txt', 'robots.txt',
-                 'index.html', 'privacy/index.html', '404.html', 'sitemap.xml', 'llms.txt', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]
+                 'index.html', 'pricing/index.html', 'privacy/index.html', '404.html', 'sitemap.xml', 'llms.txt', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]
         before = {path: hashlib.sha256((SITE / path).read_bytes()).hexdigest() for path in paths}
         result = subprocess.run([sys.executable, str(SOURCE / 'build.py')], cwd=SITE, text=True, capture_output=True)
         self.assertEqual(result.returncode, 0, result.stderr)

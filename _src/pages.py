@@ -57,5 +57,5 @@ PLAYER_INDEX = {"slug": "nfl-player-stats", "title": "NFL player stats by game, 
 PLAYER_PAGES = with_2026(player_catalog())
 PLAYER_DATA_PAGES = [PLAYER_INDEX, *PLAYER_PAGES]
 PLAYER_PATHS = [f"{page['slug']}/index.html" for page in PLAYER_DATA_PAGES]
-PUBLISHED = ["index.html", "privacy/index.html", "404.html", "llms.txt", "robots.txt", "sitemap.xml", "README.md",
+PUBLISHED = ["index.html", "pricing/index.html", "privacy/index.html", "404.html", "llms.txt", "robots.txt", "sitemap.xml", "README.md",
              *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]
