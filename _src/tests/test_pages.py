@@ -19,7 +19,7 @@ SOURCE = Path(__file__).resolve().parents[1]
 SITE = SOURCE.parent
 sys.path.insert(0, str(SOURCE))
 
-from articles import cost_rows, later
+from articles import WINDOWS_PLAYER, cost_rows, later
 from content import CLAIMS, FACTS, cta, e, fact, table
 from costs import annual_cost, planned_cost
 from build import ORIGIN
@@ -45,8 +45,8 @@ class BuildAndPageTests(unittest.TestCase):
         self.assertIn('SITE GREEN', check.stdout)
 
     def test_inventory_sitemap_llms_and_no_extra_pages(self):
-        self.assertEqual(len(SEARCH_PAGES), 8)
-        self.assertEqual(len(set(SEARCH_PATHS)), 8)
+        self.assertEqual(len(SEARCH_PAGES), 10)
+        self.assertEqual(len(set(SEARCH_PATHS)), 10)
         self.assertEqual(set(PUBLISHED), set(SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS) | {'index.html', 'pricing/index.html', 'privacy/index.html', 'streak-checker/index.html', 'streak-checker/nfl.json', 'streak-checker/checker.js', '404.html', 'llms.txt', 'robots.txt', 'sitemap.xml', 'README.md'})
         actual = {str(p.relative_to(SITE)) for p in SITE.rglob('*.html')
                   if not any(part.startswith('.') for part in p.relative_to(SITE).parts)
@@ -73,7 +73,7 @@ class BuildAndPageTests(unittest.TestCase):
         home = Document(read('index.html')).root
         home_lists = [n for n in home.all('main')[0].all('ul') if n.attrs.get('aria-label') == 'Guides']
         self.assertEqual(len(home_lists), 1)
-        self.assertEqual(len(home_lists[0].all('a')), 10)
+        self.assertEqual(len(home_lists[0].all('a')), 12)
         for path in ['index.html', 'pricing/index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]:
             source = read(path)
             doc = Document(source).root
@@ -166,6 +166,44 @@ class BuildAndPageTests(unittest.TestCase):
             self.assertNotIn('<slug>', node.attrs.get('href', ''))
         for key in ('nba-logs', 'nfl-logs'):
             self.assertIn('tested in a browser on 20 November 2026', FACTS[key]['text'])
+
+    def test_windows_page_player_count_reproduces_from_the_player_log(self):
+        from nfl import TEAM_BY_CODE
+        from nfl_players import player_reports
+        from pages import PLAYER_PAGES
+        p = next(p for p in PLAYER_PAGES if p['slug'] == WINDOWS_PLAYER)
+        r = player_reports(players=[p])[p['player_id']]
+        source = read('nfl-nba-player-stats-on-windows/index.html')
+        t, last, season = r['threshold'], r['last'], r['season']
+        self.assertEqual(last['n'], 10)
+        for g in r['games'][-10:]:
+            self.assertIn(f'Week {g["week"]}</th><td>{g["date"]}</td><td>{e(TEAM_BY_CODE[g["opponent"]]["name"])}</td>'
+                          f'<td>{g["yards"]}</td><td>{"Yes" if g["yards"] >= t else "No"}</td>', source)
+        doc = Document(source).root
+        text = clean(doc.all('main')[0].text())
+        self.assertIn(f'He reached {t} yards in {last["k"]} of those {last["n"]} games, with a Wilson 95% range of '
+                      f'{last["lo"]}% to {last["hi"]}%.', text)
+        self.assertIn(f'the count was {season["k"]} of {season["n"]}, with a range of {season["lo"]}% to {season["hi"]}%.', text)
+        self.assertIn(f'href="/{p["slug"]}/"', source)
+        self.assertIn(f'href="/{PLAYER_INDEX["slug"]}/"', source)
+        self.assertIn('stats_player_week_2025.csv', source)
+        self.assertEqual({n.attrs['data-fact'] for n in doc.all(attr='data-fact')},
+                         {'nba-logs', 'nfl-logs', 'linemate-platform', 'madness-platform', 'dimers-platform'})
+        self.assertTrue({'desktop', 'leagues', 'counts', 'filters', 'held', 'price'}
+                        <= {n.attrs['data-claim'] for n in doc.all(attr='data-claim')})
+
+    def test_no_account_page_leaves_unread_account_rules_blank(self):
+        source = read('sports-stats-app-no-account/index.html')
+        doc = Document(source).root
+        tables = doc.all('main')[0].all('table')
+        self.assertEqual(len(tables), 3)
+        rival_rows = tables[2].all('tbody')[0].all('tr')
+        self.assertEqual(len(rival_rows), 3)
+        for row in rival_rows:
+            self.assertEqual(clean(row.all('td')[-1].text()), 'Not recorded')
+        self.assertTrue({'local', 'offline', 'privacy', 'keep', 'price'}
+                        <= {n.attrs['data-claim'] for n in doc.all(attr='data-claim')})
+        self.assertIn('href="/privacy/"', source)
 
     def test_plain_copy_and_no_retired_product_name(self):
         prohibited = re.compile(r'\b(?:best|beats|seamless|unlock|elevate|game.changer|supercharge|revolutioni[sz]e|effortless|empower|leverage|cutting.edge|streamline|revolutionary|unleash|game.changing)\b|#1\b|better than|unlike other apps|the only|not just[^.]*but', re.I)

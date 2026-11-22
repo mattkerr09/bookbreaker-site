@@ -50,7 +50,7 @@ class RedirectTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             redirects.mapping(SITE / 'sitemap.xml', redirects.NEW_ORIGIN.replace('streakgauge.com', 'wrong.example'))
 
-    def test_csv_has_no_header_and_320_data_rows_and_saved_artifact(self):
+    def test_csv_has_no_header_and_one_row_per_url_and_saved_artifact(self):
         pairs = redirects.mapping(SITE / 'sitemap.xml', redirects.NEW_ORIGIN)
         with tempfile.TemporaryDirectory() as directory:
             out = Path(directory) / 'redirects.csv'
@@ -165,9 +165,9 @@ class RedirectMutationTests(unittest.TestCase):
              'for old in dict.fromkeys(urls)', 'for old in dict.fromkeys(urls[1:])'),
             ('test_mapping_covers_sitemap_and_extras_with_identical_paths',
              'new_origin.rstrip("/") + urlsplit(old).path', 'new_origin.rstrip("/") + "/wrong/"'),
-            ('test_csv_has_no_header_and_320_data_rows_and_saved_artifact', 'writer = csv.writer(stream)',
+            ('test_csv_has_no_header_and_one_row_per_url_and_saved_artifact', 'writer = csv.writer(stream)',
              'writer = csv.writer(stream); writer.writerow(("source_url", "target_url", "status_code", "preserve_query_string", "include_subdomains", "subpath_matching", "preserve_path_suffix"))'),
-            ('test_csv_has_no_header_and_320_data_rows_and_saved_artifact', '301, "true", "false", "false", "false"',
+            ('test_csv_has_no_header_and_one_row_per_url_and_saved_artifact', '301, "true", "false", "false", "false"',
              '302, "false", "true", "true", "true"'),
             ('test_stubs_have_only_canonical_refresh_and_visible_target', 'rel="canonical"', 'rel="wrong"'),
             ('test_stubs_have_only_canonical_refresh_and_visible_target', 'content="0; url={url}"', 'content="1; url={url}"'),

@@ -62,13 +62,14 @@ def nfl_credit() -> str:
             f'<a href="{NFL_LICENSE}">CC BY 4.0</a>. Counts and ranges computed by BookBreaker.</li>')
 
 
-def sources(keys: list[str]) -> str:
+def sources(keys: list[str], extra: list[str] = ()) -> str:
     reads = sorted({(FACTS[key]["source"], FACTS[key]["readAt"]) for key in keys})
     entries = []
     for url, date in reads:
         label = f'<a href="{e(url)}">{e(url)}</a>' if url.startswith("https://") else e(url)
         entries.append(f'<li>{label}. Read {e(date)}.</li>')
     entries.append(f'<li><a href="{e(NFL_SOURCE)}">{e(NFL_SOURCE)}</a>. Data file read {NFL_READ}.</li>')
+    entries.extend(extra)
     return '<section class="sources"><h2>Sources</h2><ul>' + ''.join(entries) + nfl_credit() + '</ul></section>'
 
 
