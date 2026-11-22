@@ -25,6 +25,8 @@ BANNED = re.compile(
     r"|\bwagering\b|sportsbook|\bgambl|\bparlays?\b|\bprops?\b|\blocks?\b|\bbonus|\bpromo|\bpayouts?\b|\bjuice\b|\bvig\b"
     r"|\bspreads?\b|\bmoneyline|\bunderdog|\bfavou?rites?\b|\bhandicap|\btouts?\b|\bwin more\b|\bguarantee", re.I)
 DOMAIN = re.compile(r"bookbreaker\.bet", re.I)
+# Recorded player display names that collide with a banned word. They are names in the data, never the word itself.
+RECORDED_NAMES = re.compile(r"\bDrew Lock\b")
 OWN_HOST = "bookbreaker.bet"
 ALLOWED_HOSTS = {"kerrandcompanyholdings.com", "plausible.io", "github.com", "schema.org", "www.sitemaps.org"}
 LEFTOVERS = ["guides", "sportsbooks", "calculators", "go", "promo-codes", "vs", "for", "best", "what-your-record-proves",
@@ -49,7 +51,7 @@ def main() -> int:
             fails.append(f"missing {rel}")
             continue
         text = p.read_text()
-        visible = DOMAIN.sub("", re.sub(r"<script[^>]*src=\"[^\"]*\"", "", text))
+        visible = RECORDED_NAMES.sub("", DOMAIN.sub("", re.sub(r"<script[^>]*src=\"[^\"]*\"", "", text)))
         for m in BANNED.finditer(visible):
             line = visible.count("\n", 0, m.start()) + 1
             fails.append(f"{rel}:{line}: banned word {m.group(0)!r}")

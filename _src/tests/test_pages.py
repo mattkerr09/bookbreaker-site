@@ -47,20 +47,21 @@ class BuildAndPageTests(unittest.TestCase):
     def test_inventory_sitemap_llms_and_no_extra_pages(self):
         self.assertEqual(len(SEARCH_PAGES), 8)
         self.assertEqual(len(set(SEARCH_PATHS)), 8)
-        self.assertEqual(set(PUBLISHED), set(SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS) | {'index.html', 'pricing/index.html', 'privacy/index.html', '404.html', 'llms.txt', 'robots.txt', 'sitemap.xml', 'README.md'})
+        self.assertEqual(set(PUBLISHED), set(SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS) | {'index.html', 'pricing/index.html', 'privacy/index.html', 'streak-checker/index.html', 'streak-checker/nfl.json', 'streak-checker/checker.js', '404.html', 'llms.txt', 'robots.txt', 'sitemap.xml', 'README.md'})
         actual = {str(p.relative_to(SITE)) for p in SITE.rglob('*.html')
                   if not any(part.startswith('.') for part in p.relative_to(SITE).parts)
                   and p.relative_to(SITE).parts[0] != '_src'}
-        self.assertEqual(actual, set(SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS) | {'index.html', 'pricing/index.html', 'privacy/index.html', '404.html'})
+        self.assertEqual(actual, set(SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS) | {'index.html', 'pricing/index.html', 'privacy/index.html', 'streak-checker/index.html', '404.html'})
         sitemap = ET.fromstring(read('sitemap.xml'))
         ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
         entries = {u.find('s:loc', ns).text: u.find('s:lastmod', ns).text for u in sitemap}
-        expected_urls = {ORIGIN + '/', ORIGIN + '/pricing/', ORIGIN + '/privacy/'} | {
+        expected_urls = {ORIGIN + '/', ORIGIN + '/pricing/', ORIGIN + '/privacy/', ORIGIN + '/streak-checker/'} | {
             f'{ORIGIN}/{p["slug"]}/' for p in SEARCH_PAGES + DATA_PAGES + PLAYER_DATA_PAGES}
         self.assertEqual(set(entries), expected_urls)
         self.assertEqual({entries[f'{ORIGIN}/{p["slug"]}/'] for p in PLAYER_DATA_PAGES}, {PLAYER_2026_READ})
-        self.assertEqual({v for k, v in entries.items() if k not in {f'{ORIGIN}/{p["slug"]}/' for p in PLAYER_DATA_PAGES}},
-                         {'2026-11-21'})
+        self.assertEqual(entries[f'{ORIGIN}/streak-checker/'], PLAYER_2026_READ)
+        self.assertEqual({v for k, v in entries.items() if k not in {f'{ORIGIN}/{p["slug"]}/' for p in PLAYER_DATA_PAGES}
+                          | {f'{ORIGIN}/streak-checker/'}}, {'2026-11-21'})
         llms = read('llms.txt').split('## Guides and answers\n')[1]
         for page in SEARCH_PAGES:
             self.assertIn(f'{ORIGIN}/{page["slug"]}/', llms)

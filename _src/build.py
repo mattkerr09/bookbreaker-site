@@ -11,6 +11,8 @@ import json
 from pathlib import Path
 
 from articles import ARTICLE_BODIES
+import checker
+from player_data import PLAYER_2026_READ
 from content import cell, claim, cta, guide_links, nfl_credit, table
 from pages import DATA_PAGES, NFL_INDEX, PLAYER_DATA_PAGES, PLAYER_INDEX, SEARCH_PAGES
 from nfl import index_body, team_body, team_report
@@ -59,6 +61,12 @@ EXTRA_CSS = """
 .prose-page{max-width:var(--measure-page);margin:0 auto;padding:3rem 0}
 .prose-page h1{font-size:clamp(2rem,4.6vw,3rem);letter-spacing:-.035em}
 .prose-page h2{margin-top:2rem;font-size:1.3rem}
+.checker-form{display:grid;grid-template-columns:auto 1fr;gap:.6rem 1rem;align-items:center;max-width:34rem;margin:1.5rem 0}
+.checker-form input,.checker-form select{font:inherit;font-size:1rem;padding:.55rem .7rem;border-radius:var(--r-sm);
+  border:1px solid var(--rule);background:var(--card);color:var(--ink);min-width:0}
+.checker-status{font-size:var(--t-2);color:var(--ink-3)}
+.checker-card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:1.25rem 1.35rem;margin:1rem 0 2rem}
+.checker-big{font-size:2.6rem;font-weight:650;letter-spacing:-.03em;margin:.2rem 0;color:var(--ink)}
 """
 
 REVEAL = """<script>
@@ -122,6 +130,7 @@ def page(path: str, title: str, description: str, body: str, body_class: str = "
 <p class="foot-head">Site</p>
 <p><a href="/">Home</a></p>
 <p><a href="/pricing/">Price</a></p>
+<p><a href="/streak-checker/">Streak checker</a></p>
 <p><a href="/privacy/">Privacy</a></p>
 </div>
 <div>
@@ -269,6 +278,7 @@ def llms(x: dict) -> str:
 ## Pages
 - [Home]({ORIGIN}/): the app plan and a computed team-points example
 - [Price]({ORIGIN}/pricing/): $39 once with 12 months of new games, then an optional $19 a year
+- [Streak checker]({ORIGIN}/streak-checker/): free; any NFL player, a yardage number, the last 5 or 10 games, and how similar past runs did next
 - [Privacy]({ORIGIN}/privacy/)
 
 ## Guides and answers
@@ -297,6 +307,10 @@ def main() -> None:
         "pricing/index.html": page("/pricing/", "BookBreaker price: $39 once, then optional $19 a year",
                                    "BookBreaker's planned price: $39 once with 12 months of new games, then an optional "
                                    "$19 a year. In development; no checkout yet.", pricing()),
+        f"{checker.SLUG}/index.html": page(f"/{checker.SLUG}/", checker.TITLE, checker.DESCRIPTION,
+                                            checker.checker_body(), "search"),
+        f"{checker.SLUG}/nfl.json": json.dumps(checker.checker_data(), separators=(",", ":")),
+        f"{checker.SLUG}/checker.js": checker.SCRIPT,
         "privacy/index.html": page("/privacy/", "Privacy: BookBreaker",
                                    "What bookbreaker.bet counts and the planned app privacy details.", privacy()),
         "404.html": page("/404.html", "Page not found: BookBreaker",
@@ -305,6 +319,7 @@ def main() -> None:
         "sitemap.xml": ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                         + "".join(f"<url><loc>{ORIGIN}{p}</loc><lastmod>{modified}</lastmod></url>\n"
                                   for p, modified in (("/", CHECKED_ISO), ("/pricing/", CHECKED_ISO), ("/privacy/", CHECKED_ISO),
+                                                      (f"/{checker.SLUG}/", PLAYER_2026_READ),
                                                       *((f"/{item['slug']}/", item.get('modified', CHECKED_ISO))
                                                         for item in [*SEARCH_PAGES, *DATA_PAGES, *PLAYER_DATA_PAGES])))
                         + "</urlset>\n"),

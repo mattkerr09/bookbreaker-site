@@ -11,6 +11,7 @@
 ## Pages
 - [Home](https://bookbreaker.bet/): the app plan and a computed team-points example
 - [Price](https://bookbreaker.bet/pricing/): $39 once with 12 months of new games, then an optional $19 a year
+- [Streak checker](https://bookbreaker.bet/streak-checker/): free; any NFL player, a yardage number, the last 5 or 10 games, and how similar past runs did next
 - [Privacy](https://bookbreaker.bet/privacy/)
 
 ## Guides and answers

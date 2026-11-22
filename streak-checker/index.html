@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="msvalidate.01" content="34D102FD9C044A2BDA597B176842725B" />
+<title>Did the streak hold? A free NFL player streak checker</title>
+<meta name="description" content="Choose an NFL player and a yardage number. See how often he reached it in his last 5 or 10 games, with a range, and how his similar past runs did in the next 5 games.">
+<link rel="canonical" href="https://bookbreaker.bet/streak-checker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BookBreaker">
+<meta property="og:title" content="Did the streak hold? A free NFL player streak checker">
+<meta property="og:description" content="Choose an NFL player and a yardage number. See how often he reached it in his last 5 or 10 games, with a range, and how his similar past runs did in the next 5 games.">
+<meta property="og:url" content="https://bookbreaker.bet/streak-checker/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/style.css">
+<style>
+.trend{max-width:30rem;margin:2.2rem auto 0;text-align:left;background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r);padding:1.25rem 1.35rem;box-shadow:0 20px 60px -30px var(--glow)}
+.trend-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.trend-q{font-weight:600;font-size:1.02rem;color:var(--ink)}
+.trend-n{font-family:var(--mono);font-size:var(--t-2);color:var(--ink-3)}
+.trend-big{font-size:2.6rem;font-weight:650;letter-spacing:-.03em;margin:.35rem 0 .1rem;color:var(--ink)}
+.trend-big small{font-size:1rem;font-weight:500;color:var(--ink-2);margin-left:.4rem;letter-spacing:0}
+.trend-range{font-size:var(--t-3);color:var(--ink-2)}
+.trend-bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;margin:1rem 0 .4rem}
+.trend-bars i{display:block;height:28px;border-radius:4px;background:rgba(255,255,255,.08)}
+.trend-bars i.y{background:linear-gradient(180deg,#8b89ff,#4f4dff)}
+.trend-held{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.9rem}
+.trend-held div{background:var(--card-2);border-radius:var(--r-sm);padding:.7rem .8rem}
+.trend-held small{display:block;font-size:var(--t-1);color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
+.trend-held b{font-size:1.15rem;color:var(--ink)}
+.trend-src{font-size:var(--t-1);color:var(--ink-3);margin-top:.8rem}
+.soon{display:inline-block;margin-bottom:1rem;padding:.35rem .8rem;border-radius:999px;font-size:.82rem;font-weight:600;
+  color:var(--accent-hi);background:rgba(91,91,255,.12);border:1px solid rgba(139,137,255,.3)}
+.price-plain{max-width:34rem;margin:1.4rem auto 0;font-size:1rem;color:var(--ink-2)}
+.prose-page{max-width:var(--measure-page);margin:0 auto;padding:3rem 0}
+.prose-page h1{font-size:clamp(2rem,4.6vw,3rem);letter-spacing:-.035em}
+.prose-page h2{margin-top:2rem;font-size:1.3rem}
+.checker-form{display:grid;grid-template-columns:auto 1fr;gap:.6rem 1rem;align-items:center;max-width:34rem;margin:1.5rem 0}
+.checker-form input,.checker-form select{font:inherit;font-size:1rem;padding:.55rem .7rem;border-radius:var(--r-sm);
+  border:1px solid var(--rule);background:var(--card);color:var(--ink);min-width:0}
+.checker-status{font-size:var(--t-2);color:var(--ink-3)}
+.checker-card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:1.25rem 1.35rem;margin:1rem 0 2rem}
+.checker-big{font-size:2.6rem;font-weight:650;letter-spacing:-.03em;margin:.2rem 0;color:var(--ink)}
+</style>
+<script defer data-domain="bookbreaker.bet" src="https://plausible.io/js/script.js"></script>
+</head>
+<body class="search">
+<header><nav><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="bbTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b89ff"/><stop offset="1" stop-color="#4341e6"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#bbTile)"/><path d="M22 9h14a11 11 0 010 22H22z" fill="#fff"/><path d="M17 34h17a11 11 0 010 22H17z" fill="#fff"/></svg>BookBreaker</a><span class="links"><a href="/#what">The plan</a><a href="/pricing/">Price</a><a href="/#questions">Questions</a></span></nav></header>
+<main>
+<article><section class="hero search-hero"><h1>Did the streak hold? A free NFL player streak checker</h1><p class="lede">Choose a player and a yardage number. The checker counts how often he reached it in his last 5 or 10 games, with a range, then looks back at his own past runs at the same rate and counts what came in the next 5 games.</p><aside class="ex development" aria-label="BookBreaker in development"><p class="soon">In development · Mac and Windows</p><p>BookBreaker is a sports statistics app in development for Mac and Windows.</p><p>No download yet. Check this site for progress.</p><a class="btn primary" href="/#what">See the app plan</a></aside></section><div class="search-body" id="checker"><form class="checker-form" autocomplete="off"><label for="who">Player</label><input id="who" list="players" placeholder="Start typing a name"><datalist id="players"></datalist><label for="line">Yards</label><input id="line" type="number" min="0" step="1" inputmode="numeric"><label for="win">Games</label><select id="win"><option value="5">Last 5</option><option value="10" selected>Last 10</option></select></form><p class="checker-status" aria-live="polite">Loading players.</p><div id="result" aria-live="polite"><noscript><p>The checker needs JavaScript. Every player page under <a href="/nfl-player-stats/">NFL player stats</a> shows the same counts without it.</p></noscript></div><h2>How the later check works</h2><p>The rate in your window falls in one of five bands: under 40%, 40 to 59%, 60 to 69%, 70 to 79%, and 80% and over. The checker walks through the player's games in date order. At each game it reads only the window ending there. When that rate falls in your band, it counts the next 5 games he played, then skips ahead past them, so no later game counts twice. Under 15 later games, it says so instead of showing a rate.</p><p>Across every NFL player we checked, high recent rates came back toward the middle in the games after. Read <a href="/does-a-player-streak-hold-up/">the pooled player study</a> and the <a href="/nfl-player-stats/#carry">2025 to 2026 carry table</a>.</p><section class="search-faq"><h2>Questions</h2><div class="faq"><details><summary>Where do the numbers come from?</summary><p>From nflverse weekly player statistics for the 2024, 2025 and 2026 regular seasons, joined to the nflverse schedules file for dates and opponents. The 2026 file was read 2026-11-22 and is read again each Tuesday during the season.</p></details><details><summary>Which number does each player use?</summary><p>Passing yards for quarterbacks, rushing yards for running backs, and receiving yards for wide receivers and tight ends, by the position on his latest recorded game. The box starts at his median over his latest 17 games, rounded to the nearest 5 yards. Type any number you like.</p></details><details><summary>What counts as a game?</summary><p>A recorded regular-season game. Missed weeks add no game and no zero. A game equal to the number counts as reaching it. Postseason games are left out.</p></details><details><summary>Is anything I type sent anywhere?</summary><p>No. The page loads one data file and does the counting in your browser. There is no form to submit and nothing is stored.</p></details></div></section><section class="sources"><h2>Sources</h2><ul><li><a href="https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2024.csv">nflverse weekly player statistics, 2024 CSV</a>. Read 2026-11-21.</li><li><a href="https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2025.csv">nflverse weekly player statistics, 2025 CSV</a>. Read 2026-11-21.</li><li><a href="https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_2026.csv">nflverse weekly player statistics, 2026 CSV</a>. Read 2026-11-22.</li><li><a href="https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv">nflverse games.csv</a>. Read 2026-10-22 for 2024 and 2025, and 2026-11-22 for 2026.</li><li>NFL data: <a href="https://github.com/nflverse/nflverse-data">nflverse</a>, licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Counts and ranges computed by BookBreaker.</li></ul></section></div></article><script src="/streak-checker/checker.js" defer></script>
+</main>
+<footer>
+<div class="foot-grid">
+<div>
+<p class="foot-brand">BookBreaker</p>
+<p data-claim="desktop"><span class="coming">Coming</span> <span class="claim-text">BookBreaker will be a sports statistics app for Mac and Windows.</span></p>
+<p>Built by Matthew Kerr in Grand Rapids, MI &middot; <a href="mailto:matthew@kerrandcompanyholdings.com">Email</a></p>
+</div>
+<div>
+<p class="foot-head">Site</p>
+<p><a href="/">Home</a></p>
+<p><a href="/pricing/">Price</a></p>
+<p><a href="/streak-checker/">Streak checker</a></p>
+<p><a href="/privacy/">Privacy</a></p>
+</div>
+<div>
+<p class="foot-head">Guides</p>
+<ul class="guide-links" aria-label="Guides"><li><a href="/nba-player-stats-app/">An NBA player stats app checklist</a></li><li><a href="/free-nba-player-game-logs/">Where can I read free NBA player game logs?</a></li><li><a href="/pay-once-sports-stats-app/">Can I pay once for a sports stats app?</a></li><li><a href="/linemate-alternative/">Looking for a Linemate alternative for stats?</a></li><li><a href="/how-often-did-a-player-clear-a-number/">How often did a player clear a number?</a></li><li><a href="/is-a-10-game-trend-reliable/">Is a 10-game trend reliable?</a></li><li><a href="/did-the-trend-hold-up/">Did the trend hold up in later games?</a></li><li><a href="/does-a-player-streak-hold-up/">Does a player&#x27;s streak hold up in the next games?</a></li><li><a href="/nfl-team-scoring/">NFL team scoring</a></li><li><a href="/nfl-player-stats/">NFL player stats</a></li></ul>
+</div>
+<div>
+<p class="foot-head">Company</p>
+<p><a href="https://kerrandcompanyholdings.com/">Made by Kerr &amp; Company</a></p>
+</div>
+</div>
+<p class="foot-fine">Not affiliated with the NBA, NFL, MLB or NHL, or with any team. Names and statistics only. Checked
+<time datetime="2026-11-21">21 November 2026</time>.</p>
+</footer>
+<script>
+/* Two-way scroll reveal; content is visible without JavaScript. */
+(function () {
+  var root = document.documentElement; root.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) { for (var i = 0; i < els.length; i++) els[i].classList.add('in'); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (x) { x.target.classList.toggle('in', x.isIntersecting); });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  for (var j = 0; j < els.length; j++) io.observe(els[j]);
+})();
+</script>
+</body>
+</html>
