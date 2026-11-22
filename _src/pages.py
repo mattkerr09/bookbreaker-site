@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from player_data import player_catalog
+from player_data import PLAYER_2026_CHECKED, PLAYER_2026_READ, player_catalog, with_2026
 
 SEARCH_PAGES = [
     {"slug": "nba-player-stats-app", "title": "What should an NBA player stats app show?",
@@ -51,9 +51,10 @@ TEAM_PAGES = [dict(team, slug=f"{NFL_INDEX['slug']}/{team['slug']}",
               for team in NFL_TEAMS]
 DATA_PAGES = [NFL_INDEX, *TEAM_PAGES]
 DATA_PATHS = [f"{page['slug']}/index.html" for page in DATA_PAGES]
-PLAYER_INDEX = {"slug": "nfl-player-stats", "title": "NFL player stats by game, 2025 season",
-                "description": "2025 NFL player game logs: passing, rushing and receiving yards, last 10 counts, Wilson ranges, home and away splits and later-games checks."}
-PLAYER_PAGES = player_catalog()
+PLAYER_INDEX = {"slug": "nfl-player-stats", "title": "NFL player stats by game, 2025 and 2026",
+                "description": "NFL player game logs: 2025 passing, rushing and receiving yards, last 10 counts, Wilson ranges, splits, and each player's 2026 games so far.",
+                "checked": PLAYER_2026_CHECKED, "modified": PLAYER_2026_READ}
+PLAYER_PAGES = with_2026(player_catalog())
 PLAYER_DATA_PAGES = [PLAYER_INDEX, *PLAYER_PAGES]
 PLAYER_PATHS = [f"{page['slug']}/index.html" for page in PLAYER_DATA_PAGES]
 PUBLISHED = ["index.html", "privacy/index.html", "404.html", "llms.txt", "robots.txt", "sitemap.xml", "README.md",

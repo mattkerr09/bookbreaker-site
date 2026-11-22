@@ -57,7 +57,9 @@ class BuildAndPageTests(unittest.TestCase):
         expected_urls = {ORIGIN + '/', ORIGIN + '/privacy/'} | {
             f'{ORIGIN}/{p["slug"]}/' for p in SEARCH_PAGES + DATA_PAGES + PLAYER_DATA_PAGES}
         self.assertEqual(set(entries), expected_urls)
-        self.assertEqual(set(entries.values()), {'2026-11-21'})
+        self.assertEqual({entries[f'{ORIGIN}/{p["slug"]}/'] for p in PLAYER_DATA_PAGES}, {'2026-11-22'})
+        self.assertEqual({v for k, v in entries.items() if k not in {f'{ORIGIN}/{p["slug"]}/' for p in PLAYER_DATA_PAGES}},
+                         {'2026-11-21'})
         llms = read('llms.txt').split('## Guides and answers\n')[1]
         for page in SEARCH_PAGES:
             self.assertIn(f'{ORIGIN}/{page["slug"]}/', llms)

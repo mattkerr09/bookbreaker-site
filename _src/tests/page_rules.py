@@ -92,7 +92,8 @@ def article_issues(source: str, config: dict) -> list[str]:
         schemas = [json.loads(s.text()) for s in scripts]
         want(len(schemas) == 1 and schemas[0]['@type'] == 'Article'
              and schemas[0]['author'] == {'@type': 'Person', 'name': 'Matthew Kerr'}
-             and schemas[0]['datePublished'] == schemas[0]['dateModified'] == '2026-11-21'
+             and schemas[0]['datePublished'] == '2026-11-21'
+             and schemas[0]['dateModified'] == config.get('modified', '2026-11-21')
              and schemas[0]['mainEntityOfPage'] == url and schemas[0]['headline'] == config['title'], 'schema')
     except (ValueError, KeyError, TypeError):
         errors.append('schema')
@@ -104,7 +105,8 @@ def article_issues(source: str, config: dict) -> list[str]:
     paragraphs = main.all('p')
     want(bool(paragraphs) and 40 <= len(words(paragraphs[0].text())) <= 70, 'answer length')
     want(bool(paragraphs) and clean(paragraphs[0].text()) == config['answer'], 'answer text')
-    want('Checked 21 November 2026 · By Matthew Kerr, who makes BookBreaker' in clean(main.text()), 'byline')
+    want(f"Checked {config.get('checked', '21 November 2026')} · By Matthew Kerr, who makes BookBreaker" in clean(main.text()),
+         'byline')
     count = len(words(main.text()))
     want(600 <= count <= 1400, 'main length')
     bodies = main.classes('search-body')

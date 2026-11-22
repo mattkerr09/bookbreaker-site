@@ -13,6 +13,11 @@ PLAYER_DATA = Path('/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-player-
 PLAYER_READ = '2026-11-21'
 PLAYER_SOURCES = tuple('https://github.com/nflverse/nflverse-data/releases/download/'
                        f'stats_player/stats_player_week_{year}.csv' for year in (2024, 2025))
+PLAYER_2026_DATA = Path('/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-2026-11-22')
+PLAYER_2026_READ = '2026-11-22'
+PLAYER_2026_CHECKED = '22 November 2026'
+PLAYER_2026_SOURCE = ('https://github.com/nflverse/nflverse-data/releases/download/'
+                      'stats_player/stats_player_week_2026.csv')
 MAIN_STAT = {'QB': 'passing_yards', 'RB': 'rushing_yards',
              'WR': 'receiving_yards', 'TE': 'receiving_yards'}
 PLAYER_PAGE_FIELDS = (
@@ -42,6 +47,34 @@ def read_player_rows(directory: Path = PLAYER_DATA, fields: tuple = PLAYER_PAGE_
                 if row['season'] == str(season) and row['season_type'] == 'REG' and row['position'] in MAIN_STAT:
                     rows.append(row)
     return rows
+
+
+def read_2026_rows(directory: Path = PLAYER_2026_DATA, fields: tuple = PLAYER_PAGE_FIELDS) -> list[dict]:
+    """2026 regular-season rows for the separate so-far sections, through the same allowlist.
+
+    They never enter the 2025 mark, the 2025 counts or the 2024-25 later check.
+    """
+    if not set(fields) <= set(PLAYER_PAGE_FIELDS):
+        raise ValueError('unapproved player fields')
+    with (directory / 'stats_player_week_2026.csv').open(newline='') as handle:
+        reader = csv.reader(handle)
+        header = next(reader)
+        positions = [(key, header.index(key)) for key in fields]
+        rows = ({key: cells[index] for key, index in positions} for cells in reader)
+        return [row for row in rows if row['season'] == '2026' and row['season_type'] == 'REG']
+
+
+def with_2026(players: list[dict], rows: list[dict] | None = None) -> list[dict]:
+    """Retitle the pages of players with a recorded 2026 game. The 2025 catalog is unchanged."""
+    played = {row['player_id'] for row in (read_2026_rows() if rows is None else rows)}
+    for p in players:
+        p['checked'], p['modified'] = PLAYER_2026_CHECKED, PLAYER_2026_READ
+        if p['player_id'] in played:
+            label = p['stat'].replace('_', ' ')
+            p['title'] = f"{p['name']} {label} by game, 2025 and 2026"
+            p['description'] = (f"{p['name']} {label} in every 2025 regular-season game and 2026 so far. "
+                                'Last 5 and last 10 counts, Wilson ranges, splits and later games.')
+    return players
 
 
 def name_slug(name: str) -> str:

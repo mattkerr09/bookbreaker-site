@@ -8,6 +8,8 @@ from pathlib import Path
 NFL_FILE = Path("/Users/matthewkerr/bb-lab/research/nfl/data/games.csv")
 NFL_SOURCE = "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv"
 NFL_READ = "2026-10-22"
+NFL_FILE_2026 = Path("/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-2026-11-22/games.csv")
+NFL_READ_2026 = "2026-11-22"
 BANDS = ("Under 40%", "40 to 59%", "60 to 69%", "70 to 79%", "80% and over")
 HORIZON = 5
 MIN_FUTURE = 15
@@ -26,6 +28,10 @@ def schedule_rows(path: Path = NFL_FILE, season: int = 2025) -> list[dict]:
     """
     if season not in (2024, 2025):
         raise ValueError("only the 2025 season and its previous season are supported")
+    return _completed_rows(path, season)
+
+
+def _completed_rows(path: Path, season: int) -> list[dict]:
     with path.open(newline="") as source:
         reader = csv.reader(source)
         header = next(reader)
@@ -58,8 +64,16 @@ def rate(scores: list[int], threshold: int) -> dict:
 
 def season_scores(path: Path = NFL_FILE, season: int = 2025) -> dict[str, list[dict]]:
     """Only completed regular-season games, once per team, in date/game-id order."""
+    return _by_team(schedule_rows(path, season), season)
+
+
+def current_season_scores(path: Path = NFL_FILE_2026) -> dict[str, list[dict]]:
+    """2026 games completed by the read date. They feed only the separate 2026 sections."""
+    return _by_team(_completed_rows(path, 2026), 2026)
+
+
+def _by_team(rows: list[dict], season: int) -> dict[str, list[dict]]:
     teams: dict[str, list[dict]] = {}
-    rows = schedule_rows(path, season)
     for row in sorted(rows, key=lambda r: (r["gameday"], r["game_id"])):
         for side, other in (("home", "away"), ("away", "home")):
             team = row[f"{side}_team"]

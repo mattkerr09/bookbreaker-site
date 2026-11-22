@@ -244,7 +244,7 @@ def llms(x: dict) -> str:
 ## Guides and answers
 """ + "".join(f"- [{p['title']}]({ORIGIN}/{p['slug']}/): {p['note']}\n" for p in SEARCH_PAGES) + (
         f"- [NFL team scoring]({ORIGIN}/{NFL_INDEX['slug']}/): 2025 regular-season team scores, counts and ranges\n"
-        f"- [NFL player stats]({ORIGIN}/{PLAYER_INDEX['slug']}/): 2025 player game logs, last-10 counts, ranges and later checks\n")
+        f"- [NFL player stats]({ORIGIN}/{PLAYER_INDEX['slug']}/): 2025 player game logs, last-10 counts, ranges, later checks and 2026 games so far\n")
 
 
 def article(config: dict, x: dict) -> str:
@@ -270,8 +270,10 @@ def main() -> None:
                          "BookBreaker is in development.", not_found(), index=False),
         "llms.txt": llms(x),
         "sitemap.xml": ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-                        + "".join(f"<url><loc>{ORIGIN}{p}</loc><lastmod>{CHECKED_ISO}</lastmod></url>\n"
-                                  for p in ("/", "/privacy/", *(f"/{item['slug']}/" for item in [*SEARCH_PAGES, *DATA_PAGES, *PLAYER_DATA_PAGES])))
+                        + "".join(f"<url><loc>{ORIGIN}{p}</loc><lastmod>{modified}</lastmod></url>\n"
+                                  for p, modified in (("/", CHECKED_ISO), ("/privacy/", CHECKED_ISO),
+                                                      *((f"/{item['slug']}/", item.get('modified', CHECKED_ISO))
+                                                        for item in [*SEARCH_PAGES, *DATA_PAGES, *PLAYER_DATA_PAGES])))
                         + "</urlset>\n"),
     }
     for config in [*SEARCH_PAGES, *DATA_PAGES, *PLAYER_DATA_PAGES]:
@@ -279,7 +281,7 @@ def main() -> None:
         schema = {"@context": "https://schema.org", "@type": "Article", "headline": config['title'],
                   "description": config['description'], "mainEntityOfPage": url,
                   "author": {"@type": "Person", "name": "Matthew Kerr"},
-                  "datePublished": CHECKED_ISO, "dateModified": CHECKED_ISO}
+                  "datePublished": CHECKED_ISO, "dateModified": config.get('modified', CHECKED_ISO)}
         if config in SEARCH_PAGES:
             body = article(config, x)
         elif config == NFL_INDEX:

@@ -25,7 +25,9 @@ from content import cta
 from nfl_players import (POSITION_FIELDS, player_answer, player_body, player_reports)
 from build import ORIGIN
 from pages import PLAYER_INDEX, PLAYER_PAGES, PLAYER_PATHS, PUBLISHED, TEAM_PAGES
-from player_data import MAIN_STAT, PLAYER_PAGE_FIELDS, PLAYER_READ, PLAYER_SOURCES, player_catalog, read_player_rows, thresholds
+from player_data import (MAIN_STAT, PLAYER_2026_DATA, PLAYER_2026_READ, PLAYER_2026_SOURCE, PLAYER_PAGE_FIELDS,
+                         PLAYER_READ, PLAYER_SOURCES, player_catalog, read_2026_rows, read_player_rows, thresholds,
+                         with_2026)
 from page_rules import Document, article_issues, clean, jaccard, shingles
 from stats import NFL_SOURCE
 
@@ -120,14 +122,16 @@ class NFLPlayerTests(unittest.TestCase):
             r, source, node = self.reports[p['player_id']], read(path), main(path)
             self.assertEqual(article_issues(source, dict(p, answer=player_answer(p, r))), [], path)
             self.assertIn(cta(True), source)
-            self.assertEqual(len(node.all('table')), 5, path)
+            self.assertEqual(len(node.all('table')), 6 if r['now'] else 5, path)
+            self.assertEqual(len(node.classes('now-card')), 1)
             self.assertEqual(len(node.classes('trend-card')), 3)
             self.assertEqual(len(node.classes('held-card')), 1)
             self.assertEqual(len(node.all('details')), 3)
             self.assertEqual(len(node.all('svg')), 1)
             sources = node.classes('sources')[0]
-            self.assertTrue(set(PLAYER_SOURCES) | {NFL_SOURCE} <= {n.attrs['href'] for n in sources.all('a')})
+            self.assertTrue(set(PLAYER_SOURCES) | {NFL_SOURCE, PLAYER_2026_SOURCE} <= {n.attrs['href'] for n in sources.all('a')})
             self.assertIn(PLAYER_READ, sources.text())
+            self.assertIn(PLAYER_2026_READ, sources.text())
             self.assertIn('PLAN-FIXES.md, section 1', sources.text())
             links = {n.attrs['href'] for n in node.classes('onward')[0].all('a')}
             self.assertTrue({'/nfl-player-stats/', '/does-a-player-streak-hold-up/'} <= links)
@@ -157,7 +161,7 @@ class NFLPlayerTests(unittest.TestCase):
                       [g['yards'] for g in r['games'] if g['site'] == 'away'],
                       [g['yards'] for g in r['games'] if g['division']],
                       [g['yards'] for g in r['games'] if not g['division']])
-            for row, label, values in zip(node.all('table')[-1].all('tbody')[0].all('tr'),
+            for row, label, values in zip(node.all('table')[4].all('tbody')[0].all('tr'),
                                           ('Home', 'Away', 'Division', 'Other opponents'), groups):
                 result = reference_count(values, lines[1]) if values else ['No played games', '0', 'No range']
                 self.assertEqual(cells(row), [label, result[0], result[2]])
@@ -292,10 +296,62 @@ class NFLPlayerTests(unittest.TestCase):
             self.assertEqual(rows, self.rows)
             self.assertEqual({r['season'] for r in rows}, {'2024', '2025'})
             self.assertEqual({r['season_type'] for r in rows}, {'REG'})
-            self.assertEqual(player_catalog(rows), PLAYER_PAGES)
+            self.assertEqual(with_2026(player_catalog(rows)), PLAYER_PAGES)
             self.assertEqual(player_reports(rows), self.reports)
         for r in self.reports.values():
             self.assertEqual({g['season'] for g in r['games']}, {2025})
+
+    def test_2026_section_recount_and_carry_table(self):
+        """Recount 2026 straight from the CSV, with no project join, and rebuild the pooled table."""
+        with (PLAYER_2026_DATA / 'stats_player_week_2026.csv').open(newline='') as handle:
+            raw = [r for r in csv.DictReader(handle) if r['season'] == '2026' and r['season_type'] == 'REG']
+        by_player = defaultdict(list)
+        for r in raw:
+            by_player[r['player_id']].append(r)
+        with_games = 0
+        pooled = defaultdict(lambda: [0, 0, 0])
+        limits = ((0, 40, 'Under 40%'), (40, 60, '40 to 59%'), (60, 70, '60 to 69%'), (70, 80, '70 to 79%'),
+                  (80, 101, '80% and over'))
+        from nfl import TEAM_BY_CODE
+        for p in PLAYER_PAGES:
+            r, node = self.reports[p['player_id']], main(p['slug'] + '/index.html')
+            t = reference_lines(p['median'])[1]
+            rows = sorted(by_player[p['player_id']], key=lambda row: int(row['week']))
+            values = [int(float(row[p['stat']] or 0)) for row in rows]
+            card = node.classes('now-card')[0]
+            text = clean(card.text())
+            self.assertIn('completed by 19 November 2026', text)
+            if not rows:
+                self.assertIn('No 2026 regular-season game', text)
+                self.assertEqual(card.all('table'), [])
+                self.assertTrue(p['title'].endswith('2025 season'))
+                continue
+            with_games += 1
+            self.assertTrue(p['title'].endswith('2025 and 2026'))
+            count = reference_count(values, t)
+            self.assertIn(f'reached {t}+ {p["stat"].replace("_", " ")} in {count[0]}. Wilson 95% range: {count[2]}.', text)
+            table_rows = card.all('tbody')[0].all('tr')
+            self.assertEqual(len(table_rows), len(rows))
+            for row, raw_row, value in zip(table_rows, rows, values):
+                got = cells(row)
+                self.assertEqual(got[0], raw_row['week'])
+                self.assertEqual(got[2], TEAM_BY_CODE[raw_row['opponent_team']]['name'])
+                self.assertEqual(got[4:], [str(value), 'Yes' if value >= t else 'No'])
+            shown = 100 * sum(v >= t for v in r['scores'][-10:]) / len(r['scores'][-10:])
+            label = next(name for lo, hi, name in limits if lo <= shown < hi)
+            self.assertIn(f'the {label.lower()} band', text)
+            pooled[label][0] += 1
+            pooled[label][1] += sum(v >= t for v in values)
+            pooled[label][2] += len(values)
+        self.assertGreater(with_games, 200)
+        carry = main('nfl-player-stats/index.html').all('table')[4]
+        got = [cells(row) for row in carry.all('tbody')[0].all('tr')]
+        want = [[name, str(pooled[name][0]), *[], f'{pooled[name][1]} of {pooled[name][2]}',
+                 reference_count([1] * pooled[name][1] + [0] * (pooled[name][2] - pooled[name][1]), 1)[2]]
+                for _, _, name in limits if pooled[name][2]]
+        self.assertEqual([[g[0], g[1], g[3], g[4]] for g in got], want)
+        with self.assertRaises(ValueError):
+            read_2026_rows(fields=(*PLAYER_PAGE_FIELDS, 'headshot_url'))
 
     def test_no_images_or_advice_and_plain_words(self):
         for path in PLAYER_PATHS:
@@ -319,7 +375,7 @@ class NFLPlayerTests(unittest.TestCase):
         # A four-position directory table is longer than an individual article.
         self.assertEqual(issues, ['main length', 'body length'])
         tables = node.all('table')
-        self.assertEqual(len(tables), 4)
+        self.assertEqual(len(tables), 5)
         self.assertIn(cta(True), read('nfl-player-stats/index.html'))
         for position, table in zip(('QB', 'RB', 'WR', 'TE'), tables):
             players = [p for p in PLAYER_PAGES if p['position'] == position]
@@ -338,7 +394,7 @@ class NFLPlayerTests(unittest.TestCase):
         ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
         entries = {u.find('s:loc', ns).text: u.find('s:lastmod', ns).text for u in ET.fromstring(read('sitemap.xml'))}
         for path in PLAYER_PATHS:
-            self.assertEqual(entries[ORIGIN + '/' + path.removesuffix('index.html')], '2026-11-21')
+            self.assertEqual(entries[ORIGIN + '/' + path.removesuffix('index.html')], '2026-11-22')
         self.assertEqual(read('llms.txt').count(f'[NFL player stats]({ORIGIN}/nfl-player-stats/)'), 1)
 
     def test_jaccard_limits(self):
@@ -383,6 +439,8 @@ class NFLPlayerMutationTests(unittest.TestCase):
             ('test_no_images_or_advice_and_plain_words', SAMPLE, '</main>', '<img src="/photo.png"></main>'),
             ('test_no_images_or_advice_and_plain_words', SAMPLE, '</main>', '<p>He will reach it.</p></main>'),
             ('test_index_team_lists_and_sitemap', 'nfl-player-stats/index.html', '<table>', '<section>'),
+            ('test_2026_section_recount_and_carry_table', 'nfl-player-stats/justin-jefferson/index.html',
+             '<td>Yes</td>', '<td>No</td>'),
             ('test_allowlist_guards_and_poison_values', SAMPLE, '</main>', f'<p>{POISON}</p></main>'),
         ]
         for method, path, before, after in variants:

@@ -7,8 +7,10 @@ from collections import defaultdict
 from content import cell, cta, e, faq, nfl_credit, table
 from nfl import TEAM_BY_CODE, count_text, interval, team_link
 from pages import PLAYER_INDEX, PLAYER_PAGES
-from player_data import PLAYER_READ, PLAYER_SOURCES, read_player_rows, thresholds
-from stats import BANDS, NFL_READ, NFL_SOURCE, band, held_up, rate, season_scores
+from player_data import (PLAYER_2026_READ, PLAYER_2026_SOURCE, PLAYER_READ, PLAYER_SOURCES, read_2026_rows,
+                         read_player_rows, thresholds)
+from stats import (BANDS, NFL_READ, NFL_READ_2026, NFL_SOURCE, band, current_season_scores, held_up, rate,
+                   season_scores)
 
 POSITION_FIELDS = {
     'QB': (('completions', 'Completions'), ('attempts', 'Attempts'), ('passing_yards', 'Passing yards'),
@@ -21,26 +23,41 @@ POSITION_FIELDS = {
 POSITION_FIELDS['TE'] = POSITION_FIELDS['WR']
 
 
-def player_reports(rows: list[dict] | None = None, players: list[dict] = PLAYER_PAGES) -> dict:
+def join_games(rows: list[dict], schedule: dict, p: dict) -> list[dict]:
+    joined = []
+    for row in rows:
+        game = schedule.get((row['team'], row['game_id']))
+        if game is None or game['opponent'] != row['opponent_team'] or game['week'] != int(row['week']):
+            raise ValueError(f"unmatched player game: {row['game_id']}")
+        fields = {key: int(float(row[key] or 0)) for key, label in POSITION_FIELDS[p['position']]}
+        joined.append(dict(game, **fields, team=row['team'], yards=int(float(row[p['stat']] or 0))))
+    joined.sort(key=lambda g: (g['date'], g['id']))
+    if len({g['id'] for g in joined}) != len(joined):
+        raise ValueError('duplicate player game')
+    return joined
+
+
+def player_reports(rows: list[dict] | None = None, players: list[dict] = PLAYER_PAGES,
+                   rows_2026: list[dict] | None = None) -> dict:
     schedules = {season: {(code, g['id']): g for code, games in season_scores(season=season).items()
                           for g in games} for season in (2024, 2025)}
-    logs = defaultdict(list)
+    schedule_2026 = {(code, g['id']): g for code, games in current_season_scores().items() for g in games}
+    through = max(g['date'] for g in schedule_2026.values())
+    logs, logs_2026 = defaultdict(list), defaultdict(list)
     for row in read_player_rows() if rows is None else rows:
         if row['season_type'] == 'REG' and row['season'] in ('2024', '2025'):
             logs[row['player_id']].append(row)
+    for row in read_2026_rows() if rows_2026 is None else rows_2026:
+        if row['season_type'] == 'REG' and row['season'] == '2026':
+            logs_2026[row['player_id']].append(row)
     reports = {}
     for p in players:
         joined = []
-        for row in logs[p['player_id']]:
-            season = int(row['season'])
-            game = schedules[season].get((row['team'], row['game_id']))
-            if game is None or game['opponent'] != row['opponent_team'] or game['week'] != int(row['week']):
-                raise ValueError(f"unmatched player game: {row['game_id']}")
-            fields = {key: int(float(row[key] or 0)) for key, label in POSITION_FIELDS[p['position']]}
-            joined.append(dict(game, **fields, team=row['team'], yards=int(float(row[p['stat']] or 0))))
+        for season in (2024, 2025):
+            joined += join_games([row for row in logs[p['player_id']] if row['season'] == str(season)],
+                                 schedules[season], p)
         joined.sort(key=lambda g: (g['date'], g['id']))
-        if len({g['id'] for g in joined}) != len(joined):
-            raise ValueError('duplicate player game')
+        now = join_games(logs_2026[p['player_id']], schedule_2026, p)
         current = [g for g in joined if g['season'] == 2025]
         scores = [g['yards'] for g in current]
         lines = thresholds(p['median'])
@@ -58,7 +75,8 @@ def player_reports(rows: list[dict] | None = None, players: list[dict] = PLAYER_
             longest = max(longest, running)
         reports[p['player_id']] = dict(games=current, scores=scores, threshold=t, thresholds=lines,
                                        last=last, season=rate(scores, t), later=later, splits=splits,
-                                       longest=longest, total=sum(scores))
+                                       longest=longest, total=sum(scores), now=now, through=through,
+                                       now_rate=rate([g['yards'] for g in now], t) if now else None)
     return reports
 
 
@@ -126,11 +144,42 @@ def player_chart(p: dict, r: dict) -> str:
             f'{p["stat"].replace("_", " ").capitalize()} · Dashed median: {p["median"]:g} yards</figcaption></figure>')
 
 
+def long_date(iso: str) -> str:
+    year, month, day = iso.split('-')
+    months = ('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+              'November', 'December')
+    return f'{int(day)} {months[int(month) - 1]} {year}'
+
+
+def now_section(p: dict, r: dict) -> str:
+    """The 2026 games so far, measured against the mark and band fixed at the end of 2025."""
+    name, stat, t, now = p['name'], p['stat'].replace('_', ' '), r['threshold'], r['now']
+    through = long_date(r['through'])
+    head = f'<section class="now-card"><h2>{e(name)} in 2026 so far</h2>'
+    if not now:
+        return (head + f'<p>No 2026 regular-season game for {e(name)} appears in the nflverse file, which holds games '
+                f'completed by {through}. Missing weeks add no game and no zero, so this page has no 2026 count.</p>'
+                '</section>')
+    last, now_rate = r['last'], r['now_rate']
+    rows = [[cell(g['week'], True), cell(g['date']), cell(TEAM_BY_CODE[g['opponent']]['name']),
+             cell(g['site'].capitalize()), cell(g['yards']), cell('Yes' if g['yards'] >= t else 'No')] for g in now]
+    return (head + f'<p>Through games completed by {through}, {e(name)} recorded {len(now)} regular-season '
+            f'{"game" if len(now) == 1 else "games"} in 2026 and reached {t}+ {stat} in {count_text(now_rate)}. '
+            f'Wilson 95% range: {interval(now_rate)}. His last {last["n"]} games of 2025 reached the same mark in '
+            f'{count_text(last)}, the {BANDS[band(last["k"], last["n"])].lower()} band. The mark and that band were '
+            'settled before any 2026 game, so these games are later games in the plain sense.</p>' +
+            table(['Week', 'Date', 'Opponent', 'Home or away', stat.capitalize(), f'Reached {t}+'], rows,
+                  f'{name}: 2026 regular-season games so far') + '</section>')
+
+
 def player_sources() -> str:
     return ('<section class="sources"><h2>Sources</h2><ul>' + ''.join(
         f'<li><a href="{e(url)}">nflverse weekly player statistics, {year} CSV</a>. Read {PLAYER_READ}.</li>'
         for year, url in zip((2024, 2025), PLAYER_SOURCES)) +
-        f'<li><a href="{e(NFL_SOURCE)}">nflverse games.csv</a>. Read {NFL_READ}. Dates and designated sides.</li>'
+        f'<li><a href="{e(PLAYER_2026_SOURCE)}">nflverse weekly player statistics, 2026 CSV</a>. '
+        f'Read {PLAYER_2026_READ}.</li>'
+        f'<li><a href="{e(NFL_SOURCE)}">nflverse games.csv</a>. Read {NFL_READ} for 2024 and 2025, and '
+        f'{NFL_READ_2026} for 2026. Dates and designated sides.</li>'
         '<li>PLAN-FIXES.md, section 1. Read 2026-11-21. '
         '<a href="/nfl-player-stats/#method">Player page method</a>.</li>' + nfl_credit() + '</ul></section>')
 
@@ -173,7 +222,7 @@ def player_body(p: dict, r: dict) -> str:
     ]
     return (f'<article><section class="hero search-hero"><h1>{e(p["title"])}</h1>'
             f'<p class="lede">{e(player_answer(p, r))}</p>'
-            '<p class="byline">Checked 21 November 2026 · By Matthew Kerr, who makes BookBreaker</p>' + cta(True) +
+            f'<p class="byline">Checked {p["checked"]} · By Matthew Kerr, who makes BookBreaker</p>' + cta(True) +
             '</section><div class="search-body player-body">'
             f'<p class="player-team">{e(name)} · {p["position"]} · 2025 teams: {team_links}.</p>' +
             player_chart(p, r) + f'<p class="player-observation">{e(observation(p, r))}</p>'
@@ -192,7 +241,7 @@ def player_body(p: dict, r: dict) -> str:
             '2024 and 2025 regular seasons · Horizon: 5 played games.</p>'
             '<p><a href="/nfl-player-stats/#later">Rules for this individual check</a>. '
             '<a href="/does-a-player-streak-hold-up/">The separate pooled player study</a>.</p></section>' +
-            faq(faqs) + player_sources() +
+            now_section(p, r) + faq(faqs) + player_sources() +
             '<section class="onward"><h2>More player stats</h2><ul>'
             '<li><a href="/nfl-player-stats/">All eligible NFL player logs</a></li>' +
             ''.join(f'<li>{team_link(code)} scoring</li>' for code in p['teams']) +
@@ -200,6 +249,35 @@ def player_body(p: dict, r: dict) -> str:
             '<li><a href="/does-a-player-streak-hold-up/">Player yards shown versus later</a></li>'
             '<li><a href="/is-a-10-game-trend-reliable/">Reading a short-window range</a></li>'
             '</ul></section></div></article>')
+
+
+def carry_rows(reports: dict) -> list[dict]:
+    """Pool 2026 games by each player's final 2025 last-10 band at his own 2025 mark."""
+    pooled = [dict(band=label, players=0, shown_k=0, shown_n=0, k=0, n=0) for label in BANDS]
+    for p in PLAYER_PAGES:
+        r = reports[p['player_id']]
+        if not r['now']:
+            continue
+        row = pooled[band(r['last']['k'], r['last']['n'])]
+        row['players'] += 1
+        row['shown_k'] += r['last']['k']
+        row['shown_n'] += r['last']['n']
+        row['k'] += r['now_rate']['k']
+        row['n'] += r['now_rate']['n']
+    return [row for row in pooled if row['n']]
+
+
+def carry_section(reports: dict) -> str:
+    rows = [[cell(row['band'], True), cell(row['players']), cell(f"{round(100 * row['shown_k'] / row['shown_n'])}%"),
+             cell(f"{row['k']} of {row['n']}"), cell(interval(rate([1] * row['k'] + [0] * (row['n'] - row['k']), 1)))]
+            for row in carry_rows(reports)]
+    through = long_date(next(iter(reports.values()))['through'])
+    return ('<h2 id="carry">Did the 2025 rate carry into 2026?</h2>'
+            '<p>Each player keeps his own 2025 mark and the band of his last 10 games of 2025. The 2026 columns count '
+            f'his regular-season games completed by {through} at that same mark. Players with no 2026 game are left out. '
+            'Nothing from 2026 chose a mark or a band.</p>' +
+            table(['Last 10 of 2025', 'Players', 'Average shown', 'Reached in 2026', 'Wilson 95% range'], rows,
+                  '2025 last-10 bands and the same marks in 2026'))
 
 
 def player_index_body(reports: dict) -> str:
@@ -217,10 +295,11 @@ def player_index_body(reports: dict) -> str:
     return (f'<article><section class="hero search-hero"><h1>{PLAYER_INDEX["title"]}</h1>'
             f'<p class="lede">These {len(PLAYER_PAGES)} NFL player logs show passing, rushing or receiving yards from the '
             '2025 regular season. Read each played game, the last 10 count and its Wilson range. Each player page adds '
-            'three yardage marks, home and away splits, and a count of later games after similar past rates.</p>'
-            '<p class="byline">Checked 21 November 2026 · By Matthew Kerr, who makes BookBreaker</p>' + cta(True) +
+            'three yardage marks, home and away splits, a count of later games after similar past rates, and his 2026 '
+            'games so far at the same mark.</p>'
+            f'<p class="byline">Checked {PLAYER_INDEX["checked"]} · By Matthew Kerr, who makes BookBreaker</p>' + cta(True) +
             '</section><div class="search-body player-body"><nav class="position-nav" aria-label="Player positions">'
-            '<a href="#qb">QB</a><a href="#rb">RB</a><a href="#wr">WR</a><a href="#te">TE</a></nav>' + ''.join(sections) +
+            '<a href="#qb">QB</a><a href="#rb">RB</a><a href="#wr">WR</a><a href="#te">TE</a></nav>' + ''.join(sections) + carry_section(reports) +
             '<h2 id="method">Which players and games are here?</h2>'
             '<p>I kept quarterbacks, running backs, wide receivers and tight ends with at least 8 recorded games '
             'in the 2025 regular season and an exact median of at least 10 yards in their main stat. '
@@ -228,7 +307,8 @@ def player_index_body(reports: dict) -> str:
             'The median averages the two middle values when the game count is even.</p>'
             '<p>A CSV row means a game played. Missing weeks add no game and no zero. A blank stat within a recorded '
             'row counts as zero. Only regular-season rows enter the calculations. January 2026 dates in these tables '
-            'belong to the 2025 season. No 2026 season rows enter any result.</p>'
+            'belong to the 2025 season. 2026 rows appear only in the 2026 sections and the carry table, and never '
+            'change a 2025 mark, count or later check.</p>'
             '<p>The last 5 and last 10 mean the final played games, with fewer than 10 when the log is shorter. '
             'Each count includes a value equal to the mark. Games column n and reaches k appear together. '
             'For the three card thresholds, take the exact 2025 median, round upward to a whole yard, then multiply '
