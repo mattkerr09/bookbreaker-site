@@ -50,7 +50,7 @@ def make(out: Path) -> None:
             contextlib.redirect_stdout(io.StringIO()):
         build.main()
     for path in out.rglob('*'):
-        if path.suffix in ('.html', '.txt', '.xml') and '.git' not in path.parts:
+        if path.suffix in ('.html', '.txt', '.xml', '.js', '.json') and '.git' not in path.parts:
             path.write_text(rename(path.read_text()))
     for name in STATIC:
         source = REPO / name
@@ -77,7 +77,7 @@ def gate(out: Path) -> list[str]:
         if check.main():
             fails += [line[5:] for line in log.getvalue().splitlines() if line.startswith('FAIL ')]
     for path in out.rglob('*'):
-        if path.is_file() and '.git' not in path.parts and path.suffix in ('.html', '.txt', '.xml', '.md', '.svg', '.css'):
+        if path.is_file() and '.git' not in path.parts and path.suffix in ('.html', '.txt', '.xml', '.md', '.svg', '.css', '.js', '.json'):
             for m in OLD.finditer(path.read_text()):
                 fails.append(f'{path.relative_to(out)}: old name {m.group(0)!r}')
     for rel in ICONS + ['CNAME', 'robots.txt']:

@@ -50,9 +50,12 @@ class LaunchBuildTests(unittest.TestCase):
             page = out / 'pricing' / 'index.html'
             page.write_text(page.read_text().replace('Streakgauge price', 'BookBreaker price', 1))
             (out / 'favicon.ico').unlink()
+            script = out / 'streak-checker' / 'checker.js'
+            script.write_text(script.read_text() + '\n// bookbreaker.bet\n')
             fails = launch.gate(out)
             self.assertTrue(any('old name' in f and 'pricing' in f for f in fails), fails)
             self.assertIn('missing favicon.ico', fails)
+            self.assertTrue(any('old name' in f and 'checker.js' in f for f in fails), fails)
 
     def test_refuses_a_non_empty_folder(self):
         with self.assertRaises(SystemExit):
