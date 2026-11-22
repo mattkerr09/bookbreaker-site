@@ -6,6 +6,8 @@ import re
 from html.parser import HTMLParser
 
 from build import ORIGIN
+from pages import PUBLISHED_ISO, SITE_CHECKED, SITE_CHECKED_ISO
+from content import source_linked, source_shown
 from pages import SEARCH_PAGES
 
 
@@ -92,8 +94,8 @@ def article_issues(source: str, config: dict) -> list[str]:
         schemas = [json.loads(s.text()) for s in scripts]
         want(len(schemas) == 1 and schemas[0]['@type'] == 'Article'
              and schemas[0]['author'] == {'@type': 'Person', 'name': 'Matthew Kerr'}
-             and schemas[0]['datePublished'] == '2026-11-21'
-             and schemas[0]['dateModified'] == config.get('modified', '2026-11-21')
+             and schemas[0]['datePublished'] == PUBLISHED_ISO
+             and schemas[0]['dateModified'] == config.get('modified', SITE_CHECKED_ISO)
              and schemas[0]['mainEntityOfPage'] == url and schemas[0]['headline'] == config['title'], 'schema')
     except (ValueError, KeyError, TypeError):
         errors.append('schema')
@@ -105,7 +107,7 @@ def article_issues(source: str, config: dict) -> list[str]:
     paragraphs = main.all('p')
     want(bool(paragraphs) and 40 <= len(words(paragraphs[0].text())) <= 70, 'answer length')
     want(bool(paragraphs) and clean(paragraphs[0].text()) == config['answer'], 'answer text')
-    want(f"Checked {config.get('checked', '21 November 2026')} · By Matthew Kerr, who makes BookBreaker" in clean(main.text()),
+    want(f"Checked {config.get('checked', SITE_CHECKED)} · By Matthew Kerr, who makes BookBreaker" in clean(main.text()),
          'byline')
     count = len(words(main.text()))
     want(600 <= count <= 1400, 'main length')
@@ -142,9 +144,10 @@ def registry_issues(source: str, facts: dict, claims: dict) -> list[str]:
         text = ''.join(c.text() if isinstance(c, Node) else c for c in node.children)
         if clean(text) != entry['text']:
             errors.append('fact text')
-        if entry['source'].startswith('https://') and entry['source'] not in source_links:
+        if source_linked(entry['source']) and entry['source'] not in source_links:
             errors.append('fact source')
-        if not entry['source'].startswith('https://') and entry['source'] not in source_text:
+        if not source_linked(entry['source']) and (source_shown(entry['source']) not in source_text
+                                                   or entry['source'] in source_links):
             errors.append('fact source')
         if entry['readAt'] not in source_text:
             errors.append('fact date')

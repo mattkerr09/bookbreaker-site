@@ -14,15 +14,15 @@ from articles import ARTICLE_BODIES
 import checker
 from player_data import PLAYER_2026_READ
 from content import cell, claim, cta, guide_links, nfl_credit, table
-from pages import DATA_PAGES, NFL_INDEX, PLAYER_DATA_PAGES, PLAYER_INDEX, SEARCH_PAGES
+from pages import (DATA_PAGES, NFL_INDEX, PLAYER_DATA_PAGES, PLAYER_INDEX, PUBLISHED_ISO, SEARCH_PAGES, SITE_CHECKED,
+                   SITE_CHECKED_ISO)
 from nfl import index_body, team_body, team_report
 from nfl_players import player_body, player_index_body, player_reports, team_players
 from stats import NFL_FILE, NFL_READ, NFL_SOURCE, example, season_scores, wilson
 
 SITE = Path(__file__).resolve().parents[1]
 ORIGIN = "https://bookbreaker.bet"
-CHECKED = "21 November 2026"
-CHECKED_ISO = "2026-11-21"
+CHECKED, CHECKED_ISO = SITE_CHECKED, SITE_CHECKED_ISO
 # No public date until the bake-off passes (Saban's card, 2026-11-20: the queue puts BookBreaker at wave 6, and Matthew
 # said it "runs only its free data trial and bake-off until it shows a plan that can win"). A date we might miss is a claim.
 LAUNCH = None
@@ -230,7 +230,7 @@ for nothing.</p>
 
 def pricing() -> str:
     """The planned price, kept to the claims registry. No checkout exists until the payment provider approves."""
-    rows = [[cell('The app, today', True), cell('$39 once'), cell('The app and 12 months of new games')],
+    rows = [[cell('The app, at purchase', True), cell('$39 once'), cell('The app and 12 months of new games')],
             [cell('Each later year', True), cell('$19, optional'), cell('Another 12 months of new games')],
             [cell('If you stop', True), cell('$0'), cell('Every stat and tool you already have keeps working')]]
     totals = [[cell(f'{years} {"year" if years == 1 else "years"}', True), cell(f'${39}'),
@@ -244,7 +244,7 @@ BookBreaker is in development, so nothing is on sale yet.</p>
 {table(['When', 'Price', 'What it covers'], rows, 'The planned BookBreaker price')}
 <h2>Totals over three years</h2>
 {table(['Years of use', 'Without later updates', 'With every yearly update'], totals, 'Planned totals, before any sales tax')}
-<p>For dated yearly prices of other stats apps, read <a href="/pay-once-sports-stats-app/">Can I pay once for a sports
+<p>For dated yearly prices of other apps, read <a href="/pay-once-sports-stats-app/">Can I pay once for a sports
 stats app?</a></p>
 <h2>What the licence is for</h2>
 {claim('desktop')}{claim('counts')}{claim('held')}{claim('local')}{claim('offline')}
@@ -265,6 +265,7 @@ def not_found() -> str:
 
 
 def llms(x: dict) -> str:
+    CHECKER_PLAYERS = len(checker.checker_data()["players"])
     return f"""# BookBreaker
 
 > A planned desktop app for player and team statistics. In development for Mac and Windows.
@@ -278,7 +279,7 @@ def llms(x: dict) -> str:
 ## Pages
 - [Home]({ORIGIN}/): the app plan and a computed team-points example
 - [Price]({ORIGIN}/pricing/): $39 once with 12 months of new games, then an optional $19 a year
-- [Streak checker]({ORIGIN}/streak-checker/): free; any NFL player, a yardage number, the last 5 or 10 games, and how similar past runs did next
+- [Streak checker]({ORIGIN}/streak-checker/): free; {CHECKER_PLAYERS} NFL quarterbacks, running backs, receivers and tight ends, 2024 to 2026, a yardage number, the last 5 or 10 games, and how similar past runs did next
 - [Privacy]({ORIGIN}/privacy/)
 
 ## Guides and answers
@@ -329,7 +330,7 @@ def main() -> None:
         schema = {"@context": "https://schema.org", "@type": "Article", "headline": config['title'],
                   "description": config['description'], "mainEntityOfPage": url,
                   "author": {"@type": "Person", "name": "Matthew Kerr"},
-                  "datePublished": CHECKED_ISO, "dateModified": config.get('modified', CHECKED_ISO)}
+                  "datePublished": PUBLISHED_ISO, "dateModified": config.get('modified', CHECKED_ISO)}
         if config in SEARCH_PAGES:
             body = article(config, x)
         elif config == NFL_INDEX:

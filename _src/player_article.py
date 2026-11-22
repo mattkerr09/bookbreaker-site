@@ -68,7 +68,7 @@ The later rate divides all reaches by all later games, so a spot with five later
 <p>Ten games allow every band in the table. The outcome is still the next five games, rather than the next ten.
 These are two checks on the same season. Their games can repeat across windows and across bands.</p>
 <h2>How I chose the number and the spots</h2>
-<p>The eligible group was {results[5]['players']} quarterbacks, running backs, wide receivers and tight ends.
+<p>The eligible group was {results[5]['players']} quarterbacks, running backs, wide receivers and tight ends, chosen by their 2024 games, so it is a different list from the player pages.
 Each had at least eight regular-season games in 2024 and a rounded-up 2024 median of at least 10 yards.
 The main stat was passing yards for quarterbacks, rushing yards for running backs, and receiving yards for receivers
 and tight ends. Each player and position pair had its own log.</p>

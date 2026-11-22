@@ -105,7 +105,7 @@ class NFLScoringTests(unittest.TestCase):
                    for u in ET.fromstring(read('sitemap.xml'))}
         for path in DATA_PATHS:
             self.assertTrue((SITE / path).is_file(), path)
-            self.assertEqual(entries[ORIGIN + '/' + path.removesuffix('index.html')], '2026-11-21')
+            self.assertEqual(entries[ORIGIN + '/' + path.removesuffix('index.html')], build.CHECKED_ISO)
         self.assertEqual(read('llms.txt').count(f'[NFL team scoring]({ORIGIN}/nfl-team-scoring/)'), 1)
 
     def test_metadata_content_and_links(self):
@@ -124,7 +124,7 @@ class NFLScoringTests(unittest.TestCase):
             self.assertTrue(3 <= len(node.all('details')) <= 5)
             self.assertIn(NFL_SOURCE, source)
             self.assertIn(NFL_READ, node.classes('sources')[0].text())
-            self.assertIn('PLAN-FIXES.md, section 1', node.classes('sources')[0].text())
+            self.assertIn('BookBreaker method', node.classes('sources')[0].text())
             expected_codes = []
             for game in reversed(raw_games(team['abbreviation'])):
                 if game['division'] and game['opponent'] not in expected_codes:
@@ -330,7 +330,7 @@ class NFLMutationTests(unittest.TestCase):
             ('test_metadata_content_and_links', 'missing trend', det, 'class="ex trend-card"', 'class="ex"'),
             ('test_metadata_content_and_links', 'missing held line', det, 'Held up later', 'Missing'),
             ('test_metadata_content_and_links', 'missing FAQ', det, '<details>', '<section>'),
-            ('test_metadata_content_and_links', 'missing source', det, 'PLAN-FIXES.md, section 1', 'Missing source'),
+            ('test_metadata_content_and_links', 'missing source', det, 'BookBreaker method', 'Missing source'),
             ('test_metadata_content_and_links', 'missing rival', det, 'href="/nfl-team-scoring/chicago-bears/"', 'href="/missing/"'),
             ('test_every_game_trend_and_split_matches_source', 'wrong game score', det, '<td>13</td>', '<td>999</td>'),
             ('test_every_game_trend_and_split_matches_source', 'wrong trend', det, 'data-threshold="17"', 'data-threshold="18"'),

@@ -14,8 +14,8 @@ SOURCE = Path(__file__).resolve().parents[1]
 SITE = SOURCE.parent
 sys.path.insert(0, str(SOURCE))
 
-from content import CLAIMS, FACTS, e, fact
-from pages import SEARCH_PAGES
+from content import CLAIMS, FACTS, e, fact, source_shown
+from pages import SEARCH_PAGES, SITE_CHECKED
 from page_rules import article_issues, jaccard, registry_issues, shingles
 
 
@@ -33,7 +33,7 @@ class RuleMutationTests(unittest.TestCase):
             'h1': original.replace('</h1>', '</h1><h1>Another heading</h1>'),
             'answer length': original.replace(e(config['answer']), 'Too short.'),
             'answer text': original.replace('Choose the number before you count.', 'Fix the number before you count.'),
-            'byline': original.replace('Checked 21 November 2026 · By Matthew Kerr, who makes BookBreaker', 'No byline'),
+            'byline': original.replace(f'Checked {SITE_CHECKED} · By Matthew Kerr, who makes BookBreaker', 'No byline'),
             'main length': re.sub(r'<div class="search-body">[\s\S]*?</article>', '<div class="search-body"></div></article>', original),
             'body length': original.replace('<div class="search-body">', '<div class="search-body">' + ('extra word ' * 1200)),
             'early app': original.replace('class="ex development"', 'class="ex"'),
@@ -57,7 +57,7 @@ class RuleMutationTests(unittest.TestCase):
         variants = {
             'unknown fact': original.replace('data-fact="nba-logs"', 'data-fact="missing"'),
             'fact text': original.replace(fact('nba-logs', code='nba.com/stats/player/<id>/boxscores-traditional'), '<p data-fact="nba-logs">Changed fact.</p>'),
-            'fact source': original.replace(FACTS['nba-logs']['source'], 'Missing reference'),
+            'fact source': original.replace(source_shown(FACTS['nba-logs']['source']), 'Missing reference'),
             'fact date': original.replace(FACTS['nba-logs']['readAt'], '2026-01-01'),
             'unknown claim': original.replace('data-claim="desktop"', 'data-claim="missing"'),
             'claim text': original.replace(e(CLAIMS['desktop']['text']), 'BookBreaker will do something else.'),

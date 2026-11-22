@@ -34,7 +34,7 @@ questions are easy to ask before you make sense of the result.</p>
 <p>A useful range shows the doubt around an observed share under stated assumptions. It is not another score for the next
 game. A useful filter changes the denominator as well as the count of reaches. When you move from all games to home games,
 check that both parts of the answer moved with the rows.</p>
-<h2>Prices and platforms in the saved reads</h2>
+<h2>Prices and platforms in the pages we read</h2>
 <p>I make BookBreaker. It is in development. This table describes dated rival reads, so it is a starting point for checking
 choices rather than a claim about today’s checkout. Missing information stays missing. An App Store listing is not proof
 of a Windows version, and a monthly starting price is not a full yearly plan.</p>
@@ -71,9 +71,9 @@ def cost_rows() -> list[list[str]]:
     ):
         rows.append([fact(rival + '-name', 'th'), cell(label), fact(first, 'td'),
                      *[cell(annual_cost(FACTS[first]['text'], FACTS[later]['text'], years)) for years in (1, 2, 3)]])
-    rows.append([claim('cost-without-updates', 'th'), cell('No later updates'), cell('Included in licence'),
+    rows.append([cell('BookBreaker (planned)', True), cell('No later updates'), cell('$39, includes year one'),
                  *[cell(planned_cost(years, False)) for years in (1, 2, 3)]])
-    rows.append([claim('cost-with-updates', 'th'), cell('With later updates'), cell('Included in licence'),
+    rows.append([cell('BookBreaker (planned)', True), cell('With later updates'), cell('$39, includes year one'),
                  *[cell(planned_cost(years, True)) for years in (1, 2, 3)]])
     return rows
 
@@ -88,7 +88,7 @@ I would write down both parts before comparing bills. One question is what you c
 pay to keep receiving fresh games. A plan should answer both in plain words.</p>
 {fact('cheapest-annual')}
 <h2>One, two and three years worked out</h2>
-<p>The table uses the annual amounts in the saved reads. For a steady yearly price, I multiply it by the number of years.
+<p>The table uses the annual amounts in the pages we read. For a steady yearly price, I multiply it by the number of years.
 For the dated Dimers sale read, I add the first-year amount to the stated renewal for each later year. The sale end date
 was not recorded. These are arithmetic examples from those reads, not current offers.</p>
 {table(['App', 'Assumption', 'First annual price', '1 year total', '2 years total', '3 years total'], cost_rows(), 'Costs if the stated annual prices stay fixed')}
@@ -123,7 +123,7 @@ def linemate(x: dict) -> str:
     rows = [[cell('Phone use', True), fact('linemate-platform', 'td'), claim('desktop', 'td')],
             [cell('Payment', True), fact('linemate-price', 'td'), claim('price', 'td')],
             [cell('Reader evidence', True), fact('linemate-rating', 'td'), cell('In development, with no app download yet')],
-            [cell('Later-games check', True), cell('Not established by the saved read'), claim('held', 'td')]]
+            [cell('Later-games check', True), cell('Not established by our read'), claim('held', 'td')]]
     return f'''<h2>Keep the phone question separate</h2>
 {fact('linemate-platform')}
 <p>If you want to read a player’s numbers on a phone today, start with that need. Moving to a planned desktop app changes
@@ -132,11 +132,11 @@ as a phone you already have in your hand.</p>
 <p>I make BookBreaker, and it is in development. The differences below are plans on this side of the table. A dated read
 on the other side is evidence of what was recorded then. Neither should be mistaken for a fresh test of every feature
 available today. There is no ranking or winner here.</p>
-{table(['Question', 'Linemate saved read', 'BookBreaker plan'], rows, 'A phone app read beside a planned desktop approach')}
+{table(['Question', 'Linemate, as read', 'BookBreaker plan'], rows, 'A phone app read beside a planned desktop approach')}
 <h2>What the price read says</h2>
 {fact('cheapest-annual')}
 <p>A monthly listing and an annual listing answer different billing questions. Check the plan name and period together.
-A lower annual amount is not proof that it includes everything in a higher listing. The saved notes record the price
+A lower annual amount is not proof that it includes everything in a higher listing. Our notes record the price
 range without a full feature map for each in-app purchase. I would check that map before comparing a specific plan.</p>
 <p>The worked-cost page keeps the lower and higher annual amounts as separate rows. It also separates the planned app
 licence from later data updates. That makes the time period visible. It does not assume that either product’s data or
@@ -160,7 +160,7 @@ An attractive percentage with no trace back to its rows is harder to check.</p>
 {faq([
     ('Can I switch to BookBreaker now?', '<p>Not yet. BookBreaker is in development. There is no download and no launch date. Use an available source or app for the work you need to do today.</p>'),
     ('Is Linemate’s annual listing the cheapest read?', fact('cheapest-annual')),
-    ('Has the saved read checked every Linemate feature?', '<p>No. A price and rating read is narrower than a full workflow test. Where the table says a feature was not established, it means the saved notes do not answer that question. It is not a claim that the feature is absent.</p>'),
+    ('Did our read check every Linemate feature?', '<p>No. A price and rating read is narrower than a full workflow test. Where the table says a feature was not established, it means our notes do not answer that question. It is not a claim that the feature is absent.</p>'),
     ('Where can I check the counting method first?', '<p>Start with the free game-log walkthrough and count one window by hand. Then read the later-games study if you want to see how past spots are chosen without using future results.</p>'),
 ])}
 {sources(keys)}
@@ -175,8 +175,8 @@ def free_logs(x: dict) -> str:
     return f'''<h2>Start at the league’s page</h2>
 {fact('nba-logs', code='nba.com/stats/player/<id>/boxscores-traditional')}
 {fact('nfl-logs', code='nfl.com/players/<slug>/stats/logs/')}
-<p>These are URL patterns. Replace the player ID or name placeholder with the one for the player you want. The source
-notes tested LeBron James for the NBA and Josh Allen for the NFL. A saved read tells you what was checked then; it cannot
+<p>These are URL patterns. Replace the player ID or name placeholder with the one for the player you want. Our browser
+test used LeBron James for the NBA and Josh Allen for the NFL. A read tells you what was checked then; it cannot
 promise how a page will load on another day. The free route is to read the league’s page and do the count yourself.</p>
 <p>I would start with the raw rows before paying for a more convenient view. It gives you something to compare with an
 app’s answer. Keep the player’s name, the season and the chosen stat on your note. A count loses its meaning quickly if
@@ -419,7 +419,7 @@ NBA player tables. For an NBA player, the league’s own game log and a hand cou
 <h2>Phones, browsers and a computer</h2>
 {''.join(fact(k) for k in rivals)}
 <p>Two of those reads name a phone app. The Dimers read also lists web, so a browser on a PC can reach it. None of the
-saved reads records a Windows install, which is a gap in the notes rather than proof that one is missing. The plan here
+pages we read records a Windows install, which is a gap in the notes rather than proof that one is missing. The plan here
 is a computer app. It does not meet a phone need today.</p>
 <h2>What the planned desktop app adds</h2>
 {claim('desktop')}{claim('leagues')}{claim('counts')}{claim('filters')}{claim('held')}{claim('price')}
@@ -427,7 +427,7 @@ is a computer app. It does not meet a phone need today.</p>
 this one included. Run one count by hand, then compare it with the tool’s answer for the same player, stat, window and
 mark. If the two disagree, compare the dates of the included games first.</p>
 {faq([
-    ('Does the NBA game log need an install on Windows?', '<p>No. It is a web page, read in a browser. The saved notes record a browser test of the table and its URL pattern.</p>'),
+    ('Does the NBA game log need an install on Windows?', '<p>No. It is a web page, read in a browser. Our notes record a browser test of the table and its URL pattern.</p>'),
     ('Can I get BookBreaker for Windows now?', '<p>Not yet. BookBreaker is in development. There is no download and no launch date.</p>' + claim('desktop')),
     ('Can I share a table made from the nflverse file?', '<p>The data is licensed CC BY 4.0, which allows sharing and adapting with credit. Read the licence itself for the full terms before you publish anything.</p>'),
     ('Why does this site show NFL players only?', '<p>Its player tables come from the public nflverse NFL files. No NBA file of that kind is part of this site’s build, so NBA counts here are by hand.</p>'),
@@ -472,7 +472,7 @@ no account, nothing restores it for you.</p>
 <h2>What the saved rival reads record</h2>
 <p>These reads were taken for prices and platforms. They do not say whether each app asks for an account, so that column
 is left as a gap. A blank means the notes are silent, not that an account is or is not required.</p>
-{table(['App', 'Platform evidence', 'Read at UTC', 'Account rule in the saved read'], rows, 'Rival reads, with no ranking')}
+{table(['App', 'Platform evidence', 'Read at UTC', 'Account rule as read'], rows, 'Rival reads, with no ranking')}
 <h2>The planned approach</h2>
 {claim('keep')}{claim('price')}
 <p>A one-time licence fits a no-account design, because a key can be checked without a profile behind it. When the

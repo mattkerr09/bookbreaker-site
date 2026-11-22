@@ -56,7 +56,7 @@
   },
   {
     "id": "player-data",
-    "text": "Player game logs for every league will come with BookBreaker. The worked examples here use team scores; the NFL player study uses public weekly stats.",
+    "text": "Player game logs for every league will come with BookBreaker. The NFL team pages, player pages and the free streak checker here use public NFL data.",
     "status": "planned"
   },
   {

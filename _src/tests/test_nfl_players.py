@@ -132,7 +132,7 @@ class NFLPlayerTests(unittest.TestCase):
             self.assertTrue(set(PLAYER_SOURCES) | {NFL_SOURCE, PLAYER_2026_SOURCE} <= {n.attrs['href'] for n in sources.all('a')})
             self.assertIn(PLAYER_READ, sources.text())
             self.assertIn(PLAYER_2026_READ, sources.text())
-            self.assertIn('PLAN-FIXES.md, section 1', sources.text())
+            self.assertIn('Player page method', sources.text())
             links = {n.attrs['href'] for n in node.classes('onward')[0].all('a')}
             self.assertTrue({'/nfl-player-stats/', '/does-a-player-streak-hold-up/'} <= links)
             self.assertTrue({f'/{t["slug"]}/' for t in TEAM_PAGES if t['abbreviation'] in p['teams']} <= links)
@@ -226,11 +226,11 @@ class NFLPlayerTests(unittest.TestCase):
             self.assertIn(f'Past spots with later games: {spots} · Later games: {n}', held)
             self.assertIn('Horizon: 5 played games.', held)
             if n < 15:
-                self.assertIn('too few past spots to tell', held)
+                self.assertIn('Too few past spots to tell', held)
                 self.assertNotIn(f'{k} of {n}', held)
                 self.assertNotIn('Wilson 95% range:', held)
             else:
-                self.assertNotIn('too few past spots to tell', held)
+                self.assertNotIn('Too few past spots to tell', held)
                 self.assertIn(f'{k} of {n}', held)
                 self.assertIn(f'Wilson 95% range: {reference_count([1] * k + [0] * (n - k), 1)[2]}', held)
 

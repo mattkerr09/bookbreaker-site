@@ -4,6 +4,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+# The site-wide "Checked" date: every rival price and platform on the site was re-read at its source that day (rule 15).
+SITE_CHECKED = "22 November 2026"
+SITE_CHECKED_ISO = "2026-11-22"
+PUBLISHED_ISO = "2026-11-21"
+
 from player_data import PLAYER_2026_CHECKED, PLAYER_2026_READ, player_catalog, with_2026
 
 SEARCH_PAGES = [

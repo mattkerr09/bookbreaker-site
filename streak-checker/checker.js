@@ -73,7 +73,7 @@
       ? '<p><strong>Too few past spots to tell.</strong> His past runs in the ' + BANDS[r.band] + ' band were followed by ' +
         r.y + ' later games; the check needs 15.</p>'
       : '<p>After past runs in the same band (' + BANDS[r.band] + '), he reached ' + t + '+ in <strong>' + r.x + ' of ' +
-        r.y + '</strong> of the next 5 games. Wilson 95% range: ' + range(r.x, r.y) + '. Past spots: ' + r.spots + '.</p>';
+        r.y + '</strong> later games (up to 5 after each past run). Wilson 95% range: ' + range(r.x, r.y) + '. Past spots: ' + r.spots + '.</p>';
     out.innerHTML = '<div class="checker-card"><h2>' + esc(p.n) + ', ' + t + '+ ' + esc(p.s) + '</h2>' +
       '<p class="checker-big">' + r.k + ' of ' + r.n + '</p><p>His latest ' + r.n + ' played games (data read ' +
       esc(data.read) + '). Wilson 95% range: ' + range(r.k, r.n) + '.</p><h3>Did runs like this hold?</h3>' + held +

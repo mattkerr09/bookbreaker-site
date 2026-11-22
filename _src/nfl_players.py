@@ -108,9 +108,8 @@ def observation(p: dict, r: dict) -> str:
     first, second = rate(r['scores'][:cut], t), rate(r['scores'][cut:], t)
     if home and away and abs(sum(home) / len(home) - sum(away) / len(away)) >= 15:
         side, high, low = ('home', home, away) if sum(home) / len(home) > sum(away) / len(away) else ('away', away, home)
-        return (f"{name}'s larger yardage average came {('at home' if side == 'home' else 'away')}: "
-                f"{sum(high) / len(high):.1f} yards across {len(high)} games, beside {sum(low) / len(low):.1f} "
-                f"across {len(low)} in the other setting. The gap was {abs(sum(high) / len(high) - sum(low) / len(low)):.1f} "
+        return (f"{name} averaged {sum(home) / len(home):.1f} yards in {len(home)} home games and "
+                f"{sum(away) / len(away):.1f} in {len(away)} away games. The gap was {abs(sum(high) / len(high) - sum(low) / len(low)):.1f} "
                 'yards per played game. The two groups faced different opponents.')
     if band(first['k'], first['n']) != band(second['k'], second['n']):
         return (f"{name} reached {t} yards in {count_text(first)} games in the opening half of his log, "
@@ -160,8 +159,8 @@ def now_section(p: dict, r: dict) -> str:
     return (head + f'<p>Through games completed by {through}, {e(name)} recorded {len(now)} regular-season '
             f'{"game" if len(now) == 1 else "games"} in 2026 and reached {t}+ {stat} in {count_text(now_rate)}. '
             f'Wilson 95% range: {interval(now_rate)}. His last {last["n"]} games of 2025 reached the same mark in '
-            f'{count_text(last)}, the {BANDS[band(last["k"], last["n"])].lower()} band. The mark and that band were '
-            'settled before any 2026 game, so these games are later games in the plain sense.</p>' +
+            f'{count_text(last)}, the {BANDS[band(last["k"], last["n"])].lower()} band. The mark and that band '
+            'come from 2025 only, so 2026 games had no say in them.</p>' +
             table(['Week', 'Date', 'Opponent', 'Home or away', stat.capitalize(), f'Reached {t}+'], rows,
                   f'{name}: 2026 regular-season games so far') + '</section>')
 
@@ -174,8 +173,7 @@ def player_sources() -> str:
         f'Read {PLAYER_2026_READ}.</li>'
         f'<li><a href="{e(NFL_SOURCE)}">nflverse games.csv</a>. Read {NFL_READ} for 2024 and 2025, and '
         f'{NFL_READ_2026} for 2026. Dates and designated sides.</li>'
-        '<li>PLAN-FIXES.md, section 1. Read 2026-11-21. '
-        '<a href="/nfl-player-stats/#method">Player page method</a>.</li>' + nfl_credit() + '</ul></section>')
+        '<li><a href="/nfl-player-stats/#method">Player page method</a>.</li>' + nfl_credit() + '</ul></section>')
 
 
 def player_body(p: dict, r: dict) -> str:
@@ -195,8 +193,9 @@ def player_body(p: dict, r: dict) -> str:
     split_rows = [[cell(label, True), cell(count_text(row) if row else 'No played games'),
                    cell(interval(row) if row else 'No range')] for label, row in r['splits'].items()]
     later = r['later']
-    held = ('<strong>too few past spots to tell</strong>.' if later['too_few'] else
-            f'<strong>{count_text(later)}</strong> reached {t}+ yards. Wilson 95% range: {interval(later)}.')
+    held = (f'<strong>Too few past spots to tell</strong>: {later["n"]} later {"game" if later["n"] == 1 else "games"}, '
+            'and the check needs 15.' if later['too_few'] else
+            f'He reached {t}+ yards in <strong>{count_text(later)}</strong> later games. Wilson 95% range: {interval(later)}.')
     high, low = max(r['games'], key=lambda g: g['yards']), min(r['games'], key=lambda g: g['yards'])
     team_links = ', '.join(team_link(code) for code in p['teams'])
     peers = [other for other in PLAYER_PAGES if other['player_id'] != p['player_id']
@@ -225,6 +224,7 @@ def player_body(p: dict, r: dict) -> str:
                   f'{name}: 2025 regular-season games played') +
             f'<h2>{e(name)} at three yardage marks</h2>'
             f'<p>Rounded median: {t} yards. Lower: {r["thresholds"][0]}. Upper: {r["thresholds"][2]}. '
+            'The Wilson 95% range shows how far the true rate could plausibly be from this count, given so few games. '
             '<a href="/nfl-player-stats/#method">Threshold rule, game counts and ranges</a>.</p>'
             '<div class="threshold-grid">' + ''.join(cards) + '</div>' +
             f'<h2>{e(name)} splits at {t}+ yards</h2>' +
@@ -270,7 +270,7 @@ def carry_section(reports: dict) -> str:
             '<p>Each player keeps his own 2025 mark and the band of his last 10 games of 2025. The 2026 columns count '
             f'his regular-season games completed by {through} at that same mark. Players with no 2026 game are left out. '
             'Nothing from 2026 chose a mark or a band.</p>' +
-            table(['Last 10 of 2025', 'Players', 'Average shown', 'Reached in 2026', 'Wilson 95% range'], rows,
+            table(['Last 10 of 2025', 'Players', 'Average 2025 last-10 rate', 'Reached in 2026', 'Wilson 95% range'], rows,
                   '2025 last-10 bands and the same marks in 2026'))
 
 

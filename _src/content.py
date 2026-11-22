@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import html
 import json
+import re
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from pages import NFL_INDEX, PLAYER_INDEX, SEARCH_PAGES
 from stats import NFL_READ, NFL_SOURCE
@@ -62,11 +64,32 @@ def nfl_credit() -> str:
             f'<a href="{NFL_LICENSE}">CC BY 4.0</a>. Counts and ranges computed by BookBreaker.</li>')
 
 
+# Rival betting-research apps and sites are named and dated, never linked.
+NO_LINK_HOSTS = {"apps.apple.com", "www.dimers.com", "www.propsmadness.com"}
+# Internal working files are cited by what they are, not by file name.
+PUBLIC_SOURCE = {
+    "PLAN-FIXES.md, section 1": '<a href="/nfl-player-stats/#method">BookBreaker method</a>',
+    "PLAN-FIXES.md, section 2": "BookBreaker browser test of the league game-log pages",
+}
+
+
+def source_linked(url: str) -> bool:
+    return url.startswith("https://") and urlsplit(url).hostname not in NO_LINK_HOSTS
+
+
+def source_shown(url: str) -> str:
+    """The plain words a reader sees for a source."""
+    if url in PUBLIC_SOURCE:
+        return re.sub(r"<[^>]+>", "", PUBLIC_SOURCE[url])
+    return url.removeprefix("https://") if urlsplit(url).hostname in NO_LINK_HOSTS else url
+
+
 def sources(keys: list[str], extra: list[str] = ()) -> str:
     reads = sorted({(FACTS[key]["source"], FACTS[key]["readAt"]) for key in keys})
     entries = []
     for url, date in reads:
-        label = f'<a href="{e(url)}">{e(url)}</a>' if url.startswith("https://") else e(url)
+        label = (PUBLIC_SOURCE[url] if url in PUBLIC_SOURCE else
+                 f'<a href="{e(url)}">{e(url)}</a>' if source_linked(url) else e(source_shown(url)))
         entries.append(f'<li>{label}. Read {e(date)}.</li>')
     entries.append(f'<li><a href="{e(NFL_SOURCE)}">{e(NFL_SOURCE)}</a>. Data file read {NFL_READ}.</li>')
     entries.extend(extra)
@@ -85,4 +108,5 @@ def guide_links(cards: bool = False) -> str:
                     f'{e(p.get("link_title", p["title"]))}</a></li>' for p in SEARCH_PAGES)
     items += f'<li{item_class}><a href="/{NFL_INDEX["slug"]}/">NFL team scoring</a></li>'
     items += f'<li{item_class}><a href="/{PLAYER_INDEX["slug"]}/">NFL player stats</a></li>'
+    items += f'<li{item_class}><a href="/streak-checker/">Free NFL streak checker</a></li>'
     return f'<ul class="{"cards" if cards else "guide-links"}" aria-label="Guides">{items}</ul>'

@@ -5,7 +5,7 @@ import math
 from statistics import median
 
 from content import cell, cta, e, faq, sources, table
-from pages import NFL_INDEX, TEAM_PAGES
+from pages import NFL_INDEX, SITE_CHECKED, TEAM_PAGES
 from stats import BANDS, NFL_READ, band, held_up, rate
 
 TEAM_BY_CODE = {team['abbreviation']: team for team in TEAM_PAGES}
@@ -159,7 +159,7 @@ def team_body(team: dict, r: dict, players_html: str = "") -> str:
     links = ''.join(f'<li>{team_link(code)}</li>' for code in rivals(games))
     return (f'<article><section class="hero search-hero"><h1>{e(team["title"])}</h1>'
             f'<p class="lede">{e(answer(team, r))}</p>'
-            '<p class="byline">Checked 21 November 2026 · By Matthew Kerr, who makes BookBreaker</p>' + cta() +
+            f'<p class="byline">Checked {SITE_CHECKED} · By Matthew Kerr, who makes BookBreaker</p>' + cta() +
             '</section><div class="search-body team-body">' + chart(team, r) +
             f'<p class="team-observation">{e(observation(team, r))}</p><h2>Every {name} game</h2>' +
             table(['Week', 'Date', 'Opponent', 'Home or away', 'Points scored', 'Points allowed', 'Overtime'],
@@ -220,7 +220,7 @@ def index_body(reports: dict) -> str:
             '<p class="lede">Read every team’s 2025 regular-season scores, points per game and counts at three scoring '
             'thresholds. Each team page pairs its game log with Wilson ranges, home and away splits, and a check of '
             'what followed similar past rates. The table below compares all teams at the same 24-point mark.</p>'
-            '<p class="byline">Checked 21 November 2026 · By Matthew Kerr, who makes BookBreaker</p>' + cta() +
+            f'<p class="byline">Checked {SITE_CHECKED} · By Matthew Kerr, who makes BookBreaker</p>' + cta() +
             '</section><div class="search-body"><h2>All 32 teams</h2>'
             '<p>Sorted by team name. Use a column button to change the order. The range column sorts by its lower end. '
             'Points per game sorts by the unrounded average.</p>'
@@ -248,7 +248,7 @@ def index_body(reports: dict) -> str:
             '“too few past spots to tell” and withholds the score and range. Counts are pooled within one team, '
             'rather than across the league. This is a description of these stored seasons. The threshold itself '
             'comes from the full 2025 season, so this is not a test of a threshold chosen before that season. '
-            '<a href="/did-the-trend-hold-up/">Read PLAN-FIXES section 1 as applied in the worked study</a>.</p>'
+            '<a href="/did-the-trend-hold-up/">See the method applied in the worked study</a>.</p>'
             '<p>The two division links on each page go to its two most recently faced distinct division opponents '
             'in the displayed log.</p>'
             f'<p>The schedules file was read {NFL_READ}. Its 2026 season rows stop at that read date, so the 2026 '

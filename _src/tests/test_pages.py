@@ -22,6 +22,7 @@ sys.path.insert(0, str(SOURCE))
 from articles import WINDOWS_PLAYER, cost_rows, later
 from content import CLAIMS, FACTS, cta, e, fact, table
 from costs import annual_cost, planned_cost
+import build
 from build import ORIGIN
 from pages import DATA_PAGES, DATA_PATHS, NFL_INDEX, PLAYER_DATA_PAGES, PLAYER_INDEX, PLAYER_PATHS, PUBLISHED, SEARCH_PAGES, SEARCH_PATHS
 from player_data import PLAYER_2026_READ
@@ -61,7 +62,7 @@ class BuildAndPageTests(unittest.TestCase):
         self.assertEqual({entries[f'{ORIGIN}/{p["slug"]}/'] for p in PLAYER_DATA_PAGES}, {PLAYER_2026_READ})
         self.assertEqual(entries[f'{ORIGIN}/streak-checker/'], PLAYER_2026_READ)
         self.assertEqual({v for k, v in entries.items() if k not in {f'{ORIGIN}/{p["slug"]}/' for p in PLAYER_DATA_PAGES}
-                          | {f'{ORIGIN}/streak-checker/'}}, {'2026-11-21'})
+                          | {f'{ORIGIN}/streak-checker/'}}, {build.CHECKED_ISO})
         llms = read('llms.txt').split('## Guides and answers\n')[1]
         for page in SEARCH_PAGES:
             self.assertIn(f'{ORIGIN}/{page["slug"]}/', llms)
@@ -73,7 +74,7 @@ class BuildAndPageTests(unittest.TestCase):
         home = Document(read('index.html')).root
         home_lists = [n for n in home.all('main')[0].all('ul') if n.attrs.get('aria-label') == 'Guides']
         self.assertEqual(len(home_lists), 1)
-        self.assertEqual(len(home_lists[0].all('a')), 12)
+        self.assertEqual(len(home_lists[0].all('a')), 13)
         for path in ['index.html', 'pricing/index.html', 'privacy/index.html', '404.html', *SEARCH_PATHS, *DATA_PATHS, *PLAYER_PATHS]:
             source = read(path)
             doc = Document(source).root
@@ -84,7 +85,7 @@ class BuildAndPageTests(unittest.TestCase):
             lists = [n for n in footer.all('ul') if n.attrs.get('aria-label') == 'Guides']
             self.assertEqual(len(lists), 1, path)
             links = {n.attrs['href'] for n in lists[0].all('a')}
-            self.assertEqual(links, {f'/{p["slug"]}/' for p in SEARCH_PAGES + [NFL_INDEX, PLAYER_INDEX]}, path)
+            self.assertEqual(links, {f'/{p["slug"]}/' for p in SEARCH_PAGES + [NFL_INDEX, PLAYER_INDEX]} | {'/streak-checker/'}, path)
         for path in SEARCH_PATHS + DATA_PATHS + PLAYER_PATHS:
             self.assertIn(cta(player_study=path == 'does-a-player-streak-hold-up/index.html' or path in PLAYER_PATHS), read(path))
 
@@ -108,7 +109,7 @@ class BuildAndPageTests(unittest.TestCase):
         for entry in raw_facts:
             self.assertEqual(set(entry), {'id', 'subject', 'text', 'source', 'readAt'})
             self.assertTrue(entry['text'])
-            self.assertRegex(entry['readAt'], r'^2026-11-(20|21)(T[0-9:]+Z)?$')
+            self.assertRegex(entry['readAt'], r'^2026-11-(20|21|22)(T[0-9:]+Z)?$')
             expected_sources = {
                 'Linemate': 'https://apps.apple.com/us/app/id1635246793',
                 'PropsMadness': 'https://www.propsmadness.com/',
@@ -146,15 +147,16 @@ class BuildAndPageTests(unittest.TestCase):
             (site / '_src/data').mkdir(parents=True)
             (site / '_src/data/facts.json').write_text(json.dumps(list(FACTS.values())))
             with patch.object(check, 'SITE', site), patch.object(check, 'PUBLISHED', ['index.html']):
-                self.assertTrue({'apps.apple.com', 'www.propsmadness.com', 'www.dimers.com'} <= check.allowed_hosts())
-                for url, status in [('https://apps.apple.com/us/app/id1635246793', 0),
+                self.assertFalse({'apps.apple.com', 'www.propsmadness.com', 'www.dimers.com'} & check.allowed_hosts())
+                for url, status in [('https://apps.apple.com/us/app/id1635246793', 1),
+                                    ('https://github.com/nflverse/nflverse-data', 0),
                                     ('https://creativecommons.org/licenses/by/4.0/', 0),
                                     ('https://unlisted.example/page', 1)]:
                     (site / 'index.html').write_text(f'<a href="{url}">Source</a>')
                     with redirect_stdout(io.StringIO()) as output:
                         self.assertEqual(check.main(), status)
                     self.assertIn('SITE GREEN' if status == 0 else
-                                  'outbound link to unlisted.example is not allowed', output.getvalue())
+                                  f'outbound link to {urlsplit(url).hostname} is not allowed', output.getvalue())
 
     def test_league_patterns_are_code_text_without_placeholder_links(self):
         doc = Document(read('free-nba-player-game-logs/index.html')).root

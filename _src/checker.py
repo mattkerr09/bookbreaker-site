@@ -143,7 +143,7 @@ SCRIPT = r"""(function () {
       ? '<p><strong>Too few past spots to tell.</strong> His past runs in the ' + BANDS[r.band] + ' band were followed by ' +
         r.y + ' later games; the check needs 15.</p>'
       : '<p>After past runs in the same band (' + BANDS[r.band] + '), he reached ' + t + '+ in <strong>' + r.x + ' of ' +
-        r.y + '</strong> of the next 5 games. Wilson 95% range: ' + range(r.x, r.y) + '. Past spots: ' + r.spots + '.</p>';
+        r.y + '</strong> later games (up to 5 after each past run). Wilson 95% range: ' + range(r.x, r.y) + '. Past spots: ' + r.spots + '.</p>';
     out.innerHTML = '<div class="checker-card"><h2>' + esc(p.n) + ', ' + t + '+ ' + esc(p.s) + '</h2>' +
       '<p class="checker-big">' + r.k + ' of ' + r.n + '</p><p>His latest ' + r.n + ' played games (data read ' +
       esc(data.read) + '). Wilson 95% range: ' + range(r.k, r.n) + '.</p><h3>Did runs like this hold?</h3>' + held +
@@ -187,7 +187,10 @@ def checker_body() -> str:
     return (f'<article><section class="hero search-hero"><h1>{e(TITLE)}</h1>'
             '<p class="lede">Choose a player and a yardage number. The checker counts how often he reached it in his last '
             '5 or 10 games, with a range, then looks back at his own past runs at the same rate and counts what came in '
-            'the next 5 games.</p>' + cta(True) + '</section>'
+            'the next 5 games.</p>'
+            f'<p>It holds {len(checker_data()["players"])} NFL quarterbacks, running backs, wide receivers and tight ends, '
+            'with their regular-season games from 2024 to 2026. The range is the Wilson 95% range: how far the true rate '
+            'could plausibly be from this count, given so few games.</p>' + cta(True) + '</section>'
             '<div class="search-body" id="checker">'
             '<form class="checker-form" autocomplete="off">'
             '<label for="who">Player</label><input id="who" list="players" placeholder="Start typing a name">'
@@ -196,8 +199,8 @@ def checker_body() -> str:
             '<label for="win">Games</label><select id="win"><option value="5">Last 5</option>'
             '<option value="10" selected>Last 10</option></select></form>'
             '<p class="checker-status" aria-live="polite">Loading players.</p>'
-            '<div id="result" aria-live="polite"><noscript><p>The checker needs JavaScript. Every player page under '
-            '<a href="/nfl-player-stats/">NFL player stats</a> shows the same counts without it.</p></noscript></div>'
+            '<div id="result" aria-live="polite"><noscript><p>The checker needs JavaScript. Each player page under '
+            '<a href="/nfl-player-stats/">NFL player stats</a> shows 2025 and 2026 counts at a fixed mark without it.</p></noscript></div>'
             '<h2>How the later check works</h2>'
             '<p>The rate in your window falls in one of five bands: under 40%, 40 to 59%, 60 to 69%, 70 to 79%, and 80% '
             'and over. The checker walks through the player\'s games in date order. At each game it reads only the window '

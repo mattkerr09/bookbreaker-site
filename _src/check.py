@@ -18,7 +18,7 @@ from urllib.parse import urlsplit
 
 SITE = Path(__file__).resolve().parents[1]
 from pages import PUBLISHED
-from content import NFL_LICENSE
+from content import NFL_LICENSE, NO_LINK_HOSTS
 # README.md is listed because GitHub Pages copies it to /README.md as it is.
 BANNED = re.compile(
     r"\bodds\b|\bpicks?\b|\bbets?\b|\bbetting\b|\bbettors?\b|\bedge\b|\+\s*EV\b|\bEV\b|\barbitrage\b|\barbs?\b|\bwagers?\b"
@@ -39,7 +39,7 @@ def allowed_hosts() -> set[str]:
     facts = json.loads((SITE / "_src/data/facts.json").read_text())
     return ALLOWED_HOSTS | {urlsplit(fact["source"]).hostname for fact in [*facts, {"source": NFL_LICENSE}]
                             if urlsplit(fact["source"]).scheme in ("http", "https")
-                            and urlsplit(fact["source"]).hostname}
+                            and urlsplit(fact["source"]).hostname} - NO_LINK_HOSTS
 
 
 def main() -> int:
