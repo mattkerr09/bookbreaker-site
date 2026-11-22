@@ -5,11 +5,13 @@ import csv
 import math
 from pathlib import Path
 
+from nfl_2026 import NFL_2026_DIR, NFL_2026_READ
+
 NFL_FILE = Path("/Users/matthewkerr/bb-lab/research/nfl/data/games.csv")
 NFL_SOURCE = "https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv"
 NFL_READ = "2026-10-22"
-NFL_FILE_2026 = Path("/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-2026-11-22/games.csv")
-NFL_READ_2026 = "2026-11-22"
+NFL_FILE_2026 = NFL_2026_DIR / "games.csv"
+NFL_READ_2026 = NFL_2026_READ
 BANDS = ("Under 40%", "40 to 59%", "60 to 69%", "70 to 79%", "80% and over")
 HORIZON = 5
 MIN_FUTURE = 15

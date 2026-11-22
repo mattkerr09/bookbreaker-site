@@ -9,13 +9,15 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from statistics import median
 
+from nfl_2026 import NFL_2026_DIR, NFL_2026_READ, long_date
+
 PLAYER_DATA = Path('/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-player-week')
 PLAYER_READ = '2026-11-21'
 PLAYER_SOURCES = tuple('https://github.com/nflverse/nflverse-data/releases/download/'
                        f'stats_player/stats_player_week_{year}.csv' for year in (2024, 2025))
-PLAYER_2026_DATA = Path('/Users/matthewkerr/bb-lab/research/nfl/data/nflverse-2026-11-22')
-PLAYER_2026_READ = '2026-11-22'
-PLAYER_2026_CHECKED = '22 November 2026'
+PLAYER_2026_DATA = NFL_2026_DIR
+PLAYER_2026_READ = NFL_2026_READ
+PLAYER_2026_CHECKED = long_date(NFL_2026_READ)
 PLAYER_2026_SOURCE = ('https://github.com/nflverse/nflverse-data/releases/download/'
                       'stats_player/stats_player_week_2026.csv')
 MAIN_STAT = {'QB': 'passing_yards', 'RB': 'rushing_yards',

@@ -24,6 +24,7 @@ from content import CLAIMS, FACTS, cta, e, fact, table
 from costs import annual_cost, planned_cost
 from build import ORIGIN
 from pages import DATA_PAGES, DATA_PATHS, NFL_INDEX, PLAYER_DATA_PAGES, PLAYER_INDEX, PLAYER_PATHS, PUBLISHED, SEARCH_PAGES, SEARCH_PATHS
+from player_data import PLAYER_2026_READ
 from stats import NFL_READ, NFL_SOURCE, example, held_up, season_scores, wilson
 from page_rules import Document, article_issues, clean, jaccard, registry_issues, shingles, words
 
@@ -57,7 +58,7 @@ class BuildAndPageTests(unittest.TestCase):
         expected_urls = {ORIGIN + '/', ORIGIN + '/privacy/'} | {
             f'{ORIGIN}/{p["slug"]}/' for p in SEARCH_PAGES + DATA_PAGES + PLAYER_DATA_PAGES}
         self.assertEqual(set(entries), expected_urls)
-        self.assertEqual({entries[f'{ORIGIN}/{p["slug"]}/'] for p in PLAYER_DATA_PAGES}, {'2026-11-22'})
+        self.assertEqual({entries[f'{ORIGIN}/{p["slug"]}/'] for p in PLAYER_DATA_PAGES}, {PLAYER_2026_READ})
         self.assertEqual({v for k, v in entries.items() if k not in {f'{ORIGIN}/{p["slug"]}/' for p in PLAYER_DATA_PAGES}},
                          {'2026-11-21'})
         llms = read('llms.txt').split('## Guides and answers\n')[1]

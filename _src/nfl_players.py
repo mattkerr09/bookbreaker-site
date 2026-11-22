@@ -7,6 +7,7 @@ from collections import defaultdict
 from content import cell, cta, e, faq, nfl_credit, table
 from nfl import TEAM_BY_CODE, count_text, interval, team_link
 from pages import PLAYER_INDEX, PLAYER_PAGES
+from nfl_2026 import long_date
 from player_data import (PLAYER_2026_READ, PLAYER_2026_SOURCE, PLAYER_READ, PLAYER_SOURCES, read_2026_rows,
                          read_player_rows, thresholds)
 from stats import (BANDS, NFL_READ, NFL_READ_2026, NFL_SOURCE, band, current_season_scores, held_up, rate,
@@ -142,13 +143,6 @@ def player_chart(p: dict, r: dict) -> str:
             f'<line class="median-line" x1="40" x2="550" y1="{y(p["median"]):.1f}" y2="{y(p["median"]):.1f}"/>'
             f'<polyline points="{points}"/>{dots}</svg><figcaption>{e(p["name"])} · '
             f'{p["stat"].replace("_", " ").capitalize()} · Dashed median: {p["median"]:g} yards</figcaption></figure>')
-
-
-def long_date(iso: str) -> str:
-    year, month, day = iso.split('-')
-    months = ('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-              'November', 'December')
-    return f'{int(day)} {months[int(month) - 1]} {year}'
 
 
 def now_section(p: dict, r: dict) -> str:

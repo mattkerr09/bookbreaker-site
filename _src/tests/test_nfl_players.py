@@ -305,6 +305,12 @@ class NFLPlayerTests(unittest.TestCase):
         """Recount 2026 straight from the CSV, with no project join, and rebuild the pooled table."""
         with (PLAYER_2026_DATA / 'stats_player_week_2026.csv').open(newline='') as handle:
             raw = [r for r in csv.DictReader(handle) if r['season'] == '2026' and r['season_type'] == 'REG']
+        with (PLAYER_2026_DATA / 'games.csv').open(newline='') as handle:
+            done = max(g['gameday'] for g in csv.DictReader(handle) if g['season'] == '2026'
+                       and g['game_type'] == 'REG' and g['home_score'] not in ('', 'NA'))
+        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+                  'November', 'December']
+        through = f"{int(done[8:])} {months[int(done[5:7]) - 1]} {done[:4]}"
         by_player = defaultdict(list)
         for r in raw:
             by_player[r['player_id']].append(r)
@@ -320,7 +326,7 @@ class NFLPlayerTests(unittest.TestCase):
             values = [int(float(row[p['stat']] or 0)) for row in rows]
             card = node.classes('now-card')[0]
             text = clean(card.text())
-            self.assertIn('completed by 19 November 2026', text)
+            self.assertIn(f'completed by {through}', text)
             if not rows:
                 self.assertIn('No 2026 regular-season game', text)
                 self.assertEqual(card.all('table'), [])
@@ -394,7 +400,7 @@ class NFLPlayerTests(unittest.TestCase):
         ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
         entries = {u.find('s:loc', ns).text: u.find('s:lastmod', ns).text for u in ET.fromstring(read('sitemap.xml'))}
         for path in PLAYER_PATHS:
-            self.assertEqual(entries[ORIGIN + '/' + path.removesuffix('index.html')], '2026-11-22')
+            self.assertEqual(entries[ORIGIN + '/' + path.removesuffix('index.html')], PLAYER_2026_READ)
         self.assertEqual(read('llms.txt').count(f'[NFL player stats]({ORIGIN}/nfl-player-stats/)'), 1)
 
     def test_jaccard_limits(self):
