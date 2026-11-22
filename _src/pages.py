@@ -40,6 +40,16 @@ SEARCH_PAGES = [
      "description": "NFL player yards study: an 82% average last-5 rate became 56% in later games, 482 of 860. Counts, Wilson ranges and the 2024 threshold method.",
      "answer": "In this NFL player study, spots showing an 80% or higher last-5 rate averaged 82% in those past games. The later rate was 56%: 482 of 860 games, with a Wilson 95% range of 53% to 59%. The past count was right. It described those games, without settling what came next.",
      "note": "Player yards shown versus later, with numbers fixed from 2024."},
+    {"slug": "nfl-nba-player-stats-on-windows", "title": "Is there an NFL and NBA player stats tool for Windows?",
+     "link_title": "NFL and NBA player stats on Windows",
+     "description": "Read NFL and NBA player game logs on a Windows PC today: league pages, a spreadsheet count from nflverse data, and the planned BookBreaker desktop app.",
+     "answer": "Yes, through a web browser today. The NFL and NBA both publish player game logs that open in a browser on a Windows PC. For NFL numbers you can also load the free nflverse weekly file into a spreadsheet and count games yourself. BookBreaker is a planned Mac and Windows app, still in development, with no download yet.",
+     "note": "League game logs, a spreadsheet count and a planned desktop app."},
+    {"slug": "sports-stats-app-no-account", "title": "Is there a sports stats app with no account?",
+     "link_title": "A sports stats app with no account",
+     "description": "What no account means for a stats app, what a local app keeps on your computer and still sends, three checks for any app, and the BookBreaker plan.",
+     "answer": "Not from this site yet. BookBreaker is planned with no account and with your history kept on your computer, but it is still in development, with no download. For any app that says it needs no account, look for a sign-in screen, read its privacy page, and open it with the internet switched off.",
+     "note": "What no account means, what a local app still sends, and how to check."},
 ]
 SEARCH_PATHS = [f"{page['slug']}/index.html" for page in SEARCH_PAGES]
 NFL_TEAMS = json.loads((Path(__file__).resolve().parent / 'data/nfl_teams.json').read_text())

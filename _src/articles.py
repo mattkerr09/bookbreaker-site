@@ -5,6 +5,11 @@ from content import FACTS, cell, claim, cta, e, fact, faq, onward, sources, tabl
 from costs import annual_cost, planned_cost
 from stats import held_up, season_scores, wilson
 from player_article import player_body
+from functools import lru_cache
+from nfl import TEAM_BY_CODE, count_text, interval
+from nfl_players import player_reports
+from pages import PLAYER_INDEX, PLAYER_PAGES
+from player_data import PLAYER_READ, PLAYER_SOURCES
 
 
 RIVALS = ('linemate', 'madness', 'dimers')
@@ -362,6 +367,127 @@ own source rows and counts.</p>
 {onward(['is-a-10-game-trend-reliable', 'how-often-did-a-player-clear-a-number'])}'''
 
 
+WINDOWS_PLAYER = 'nfl-player-stats/amon-ra-st-brown'
+
+
+@lru_cache(maxsize=1)
+def windows_example() -> tuple:
+    """One player's 2025 log, from the same reports the NFL player pages use."""
+    p = next(p for p in PLAYER_PAGES if p['slug'] == WINDOWS_PLAYER)
+    return p, player_reports(players=[p])[p['player_id']]
+
+
+def windows(x: dict) -> str:
+    p, r = windows_example()
+    t, last, season = r['threshold'], r['last'], r['season']
+    stat = p['stat'].replace('_', ' ')
+    steps = [[cell('Keep one player', True), cell('Filter player_display_name to one name and season_type to REG'), cell('Regular-season rows only')],
+             [cell('Put the weeks in order', True), cell('Sort by week, oldest first'), cell('The newest games end the list')],
+             [cell('Choose one column', True), cell('passing_yards, rushing_yards or receiving_yards'), cell('One stat per count')],
+             [cell('Count reaches', True), cell(f'=COUNTIF(range,">={t}") over the newest 10 rows'), cell('This gives k')],
+             [cell('Count rows', True), cell('=COUNT(range) over the same rows'), cell('This gives n')]]
+    game_rows = [[cell(f"Week {g['week']}", True), cell(g['date']), cell(TEAM_BY_CODE[g['opponent']]['name']),
+                  cell(g['yards']), cell('Yes' if g['yards'] >= t else 'No')] for g in r['games'][-10:]]
+    rivals = ['linemate-platform', 'madness-platform', 'dimers-platform']
+    csv_li = [f'<li><a href="{e(PLAYER_SOURCES[1])}">nflverse weekly player statistics, 2025 CSV</a>. Read {PLAYER_READ}.</li>']
+    return f'''<h2>Two league tables that open in a browser</h2>
+{fact('nba-logs', code='nba.com/stats/player/<id>/boxscores-traditional')}
+{fact('nfl-logs', code='nfl.com/players/<slug>/stats/logs/')}
+<p>Chrome, Firefox and Microsoft’s own browser all run on Windows, so a PC can read both tables with nothing extra installed. Swap the
+placeholder in each pattern for the player you want. Each table lists a player’s games one row at a time, which is all
+a hand count needs. Write the date you read the page beside your note, because a league table can change after a stat
+correction.</p>
+<h2>Count NFL games in a spreadsheet</h2>
+<p>For the NFL there is a second free route. The nflverse project publishes weekly player statistics as CSV files on
+GitHub. Excel and LibreOffice Calc both open a CSV on Windows. One file holds every player and week of a season, so a few
+filters turn it into a game log you control.</p>
+{table(['Step', 'What to do', 'Result'], steps, 'Counting one player in the nflverse weekly CSV')}
+<p>A row in this file comes from recorded plays. If a player was active but recorded nothing in a game, that week may be
+missing. Compare your row count with the league’s game log before you trust n. The file is shared under CC BY 4.0, so
+credit nflverse when you pass a table along. The Sources section below shows the credit line this site uses.</p>
+<h2>A worked count: {e(p['name'])}, 2025</h2>
+<p>Here is the same count done from the site’s copy of that file. The mark is {t} {stat}, the one on his
+<a href="/{p['slug']}/">player page</a>. A game equal to the mark counts as a reach. The rows are his newest
+{last['n']} played games of the 2025 regular season.</p>
+{table(['Week', 'Date', 'Opponent', stat.capitalize(), f'{t} or more?'], game_rows, f"{p['name']}, last {last['n']} played games of 2025")}
+<p>Read down the last column. He reached {t} yards in {last['k']} of those {last['n']} games, with a Wilson 95% range
+of {interval(last)}. Across all {len(r['games'])} games he played that season, the count was {count_text(season)}, with
+a range of {interval(season)}. The short window and the season answer different questions, so keep both counts in view.</p>
+<p>The <a href="/{PLAYER_INDEX['slug']}/">NFL player stats pages</a> repeat this layout for {len(PLAYER_PAGES)} players,
+with splits and a later-games check. They are ordinary web pages, so they work in any Windows browser. This site has no
+NBA player tables. For an NBA player, the league’s own game log and a hand count remain the route.</p>
+<h2>Phones, browsers and a computer</h2>
+{''.join(fact(k) for k in rivals)}
+<p>Two of those reads name a phone app. The Dimers read also lists web, so a browser on a PC can reach it. None of the
+saved reads records a Windows install, which is a gap in the notes rather than proof that one is missing. The plan here
+is a computer app. It does not meet a phone need today.</p>
+<h2>What the planned desktop app adds</h2>
+{claim('desktop')}{claim('leagues')}{claim('counts')}{claim('filters')}{claim('held')}{claim('price')}
+<p>The spreadsheet steps above are the routine the app is meant to replace. That makes them a fair test for any tool,
+this one included. Run one count by hand, then compare it with the tool’s answer for the same player, stat, window and
+mark. If the two disagree, compare the dates of the included games first.</p>
+{faq([
+    ('Does the NBA game log need an install on Windows?', '<p>No. It is a web page, read in a browser. The saved notes record a browser test of the table and its URL pattern.</p>'),
+    ('Can I get BookBreaker for Windows now?', '<p>Not yet. BookBreaker is in development. There is no download and no launch date.</p>' + claim('desktop')),
+    ('Can I share a table made from the nflverse file?', '<p>The data is licensed CC BY 4.0, which allows sharing and adapting with credit. Read the licence itself for the full terms before you publish anything.</p>'),
+    ('Why does this site show NFL players only?', '<p>Its player tables come from the public nflverse NFL files. No NBA file of that kind is part of this site’s build, so NBA counts here are by hand.</p>'),
+])}
+{sources(['nba-logs', 'nfl-logs', *rivals], csv_li)}
+{onward(['free-nba-player-game-logs', 'how-often-did-a-player-clear-a-number', 'sports-stats-app-no-account'])}'''
+
+
+def no_account(x: dict) -> str:
+    parts = [[cell('Saved views and typed numbers', True), cell('A file on your own disk'), cell('Nothing, unless the app syncs it')],
+             [cell('The stats themselves', True), cell('The last downloaded copy'), cell('A request each time new games arrive')],
+             [cell('A paid licence', True), cell('A key or receipt on the computer'), cell('Whatever the licence check sends')],
+             [cell('Crash reports and usage counts', True), cell('Varies by app'), cell('Only if the app collects them')]]
+    checks = [[cell('Sign-in screen', True), cell('Install the app and open it fresh'), cell('Whether a sign-up step comes before any numbers')],
+              [cell('Privacy page', True), cell('Search it for account, email, sync, cloud and third parties'), cell('What the maker says it collects')],
+              [cell('Offline test', True), cell('Turn off Wi-Fi, then open a saved view'), cell('Whether your history and data are local')]]
+    rows = [[fact(r + '-name', 'th'), fact(r + '-platform', 'td'), fact(r + '-read', 'td'), cell('Not recorded')]
+            for r in RIVALS]
+    keys = [r + suffix for r in RIVALS for suffix in ('-name', '-platform', '-read')]
+    return f'''<h2>What “no account” means</h2>
+<p>An account is a record about you kept on the maker’s server. It usually holds an email address, a password and the
+settings tied to them. A stats app with no account skips that record. You open it and read numbers without signing up
+first. That is a narrower promise than “never goes online,” because new games still have to arrive from somewhere.</p>
+<p>History is the other half of the question. Saved views, the players you follow and the numbers you typed can live in a
+sync service or in a file on your disk. With no account there is nowhere to sync them, so they stay on the computer that
+made them. The trade is that backups become your job.</p>
+{claim('local')}
+<h2>What stays on the computer, and what still travels</h2>
+<p>The table describes local stats apps in general. It is a map of where to look, rather than a description of any one
+product.</p>
+{table(['Part of a local stats app', 'Where it usually lives', 'What crosses the network'], parts, 'What a local stats app keeps and sends')}
+<p>A download is still a contact with a server. That server sees an internet address and the time of the request, as any
+web page does. So “no account” and “sends nothing” are separate claims, and each one deserves its own question. Besides
+new games, a licence check is the usual reason a paid local app makes contact.</p>
+{claim('privacy')}{claim('offline')}
+<h2>Three checks you can run on any app</h2>
+{table(['Check', 'How', 'What it tells you'], checks, 'Checking a no-account claim yourself')}
+<p>The offline test is the strongest of the three. If a saved view opens with the network off, the data and your history
+are on the machine. To see the files, look in the AppData folder inside your user folder on Windows, or in Library,
+Application Support, in your home folder on a Mac. Copy that folder before you reinstall or move to a new computer. With
+no account, nothing restores it for you.</p>
+<h2>What the saved rival reads record</h2>
+<p>These reads were taken for prices and platforms. They do not say whether each app asks for an account, so that column
+is left as a gap. A blank means the notes are silent, not that an account is or is not required.</p>
+{table(['App', 'Platform evidence', 'Read at UTC', 'Account rule in the saved read'], rows, 'Rival reads, with no ranking')}
+<h2>The planned approach</h2>
+{claim('keep')}{claim('price')}
+<p>A one-time licence fits a no-account design, because a key can be checked without a profile behind it. When the
+privacy details appear, the licence check is the part to read closely. This website is separate from the app. It counts
+visits with Plausible, which sets no cookies, and the <a href="/privacy/">privacy page</a> says what it records.</p>
+{faq([
+    ('Can I try BookBreaker without an account now?', '<p>Not yet. BookBreaker is in development. There is no download and no launch date.</p>' + claim('local')),
+    ('Does no account mean the app never goes online?', '<p>No. New games have to be downloaded. A local app can still read the last file it received while the network is off.</p>' + claim('offline')),
+    ('What happens to my history on a new computer?', '<p>With no account, nothing copies it across for you. Move the app’s data folder yourself, or use an export if the app offers one.</p>'),
+    ('What does a licence check send?', claim('privacy')),
+])}
+{sources(keys)}
+{onward(['pay-once-sports-stats-app', 'linemate-alternative', 'nfl-nba-player-stats-on-windows'])}'''
+
+
 ARTICLE_BODIES = {
     'nba-player-stats-app': app_checklist,
     'free-nba-player-game-logs': free_logs,
@@ -371,4 +497,6 @@ ARTICLE_BODIES = {
     'is-a-10-game-trend-reliable': reliability,
     'did-the-trend-hold-up': later,
     'does-a-player-streak-hold-up': player_body,
+    'nfl-nba-player-stats-on-windows': windows,
+    'sports-stats-app-no-account': no_account,
 }

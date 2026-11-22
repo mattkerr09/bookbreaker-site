@@ -21,5 +21,7 @@
 - [Is a 10-game trend reliable?](https://bookbreaker.bet/is-a-10-game-trend-reliable/): Wilson ranges explain what a short run of games can tell you.
 - [Did the trend hold up in later games?](https://bookbreaker.bet/did-the-trend-hold-up/): A reproducible later-games study on one NFL season of team points.
 - [Does a player's streak hold up in the next games?](https://bookbreaker.bet/does-a-player-streak-hold-up/): Player yards shown versus later, with numbers fixed from 2024.
+- [Is there an NFL and NBA player stats tool for Windows?](https://bookbreaker.bet/nfl-nba-player-stats-on-windows/): League game logs, a spreadsheet count and a planned desktop app.
+- [Is there a sports stats app with no account?](https://bookbreaker.bet/sports-stats-app-no-account/): What no account means, what a local app still sends, and how to check.
 - [NFL team scoring](https://bookbreaker.bet/nfl-team-scoring/): 2025 regular-season team scores, counts and ranges
 - [NFL player stats](https://bookbreaker.bet/nfl-player-stats/): 2025 player game logs, last-10 counts, ranges, later checks and 2026 games so far

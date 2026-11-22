@@ -2,7 +2,7 @@
 
 The website for BookBreaker, a planned sports statistics app for Mac and Windows. It is in development, with no download or launch date.
 
-- Build: `python3 _src/build.py` writes index.html, privacy/, 404.html, the eight search pages, the 33 NFL scoring pages, the 274 NFL player pages, llms.txt and sitemap.xml. It does not write robots.txt.
+- Build: `python3 _src/build.py` writes index.html, privacy/, 404.html, the ten search pages, the 33 NFL scoring pages, the 274 NFL player pages, llms.txt and sitemap.xml. It does not write robots.txt.
 - Gate: `python3 _src/check.py` must print SITE GREEN (exit 0) before any commit. It fails on the banned words listed in it, on outbound
   links outside the allowed list, and on anything left from the old product.
 - Deploy: GitHub Pages from `main`, with CNAME bookbreaker.bet. A push is live only when Pages reports the build for that
@@ -23,6 +23,9 @@ The page inventory is `_src/pages.py`. The generator, checker and tests use it.
 - `/is-a-10-game-trend-reliable/`: computed Wilson ranges and their limits.
 - `/did-the-trend-hold-up/`: a later-games study on the 2025 NFL regular season.
 - `/does-a-player-streak-hold-up/`: NFL player yards shown versus later, with each number fixed from 2024.
+- `/nfl-nba-player-stats-on-windows/`: league game logs in a Windows browser, a spreadsheet count from the nflverse CSV
+  and one computed 2025 player example.
+- `/sports-stats-app-no-account/`: what no account means, what a local app still sends, and three checks for any app.
 - `/nfl-team-scoring/`: a sortable comparison of all 32 teams, linked to each team's 2025 game log.
 
 Still coming: every app feature in `_src/data/claims.json`, the desktop app itself, player logs in the app and a real app screen. An OG image is also still coming. The page metadata does not point to an image that does not exist.

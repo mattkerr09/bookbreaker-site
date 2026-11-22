@@ -33,7 +33,7 @@ https://developers.cloudflare.com/fundamentals/manage-domains/redirect-domain/
    This command uses the network and is for launch day only. It sends one GET per old URL without following redirects.
    Every response must be 301 with Location exactly equal to the matching Streakgauge URL. A connection error,
    wrong status, wrong Location or missing Location fails the check. Repeat after DNS has settled.
-   The 323 checks cover the 320 mapped URLs and these three extra requests:
+   The 325 checks cover the 322 mapped URLs and these three extra requests:
 
    - `https://bookbreaker.bet/no-such-page/` must go to `https://streakgauge.com/no-such-page/`.
    - `https://bookbreaker.bet/llms.txt?x=1` must go to `https://streakgauge.com/llms.txt?x=1`.
@@ -64,7 +64,7 @@ Generate the file from the unchanged old-host sitemap:
 python3 _src/redirects.py --csv _launch/bulk-redirects.csv
 ```
 
-The CSV must not include a header row with column names. It has 320 data rows.
+The CSV must not include a header row with column names. It has 322 data rows.
 The columns are in this exact order, shown here only as a reference:
 
 ```text

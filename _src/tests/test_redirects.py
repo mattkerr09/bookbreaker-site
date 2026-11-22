@@ -50,7 +50,7 @@ class RedirectTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             redirects.mapping(SITE / 'sitemap.xml', redirects.NEW_ORIGIN.replace('streakgauge.com', 'wrong.example'))
 
-    def test_csv_has_no_header_and_320_data_rows_and_saved_artifact(self):
+    def test_csv_has_no_header_and_322_data_rows_and_saved_artifact(self):
         pairs = redirects.mapping(SITE / 'sitemap.xml', redirects.NEW_ORIGIN)
         with tempfile.TemporaryDirectory() as directory:
             out = Path(directory) / 'redirects.csv'
@@ -58,7 +58,7 @@ class RedirectTests(unittest.TestCase):
             with out.open(newline='') as stream:
                 rows = list(csv.reader(stream))
             self.assertEqual(out.read_bytes(), (SITE / '_launch/bulk-redirects.csv').read_bytes())
-        self.assertEqual(len(rows), 320)
+        self.assertEqual(len(rows), 322)
         self.assertEqual([tuple(row[:2]) for row in rows], pairs)
         for row in rows:
             self.assertEqual(len(row), 7)
@@ -141,7 +141,7 @@ class RedirectTests(unittest.TestCase):
             self.assertEqual(redirects.main(['--verify'], lambda url: (200, {})), 1)
             self.assertEqual(redirects.main(['--verify'], transport), 0)
             self.assertEqual(calls, list(expected))
-            self.assertIn('323 redirects checked; 0 misses', output.getvalue())
+            self.assertIn('325 redirects checked; 0 misses', output.getvalue())
             for probe in probes:
                 with self.subTest(probe=probe):
                     def broken(url):
@@ -164,9 +164,9 @@ class RedirectMutationTests(unittest.TestCase):
              'for old in dict.fromkeys(urls)', 'for old in dict.fromkeys(urls[1:])'),
             ('test_mapping_covers_sitemap_and_extras_with_identical_paths',
              'new_origin.rstrip("/") + urlsplit(old).path', 'new_origin.rstrip("/") + "/wrong/"'),
-            ('test_csv_has_no_header_and_320_data_rows_and_saved_artifact', 'writer = csv.writer(stream)',
+            ('test_csv_has_no_header_and_322_data_rows_and_saved_artifact', 'writer = csv.writer(stream)',
              'writer = csv.writer(stream); writer.writerow(("source_url", "target_url", "status_code", "preserve_query_string", "include_subdomains", "subpath_matching", "preserve_path_suffix"))'),
-            ('test_csv_has_no_header_and_320_data_rows_and_saved_artifact', '301, "true", "false", "false", "false"',
+            ('test_csv_has_no_header_and_322_data_rows_and_saved_artifact', '301, "true", "false", "false", "false"',
              '302, "false", "true", "true", "true"'),
             ('test_stubs_have_only_canonical_refresh_and_visible_target', 'rel="canonical"', 'rel="wrong"'),
             ('test_stubs_have_only_canonical_refresh_and_visible_target', 'content="0; url={url}"', 'content="1; url={url}"'),
